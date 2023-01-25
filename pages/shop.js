@@ -40,7 +40,7 @@ const shop = () => {
         <Image src="/assets/img.png" width={1900} style={{width:"100%",height:"fit-content"}} height={700} />
          </Stack>
          <Stack direction={"row"} sx={{width:"100%"}}>
-          <img src="https://blog.ebulking.com/wp-content/uploads/2020/02/001_IMG_7883.jpg" alt="" width={"50%"} />
+          <img src="https://www.siwaklifestyle.com/wp-content/uploads/2021/04/SPM0776.jpg" alt="" width={"50%"} />
           <img src="https://www.mamathatulluri.com/products/bgphotos/BlackA-LineCottonSleevelessKurtiDress_bimg605aee0f246c7.jpg" alt="" width={"50%"} />
          </Stack>
          <Box mt={4}> 

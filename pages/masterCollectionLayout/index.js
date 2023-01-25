@@ -216,7 +216,7 @@ const masterCollectionLayout = () => {
         </Grid>
         <Stack direction={"row"} sx={{ width: "100%" }} mt={4}>
           <img
-            src="https://blog.ebulking.com/wp-content/uploads/2020/02/001_IMG_7883.jpg"
+            src="https://www.siwaklifestyle.com/wp-content/uploads/2021/04/SPM0776.jpg"
             alt=""
             width={"50%"}
           />
