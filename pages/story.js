@@ -54,7 +54,8 @@ const story = () => {
         <Image src="/assets/jf.png" width={439} height={487}/>
     </Stack>
     <Stack direction={"row"} sx={{width:"90%",maxWidth:"1500px",m:"0 auto",justifyContent:"center",alignItems:"center",mt:8}} spacing={4} >
-    <Image src="/assets/group.png" width={428} height={300} style={{width:"100%",height:"fit-content"}}/>
+    {/* <Image src="https://cdn2.vectorstock.com/i/1000x1000/86/46/bangladesh-map-grey-vector-23598646.jpg" width={428} height={300} style={{width:"100%",height:"fit-content"}}/> */}
+    <img src="https://media.istockphoto.com/id/1182253746/vector/black-map-of-bangladesh-isolated-on-white-background-vector-illustration-world-geography.jpg?s=612x612&w=0&k=20&c=2zyIEU77lizdDjqHCXsmxanggEwUhqEz-Urk-NpSebQ=" alt="" />
     <Image src="/assets/ss.png" width={764} height={900} style={{width:"100%",height:"fit-content"}}/>
     </Stack>
    <Stack>
