@@ -10,14 +10,20 @@ import { MdClose } from "react-icons/md";
 import { useState } from "react";
 import SignInModal from "./SignInModal";
 import { useRouter } from "next/router";
+import ForgotPass from "./ForgotPass";
 
 const LoginModal = ({ open, setOpen }) => {
   const [signModal,setSignModal]=useState(false)
+  const [forgotModal,setForgotModal]=useState(false)
   const router=useRouter()
   
   const handleChange = () => {
     setOpen(false);
     setSignModal(true);
+  };
+  const handleChange1 = () => {
+    setOpen(false);
+    setForgotModal(true);
   };
   const handleRestPass = () => {
     setOpen(false);
@@ -87,7 +93,7 @@ const LoginModal = ({ open, setOpen }) => {
                   justifyContent: "flex-end",
                 }}
                 color="initial"
-                onClick={handleRestPass}
+                onClick={handleChange1}
               >
                 Forgot Password?
               </Typography>
@@ -102,6 +108,7 @@ const LoginModal = ({ open, setOpen }) => {
         </DialogContent>
       </Dialog>
       <SignInModal open={signModal} setOpen={setSignModal} signModal={setOpen}/>
+      <ForgotPass open={forgotModal} setOpen={setForgotModal}/>
     </>
   );
 };
