@@ -17,9 +17,11 @@ import { FiSearch, FiHeart } from "react-icons/fi";
 import SiderBar from "../components/SiderBar";
 import { useRouter } from "next/router";
 import LoginModal from "./LoginModal";
+import SearchModal from "./SearchModal";
 const HomePageIntro = ({ title }) => {
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [searchModal, setSearchModal] = useState(false);
   const router = useRouter();
   const [value, setValue] = React.useState("0");
 
@@ -67,7 +69,7 @@ const HomePageIntro = ({ title }) => {
             </Link>
             <Hidden only={["lg" ,"xl"]}>
               <IconButton aria-label="">
-                <FiSearch style={{ color: "#0A0A0A" }} />
+                <FiSearch style={{ color: "#0A0A0A" }} onClick={()=>setSearchModal(true)} />
               </IconButton>
             </Hidden>
           </Stack>
@@ -113,8 +115,8 @@ const HomePageIntro = ({ title }) => {
                   BD
                 </Typography>
               </Stack>
-              <IconButton aria-label="">
-                <FiSearch style={{ color: "#0A0A0A" }} />
+              <IconButton aria-label="" >
+                <FiSearch style={{ color: "#0A0A0A" }} onClick={() => setSearchModal(true)} />
               </IconButton>
               <IconButton aria-label="">
                 <FiHeart style={{ color: "#0A0A0A" }} />
@@ -128,6 +130,7 @@ const HomePageIntro = ({ title }) => {
       </AppBar>
       <SiderBar open={open} setOpen={setOpen} />
       <LoginModal open={modalOpen} setOpen={setModalOpen} />
+      <SearchModal open={searchModal} setOpen={setSearchModal}/>
     </>
   );
 };
