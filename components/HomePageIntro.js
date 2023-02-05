@@ -1,16 +1,19 @@
 import {
   AppBar,
+  Avatar,
   Hidden,
   IconButton,
+  MenuItem,
   Stack,
   Tab,
   Tabs,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
 import { GoThreeBars } from "react-icons/go";
 import { FiSearch, FiHeart } from "react-icons/fi";
@@ -18,17 +21,23 @@ import SiderBar from "../components/SiderBar";
 import { useRouter } from "next/router";
 import LoginModal from "./LoginModal";
 import SearchModal from "./SearchModal";
+import USER_CONTEXT from "./userContext";
+import { CleaningServices } from "@mui/icons-material";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 const HomePageIntro = ({ title }) => {
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
   const router = useRouter();
   const [value, setValue] = React.useState("0");
-
+  const { user, setUser } = useContext(USER_CONTEXT);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  console.log("user hay", user);
+  const userdata = typeof window !== 'undefined' ?localStorage.getItem("user"):null;
+  const userjsondata = JSON.parse(userdata)
+  console.log("from local",userjsondata)
   return (
     <>
       <Head>
@@ -67,13 +76,16 @@ const HomePageIntro = ({ title }) => {
                 width="96px"
               />
             </Link>
-            <Hidden only={["lg" ,"xl"]}>
+            <Hidden only={["lg", "xl"]}>
               <IconButton aria-label="">
-                <FiSearch style={{ color: "#0A0A0A" }} onClick={()=>setSearchModal(true)} />
+                <FiSearch
+                  style={{ color: "#0A0A0A" }}
+                  onClick={() => setSearchModal(true)}
+                />
               </IconButton>
             </Hidden>
           </Stack>
-          <Hidden only={["xs",'xms']}>
+          <Hidden only={["xs", "xms"]}>
             <Stack direction={"row"} spacing={2}>
               <Tabs
                 value={value}
@@ -87,7 +99,6 @@ const HomePageIntro = ({ title }) => {
                   onClick={() => router.push("/shop")}
                   value="0"
                   label="SHOP"
-                  
                 />
                 <Tab
                   sx={{ fontWeight: "bold" }}
@@ -100,12 +111,29 @@ const HomePageIntro = ({ title }) => {
 
             <Stack direction={"row"} alignItems="center" spacing={2}>
               <Typography
-               sx={{cursor:"pointer"}}
+                sx={{ cursor: "pointer" }}
                 variant="cardHeader"
                 color="initial"
                 onClick={() => setModalOpen(true)}
               >
-                LOGIN
+                {userjsondata ? (
+                  <>
+                    <MenuItem>
+                      <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="primary-search-account-menu"
+                        aria-haspopup="true"
+                        color="inherit"
+                      >
+                        <AccountCircle />
+                      </IconButton>
+                      <p>{userjsondata?.name}</p>
+                    </MenuItem>
+                  </>
+                ) : (
+                  "LOGIN"
+                )}
               </Typography>
               <Stack alignItems="center" direction={"row"}>
                 <IconButton aria-label="">
@@ -115,8 +143,11 @@ const HomePageIntro = ({ title }) => {
                   BD
                 </Typography>
               </Stack>
-              <IconButton aria-label="" >
-                <FiSearch style={{ color: "#0A0A0A" }} onClick={() => setSearchModal(true)} />
+              <IconButton aria-label="">
+                <FiSearch
+                  style={{ color: "#0A0A0A" }}
+                  onClick={() => setSearchModal(true)}
+                />
               </IconButton>
               <IconButton aria-label="">
                 <FiHeart style={{ color: "#0A0A0A" }} />
@@ -130,7 +161,7 @@ const HomePageIntro = ({ title }) => {
       </AppBar>
       <SiderBar open={open} setOpen={setOpen} />
       <LoginModal open={modalOpen} setOpen={setModalOpen} />
-      <SearchModal open={searchModal} setOpen={setSearchModal}/>
+      <SearchModal open={searchModal} setOpen={setSearchModal} />
     </>
   );
 };
