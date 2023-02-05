@@ -5,20 +5,48 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { IconButton, Stack, TextField } from "@mui/material";
+import { IconButton, InputAdornment, Stack, TextField } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useContext } from "react";
-import USER_CONTEXT from "./userContext";
-const SignInModal = ({ open, setOpen, signModal }) => {
+import USER_CONTEXT from "./userContext";;
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+const SignInModal = ({ open, setOpen,  signModal }) => {
+  const [values,setValues] = useState({
+    pass: "",
+    // email:"",
+    showPass: false,
+  });
+  const [values1,setValues1] = useState({
+    pass: "",
+    // email:"",
+    showPass1: false,
+  });
+  const handlepassVisbilty = () => {
+    setValues({
+      ...values,
+      showPass: !values.showPass,
+    });
+  };
+  const handlepassVisbilty1 = () => {
+    setValues1({
+      ...values1,
+      showPass1: !values1.showPass1,
+    });
+  };
   const {user, setUser} = useContext(USER_CONTEXT)
   const handleChange = () => {
     setOpen(false);
     signModal(true);
   };
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       name: "",
       email: "",
@@ -26,6 +54,9 @@ const SignInModal = ({ open, setOpen, signModal }) => {
       confirm_password: "",
     },
   });
+  console.log(errors);
+
+  
 
   const onSubmit = (data) => {
     axios
@@ -33,14 +64,11 @@ const SignInModal = ({ open, setOpen, signModal }) => {
       .then((result) => {
         console.log(result.data);
         localStorage.setItem("acesstoken", result.data.token);
-        localStorage.setItem("user",JSON.stringify(result?.data?.user))
-        setUser(result?.data)
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  // console.log("from user",user);
   return (
     <>
       <Dialog
@@ -74,7 +102,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                     USERNAME
                   </Typography>
                   <TextField
-                    {...register("name", { required: true })}
+                    {...register("name", { required: "Username is required" })}
                     id=""
                     label=""
                     // value={}
@@ -82,13 +110,21 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                     size="small"
                     placeholder="Username* "
                   />
+                  
+                  <p style={{ color: "red" }}>{errors.name?.message}</p>
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
                     EMAIL ADDRESS
                   </Typography>
                   <TextField
-                    {...register("email", { required: true })}
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^\s+$/i,
+                        message: "This is not a valid email",
+                      },
+                    })}
                     id=""
                     label=""
                     // value={}
@@ -96,34 +132,70 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                     size="small"
                     placeholder="Email Address* "
                   />
+                  <p style={{ color: "red" }}>{errors.email?.message}</p>
                 </Stack>
+               
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
                     PASSWORD
                   </Typography>
                   <TextField
-                    {...register("password", { required: true })}
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
                     id=""
                     label=""
+                    type={values.showPass ? "text" : "password"}
                     // value={}
                     // onChange={}
                     size="small"
                     placeholder="Password*"
+                   InputProps={{
+                    endAdornment:(
+                      <InputAdornment position="end">
+                             <IconButton aria-label="" onClick={handlepassVisbilty}>
+                                {
+                                  values.showPass?<VisibilityOff></VisibilityOff>:<Visibility></Visibility>
+                                }
+                             </IconButton>
+                      </InputAdornment>
+
+                    )
+                   }}
                   />
+                  <p style={{ color: "red" }}>{errors.password?.message}</p>
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
                     CONFIRM PASSWORD
                   </Typography>
                   <TextField
-                    {...register("confirm_password", { required: true })}
+                   type={values1.showPass1 ? "text" : "password"}
+                    {...register("confirm_password", {
+                      required: "Confirm Password is required",
+                    })}
                     id=""
                     label=""
                     // value={}
                     // onChange={}
                     size="small"
-                    placeholder="Password*"
+                    placeholder="Confirm Password*"
+                    InputProps={{
+                      endAdornment:(
+                        <InputAdornment position="end">
+                               <IconButton aria-label="" onClick={handlepassVisbilty1}>
+                                  {
+                                    values1.showPass1?<VisibilityOff></VisibilityOff>:<Visibility></Visibility>
+                                  }
+                               </IconButton>
+                        </InputAdornment>
+  
+                      )
+                     }}
                   />
+                  <p style={{ color: "red" }}>
+                    {errors.confirm_password?.message}
+                  </p>
                 </Stack>
 
                 <Button variant="contained" color="background2" type="submit">
