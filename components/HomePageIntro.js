@@ -24,6 +24,14 @@ import SearchModal from "./SearchModal";
 import USER_CONTEXT from "./userContext";
 import { CleaningServices } from "@mui/icons-material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import Box from "@mui/material/Box";
+import Badge from "@mui/material/Badge";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import MailIcon from "@mui/icons-material/Mail";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import MoreIcon from "@mui/icons-material/MoreVert";
 const HomePageIntro = ({ title }) => {
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -35,9 +43,111 @@ const HomePageIntro = ({ title }) => {
     setValue(newValue);
   };
   console.log("user hay", user);
-  const userdata = typeof window !== 'undefined' ?localStorage.getItem("user"):null;
-  const userjsondata = JSON.parse(userdata)
-  console.log("from local",userjsondata)
+  const userdata =
+    typeof window !== "undefined" ? localStorage.getItem("user") : null;
+  const userjsondata = JSON.parse(userdata);
+  console.log("from local", userjsondata);
+
+  // Profile section starts here
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "left",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "left",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="error">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={17} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
+  // Profile ends here
+
   return (
     <>
       <Head>
@@ -110,31 +220,82 @@ const HomePageIntro = ({ title }) => {
             </Stack>
 
             <Stack direction={"row"} alignItems="center" spacing={2}>
-              <Typography
-                sx={{ cursor: "pointer" }}
-                variant="cardHeader"
-                color="initial"
-                onClick={() => setModalOpen(true)}
-              >
-                {userjsondata ? (
-                  <>
-                    <MenuItem>
+              {userjsondata ? (
+                <>
+                  {/* <MenuItem>
+                    <IconButton
+                      sx={{ cursor: "pointer" }}
+                      variant="cardHeader"
+                      color="initial"
+                      size="large"
+                      aria-label="account of current user"
+                      aria-controls="primary-search-account-menu"
+                      aria-haspopup="true"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                    <p>{userjsondata?.name}</p>
+                  </MenuItem> */}
+                  <Box sx={{ flexGrow: 1 }} />
+                  <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                    {/* <IconButton
+                      size="large"
+                      edge="end"
+                      aria-label="account of current user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={handleProfileMenuOpen}
+                    >
+                      <AccountCircle style={{ color: "#0A0A0A" }} />
+                    </IconButton>
+                      <p style={{ color: "#0A0A0A",marginLeft:"5px" }}>{userjsondata?.name}</p> */}
+                    <MenuItem onClick={handleProfileMenuOpen}>
                       <IconButton
+                        sx={{
+                          cursor: "pointer",
+                          color: "#0A0A0A",
+                          marginRight: "5px",
+                        }}
+                        variant="cardHeader"
                         size="large"
+                        edge="end"
                         aria-label="account of current user"
-                        aria-controls="primary-search-account-menu"
+                        aria-controls={menuId}
                         aria-haspopup="true"
-                        color="inherit"
                       >
                         <AccountCircle />
                       </IconButton>
-                      <p>{userjsondata?.name}</p>
+                      <p style={{ color: "#0A0A0A" }}>{userjsondata?.name}</p>
                     </MenuItem>
-                  </>
-                ) : (
-                  "LOGIN"
-                )}
-              </Typography>
+                  </Box>
+                  <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                    <IconButton
+                      size="large"
+                      aria-label="show more"
+                      aria-controls={mobileMenuId}
+                      aria-haspopup="true"
+                      onClick={handleMobileMenuOpen}
+                      color="initial"
+                    >
+                      <MoreIcon />
+                    </IconButton>
+                  </Box>
+                  {renderMobileMenu}
+                  {renderMenu}
+                </>
+              ) : (
+                <>
+                  <Typography
+                    sx={{ cursor: "pointer" }}
+                    variant="cardHeader"
+                    color="initial"
+                    onClick={() => setModalOpen(true)}
+                  >
+                    LOGIN
+                  </Typography>
+                </>
+              )}
+
               <Stack alignItems="center" direction={"row"}>
                 <IconButton aria-label="">
                   <BiMap style={{ color: "#0A0A0A" }} />

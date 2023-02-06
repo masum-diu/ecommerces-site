@@ -64,6 +64,7 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
       .then((result) => {
         console.log(result.data);
         localStorage.setItem("acesstoken", result.data.token);
+        localStorage.setItem("user",JSON.stringify(result.data.user))
       })
       .catch((err) => {
         console.log(err);
@@ -121,7 +122,7 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
                     {...register("email", {
                       required: "Email is required",
                       pattern: {
-                        value: /^\s+$/i,
+                        value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                         message: "This is not a valid email",
                       },
                     })}
