@@ -151,6 +151,7 @@ const LoginModal = ({ open, setOpen }) => {
                     )
                    }}
                   />
+                  
                    <p style={{ color: "red" }}>{errors.password?.message}</p>
               </Stack>
 
