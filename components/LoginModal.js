@@ -47,6 +47,7 @@ const LoginModal = ({ open, setOpen }) => {
     register,
     handleSubmit,
     setError,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -62,6 +63,8 @@ const LoginModal = ({ open, setOpen }) => {
         console.log(result.data);
         localStorage.setItem("acesstoken1", result.data.token);
         localStorage.setItem("user",JSON.stringify(result.data.user))
+        reset()
+        setOpen(false)
       })
       .catch((err) => {
         console.log(err);
