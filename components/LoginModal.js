@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -14,12 +14,14 @@ import ForgotPass from "./ForgotPass";
 import { useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
+import USER_CONTEXT from "./userContext";
 
 const LoginModal = ({ open, setOpen }) => {
-  const [signModal,setSignModal]=useState(false)
-  const [forgotModal,setForgotModal]=useState(false)
-  const router=useRouter()
-  
+  const { userdata, setUserData } = useContext(USER_CONTEXT);
+  const [signModal, setSignModal] = useState(false);
+  const [forgotModal, setForgotModal] = useState(false);
+  const router = useRouter();
+
   const handleChange = () => {
     setOpen(false);
     setSignModal(true);
@@ -30,9 +32,9 @@ const LoginModal = ({ open, setOpen }) => {
   };
   const handleRestPass = () => {
     setOpen(false);
-    router.push("/forgotPassword")
+    router.push("/forgotPassword");
   };
-  const [values,setValues] = useState({
+  const [values, setValues] = useState({
     pass: "",
     // email:"",
     showPass: false,
@@ -53,7 +55,6 @@ const LoginModal = ({ open, setOpen }) => {
     defaultValues: {
       email: "",
       password: "",
-     
     },
   });
   const onSubmit = (data) => {
@@ -62,16 +63,18 @@ const LoginModal = ({ open, setOpen }) => {
       .then((result) => {
         console.log(result.data);
         localStorage.setItem("acesstoken1", result.data.token);
-        localStorage.setItem("user",JSON.stringify(result.data.user))
-        reset()
-        setOpen(false)
+        localStorage.setItem("user", JSON.stringify(result.data.user));
+        setUserData(result.data);
+        reset();
+        setOpen(false);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        setUserData(err);
       });
-    console.log(data)
   };
- 
+  console.log("hellos", userdata);
+
   return (
     <>
       <Dialog
@@ -93,45 +96,46 @@ const LoginModal = ({ open, setOpen }) => {
             color="initial"
             sx={{ display: "flex", justifyContent: "center" }}
           >
-          Login
+            Login
           </Typography>
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
             <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack direction={"column"} spacing={3} mt={2} mb={2}>
-              <Stack direction={"column"} spacing={1}>
-                <Typography variant="cardHeader12" color="initial">
-                  USERNAME OR EMAIL ADDRESS
-                </Typography>
-                <TextField
-                 {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: "This is not a valid email",
-                  },
-                })}
-                  id=""
-                  label=""
-                  // value={}
-                  // onChange={}
-                  name="email"
-                  size="small"
-                  placeholder="Email Address* "
-                />
-                 <p style={{ color: "red" }}>{errors.email?.message}</p>
-              </Stack>
-              <Stack direction={"column"} spacing={1}>
-                <Typography variant="cardHeader12" color="initial">
-                  PASSWORD
-                </Typography>
-                <TextField
+              <Stack direction={"column"} spacing={3} mt={2} mb={2}>
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardHeader12" color="initial">
+                    USERNAME OR EMAIL ADDRESS
+                  </Typography>
+                  <TextField
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value:
+                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: "This is not a valid email",
+                      },
+                    })}
+                    id=""
+                    label=""
+                    // value={}
+                    // onChange={}
+                    name="email"
+                    size="small"
+                    placeholder="Email Address* "
+                  />
+                  <p style={{ color: "red" }}>{errors.email?.message}</p>
+                </Stack>
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardHeader12" color="initial">
+                    PASSWORD
+                  </Typography>
+                  <TextField
                     {...register("password", {
                       required: "Password is required",
-                      minLength:{
-                        value:8,
-                        message:"Password must be more the 8 characters",
+                      minLength: {
+                        value: 8,
+                        message: "Password must be more the 8 characters",
                       },
                     })}
                     name="password"
@@ -142,49 +146,73 @@ const LoginModal = ({ open, setOpen }) => {
                     // onChange={}
                     size="small"
                     placeholder="Password*"
-                   InputProps={{
-                    endAdornment:(
-                      <InputAdornment position="end">
-                             <IconButton aria-label="" onClick={handlepassVisbilty}>
-                                {
-                                  values.showPass?<VisibilityOff></VisibilityOff>:<Visibility></Visibility>
-                                }
-                             </IconButton>
-                      </InputAdornment>
-
-                    )
-                   }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label=""
+                            onClick={handlepassVisbilty}
+                          >
+                            {values.showPass ? (
+                              <VisibilityOff></VisibilityOff>
+                            ) : (
+                              <Visibility></Visibility>
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
-                  
-                   <p style={{ color: "red" }}>{errors.password?.message}</p>
-              </Stack>
+                  {userdata.status == true ? (
+                    <>
+                      <p style={{ color: "red" }}>{errors.password?.message}</p>
+                    </>
+                  ) : (
+                    <>
+                      <p style={{ color: "red" }}>
+                        {userdata?.response?.data?.message}
+                      </p>
+                    </>
+                  )}
+                </Stack>
 
-              <Typography
-                variant="cardHeader12"
-                fontWeight={"bold"}
-                sx={{
-                  cursor: "pointer",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-                color="initial"
-                onClick={handleChange1}
-              >
-                Forgot Password?
-              </Typography>
-              <Button variant="contained" color="background2" type="submit">
-                Login
-              </Button>
-              <Typography variant="cardHeader12" textAlign={"center"} sx={{cursor:"pointer"}} color="initial" onClick={handleChange}>
-                New to Aranya?  <span style={{color:"#75879D"}}>  Create an Account</span> 
-              </Typography>
-            </Stack>
+                <Typography
+                  variant="cardHeader12"
+                  fontWeight={"bold"}
+                  sx={{
+                    cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                  color="initial"
+                  onClick={handleChange1}
+                >
+                  Forgot Password?
+                </Typography>
+                <Button variant="contained" color="background2" type="submit">
+                  Login
+                </Button>
+                <Typography
+                  variant="cardHeader12"
+                  textAlign={"center"}
+                  sx={{ cursor: "pointer" }}
+                  color="initial"
+                  onClick={handleChange}
+                >
+                  New to Aranya?{" "}
+                  <span style={{ color: "#75879D" }}> Create an Account</span>
+                </Typography>
+              </Stack>
             </form>
           </DialogContentText>
         </DialogContent>
       </Dialog>
-      <SignInModal open={signModal} setOpen={setSignModal} signModal={setOpen}/>
-      <ForgotPass open={forgotModal} setOpen={setForgotModal}/>
+      <SignInModal
+        open={signModal}
+        setOpen={setSignModal}
+        signModal={setOpen}
+      />
+      <ForgotPass open={forgotModal} setOpen={setForgotModal} />
     </>
   );
 };
