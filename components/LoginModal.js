@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import ForgotPass from "./ForgotPass";
 import { useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import axios from "axios";
 
 const LoginModal = ({ open, setOpen }) => {
   const [signModal,setSignModal]=useState(false)
@@ -65,8 +66,9 @@ const LoginModal = ({ open, setOpen }) => {
       .catch((err) => {
         console.log(err);
       });
+    console.log(data)
   };
-  console.log(onSubmit)
+ 
   return (
     <>
       <Dialog
@@ -111,9 +113,11 @@ const LoginModal = ({ open, setOpen }) => {
                   label=""
                   // value={}
                   // onChange={}
+                  name="email"
                   size="small"
-                  placeholder="Username or Email Address* "
+                  placeholder="Email Address* "
                 />
+                 <p style={{ color: "red" }}>{errors.email?.message}</p>
               </Stack>
               <Stack direction={"column"} spacing={1}>
                 <Typography variant="cardHeader12" color="initial">
@@ -123,6 +127,7 @@ const LoginModal = ({ open, setOpen }) => {
                     {...register("password", {
                       required: "Password is required",
                     })}
+                    name="password"
                     id=""
                     label=""
                     type={values.showPass ? "text" : "password"}
@@ -143,6 +148,7 @@ const LoginModal = ({ open, setOpen }) => {
                     )
                    }}
                   />
+                   <p style={{ color: "red" }}>{errors.password?.message}</p>
               </Stack>
 
               <Typography
@@ -158,7 +164,7 @@ const LoginModal = ({ open, setOpen }) => {
               >
                 Forgot Password?
               </Typography>
-              <Button variant="contained" color="background2">
+              <Button variant="contained" color="background2" type="submit">
                 Login
               </Button>
               <Typography variant="cardHeader12" textAlign={"center"} sx={{cursor:"pointer"}} color="initial" onClick={handleChange}>
