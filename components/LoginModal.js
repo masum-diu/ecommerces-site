@@ -126,6 +126,10 @@ const LoginModal = ({ open, setOpen }) => {
                 <TextField
                     {...register("password", {
                       required: "Password is required",
+                      minLength:{
+                        value:8,
+                        message:"Password must be more the 8 characters",
+                      },
                     })}
                     name="password"
                     id=""
