@@ -46,6 +46,7 @@ const HomePageIntro = ({ title }) => {
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
+  // console.log(userjsondata)
   // console.log("from local", userjsondata);
 
   // Profile section starts here
@@ -206,7 +207,7 @@ const HomePageIntro = ({ title }) => {
             </Stack>
 
             <Stack direction={"row"} alignItems="center" spacing={2}>
-              {userjsondata || user ? (
+              {userjsondata || user.status == true ? (
                 <>
                   {/* <MenuItem>
                     <IconButton

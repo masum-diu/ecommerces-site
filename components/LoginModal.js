@@ -18,10 +18,14 @@ import USER_CONTEXT from "./userContext";
 
 const LoginModal = ({ open, setOpen }) => {
   const { userdata, setUserData } = useContext(USER_CONTEXT);
+  const {errormessage, setErrormessage} = useState("")
   const [signModal, setSignModal] = useState(false);
   const [forgotModal, setForgotModal] = useState(false);
   const router = useRouter();
 
+  const handleclearuser = () => {
+    setUserData("")
+  };
   const handleChange = () => {
     setOpen(false);
     setSignModal(true);
@@ -50,6 +54,7 @@ const LoginModal = ({ open, setOpen }) => {
     handleSubmit,
     setError,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -57,6 +62,7 @@ const LoginModal = ({ open, setOpen }) => {
       password: "",
     },
   });
+  // const password = useWatch({ control, name: "password" });
   const onSubmit = (data) => {
     axios
       .post("http://apiaranya.jumriz.com/public/api/auth/login", data, {})
@@ -133,11 +139,15 @@ const LoginModal = ({ open, setOpen }) => {
                   <TextField
                     {...register("password", {
                       required: "Password is required",
+                     
                       minLength: {
                         value: 8,
-                        message: "Password must be more the 8 characters",
+                        message: `Password must be more the 8 characters`,
                       },
+                      
+                    
                     })}
+                    onKeyUp={()=>handleclearuser()}
                     name="password"
                     id=""
                     label=""
@@ -163,17 +173,8 @@ const LoginModal = ({ open, setOpen }) => {
                       ),
                     }}
                   />
-                  {userdata.status == true ? (
-                    <>
-                      <p style={{ color: "red" }}>{errors.password?.message}</p>
-                    </>
-                  ) : (
-                    <>
-                      <p style={{ color: "red" }}>
-                        {userdata?.response?.data?.message}
-                      </p>
-                    </>
-                  )}
+
+                  <p style={{ color: "red" }}>{errors?.password?errors.password?.message:(userdata?.response?.status == 401? userdata?.response?.data?.message:"")}</p>
                 </Stack>
 
                 <Typography
