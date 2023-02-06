@@ -25,12 +25,7 @@ import USER_CONTEXT from "./userContext";
 import { CleaningServices } from "@mui/icons-material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Box from "@mui/material/Box";
-import Badge from "@mui/material/Badge";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 const HomePageIntro = ({ title }) => {
   const [open, setOpen] = useState(false);
@@ -182,7 +177,7 @@ const HomePageIntro = ({ title }) => {
               </IconButton>
             </Hidden>
           </Stack>
-          <Hidden only={["xs", "xms"]}>
+          <Hidden only={["xs", "xms","sm"]}>
             <Stack direction={"row"} spacing={2}>
               <Tabs
                 value={value}
