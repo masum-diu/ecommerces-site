@@ -67,6 +67,12 @@ const HomePageIntro = ({ title }) => {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
+  const handelogout = () => {
+    localStorage.clear("user")
+    setUser("")
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -90,7 +96,7 @@ const HomePageIntro = ({ title }) => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handelogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -111,26 +117,6 @@ const HomePageIntro = ({ title }) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -220,7 +206,7 @@ const HomePageIntro = ({ title }) => {
             </Stack>
 
             <Stack direction={"row"} alignItems="center" spacing={2}>
-              {userjsondata ? (
+              {userjsondata || user ? (
                 <>
                   {/* <MenuItem>
                     <IconButton
@@ -238,17 +224,6 @@ const HomePageIntro = ({ title }) => {
                   </MenuItem> */}
                   <Box sx={{ flexGrow: 1 }} />
                   <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                    {/* <IconButton
-                      size="large"
-                      edge="end"
-                      aria-label="account of current user"
-                      aria-controls={menuId}
-                      aria-haspopup="true"
-                      onClick={handleProfileMenuOpen}
-                    >
-                      <AccountCircle style={{ color: "#0A0A0A" }} />
-                    </IconButton>
-                      <p style={{ color: "#0A0A0A",marginLeft:"5px" }}>{userjsondata?.name}</p> */}
                     <MenuItem onClick={handleProfileMenuOpen}>
                       <IconButton
                         sx={{
@@ -265,7 +240,7 @@ const HomePageIntro = ({ title }) => {
                       >
                         <AccountCircle />
                       </IconButton>
-                      <p style={{ color: "#0A0A0A" }}>{userjsondata?.name}</p>
+                      <p style={{ color: "#0A0A0A" }}>{userjsondata?userjsondata.name:user.name}</p>
                     </MenuItem>
                   </Box>
                   <Box sx={{ display: { xs: "flex", md: "none" } }}>

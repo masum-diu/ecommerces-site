@@ -10,15 +10,15 @@ import { MdClose } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useContext } from "react";
-import USER_CONTEXT from "./userContext";;
+import USER_CONTEXT from "./userContext";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-const SignInModal = ({ open, setOpen,  signModal }) => {
-  const [values,setValues] = useState({
+const SignInModal = ({ open, setOpen, signModal }) => {
+  const [values, setValues] = useState({
     pass: "",
     // email:"",
     showPass: false,
   });
-  const [values1,setValues1] = useState({
+  const [values1, setValues1] = useState({
     pass: "",
     // email:"",
     showPass1: false,
@@ -35,7 +35,7 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
       showPass1: !values1.showPass1,
     });
   };
-  const {user, setUser} = useContext(USER_CONTEXT)
+  const { user, setUser } = useContext(USER_CONTEXT);
   const handleChange = () => {
     setOpen(false);
     signModal(true);
@@ -45,6 +45,7 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
     register,
     handleSubmit,
     setError,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -56,15 +57,16 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
   });
   console.log(errors);
 
-  
-
   const onSubmit = (data) => {
     axios
       .post("http://apiaranya.jumriz.com/public/api/auth/register", data, {})
       .then((result) => {
         console.log(result.data);
         localStorage.setItem("acesstoken", result.data.token);
-        localStorage.setItem("user",JSON.stringify(result.data.user))
+        localStorage.setItem("user", JSON.stringify(result.data.user));
+        setUser(result?.data?.user);
+        reset();
+        setOpen(false);
       })
       .catch((err) => {
         console.log(err);
@@ -111,7 +113,7 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
                     size="small"
                     placeholder="Username* "
                   />
-                  
+
                   <p style={{ color: "red" }}>{errors.name?.message}</p>
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
@@ -122,7 +124,8 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
                     {...register("email", {
                       required: "Email is required",
                       pattern: {
-                        value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        value:
+                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                         message: "This is not a valid email",
                       },
                     })}
@@ -135,7 +138,7 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
                   />
                   <p style={{ color: "red" }}>{errors.email?.message}</p>
                 </Stack>
-               
+
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
                     PASSWORD
@@ -151,18 +154,22 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
                     // onChange={}
                     size="small"
                     placeholder="Password*"
-                   InputProps={{
-                    endAdornment:(
-                      <InputAdornment position="end">
-                             <IconButton aria-label="" onClick={handlepassVisbilty}>
-                                {
-                                  values.showPass?<VisibilityOff></VisibilityOff>:<Visibility></Visibility>
-                                }
-                             </IconButton>
-                      </InputAdornment>
-
-                    )
-                   }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label=""
+                            onClick={handlepassVisbilty}
+                          >
+                            {values.showPass ? (
+                              <VisibilityOff></VisibilityOff>
+                            ) : (
+                              <Visibility></Visibility>
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                   <p style={{ color: "red" }}>{errors.password?.message}</p>
                 </Stack>
@@ -171,7 +178,7 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
                     CONFIRM PASSWORD
                   </Typography>
                   <TextField
-                   type={values1.showPass1 ? "text" : "password"}
+                    type={values1.showPass1 ? "text" : "password"}
                     {...register("confirm_password", {
                       required: "Confirm Password is required",
                     })}
@@ -182,17 +189,21 @@ const SignInModal = ({ open, setOpen,  signModal }) => {
                     size="small"
                     placeholder="Confirm Password*"
                     InputProps={{
-                      endAdornment:(
+                      endAdornment: (
                         <InputAdornment position="end">
-                               <IconButton aria-label="" onClick={handlepassVisbilty1}>
-                                  {
-                                    values1.showPass1?<VisibilityOff></VisibilityOff>:<Visibility></Visibility>
-                                  }
-                               </IconButton>
+                          <IconButton
+                            aria-label=""
+                            onClick={handlepassVisbilty1}
+                          >
+                            {values1.showPass1 ? (
+                              <VisibilityOff></VisibilityOff>
+                            ) : (
+                              <Visibility></Visibility>
+                            )}
+                          </IconButton>
                         </InputAdornment>
-  
-                      )
-                     }}
+                      ),
+                    }}
                   />
                   <p style={{ color: "red" }}>
                     {errors.confirm_password?.message}
