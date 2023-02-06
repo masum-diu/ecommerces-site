@@ -46,6 +46,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
     handleSubmit,
     setError,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -55,6 +56,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
       confirm_password: "",
     },
   });
+  const password=watch('password')
   console.log(errors);
 
   const onSubmit = (data) => {
@@ -146,6 +148,14 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   <TextField
                     {...register("password", {
                       required: "Password is required",
+                      minLength:{
+                        value:8,
+                        message:"Password must be more the 8 characters",
+                      },
+                      // maxLength:{
+                      //   value:10,
+                      //   message:"Password cannot excecd more then 10 characters"
+                      // }
                     })}
                     id=""
                     label=""
@@ -179,9 +189,10 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   </Typography>
                   <TextField
                     type={values1.showPass1 ? "text" : "password"}
-                    {...register("confirm_password", {
-                      required: "Confirm Password is required",
+                    {...register("confirm_password",  {
+                      required: "Confirm Password is required",validate:(value)=>value===password||"Passwords do not match"
                     })}
+                    
                     id=""
                     label=""
                     // value={}
