@@ -5,12 +5,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { IconButton, Stack, TextField } from "@mui/material";
+import { IconButton, InputAdornment, Stack, TextField } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import { useState } from "react";
 import SignInModal from "./SignInModal";
 import { useRouter } from "next/router";
 import ForgotPass from "./ForgotPass";
+import { useForm } from "react-hook-form";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const LoginModal = ({ open, setOpen }) => {
   const [signModal,setSignModal]=useState(false)
@@ -29,6 +31,42 @@ const LoginModal = ({ open, setOpen }) => {
     setOpen(false);
     router.push("/forgotPassword")
   };
+  const [values,setValues] = useState({
+    pass: "",
+    // email:"",
+    showPass: false,
+  });
+  const handlepassVisbilty = () => {
+    setValues({
+      ...values,
+      showPass: !values.showPass,
+    });
+  };
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+     
+    },
+  });
+  const onSubmit = (data) => {
+    axios
+      .post("http://apiaranya.jumriz.com/public/api/auth/login", data, {})
+      .then((result) => {
+        console.log(result.data);
+        localStorage.setItem("acesstoken1", result.data.token);
+        localStorage.setItem("user",JSON.stringify(result.data.user))
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  console.log(onSubmit)
   return (
     <>
       <Dialog
@@ -55,13 +93,20 @@ const LoginModal = ({ open, setOpen }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
+            <form onSubmit={handleSubmit(onSubmit)}>
             <Stack direction={"column"} spacing={3} mt={2} mb={2}>
               <Stack direction={"column"} spacing={1}>
                 <Typography variant="cardHeader12" color="initial">
                   USERNAME OR EMAIL ADDRESS
                 </Typography>
                 <TextField
-                
+                 {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    message: "This is not a valid email",
+                  },
+                })}
                   id=""
                   label=""
                   // value={}
@@ -75,13 +120,29 @@ const LoginModal = ({ open, setOpen }) => {
                   PASSWORD
                 </Typography>
                 <TextField
-                  id=""
-                  label=""
-                  // value={}
-                  // onChange={}
-                  size="small"
-                  placeholder="Password*"
-                />
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
+                    id=""
+                    label=""
+                    type={values.showPass ? "text" : "password"}
+                    // value={}
+                    // onChange={}
+                    size="small"
+                    placeholder="Password*"
+                   InputProps={{
+                    endAdornment:(
+                      <InputAdornment position="end">
+                             <IconButton aria-label="" onClick={handlepassVisbilty}>
+                                {
+                                  values.showPass?<VisibilityOff></VisibilityOff>:<Visibility></Visibility>
+                                }
+                             </IconButton>
+                      </InputAdornment>
+
+                    )
+                   }}
+                  />
               </Stack>
 
               <Typography
@@ -104,6 +165,7 @@ const LoginModal = ({ open, setOpen }) => {
                 New to Aranya?  <span style={{color:"#75879D"}}>  Create an Account</span> 
               </Typography>
             </Stack>
+            </form>
           </DialogContentText>
         </DialogContent>
       </Dialog>
