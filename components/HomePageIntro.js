@@ -46,7 +46,7 @@ const HomePageIntro = ({ title }) => {
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
-  console.log("from local", userjsondata);
+  // console.log("from local", userjsondata);
 
   // Profile section starts here
   const [anchorEl, setAnchorEl] = React.useState(null);
