@@ -102,7 +102,7 @@ const shop = () => {
               columnGap={3}
               rowGap={3}
             >
-              {products?.slice(0,3).map((data) => (
+              {products?.slice(0,4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data.id}>
                     <img src={data.images?data.images[0]:null} alt="" width={300} />
@@ -158,7 +158,7 @@ const shop = () => {
               columnGap={3}
               rowGap={3}
             >
-              {products?.slice(0,3).map((data) => (
+              {products?.slice(0,4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data.id}>
                     <img src={data.images?data.images[0]:null} alt="" width={300} />

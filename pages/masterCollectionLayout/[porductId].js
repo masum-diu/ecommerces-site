@@ -91,8 +91,8 @@ const PorductDetails = () => {
           columnGap={3}
           rowGap={3}
         >
-          <Image
-            src="/assets/saree3.png"
+          <img
+            src={products.images[0]}
             width={500}
             style={{
               width: "90vw",
