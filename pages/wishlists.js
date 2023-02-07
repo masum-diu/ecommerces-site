@@ -32,10 +32,9 @@ const wishlists = () => {
   return (
     <>
       <HomePageIntro title={"wishlist "} />
-      <Box sx={{ height: "100vh" }}>
-        <Stack sx={{ width: "90%", maxWidth: "1920px", mx: "auto" }}  py={15}>
+      <Box sx={{ height: "fit-content" }}>
+        <Stack sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }} py={15}>
           <Typography
-           
             variant="header1"
             color="initial"
             textAlign={"center"}
@@ -47,8 +46,9 @@ const wishlists = () => {
             {wishlistData.map((wishlistData) => (
               <>
                 <Stack
+                  spacing={2}
                   key={wishlistData.id}
-                  direction={"row"}
+                  direction={{ lg: "row", xs: "column" }}
                   sx={{
                     width: "100%",
                     justifyContent: "space-between",
@@ -59,10 +59,10 @@ const wishlists = () => {
                     <MdClose />
                   </IconButton>
                   <img src={wishlistData.image} alt="" width={100} />
-                  <Typography variant="subtitle1" color="initial">
+                  <Typography variant="cardHeader12" color="initial">
                     {wishlistData.title}
                   </Typography>
-                  <Typography variant="subtitle1" color="initial">
+                  <Typography variant="cardHeader12" color="initial">
                     ৳{wishlistData.price}
                   </Typography>
                   <Button variant="outlined" color="primary" size="small">

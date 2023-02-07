@@ -17,8 +17,10 @@ import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import { useRouter } from "next/router";
 
 const addtocart = () => {
+  const router = useRouter();
   const addtocartData = [
     {
       id: 1,
@@ -47,7 +49,7 @@ const addtocart = () => {
       <HomePageIntro title={"Cart "} />
       <Box
         sx={{
-          height: "100vh",
+          height: { lg: "100vh", xs: "fit-content" },
           py: 15,
           width: "90%",
           maxWidth: "1920px",
@@ -63,7 +65,7 @@ const addtocart = () => {
           >
             Cart
           </Typography>
-          <Grid container spacing={5} pt={5}>
+          <Grid container spacing={5} pt={5} xs={12}>
             <Grid item lg={8}>
               <Stack direction={"column"} spacing={2}>
                 {addtocartData.map((addtocartData) => (
@@ -114,7 +116,7 @@ const addtocart = () => {
                 ))}
               </Stack>
             </Grid>
-            <Grid item lg={4} mt={4}>
+            <Grid item lg={4} mt={4} xs={12}>
               <Paper elevation={3} mb={1}>
                 <Stack
                   sx={{ width: "90%", mx: "auto", p: 2 }}
@@ -153,9 +155,8 @@ const addtocart = () => {
                         label="PICK FROM SHOWROOM"
                       />
                       <br />
-                       <small>Shipping to Dhaka.</small>
+                      <small>Shipping to Dhaka.</small>
                     </RadioGroup>
-                   
                   </Stack>
                   <br />
                   <br />
@@ -177,7 +178,11 @@ const addtocart = () => {
                       ৳ 12,160
                     </Typography>
                   </Stack>
-                  <Button variant="contained" color="background2">
+                  <Button
+                    variant="contained"
+                    color="background2"
+                    onClick={() => router.push("/checkout")}
+                  >
                     proceed to checkout
                   </Button>
                 </Stack>
