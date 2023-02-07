@@ -16,13 +16,15 @@ import Footer from "../../components/Footer";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import styled from "@emotion/styled";
+import { useGetParticularProductsQuery } from "../../src/features/api/apiSlice";
 
 const PorductDetails = () => {
   const [count, setCount] = useState(1);
   const router = useRouter();
-  const productId = router.query.productId;
+  const productId = router?.query?.porductId;
+
   const path = router.asPath;
-  const data = [
+  /* const data = [
     {
       id: 1,
       title: "Demo Product Name",
@@ -41,7 +43,7 @@ const PorductDetails = () => {
       price: "5,185",
       image: "/public/assets/saree3.png",
     },
-  ];
+  ]; */
   const marks = [
     {
       value: 0,
@@ -68,7 +70,14 @@ const PorductDetails = () => {
     return `${value}`;
   }
 
-  console.log(data);
+  const {data, isLoading, isSuccess, isError, error} = useGetParticularProductsQuery(productId);
+  if(isLoading){
+    return <p>Loading</p>
+  }
+
+  const products = data;
+
+  console.log("sdfs",products)
 
   return (
     <>
@@ -100,18 +109,16 @@ const PorductDetails = () => {
             justifyContent={"space-between"}
           >
             <Typography variant="login1" color="initial">
-              Santolina Kurti
+              {products.title}
             </Typography>
             <Typography variant="cardHeader2" color="initial">
               Home {path}
             </Typography>
             <Typography variant="cardLocation1" color="initial">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quam,
-              ullam? Corrupti adipisci quia in, ad laborum provident modi quasi.
-              Modi.
+              {products.description}
             </Typography>
             <Typography variant="login1" color="initial">
-              BDT : 2995 ৳
+              BDT : {products.price} ৳
             </Typography>
 
             {/* size is here */}
@@ -120,9 +127,11 @@ const PorductDetails = () => {
               spacing={{ lg: 4, xs: 3 }}
               sx={{ justifyContent: "space-between", alignItems: "" }}
             >
-              <Typography variant="tabText" mt={1}>Size</Typography>
+              <Typography variant="tabText" mt={1}>
+                Size
+              </Typography>
 
-              <Stack sx={{ width: "100%", pr: "1.5rem", }}>
+              <Stack sx={{ width: "100%", pr: "1.5rem" }}>
                 <Slider
                   aria-label="Custom marks"
                   width={100}
