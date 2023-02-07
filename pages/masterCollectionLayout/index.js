@@ -23,12 +23,13 @@ import Footer from "../../components/Footer";
 import MenuDawer from "../../components/MenuDawer";
 import Menu1Dawer from "../../components/Menu1Dawer";
 import Link from "next/link";
+import { useGetProductsQuery } from "../../src/features/api/apiSlice";
 const masterCollectionLayout = () => {
   const router = useRouter();
   console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
-  const data = [
+  const datas = [
     {
       id: 1,
       title: "Demo Product Name",
@@ -48,6 +49,15 @@ const masterCollectionLayout = () => {
       image: "/assets/saree3.png",
     },
   ];
+
+  const {data, isLoading, isSuccess, isError, error} = useGetProductsQuery();
+  if(isLoading){
+    return <p>Loading</p>
+  }
+
+  const products = data;
+  console.log("from shop",products)
+
   return (
     <>
       <HomePageIntro title={"Master Collection Layout "} />
@@ -187,12 +197,12 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {data.map((dataList) => (
+          {products?.slice(0,3).map((dataList) => (
             <>
-              <Grid item lg={4} sm={6} key={dataList.id}>
-                <Link href={`/${router.asPath}/${dataList.id}`}>
-                  <Image
-                    src={dataList.image}
+              <Grid item lg={4} sm={6} key={dataList?.id}>
+                <Link href={`/${router.asPath}/${dataList?.id}`}>
+                  <img
+                    src={dataList.images?dataList.images[0]:null}
                     width={568}
                     height={827}
                     style={{ maxWidth: "100%", height: "fit-content" }}
@@ -203,10 +213,10 @@ const masterCollectionLayout = () => {
                     justifyContent={"space-between"}
                   >
                     <Typography variant="cardHeader3" color="initial">
-                      {dataList.title}
+                      {dataList?.title}
                     </Typography>
                     <Typography variant="cardHeader3" color="initial">
-                      BDT {dataList.price}
+                      BDT {dataList?.price}
                     </Typography>
                   </Stack>
                 </Link>
@@ -237,17 +247,17 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {data.map((dataList) => (
+          {products.slice(0,3).map((dataList) => (
             <>
               <Grid
                 item
                 lg={4}
                 sm={6}
                 justifyContent="center"
-                key={dataList.id}
-              ><Link href={`/${router.asPath}/${dataList.id}`}>
-                <Image
-                  src={dataList.image}
+                key={dataList?.id}
+              ><Link href={`/${router.asPath}/${dataList?.id}`}>
+                <img
+                  src={dataList.images?dataList.images[0]:null}
                   width={568}
                   height={827}
                   style={{ maxWidth: "100%", height: "fit-content" }}

@@ -1,11 +1,12 @@
 import { Box, Stack, Typography } from '@mui/material'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../components/Footer'
 import HomePageIntro from '../components/HomePageIntro'
+import { useGetProductsQuery } from '../src/features/api/apiSlice'
 
 const shop = () => {
-  const data=([
+  /* const data=([
     {
       id:1,
       title:"Eustoma linen suits",
@@ -31,7 +32,22 @@ const shop = () => {
       image:"https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1"
     },
     
-  ])
+  ]) */
+
+  /* const [ datas, setDatas] = useState([])
+  useEffect(()=>{
+    fetch("https://api.escuelajs.co/api/v1/products")
+    .then((res)=>res.json())
+    .then((data)=>setDatas(data))
+  },[]) */
+
+  const {data, isLoading, isSuccess, isError, error} = useGetProductsQuery();
+  if(isLoading){
+    return <p>Loading</p>
+  }
+
+  const products = data;
+  // console.log("from shop",products)
   return (
     <>
     <HomePageIntro title={"Shop "}/>
@@ -50,13 +66,13 @@ const shop = () => {
           <Typography variant="tabText" color="initial">VIEW ALL</Typography> 
          </Stack>
                 <Stack direction={"row"} flexWrap={"wrap"} alignItems="center" justifyContent={"center"} columnGap={3} rowGap={3} >
-               { data.map((data)=><>
+               { products?.slice(0,3).map((data)=><>
                 <Stack direction={"column"} spacing={2} key={data.id}>
-                <img src={data.image} alt="" width={300} />
+                <img src={data.images?data.images[0]:null} alt="" width={300} />
                 
                 <Stack direction={"row"} spacing={2} justifyContent={"space-between"}>
                <Typography variant="cardHeader2" color="initial">{data.title}</Typography>
-               <Typography variant="cardHeader2" fontWeight={"bold"} color="initial">BDT {data.taka}</Typography>
+               <Typography variant="cardHeader2" fontWeight={"bold"} color="initial">BDT {data.price}</Typography>
                </Stack>
                </Stack>
                 </>)}
@@ -72,13 +88,13 @@ const shop = () => {
           <Typography variant="tabText" color="initial">VIEW ALL</Typography> 
          </Stack>
                 <Stack direction={"row"} flexWrap={"wrap"} alignItems="center" justifyContent={"center"} columnGap={3} rowGap={3} >
-               { data.map((data)=><>
+               { products?.slice(0,3).map((data)=><>
                 <Stack direction={"column"} spacing={2}  key={data.id}>
-                <img src={data.image} alt="" width={300} />
+                <img src={data.images?data.images[0]:null} alt="" width={300} />
                 
                 <Stack direction={"row"} spacing={2} justifyContent={"space-between"}>
                <Typography variant="cardHeader2" color="initial">{data.title}</Typography>
-               <Typography variant="cardHeader2" fontWeight={"bold"} color="initial">BDT {data.taka}</Typography>
+               <Typography variant="cardHeader2" fontWeight={"bold"} color="initial">BDT {data.price}</Typography>
                </Stack>
                </Stack>
                 </>)}
