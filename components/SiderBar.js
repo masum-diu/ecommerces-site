@@ -893,10 +893,10 @@ const SiderBar = ({ open, setOpen }) => {
                 <FiSearch style={{ color: "#0A0A0A" }} />
               </IconButton> */}
               <IconButton aria-label="">
-                <FiHeart style={{ color: "#0A0A0A" }} />
+                <FiHeart style={{ color: "#0A0A0A" }} onClick={() => router.push("/wishlists")}/>
               </IconButton>
               <IconButton aria-label="">
-                <BiShoppingBag style={{ color: "#0A0A0A" }} />
+                <BiShoppingBag style={{ color: "#0A0A0A" }} onClick={() => router.push("/addtocart")} />
               </IconButton>
             </Stack>
           </Hidden>
