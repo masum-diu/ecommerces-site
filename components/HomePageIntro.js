@@ -281,11 +281,11 @@ const HomePageIntro = ({ title }) => {
                   onClick={() => setSearchModal(true)}
                 />
               </IconButton>
-              <IconButton aria-label="">
+              <IconButton aria-label="" onClick={() => router.push("/wishlists")}>
                 <FiHeart style={{ color: "#0A0A0A" }} />
               </IconButton>
-              <IconButton aria-label="">
-                <BiShoppingBag style={{ color: "#0A0A0A" }} />
+              <IconButton aria-label="" onClick={() => router.push("/addtocart")}  >
+                <BiShoppingBag style={{ color: "#0A0A0A" }}  />
               </IconButton>
             </Stack>
           </Hidden>
