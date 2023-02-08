@@ -52,7 +52,7 @@ const addtocart = () => {
           height: { lg: "100vh", xs: "fit-content" },
           py: 15,
           width: { lg: "90%", xs: "100%" },
-          maxWidth: "1920px",
+          maxWidth: "1500px",
           margin: "0 auto",
         }}
       >
@@ -72,29 +72,9 @@ const addtocart = () => {
           >
             Cart
           </Typography>
-          <Grid
-            container
-            spacing={5}
-            pt={5}
-            xs={12}
-            // sx={{
-            //   display: "flex",
-            //   justifyContent: "center",
-            //   alignItems: "center",
-            //   width: "100%",
-            // }}
-          >
-            <Grid item lg={8} sx={{width:"100%"}}>
-              <Stack
-                direction={"column"}
-                spacing={2}
-                // sx={{
-                //   display: "flex",
-                //   justifyContent: "center",
-                //   alignItems: "center",
-                //   width: "100%",
-                // }}
-              >
+          <Grid container spacing={5} pt={5} xs={12}>
+            <Grid item lg={12} sx={{ width: "100%" }}>
+              <Stack direction={"column"} spacing={2} >
                 {addtocartData.map((addtocartData) => (
                   <>
                     <Stack
@@ -139,73 +119,16 @@ const addtocart = () => {
                         </IconButton>
                       </Stack>
                     </Stack>
-                    <Divider/>
+                    <Divider />
                   </>
                 ))}
-              </Stack>
-            </Grid>
-            <Grid item lg={4} mt={4} xs={12} sx={{width:"100%"}}>
-              <Paper elevation={3} mb={1}>
+                <br />
                 <Stack
-                  sx={{ width: "90%", mx: "auto", p: 2 }}
-                  direction={"column"}
+                  direction={{lg:"row",xs:"column"}}
                   spacing={2}
+                  justifyContent={"flex-end"}
                 >
-                  <Typography variant="cardHeader1" color="initial">
-                    CART TOTALS
-                  </Typography>
-                  <Divider />
-                  <Stack direction={"row"} spacing={3}>
-                    <Typography variant="cardHeader" color="initial">
-                      SUBTOTAL :
-                    </Typography>
-                    <Typography variant="cardHeader" color="initial">
-                      ৳ 12,160
-                    </Typography>
-                  </Stack>
-                  <Stack direction={"row"} spacing={5} mb={5} >
-                    <Typography variant="cardHeader" color="initial" mt={1}>
-                      SHIPPING 
-                    </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      defaultValue="female"
-                      name="radio-buttons-group"
-                    >
-                      <FormControlLabel
-                        value="DHAKA"
-                        control={<Radio />}
-                        label="DHAKA : ৳ 100"
-                      />
-                      <FormControlLabel
-                        value="PICK FROM SHOWROOM"
-                        control={<Radio />}
-                        label="PICK FROM SHOWROOM"
-                      />
-                      <br />
-                      <small>Shipping to Dhaka.</small>
-                    </RadioGroup>
-                  </Stack>
-                  <br />
-                  <br />
-                  <Stack direction={"row"} spacing={9}>
-                    <Typography variant="cardHeader" color="initial">
-                      TAX :
-                    </Typography>
-                    <Typography variant="cardHeader" color="initial">
-                      ৳ 12
-                    </Typography>
-                  </Stack>
-
-                  <Divider />
-                  <Stack direction={"row"} spacing={7}>
-                    <Typography variant="cardHeader" color="initial">
-                      TOTAL :
-                    </Typography>
-                    <Typography variant="cardHeader" color="initial">
-                      ৳ 12,160
-                    </Typography>
-                  </Stack>
+                  {" "}
                   <Button
                     variant="contained"
                     color="background2"
@@ -213,18 +136,17 @@ const addtocart = () => {
                   >
                     proceed to checkout
                   </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => router.push("/shop")}
+                  >
+                    CONTINUE SHOPPING
+                  </Button>
                 </Stack>
-              </Paper>
-              <Typography
-                variant="subtitle1"
-                color="initial"
-                fontWeight={"bold"}
-                mt={5}
-                textAlign={"center"}
-              >
-                CONTINUE SHOPPING
-              </Typography>
+              </Stack>
             </Grid>
+            
           </Grid>
         </Stack>
       </Box>

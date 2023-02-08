@@ -32,7 +32,7 @@ const checkout = () => {
           height: { lg: "100%", xs: "fit-content" },
           py: 15,
           width: { lg: "90%", xs: "100%" },
-          maxWidth: "1920px",
+          maxWidth: "1500px",
           margin: "0 auto",
         }}
       >
