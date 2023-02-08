@@ -1,6 +1,7 @@
 import {
   AppBar,
   Avatar,
+  Badge,
   Hidden,
   IconButton,
   MenuItem,
@@ -64,8 +65,8 @@ const HomePageIntro = ({ title }) => {
     handleMobileMenuClose();
   };
   const handelogout = () => {
-    localStorage.clear("user")
-    setUser("")
+    localStorage.clear("user");
+    setUser("");
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -177,7 +178,7 @@ const HomePageIntro = ({ title }) => {
               </IconButton>
             </Hidden>
           </Stack>
-          <Hidden only={["xs", "xms","sm"]}>
+          <Hidden only={["xs", "xms", "sm"]}>
             <Stack direction={"row"} spacing={2}>
               <Tabs
                 value={value}
@@ -236,7 +237,9 @@ const HomePageIntro = ({ title }) => {
                       >
                         <AccountCircle />
                       </IconButton>
-                      <p style={{ color: "#0A0A0A" }}>{userjsondata?userjsondata.name:user.name}</p>
+                      <p style={{ color: "#0A0A0A" }}>
+                        {userjsondata ? userjsondata.name : user.name}
+                      </p>
                     </MenuItem>
                   </Box>
                   <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -281,11 +284,21 @@ const HomePageIntro = ({ title }) => {
                   onClick={() => setSearchModal(true)}
                 />
               </IconButton>
-              <IconButton aria-label="" onClick={() => router.push("/wishlists")}>
-                <FiHeart style={{ color: "#0A0A0A" }} />
+              <IconButton
+                aria-label=""
+                onClick={() => router.push("/wishlists")}
+              >
+                <Badge badgeContent={4} color="background2">
+                  <FiHeart style={{ color: "#0A0A0A" }} />
+                </Badge>
               </IconButton>
-              <IconButton aria-label="" onClick={() => router.push("/addtocart")}  >
-                <BiShoppingBag style={{ color: "#0A0A0A" }}  />
+              <IconButton
+                aria-label=""
+                onClick={() => router.push("/addtocart")}
+              >
+                <Badge badgeContent={4} color="background2">
+                  <BiShoppingBag style={{ color: "#0A0A0A" }} />
+                </Badge>
               </IconButton>
             </Stack>
           </Hidden>
