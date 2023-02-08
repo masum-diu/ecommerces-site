@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
+import Loader from "../components/Loader/Loader";
 import { useGetProductsQuery } from '../src/features/api/apiSlice'
 
 const shop = () => {
@@ -46,9 +47,8 @@ const shop = () => {
 
   const {data, isLoading, isSuccess, isError, error} = useGetProductsQuery();
   if(isLoading){
-    return <p>Loading</p>
+    return <Loader></Loader>
   }
-
   const products = data;
   // console.log("from shop",products)
   return (

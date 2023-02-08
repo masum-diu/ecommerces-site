@@ -24,6 +24,7 @@ import MenuDawer from "../../components/MenuDawer";
 import Menu1Dawer from "../../components/Menu1Dawer";
 import Link from "next/link";
 import { useGetProductsQuery } from "../../src/features/api/apiSlice";
+import Loader from "../../components/Loader/Loader";
 const masterCollectionLayout = () => {
   const router = useRouter();
   console.log("sdsdf", router);
@@ -52,7 +53,7 @@ const masterCollectionLayout = () => {
 
   const {data, isLoading, isSuccess, isError, error} = useGetProductsQuery();
   if(isLoading){
-    return <p>Loading</p>
+    return <Loader></Loader>
   }
 
   const products = data;
