@@ -51,12 +51,19 @@ const addtocart = () => {
         sx={{
           height: { lg: "100vh", xs: "fit-content" },
           py: 15,
-          width: "90%",
+          width: { lg: "90%", xs: "100%" },
           maxWidth: "1920px",
-          mx: "auto",
+          margin: "0 auto",
         }}
       >
-        <Stack>
+        <Stack
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
           <Typography
             variant="header1"
             color="initial"
@@ -65,14 +72,35 @@ const addtocart = () => {
           >
             Cart
           </Typography>
-          <Grid container spacing={5} pt={5} xs={12}>
-            <Grid item lg={8}>
-              <Stack direction={"column"} spacing={2}>
+          <Grid
+            container
+            spacing={5}
+            pt={5}
+            xs={12}
+            // sx={{
+            //   display: "flex",
+            //   justifyContent: "center",
+            //   alignItems: "center",
+            //   width: "100%",
+            // }}
+          >
+            <Grid item lg={8} sx={{width:"100%"}}>
+              <Stack
+                direction={"column"}
+                spacing={2}
+                // sx={{
+                //   display: "flex",
+                //   justifyContent: "center",
+                //   alignItems: "center",
+                //   width: "100%",
+                // }}
+              >
                 {addtocartData.map((addtocartData) => (
                   <>
                     <Stack
                       key={addtocartData.id}
-                      direction={"row"}
+                      spacing={1}
+                      direction={{ lg: "row", xs: "column" }}
                       sx={{
                         width: "100%",
                         justifyContent: "space-between",
@@ -111,12 +139,12 @@ const addtocart = () => {
                         </IconButton>
                       </Stack>
                     </Stack>
-                    <Divider />
+                    <Divider/>
                   </>
                 ))}
               </Stack>
             </Grid>
-            <Grid item lg={4} mt={4} xs={12}>
+            <Grid item lg={4} mt={4} xs={12} sx={{width:"100%"}}>
               <Paper elevation={3} mb={1}>
                 <Stack
                   sx={{ width: "90%", mx: "auto", p: 2 }}
@@ -135,9 +163,9 @@ const addtocart = () => {
                       ৳ 12,160
                     </Typography>
                   </Stack>
-                  <Stack direction={"row"} spacing={4} mb={5}>
-                    <Typography variant="cardHeader" color="initial">
-                      SHIPPING :
+                  <Stack direction={"row"} spacing={5} mb={5} >
+                    <Typography variant="cardHeader" color="initial" mt={1}>
+                      SHIPPING 
                     </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
@@ -147,7 +175,7 @@ const addtocart = () => {
                       <FormControlLabel
                         value="DHAKA"
                         control={<Radio />}
-                        label="DHAKA: ৳ 100"
+                        label="DHAKA : ৳ 100"
                       />
                       <FormControlLabel
                         value="PICK FROM SHOWROOM"
@@ -170,7 +198,7 @@ const addtocart = () => {
                   </Stack>
 
                   <Divider />
-                  <Stack direction={"row"} spacing={9}>
+                  <Stack direction={"row"} spacing={7}>
                     <Typography variant="cardHeader" color="initial">
                       TOTAL :
                     </Typography>
