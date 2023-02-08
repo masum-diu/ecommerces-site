@@ -17,8 +17,10 @@ import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import { useRouter } from "next/router";
 
 const addtocart = () => {
+  const router = useRouter();
   const addtocartData = [
     {
       id: 1,
@@ -47,14 +49,21 @@ const addtocart = () => {
       <HomePageIntro title={"Cart "} />
       <Box
         sx={{
-          height: "100vh",
+          height: { lg: "100vh", xs: "fit-content" },
           py: 15,
-          width: "90%",
-          maxWidth: "1920px",
-          mx: "auto",
+          width: { lg: "90%", xs: "100%" },
+          maxWidth: "1500px",
+          margin: "0 auto",
         }}
       >
-        <Stack>
+        <Stack
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
           <Typography
             variant="header1"
             color="initial"
@@ -63,14 +72,15 @@ const addtocart = () => {
           >
             Cart
           </Typography>
-          <Grid container spacing={5} pt={5}>
-            <Grid item lg={8}>
-              <Stack direction={"column"} spacing={2}>
+          <Grid container spacing={5} pt={5} xs={12}>
+            <Grid item lg={12} sx={{ width: "100%" }}>
+              <Stack direction={"column"} spacing={2} >
                 {addtocartData.map((addtocartData) => (
                   <>
                     <Stack
                       key={addtocartData.id}
-                      direction={"row"}
+                      spacing={1}
+                      direction={{ lg: "row", xs: "column" }}
                       sx={{
                         width: "100%",
                         justifyContent: "space-between",
@@ -112,86 +122,31 @@ const addtocart = () => {
                     <Divider />
                   </>
                 ))}
-              </Stack>
-            </Grid>
-            <Grid item lg={4} mt={4}>
-              <Paper elevation={3} mb={1}>
+                <br />
                 <Stack
-                  sx={{ width: "90%", mx: "auto", p: 2 }}
-                  direction={"column"}
+                  direction={{lg:"row",xs:"column"}}
                   spacing={2}
+                  justifyContent={"flex-end"}
                 >
-                  <Typography variant="cardHeader1" color="initial">
-                    CART TOTALS
-                  </Typography>
-                  <Divider />
-                  <Stack direction={"row"} spacing={3}>
-                    <Typography variant="cardHeader" color="initial">
-                      SUBTOTAL :
-                    </Typography>
-                    <Typography variant="cardHeader" color="initial">
-                      ৳ 12,160
-                    </Typography>
-                  </Stack>
-                  <Stack direction={"row"} spacing={4} mb={5}>
-                    <Typography variant="cardHeader" color="initial">
-                      SHIPPING :
-                    </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      defaultValue="female"
-                      name="radio-buttons-group"
-                    >
-                      <FormControlLabel
-                        value="DHAKA"
-                        control={<Radio />}
-                        label="DHAKA: ৳ 100"
-                      />
-                      <FormControlLabel
-                        value="PICK FROM SHOWROOM"
-                        control={<Radio />}
-                        label="PICK FROM SHOWROOM"
-                      />
-                      <br />
-                       <small>Shipping to Dhaka.</small>
-                    </RadioGroup>
-                   
-                  </Stack>
-                  <br />
-                  <br />
-                  <Stack direction={"row"} spacing={9}>
-                    <Typography variant="cardHeader" color="initial">
-                      TAX :
-                    </Typography>
-                    <Typography variant="cardHeader" color="initial">
-                      ৳ 12
-                    </Typography>
-                  </Stack>
-
-                  <Divider />
-                  <Stack direction={"row"} spacing={9}>
-                    <Typography variant="cardHeader" color="initial">
-                      TOTAL :
-                    </Typography>
-                    <Typography variant="cardHeader" color="initial">
-                      ৳ 12,160
-                    </Typography>
-                  </Stack>
-                  <Button variant="contained" color="background2">
+                  {" "}
+                  <Button
+                    variant="contained"
+                    color="background2"
+                    onClick={() => router.push("/checkout")}
+                  >
                     proceed to checkout
                   </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => router.push("/shop")}
+                  >
+                    CONTINUE SHOPPING
+                  </Button>
                 </Stack>
-              </Paper>
-              <Typography
-                variant="subtitle1"
-                color="initial"
-                fontWeight={"bold"}
-                mt={5}
-                textAlign={"center"}
-              >
-                CONTINUE SHOPPING
-              </Typography>
+              </Stack>
             </Grid>
+            
           </Grid>
         </Stack>
       </Box>

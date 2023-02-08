@@ -16,13 +16,14 @@ import {
   Tabs,
   Toolbar,
   Tooltip,
+  Badge,
 } from "@mui/material";
 import {
   MdClose,
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
-import { useContext,useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
 import { FiHeart, FiSearch } from "react-icons/fi";
@@ -81,8 +82,6 @@ const SiderBar = ({ open, setOpen }) => {
   const [arrow5, setArrow5] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-
-
   const { user, setUser } = useContext(USER_CONTEXT);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -91,7 +90,6 @@ const SiderBar = ({ open, setOpen }) => {
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
-
 
   // Profile section started
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -113,8 +111,8 @@ const SiderBar = ({ open, setOpen }) => {
     handleMobileMenuClose();
   };
   const handelogout = () => {
-    localStorage.clear("user")
-    setUser("")
+    localStorage.clear("user");
+    setUser("");
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -176,7 +174,6 @@ const SiderBar = ({ open, setOpen }) => {
       </MenuItem>
     </Menu>
   );
-
 
   // Profile section ended
 
@@ -800,7 +797,7 @@ const SiderBar = ({ open, setOpen }) => {
               </Stack>
             </Box>
           </ClickAwayListener>
-          <Hidden only={["md","lg", "xl"]}>
+          <Hidden only={["md", "lg", "xl"]}>
             <Stack direction={"column"} mt={3} alignItems="center" spacing={2}>
               <ListItemButton width="100%">
                 <Typography
@@ -821,8 +818,9 @@ const SiderBar = ({ open, setOpen }) => {
                 </Typography>
               </ListItemButton>
               <ListItemButton width="100%">
-                {userjsondata || user.status == true?<>
-                  {/* <MenuItem>
+                {userjsondata || user.status == true ? (
+                  <>
+                    {/* <MenuItem>
                     <IconButton
                       sx={{ cursor: "pointer" }}
                       variant="cardHeader"
@@ -836,28 +834,30 @@ const SiderBar = ({ open, setOpen }) => {
                     </IconButton>
                     <p>{userjsondata?.name}</p>
                   </MenuItem> */}
-                  <Box sx={{ flexGrow: 1 }} />
-                  <Box sx={{ display: { xs: "flex" } }}>
-                    <MenuItem onClick={handleProfileMenuOpen}>
-                      <IconButton
-                        sx={{
-                          cursor: "pointer",
-                          color: "#0A0A0A",
-                          marginRight: "5px",
-                        }}
-                        variant="cardHeader"
-                        size="large"
-                        edge="end"
-                        aria-label="account of current user"
-                        aria-controls={menuId}
-                        aria-haspopup="true"
-                      >
-                        <AccountCircle />
-                      </IconButton>
-                      <p style={{ color: "#0A0A0A" }}>{userjsondata?userjsondata.name:user.name}</p>
-                    </MenuItem>
-                  </Box>
-                  {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                    <Box sx={{ flexGrow: 1 }} />
+                    <Box sx={{ display: { xs: "flex" } }}>
+                      <MenuItem onClick={handleProfileMenuOpen}>
+                        <IconButton
+                          sx={{
+                            cursor: "pointer",
+                            color: "#0A0A0A",
+                            marginRight: "5px",
+                          }}
+                          variant="cardHeader"
+                          size="large"
+                          edge="end"
+                          aria-label="account of current user"
+                          aria-controls={menuId}
+                          aria-haspopup="true"
+                        >
+                          <AccountCircle />
+                        </IconButton>
+                        <p style={{ color: "#0A0A0A" }}>
+                          {userjsondata ? userjsondata.name : user.name}
+                        </p>
+                      </MenuItem>
+                    </Box>
+                    {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
                     <IconButton
                       size="large"
                       aria-label="show more"
@@ -869,16 +869,20 @@ const SiderBar = ({ open, setOpen }) => {
                       <MoreIcon />
                     </IconButton>
                   </Box> */}
-                  {renderMobileMenu}
-                  {renderMenu}
-                </>:<><Typography
-                  variant="cardHeader"
-                  color="initial"
-                  onClick={() => setModalOpen(true)}
-                >
-                  LOGIN
-                </Typography></>}
-                
+                    {renderMobileMenu}
+                    {renderMenu}
+                  </>
+                ) : (
+                  <>
+                    <Typography
+                      variant="cardHeader"
+                      color="initial"
+                      onClick={() => setModalOpen(true)}
+                    >
+                      LOGIN
+                    </Typography>
+                  </>
+                )}
               </ListItemButton>
 
               <Stack alignItems="center" direction={"row"}>
@@ -893,10 +897,21 @@ const SiderBar = ({ open, setOpen }) => {
                 <FiSearch style={{ color: "#0A0A0A" }} />
               </IconButton> */}
               <IconButton aria-label="">
-                <FiHeart style={{ color: "#0A0A0A" }} />
+                <Badge badgeContent={4} color="background2">
+                  {" "}
+                  <FiHeart
+                    style={{ color: "#0A0A0A" }}
+                    onClick={() => router.push("/wishlists")}
+                  />
+                </Badge>
               </IconButton>
               <IconButton aria-label="">
-                <BiShoppingBag style={{ color: "#0A0A0A" }} />
+                <Badge badgeContent={4} color="background2">
+                  <BiShoppingBag
+                    style={{ color: "#0A0A0A" }}
+                    onClick={() => router.push("/addtocart")}
+                  />
+                </Badge>
               </IconButton>
             </Stack>
           </Hidden>
