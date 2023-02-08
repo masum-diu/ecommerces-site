@@ -49,8 +49,8 @@ const shop = () => {
   if(isLoading){
     return <Loader></Loader>
   }
-  const products = data;
-  // console.log("from shop",products)
+  const products = data.data;
+  console.log("from shop",products)
   return (
     <>
       <HomePageIntro title={"Shop "} />
@@ -104,8 +104,8 @@ const shop = () => {
             >
               {products?.slice(0,4).map((data) => (
                 <>
-                  <Stack direction={"column"} spacing={2} key={data.id}>
-                    <img src={data.images?data.images[0]:null} alt="" width={300} />
+                  <Stack direction={"column"} spacing={2} key={data?.id}>
+                    <img src={data?.feature_image} alt="" width={300} />
 
                     <Stack
                       direction={"row"}
@@ -113,14 +113,14 @@ const shop = () => {
                       justifyContent={"space-between"}
                     >
                       <Typography variant="cardHeader2" color="initial">
-                        {data.title}
+                        {data?.p_name}
                       </Typography>
                       <Typography
                         variant="cardHeader2"
                         fontWeight={"bold"}
                         color="initial"
                       >
-                        BDT {data.price}
+                        BDT {data?.p_sale_price}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -160,8 +160,8 @@ const shop = () => {
             >
               {products?.slice(0,4).map((data) => (
                 <>
-                  <Stack direction={"column"} spacing={2} key={data.id}>
-                    <img src={data.images?data.images[0]:null} alt="" width={300} />
+                  <Stack direction={"column"} spacing={2} key={data?.id}>
+                    <img src={data?.feature_image} alt="" width={300} />
 
                     <Stack
                       direction={"row"}
@@ -169,14 +169,14 @@ const shop = () => {
                       justifyContent={"space-between"}
                     >
                       <Typography variant="cardHeader2" color="initial">
-                        {data.title}
+                        {data?.p_name}
                       </Typography>
                       <Typography
                         variant="cardHeader2"
                         fontWeight={"bold"}
                         color="initial"
                       >
-                        BDT {data.price}
+                        BDT {data?.p_sale_price}
                       </Typography>
                     </Stack>
                   </Stack>

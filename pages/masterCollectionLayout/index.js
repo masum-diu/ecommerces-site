@@ -56,7 +56,7 @@ const masterCollectionLayout = () => {
     return <Loader></Loader>
   }
 
-  const products = data;
+  const products = data?.data;
   console.log("from shop",products)
 
   return (
@@ -203,7 +203,7 @@ const masterCollectionLayout = () => {
               <Grid item lg={4} sm={6} key={dataList?.id}>
                 <Link href={`/${router.asPath}/${dataList?.id}`}>
                   <img
-                    src={dataList.images?dataList.images[0]:null}
+                    src={dataList?.feature_image}
                     width={568}
                     height={827}
                     style={{ maxWidth: "100%", height: "fit-content" }}
@@ -214,10 +214,10 @@ const masterCollectionLayout = () => {
                     justifyContent={"space-between"}
                   >
                     <Typography variant="cardHeader3" color="initial">
-                      {dataList?.title}
+                      {dataList?.p_name}
                     </Typography>
                     <Typography variant="cardHeader3" color="initial">
-                      BDT {dataList?.price}
+                      BDT {dataList?.p_sale_price}
                     </Typography>
                   </Stack>
                 </Link>
@@ -258,7 +258,7 @@ const masterCollectionLayout = () => {
                 key={dataList?.id}
               ><Link href={`/${router.asPath}/${dataList?.id}`}>
                 <img
-                  src={dataList.images?dataList.images[0]:null}
+                  src={dataList?.feature_image}
                   width={568}
                   height={827}
                   style={{ maxWidth: "100%", height: "fit-content" }}
@@ -269,10 +269,10 @@ const masterCollectionLayout = () => {
                   justifyContent={"space-between"}
                 >
                   <Typography variant="cardHeader3" color="initial">
-                    {dataList.title}
+                    {dataList?.p_name}
                   </Typography>
                   <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList.price}
+                    BDT {dataList?.p_sale_price}
                   </Typography>
                 </Stack>
                 </Link>

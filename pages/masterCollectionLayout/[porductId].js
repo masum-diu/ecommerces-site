@@ -9,6 +9,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import NativeSelect from "@mui/material/NativeSelect";
 import Image from "next/image";
 import HomePageIntro from "../../components/HomePageIntro";
 import { Box } from "@mui/system";
@@ -16,6 +19,7 @@ import Footer from "../../components/Footer";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import styled from "@emotion/styled";
+import { Collapse } from "@mui/material";
 import { useGetParticularProductsQuery } from "../../src/features/api/apiSlice";
 
 const PorductDetails = () => {
@@ -70,14 +74,16 @@ const PorductDetails = () => {
     return `${value}`;
   }
 
-  const {data, isLoading, isSuccess, isError, error} = useGetParticularProductsQuery(productId);
-  if(isLoading){
-    return <p>Loading</p>
+  const { data, isLoading, isSuccess, isError, error } =
+    useGetParticularProductsQuery(productId);
+  if (isLoading) {
+    return <p>Loading</p>;
   }
 
   const products = data;
 
-  console.log("sdfs",products)
+  console.log("sdfs", products);
+  console.log("sdfs", productId);
 
   return (
     <>
@@ -92,7 +98,7 @@ const PorductDetails = () => {
           rowGap={3}
         >
           <img
-            src={products.images[0]}
+            src={products?.product_image}
             width={500}
             style={{
               width: "90vw",
@@ -109,42 +115,43 @@ const PorductDetails = () => {
             justifyContent={"space-between"}
           >
             <Typography variant="login1" color="initial">
-              {products.title}
+              {products?.product_name}
             </Typography>
             <Typography variant="cardHeader2" color="initial">
               Home {path}
             </Typography>
             <Typography variant="cardLocation1" color="initial">
-              {products.description}
+              {products?.p_description}
             </Typography>
             <Typography variant="login1" color="initial">
-              BDT : {products.price} ৳
+              BDT : {products?.mrp_price
+} ৳
             </Typography>
-
             {/* size is here */}
             <Stack
               direction={"row"}
               spacing={{ lg: 4, xs: 3 }}
               sx={{ justifyContent: "space-between", alignItems: "" }}
             >
-              <Typography variant="tabText" mt={1}>
-                Size
-              </Typography>
-
-              <Stack sx={{ width: "100%", pr: "1.5rem" }}>
-                <Slider
-                  aria-label="Custom marks"
-                  width={100}
-                  defaultValue={0}
-                  getAriaValueText={valuetext}
-                  step={10}
-                  valueLabelDisplay="auto"
-                  min={0}
-                  max={40}
-                  marks={marks}
-                  size={"small"}
-                />
-              </Stack>
+              <Box sx={{ minWidth: 320 }}>
+                <FormControl fullWidth>
+                  <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                    Size
+                  </InputLabel>
+                  <NativeSelect
+                    defaultValue={30}
+                    inputProps={{
+                      name: "age",
+                      id: "uncontrolled-native",
+                    }}
+                  >
+                    {products?.product_size?.map((size,index)=><option key={index} value={size?.size_name}>{size?.size_name}</option>).reverse()}
+                    
+                    {/* <option value={20}>Twenty</option>
+                    <option value={30}>Thirty</option> */}
+                  </NativeSelect>
+                </FormControl>
+              </Box>
             </Stack>
             <br />
             <br />
