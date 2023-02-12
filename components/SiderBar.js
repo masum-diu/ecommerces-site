@@ -17,6 +17,7 @@ import {
   Toolbar,
   Tooltip,
   Badge,
+  ListItemText,
 } from "@mui/material";
 import {
   MdClose,
@@ -242,14 +243,14 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/masterCollectionLayout")}
                       >
                         Saree
                       </Typography>
-                      <Typography variant="body" color="initial">
+                      <Typography variant="cardHeader3" color="initial" sx={{mx:2}}>
                         What’s New
                       </Typography>
                     </Stack>
@@ -259,14 +260,14 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/salwar-kameez")}
                       >
                         Salwar Kameez
                       </Typography>
-                      <Typography variant="body" color="initial">
+                      <Typography variant="cardHeader3" color="initial">
                         Limited Edition
                       </Typography>
                     </Stack>
@@ -276,14 +277,14 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/kurti-fatua")}
                       >
                         Kurti & Fatua
                       </Typography>
-                      <Typography variant="body" color="initial">
+                      <Typography variant="cardHeader3" color="initial">
                         Special Edition
                       </Typography>
                     </Stack>
@@ -293,14 +294,14 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/tops-shirts")}
                       >
                         Tops & Shirts
                       </Typography>
-                      <Typography variant="body" color="initial">
+                      <Typography variant="cardHeader3" color="initial" sx={{mx:{xs:4,lg:5}}}>
                         Discount
                       </Typography>
                     </Stack>
@@ -310,14 +311,14 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/kimono")}
                       >
                         Kimono
                       </Typography>
-                      <Typography variant="body" color="initial">
+                      <Typography variant="cardHeader3" color="initial" sx={{mx:{xs:6.5,lg:8}}}>
                         Offer
                       </Typography>
                     </Stack>
@@ -327,7 +328,7 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/kaftan")}
@@ -368,9 +369,10 @@ const SiderBar = ({ open, setOpen }) => {
                       direction={"row"}
                       mt={2}
                       justifyContent="space-between"
+                     
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/panjabi")}
@@ -378,9 +380,9 @@ const SiderBar = ({ open, setOpen }) => {
                         Panjabi
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer",mx:2}}
                         onClick={() => router.push("/fatua")}
                       >
                         Fatua
@@ -392,17 +394,17 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer", }}
                         onClick={() => router.push("/vest")}
                       >
                         Vest
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer",mx:2 }}
                         onClick={() => router.push("/shirts")}
                       >
                         Shirts
@@ -414,7 +416,7 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/tshirts")}
@@ -422,9 +424,9 @@ const SiderBar = ({ open, setOpen }) => {
                         T-Shirt
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer",mx:1 }}
                         onClick={() => router.push("/jackets")}
                       >
                         Jackets
@@ -518,7 +520,7 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/baby-kantha")}
@@ -526,9 +528,11 @@ const SiderBar = ({ open, setOpen }) => {
                         Baby Kantha
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        
+                        sx={{ cursor: "pointer",mx:{xs:1.5,lg:2
+                         }}}
                         onClick={() => router.push("/bed-cover")}
                       >
                         Bed Cover
@@ -540,17 +544,17 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer", }}
                         onClick={() => router.push("/cushion-cover")}
                       >
                         Cushion Cover
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer",mx:{xs:4,lg:5 }}}
                         onClick={() => router.push("/basket")}
                       >
                         Basket
@@ -562,7 +566,7 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/ceramic")}
@@ -570,9 +574,9 @@ const SiderBar = ({ open, setOpen }) => {
                         Ceramic
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer",mx:{xs:4,lg:4.9 }}}
                         onClick={() => router.push("/napkin")}
                       >
                         Napkin
@@ -584,7 +588,7 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/table-cloth")}
@@ -592,9 +596,9 @@ const SiderBar = ({ open, setOpen }) => {
                         Table Cloth
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer",}}
                         onClick={() => router.push("/table-runner")}
                       >
                         Table Runner
@@ -688,7 +692,7 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/aatong")}
@@ -696,9 +700,9 @@ const SiderBar = ({ open, setOpen }) => {
                         Aatong
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer",mx:{xs:4.5,lg:5} }}
                         onClick={() => router.push("/cangbuk")}
                       >
                         Cangbuk
@@ -710,7 +714,7 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/ashtodhatu-jewellery")}
@@ -718,7 +722,7 @@ const SiderBar = ({ open, setOpen }) => {
                         Ashtodhatu Jewellery
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/silver-jewellery")}
@@ -732,7 +736,7 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/metal-jewellery")}
@@ -740,7 +744,7 @@ const SiderBar = ({ open, setOpen }) => {
                         Metal Jewellery
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/other-jewellery")}
@@ -754,7 +758,7 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/scarves")}
@@ -762,9 +766,9 @@ const SiderBar = ({ open, setOpen }) => {
                         Scarves
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer",mx:{xs:6.5,lg:7} }}
                         onClick={() => router.push("/stoles")}
                       >
                         Stoles
@@ -776,7 +780,7 @@ const SiderBar = ({ open, setOpen }) => {
                       justifyContent="space-between"
                     >
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() => router.push("/orna")}
@@ -784,9 +788,9 @@ const SiderBar = ({ open, setOpen }) => {
                         Orna
                       </Typography>
                       <Typography
-                        variant="body"
+                        variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer",mx:{xs:5.5,lg:6} }}
                         onClick={() => router.push("/shawls")}
                       >
                         Shawls
@@ -798,7 +802,7 @@ const SiderBar = ({ open, setOpen }) => {
             </Box>
           </ClickAwayListener>
           <Hidden only={["md", "lg", "xl"]}>
-            <Stack direction={"column"} mt={3} alignItems="center" spacing={2}>
+            <Stack direction={"column"} mt={3} alignItems="left" spacing={2}>
               <ListItemButton width="100%">
                 <Typography
                   variant="cardHeader"
@@ -885,18 +889,18 @@ const SiderBar = ({ open, setOpen }) => {
                 )}
               </ListItemButton>
 
-              <Stack alignItems="center" direction={"row"}>
+              <Stack alignItems="center" direction={"row"} >
                 <IconButton aria-label="">
                   <BiMap style={{ color: "#0A0A0A" }} />
                 </IconButton>
                 <Typography variant="cardHeader" color="initial">
                   BD
                 </Typography>
-              </Stack>
+              </Stack  >
               {/* <IconButton aria-label="">
                 <FiSearch style={{ color: "#0A0A0A" }} />
               </IconButton> */}
-              <IconButton aria-label="">
+              <IconButton aria-label="" sx={{display:"flex",justifyContent:"flex-start",width:"100%",pl:1.5}}>
                 <Badge badgeContent={4} color="background2">
                   {" "}
                   <FiHeart
@@ -905,7 +909,7 @@ const SiderBar = ({ open, setOpen }) => {
                   />
                 </Badge>
               </IconButton>
-              <IconButton aria-label="">
+              <IconButton aria-label=""sx={{display:"flex",justifyContent:"flex-start",width:"100%",pl:1.5}}>
                 <Badge badgeContent={4} color="background2">
                   <BiShoppingBag
                     style={{ color: "#0A0A0A" }}
