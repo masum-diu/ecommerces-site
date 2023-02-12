@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import {
+  Avatar,
+  Badge,
   Button,
   ButtonGroup,
   IconButton,
@@ -21,69 +23,53 @@ import AddIcon from "@mui/icons-material/Add";
 import styled from "@emotion/styled";
 import { Collapse } from "@mui/material";
 import { useGetParticularProductsQuery } from "../../src/features/api/apiSlice";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../src/features/cart/cartSlice";
 
 const PorductDetails = () => {
-  const [count, setCount] = useState(1);
   const router = useRouter();
   const productId = router?.query?.porductId;
 
-  const path = router.asPath;
-  /* const data = [
-    {
-      id: 1,
-      title: "Demo Product Name",
-      price: "5,185",
-      image: "assets/saree3.png",
-    },
-    {
-      id: 2,
-      title: "Demo Product Name",
-      price: "5,185",
-      image: "/public/assets/saree3.png",
-    },
-    {
-      id: 3,
-      title: "Demo Product Name",
-      price: "5,185",
-      image: "/public/assets/saree3.png",
-    },
-  ]; */
-  const marks = [
-    {
-      value: 0,
-      label: "S",
-    },
-    {
-      value: 10,
-      label: "M",
-    },
-    {
-      value: 20,
-      label: "L",
-    },
-    {
-      value: 30,
-      label: "XL",
-    },
-    {
-      value: 40,
-      label: "XXL",
-    },
-  ];
-  function valuetext(value) {
-    return `${value}`;
-  }
-
   const { data, isLoading, isSuccess, isError, error } =
     useGetParticularProductsQuery(productId);
+
+  const products = data;
+  
+  const initialSize = products?.product_size[0]?.size_name?products?.product_size[0]?.size_name:null;
+  const initialColor = products?.product_colour[0]?.slug;
+  const [count, setCount] = useState(1);
+  const [size, setSize] = useState(initialSize);
+  const [color, setColor] = useState(initialColor);
+  const dispatch = useDispatch();
   if (isLoading) {
     return <p>Loading</p>;
   }
+  const handleQuantity = (data) => {
+    if (isNaN(data)) {
+      return;
+    }
+    setCount(data);
+  };
 
-  const products = data;
+  const path = router.asPath;
 
-  console.log("sdfs", products);
-  console.log("sdfs", productId);
+  // console.log(products?.product_size[0]?.size_name);
+  // console.log("kash", products);
+  // console.log("sdfs", productId);
+  console.log(size);
+  // console.log(color);
+  // console.log(count);
+
+  const finalData = {
+    id: products.id,
+    name: products?.product_name,
+    price: products?.mrp_price,
+    color: color,
+    size: size,
+    amount: count,
+    totalPrice: count * parseInt(products?.mrp_price),
+  };
+  console.log("sdfs", finalData);
 
   return (
     <>
@@ -124,8 +110,7 @@ const PorductDetails = () => {
               {products?.p_description}
             </Typography>
             <Typography variant="login1" color="initial">
-              BDT : {products?.mrp_price
-} ৳
+              BDT : {products?.mrp_price} ৳
             </Typography>
             {/* size is here */}
             <Stack
@@ -135,24 +120,46 @@ const PorductDetails = () => {
             >
               <Box sx={{ minWidth: 320 }}>
                 <FormControl fullWidth>
-                  <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                  <InputLabel variant="standard" htmlFor="size">
                     Size
                   </InputLabel>
                   <NativeSelect
-                    defaultValue={30}
                     inputProps={{
-                      name: "age",
-                      id: "uncontrolled-native",
+                      name: "size",
+                      id: "size",
                     }}
+                    value={size}
+                    onChange={(e) => setSize(e.target.value)}
                   >
-                    {products?.product_size?.map((size,index)=><option key={index} value={size?.size_name}>{size?.size_name}</option>).reverse()}
-                    
+                    {products?.product_size?.map((size, index) => (
+                      <option key={index} value={size?.size_name}>
+                        {size?.size_name}
+                      </option>
+                    ))}
+
                     {/* <option value={20}>Twenty</option>
                     <option value={30}>Thirty</option> */}
                   </NativeSelect>
                 </FormControl>
               </Box>
             </Stack>
+
+            {/* Color is here */}
+
+            <Box>
+              <Typography>Pick a Color</Typography>
+              <Stack direction="row" spacing={2}>
+                {products.product_colour.map((color, index) => (
+                  <Avatar
+                    key={index}
+                    sx={{ backgroundColor: `${color?.slug}` }}
+                    variant="rounded"
+                    onClick={() => setColor(color?.slug)}
+                  ></Avatar>
+                ))}
+              </Stack>
+            </Box>
+
             <br />
             <br />
 
@@ -175,9 +182,10 @@ const PorductDetails = () => {
                 <RemoveIcon fontSize="small" />
               </IconButton>
               <TextField
+                value={count}
                 size="small"
                 id="outlined-helperText"
-                placeholder={count}
+                onChange={(e) => handleQuantity(parseInt(e.target.value))}
               />
               <IconButton
                 aria-label="increase"
@@ -188,6 +196,14 @@ const PorductDetails = () => {
                 <AddIcon fontSize="small" />
               </IconButton>
             </Stack>
+            <Button
+              variant="contained"
+              color="background2"
+              type="submit"
+              onClick={() => /* dispatch(addToCart()) */ console.log(finalData)}
+            >
+              Add to Chart
+            </Button>
           </Stack>
         </Stack>
       </Box>

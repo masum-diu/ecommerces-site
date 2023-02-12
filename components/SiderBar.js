@@ -253,6 +253,27 @@ const SiderBar = ({ open, setOpen }) => {
                         What’s New
                       </Typography>
                     </Stack>
+                    {/* demo route */}
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="body"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => router.push("/demo")}
+                      >
+                        Demo
+                      </Typography>
+                      <Typography variant="body" color="initial">
+                        What’s New
+                      </Typography>
+                    </Stack>
+                    {/* demo rout ends */}
+
+
                     <Stack
                       direction={"row"}
                       mt={2}
