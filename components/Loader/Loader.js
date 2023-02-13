@@ -1,13 +1,18 @@
 import React from "react";
-import styles from "./Loader.module.css";
+import { Rings } from "react-loader-spinner";
 
 const Loader = () => {
   return (
-    <div className={styles.lds}>
-      <div></div>
-      <h1>Loading</h1>
-      <div></div>
-    </div>
+    <Rings
+      height="80"
+      width="80"
+      color="#4fa94d"
+      radius="6"
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+      ariaLabel="rings-loading"
+    />
   );
 };
 

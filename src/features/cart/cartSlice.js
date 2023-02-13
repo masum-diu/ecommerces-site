@@ -17,38 +17,66 @@ export const cartSlice = createSlice({
       try {
         const exist = state.cart.find(
           (product) =>
-            product.id === productID &&
+            product.id === productID.id &&
             product.size === productID.size &&
-            product.color === product.color
+            product.color === productID.color
         );
 
         if (exist) {
           exist.amount++;
-          exist.totalPrice+=productID.price;
-          state.totalAmount++;
-          state.totalPrice+=productID.price;
-
-        }else{
+          exist.totalPrice += productID.price;
+          state.totalAmount += productID.totalAmount;
+          state.totalPrice += productID.price;
+        } else {
           state.cart.push({
-            id:productID.id,
-            price:productID.price,
-            size:productID.size,
-            color:productID.color,
-            amount:1,
-            totalPrice:productID.price,
-            name:productID.name,
-
-          })
-          state.totalAmount++;
+            id: productID.id,
+            image: productID.image,
+            name: productID.name,
+            text: productID.text,
+            size: productID.size,
+            color: productID.color,
+            price: productID.price,
+            amount: 1,
+            totalPrice: productID.price,
+          });
+          state.totalAmount += productID.totalAmount;
           state.totalPrice += productID.price;
         }
       } catch (e) {
         return e;
       }
     },
+    removeFromCart: (state, action) => {
+      const productID = action.payload;
+
+      try {
+        const exist = state.cart.find(
+          (product) =>
+            product.id === productID.id &&
+            product.size === productID.size &&
+            product.color === product.color
+        );
+
+        if (exist.amount === 1) {
+          state.cart = state.cart.filter(
+            (product) =>
+              product.id != productID.id ||
+              product.size !== productID.size ||
+              product.color !== productID.color
+          );
+          state.totalAmount--;
+          state.totalPrice -= productID.price;
+        } else {
+          exist.amount--;
+          exist.totalPrice -= productID.price;
+          state.totalAmount--;
+          state.totalPrice;
+        }
+      } catch (e) {}
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

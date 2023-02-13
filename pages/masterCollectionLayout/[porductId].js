@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
   Avatar,
   Badge,
   Button,
   ButtonGroup,
+  Grid,
   IconButton,
   Slider,
   Stack,
@@ -25,6 +26,8 @@ import { Collapse } from "@mui/material";
 import { useGetParticularProductsQuery } from "../../src/features/api/apiSlice";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../src/features/cart/cartSlice";
+import parse from "html-react-parser";
+import Loader from "../../components/Loader/Loader";
 
 const PorductDetails = () => {
   const router = useRouter();
@@ -34,178 +37,232 @@ const PorductDetails = () => {
     useGetParticularProductsQuery(productId);
 
   const products = data;
-  
-  const initialSize = products?.product_size[0]?.size_name?products?.product_size[0]?.size_name:null;
+
+  const initialSize = products?.product_size[0]?.size_name;
   const initialColor = products?.product_colour[0]?.slug;
   const [count, setCount] = useState(1);
-  const [size, setSize] = useState(initialSize);
-  const [color, setColor] = useState(initialColor);
+  const [size, setSize] = useState("");
+  const [color, setColor] = useState("kala");
+  const [productPrice, setProductPrice] = useState(0);
   const dispatch = useDispatch();
+
   if (isLoading) {
-    return <p>Loading</p>;
+    return <Loader></Loader>;
   }
-  const handleQuantity = (data) => {
-    if (isNaN(data)) {
-      return;
-    }
-    setCount(data);
-  };
 
   const path = router.asPath;
+  const description = parse(products?.description)?.props?.children;
+  // console.log('your log output',description)
 
   // console.log(products?.product_size[0]?.size_name);
-  // console.log("kash", products);
+  console.log("kash", products);
   // console.log("sdfs", productId);
-  console.log(size);
+  // console.log(size);
   // console.log(color);
   // console.log(count);
 
+  // discount calculation here
+
+  /* if (products.discount.length > 0) {
+    products.discount.forEach((element) => {
+      let ds_price = 0;
+      if (element.discount_type == "percentage") {
+        ds_price = prdoucts.mrp_price * (element.discount_amount / 100);
+        if (ds_price > element.max_amount) {
+          ds_price = element.max_amount;
+        }
+
+        setProductPrice(prdoucts.mrp_price - ds_price);
+      } else {
+      }
+    });
+  } */
+
   const finalData = {
     id: products.id,
+    image: products.product_image,
     name: products?.product_name,
-    price: products?.mrp_price,
-    color: color,
     size: size,
-    amount: count,
+    text: description,
+    color: color,
+    price: products?.mrp_price,
+    amount: 1,
+    totalAmount: count,
     totalPrice: count * parseInt(products?.mrp_price),
   };
-  console.log("sdfs", finalData);
+  console.log("ami kas", finalData);
 
   return (
     <>
       <HomePageIntro title={"Master Collection Layout "} />
       <Box mt={10} mb={4} sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}>
-        <Stack
-          direction={{ xs: "column", lg: "row" }}
-          flexWrap={"wrap"}
-          alignItems="center"
-          justifyContent={"space-around"}
-          columnGap={3}
-          rowGap={3}
-        >
-          <img
-            src={products?.product_image}
-            width={500}
-            style={{
-              width: "90vw",
-              margin: "0 auto",
-              height: "fit-content",
-              maxWidth: "500px",
-            }}
-            height={700}
-          />
-
-          <Stack
-            direction={"column"}
-            spacing={2}
-            justifyContent={"space-between"}
-          >
-            <Typography variant="login1" color="initial">
-              {products?.product_name}
-            </Typography>
-            <Typography variant="cardHeader2" color="initial">
-              Home {path}
-            </Typography>
-            <Typography variant="cardLocation1" color="initial">
-              {products?.p_description}
-            </Typography>
-            <Typography variant="login1" color="initial">
-              BDT : {products?.mrp_price} ৳
-            </Typography>
-            {/* size is here */}
-            <Stack
-              direction={"row"}
-              spacing={{ lg: 4, xs: 3 }}
-              sx={{ justifyContent: "space-between", alignItems: "" }}
-            >
-              <Box sx={{ minWidth: 320 }}>
-                <FormControl fullWidth>
-                  <InputLabel variant="standard" htmlFor="size">
-                    Size
-                  </InputLabel>
-                  <NativeSelect
-                    inputProps={{
-                      name: "size",
-                      id: "size",
-                    }}
-                    value={size}
-                    onChange={(e) => setSize(e.target.value)}
-                  >
-                    {products?.product_size?.map((size, index) => (
-                      <option key={index} value={size?.size_name}>
-                        {size?.size_name}
-                      </option>
-                    ))}
-
-                    {/* <option value={20}>Twenty</option>
-                    <option value={30}>Thirty</option> */}
-                  </NativeSelect>
-                </FormControl>
-              </Box>
-            </Stack>
-
-            {/* Color is here */}
-
-            <Box>
-              <Typography>Pick a Color</Typography>
-              <Stack direction="row" spacing={2}>
-                {products.product_colour.map((color, index) => (
-                  <Avatar
-                    key={index}
-                    sx={{ backgroundColor: `${color?.slug}` }}
-                    variant="rounded"
-                    onClick={() => setColor(color?.slug)}
-                  ></Avatar>
-                ))}
+        <Grid container>
+          <Grid item lg={7}>
+            <Stack direction={"column"}>
+              <img src={products?.product_image} alt="" width={"fit-content"} />
+              <Stack direction={"row"}>
+                {" "}
+                <img src="/assets/6.png" alt="" width={"100%"} />
+                <img src="/assets/7.png" alt="" width={"100%"} />
               </Stack>
-            </Box>
-
-            <br />
-            <br />
-
-            {/* Quantity is here */}
-            <Stack
-              direction={"row"}
-              alignItems="center"
-              justifyContent={"space-between"}
-              spacing={2}
-            >
-              <Typography variant="tabText">Quantity</Typography>
-
-              <IconButton
-                size="small"
-                aria-label="reduce"
-                onClick={() => {
-                  setCount(Math.max(count - 1, 0));
-                }}
-              >
-                <RemoveIcon fontSize="small" />
-              </IconButton>
-              <TextField
-                value={count}
-                size="small"
-                id="outlined-helperText"
-                onChange={(e) => handleQuantity(parseInt(e.target.value))}
-              />
-              <IconButton
-                aria-label="increase"
-                onClick={() => {
-                  setCount(count + 1);
-                }}
-              >
-                <AddIcon fontSize="small" />
-              </IconButton>
             </Stack>
-            <Button
-              variant="contained"
-              color="background2"
-              type="submit"
-              onClick={() => /* dispatch(addToCart()) */ console.log(finalData)}
-            >
-              Add to Chart
-            </Button>
-          </Stack>
-        </Stack>
+          </Grid>
+          <Grid item lg={5}>
+            <Stack direction={"column"} mx={5} mt={3}>
+              <Typography variant="login1" color="initial" fontWeight="bold">
+                {products?.product_name}
+              </Typography>
+              <Stack direction={"row"} spacing={1}>
+                <Typography variant="cardHeader1" color="initial">
+                  Home {path}
+                </Typography>
+                {/* <Typography variant="cardHeader1" color="initial">
+                WOMEN /
+              </Typography>
+              <Typography variant="cardHeader1" color="initial">
+                KURTI & FATUA
+              </Typography> */}
+              </Stack>
+            </Stack>
+            <Stack direction={"column"} mx={5} mt={3} spacing={3}>
+              <Typography variant="cardHeader3" color="initial">
+                {parse(products?.description)}
+              </Typography>
+              <Typography variant="header1" color="initial">
+                Price : {products?.mrp_price} TK
+              </Typography>
+              <Stack direction={"row"} spacing={1} alignItems="center">
+                <Typography variant="cardHeader3" color="initial">
+                  Sizes
+                </Typography>
+                <hr
+                  style={{
+                    textAlign: "left",
+                    width: "100%",
+                    height: "1px",
+                    backgroundColor: "black",
+                    // maxWidth: "350px",
+                  }}
+                />
+              </Stack>
+              <Stack
+                direction={"row"}
+                spacing={1}
+                alignItems="center"
+                justifyContent={"space-between"}
+              >
+                <Stack direction={"row"}>
+                  {products?.product_size?.map((size, index) => (
+                    <Button
+                      variant="primary"
+                      color="primary"
+                      onClick={() => setSize(size?.size_name)}
+                    >
+                      {size?.size_name}
+                    </Button>
+                  ))}
+
+                  {/* <Button variant="text" color="primary">
+                    M
+                  </Button>
+                  <Button variant="text" color="primary">
+                    L
+                  </Button>
+                  <Button variant="text" color="primary">
+                    XL
+                  </Button>
+                  <Button variant="text" color="primary">
+                    XXL
+                  </Button> */}
+                </Stack>
+                <Button variant="text" color="primary">
+                  size guide
+                </Button>
+              </Stack>
+              <Stack direction={"row"} spacing={1} alignItems="center">
+                <Typography variant="cardHeader3" color="initial">
+                  Quantity
+                </Typography>
+                <hr
+                  style={{
+                    textAlign: "left",
+                    width: "100%",
+                    height: "1px",
+                    backgroundColor: "black",
+                    // maxWidth: "340px",
+                  }}
+                />
+              </Stack>
+              <Stack
+                direction={"row"}
+                spacing={2}
+                alignItems="center"
+                justifyContent={"space-between"}
+                sx={{ width: "100%", maxWidth: "50px" }}
+              >
+                <IconButton
+                  size="small"
+                  aria-label="reduce"
+                  onClick={() => {
+                    setCount(Math.max(count - 1, 1));
+                  }}
+                >
+                  <RemoveIcon fontSize="small" />
+                </IconButton>
+                <Typography variant="cardHeader3" color="initial">
+                  {" "}
+                  {count}
+                </Typography>
+                <IconButton
+                  aria-label="increase"
+                  onClick={() => {
+                    setCount(count + 1);
+                  }}
+                >
+                  <AddIcon fontSize="small" />
+                </IconButton>
+              </Stack>
+              <Stack direction={"row"} spacing={1} alignItems="center">
+                <Typography variant="cardHeader3" color="initial">
+                  Colors
+                </Typography>
+                <hr
+                  style={{
+                    textAlign: "left",
+                    width: "100%",
+                    height: "1px",
+                    backgroundColor: "black",
+                    // maxWidth: "350px",
+                  }}
+                />
+              </Stack>
+              <Stack direction={"row"} spacing={1} height={40}>
+                {products.product_colour.map((color, index) => (
+                  <Button
+                    key={index}
+                    variant="contained"
+                    onClick={() => setColor(color?.slug)}
+                  ></Button>
+                ))}
+                {/* <Button variant="contained" color="primary"></Button>
+                <Button variant="contained" color="primary"></Button>
+                <Button variant="contained" color="primary"></Button>
+                <Button variant="contained" color="primary"></Button> */}
+              </Stack>
+              <Button
+                variant="contained"
+                color="background2"
+                type="submit"
+                onClick={() => dispatch(addToCart(finalData))}
+              >
+                ADD TO CART
+              </Button>
+            </Stack>
+          </Grid>
+          <Grid item lg={7}>
+            <img src="/assets/Bitmap.png" alt="" width={"100%"} />
+          </Grid>
+        </Grid>
       </Box>
       <Footer />
     </>

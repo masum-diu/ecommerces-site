@@ -63,7 +63,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
     axios
       .post("http://apiaranya.jumriz.com/public/api/auth/register", data, {})
       .then((result) => {
-        console.log(result.data);
+        console.log("user created",result.data);
         localStorage.setItem("acesstoken", result.data.token);
         localStorage.setItem("user", JSON.stringify(result.data.user));
         setUser(result?.data?.user);

@@ -1,183 +1,158 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import {
-  Button,
-  ButtonGroup,
-  IconButton,
-  Slider,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import Image from "next/image";
-import HomePageIntro from "../../components/HomePageIntro";
-import { Box } from "@mui/system";
-import Footer from "../../components/Footer";
+import { Divider, Grid, Typography, Button, IconButton } from "@mui/material";
+import { Stack } from "@mui/system";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import styled from "@emotion/styled";
-
-const PorductDetails = () => {
-  const [count, setCount] = useState(1);
-  const router = useRouter();
-  const productId = router.query.productId;
-  const path = router.asPath;
-  const data = [
-    {
-      id: 1,
-      title: "Demo Product Name",
-      price: "5,185",
-      image: "assets/saree3.png",
-    },
-    {
-      id: 2,
-      title: "Demo Product Name",
-      price: "5,185",
-      image: "/public/assets/saree3.png",
-    },
-    {
-      id: 3,
-      title: "Demo Product Name",
-      price: "5,185",
-      image: "/public/assets/saree3.png",
-    },
-  ];
-  const marks = [
-    {
-      value: 0,
-      label: "S",
-    },
-    {
-      value: 10,
-      label: "M",
-    },
-    {
-      value: 20,
-      label: "L",
-    },
-    {
-      value: 30,
-      label: "XL",
-    },
-    {
-      value: 40,
-      label: "XXL",
-    },
-  ];
-  function valuetext(value) {
-    return `${value}`;
-  }
-
-  console.log(data);
-
+const ProductInnerPage = () => {
   return (
     <>
-      <HomePageIntro title={"Master Collection Layout "} />
-      <Box mt={10} mb={4} sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}>
-        <Stack
-          direction={{ xs: "column", lg: "row" }}
-          flexWrap={"wrap"}
-          alignItems="center"
-          justifyContent={"space-around"}
-          columnGap={3}
-          rowGap={3}
-        >
-          <Image
-            src="/assets/saree3.png"
-            width={500}
-            style={{
-              width: "90vw",
-              margin: "0 auto",
-              height: "fit-content",
-              maxWidth: "500px",
-            }}
-            height={700}
-          />
-
-          <Stack
-            direction={"column"}
-            spacing={2}
-            justifyContent={"space-between"}
-          >
-            <Typography variant="login1" color="initial">
+      <Grid container>
+        <Grid item lg={7}>
+          <Stack direction={"column"}>
+            <img src="/assets/9.png" alt="" width={"fit-content"} />
+            <Stack direction={"row"}>
+              {" "}
+              <img src="/assets/6.png" alt="" width={"100%"} />
+              <img src="/assets/7.png" alt="" width={"100%"} />
+            </Stack>
+          </Stack>
+        </Grid>
+        <Grid item lg={5}>
+          <Stack direction={"column"} mx={5} mt={3}>
+            <Typography variant="login1" color="initial" fontWeight="bold">
               Santolina Kurti
             </Typography>
-            <Typography variant="cardHeader2" color="initial">
-              Home {path}
-            </Typography>
-            <Typography variant="cardLocation1" color="initial">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quam,
-              ullam? Corrupti adipisci quia in, ad laborum provident modi quasi.
-              Modi.
-            </Typography>
-            <Typography variant="login1" color="initial">
-              BDT : 2995 ৳
-            </Typography>
-
-            {/* size is here */}
-            <Stack
-              direction={"row"}
-              spacing={{ lg: 4, xs: 3 }}
-              sx={{ justifyContent: "space-between", alignItems: "" }}
-            >
-              <Typography variant="tabText" mt={1}>Size</Typography>
-
-              <Stack sx={{ width: "100%", pr: "1.5rem", }}>
-                <Slider
-                  aria-label="Custom marks"
-                  width={100}
-                  defaultValue={0}
-                  getAriaValueText={valuetext}
-                  step={10}
-                  valueLabelDisplay="auto"
-                  min={0}
-                  max={40}
-                  marks={marks}
-                  size={"small"}
-                />
-              </Stack>
+            <Stack direction={"row"} spacing={1}>
+              <Typography variant="cardHeader1" color="initial">
+                HOME /
+              </Typography>
+              <Typography variant="cardHeader1" color="initial">
+                WOMEN /
+              </Typography>
+              <Typography variant="cardHeader1" color="initial">
+                KURTI & FATUA
+              </Typography>
             </Stack>
-            <br />
-            <br />
-
-            {/* Quantity is here */}
+          </Stack>
+          <Stack direction={"column"} mx={5} mt={3} spacing={3}>
+            <Typography variant="cardHeader3" color="initial">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti
+              iusto odit, molestias dolores provident cupiditate delectus.
+              Dolorem provident, tempora itaque aliquam sint veniam vitae
+              dolores temporibus beatae inventore accusantium perspiciatis!
+            </Typography>
+            <Typography variant="header1" color="initial">
+              Price : 2995 TK
+            </Typography>
+            <Stack direction={"row"} spacing={1} alignItems="center">
+              <Typography variant="cardHeader3" color="initial">
+                Sizes
+              </Typography>
+              <hr
+                style={{
+                  textAlign: "left",
+                  width: "100%",
+                  height: "1px",
+                  backgroundColor: "black",
+                  // maxWidth: "350px",
+                }}
+              />
+            </Stack>
             <Stack
               direction={"row"}
+              spacing={1}
               alignItems="center"
               justifyContent={"space-between"}
-              spacing={2}
             >
-              <Typography variant="tabText">Quantity</Typography>
-
+              <Stack direction={"row"}>
+                <Button variant="primary" color="primary">
+                  S
+                </Button>
+                <Button variant="text" color="primary">
+                  M
+                </Button>
+                <Button variant="text" color="primary">
+                  L
+                </Button>
+                <Button variant="text" color="primary">
+                  XL
+                </Button>
+                <Button variant="text" color="primary">
+                  XXL
+                </Button>
+              </Stack>
+              <Button variant="text" color="primary">
+                size guide
+              </Button>
+            </Stack>
+            <Stack direction={"row"} spacing={1} alignItems="center">
+              <Typography variant="cardHeader3" color="initial">
+                Quantity
+              </Typography>
+              <hr
+                style={{
+                  textAlign: "left",
+                  width: "100%",
+                  height: "1px",
+                  backgroundColor: "black",
+                  // maxWidth: "340px",
+                }}
+              />
+            </Stack>
+            <Stack
+              direction={"row"}
+              spacing={2}
+              alignItems="center"
+              justifyContent={"space-between"}
+              sx={{ width: "100%", maxWidth: "50px" }}
+            >
               <IconButton
                 size="small"
                 aria-label="reduce"
-                onClick={() => {
-                  setCount(Math.max(count - 1, 0));
-                }}
+                // onClick={() => {
+                //   setCount(Math.max(count - 1, 0));
+                // }}
               >
                 <RemoveIcon fontSize="small" />
               </IconButton>
-              <TextField
-                size="small"
-                id="outlined-helperText"
-                placeholder={count}
-              />
-              <IconButton
-                aria-label="increase"
-                onClick={() => {
-                  setCount(count + 1);
-                }}
-              >
+              <Typography variant="cardHeader3" color="initial">
+                {" "}
+                1
+              </Typography>
+              <IconButton aria-label="increase">
                 <AddIcon fontSize="small" />
               </IconButton>
             </Stack>
+            <Stack direction={"row"} spacing={1} alignItems="center">
+              <Typography variant="cardHeader3" color="initial">
+                Colors
+              </Typography>
+              <hr
+                style={{
+                  textAlign: "left",
+                  width: "100%",
+                  height: "1px",
+                  backgroundColor: "black",
+                  // maxWidth: "350px",
+                }}
+              />
+            </Stack>
+            <Stack direction={"row"} spacing={1} height={40}>
+              <Button variant="contained" color="primary"></Button>
+              <Button variant="contained" color="primary"></Button>
+              <Button variant="contained" color="primary"></Button>
+              <Button variant="contained" color="primary"></Button>
+            </Stack>
+            <Button variant="contained" color="background2">
+              ADD TO CART
+            </Button>
           </Stack>
-        </Stack>
-      </Box>
-      <Footer />
+        </Grid>
+        <Grid item lg={7}>
+          <img src="/assets/Bitmap.png" alt="" width={"100%"} />
+        </Grid>
+      </Grid>
     </>
   );
 };
 
-export default PorductDetails;
+export default ProductInnerPage;
