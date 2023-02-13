@@ -140,7 +140,7 @@ const HomePageIntro = ({ title }) => {
       </Head>
       <AppBar
         position="fixed"
-        sx={{ boxShadow: "none", backgroundColor: "#fff" }}
+        sx={{ boxShadow: "none", backgroundColor: "#fff",p:1 }}
       >
         <Toolbar
           sx={{
@@ -166,7 +166,7 @@ const HomePageIntro = ({ title }) => {
               <img
                 src="https://www.aranya.eco/wp-content/uploads/2018/07/Aranya-Logo-Dark1.png"
                 alt=""
-                width="96px"
+                width="80px"
               />
             </Link>
             <Hidden only={["lg", "xl"]}>
@@ -179,7 +179,7 @@ const HomePageIntro = ({ title }) => {
             </Hidden>
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
-            <Stack direction={"row"} spacing={2}>
+            <Stack direction={"row"} spacing={2} ml={35} >
               <Tabs
                 value={value}
                 onChange={handleChange}
