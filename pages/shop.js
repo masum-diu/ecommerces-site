@@ -7,48 +7,17 @@ import Loader from "../components/Loader/Loader";
 import { useGetProductsQuery } from "../src/features/api/apiSlice";
 
 const shop = () => {
-  /* const data=([
-    {
-      id: 1,
-      title: "Eustoma linen suits",
-      taka: "5,185",
-      image:
-        "https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1",
-    },
-    {
-      id: 2,
-      title: "Eustoma linen suits",
-      taka: "5,185",
-      image:
-        "https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1",
-    },
-    {
-      id: 3,
-      title: "Eustoma linen suits",
-      taka: "5,185",
-      image:
-        "https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1",
-    },
-    {
-      id: 4,
-      title: "Eustoma linen suits",
-      taka: "5,185",
-      image:
-        "https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1",
-    },
-  ]; */
-
-  /* const [ datas, setDatas] = useState([])
-  useEffect(()=>{
-    fetch("https://api.escuelajs.co/api/v1/products")
-    .then((res)=>res.json())
-    .then((data)=>setDatas(data))
-  },[]) */
-
   const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
+  console.log(data);
   if (isLoading) {
-    return;
-    <Loader></Loader>;
+    return (
+      <Stack
+        direction={"row"}
+        sx={{ justifyContent: "center", alignItems: "center", height: "100vh" }}
+      >
+        <Loader></Loader>
+      </Stack>
+    );
   }
   const products = data.data;
   console.log("from shop", products);

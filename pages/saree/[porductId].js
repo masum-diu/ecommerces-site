@@ -1,28 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import {
-  Avatar,
-  Badge,
-  Button,
-  ButtonGroup,
-  Grid,
-  IconButton,
-  Slider,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import NativeSelect from "@mui/material/NativeSelect";
-import Image from "next/image";
+import { Button, Grid, IconButton, Stack, Typography } from "@mui/material";
+
 import HomePageIntro from "../../components/HomePageIntro";
 import { Box } from "@mui/system";
 import Footer from "../../components/Footer";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import styled from "@emotion/styled";
-import { Collapse } from "@mui/material";
 import { useGetParticularProductsQuery } from "../../src/features/api/apiSlice";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../src/features/cart/cartSlice";
@@ -77,7 +61,14 @@ const PorductDetails = () => {
   };
 
   if (isLoading) {
-    return <Loader></Loader>;
+    return (
+      <Stack
+        direction={"row"}
+        sx={{ justifyContent: "center", alignItems: "center", height: "100vh" }}
+      >
+        <Loader></Loader>
+      </Stack>
+    );
   }
 
   // console.log('your log output',description)
@@ -123,7 +114,7 @@ const PorductDetails = () => {
 
   return (
     <>
-      <HomePageIntro title={"Master Collection Layout "} />
+      <HomePageIntro title={"Saree "} />
       <Box mt={10} mb={4} sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}>
         <Grid container>
           <Grid item lg={7}>
@@ -268,6 +259,7 @@ const PorductDetails = () => {
               <Stack direction={"row"} spacing={1} height={40}>
                 {products.product_colour.map((color, index) => (
                   <Button
+                    size="small"
                     key={index}
                     style={{ backgroundColor: `${color?.color_code}` }}
                     onClick={() =>

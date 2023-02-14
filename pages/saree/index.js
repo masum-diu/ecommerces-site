@@ -51,17 +51,17 @@ const masterCollectionLayout = () => {
     },
   ];
 
-  const {data, isLoading, isSuccess, isError, error} = useGetProductsQuery();
-  if(isLoading){
-    return <Loader></Loader>
+  const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
+  if (isLoading) {
+    return <Loader></Loader>;
   }
 
   const products = data?.data;
-  console.log("from shop",products)
+  console.log("from shop", products);
 
   return (
     <>
-      <HomePageIntro title={"Master Collection Layout "} />
+      <HomePageIntro title={"Saree "} />
       <Box mt={10} mb={4}>
         <Stack direction={"row"} alignItems="center">
           <Image
@@ -198,7 +198,7 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {products?.slice(0,3).map((dataList) => (
+          {products?.slice(0, 3).map((dataList) => (
             <>
               <Grid item lg={4} sm={6} key={dataList?.id}>
                 <Link href={`/${router.asPath}/${dataList?.id}`}>
@@ -248,7 +248,7 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {products.slice(0,3).map((dataList) => (
+          {products.slice(0, 3).map((dataList) => (
             <>
               <Grid
                 item
@@ -256,25 +256,26 @@ const masterCollectionLayout = () => {
                 sm={6}
                 justifyContent="center"
                 key={dataList?.id}
-              ><Link href={`/${router.asPath}/${dataList?.id}`}>
-                <img
-                  src={dataList?.feature_image}
-                  width={568}
-                  height={827}
-                  style={{ maxWidth: "100%", height: "fit-content" }}
-                />
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  justifyContent={"space-between"}
-                >
-                  <Typography variant="cardHeader3" color="initial">
-                    {dataList?.p_name}
-                  </Typography>
-                  <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList?.p_sale_price}
-                  </Typography>
-                </Stack>
+              >
+                <Link href={`/${router.asPath}/${dataList?.id}`}>
+                  <img
+                    src={dataList?.feature_image}
+                    width={568}
+                    height={827}
+                    style={{ maxWidth: "100%", height: "fit-content" }}
+                  />
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    justifyContent={"space-between"}
+                  >
+                    <Typography variant="cardHeader3" color="initial">
+                      {dataList?.p_name}
+                    </Typography>
+                    <Typography variant="cardHeader3" color="initial">
+                      BDT {dataList?.p_sale_price}
+                    </Typography>
+                  </Stack>
                 </Link>
               </Grid>
             </>
