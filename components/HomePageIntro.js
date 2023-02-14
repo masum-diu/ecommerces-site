@@ -28,6 +28,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import { useSelector } from "react-redux";
 const HomePageIntro = ({ title }) => {
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -38,12 +39,16 @@ const HomePageIntro = ({ title }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log("user hay", user);
+  // console.log("user hay", user);
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
   // console.log(userjsondata)
   // console.log("from local", userjsondata);
+
+  const totalAmount = useSelector((state)=>state.cart.totalAmount)
+  // console.log('your log output',totalAmount)
+
 
   // Profile section starts here
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -296,7 +301,7 @@ const HomePageIntro = ({ title }) => {
                 aria-label=""
                 onClick={() => router.push("/addtocart")}
               >
-                <Badge badgeContent={4} color="background2">
+                <Badge badgeContent={totalAmount} color="background2">
                   <BiShoppingBag style={{ color: "#0A0A0A" }} />
                 </Badge>
               </IconButton>

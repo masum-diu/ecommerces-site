@@ -1,11 +1,13 @@
 import { Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
+import Loader from "../components/Loader/Loader";
+import { useGetProductsQuery } from '../src/features/api/apiSlice'
 
 const shop = () => {
-  const data = [
+  /* const data=([
     {
       id: 1,
       title: "Eustoma linen suits",
@@ -34,7 +36,21 @@ const shop = () => {
       image:
         "https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1",
     },
-  ];
+  ]; */ 
+
+  /* const [ datas, setDatas] = useState([])
+  useEffect(()=>{
+    fetch("https://api.escuelajs.co/api/v1/products")
+    .then((res)=>res.json())
+    .then((data)=>setDatas(data))
+  },[]) */
+
+  const {data, isLoading, isSuccess, isError, error} = useGetProductsQuery();
+  if(isLoading){
+    return <Loader></Loader>
+  }
+  const products = data.data;
+  console.log("from shop",products)
   return (
     <>
       <HomePageIntro title={"Shop "} />
@@ -86,10 +102,10 @@ const shop = () => {
               columnGap={3}
               rowGap={3}
             >
-              {data.map((data) => (
+              {products?.slice(0,4).map((data) => (
                 <>
-                  <Stack direction={"column"} spacing={2} key={data.id}>
-                    <img src={data.image} alt="" width={300} />
+                  <Stack direction={"column"} spacing={2} key={data?.id}>
+                    <img src={data?.feature_image} alt="" width={300} />
 
                     <Stack
                       direction={"row"}
@@ -97,14 +113,14 @@ const shop = () => {
                       justifyContent={"space-between"}
                     >
                       <Typography variant="cardHeader2" color="initial">
-                        {data.title}
+                        {data?.p_name}
                       </Typography>
                       <Typography
                         variant="cardHeader2"
                         fontWeight={"bold"}
                         color="initial"
                       >
-                        BDT {data.taka}
+                        BDT {data?.p_sale_price}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -142,10 +158,10 @@ const shop = () => {
               columnGap={3}
               rowGap={3}
             >
-              {data.map((data) => (
+              {products?.slice(0,4).map((data) => (
                 <>
-                  <Stack direction={"column"} spacing={2} key={data.id}>
-                    <img src={data.image} alt="" width={300} />
+                  <Stack direction={"column"} spacing={2} key={data?.id}>
+                    <img src={data?.feature_image} alt="" width={300} />
 
                     <Stack
                       direction={"row"}
@@ -153,14 +169,14 @@ const shop = () => {
                       justifyContent={"space-between"}
                     >
                       <Typography variant="cardHeader2" color="initial">
-                        {data.title}
+                        {data?.p_name}
                       </Typography>
                       <Typography
                         variant="cardHeader2"
                         fontWeight={"bold"}
                         color="initial"
                       >
-                        BDT {data.taka}
+                        BDT {data?.p_sale_price}
                       </Typography>
                     </Stack>
                   </Stack>

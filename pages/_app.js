@@ -8,6 +8,8 @@ import theme from "../src/theme";
 import createEmotionCache from "../src/createEmotionCache";
 import NextNProgress from "nextjs-progressbar";
 import { UserProvider } from "../components/userContext";
+import { Provider } from "react-redux";
+import { store } from "../src/app/store";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -30,9 +32,11 @@ export default function MyApp(props) {
           height={3}
           showOnShallow={true}
         />
-        <UserProvider>
-          <Component {...pageProps} />
-        </UserProvider>
+        <Provider store={store}>
+          <UserProvider>
+            <Component {...pageProps} />
+          </UserProvider>
+        </Provider>
       </ThemeProvider>
     </CacheProvider>
   );

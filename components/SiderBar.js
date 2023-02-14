@@ -87,7 +87,7 @@ const SiderBar = ({ open, setOpen }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log("user hay", user);
+  // console.log("user hay", user);
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
@@ -254,6 +254,27 @@ const SiderBar = ({ open, setOpen }) => {
                         What’s New
                       </Typography>
                     </Stack>
+                    {/* demo route */}
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="body"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => router.push("/demo")}
+                      >
+                        Demo
+                      </Typography>
+                      <Typography variant="body" color="initial">
+                        What’s New
+                      </Typography>
+                    </Stack>
+                    {/* demo rout ends */}
+
+
                     <Stack
                       direction={"row"}
                       mt={2}
