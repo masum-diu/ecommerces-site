@@ -70,9 +70,9 @@ const PorductDetails = () => {
     setSize(data);
     setSizeSelected(true);
   };
-  const handleSelectColor = (data,code) => {
+  const handleSelectColor = (data, code) => {
     setColorName(data);
-    setColorCode(code)
+    setColorCode(code);
     setColorSelected(true);
   };
 
@@ -113,7 +113,7 @@ const PorductDetails = () => {
     size: size,
     text: description,
     color: color,
-    colorCode:colorCode,
+    colorCode: colorCode,
     price: products?.mrp_price,
     amount: count,
     totalAmount: count,
@@ -270,7 +270,9 @@ const PorductDetails = () => {
                   <Button
                     key={index}
                     style={{ backgroundColor: `${color?.color_code}` }}
-                    onClick={() => handleSelectColor(color?.slug,color?.color_code)}
+                    onClick={() =>
+                      handleSelectColor(color?.slug, color?.color_code)
+                    }
                   ></Button>
                 ))}
                 {/* <Button variant="contained" color="primary"></Button>

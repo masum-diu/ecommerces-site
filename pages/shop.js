@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import Loader from "../components/Loader/Loader";
-import { useGetProductsQuery } from '../src/features/api/apiSlice'
+import { useGetProductsQuery } from "../src/features/api/apiSlice";
 
 const shop = () => {
   /* const data=([
@@ -36,7 +36,7 @@ const shop = () => {
       image:
         "https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1",
     },
-  ]; */ 
+  ]; */
 
   /* const [ datas, setDatas] = useState([])
   useEffect(()=>{
@@ -45,14 +45,13 @@ const shop = () => {
     .then((data)=>setDatas(data))
   },[]) */
 
-  const {data, isLoading, isSuccess, isError, error} = useGetProductsQuery();
-  if(isLoading){
-    return <Stack direction={"row"} sx={{justifyContent:"center",alignItems:"center",height:"100vh"}}>
-      <Loader></Loader>
-      </Stack>
+  const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
+  if (isLoading) {
+    return;
+    <Loader></Loader>;
   }
   const products = data.data;
-  console.log("from shop",products)
+  console.log("from shop", products);
   return (
     <>
       <HomePageIntro title={"Shop "} />
@@ -104,7 +103,7 @@ const shop = () => {
               columnGap={3}
               rowGap={3}
             >
-              {products?.slice(0,4).map((data) => (
+              {products?.slice(0, 4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
                     <img src={data?.feature_image} alt="" width={300} />
@@ -160,7 +159,7 @@ const shop = () => {
               columnGap={3}
               rowGap={3}
             >
-              {products?.slice(0,4).map((data) => (
+              {products?.slice(0, 4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
                     <img src={data?.feature_image} alt="" width={300} />

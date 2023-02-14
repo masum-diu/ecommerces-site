@@ -38,7 +38,7 @@ const addtocart = () => {
       <HomePageIntro title={"Cart "} />
       <Box
         sx={{
-          height: { lg: "100vh", xs: "fit-content" },
+          height: { lg: "100%", xs: "fit-content" },
           py: 15,
           width: { lg: "90%", xs: "100%" },
           maxWidth: "1500px",
