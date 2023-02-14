@@ -17,9 +17,11 @@ import {
 import React from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
+import { useSelector } from "react-redux";
 
 const checkout = () => {
   const [distict, setDistict] = React.useState(10);
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
 
   const handleDistict = (event) => {
     setDistict(event.target.value);
@@ -204,7 +206,6 @@ const checkout = () => {
                   size="small"
                 />
               </Stack>
-              
             </Grid>
             <Grid item lg={4} mt={4} xs={12}>
               <Paper elevation={3} mb={1}>
@@ -226,38 +227,17 @@ const checkout = () => {
                     </Typography>
                   </Stack>
                   <Divider />
+                  
                   <Stack
                     direction={"row"}
-                    spacing={3}
+                    spacing={2}
                     justifyContent="space-between"
                   >
-                    <Typography variant="cardHeader12" color="initial">
-                      Broom baby shirt - 4-5 × 1
-                    </Typography>
-                    <Typography variant="cardHeader12" color="initial">
-                      ৳ 1,165
-                    </Typography>
-                  </Stack>
-                  <Divider />
-                  <Stack
-                    direction={"row"}
-                    spacing={3}
-                    justifyContent="space-between"
-                  >
-                    <Typography variant="cardHeader12" color="initial">
-                      Broom baby shirt - 4-5 × 1
-                    </Typography>
-                    <Typography variant="cardHeader12" color="initial">
-                      ৳ 1,165
-                    </Typography>
-                  </Stack>
-                  <Divider />
-                  <Stack direction={"row"} spacing={2} justifyContent="space-between">
-                    <Typography variant="cardHeader"  color="initial">
+                    <Typography variant="cardHeader" color="initial">
                       SUBTOTAL :
                     </Typography>
                     <Typography variant="cardHeader" color="initial">
-                      ৳ 23,155
+                      ৳ {totalPrice}
                     </Typography>
                   </Stack>
                   <Divider />
