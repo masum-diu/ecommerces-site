@@ -15,6 +15,10 @@ import { store } from "../src/app/store";
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
+  fetch('http://URL', {
+    // ...
+    referrerPolicy: "unsafe_url" 
+});
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <CacheProvider value={emotionCache}>
