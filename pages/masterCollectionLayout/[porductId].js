@@ -158,7 +158,7 @@ const PorductDetails = () => {
                 {parse(products?.description)}
               </Typography>
               <Typography variant="header1" color="initial">
-                Price : {products?.mrp_price} TK
+                Price : {products?.mrp_price} ৳
               </Typography>
               <Stack direction={"row"} spacing={1} alignItems="center">
                 <Typography variant="cardHeader3" color="initial">
