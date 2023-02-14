@@ -15,16 +15,15 @@ import { store } from "../src/app/store";
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
-  fetch('http://URL', {
-    // ...
-    referrerPolicy: "unsafe_url" 
-});
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        ></meta>
       </Head>
 
       <ThemeProvider theme={theme}>

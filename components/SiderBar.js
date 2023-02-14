@@ -247,7 +247,7 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/masterCollectionLayout")}
+                        onClick={() => router.push("/saree")}
                       >
                         Saree
                       </Typography>
