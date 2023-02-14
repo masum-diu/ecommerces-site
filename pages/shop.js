@@ -47,7 +47,9 @@ const shop = () => {
 
   const {data, isLoading, isSuccess, isError, error} = useGetProductsQuery();
   if(isLoading){
-    return <Loader></Loader>
+    return <Stack direction={"row"} sx={{justifyContent:"center",alignItems:"center",height:"100vh"}}>
+      <Loader></Loader>
+      </Stack>
   }
   const products = data.data;
   console.log("from shop",products)
