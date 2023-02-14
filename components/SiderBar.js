@@ -35,6 +35,7 @@ import { CleaningServices } from "@mui/icons-material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import { useSelector } from "react-redux";
 
 const SiderBar = ({ open, setOpen }) => {
   const [openList, setOpenList] = React.useState(false);
@@ -48,7 +49,7 @@ const SiderBar = ({ open, setOpen }) => {
     setOpenList((prev) => !prev);
     setArrow(!arrow);
   };
-
+  const totalAmount = useSelector((state)=>state.cart.totalAmount)
   const handleClickAway = () => {
     setOpenList(false);
   };
@@ -931,7 +932,7 @@ const SiderBar = ({ open, setOpen }) => {
                 </Badge>
               </IconButton>
               <IconButton aria-label=""sx={{display:"flex",justifyContent:"flex-start",width:"100%",pl:1.5}}>
-                <Badge badgeContent={4} color="background2">
+                <Badge badgeContent={totalAmount} color="background2">
                   <BiShoppingBag
                     style={{ color: "#0A0A0A" }}
                     onClick={() => router.push("/addtocart")}
