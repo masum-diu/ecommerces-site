@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import { removeFromCart } from "../src/features/cart/cartSlice";
-import { addToCart } from "../src/features/cart/cartSlice";
+import { updateCart } from "../src/features/cart/cartSlice";
 
 const addtocart = () => {
   const router = useRouter();
@@ -30,6 +30,8 @@ const addtocart = () => {
   const carts = useSelector((state) => state.cart);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  // console.log("yourdf log output", totalAmountIndividual);
+  console.log("yourdf log output", carts);
   console.log("yourdf log output", cart);
   return (
     <>
@@ -83,8 +85,21 @@ const addtocart = () => {
                           <Typography variant="subtitle1" color="initial">
                             {data.name}
                           </Typography>
+                          <Stack direction={"row"} spacing={2}>
+                            <Button
+                              variant="primary"
+                              color="primary"
+                              disabled={true}
+                              style={{
+                                backgroundColor: `${data?.colorCode}`,
+                              }}
+                            ></Button>
+                            <Typography variant="subtitle1" color="initial">
+                              {data.color}
+                            </Typography>
+                          </Stack>
                           <Typography variant="subtitle1" color="initial">
-                            {data.color}
+                            {data.size}
                           </Typography>
                           <Typography variant="subtitle1" color="initial">
                             ৳{data.totalPrice}
@@ -114,7 +129,7 @@ const addtocart = () => {
                               aria-label="increase"
                               onClick={() =>
                                 dispatch(
-                                  addToCart({
+                                  updateCart({
                                     id: data.id,
                                     image: data.image,
                                     name: data.name,
@@ -122,10 +137,10 @@ const addtocart = () => {
                                     text: data.text,
                                     color: data.color,
                                     price: data.price,
-                                    amount: 1,
+                                    amount: data.amount + 1,
                                     totalAmount: 1,
                                     totalPrice:
-                                      data.amount * parseInt(data.price),
+                                      data.totalPrice + parseFloat(data.price),
                                   })
                                 )
                               }

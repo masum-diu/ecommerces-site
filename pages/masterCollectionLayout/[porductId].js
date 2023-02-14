@@ -31,27 +31,55 @@ import Loader from "../../components/Loader/Loader";
 
 const PorductDetails = () => {
   const router = useRouter();
+  const path = router.asPath;
   const productId = router?.query?.porductId;
+  const [colorSelected, setColorSelected] = useState(false);
+  const [sizeSelected, setSizeSelected] = useState(false);
+  const [disableBtn, setDisableBtn] = useState(true);
 
   const { data, isLoading, isSuccess, isError, error } =
     useGetParticularProductsQuery(productId);
 
   const products = data;
 
-  const initialSize = products?.product_size[0]?.size_name;
-  const initialColor = products?.product_colour[0]?.slug;
+  const initialSize = products?.product_size[0]?.size_name
+    ? products?.product_size[0]?.size_name
+    : "No Size Selected";
+  const initialColor = products?.product_colour[0]?.slug
+    ? products?.product_colour[0]?.slug
+    : "No Color Selected";
   const [count, setCount] = useState(1);
   const [size, setSize] = useState("");
-  const [color, setColor] = useState("kala");
+  const [color, setColorName] = useState("");
+  const [colorCode, setColorCode] = useState("");
   const [productPrice, setProductPrice] = useState(0);
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (isSuccess) {
+      setSize(initialSize);
+      setColorName(initialColor);
+    }
+  }, [isSuccess]);
+  useEffect(() => {
+    if (sizeSelected || colorSelected) {
+      setDisableBtn(false);
+    }
+  }, [sizeSelected, colorSelected]);
+
+  const handleSelectSize = (data) => {
+    setSize(data);
+    setSizeSelected(true);
+  };
+  const handleSelectColor = (data,code) => {
+    setColorName(data);
+    setColorCode(code)
+    setColorSelected(true);
+  };
 
   if (isLoading) {
     return <Loader></Loader>;
   }
 
-  const path = router.asPath;
-  const description = parse(products?.description)?.props?.children;
   // console.log('your log output',description)
 
   // console.log(products?.product_size[0]?.size_name);
@@ -77,7 +105,7 @@ const PorductDetails = () => {
       }
     });
   } */
-
+  const description = parse(products?.description)?.props?.children;
   const finalData = {
     id: products.id,
     image: products.product_image,
@@ -85,12 +113,13 @@ const PorductDetails = () => {
     size: size,
     text: description,
     color: color,
+    colorCode:colorCode,
     price: products?.mrp_price,
-    amount: 1,
+    amount: count,
     totalAmount: count,
-    totalPrice: count * parseInt(products?.mrp_price),
+    totalPrice: count * parseFloat(products?.mrp_price),
   };
-  console.log("ami kas", finalData);
+  // console.log("ami kas", finalData);
 
   return (
     <>
@@ -156,7 +185,7 @@ const PorductDetails = () => {
                     <Button
                       variant="primary"
                       color="primary"
-                      onClick={() => setSize(size?.size_name)}
+                      onClick={() => handleSelectSize(size?.size_name)}
                     >
                       {size?.size_name}
                     </Button>
@@ -240,8 +269,8 @@ const PorductDetails = () => {
                 {products.product_colour.map((color, index) => (
                   <Button
                     key={index}
-                    variant="contained"
-                    onClick={() => setColor(color?.slug)}
+                    style={{ backgroundColor: `${color?.color_code}` }}
+                    onClick={() => handleSelectColor(color?.slug,color?.color_code)}
                   ></Button>
                 ))}
                 {/* <Button variant="contained" color="primary"></Button>
@@ -253,6 +282,7 @@ const PorductDetails = () => {
                 variant="contained"
                 color="background2"
                 type="submit"
+                disabled={disableBtn}
                 onClick={() => dispatch(addToCart(finalData))}
               >
                 ADD TO CART

@@ -19,14 +19,15 @@ export const cartSlice = createSlice({
           (product) =>
             product.id === productID.id &&
             product.size === productID.size &&
-            product.color === productID.color
+            product.color === productID.color &&
+            product.colorCode === productID.colorCode
         );
 
         if (exist) {
-          exist.amount++;
-          exist.totalPrice += productID.price;
+          exist.amount += productID.totalAmount;
+          exist.totalPrice += productID.totalPrice;
           state.totalAmount += productID.totalAmount;
-          state.totalPrice += productID.price;
+          state.totalPrice += productID.totalPrice;
         } else {
           state.cart.push({
             id: productID.id,
@@ -35,12 +36,49 @@ export const cartSlice = createSlice({
             text: productID.text,
             size: productID.size,
             color: productID.color,
+            colorCode: productID.colorCode,
             price: productID.price,
-            amount: 1,
-            totalPrice: productID.price,
+            amount: productID.amount,
+            totalPrice: productID.totalPrice,
           });
+          state.totalAmount += productID.amount;
+          state.totalPrice += productID.totalPrice;
+        }
+      } catch (e) {
+        return e;
+      }
+    },
+    updateCart: (state, action) => {
+      // state.cart.push(action.payload);
+      const productID = action.payload;
+      try {
+        const exist = state.cart.find(
+          (product) =>
+            product.id === productID.id &&
+            product.size === productID.size &&
+            product.color === productID.color
+        );
+
+        if (exist) {
+          exist.amount += productID.totalAmount;
+          exist.totalPrice = productID.totalPrice;
           state.totalAmount += productID.totalAmount;
-          state.totalPrice += productID.price;
+          state.totalPrice = productID.totalPrice;
+        } else {
+          state.cart.push({
+            id: productID.id,
+            image: productID.image,
+            name: productID.name,
+            text: productID.text,
+            size: productID.size,
+            color: productID.color,
+            colorCode: productID.colorCode,
+            price: productID.price,
+            amount: productID.amount,
+            totalPrice: productID.totalPrice,
+          });
+          state.totalAmount += productID.amount;
+          state.totalPrice = productID.totalPrice;
         }
       } catch (e) {
         return e;
@@ -54,7 +92,8 @@ export const cartSlice = createSlice({
           (product) =>
             product.id === productID.id &&
             product.size === productID.size &&
-            product.color === product.color
+            product.color === productID.color &&
+            product.colorCode === productID.colorCode
         );
 
         if (exist.amount === 1) {
@@ -62,7 +101,8 @@ export const cartSlice = createSlice({
             (product) =>
               product.id != productID.id ||
               product.size !== productID.size ||
-              product.color !== productID.color
+              product.color !== productID.color ||
+              product.colorCode !== productID.colorCode
           );
           state.totalAmount--;
           state.totalPrice -= productID.price;
@@ -77,6 +117,6 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
