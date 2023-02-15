@@ -48,7 +48,7 @@ export const cartSlice = createSlice({
         return e;
       }
     },
-    updateCart: (state, action) => {
+    increaseCart: (state, action) => {
       // state.cart.push(action.payload);
       const productID = action.payload;
       try {
@@ -84,7 +84,7 @@ export const cartSlice = createSlice({
         return e;
       }
     },
-    removeFromCart: (state, action) => {
+    decreaseFromCart: (state, action) => {
       const productID = action.payload;
 
       try {
@@ -110,13 +110,39 @@ export const cartSlice = createSlice({
           exist.amount--;
           exist.totalPrice -= productID.price;
           state.totalAmount--;
-          state.totalPrice-=productID.price;
+          state.totalPrice -= productID.price;
+        }
+      } catch (e) {}
+    },
+    removeFromCart: (state, action) => {
+      const productID = action.payload;
+
+      try {
+        const exist = state.cart.find(
+          (product) =>
+            product.id === productID.id &&
+            product.size === productID.size &&
+            product.color === productID.color &&
+            product.colorCode === productID.colorCode
+        );
+
+        if (exist.amount >= 1) {
+          state.cart = state.cart.filter(
+            (product) =>
+              product.id != productID.id ||
+              product.size !== productID.size ||
+              product.color !== productID.color ||
+              product.colorCode !== productID.colorCode
+          );
+          state.totalAmount -= productID.amount;
+          state.totalPrice -= productID.totalPrice;
         }
       } catch (e) {}
     },
   },
 });
 
-export const { addToCart, removeFromCart, updateCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, increaseCart, decreaseFromCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -16,8 +16,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
-import { removeFromCart } from "../src/features/cart/cartSlice";
-import { updateCart } from "../src/features/cart/cartSlice";
+import {
+  removeFromCart,
+  increaseCart,
+  decreaseFromCart,
+} from "../src/features/cart/cartSlice";
 
 const addtocart = () => {
   const router = useRouter();
@@ -74,7 +77,13 @@ const addtocart = () => {
                             alignItems: "center",
                           }}
                         >
-                          <IconButton>
+                          <IconButton
+                            onClick={() =>
+                              dispatch(
+                                removeFromCart(data)
+                              )
+                            }
+                          >
                             <MdClose />
                           </IconButton>
                           <img src={data.image} alt="" width={100} />
@@ -82,15 +91,15 @@ const addtocart = () => {
                             {data.name}
                           </Typography>
                           <Stack direction={"row"} spacing={2}>
-                            <Button
+                            <Box
                               size="small"
                               variant="primary"
                               color="primary"
                               disabled={true}
                               style={{
-                                backgroundColor: `${data?.colorCode}`,
+                                backgroundColor: `${data?.colorCode}`,width:"25px",height:"25px"
                               }}
-                            ></Button>
+                            ></Box>
                             <Typography variant="subtitle1" color="initial">
                               {data.color}
                             </Typography>
@@ -110,7 +119,7 @@ const addtocart = () => {
                             <IconButton
                               size="small"
                               aria-label="reduce"
-                              onClick={() => dispatch(removeFromCart(data))}
+                              onClick={() => dispatch(decreaseFromCart(data))}
                             >
                               <RemoveIcon fontSize="small" />
                             </IconButton>
@@ -126,13 +135,14 @@ const addtocart = () => {
                               aria-label="increase"
                               onClick={() =>
                                 dispatch(
-                                  updateCart({
+                                  increaseCart({
                                     id: data.id,
                                     image: data.image,
                                     name: data.name,
                                     size: data.size,
                                     text: data.text,
                                     color: data.color,
+                                    colorCode: data.colorCode,
                                     price: data.price,
                                     amount: data.amount + 1,
                                     totalAmount: 1,
