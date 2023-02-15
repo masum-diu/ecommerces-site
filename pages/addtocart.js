@@ -2,12 +2,8 @@ import {
   Box,
   Button,
   Divider,
-  FormControlLabel,
   Grid,
   IconButton,
-  Paper,
-  Radio,
-  RadioGroup,
   Stack,
   Typography,
 } from "@mui/material";
@@ -87,6 +83,7 @@ const addtocart = () => {
                           </Typography>
                           <Stack direction={"row"} spacing={2}>
                             <Button
+                              size="small"
                               variant="primary"
                               color="primary"
                               disabled={true}

@@ -1,87 +1,56 @@
 import { Box, Stack, Typography } from "@mui/material";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import Loader from "../components/Loader/Loader";
 import { useGetProductsQuery,useGetHomePageProductsQuery } from "../src/features/api/apiSlice";
 
 const shop = () => {
-  /* const data=([
-    {
-      id: 1,
-      title: "Eustoma linen suits",
-      taka: "5,185",
-      image:
-        "https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1",
-    },
-    {
-      id: 2,
-      title: "Eustoma linen suits",
-      taka: "5,185",
-      image:
-        "https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1",
-    },
-    {
-      id: 3,
-      title: "Eustoma linen suits",
-      taka: "5,185",
-      image:
-        "https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1",
-    },
-    {
-      id: 4,
-      title: "Eustoma linen suits",
-      taka: "5,185",
-      image:
-        "https://i0.wp.com/aranya.com.bd/wp-content/uploads/2021/11/1-33.jpg?resize=512%2C512&ssl=1",
-    },
-  ]; */
-
-  /* const [ datas, setDatas] = useState([])
-  useEffect(()=>{
-    fetch("https://api.escuelajs.co/api/v1/products")
-    .then((res)=>res.json())
-    .then((data)=>setDatas(data))
-  },[]) */
-
   const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
   const { data: post } = useGetHomePageProductsQuery();
   // console.log('output',post)
   if (isLoading) {
-    return;
-    <Loader></Loader>;
+    return (
+      <Stack
+        direction={"row"}
+        sx={{ justifyContent: "center", alignItems: "center", height: "100vh" }}
+      >
+        <Loader></Loader>
+      </Stack>
+    );
   }
-  const products = data.data;
-  // console.log("from shop", products);
+  const products = data?.data;
+  console.log("from shop", products);
   return (
     <>
       <HomePageIntro title={"Shop "} />
       <Box mt={10} sx={{ width: "100%", mb: 4 }}>
         <Stack>
-          <img
+          {/* <video
             src="https://static.zara.net/photos///contents/mkt/spots/aw22-north-kids-party/subhome-xmedia-47-2//w/1920/IMAGE-landscape-fill-90388659-c9ad-44c0-8fbc-3e049adef8d9-default_0.jpg?ts=1669457847606"
             alt=""
             width="100%"
-          />
-          <Image
-            src="/assets/img.png"
+          /> */}
+          
+          <video width="100%" autoPlay muted loop>
+            <source src={homedata?.image_one} />
+          </video>
+          {/* <Image
+            src=
+            {repo.image_two}
             width={1900}
             style={{ width: "100%", height: "fit-content" }}
             height={700}
+          /> */}
+          <img
+            src={homedata?.image_two}
+            alt=""
+            style={{ width: "100%", height: "fit-content" }}
           />
         </Stack>
         <Stack direction={"row"} sx={{ width: "100%" }}>
-          <img
-            src="https://www.siwaklifestyle.com/wp-content/uploads/2021/04/SPM0776.jpg"
-            alt=""
-            width={"50%"}
-          />
-          <img
-            src="https://www.mamathatulluri.com/products/bgphotos/BlackA-LineCottonSleevelessKurtiDress_bimg605aee0f246c7.jpg"
-            alt=""
-            width={"50%"}
-          />
+          <img src={homedata?.image_three} alt="" width={"50%"} />
+          <img src={homedata?.image_four} alt="" width={"50%"} />
         </Stack>
         <Box mt={4}>
           <Stack
@@ -133,11 +102,16 @@ const shop = () => {
           </Stack>
         </Box>
 
-        <Image
+        {/* <Image
           src="/assets/f1.png"
           width={1900}
           style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
           height={700}
+        /> */}
+        <img
+          src={homedata?.image_five}
+          alt=""
+          style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
         />
         <Box mt={4}>
           <Stack

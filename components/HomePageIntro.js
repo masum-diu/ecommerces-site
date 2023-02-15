@@ -46,9 +46,8 @@ const HomePageIntro = ({ title }) => {
   // console.log(userjsondata)
   // console.log("from local", userjsondata);
 
-  const totalAmount = useSelector((state)=>state.cart.totalAmount)
+  const totalAmount = useSelector((state) => state.cart.totalAmount);
   // console.log('your log output',totalAmount)
-
 
   // Profile section starts here
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -145,7 +144,7 @@ const HomePageIntro = ({ title }) => {
       </Head>
       <AppBar
         position="fixed"
-        sx={{ boxShadow: "none", backgroundColor: "#fff",p:1 }}
+        sx={{ boxShadow: "none", backgroundColor: "#fff" }}
       >
         <Toolbar
           sx={{
@@ -168,11 +167,7 @@ const HomePageIntro = ({ title }) => {
               <GoThreeBars style={{ color: "#0A0A0A" }} />
             </IconButton>
             <Link href={"/"}>
-              <img
-                src="https://www.aranya.eco/wp-content/uploads/2018/07/Aranya-Logo-Dark1.png"
-                alt=""
-                width="80px"
-              />
+              <img src="/assets/headerLogo.png" alt="" />
             </Link>
             <Hidden only={["lg", "xl"]}>
               <IconButton aria-label="">
@@ -184,27 +179,23 @@ const HomePageIntro = ({ title }) => {
             </Hidden>
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
-            <Stack direction={"row"} spacing={2} ml={35} >
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                textColor="primary"
-                indicatorColor="primary"
-                // aria-label="secondary tabs example"
+            <Stack direction={"row"} spacing={5} ml={35}>
+              <Typography
+                sx={{ cursor: "pointer" }}
+                variant="cardHeader"
+                color="initial"
+                onClick={() => router.push("/shop")}
               >
-                <Tab
-                  sx={{ fontWeight: "bold" }}
-                  onClick={() => router.push("/shop")}
-                  value="0"
-                  label="SHOP"
-                />
-                <Tab
-                  sx={{ fontWeight: "bold" }}
-                  onClick={() => router.push("/story")}
-                  value="1"
-                  label="STORY"
-                />
-              </Tabs>
+                SHOP
+              </Typography>
+              <Typography
+                sx={{ cursor: "pointer" }}
+                variant="cardHeader"
+                color="initial"
+                onClick={() => router.push("/story")}
+              >
+                STORY
+              </Typography>
             </Stack>
 
             <Stack direction={"row"} alignItems="center" spacing={2}>
