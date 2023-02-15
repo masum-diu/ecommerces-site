@@ -9,10 +9,13 @@ export const productApi = createApi({
     getProducts: builder.query({
       query: () => "/product",
     }),
+    getProducts1: builder.query({
+      query: () => "/home-pagedata",
+    }),
     getParticularProducts: builder.query({
       query: (id) => `/product?no_paginate=yes&by_product=${id}`,
     }),
   }),
 });
 
-export const { useGetProductsQuery,useGetParticularProductsQuery } = productApi;
+export const { useGetProductsQuery,useGetParticularProductsQuery,useGetProducts1Query } = productApi;
