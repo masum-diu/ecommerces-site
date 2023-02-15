@@ -57,7 +57,10 @@ const PorductDetails = () => {
         setDisableBtn(false);
       }
     }
-    if ((products?.p_colours?.length == 0 || products?.p_sizes?.length == 0)&&(products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)) {
+    if (
+      (products?.p_colours?.length == 0 || products?.p_sizes?.length == 0) &&
+      (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
+    ) {
       if (sizeSelected == true || colorSelected == true) {
         setDisableBtn(false);
       }
@@ -65,14 +68,7 @@ const PorductDetails = () => {
   }, [sizeSelected, colorSelected]);
 
   if (isLoading) {
-    return (
-      <Stack
-        direction={"row"}
-        sx={{ justifyContent: "center", alignItems: "center", height: "100vh" }}
-      >
-        <Loader></Loader>
-      </Stack>
-    );
+    return <Loader></Loader>;
   }
 
   /* useEffect(() => {
@@ -90,7 +86,7 @@ const PorductDetails = () => {
     setColorCode(code);
   };
 
-  // console.log('your log output',description)
+  console.log("your log output", router);
 
   // console.log(products?.product_size[0]?.size_name);
   // console.log("kash", products);
@@ -154,7 +150,11 @@ const PorductDetails = () => {
                 {products?.p_name}
               </Typography>
               <Stack direction={"row"} spacing={1}>
-                <Typography variant="cardHeader1" color="initial">
+                <Typography
+                  variant="cardHeader1"
+                  color="initial"
+                  textTransform={"uppercase"}
+                >
                   Home {path}
                 </Typography>
                 {/* <Typography variant="cardHeader1" color="initial">
@@ -279,14 +279,19 @@ const PorductDetails = () => {
               </Stack>
               <Stack direction={"row"} spacing={1} height={40}>
                 {products?.p_colours?.map((color, index) => (
-                  <Button
+                  <Box
                     size="small"
                     key={index}
-                    style={{ backgroundColor: `${color?.color_code}` }}
+                    style={{
+                      backgroundColor: `${color?.color_code}`,
+                      width: "30px",
+                      height: "30px",
+                      cursor: "pointer",
+                    }}
                     onClick={() =>
                       handleSelectColor(color?.color_name, color?.color_code)
                     }
-                  ></Button>
+                  ></Box>
                 ))}
                 {/* <Button variant="contained" color="primary"></Button>
                 <Button variant="contained" color="primary"></Button>

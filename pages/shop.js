@@ -3,21 +3,17 @@ import React from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import Loader from "../components/Loader/Loader";
-import { useGetProductsQuery,useGetHomePageProductsQuery } from "../src/features/api/apiSlice";
+import {
+  useGetProductsQuery,
+  useGetHomePageProductsQuery,
+} from "../src/features/api/apiSlice";
 
 const shop = () => {
   const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
-  const { data: post } = useGetHomePageProductsQuery();
+  const { data: homedata } = useGetHomePageProductsQuery();
   // console.log('output',post)
   if (isLoading) {
-    return (
-      <Stack
-        direction={"row"}
-        sx={{ justifyContent: "center", alignItems: "center", height: "100vh" }}
-      >
-        <Loader></Loader>
-      </Stack>
-    );
+    return <Loader></Loader>;
   }
   const products = data?.data;
   console.log("from shop", products);
@@ -31,7 +27,7 @@ const shop = () => {
             alt=""
             width="100%"
           /> */}
-          
+
           <video width="100%" autoPlay muted loop>
             <source src={homedata?.image_one} />
           </video>
