@@ -6,8 +6,8 @@ const Footer = () => {
     <>
     <Box bgcolor={"#1F1F1F"}>
         <Stack direction={"column"} sx={{p:4,justifyContent:"center",alignItems:"center", width:"95%",margin:"0 auto",maxWidth:"1500px"}} spacing={4}>
-        <img src="https://www.aranya.eco/wp-content/uploads/2018/07/Aranya-Logo-Dark1.png" alt="" width="96px"/>
-        <Typography variant="cardHeader" color="#F2F2F2">Get updates on our latest collections</Typography>
+        <img src="/assets/footerLogo.png" alt=""/>
+        <Typography variant="cardHeader" color="#F2F2F2" textTransform={"uppercase"} fontWeight="600">Get updates on our latest collections</Typography>
         <Input placeholder="Email Address" sx={{color:"#ffff",width:"90vw",maxWidth:"306px",pb:1}} endAdornment={
             <IconButton>
             <VscArrowRight style={{color:"#787878"}}/>
@@ -15,7 +15,7 @@ const Footer = () => {
         }/>
       
         <Typography variant="normal" color="#F2F2F2">ABOUT</Typography>
-        <Stack direction={"row"}  flexWrap={"wrap"} columnGap={1} rowGap={1} >
+        <Stack direction={"row"}  flexWrap={"wrap"} columnGap={4} rowGap={2} >
           <Typography variant="cardHeader2" color="#787878">About</Typography>
           <Typography variant="cardHeader2" color="#787878">Community</Typography>
           <Typography variant="cardHeader2" color="#787878">Colors</Typography>

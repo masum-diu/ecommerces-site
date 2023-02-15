@@ -194,13 +194,13 @@ const SiderBar = ({ open, setOpen }) => {
       >
         <Box p={2}>
           <Stack direction={"row"} alignItems="center" spacing={2}>
-            <IconButton aria-label="" onClick={() => setOpen(false)}>
-              <MdClose />
+            <IconButton aria-label="" onClick={() => setOpen(false)} >
+              <MdClose style={{marginTop:".5rem"}} />
             </IconButton>
             <img
-              src="https://www.aranya.eco/wp-content/uploads/2018/07/Aranya-Logo-Dark1.png"
+              src="/assets/headerLogo.png"
               alt=""
-              style={{ width: "90vw", maxWidth: "80px" }}
+             
             />
           </Stack>
 
@@ -779,7 +779,7 @@ const SiderBar = ({ open, setOpen }) => {
                       <Typography
                         variant="cardHeader3"
                         color="initial"
-                        sx={{ cursor: "pointer", mx: { xs: 6.5, lg: 7 } }}
+                        sx={{ cursor: "pointer", mx: { xs: 6, lg: 7 } }}
                         onClick={() => router.push("/stoles")}
                       >
                         Stoles
@@ -813,8 +813,8 @@ const SiderBar = ({ open, setOpen }) => {
             </Box>
           </ClickAwayListener>
           <Hidden only={["md", "lg", "xl"]}>
-            <Stack direction={"column"} mt={3} alignItems="left" spacing={2}>
-              <ListItemButton width="100%">
+            <Stack direction={"column"} mt={3}  spacing={2}>
+              <ListItemButton >
                 <Typography
                   variant="cardHeader"
                   color="initial"
@@ -823,7 +823,7 @@ const SiderBar = ({ open, setOpen }) => {
                   SHOP
                 </Typography>
               </ListItemButton>
-              <ListItemButton width="100%">
+              <ListItemButton>
                 <Typography
                   variant="cardHeader"
                   color="initial"
@@ -832,7 +832,7 @@ const SiderBar = ({ open, setOpen }) => {
                   STORY
                 </Typography>
               </ListItemButton>
-              <ListItemButton width="100%">
+              <ListItemButton>
                 {userjsondata || user.status == true ? (
                   <>
                     {/* <MenuItem>

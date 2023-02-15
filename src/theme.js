@@ -146,7 +146,8 @@ theme.typography.pre = {
 
 theme.typography.cardHeader = {
   fontSize: "14px",
-  fontWeight: "bold",
+  fontWeight: "500",
+ 
   color: black,
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
