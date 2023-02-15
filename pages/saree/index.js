@@ -27,7 +27,7 @@ import { useGetProductsQuery } from "../../src/features/api/apiSlice";
 import Loader from "../../components/Loader/Loader";
 const masterCollectionLayout = () => {
   const router = useRouter();
-  console.log("sdsdf", router);
+  // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
   const datas = [
@@ -57,7 +57,7 @@ const masterCollectionLayout = () => {
   }
 
   const products = data?.data;
-  console.log("from shop",products)
+  // console.log("from shop",products)
 
   return (
     <>

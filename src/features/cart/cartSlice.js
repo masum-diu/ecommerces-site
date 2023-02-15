@@ -110,7 +110,7 @@ export const cartSlice = createSlice({
           exist.amount--;
           exist.totalPrice -= productID.price;
           state.totalAmount--;
-          state.totalPrice;
+          state.totalPrice-=productID.price;
         }
       } catch (e) {}
     },

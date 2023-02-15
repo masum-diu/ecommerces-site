@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import Loader from "../components/Loader/Loader";
-import { useGetProductsQuery } from "../src/features/api/apiSlice";
+import { useGetProductsQuery,useGetHomePageProductsQuery } from "../src/features/api/apiSlice";
 
 const shop = () => {
   /* const data=([
@@ -46,12 +46,14 @@ const shop = () => {
   },[]) */
 
   const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
+  const { data: post } = useGetHomePageProductsQuery();
+  // console.log('output',post)
   if (isLoading) {
     return;
     <Loader></Loader>;
   }
   const products = data.data;
-  console.log("from shop", products);
+  // console.log("from shop", products);
   return (
     <>
       <HomePageIntro title={"Shop "} />

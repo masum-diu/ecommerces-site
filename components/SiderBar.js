@@ -256,7 +256,7 @@ const SiderBar = ({ open, setOpen }) => {
                       </Typography>
                     </Stack>
                     {/* demo route */}
-                    <Stack
+                    {/* <Stack
                       direction={"row"}
                       mt={2}
                       justifyContent="space-between"
@@ -272,7 +272,7 @@ const SiderBar = ({ open, setOpen }) => {
                       <Typography variant="body" color="initial">
                         What’s New
                       </Typography>
-                    </Stack>
+                    </Stack> */}
                     {/* demo rout ends */}
 
 

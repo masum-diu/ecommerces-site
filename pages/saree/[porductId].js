@@ -36,54 +36,73 @@ const PorductDetails = () => {
   const [colorSelected, setColorSelected] = useState(false);
   const [sizeSelected, setSizeSelected] = useState(false);
   const [disableBtn, setDisableBtn] = useState(true);
-
-  const { data, isLoading, isSuccess, isError, error } =
-    useGetParticularProductsQuery(productId);
-
-  const products = data;
-
-  const initialSize = products?.product_size[0]?.size_name
-    ? products?.product_size[0]?.size_name
-    : "No Size Selected";
-  const initialColor = products?.product_colour[0]?.slug
-    ? products?.product_colour[0]?.slug
-    : "No Color Selected";
   const [count, setCount] = useState(1);
   const [size, setSize] = useState("");
   const [color, setColorName] = useState("");
   const [colorCode, setColorCode] = useState("");
   const [productPrice, setProductPrice] = useState(0);
+  const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
+  const { data, isLoading, isSuccess, isError, error } =
+    useGetParticularProductsQuery(productId);
+
+  // const products = data?.data;
+
+  /* const initialSize = products?.p_sizes[0]?.size_name
+    ? products?.p_sizes[0]?.size_name
+    : "No Size Selected";
+  const initialColor = products?.p_colours[0]?.slug
+    ? products?.p_colours[0]?.slug
+    : "No Color Selected"; */
+
   useEffect(() => {
     if (isSuccess) {
-      setSize(initialSize);
-      setColorName(initialColor);
+      const handleSuccess = async () => {
+        await setProducts(data?.data);
+      };
+      handleSuccess();
     }
-  }, [isSuccess]);
+  }, [data, isSuccess, isLoading]);
+
   useEffect(() => {
-    if (sizeSelected || colorSelected) {
-      setDisableBtn(false);
+    if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
+      console.log(sizeSelected);
+      console.log(colorSelected);
+      if (sizeSelected === true && colorSelected === true) {
+        console.log("your log outputsdfsdfsdds");
+        setDisableBtn(false);
+      }
+    }
+    if ((products?.p_colours?.length == 0 || products?.p_sizes?.length == 0)&&(products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)) {
+      if (sizeSelected == true || colorSelected == true) {
+        setDisableBtn(false);
+      }
     }
   }, [sizeSelected, colorSelected]);
-
-  const handleSelectSize = (data) => {
-    setSize(data);
-    setSizeSelected(true);
-  };
-  const handleSelectColor = (data, code) => {
-    setColorName(data);
-    setColorCode(code);
-    setColorSelected(true);
-  };
 
   if (isLoading) {
     return <Loader></Loader>;
   }
 
+  /* useEffect(() => {
+    handleSuccess();
+  }, [data, isSuccess, isLoading]); */
+  // useEffect(() => {}, [sizeSelected, colorSelected]);
+
+  const handleSelectSize = (data) => {
+    setSizeSelected(true);
+    setSize(data);
+  };
+  const handleSelectColor = (data, code) => {
+    setColorSelected(true);
+    setColorName(data);
+    setColorCode(code);
+  };
+
   // console.log('your log output',description)
 
   // console.log(products?.product_size[0]?.size_name);
-  console.log("kash", products);
+  // console.log("kash", products);
   // console.log("sdfs", productId);
   // console.log(size);
   // console.log(color);
@@ -105,19 +124,21 @@ const PorductDetails = () => {
       }
     });
   } */
-  const description = parse(products?.description)?.props?.children;
+  const description =
+    products?.p_description; /* parse(products?.p_description)?.props?.children?.props?.children */
+  // console.log("your log output", description);
   const finalData = {
     id: products.id,
-    image: products.product_image,
-    name: products?.product_name,
+    image: products.feature_image,
+    name: products?.p_name,
     size: size,
     text: description,
     color: color,
     colorCode: colorCode,
-    price: products?.mrp_price,
+    price: products?.p_sale_price,
     amount: count,
     totalAmount: count,
-    totalPrice: count * parseFloat(products?.mrp_price),
+    totalPrice: count * parseFloat(products?.p_sale_price),
   };
   // console.log("ami kas", finalData);
 
@@ -128,7 +149,7 @@ const PorductDetails = () => {
         <Grid container>
           <Grid item lg={7}>
             <Stack direction={"column"}>
-              <img src={products?.product_image} alt="" width={"fit-content"} />
+              <img src={products?.feature_image} alt="" width={"fit-content"} />
               <Stack direction={"row"}>
                 {" "}
                 <img src="/assets/6.png" alt="" width={"100%"} />
@@ -139,7 +160,7 @@ const PorductDetails = () => {
           <Grid item lg={5}>
             <Stack direction={"column"} mx={5} mt={3}>
               <Typography variant="login1" color="initial" fontWeight="bold">
-                {products?.product_name}
+                {products?.p_name}
               </Typography>
               <Stack direction={"row"} spacing={1}>
                 <Typography variant="cardHeader1" color="initial">
@@ -155,10 +176,10 @@ const PorductDetails = () => {
             </Stack>
             <Stack direction={"column"} mx={5} mt={3} spacing={3}>
               <Typography variant="cardHeader3" color="initial">
-                {parse(products?.description)}
+                {description}
               </Typography>
               <Typography variant="header1" color="initial">
-                Price : {products?.mrp_price} ৳
+                Price : {products?.p_sale_price} ৳
               </Typography>
               <Stack direction={"row"} spacing={1} alignItems="center">
                 <Typography variant="cardHeader3" color="initial">
@@ -181,7 +202,7 @@ const PorductDetails = () => {
                 justifyContent={"space-between"}
               >
                 <Stack direction={"row"}>
-                  {products?.product_size?.map((size, index) => (
+                  {products?.p_sizes?.map((size, index) => (
                     <Button
                       variant="primary"
                       color="primary"
@@ -266,12 +287,12 @@ const PorductDetails = () => {
                 />
               </Stack>
               <Stack direction={"row"} spacing={1} height={40}>
-                {products.product_colour.map((color, index) => (
+                {products?.p_colours?.map((color, index) => (
                   <Button
                     key={index}
                     style={{ backgroundColor: `${color?.color_code}` }}
                     onClick={() =>
-                      handleSelectColor(color?.slug, color?.color_code)
+                      handleSelectColor(color?.color_name, color?.color_code)
                     }
                   ></Button>
                 ))}
