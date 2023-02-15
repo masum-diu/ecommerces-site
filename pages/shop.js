@@ -73,7 +73,7 @@ const shop = () => {
               justifyContent={"center"}
               columnGap={3}
               rowGap={3}
-            >1
+            >
               {products?.slice(0, 4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
