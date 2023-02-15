@@ -198,7 +198,7 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {products?.slice(0, 3).map((dataList) => (
+          {products?.map((dataList) => (
             <>
               <Grid item lg={4} sm={6} key={dataList?.id}>
                 <Link href={`/${router.asPath}/${dataList?.id}`}>
