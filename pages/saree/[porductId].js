@@ -142,7 +142,7 @@ const PorductDetails = () => {
                 alt=""
                 style={{
                   width: "90vw",
-                  maxWidth: "330px",
+                  maxWidth: "100%",
                 }}
               />
               <img
@@ -150,7 +150,7 @@ const PorductDetails = () => {
                 alt=""
                 style={{
                   width: "90vw",
-                  maxWidth: "330px",
+                  maxWidth: "100%",
                 }}
               />
             </Stack>
@@ -160,7 +160,7 @@ const PorductDetails = () => {
               alt=""
               style={{
                 width: "90vw",
-                maxWidth: "664px",
+                maxWidth: "100%",
               }}
             />
           </Grid>
