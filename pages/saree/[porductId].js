@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../src/features/cart/cartSlice";
 import parse from "html-react-parser";
 import Loader from "../../components/Loader/Loader";
+import Image from "next/image";
 
 const PorductDetails = () => {
   const router = useRouter();
@@ -133,16 +134,26 @@ const PorductDetails = () => {
     <>
       <HomePageIntro title={"Saree "} />
       <Box mt={10} mb={4} sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}>
-        <Grid container>
-          <Grid item lg={7} md={6}>
-            <img src={products?.feature_image} alt="" width={"100%"} />
-            <Stack direction={"row"} spacing={0.5} mb={0.5}>
+        <Grid container >
+          <Grid item xl={6} lg={7} md={6}  >
+
+            {/* <Image
+            src={products?.feature_image}
+            width={1000}
+            height={1000}
+           sx={{width:"90vw",maxWidth:"100%"}}
+            /> */}
+            <img src={products?.feature_image} alt="" style={{
+                width: "90vw",
+                maxWidth: "664px"
+              }} />
+            <Stack direction={"row"} spacing={0.5} mb={0.5} >
               <img
                 src="/assets/6.png"
                 alt=""
                 style={{
                   width: "90vw",
-                  maxWidth: "100%",
+                  maxWidth: "330px",
                 }}
               />
               <img
@@ -150,7 +161,7 @@ const PorductDetails = () => {
                 alt=""
                 style={{
                   width: "90vw",
-                  maxWidth: "100%",
+                  maxWidth: "330px",
                 }}
               />
             </Stack>
@@ -160,11 +171,11 @@ const PorductDetails = () => {
               alt=""
               style={{
                 width: "90vw",
-                maxWidth: "100%",
+                maxWidth: "664px",
               }}
             />
           </Grid>
-          <Grid item lg={5} md={6}>
+          <Grid item xl={6} lg={5} md={6} >
             <Stack direction={"column"} mx={5} mt={3} width={"100%"}>
               <Typography variant="login1" color="initial" fontWeight="bold">
                 {products?.p_name}
@@ -307,6 +318,7 @@ const PorductDetails = () => {
                       width: "30px",
                       height: "30px",
                       cursor: "pointer",
+                      border:"1px solid #000"
                     }}
                     onClick={() =>
                       handleSelectColor(color?.color_name, color?.color_code)
