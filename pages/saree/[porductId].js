@@ -21,6 +21,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
+import { addToCart } from "../../src/features/cart/cartSlice";
 const PorductDetails = () => {
   const router = useRouter();
   const path = router.asPath;
