@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import Loader from "../components/Loader/Loader";
@@ -9,9 +9,23 @@ import {
 } from "../src/features/api/apiSlice";
 
 const shop = () => {
+  const [homedata, setHomeData] = useState([]);
   const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
-  const { data: homedata } = useGetHomePageProductsQuery();
+  const {
+    data: landingdata,
+    isSuccess: isLandingSuccess,
+    isError: isLandingError,
+    error: landingError,
+  } = useGetHomePageProductsQuery();
   // console.log('output',post)
+  useEffect(() => {
+    if (isLandingSuccess) {
+      const handleSuccess = async () => {
+        await setHomeData(landingdata);
+      };
+      handleSuccess();
+    }
+  }, [isLandingSuccess, landingdata]);
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -39,10 +53,15 @@ const shop = () => {
             height={700}
           /> */}
           <img
-            src={homedata?.image_two}
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_500,w_100/v1676527368/aranya/${homedata?.image_two.substring(homedata?.image_two?.lastIndexOf("/")+1)}`}
             alt=""
             style={{ width: "100%", height: "fit-content" }}
           />
+
+          {/* {
+            `https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_700,w_1000/v1676527368/aranya/r98zxbtcywpy4jocgyqd.jpg`
+            `${homedata?.image_two.substring(homedata?.image_two?.lastIndexOf("/")+1)}${console.log('your log output',homedata?.image_two.substring(homedata?.image_two?.lastIndexOf("/")+1))}`
+          } */}
         </Stack>
         <Stack direction={"row"} sx={{ width: "100%" }}>
           <img src={homedata?.image_three} alt="" width={"50%"} />

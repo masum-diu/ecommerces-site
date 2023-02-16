@@ -1,0 +1,72 @@
+.uicard {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-out;
+  background: radial-gradient(#111 50%, #000 100%);
+}
+.uicard .description .typography {
+  margin: 0 0 20px;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+.uicard img {
+  transform: scale(1.091);
+  transition: all 0.3s ease-out;
+}
+.uicard:hover img {
+  opacity: 0.3;
+}
+.uicard .description {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 15px;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-size: 18px;
+}
+.uicard .description h3 {
+  font-weight: 700;
+  font-size: 32px;
+  margin: 0 0 20px;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+.uicard .description p {
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 0.3s ease-out 0s;
+}
+.uicard .description a {
+  color: #fff;
+  background: #34aff3;
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 0.3s ease-out 0s;
+}
+.uicard .description a:hover {
+  background: #0a83c5;
+}
+.uicard:hover .description h3 {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.uicard:hover .description .typography {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.uicard:hover .description p {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.uicard:hover .description a {
+  opacity: 1;
+  transform: translateY(0px);
+}

@@ -29,6 +29,7 @@ import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useSelector } from "react-redux";
+import style from "../public/assets/css/HomePageIntro.module.css";
 const HomePageIntro = ({ title }) => {
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -179,22 +180,28 @@ const HomePageIntro = ({ title }) => {
             </Hidden>
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
-            <Stack direction={"row"} spacing={5} ml={35}>
+            <Stack
+              direction={"row"}
+              spacing={5}
+              ml={35}
+            >
               <Typography
+                className={style.menu3}
                 sx={{ cursor: "pointer" }}
                 variant="cardHeader"
                 color="initial"
                 onClick={() => router.push("/shop")}
               >
-                SHOP
+                <li>SHOP</li>
               </Typography>
               <Typography
+              className={style.menu3}
                 sx={{ cursor: "pointer" }}
                 variant="cardHeader"
                 color="initial"
                 onClick={() => router.push("/story")}
               >
-                STORY
+                <li>STORY</li> 
               </Typography>
             </Stack>
 

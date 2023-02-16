@@ -3,6 +3,7 @@ import {
   Grid,
   Hidden,
   IconButton,
+  ImageListItem,
   Stack,
   Typography,
 } from "@mui/material";
@@ -25,6 +26,7 @@ import Menu1Dawer from "../../components/Menu1Dawer";
 import Link from "next/link";
 import { useGetProductsQuery } from "../../src/features/api/apiSlice";
 import Loader from "../../components/Loader/Loader";
+import HovarImage from "../../components/HovarableImage/HovarImage";
 const masterCollectionLayout = () => {
   const router = useRouter();
   // console.log("sdsdf", router);
@@ -202,12 +204,17 @@ const masterCollectionLayout = () => {
             <>
               <Grid item lg={4} sm={6} key={dataList?.id}>
                 <Link href={`/${router.asPath}/${dataList?.id}`}>
-                  <img
+                  {/* <img
                     src={dataList?.feature_image}
                     width={568}
                     height={827}
                     style={{ maxWidth: "100%", height: "fit-content" }}
-                  />
+                  /> */}
+                  <HovarImage
+                    imageURL={dataList?.feature_image}
+                    width={568}
+                    height={827}
+                  ></HovarImage>
                   <Stack
                     direction={"row"}
                     spacing={2}
@@ -225,6 +232,7 @@ const masterCollectionLayout = () => {
             </>
           ))}
         </Grid>
+<HovarImage></HovarImage>
         <Stack direction={"row"} sx={{ width: "100%" }} mt={4}>
           <img
             src="https://www.siwaklifestyle.com/wp-content/uploads/2021/04/SPM0776.jpg"
