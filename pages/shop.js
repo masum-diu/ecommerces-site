@@ -53,19 +53,28 @@ const shop = () => {
             height={700}
           /> */}
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_500,w_100/v1676527368/aranya/${homedata?.image_two.substring(homedata?.image_two?.lastIndexOf("/")+1)}`}
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1676527368/aranya/${homedata?.image_two?.substring(
+              homedata?.image_two?.lastIndexOf("/") + 1
+            )}`}
             alt=""
             style={{ width: "100%", height: "fit-content" }}
           />
-
-          {/* {
-            `https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_700,w_1000/v1676527368/aranya/r98zxbtcywpy4jocgyqd.jpg`
-            `${homedata?.image_two.substring(homedata?.image_two?.lastIndexOf("/")+1)}${console.log('your log output',homedata?.image_two.substring(homedata?.image_two?.lastIndexOf("/")+1))}`
-          } */}
         </Stack>
         <Stack direction={"row"} sx={{ width: "100%" }}>
-          <img src={homedata?.image_three} alt="" width={"50%"} />
-          <img src={homedata?.image_four} alt="" width={"50%"} />
+          <img
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/v1676527368/aranya/${homedata?.image_three?.substring(
+              homedata?.image_three?.lastIndexOf("/") + 1
+            )}`}
+            alt=""
+            width={"50%"}
+          />
+          <img
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/v1676527368/aranya/${homedata?.image_four?.substring(
+              homedata?.image_four?.lastIndexOf("/") + 1
+            )}`}
+            alt=""
+            width={"50%"}
+          />
         </Stack>
         <Box mt={4}>
           <Stack
@@ -92,7 +101,13 @@ const shop = () => {
               {products?.slice(0, 4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
-                    <img src={data?.feature_image} alt="" width={300} />
+                    <img
+                      src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya/${data?.feature_image?.substring(
+                        data?.feature_image?.lastIndexOf("/") + 1
+                      )}`}
+                      alt=""
+                      width={300}
+                    />
 
                     <Stack
                       direction={"row"}
