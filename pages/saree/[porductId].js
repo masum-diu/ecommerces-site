@@ -134,18 +134,38 @@ const PorductDetails = () => {
       <HomePageIntro title={"Saree "} />
       <Box mt={10} mb={4} sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}>
         <Grid container>
-          <Grid item lg={7}>
-            <Stack direction={"column"}>
-              <img src={products?.feature_image} alt="" width={"fit-content"} />
-              <Stack direction={"row"}>
-                {" "}
-                <img src="/assets/6.png" alt="" width={"100%"} />
-                <img src="/assets/7.png" alt="" width={"100%"} />
-              </Stack>
+          <Grid item lg={7} md={6}>
+            <img src={products?.feature_image} alt="" width={"100%"} />
+            <Stack direction={"row"} spacing={0.5} mb={0.5}>
+              <img
+                src="/assets/6.png"
+                alt=""
+                style={{
+                  width: "90vw",
+                  maxWidth: "100%",
+                }}
+              />
+              <img
+                src="/assets/7.png"
+                alt=""
+                style={{
+                  width: "90vw",
+                  maxWidth: "100%",
+                }}
+              />
             </Stack>
+
+            <img
+              src="/assets/Bitmap.png"
+              alt=""
+              style={{
+                width: "90vw",
+                maxWidth: "100%",
+              }}
+            />
           </Grid>
-          <Grid item lg={5}>
-            <Stack direction={"column"} mx={5} mt={3}>
+          <Grid item lg={5} md={6}>
+            <Stack direction={"column"} mx={5} mt={3} width={"100%"}>
               <Typography variant="login1" color="initial" fontWeight="bold">
                 {products?.p_name}
               </Typography>
@@ -308,9 +328,6 @@ const PorductDetails = () => {
                 ADD TO CART
               </Button>
             </Stack>
-          </Grid>
-          <Grid item lg={7}>
-            <img src="/assets/Bitmap.png" alt="" width={"100%"} />
           </Grid>
         </Grid>
       </Box>
