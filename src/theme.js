@@ -114,6 +114,19 @@ theme.typography.login1 = {
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: "18px",
+   
+  },
+};
+theme.typography.login2 = {
+  fontSize: "48px",
+  fontWeight: "500",
+  color: primary,
+  // [theme.breakpoints.down("md")]: {
+  //   fontSize: "24px",
+  // },
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "24px",
+    fontWeight: "700",
   },
 };
 theme.typography.legend = {
@@ -210,6 +223,11 @@ theme.typography.tabText = {
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
   },
+};
+theme.typography.tabText1 = {
+  fontSize: "18px",
+  fontWeight: "700",
+  
 };
 
 export default theme;
