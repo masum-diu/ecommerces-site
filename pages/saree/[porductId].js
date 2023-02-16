@@ -134,7 +134,7 @@ const PorductDetails = () => {
       <HomePageIntro title={"Saree "} />
       <Box mt={10} mb={4} sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}>
         <Grid container>
-          <Grid item lg={7} sx={{background:"red"}}>
+          <Grid item lg={7}>
             <img src={products?.feature_image} alt="" style={{
                 width: "90vw",
                 maxWidth: "664px",
