@@ -134,15 +134,18 @@ const PorductDetails = () => {
       <HomePageIntro title={"Saree "} />
       <Box mt={10} mb={4} sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}>
         <Grid container>
-          <Grid item lg={7} md={6}>
-            <img src={products?.feature_image} alt="" width={"100%"} />
+          <Grid item lg={7} sx={{background:"red"}}>
+            <img src={products?.feature_image} alt="" style={{
+                width: "90vw",
+                maxWidth: "664px",
+              }} />
             <Stack direction={"row"} spacing={0.5} mb={0.5}>
               <img
                 src="/assets/6.png"
                 alt=""
                 style={{
                   width: "90vw",
-                  maxWidth: "100%",
+                  maxWidth: "330px",
                 }}
               />
               <img
@@ -150,7 +153,7 @@ const PorductDetails = () => {
                 alt=""
                 style={{
                   width: "90vw",
-                  maxWidth: "100%",
+                  maxWidth: "330px",
                 }}
               />
             </Stack>
@@ -160,7 +163,7 @@ const PorductDetails = () => {
               alt=""
               style={{
                 width: "90vw",
-                maxWidth: "100%",
+                maxWidth: "664px",
               }}
             />
           </Grid>
