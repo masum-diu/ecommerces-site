@@ -24,6 +24,9 @@ const PorductDetails = () => {
   const [size, setSize] = useState("");
   const [color, setColorName] = useState("");
   const [colorCode, setColorCode] = useState("");
+  const [sizeId, setSizeId] = useState(0);
+  const [colorId, setColorId] = useState(0);
+  const [stock, setStock] = useState([]);
   const [productPrice, setProductPrice] = useState(0);
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
@@ -50,10 +53,15 @@ const PorductDetails = () => {
 
   useEffect(() => {
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
-      console.log(sizeSelected);
-      console.log(colorSelected);
+      // console.log(sizeSelected);
+      // console.log(colorSelected);
       if (sizeSelected === true && colorSelected === true) {
-        console.log("your log outputsdfsdfsdds");
+        const selectedProduct = products?.p_stocks?.find(
+          (stock) => stock.size_id === sizeId && stock.colour_id === colorId
+        );
+        setStock(selectedProduct);
+        console.log("your stock", selectedProduct);
+        // console.log("your log outputsdfsdfsdds");
         setDisableBtn(false);
       }
     }
@@ -76,20 +84,22 @@ const PorductDetails = () => {
   }, [data, isSuccess, isLoading]); */
   // useEffect(() => {}, [sizeSelected, colorSelected]);
 
-  const handleSelectSize = (data) => {
+  const handleSelectSize = (data, id) => {
     setSizeSelected(true);
+    setSizeId(id);
     setSize(data);
   };
-  const handleSelectColor = (data, code) => {
+  const handleSelectColor = (data, code, id) => {
     setColorSelected(true);
+    setColorId(id);
     setColorName(data);
     setColorCode(code);
   };
 
-  console.log("your log output", router);
+  // console.log("your log output", router);
 
   // console.log(products?.product_size[0]?.size_name);
-  // console.log("kash", products);
+  console.log("kash", products);
   // console.log("sdfs", productId);
   // console.log(size);
   // console.log(color);
@@ -197,7 +207,9 @@ const PorductDetails = () => {
                     <Button
                       variant="primary"
                       color="primary"
-                      onClick={() => handleSelectSize(size?.size_name)}
+                      onClick={() =>
+                        handleSelectSize(size?.size_name, size?.id)
+                      }
                     >
                       {size?.size_name}
                     </Button>
@@ -289,7 +301,11 @@ const PorductDetails = () => {
                       cursor: "pointer",
                     }}
                     onClick={() =>
-                      handleSelectColor(color?.color_name, color?.color_code)
+                      handleSelectColor(
+                        color?.color_name,
+                        color?.color_code,
+                        color?.id
+                      )
                     }
                   ></Box>
                 ))}

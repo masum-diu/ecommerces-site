@@ -59,7 +59,7 @@ const masterCollectionLayout = () => {
   }
 
   const products = data?.data;
-  // console.log("from shop",products)
+  console.log("from shop",products)
 
   return (
     <>
@@ -232,7 +232,6 @@ const masterCollectionLayout = () => {
             </>
           ))}
         </Grid>
-<HovarImage></HovarImage>
         <Stack direction={"row"} sx={{ width: "100%" }} mt={4}>
           <img
             src="https://www.siwaklifestyle.com/wp-content/uploads/2021/04/SPM0776.jpg"

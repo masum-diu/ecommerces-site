@@ -3,6 +3,7 @@ import React from "react";
 import style from "./HovarImage.module.css";
 
 const HovarImage = ({ imageURL, width, height }) => {
+  console.log(imageURL);
   return (
     <div>
       <div class={style.uicard}>
