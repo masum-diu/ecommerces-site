@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 import USER_CONTEXT from "./userContext";
+import Cookies from "js-cookie";
 
 const LoginModal = ({ open, setOpen }) => {
   const { userdata, setUserData } = useContext(USER_CONTEXT);
@@ -70,6 +71,8 @@ const LoginModal = ({ open, setOpen }) => {
         console.log(result.data);
         localStorage.setItem("acesstoken1", result.data.token);
         localStorage.setItem("user", JSON.stringify(result.data.user));
+        Cookies.set("acesstoken", result.data.token);
+        Cookies.set("user", JSON.stringify(result.data.user));
         setUserData(result.data);
         reset();
         setOpen(false);

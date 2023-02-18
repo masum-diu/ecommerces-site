@@ -2,14 +2,18 @@ import { Box, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
+import HovarImage from "../components/HovarableImage/HovarImage";
 import Loader from "../components/Loader/Loader";
 import {
   useGetProductsQuery,
   useGetHomePageProductsQuery,
 } from "../src/features/api/apiSlice";
 
+import { useRouter } from "next/router";
+
 const shop = () => {
   const [homedata, setHomeData] = useState([]);
+  const router = useRouter();
   const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
   const {
     data: landingdata,
@@ -30,7 +34,7 @@ const shop = () => {
     return <Loader></Loader>;
   }
   const products = data?.data;
-  console.log("from shop", products);
+  // console.log("from shop", products);
   return (
     <>
       <HomePageIntro title={"Shop "} />
@@ -101,13 +105,22 @@ const shop = () => {
               {products?.slice(0, 4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
-                    <img
+                    <HovarImage
+                      url={`/${data?.p_subcategory?.slug}/${data?.id}`}
+                      data={data}
+                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
+                        data?.feature_image?.lastIndexOf("/") + 1
+                      )}`}
+                      width={350}
+                      height={827}
+                    ></HovarImage>
+                    {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya/${data?.feature_image?.substring(
                         data?.feature_image?.lastIndexOf("/") + 1
                       )}`}
                       alt=""
                       width={300}
-                    />
+                    /> */}
 
                     <Stack
                       direction={"row"}
@@ -139,7 +152,9 @@ const shop = () => {
           height={700}
         /> */}
         <img
-          src={homedata?.image_five}
+          src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1676527368/aranya/${homedata?.image_five?.substring(
+            homedata?.image_five?.lastIndexOf("/") + 1
+          )}`}
           alt=""
           style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
         />
@@ -168,7 +183,15 @@ const shop = () => {
               {products?.slice(0, 4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
-                    <img src={data?.feature_image} alt="" width={200} />
+                    <HovarImage
+                      url={`/${data?.p_subcategory?.slug}/${data?.id}`}
+                      data={data}
+                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
+                        data?.feature_image?.lastIndexOf("/") + 1
+                      )}`}
+                      width={350}
+                      height={827}
+                    ></HovarImage>
 
                     <Stack
                       direction={"row"}

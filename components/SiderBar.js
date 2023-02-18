@@ -194,14 +194,10 @@ const SiderBar = ({ open, setOpen }) => {
       >
         <Box p={2}>
           <Stack direction={"row"} alignItems="center" spacing={2}>
-            <IconButton aria-label="" onClick={() => setOpen(false)} >
-              <MdClose style={{marginTop:".5rem"}} />
+            <IconButton aria-label="" onClick={() => setOpen(false)}>
+              <MdClose style={{ marginTop: ".5rem" }} />
             </IconButton>
-            <img
-              src="/assets/headerLogo.png"
-              alt=""
-             
-            />
+            <img src="/assets/headerLogo.png" alt="" />
           </Stack>
 
           <ClickAwayListener
@@ -247,11 +243,20 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/saree")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/saree",
+                            query: { cat: 1, sub_cat: 7 },
+                          })
+                        }
                       >
                         Saree
                       </Typography>
-                      <Typography variant="cardHeader3" color="initial" sx={{mx:2}}>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ mx: 2 }}
+                      >
                         What’s New
                       </Typography>
                     </Stack>
@@ -280,7 +285,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/salwar-kameez")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/salwar-kameez",
+                            query: { cat: 1, sub_cat: 8 },
+                          })
+                        }
                       >
                         Salwar Kameez
                       </Typography>
@@ -297,7 +307,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/kurti-fatua")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/kurti-fatua",
+                            query: { cat: 1, sub_cat: 9 },
+                          })
+                        }
                       >
                         Kurti & Fatua
                       </Typography>
@@ -314,7 +329,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/tops-shirts")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/tops-shirts",
+                            query: { cat: 1, sub_cat: 10 },
+                          })
+                        }
                       >
                         Tops & Shirts
                       </Typography>
@@ -335,7 +355,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/kimono")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/kimono",
+                            query: { cat: 1, sub_cat: 11 },
+                          })
+                        }
                       >
                         Kimono
                       </Typography>
@@ -356,7 +381,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/kaftan")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/kaftan",
+                            query: { cat: 1, sub_cat: 12 },
+                          })
+                        }
                       >
                         Kaftan
                       </Typography>
@@ -399,7 +429,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/panjabi")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/panjabi",
+                            query: { cat: 2, sub_cat: 13 },
+                          })
+                        }
                       >
                         Panjabi
                       </Typography>
@@ -407,7 +442,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer", mx: 2 }}
-                        onClick={() => router.push("/fatua")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/fatua",
+                            query: { cat: 2, sub_cat: 14 },
+                          })
+                        }
                       >
                         Fatua
                       </Typography>
@@ -421,7 +461,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/vest")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/vest",
+                            query: { cat: 2, sub_cat: 15 },
+                          })
+                        }
                       >
                         Vest
                       </Typography>
@@ -429,7 +474,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer", mx: 2 }}
-                        onClick={() => router.push("/shirts")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/shirts",
+                            query: { cat: 2, sub_cat: 16 },
+                          })
+                        }
                       >
                         Shirts
                       </Typography>
@@ -443,7 +493,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/tshirts")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/tshirts",
+                            query: { cat: 2, sub_cat: 17 },
+                          })
+                        }
                       >
                         T-Shirt
                       </Typography>
@@ -451,38 +506,31 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer", mx: 1 }}
-                        onClick={() => router.push("/jackets")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/jackets",
+                            query: { cat: 2, sub_cat: 18 },
+                          })
+                        }
                       >
                         Jackets
                       </Typography>
                     </Stack>
                   </Box>
                 ) : null}
-                <Button
-                  variant="text"
-                  color="inherit"
-                  onClick={handleClick2}
-                  fullWidth
-                  sx={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    justifyContent: "space-between",
-                    textTransform: "capitalize",
-                  }}
-                  /* endIcon={
-                    arrow2 ? (
-                      <MdOutlineKeyboardArrowUp
-                        onClick={() => setArrow2(!arrow2)}
-                      />
-                    ) : (
-                      <MdOutlineKeyboardArrowDown
-                        onClick={() => setArrow2(!arrow2)}
-                      />
-                    )
-                  } */
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  sx={{ cursor: "pointer", mx: 1 }}
+                  onClick={() =>
+                    router.push({
+                      pathname: "/kids",
+                      query: { cat: 3 },
+                    })
+                  }
                 >
                   Kids
-                </Button>
+                </Typography>
                 {openList2 ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
                     {/* <Stack direction={"row"} mt={2} spacing={19} >
@@ -547,7 +595,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/baby-kantha")}
+                        onClick={() => router.push({
+                          pathname: "/baby-kantha",
+                          query: { cat: 4, sub_cat: 19 },
+                        })}
                       >
                         Baby Kantha
                       </Typography>
@@ -555,7 +606,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer", mx: { xs: 1.5, lg: 2 } }}
-                        onClick={() => router.push("/bed-cover")}
+                        onClick={() => router.push({
+                          pathname: "/bed-cover",
+                          query: { cat: 4, sub_cat: 20 },
+                        })}
                       >
                         Bed Cover
                       </Typography>
@@ -569,7 +623,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/cushion-cover")}
+                        onClick={() => router.push({
+                          pathname: "/cushion-cover",
+                          query: { cat: 4, sub_cat: 21 },
+                        })}
                       >
                         Cushion Cover
                       </Typography>
@@ -577,7 +634,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer", mx: { xs: 4, lg: 5 } }}
-                        onClick={() => router.push("/basket")}
+                        onClick={() => router.push({
+                          pathname: "/basket",
+                          query: { cat: 4, sub_cat: 22 },
+                        })}
                       >
                         Basket
                       </Typography>
@@ -591,7 +651,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/ceramic")}
+                        onClick={() => router.push({
+                          pathname: "/ceramic",
+                          query: { cat: 4, sub_cat: 23 },
+                        })}
                       >
                         Ceramic
                       </Typography>
@@ -599,7 +662,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer", mx: { xs: 4, lg: 4.9 } }}
-                        onClick={() => router.push("/napkin")}
+                        onClick={() => router.push({
+                          pathname: "/napkin",
+                          query: { cat: 4, sub_cat: 24 },
+                        })}
                       >
                         Napkin
                       </Typography>
@@ -613,7 +679,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/table-cloth")}
+                        onClick={() => router.push({
+                          pathname: "/table-cloth",
+                          query: { cat: 4, sub_cat: 25 },
+                        })}
                       >
                         Table Cloth
                       </Typography>
@@ -621,38 +690,29 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/table-runner")}
+                        onClick={() => router.push({
+                          pathname: "/table-runner",
+                          query: { cat: 4, sub_cat: 26 },
+                        })}
                       >
                         Table Runner
                       </Typography>
                     </Stack>
                   </Box>
                 ) : null}
-                <Button
-                  variant="text"
-                  color="inherit"
-                  onClick={handleClick4}
-                  fullWidth
-                  sx={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    justifyContent: "space-between",
-                    textTransform: "capitalize",
-                  }}
-                  /* endIcon={
-                    arrow4 ? (
-                      <MdOutlineKeyboardArrowUp
-                        onClick={() => setArrow4(!arrow4)}
-                      />
-                    ) : (
-                      <MdOutlineKeyboardArrowDown
-                        onClick={() => setArrow4(!arrow4)}
-                      />
-                    )
-                  } */
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  sx={{ cursor: "pointer", mx: 1 }}
+                  onClick={() =>
+                    router.push({
+                      pathname: "/beauty-collection",
+                      query: { cat: 5 },
+                    })
+                  }
                 >
                   Beauty Colection
-                </Button>
+                </Typography>
                 {openList4 ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
                     {/* <Stack direction={"row"} mt={2} spacing={19} >
@@ -717,7 +777,12 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/aatong")}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/aatong",
+                            query: { cat: 6, sub_cat: 27 },
+                          })
+                        }
                       >
                         Aatong
                       </Typography>
@@ -725,7 +790,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer", mx: { xs: 4.5, lg: 5 } }}
-                        onClick={() => router.push("/cangbuk")}
+                        onClick={() => router.push({
+                          pathname: "/cangbuk",
+                          query: { cat: 6, sub_cat: 28 },
+                        })}
                       >
                         Cangbuk
                       </Typography>
@@ -739,7 +807,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/ashtodhatu-jewellery")}
+                        onClick={() => router.push({
+                          pathname: "/ashtodhatu-jewellery",
+                          query: { cat: 6, sub_cat: 29 },
+                        })}
                       >
                         Ashtodhatu Jewellery
                       </Typography>
@@ -747,7 +818,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/silver-jewellery")}
+                        onClick={() => router.push({
+                          pathname: "/silver-jewellery",
+                          query: { cat: 6, sub_cat: 30 },
+                        })}
                       >
                         Silver Jewellery
                       </Typography>
@@ -761,7 +835,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/metal-jewellery")}
+                        onClick={() => router.push({
+                          pathname: "/metal-jewellery",
+                          query: { cat: 6, sub_cat: 31 },
+                        })}
                       >
                         Metal Jewellery
                       </Typography>
@@ -769,7 +846,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/other-jewellery")}
+                        onClick={() => router.push({
+                          pathname: "/other-jewellery",
+                          query: { cat: 6, sub_cat: 32 },
+                        })}
                       >
                         Other Jewellery
                       </Typography>
@@ -783,7 +863,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/scarves")}
+                        onClick={() => router.push({
+                          pathname: "/scarves",
+                          query: { cat: 6, sub_cat: 33 },
+                        })}
                       >
                         Scarves
                       </Typography>
@@ -791,7 +874,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer", mx: { xs: 6, lg: 7 } }}
-                        onClick={() => router.push("/stoles")}
+                        onClick={() => router.push({
+                          pathname: "/stoles",
+                          query: { cat: 6, sub_cat: 34 },
+                        })}
                       >
                         Stoles
                       </Typography>
@@ -805,7 +891,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer" }}
-                        onClick={() => router.push("/orna")}
+                        onClick={() => router.push({
+                          pathname: "/orna",
+                          query: { cat: 6, sub_cat: 35 },
+                        })}
                       >
                         Orna
                       </Typography>
@@ -813,7 +902,10 @@ const SiderBar = ({ open, setOpen }) => {
                         variant="cardHeader3"
                         color="initial"
                         sx={{ cursor: "pointer", mx: { xs: 5.5, lg: 6 } }}
-                        onClick={() => router.push("/shawls")}
+                        onClick={() => router.push({
+                          pathname: "/shawls",
+                          query: { cat: 6, sub_cat: 36 },
+                        })}
                       >
                         Shawls
                       </Typography>
@@ -824,8 +916,8 @@ const SiderBar = ({ open, setOpen }) => {
             </Box>
           </ClickAwayListener>
           <Hidden only={["md", "lg", "xl"]}>
-            <Stack direction={"column"} mt={3}  spacing={2}>
-              <ListItemButton >
+            <Stack direction={"column"} mt={3} spacing={2}>
+              <ListItemButton>
                 <Typography
                   variant="cardHeader"
                   color="initial"

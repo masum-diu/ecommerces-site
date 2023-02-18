@@ -15,7 +15,23 @@ export const productApi = createApi({
     getHomePageProducts: builder.query({
       query: () => `/home-pagedata`,
     }),
+    getCategoryWiseProducts: builder.query({
+      query: (cat) => `/product/${cat}`,
+    }),
+    getCategoryAndSubWiseProducts: builder.query({
+      query: ({cat,sub_cat}) => `/product/${cat}/${sub_cat}`,
+    }),
+    getSubWiseProducts: builder.query({
+      query: (sub_cat) => `/category/${sub_cat}`,
+    }),
   }),
 });
 
-export const { useGetProductsQuery,useGetParticularProductsQuery,useGetHomePageProductsQuery } = productApi;
+export const {
+  useGetProductsQuery,
+  useGetParticularProductsQuery,
+  useGetHomePageProductsQuery,
+  useGetCategoryAndSubWiseProductsQuery,
+  useGetCategoryWiseProductsQuery,
+  useGetSubWiseProductsQuery
+} = productApi;

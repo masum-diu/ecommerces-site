@@ -3,11 +3,12 @@ import {
   Grid,
   Hidden,
   IconButton,
+  ImageListItem,
   Stack,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowRight,
@@ -23,38 +24,66 @@ import Footer from "../../components/Footer";
 import MenuDawer from "../../components/MenuDawer";
 import Menu1Dawer from "../../components/Menu1Dawer";
 import Link from "next/link";
+import {
+  useGetCategoryAndSubWiseProductsQuery,
+  useGetProductsQuery,
+  useGetSubWiseProductsQuery,
+} from "../../src/features/api/apiSlice";
+import Loader from "../../components/Loader/Loader";
+import HovarImage from "../../components/HovarableImage/HovarImage";
 const masterCollectionLayout = () => {
   const router = useRouter();
-  console.log("sdsdf", router);
+  // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
-  const data = [
-    {
-      id: 1,
-      title: "Demo Product Name",
-      price: "5,185",
-      image: "/assets/saree3.png",
-    },
-    {
-      id: 2,
-      title: "Demo Product Name",
-      price: "5,185",
-      image: "/assets/saree3.png",
-    },
-    {
-      id: 3,
-      title: "Demo Product Name",
-      price: "5,185",
-      image: "/assets/saree3.png",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [staticData, setStaticData] = useState([]);
+  const cat = router.query.cat;
+  const sub_cat = parseInt(router?.query?.sub_cat);
+  const { data, isLoading, isSuccess, isError, error } =
+    useGetCategoryAndSubWiseProductsQuery({ cat, sub_cat });
+  const {
+    data: staticDatas,
+    isLoading: loading,
+    isSuccess: success,
+    isError: errorstate,
+    error: errormessage,
+  } = useGetSubWiseProductsQuery(sub_cat);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const handleSuccess = async () => {
+        await setProducts(data?.data);
+      };
+      handleSuccess();
+    }
+  }, [data, isSuccess, isLoading]);
+  useEffect(() => {
+    if (success) {
+      const handleSuccess = async () => {
+        await setStaticData(staticDatas?.data);
+      };
+      handleSuccess();
+    }
+  }, [staticDatas, loading, success]);
+
+  if (isLoading || loading) {
+    return <Loader></Loader>;
+  }
+
+  // const products = data?.data;
+  // console.log("from shopsdfs", staticData);
+  // console.log("from shop", sub_cat);
+
   return (
     <>
-      <HomePageIntro title={"Master Collection Layout "} />
+      <HomePageIntro title={"Saree "} />
       <Box mt={10} mb={4}>
         <Stack direction={"row"} alignItems="center">
-          <Image
-            src="/assets/saree.png"
+          <img
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_700,w_1920/v1676527368/aranya/${staticData?.cat_img_one?.substring(
+              staticData?.cat_img_one?.lastIndexOf("/") + 1
+            )}`}
             width={1900}
             style={{ width: "100%", height: "fit-content" }}
             height={700}
@@ -151,29 +180,36 @@ const masterCollectionLayout = () => {
             mt: { xs: 1, lg: 2 },
           }}
         >
-          <Image
-            src="/assets/saree1.png"
-            width={565}
-            height={565}
-            style={{ maxWidth: "90%", height: "fit-content" }}
-          />
-          <Stack
-            direction={"row"}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "90%",
-              maxWidth: "565px",
-              mt: 2,
-            }}
-          >
-            <Typography variant="cardHeader3" color="initial">
-              Demo Product Name
-            </Typography>
-            <Typography variant="cardHeader3" color="initial">
-              BDT 5,185
-            </Typography>
-          </Stack>
+          {products?.slice(0, 1).map((dataList) => (
+            <>
+              <HovarImage
+                url={`/${router.pathname}/${dataList?.id}`}
+                data={dataList}
+                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_565,w_586/c_fit,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                  dataList?.feature_image?.lastIndexOf("/") + 1
+                )}`}
+                width={568}
+                height={827}
+              ></HovarImage>
+              <Stack
+                direction={"row"}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "90%",
+                  maxWidth: "565px",
+                  mt: 2,
+                }}
+              >
+                <Typography variant="cardHeader3" color="initial">
+                  {dataList?.p_name}
+                </Typography>
+                <Typography variant="cardHeader3" color="initial">
+                  BDT {dataList?.p_sale_price}
+                </Typography>
+              </Stack>
+            </>
+          ))}
         </Stack>
 
         <Grid
@@ -187,41 +223,52 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {data.map((dataList) => (
+          {products?.slice(1, 4).map((dataList) => (
             <>
-              <Grid item lg={4} sm={6} key={dataList.id}>
-                <Link href={`/${router.asPath}/${dataList.id}`}>
-                  <Image
-                    src={dataList.image}
+              <Grid item lg={4} sm={6} key={dataList?.id}>
+                {/* <img
+                    src={dataList?.feature_image}
                     width={568}
                     height={827}
                     style={{ maxWidth: "100%", height: "fit-content" }}
-                  />
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    justifyContent={"space-between"}
-                  >
-                    <Typography variant="cardHeader3" color="initial">
-                      {dataList.title}
-                    </Typography>
-                    <Typography variant="cardHeader3" color="initial">
-                      BDT {dataList.price}
-                    </Typography>
-                  </Stack>
-                </Link>
+                  /> */}
+                <HovarImage
+                  url={`/${router.pathname}/${dataList?.id}`}
+                  data={dataList}
+                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_855,w_586/c_fit,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                    dataList?.feature_image?.lastIndexOf("/") + 1
+                  )}`}
+                  width={568}
+                  height={827}
+                ></HovarImage>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  justifyContent={"space-between"}
+                >
+                  <Typography variant="cardHeader3" color="initial">
+                    {dataList?.p_name}
+                  </Typography>
+                  <Typography variant="cardHeader3" color="initial">
+                    BDT {dataList?.p_sale_price}
+                  </Typography>
+                </Stack>
               </Grid>
             </>
           ))}
         </Grid>
         <Stack direction={"row"} sx={{ width: "100%" }} mt={4}>
           <img
-            src="https://blog.ebulking.com/wp-content/uploads/2020/02/001_IMG_7883.jpg"
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_828,w_720/v1676527368/aranya/${staticData?.cat_img_one?.substring(
+              staticData?.cat_img_two?.lastIndexOf("/") + 1
+            )}`}
             alt=""
             width={"50%"}
           />
           <img
-            src="https://www.mamathatulluri.com/products/bgphotos/BlackA-LineCottonSleevelessKurtiDress_bimg605aee0f246c7.jpg"
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_828,w_720/v1676527368/aranya/${staticData?.cat_img_one?.substring(
+              staticData?.cat_img_three?.lastIndexOf("/") + 1
+            )}`}
             alt=""
             width={"50%"}
           />
@@ -237,34 +284,36 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {data.map((dataList) => (
+          {products?.slice(2, 5).map((dataList) => (
             <>
               <Grid
                 item
                 lg={4}
                 sm={6}
                 justifyContent="center"
-                key={dataList.id}
-              ><Link href={`/${router.asPath}/${dataList.id}`}>
-                <Image
-                  src={dataList.image}
+                key={dataList?.id}
+              >
+                <HovarImage
+                  url={`/${router.pathname}/${dataList?.id}`}
+                  data={dataList}
+                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_855,w_586/c_fit,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                    dataList?.feature_image?.lastIndexOf("/") + 1
+                  )}`}
                   width={568}
                   height={827}
-                  style={{ maxWidth: "100%", height: "fit-content" }}
-                />
+                ></HovarImage>
                 <Stack
                   direction={"row"}
                   spacing={2}
                   justifyContent={"space-between"}
                 >
                   <Typography variant="cardHeader3" color="initial">
-                    {dataList.title}
+                    {dataList?.p_name}
                   </Typography>
                   <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList.price}
+                    BDT {dataList?.p_sale_price}
                   </Typography>
                 </Stack>
-                </Link>
               </Grid>
             </>
           ))}
@@ -273,29 +322,36 @@ const masterCollectionLayout = () => {
           direction={"column"}
           sx={{ justifyContent: "center", alignItems: "center", mt: 5 }}
         >
-          <Image
-            src="/assets/k.png"
-            width={565}
-            height={565}
-            style={{ maxWidth: "90%", height: "fit-content" }}
-          />
-          <Stack
-            direction={"row"}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "90%",
-              maxWidth: "565px",
-              mt: 2,
-            }}
-          >
-            <Typography variant="cardHeader3" color="initial">
-              Demo Product Name
-            </Typography>
-            <Typography variant="cardHeader3" color="initial">
-              BDT 5,185
-            </Typography>
-          </Stack>
+          {products?.slice(1, 2).map((dataList) => (
+            <>
+              <HovarImage
+                url={`/${router.pathname}/${dataList?.id}`}
+                data={dataList}
+                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_565,w_586/c_fit,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                  dataList?.feature_image?.lastIndexOf("/") + 1
+                )}`}
+                width={568}
+                height={827}
+              ></HovarImage>
+              <Stack
+                direction={"row"}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "90%",
+                  maxWidth: "565px",
+                  mt: 2,
+                }}
+              >
+                <Typography variant="cardHeader3" color="initial">
+                  {dataList?.p_name}
+                </Typography>
+                <Typography variant="cardHeader3" color="initial">
+                  BDT {dataList?.p_sale_price}
+                </Typography>
+              </Stack>
+            </>
+          ))}
         </Stack>
       </Box>
       <Footer />

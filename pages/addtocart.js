@@ -30,7 +30,7 @@ const addtocart = () => {
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   // console.log("yourdf log output", totalAmountIndividual);
-  // console.log("yourdf log output", carts);
+  console.log("yourdf log output", carts);
   // console.log("yourdf log output", cart);
   return (
     <>
@@ -145,6 +145,7 @@ const addtocart = () => {
                                     colorCode: data.colorCode,
                                     price: data.price,
                                     amount: data.amount + 1,
+                                    stock:data.stock,
                                     totalAmount: 1,
                                     totalPrice:
                                       data.totalPrice + parseFloat(data.price),

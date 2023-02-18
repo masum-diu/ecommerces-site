@@ -28,6 +28,7 @@ import {
   useGetCategoryAndSubWiseProductsQuery,
   useGetProductsQuery,
   useGetSubWiseProductsQuery,
+  useGetCategoryWiseProductsQuery,
 } from "../../src/features/api/apiSlice";
 import Loader from "../../components/Loader/Loader";
 import HovarImage from "../../components/HovarableImage/HovarImage";
@@ -41,14 +42,14 @@ const masterCollectionLayout = () => {
   const cat = router.query.cat;
   const sub_cat = parseInt(router?.query?.sub_cat);
   const { data, isLoading, isSuccess, isError, error } =
-    useGetCategoryAndSubWiseProductsQuery({ cat, sub_cat });
+    useGetCategoryWiseProductsQuery(cat);
   const {
     data: staticDatas,
     isLoading: loading,
     isSuccess: success,
     isError: errorstate,
     error: errormessage,
-  } = useGetSubWiseProductsQuery(sub_cat);
+  } = useGetSubWiseProductsQuery(cat);
 
   useEffect(() => {
     if (isSuccess) {
@@ -227,11 +228,11 @@ const masterCollectionLayout = () => {
             <>
               <Grid item lg={4} sm={6} key={dataList?.id}>
                 {/* <img
-                    src={dataList?.feature_image}
-                    width={568}
-                    height={827}
-                    style={{ maxWidth: "100%", height: "fit-content" }}
-                  /> */}
+                      src={dataList?.feature_image}
+                      width={568}
+                      height={827}
+                      style={{ maxWidth: "100%", height: "fit-content" }}
+                    /> */}
                 <HovarImage
                   url={`/${router.pathname}/${dataList?.id}`}
                   data={dataList}

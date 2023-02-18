@@ -35,7 +35,8 @@ const PorductDetails = () => {
   const [colorCode, setColorCode] = useState("");
   const [sizeId, setSizeId] = useState(0);
   const [colorId, setColorId] = useState(0);
-  const [stock, setStock] = useState([]);
+  const [stockDetails, setStockDetails] = useState([]);
+  const [stockAmount, setStockAmount] = useState(0);
   const [productPrice, setProductPrice] = useState(0);
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ const PorductDetails = () => {
   const initialColor = products?.p_colours[0]?.slug
     ? products?.p_colours[0]?.slug
     : "No Color Selected"; */
-
+console.log('your log output',typeof(productId),productId)
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
@@ -66,12 +67,20 @@ const PorductDetails = () => {
       // console.log(colorSelected);
       if (sizeSelected === true && colorSelected === true) {
         const selectedProduct = products?.p_stocks?.find(
-          (stock) => stock.size_id === sizeId && stock.colour_id === colorId
+          (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
         );
-        setStock(selectedProduct);
-        console.log("your stock", selectedProduct);
+        setStockDetails(selectedProduct);
+        setStockAmount(selectedProduct?.stock);
+        if (stockAmount>0) {
+          console.log('stock morethan 0',stockAmount)
+          setDisableBtn(false);
+        }
+        if (stockAmount===undefined) {
+          console.log('stock less then 0',stockAmount)
+          setDisableBtn(true);
+        }
+        // console.log("your stock", stockDetails);
         // console.log("your log outputsdfsdfsdds");
-        setDisableBtn(false);
       }
     }
     if (
@@ -82,7 +91,7 @@ const PorductDetails = () => {
         setDisableBtn(false);
       }
     }
-  }, [sizeSelected, colorSelected]);
+  }, [sizeSelected, colorSelected, stockDetails, colorId, sizeId,stockAmount]);
 
   if (isLoading) {
     return <Loader></Loader>;
@@ -138,11 +147,12 @@ const PorductDetails = () => {
     image: products.feature_image,
     name: products?.p_name,
     size: size,
-    text: description,
+    text: products?.p_description,
     color: color,
     colorCode: colorCode,
     price: products?.p_sale_price,
     amount: count,
+    stock:stockAmount,
     totalAmount: count,
     totalPrice: count * parseFloat(products?.p_sale_price),
   };
@@ -220,47 +230,47 @@ const PorductDetails = () => {
               <Typography variant="cardHeader1" color="initial">
                 KURTI & FATUA
               </Typography> */}
+                </Stack>
               </Stack>
-            </Stack>
-            <Stack direction={"column"} mx={5} mt={3} spacing={3}>
-              <Typography variant="cardHeader3" color="initial">
-                {description}
-              </Typography>
-              <Typography variant="header1" color="initial">
-                Price : {products?.p_sale_price} ৳
-              </Typography>
-              <Stack direction={"row"} spacing={1} alignItems="center">
+              <Stack direction={"column"} mx={5} mt={3} spacing={3}>
                 <Typography variant="cardHeader3" color="initial">
-                  Sizes
+                  {description}
                 </Typography>
-                <hr
-                  style={{
-                    textAlign: "left",
-                    width: "100%",
-                    height: "1px",
-                    backgroundColor: "black",
-                    // maxWidth: "350px",
-                  }}
-                />
-              </Stack>
-              <Stack
-                direction={"row"}
-                spacing={1}
-                alignItems="center"
-                justifyContent={"space-between"}
-              >
-                <Stack direction={"row"}>
-                  {products?.p_sizes?.map((size, index) => (
-                    <Button
-                      variant="primary"
-                      color="primary"
-                      onClick={() =>
-                        handleSelectSize(size?.size_name, size?.id)
-                      }
-                    >
-                      {size?.size_name}
-                    </Button>
-                  ))}
+                <Typography variant="header1" color="initial">
+                  Price : {products?.p_sale_price} ৳
+                </Typography>
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography variant="cardHeader3" color="initial">
+                    Sizes
+                  </Typography>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "350px",
+                    }}
+                  />
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={1}
+                  alignItems="center"
+                  justifyContent={"space-between"}
+                >
+                  <Stack direction={"row"}>
+                    {products?.p_sizes?.map((size, index) => (
+                      <Button
+                        variant="primary"
+                        color="primary"
+                        onClick={() =>
+                          handleSelectSize(size?.size_name, size?.id)
+                        }
+                      >
+                        {size?.size_name}
+                      </Button>
+                    ))}
 
                     {/* <Button variant="text" color="primary">
                     M
@@ -349,7 +359,11 @@ const PorductDetails = () => {
                         border: "1px solid #000",
                       }}
                       onClick={() =>
-                        handleSelectColor(color?.color_name, color?.color_code)
+                        handleSelectColor(
+                          color?.color_name,
+                          color?.color_code,
+                          color?.id
+                        )
                       }
                     ></Box>
                   ))}
@@ -369,13 +383,13 @@ const PorductDetails = () => {
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardLocation" color="initial">
-                    In Stock
+                  <Typography variant="cardHeader12" color="initial">
+                    In Availability: {stockAmount>0 ? "In Stock" : "Out of Stock"}
                   </Typography>
-                  <Typography variant="cardLocation" color="initial">
+                  <Typography variant="cardHeader12" color="initial">
                     Check In Store Availability
                   </Typography>
-                  <Typography variant="cardLocation" color="initial">
+                  <Typography variant="cardHeader12" color="initial">
                     Check Specs
                   </Typography>
                 </Stack>
@@ -395,11 +409,7 @@ const PorductDetails = () => {
         <Footer />
       </Hidden>
       <Hidden only={["md", "lg", "xl", "sm"]}>
-        <Box
-          mt={10}
-         
-          sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}
-        >
+        <Box mt={10} sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}>
           <Swiper
             spaceBetween={50}
             slidesPerView={1}
@@ -419,11 +429,7 @@ const PorductDetails = () => {
             >
               <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
                 <Stack direction={"column"}>
-                  <Typography
-                    variant="login2"
-                    color="initial"
-                    
-                  >
+                  <Typography variant="login2" color="initial">
                     {products?.p_name}
                   </Typography>
 
@@ -451,13 +457,9 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 ,}}>
-                <Stack direction={"column"} >
-                  <Typography
-                    variant="login2"
-                    color="initial"
-                    
-                  >
+              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
+                <Stack direction={"column"}>
+                  <Typography variant="login2" color="initial">
                     {products?.p_name}
                   </Typography>
 
@@ -486,12 +488,8 @@ const PorductDetails = () => {
               }}
             >
               <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
-                <Stack direction={"column"} >
-                  <Typography
-                    variant="login2"
-                    color="initial"
-                   
-                  >
+                <Stack direction={"column"}>
+                  <Typography variant="login2" color="initial">
                     {products?.p_name}
                   </Typography>
 
@@ -520,12 +518,8 @@ const PorductDetails = () => {
               }}
             >
               <Stack direction={"column"} spacing={5} sx={{ pt: 85, px: 4 }}>
-                <Stack direction={"column"} >
-                  <Typography
-                    variant="login2"
-                    color="initial"
-                   
-                  >
+                <Stack direction={"column"}>
+                  <Typography variant="login2" color="initial">
                     {products?.p_name}
                   </Typography>
 
@@ -545,7 +539,12 @@ const PorductDetails = () => {
           </Swiper>
           <Grid container>
             <Grid item xl={6} lg={5} md={6}>
-              <Stack direction={"column"} mt={3} spacing={2} sx={{ width: "85%", maxWidth: "1500px", mx: "auto"}}>
+              <Stack
+                direction={"column"}
+                mt={3}
+                spacing={2}
+                sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
+              >
                 <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="#959595">
                     Sizes
@@ -688,13 +687,13 @@ const PorductDetails = () => {
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardLocation" color="initial">
-                    In Stock
+                  <Typography variant="cardHeader12" color="initial">
+                  In Availability: {stockAmount>0 ? "In Stock" : "Out of Stock"}
                   </Typography>
-                  <Typography variant="cardLocation" color="initial">
+                  <Typography variant="cardHeader12" color="initial">
                     Check In Store Availability
                   </Typography>
-                  <Typography variant="cardLocation" color="initial">
+                  <Typography variant="cardHeader12" color="initial">
                     Check Specs
                   </Typography>
                 </Stack>
@@ -710,13 +709,30 @@ const PorductDetails = () => {
               </Stack>
             </Grid>
           </Grid>
-          <Stack direction={"row"} sx={{backgroundColor:"#000",mt:2,color:"#fff",justifyContent:"space-between",p:4,}} >
-           <Stack direction={"row"} spacing={3}>
-             <Typography variant="cardLocation1" color="#9F9F9F">Home</Typography>
-             <Typography variant="cardLocation1" color="#9F9F9F">Women</Typography>
-             <Typography variant="cardLocation1" color="#9F9F9F">Kurti & Fatua </Typography>
-           </Stack>
-           <Typography variant="tabText1" color="#fff">Add To Cart</Typography>
+          <Stack
+            direction={"row"}
+            sx={{
+              backgroundColor: "#000",
+              mt: 2,
+              color: "#fff",
+              justifyContent: "space-between",
+              p: 4,
+            }}
+          >
+            <Stack direction={"row"} spacing={3}>
+              <Typography variant="cardLocation1" color="#9F9F9F">
+                Home
+              </Typography>
+              <Typography variant="cardLocation1" color="#9F9F9F">
+                Women
+              </Typography>
+              <Typography variant="cardLocation1" color="#9F9F9F">
+                Kurti & Fatua{" "}
+              </Typography>
+            </Stack>
+            <Typography variant="tabText1" color="#fff">
+              Add To Cart
+            </Typography>
           </Stack>
         </Box>
       </Hidden>

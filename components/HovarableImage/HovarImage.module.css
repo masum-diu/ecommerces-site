@@ -40,6 +40,11 @@
   opacity: 0;
   transition: all 0.3s ease-out 0s;
 }
+.uicard .description .size {
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 0.3s ease-out 0s;
+}
 .uicard .description a {
   color: #fff;
   background: #34aff3;
@@ -63,6 +68,10 @@
   transform: translateY(0px);
 }
 .uicard:hover .description p {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.uicard:hover .description .size {
   opacity: 1;
   transform: translateY(0px);
 }

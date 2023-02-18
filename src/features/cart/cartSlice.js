@@ -14,6 +14,7 @@ export const cartSlice = createSlice({
     addToCart: (state, action) => {
       // state.cart.push(action.payload);
       const productID = action.payload;
+      console.log('your log output inside stor',productID)
       try {
         const exist = state.cart.find(
           (product) =>
@@ -39,6 +40,7 @@ export const cartSlice = createSlice({
             colorCode: productID.colorCode,
             price: productID.price,
             amount: productID.amount,
+            stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
           });
           state.totalAmount += productID.amount;
@@ -75,6 +77,7 @@ export const cartSlice = createSlice({
             colorCode: productID.colorCode,
             price: productID.price,
             amount: productID.amount,
+            stock:productID.stockAmount,
             totalPrice: productID.totalPrice,
           });
           state.totalAmount += productID.amount;

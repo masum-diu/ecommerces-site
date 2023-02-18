@@ -12,6 +12,7 @@ import axios from "axios";
 import { useContext } from "react";
 import USER_CONTEXT from "./userContext";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Cookies from "js-cookie";
 const SignInModal = ({ open, setOpen, signModal }) => {
   const [values, setValues] = useState({
     pass: "",
@@ -56,16 +57,18 @@ const SignInModal = ({ open, setOpen, signModal }) => {
       confirm_password: "",
     },
   });
-  const password=watch('password')
+  const password = watch("password");
   console.log(errors);
 
   const onSubmit = (data) => {
     axios
       .post("http://apiaranya.jumriz.com/public/api/auth/register", data, {})
       .then((result) => {
-        console.log("user created",result.data);
+        console.log("user created", result.data);
         localStorage.setItem("acesstoken", result.data.token);
         localStorage.setItem("user", JSON.stringify(result.data.user));
+        Cookies.set("acesstoken", result.data.token);
+        Cookies.set("user", JSON.stringify(result.data.user));
         setUser(result?.data?.user);
         reset();
         setOpen(false);
@@ -148,9 +151,9 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   <TextField
                     {...register("password", {
                       required: "Password is required",
-                      minLength:{
-                        value:8,
-                        message:"Password must be more the 8 characters",
+                      minLength: {
+                        value: 8,
+                        message: "Password must be more the 8 characters",
                       },
                       // maxLength:{
                       //   value:10,
@@ -189,10 +192,11 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   </Typography>
                   <TextField
                     type={values1.showPass1 ? "text" : "password"}
-                    {...register("confirm_password",  {
-                      required: "Confirm Password is required",validate:(value)=>value===password||"Passwords do not match"
+                    {...register("confirm_password", {
+                      required: "Confirm Password is required",
+                      validate: (value) =>
+                        value === password || "Passwords do not match",
                     })}
-                    
                     id=""
                     label=""
                     // value={}
