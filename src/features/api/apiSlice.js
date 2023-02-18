@@ -15,7 +15,13 @@ export const productApi = createApi({
     getHomePageProducts: builder.query({
       query: () => `/home-pagedata`,
     }),
+    getCampignLists: builder.query({
+      query: () => "/all-campaign?status",
+    }),
+    getParticularCampignLists: builder.query({
+      query: (id) => `product?no_paginate=y&camp_id=${id}`,
+    }),
   }),
 });
 
-export const { useGetProductsQuery,useGetParticularProductsQuery,useGetHomePageProductsQuery } = productApi;
+export const { useGetProductsQuery,useGetParticularProductsQuery,useGetHomePageProductsQuery,useGetCampignListsQuery,useGetParticularCampignListsQuery } = productApi;

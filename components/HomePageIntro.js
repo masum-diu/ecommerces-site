@@ -18,7 +18,7 @@ import React, { useContext, useState } from "react";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
 import { GoThreeBars } from "react-icons/go";
 import { FiSearch, FiHeart } from "react-icons/fi";
-import SiderBar from "../components/SiderBar";
+import SiderBar from "./SiderBar";
 import { useRouter } from "next/router";
 import LoginModal from "./LoginModal";
 import SearchModal from "./SearchModal";
