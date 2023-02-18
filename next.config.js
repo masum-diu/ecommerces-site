@@ -3,8 +3,8 @@ module.exports = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'api.lorem.space',
+        protocol: "https",
+        hostname: "api.lorem.space",
       },
     ],
   },

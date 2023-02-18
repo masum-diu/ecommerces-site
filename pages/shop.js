@@ -168,7 +168,7 @@ const shop = () => {
               {products?.slice(0, 4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
-                    <img src={data?.feature_image} alt="" width={300} />
+                    <img src={data?.feature_image} alt="" width={200} />
 
                     <Stack
                       direction={"row"}

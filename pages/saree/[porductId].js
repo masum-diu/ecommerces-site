@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Button, Grid, IconButton, Stack, Typography } from "@mui/material";
-
+import {
+  Button,
+  Grid,
+  Hidden,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import HomePageIntro from "../../components/HomePageIntro";
 import { Box } from "@mui/system";
 import Footer from "../../components/Footer";
@@ -9,10 +15,13 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { useGetParticularProductsQuery } from "../../src/features/api/apiSlice";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../src/features/cart/cartSlice";
-import parse from "html-react-parser";
 import Loader from "../../components/Loader/Loader";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/pagination";
+import { addToCart } from "../../src/features/cart/cartSlice";
 const PorductDetails = () => {
   const router = useRouter();
   const path = router.asPath;
@@ -142,32 +151,70 @@ const PorductDetails = () => {
   return (
     <>
       <HomePageIntro title={"Saree "} />
-      <Box mt={10} mb={4} sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}>
-        <Grid container>
-          <Grid item lg={7}>
-            <Stack direction={"column"}>
-              <img src={products?.feature_image} alt="" width={"fit-content"} />
-              <Stack direction={"row"}>
-                {" "}
-                <img src="/assets/6.png" alt="" width={"100%"} />
-                <img src="/assets/7.png" alt="" width={"100%"} />
+      <Hidden only={["xms", "xs"]}>
+        <Box
+          mt={10}
+          mb={4}
+          sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
+        >
+          <Grid container>
+            <Grid item xl={6} lg={7} md={6}>
+              {/* <Image
+            src={products?.feature_image}
+            width={1000}
+            height={1000}
+           sx={{width:"90vw",maxWidth:"100%"}}
+            /> */}
+              <img
+                src={products?.feature_image}
+                alt=""
+                style={{
+                  width: "90vw",
+                  maxWidth: "664px",
+                }}
+              />
+              <Stack direction={"row"} spacing={0.5} mb={0.5}>
+                <img
+                  src="/assets/6.png"
+                  alt=""
+                  style={{
+                    width: "90vw",
+                    maxWidth: "330px",
+                  }}
+                />
+                <img
+                  src="/assets/7.png"
+                  alt=""
+                  style={{
+                    width: "90vw",
+                    maxWidth: "330px",
+                  }}
+                />
               </Stack>
-            </Stack>
-          </Grid>
-          <Grid item lg={5}>
-            <Stack direction={"column"} mx={5} mt={3}>
-              <Typography variant="login1" color="initial" fontWeight="bold">
-                {products?.p_name}
-              </Typography>
-              <Stack direction={"row"} spacing={1}>
-                <Typography
-                  variant="cardHeader1"
-                  color="initial"
-                  textTransform={"uppercase"}
-                >
-                  Home {path}
+
+              <img
+                src="/assets/Bitmap.png"
+                alt=""
+                style={{
+                  width: "90vw",
+                  maxWidth: "664px",
+                }}
+              />
+            </Grid>
+            <Grid item xl={6} lg={5} md={6}>
+              <Stack direction={"column"} mx={5} mt={3} width={"100%"}>
+                <Typography variant="login1" color="initial" fontWeight="bold">
+                  {products?.p_name}
                 </Typography>
-                {/* <Typography variant="cardHeader1" color="initial">
+                <Stack direction={"row"} spacing={1}>
+                  <Typography
+                    variant="cardHeader1"
+                    color="initial"
+                    textTransform={"uppercase"}
+                  >
+                    Home {path}
+                  </Typography>
+                  {/* <Typography variant="cardHeader1" color="initial">
                 WOMEN /
               </Typography>
               <Typography variant="cardHeader1" color="initial">
@@ -215,7 +262,7 @@ const PorductDetails = () => {
                     </Button>
                   ))}
 
-                  {/* <Button variant="text" color="primary">
+                    {/* <Button variant="text" color="primary">
                     M
                   </Button>
                   <Button variant="text" color="primary">
@@ -227,110 +274,452 @@ const PorductDetails = () => {
                   <Button variant="text" color="primary">
                     XXL
                   </Button> */}
+                  </Stack>
+                  <Button variant="text" color="primary">
+                    size guide
+                  </Button>
                 </Stack>
-                <Button variant="text" color="primary">
-                  size guide
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography variant="cardHeader3" color="#959595">
+                    Quantity
+                  </Typography>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "340px",
+                    }}
+                  />
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  alignItems="center"
+                  justifyContent={"space-between"}
+                  sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                >
+                  <IconButton
+                    size="small"
+                    aria-label="reduce"
+                    onClick={() => {
+                      setCount(Math.max(count - 1, 1));
+                    }}
+                  >
+                    <RemoveIcon fontSize="small" />
+                  </IconButton>
+                  <Typography variant="cardHeader3" color="#959595">
+                    {" "}
+                    {count}
+                  </Typography>
+                  <IconButton
+                    aria-label="increase"
+                    onClick={() => {
+                      setCount(count + 1);
+                    }}
+                  >
+                    <AddIcon fontSize="small" />
+                  </IconButton>
+                </Stack>
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography variant="cardHeader3" color="#959595">
+                    Colors
+                  </Typography>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "350px",
+                    }}
+                  />
+                </Stack>
+                <Stack direction={"row"} spacing={1} height={40}>
+                  {products?.p_colours?.map((color, index) => (
+                    <Box
+                      size="small"
+                      key={index}
+                      style={{
+                        backgroundColor: `${color?.color_code}`,
+                        width: "30px",
+                        height: "30px",
+                        cursor: "pointer",
+                        border: "1px solid #000",
+                      }}
+                      onClick={() =>
+                        handleSelectColor(color?.color_name, color?.color_code)
+                      }
+                    ></Box>
+                  ))}
+                </Stack>
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography variant="cardHeader3" color="#959595" width="25%">
+                    Avalability & Spces
+                  </Typography>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "340px",
+                    }}
+                  />
+                </Stack>
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardLocation" color="initial">
+                    In Stock
+                  </Typography>
+                  <Typography variant="cardLocation" color="initial">
+                    Check In Store Availability
+                  </Typography>
+                  <Typography variant="cardLocation" color="initial">
+                    Check Specs
+                  </Typography>
+                </Stack>
+                <Button
+                  variant="contained"
+                  color="background2"
+                  type="submit"
+                  disabled={disableBtn}
+                  onClick={() => dispatch(addToCart(finalData))}
+                >
+                  ADD TO CART
                 </Button>
               </Stack>
-              <Stack direction={"row"} spacing={1} alignItems="center">
-                <Typography variant="cardHeader3" color="initial">
-                  Quantity
+            </Grid>
+          </Grid>
+        </Box>
+        <Footer />
+      </Hidden>
+      <Hidden only={["md", "lg", "xl", "sm"]}>
+        <Box
+          mt={10}
+         
+          sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}
+        >
+          <Swiper
+            spaceBetween={50}
+            slidesPerView={1}
+            pagination={true}
+            modules={[Pagination]}
+          >
+            <SwiperSlide
+              style={{
+                backgroundImage:
+                  "url('https://aranya.com.bd/wp-content/uploads/2023/02/1-2.jpg')",
+                backgroundSize: "cover",
+                height: "100vh",
+                maxHeight: "fit-content",
+                backgroundPosition: "center",
+                width: "100%",
+              }}
+            >
+              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
+                <Stack direction={"column"}>
+                  <Typography
+                    variant="login2"
+                    color="initial"
+                    
+                  >
+                    {products?.p_name}
+                  </Typography>
+
+                  <Typography
+                    variant="cardHeader1"
+                    color="initial"
+                    textTransform={"uppercase"}
+                  >
+                    Home {path}
+                  </Typography>
+                </Stack>
+                <Typography variant="tabText1" color="initial">
+                  Price : {products?.p_sale_price} ৳
                 </Typography>
-                <hr
-                  style={{
-                    textAlign: "left",
-                    width: "100%",
-                    height: "1px",
-                    backgroundColor: "black",
-                    // maxWidth: "340px",
-                  }}
-                />
               </Stack>
-              <Stack
-                direction={"row"}
-                spacing={2}
-                alignItems="center"
-                justifyContent={"space-between"}
-                sx={{ width: "100%", maxWidth: "50px" }}
-              >
-                <IconButton
-                  size="small"
-                  aria-label="reduce"
-                  onClick={() => {
-                    setCount(Math.max(count - 1, 1));
-                  }}
-                >
-                  <RemoveIcon fontSize="small" />
-                </IconButton>
-                <Typography variant="cardHeader3" color="initial">
-                  {" "}
-                  {count}
+            </SwiperSlide>
+            <SwiperSlide
+              style={{
+                backgroundImage:
+                  "url('https://aranya.com.bd/wp-content/uploads/2023/02/3-2.jpg')",
+                backgroundSize: "cover",
+                height: "100vh",
+                maxHeight: "fit-content",
+                backgroundPosition: "center",
+                width: "100%",
+              }}
+            >
+              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 ,}}>
+                <Stack direction={"column"} >
+                  <Typography
+                    variant="login2"
+                    color="initial"
+                    
+                  >
+                    {products?.p_name}
+                  </Typography>
+
+                  <Typography
+                    variant="cardHeader1"
+                    color="initial"
+                    textTransform={"uppercase"}
+                  >
+                    Home {path}
+                  </Typography>
+                </Stack>
+                <Typography variant="tabText1" color="initial">
+                  Price : {products?.p_sale_price} ৳
                 </Typography>
-                <IconButton
-                  aria-label="increase"
-                  onClick={() => {
-                    setCount(count + 1);
-                  }}
-                >
-                  <AddIcon fontSize="small" />
-                </IconButton>
               </Stack>
-              <Stack direction={"row"} spacing={1} alignItems="center">
-                <Typography variant="cardHeader3" color="initial">
-                  Colors
+            </SwiperSlide>
+            <SwiperSlide
+              style={{
+                backgroundImage:
+                  "url('https://aranya.com.bd/wp-content/uploads/2023/02/2-2.jpg')",
+                backgroundSize: "cover",
+                height: "100vh",
+                maxHeight: "fit-content",
+                backgroundPosition: "center",
+                width: "100%",
+              }}
+            >
+              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
+                <Stack direction={"column"} >
+                  <Typography
+                    variant="login2"
+                    color="initial"
+                   
+                  >
+                    {products?.p_name}
+                  </Typography>
+
+                  <Typography
+                    variant="cardHeader1"
+                    color="initial"
+                    textTransform={"uppercase"}
+                  >
+                    Home {path}
+                  </Typography>
+                </Stack>
+                <Typography variant="tabText1" color="initial">
+                  Price : {products?.p_sale_price} ৳
                 </Typography>
-                <hr
-                  style={{
-                    textAlign: "left",
-                    width: "100%",
-                    height: "1px",
-                    backgroundColor: "black",
-                    // maxWidth: "350px",
-                  }}
-                />
               </Stack>
-              <Stack direction={"row"} spacing={1} height={40}>
-                {products?.p_colours?.map((color, index) => (
-                  <Box
-                    size="small"
-                    key={index}
+            </SwiperSlide>
+            <SwiperSlide
+              style={{
+                backgroundImage:
+                  "url('https://aranya.com.bd/wp-content/uploads/2023/02/4-2.jpg')",
+                backgroundSize: "cover",
+                height: "100vh",
+                maxHeight: "fit-content",
+                backgroundPosition: "center",
+                width: "100%",
+              }}
+            >
+              <Stack direction={"column"} spacing={5} sx={{ pt: 85, px: 4 }}>
+                <Stack direction={"column"} >
+                  <Typography
+                    variant="login2"
+                    color="initial"
+                   
+                  >
+                    {products?.p_name}
+                  </Typography>
+
+                  <Typography
+                    variant="cardHeader1"
+                    color="initial"
+                    textTransform={"uppercase"}
+                  >
+                    Home {path}
+                  </Typography>
+                </Stack>
+                <Typography variant="tabText1" color="initial">
+                  Price : {products?.p_sale_price} ৳
+                </Typography>
+              </Stack>
+            </SwiperSlide>
+          </Swiper>
+          <Grid container>
+            <Grid item xl={6} lg={5} md={6}>
+              <Stack direction={"column"} mt={3} spacing={2} sx={{ width: "85%", maxWidth: "1500px", mx: "auto"}}>
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography variant="cardHeader3" color="#959595">
+                    Sizes
+                  </Typography>
+                  <hr
                     style={{
-                      backgroundColor: `${color?.color_code}`,
-                      width: "30px",
-                      height: "30px",
-                      cursor: "pointer",
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "350px",
                     }}
-                    onClick={() =>
-                      handleSelectColor(
-                        color?.color_name,
-                        color?.color_code,
-                        color?.id
-                      )
-                    }
-                  ></Box>
-                ))}
-                {/* <Button variant="contained" color="primary"></Button>
-                <Button variant="contained" color="primary"></Button>
-                <Button variant="contained" color="primary"></Button>
-                <Button variant="contained" color="primary"></Button> */}
+                  />
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={1}
+                  alignItems="center"
+                  justifyContent={"space-between"}
+                >
+                  <Stack direction={"row"}>
+                    {products?.p_sizes?.map((size, index) => (
+                      <Button
+                        variant="primary"
+                        color="primary"
+                        onClick={() => handleSelectSize(size?.size_name)}
+                      >
+                        {size?.size_name}
+                      </Button>
+                    ))}
+
+                    {/* <Button variant="text" color="primary">
+                    M
+                  </Button>
+                  <Button variant="text" color="primary">
+                    L
+                  </Button>
+                  <Button variant="text" color="primary">
+                    XL
+                  </Button>
+                  <Button variant="text" color="primary">
+                    XXL
+                  </Button> */}
+                  </Stack>
+                  <Button variant="text" color="primary" size="small">
+                    size guide
+                  </Button>
+                </Stack>
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography variant="cardHeader3" color="#959595">
+                    Quantity
+                  </Typography>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "340px",
+                    }}
+                  />
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  alignItems="center"
+                  justifyContent={"space-between"}
+                  sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                >
+                  <IconButton
+                    size="small"
+                    aria-label="reduce"
+                    onClick={() => {
+                      setCount(Math.max(count - 1, 1));
+                    }}
+                  >
+                    <RemoveIcon fontSize="small" />
+                  </IconButton>
+                  <Typography variant="cardHeader3" color="#959595">
+                    {" "}
+                    {count}
+                  </Typography>
+                  <IconButton
+                    aria-label="increase"
+                    onClick={() => {
+                      setCount(count + 1);
+                    }}
+                  >
+                    <AddIcon fontSize="small" />
+                  </IconButton>
+                </Stack>
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography variant="cardHeader3" color="#959595">
+                    Colors
+                  </Typography>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "350px",
+                    }}
+                  />
+                </Stack>
+
+                <Stack direction={"row"} spacing={1} height={40}>
+                  {products?.p_colours?.map((color, index) => (
+                    <Box
+                      size="small"
+                      key={index}
+                      style={{
+                        backgroundColor: `${color?.color_code}`,
+                        width: "30px",
+                        height: "30px",
+                        cursor: "pointer",
+                        border: "1px solid #000",
+                      }}
+                      onClick={() =>
+                        handleSelectColor(color?.color_name, color?.color_code)
+                      }
+                    ></Box>
+                  ))}
+                </Stack>
+                <Typography variant="cardHeader3" color="initial">
+                  {description}
+                </Typography>
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography variant="cardHeader3" color="#959595" width="25%">
+                    Avalability & Spces
+                  </Typography>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "340px",
+                    }}
+                  />
+                </Stack>
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardLocation" color="initial">
+                    In Stock
+                  </Typography>
+                  <Typography variant="cardLocation" color="initial">
+                    Check In Store Availability
+                  </Typography>
+                  <Typography variant="cardLocation" color="initial">
+                    Check Specs
+                  </Typography>
+                </Stack>
+                <Button
+                  variant="contained"
+                  color="background2"
+                  type="submit"
+                  disabled={disableBtn}
+                  onClick={() => dispatch(addToCart(finalData))}
+                >
+                  ADD TO CART
+                </Button>
               </Stack>
-              <Button
-                variant="contained"
-                color="background2"
-                type="submit"
-                disabled={disableBtn}
-                onClick={() => dispatch(addToCart(finalData))}
-              >
-                ADD TO CART
-              </Button>
-            </Stack>
+            </Grid>
           </Grid>
-          <Grid item lg={7}>
-            <img src="/assets/Bitmap.png" alt="" width={"100%"} />
-          </Grid>
-        </Grid>
-      </Box>
-      <Footer />
+          <Stack direction={"row"} sx={{backgroundColor:"#000",mt:2,color:"#fff",justifyContent:"space-between",p:4,}} >
+           <Stack direction={"row"} spacing={3}>
+             <Typography variant="cardLocation1" color="#9F9F9F">Home</Typography>
+             <Typography variant="cardLocation1" color="#9F9F9F">Women</Typography>
+             <Typography variant="cardLocation1" color="#9F9F9F">Kurti & Fatua </Typography>
+           </Stack>
+           <Typography variant="tabText1" color="#fff">Add To Cart</Typography>
+          </Stack>
+        </Box>
+      </Hidden>
     </>
   );
 };
