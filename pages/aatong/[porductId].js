@@ -51,7 +51,7 @@ const PorductDetails = () => {
   const initialColor = products?.p_colours[0]?.slug
     ? products?.p_colours[0]?.slug
     : "No Color Selected"; */
-console.log('your log output',typeof(productId),productId)
+  console.log("your log output", typeof productId, productId);
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
@@ -71,12 +71,12 @@ console.log('your log output',typeof(productId),productId)
         );
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
-        if (stockAmount>0) {
-          console.log('stock morethan 0',stockAmount)
+        if (stockAmount > 0) {
+          console.log("stock morethan 0", stockAmount);
           setDisableBtn(false);
         }
-        if (stockAmount===undefined) {
-          console.log('stock less then 0',stockAmount)
+        if (stockAmount === undefined) {
+          console.log("stock less then 0", stockAmount);
           setDisableBtn(true);
         }
         // console.log("your stock", stockDetails);
@@ -88,10 +88,27 @@ console.log('your log output',typeof(productId),productId)
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
     ) {
       if (sizeSelected == true || colorSelected == true) {
-        setDisableBtn(false);
+        console.log("inside anyone");
+        const selectedProduct = products?.p_stocks?.find(
+          (stock) => stock?.size_id === sizeId || stock?.colour_id === colorId
+        );
+        setStockDetails(selectedProduct);
+        setStockAmount(selectedProduct?.stock);
+        if (stockAmount > 0) {
+          console.log("stock morethan 0", stockAmount);
+          setDisableBtn(false);
+        }
+        if (stockAmount === undefined) {
+          console.log("stock less then 0", stockAmount);
+          setDisableBtn(true);
+        }
+        // setDisableBtn(false);
       }
+      /* if (sizeSelected == true || colorSelected == true) {
+        setDisableBtn(false);
+      } */
     }
-  }, [sizeSelected, colorSelected, stockDetails, colorId, sizeId,stockAmount]);
+  }, [sizeSelected, colorSelected, stockDetails, colorId, sizeId, stockAmount]);
 
   if (isLoading) {
     return <Loader></Loader>;
@@ -152,7 +169,7 @@ console.log('your log output',typeof(productId),productId)
     colorCode: colorCode,
     price: products?.p_sale_price,
     amount: count,
-    stock:stockAmount,
+    stock: stockAmount,
     totalAmount: count,
     totalPrice: count * parseFloat(products?.p_sale_price),
   };
@@ -384,7 +401,8 @@ console.log('your log output',typeof(productId),productId)
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
-                    In Availability: {stockAmount>0 ? "In Stock" : "Out of Stock"}
+                    In Availability:{" "}
+                    {stockAmount > 0 ? "In Stock" : "Out of Stock"}
                   </Typography>
                   <Typography variant="cardHeader12" color="initial">
                     Check In Store Availability
@@ -688,7 +706,8 @@ console.log('your log output',typeof(productId),productId)
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
-                  In Availability: {stockAmount>0 ? "In Stock" : "Out of Stock"}
+                    In Availability:{" "}
+                    {stockAmount > 0 ? "In Stock" : "Out of Stock"}
                   </Typography>
                   <Typography variant="cardHeader12" color="initial">
                     Check In Store Availability

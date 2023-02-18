@@ -31,15 +31,15 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
         );
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
-        /* if (stockAmount > 0) {
+        if (stockAmount > 0) {
           console.log("stock morethan 0", stockAmount);
           setDisableBtn(false);
         }
         if (stockAmount === undefined) {
           console.log("stock less then 0", stockAmount);
           setDisableBtn(true);
-        } */
-        setDisableBtn(false);
+        }
+        // setDisableBtn(false);
         // console.log("your stock", stockDetails);
         // console.log("your log outputsdfsdfsdds");
       }

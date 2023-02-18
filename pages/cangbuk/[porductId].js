@@ -88,8 +88,25 @@ console.log('your log output',typeof(productId),productId)
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
     ) {
       if (sizeSelected == true || colorSelected == true) {
-        setDisableBtn(false);
+        console.log("inside anyone");
+        const selectedProduct = products?.p_stocks?.find(
+          (stock) => stock?.size_id === sizeId || stock?.colour_id === colorId
+        );
+        setStockDetails(selectedProduct);
+        setStockAmount(selectedProduct?.stock);
+        if (stockAmount > 0) {
+          console.log("stock morethan 0", stockAmount);
+          setDisableBtn(false);
+        }
+        if (stockAmount === undefined) {
+          console.log("stock less then 0", stockAmount);
+          setDisableBtn(true);
+        }
+        // setDisableBtn(false);
       }
+      /* if (sizeSelected == true || colorSelected == true) {
+        setDisableBtn(false);
+      } */
     }
   }, [sizeSelected, colorSelected, stockDetails, colorId, sizeId,stockAmount]);
 
