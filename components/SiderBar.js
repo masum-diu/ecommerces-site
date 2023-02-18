@@ -36,14 +36,19 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useSelector } from "react-redux";
+import { useGetCampignListsQuery } from "../src/features/api/apiSlice";
 
 const SiderBar = ({ open, setOpen }) => {
+  const { data, isLoading, isSuccess, isError, error } =
+    useGetCampignListsQuery();
+  const lists = data?.data;
   const [openList, setOpenList] = React.useState(false);
   const [openList1, setOpenList1] = React.useState(false);
   const [openList2, setOpenList2] = React.useState(false);
   const [openList3, setOpenList3] = React.useState(false);
   const [openList4, setOpenList4] = React.useState(false);
   const [openList5, setOpenList5] = React.useState(false);
+  const [openList6, setOpenList6] = React.useState(false);
   let usera = true;
   const handleClick = () => {
     setOpenList((prev) => !prev);
@@ -73,15 +78,20 @@ const SiderBar = ({ open, setOpen }) => {
     setOpenList5((prev) => !prev);
     setArrow5(!arrow5);
   };
+  const handleClick6 = () => {
+    setOpenList6((prev) => !prev);
+    setArrow6(!arrow6);
+  };
 
   const router = useRouter();
-
+    
   const [arrow, setArrow] = useState(false);
   const [arrow1, setArrow1] = useState(false);
   const [arrow2, setArrow2] = useState(false);
   const [arrow3, setArrow3] = useState(false);
   const [arrow4, setArrow4] = useState(false);
   const [arrow5, setArrow5] = useState(false);
+  const [arrow6, setArrow6] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   const { user, setUser } = useContext(USER_CONTEXT);
@@ -194,14 +204,10 @@ const SiderBar = ({ open, setOpen }) => {
       >
         <Box p={2}>
           <Stack direction={"row"} alignItems="center" spacing={2}>
-            <IconButton aria-label="" onClick={() => setOpen(false)} >
-              <MdClose style={{marginTop:".5rem"}} />
+            <IconButton aria-label="" onClick={() => setOpen(false)}>
+              <MdClose style={{ marginTop: ".5rem" }} />
             </IconButton>
-            <img
-              src="/assets/headerLogo.png"
-              alt=""
-             
-            />
+            <img src="/assets/headerLogo.png" alt="" />
           </Stack>
 
           <ClickAwayListener
@@ -251,7 +257,11 @@ const SiderBar = ({ open, setOpen }) => {
                       >
                         Saree
                       </Typography>
-                      <Typography variant="cardHeader3" color="initial" sx={{mx:2}}>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ mx: 2 }}
+                      >
                         What’s New
                       </Typography>
                     </Stack>
@@ -821,11 +831,61 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
               </Stack>
+              <Button
+                variant="text"
+                color="inherit"
+                onClick={handleClick6}
+                fullWidth
+                sx={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  justifyContent: "space-between",
+                  textTransform: "capitalize",
+                }}
+                endIcon={
+                  arrow6 ? (
+                    <MdOutlineKeyboardArrowUp
+                      onClick={() => setArrow6(!arrow6)}
+                    />
+                  ) : (
+                    <MdOutlineKeyboardArrowDown
+                      onClick={() => setArrow6(!arrow6)}
+                    />
+                  )
+                }
+              >
+                Occassions
+              </Button>
+              {openList6 ? (
+                <Box sx={{ width: "80%", margin: "0 auto" }}>
+                  <Stack direction={"column"} mt={2} spacing={1.5}>
+                  {lists?.map((list) => (
+                        <>
+                        <Typography
+                        key={list.id}
+                      variant="cardHeader3"
+                      color="initial"
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => router.push({
+                        pathname:"/campaign",
+                        query:{cat_id:`${list?.id}`,cat_name:`${list?.camp_name}`}
+                        
+                      })}
+                    >
+                      {list.camp_name}
+                    </Typography>
+                        
+                        </>
+                      ))}
+                    
+                  </Stack>
+                </Box>
+              ) : null}
             </Box>
           </ClickAwayListener>
           <Hidden only={["md", "lg", "xl"]}>
-            <Stack direction={"column"} mt={3}  spacing={2}>
-              <ListItemButton >
+            <Stack direction={"column"} mt={3} spacing={2}>
+              <ListItemButton>
                 <Typography
                   variant="cardHeader"
                   color="initial"
@@ -960,6 +1020,7 @@ const SiderBar = ({ open, setOpen }) => {
         </Box>
         <LoginModal open={modalOpen} setOpen={setModalOpen} />
       </Drawer>
+      
     </>
   );
 };
