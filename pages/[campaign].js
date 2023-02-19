@@ -52,13 +52,14 @@ const campaign = () => {
           justifyContent={"center"}
           columnGap={3}
           rowGap={3}
+          
         >
           
           {camp?.map((data) => (
             <>
-              <Stack direction={"column"} spacing={2} key={data?.id}>
+              <Stack direction={"column"} spacing={2} key={data?.id} >
               
-                <img src={data?.feature_image} alt="" width={400} height={400} />
+                <img src={data?.feature_image} alt="" width={350} height={350} />
 
                 <Stack
                   direction={"row"}

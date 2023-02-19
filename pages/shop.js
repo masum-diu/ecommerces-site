@@ -34,7 +34,7 @@ const shop = () => {
     return <Loader></Loader>;
   }
   const products = data?.data;
-  // console.log("from shop", products);
+  console.log("from shop", products);
   return (
     <>
       <HomePageIntro title={"Shop "} />
@@ -135,7 +135,7 @@ const shop = () => {
                         fontWeight={"bold"}
                         color="initial"
                       >
-                        BDT {data?.p_sale_price}
+                        BDT {data?.p_sale_price} ৳
                       </Typography>
                     </Stack>
                   </Stack>
