@@ -36,7 +36,9 @@ export const cartSlice = createSlice({
             name: productID.name,
             text: productID.text,
             size: productID.size,
+            size_id:productID.size_id,
             color: productID.color,
+            color_id:productID.color_id,
             colorCode: productID.colorCode,
             price: productID.price,
             amount: productID.amount,
@@ -64,8 +66,8 @@ export const cartSlice = createSlice({
         if (exist) {
           exist.amount += productID.totalAmount;
           exist.totalPrice = productID.totalPrice;
-          state.totalAmount += productID.totalAmount;
-          state.totalPrice = productID.totalPrice;
+          state.totalAmount += 1;
+          state.totalPrice += productID.price;
         } else {
           state.cart.push({
             id: productID.id,
@@ -81,7 +83,7 @@ export const cartSlice = createSlice({
             totalPrice: productID.totalPrice,
           });
           state.totalAmount += productID.amount;
-          state.totalPrice = productID.totalPrice;
+          state.totalPrice += productID.price;
         }
       } catch (e) {
         return e;

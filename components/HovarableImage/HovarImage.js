@@ -87,8 +87,10 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     image: data.feature_image,
     name: data?.p_name,
     size: size,
+    size_id: sizeId,
     text: data?.p_description,
     color: color,
+    color_id: colorId,
     colorCode: colorCode,
     price: data?.p_sale_price,
     amount: 1,
@@ -161,7 +163,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               </Button>
               <Button
                 variant="secondary"
-                style={{color:"white", border:'1px solid white'}}
+                style={{ color: "white", border: "1px solid white" }}
                 disabled={disableBtn}
                 onClick={() => handleAddToCart(finalData)}
               >
