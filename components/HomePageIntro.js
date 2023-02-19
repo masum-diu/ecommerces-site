@@ -70,7 +70,10 @@ const HomePageIntro = ({ title }) => {
     handleMobileMenuClose();
   };
   const handelogout = () => {
-    localStorage.clear("user");
+    localStorage.clear();
+    /* localStorage.removeItem("user");
+    localStorage.removeItem("acesstoken1");
+    localStorage.removeItem("persist:root"); */
     setUser("");
     setAnchorEl(null);
     handleMobileMenuClose();
@@ -180,11 +183,7 @@ const HomePageIntro = ({ title }) => {
             </Hidden>
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
-            <Stack
-              direction={"row"}
-              spacing={5}
-              ml={35}
-            >
+            <Stack direction={"row"} spacing={5} ml={35}>
               <Typography
                 className={style.menu3}
                 sx={{ cursor: "pointer" }}
@@ -195,13 +194,13 @@ const HomePageIntro = ({ title }) => {
                 <li>SHOP</li>
               </Typography>
               <Typography
-              className={style.menu3}
+                className={style.menu3}
                 sx={{ cursor: "pointer" }}
                 variant="cardHeader"
                 color="initial"
                 onClick={() => router.push("/story")}
               >
-                <li>STORY</li> 
+                <li>STORY</li>
               </Typography>
             </Stack>
 

@@ -67,8 +67,6 @@ const SignInModal = ({ open, setOpen, signModal }) => {
         console.log("user created", result.data);
         localStorage.setItem("acesstoken", result.data.token);
         localStorage.setItem("user", JSON.stringify(result.data.user));
-        Cookies.set("acesstoken", result.data.token);
-        Cookies.set("user", JSON.stringify(result.data.user));
         setUser(result?.data?.user);
         reset();
         setOpen(false);
