@@ -4,12 +4,13 @@ import React, { useEffect, useState } from "react";
 import { FiHeart } from "react-icons/fi";
 import style from "./HovarImage.module.css";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../src/features/cart/cartSlice";
 
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cart);
   const [colorSelected, setColorSelected] = useState(false);
   const [sizeSelected, setSizeSelected] = useState(false);
   const [disableBtn, setDisableBtn] = useState(true);
@@ -21,6 +22,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [colorId, setColorId] = useState(0);
   const [stockDetails, setStockDetails] = useState([]);
   const [stockAmount, setStockAmount] = useState(0);
+  console.log("your log output", cart);
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
       // console.log(sizeSelected);
@@ -65,6 +67,10 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
       }
     }
   }, [sizeSelected, colorSelected, stockDetails, colorId, sizeId, stockAmount]);
+
+  /* useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]); */
 
   const handleSelectSize = (data, id) => {
     setSizeSelected(true);

@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const carts = typeof window !== 'undefined' ? localStorage.getItem('cart') !== null ?JSON.parse(localStorage.getItem("cart")):[]:null
+const totalAmount = typeof window !== 'undefined' ? localStorage.getItem('totalAmount') !== null ?JSON.parse(localStorage.getItem("totalAmount")):0:null
+const totalPrice = typeof window !== 'undefined' ? localStorage.getItem('totalPrice') !== null ?JSON.parse(localStorage.getItem("totalPrice")):0:null
+
 const initialState = {
-  cart: [],
+  cart: carts,
   amount: 0,
-  totalAmount: 0,
-  totalPrice: 0,
+  totalAmount: totalAmount,
+  totalPrice: totalPrice,
 };
 
 export const cartSlice = createSlice({
@@ -47,6 +51,9 @@ export const cartSlice = createSlice({
           });
           state.totalAmount += productID.amount;
           state.totalPrice += productID.totalPrice;
+          localStorage.setItem("cart",JSON.stringify(state.cart.map((cart)=>cart)))
+          localStorage.setItem("totalAmount",JSON.stringify(state.totalAmount))
+          localStorage.setItem("totalPrice",JSON.stringify(state.totalPrice))
         }
       } catch (e) {
         return e;

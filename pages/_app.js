@@ -10,9 +10,12 @@ import NextNProgress from "nextjs-progressbar";
 import { UserProvider } from "../components/userContext";
 import { Provider } from "react-redux";
 import { store } from "../src/app/store";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
+let persistor = persistStore(store)
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
@@ -37,9 +40,11 @@ export default function MyApp(props) {
           showOnShallow={true}
         />
         <Provider store={store}>
-          <UserProvider>
-            <Component {...pageProps} />
-          </UserProvider>
+          <PersistGate loading={null} persistor={persistor}>
+            <UserProvider>
+              <Component {...pageProps} />
+            </UserProvider>
+          </PersistGate>
         </Provider>
       </ThemeProvider>
     </CacheProvider>

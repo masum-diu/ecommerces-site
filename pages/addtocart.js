@@ -30,7 +30,7 @@ const addtocart = () => {
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   // console.log("yourdf log output", totalAmountIndividual);
-  console.log("yourdf log output", carts);
+  console.log("yourdf log output", cart);
   // console.log("yourdf log output", cart);
   return (
     <>
@@ -62,7 +62,7 @@ const addtocart = () => {
           </Typography>
           <Grid container spacing={5} pt={5} xs={12}>
             <Grid item lg={12} sx={{ width: "100%" }}>
-              {cart.length > 0 ? (
+              {cart?.length > 0 ? (
                 <>
                   <Stack direction={"column"} spacing={2}>
                     {cart?.map((data) => (
