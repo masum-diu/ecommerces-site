@@ -102,13 +102,17 @@ const shop = () => {
               columnGap={3}
               rowGap={3}
             >
-              {products?.slice(0, 3).map((data) => (
+              {products?.slice(0, 4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
                     <HovarImage
-                      url={`/${data?.p_subcategory?.slug}/${data?.id}`}
+                      url={`/${
+                        data?.p_subcategory?.slug === "unknown"
+                          ? data?.p_category?.slug
+                          : data?.p_subcategory?.slug
+                      }/${data?.id}`}
                       data={data}
-                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
+                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
                         data?.feature_image?.lastIndexOf("/") + 1
                       )}`}
                       width={350}
@@ -180,13 +184,17 @@ const shop = () => {
               columnGap={3}
               rowGap={3}
             >
-              {products?.slice(0, 3).map((data) => (
+              {products?.slice(0, 4).map((data) => (
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
                     <HovarImage
-                      url={`/${data?.p_subcategory?.slug}/${data?.id}`}
+                      url={`/${
+                        data?.p_subcategory?.slug === "unknown"
+                          ? data?.p_category?.slug
+                          : data?.p_subcategory?.slug
+                      }/${data?.id}`}
                       data={data}
-                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
+                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
                         data?.feature_image?.lastIndexOf("/") + 1
                       )}`}
                       width={350}

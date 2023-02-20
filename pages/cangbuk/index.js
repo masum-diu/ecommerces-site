@@ -33,6 +33,9 @@ import Loader from "../../components/Loader/Loader";
 import HovarImage from "../../components/HovarableImage/HovarImage";
 const masterCollectionLayout = () => {
   const router = useRouter();
+  const path =
+    router.pathname.replace("/", "").charAt(0).toUpperCase() +
+    router.pathname.replace("/", "").slice(1);
   // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
@@ -113,7 +116,7 @@ const masterCollectionLayout = () => {
               sx={{ cursor: "pointer" }}
               color="initial"
             >
-              Collection
+              {path}
             </Typography>
           </Stack>
           <Typography variant="cardHeader1" color="initial">
@@ -185,7 +188,7 @@ const masterCollectionLayout = () => {
               <HovarImage
                 url={`/${router.pathname}/${dataList?.id}`}
                 data={dataList}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_565,w_586/c_fit,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/c_fit,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                   dataList?.feature_image?.lastIndexOf("/") + 1
                 )}`}
                 width={568}
@@ -327,7 +330,7 @@ const masterCollectionLayout = () => {
               <HovarImage
                 url={`/${router.pathname}/${dataList?.id}`}
                 data={dataList}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_565,w_586/c_fit,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/c_fit,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                   dataList?.feature_image?.lastIndexOf("/") + 1
                 )}`}
                 width={568}

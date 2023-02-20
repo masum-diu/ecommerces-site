@@ -140,7 +140,7 @@ const PorductDetails = () => {
     setColorCode(code);
   };
 
-  // console.log("your log output", router);
+  console.log("your log output", router);
 
   // console.log(products?.product_size[0]?.size_name);
   console.log("kash", products);

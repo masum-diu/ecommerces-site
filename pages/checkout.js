@@ -547,11 +547,11 @@ const checkout = () => {
                           label="Cash On Delivery"
                         />
                         <Divider />
-                        <FormControlLabel
+                        {/* <FormControlLabel
                           value="other"
                           control={<Radio />}
                           label="Other"
-                        />
+                        /> */}
                         <Divider />
                       </RadioGroup>
                     </Stack>

@@ -5,10 +5,12 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
 import thunk from "redux-thunk";
+import filterSlice from "../features/filter/filterSlice";
 
 const reducers = combineReducers({
   [productApi.reducerPath]: productApi.reducer,
   cart: cartSlice,
+  filter:filterSlice
 });
 
 const persistConfig = {

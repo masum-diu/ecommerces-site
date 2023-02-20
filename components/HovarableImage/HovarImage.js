@@ -6,6 +6,7 @@ import style from "./HovarImage.module.css";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../src/features/cart/cartSlice";
+import Link from "next/link";
 
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
@@ -109,15 +110,17 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   return (
     <div>
       <div class={style.uicard}>
-        <img
-          src={imageURL}
-          style={{ maxWidth: "100%", height: "fit-content" }}
-          width={width}
-          height={height}
-        />
+        <Link href={url}>
+          <img
+            src={imageURL}
+            style={{ maxWidth: "100%", height: "fit-content" }}
+            width={width}
+            height={height}
+          />
+        </Link>
         <div class={style.description}>
           <Stack direction={"column"} spacing={1}>
-            <Stack className={style.size} direction={"row"} spacing={1} mx={1}>
+            {/* <Stack className={style.size} direction={"row"} spacing={1} mx={1}>
               {data?.p_sizes?.map((size, index) => (
                 <Button
                   variant="contained"
@@ -150,7 +153,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
                   }
                 ></Box>
               ))}
-            </Stack>
+            </Stack> */}
             <Stack
               direction={"row"}
               justifyContent="space-between"
@@ -161,20 +164,20 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               </IconButton>
               <Button
                 onClick={() => router.push(url)}
-                sx={{ backgroundColor: "none",color:"#fff" }}
+                sx={{ backgroundColor: "none", color: "#fff" }}
                 variant="text"
                 // color="secondary"
               >
                 View Details
               </Button>
-              <Button
+              {/* <Button
                 variant="secondary"
                 style={{ color: "white", border: "1px solid white" }}
                 disabled={disableBtn}
                 onClick={() => handleAddToCart(finalData)}
               >
                 Add to cart
-              </Button>
+              </Button> */}
             </Stack>
           </Stack>
           {/* <p>
