@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../src/features/cart/cartSlice";
 import Link from "next/link";
-
+import { addToWishList } from "../../src/features/wishlist/wishlistSlice";
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [colorId, setColorId] = useState(0);
   const [stockDetails, setStockDetails] = useState([]);
   const [stockAmount, setStockAmount] = useState(0);
-  console.log("your log output", cart);
+  // console.log("your log output", cart);
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
       // console.log(sizeSelected);
@@ -89,6 +89,9 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     setColorSelected(false);
     setSizeSelected(false);
   };
+  const handleAddToWishList = (data) => {
+    dispatch(addToWishList(data));
+  };
   const finalData = {
     id: data.id,
     image: data.feature_image,
@@ -105,7 +108,19 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     totalAmount: 1,
     totalPrice: parseFloat(data?.p_sale_price),
   };
-  // console.log("ami kas", finalData);
+  const dataForWishList = {
+    id: data.id,
+    image: data.feature_image,
+    name: data?.p_name,
+    size: data?.p_sizes,
+    text: data?.p_description,
+    color: data?.p_colours,
+    price: data?.p_sale_price,
+    amount: 1,
+    stock: data?.p_stocks,
+    totalAmount: 1,
+  };
+  console.log("ami kas", dataForWishList);
   // console.log(imageURL);
   return (
     <div>
@@ -159,7 +174,10 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               justifyContent="space-between"
               className={style.size}
             >
-              <IconButton aria-label="">
+              <IconButton
+                aria-label=""
+                onClick={() => handleAddToWishList(dataForWishList)}
+              >
                 <FiHeart style={{ color: "#fff" }} />
               </IconButton>
               <Button

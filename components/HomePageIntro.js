@@ -47,7 +47,11 @@ const HomePageIntro = ({ title }) => {
   // console.log(userjsondata)
   // console.log("from local", userjsondata);
 
-  const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const totalAmount = useSelector((state) => state.cart?.totalAmount);
+  const totalAmountWishList = useSelector(
+    (state) => state?.wishList?.totalAmount
+  );
+  // console.log('your log outputxxfgdfd',totalAmountWishList)
   // console.log('your log output',totalAmount)
 
   // Profile section starts here
@@ -277,7 +281,11 @@ const HomePageIntro = ({ title }) => {
                 <IconButton aria-label="">
                   <BiMap style={{ color: "#0A0A0A" }} />
                 </IconButton>
-                <Typography variant="cardHeader" color="initial" sx={{cursor:"pointer"}}>
+                <Typography
+                  variant="cardHeader"
+                  color="initial"
+                  sx={{ cursor: "pointer" }}
+                >
                   BD
                 </Typography>
               </Stack>
@@ -291,7 +299,7 @@ const HomePageIntro = ({ title }) => {
                 aria-label=""
                 onClick={() => router.push("/wishlists")}
               >
-                <Badge badgeContent={4} color="background2">
+                <Badge badgeContent={totalAmountWishList} color="background2">
                   <FiHeart style={{ color: "#0A0A0A" }} />
                 </Badge>
               </IconButton>

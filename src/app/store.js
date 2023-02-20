@@ -6,11 +6,13 @@ import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
 import thunk from "redux-thunk";
 import filterSlice from "../features/filter/filterSlice";
+import wishListSlice from "../features/wishlist/wishListSlice";
 
 const reducers = combineReducers({
   [productApi.reducerPath]: productApi.reducer,
   cart: cartSlice,
-  filter:filterSlice
+  filter: filterSlice,
+  wishList: wishListSlice,
 });
 
 const persistConfig = {
