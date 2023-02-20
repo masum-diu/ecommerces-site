@@ -1,5 +1,4 @@
 import { Box, Stack, Typography } from '@mui/material'
-import Image from 'next/image'
 import React from 'react'
 import Footer from '../components/Footer'
 import HomePageIntro from '../components/HomePageIntro'
@@ -7,8 +6,9 @@ const story = () => {
   return (
     <>
   <HomePageIntro title={"Story "}/>
-  <Box mt={10}>
-     <Image src="/assets/img.png" width={1900} style={{width:"100%",height:"fit-content"}} height={700} />
+  <Box mt={10} sx={{height:"100vh",display:"flex",justifyContent:"center",alignItems:"center"}}>
+         <Typography variant="login1" color="background3" >COMING SOON ...</Typography>
+     {/* <Image src="/assets/img.png" width={1900} style={{width:"100%",height:"fit-content"}} height={700} />
     <Stack direction={"row"}  sx={{width:{lg:"50%",xs:"96%",sm:"80%"},maxWidth:"1500px",margin:"0 auto",justifyContent:"space-between",mt:2}}>
       <Typography variant="cardHeader1" color="initial">Sustainable Practices</Typography>
       <Typography variant="cardHeader1" color="initial">Our Community</Typography>
@@ -55,12 +55,12 @@ const story = () => {
     </Stack>
     <Stack direction={"row"} sx={{width:"90%",maxWidth:"1500px",m:"0 auto",justifyContent:"center",alignItems:"center",mt:8}} spacing={4} >
     {/* <Image src="https://cdn2.vectorstock.com/i/1000x1000/86/46/bangladesh-map-grey-vector-23598646.jpg" width={428} height={300} style={{width:"100%",height:"fit-content"}}/> */}
-    <img src="https://media.istockphoto.com/id/1182253746/vector/black-map-of-bangladesh-isolated-on-white-background-vector-illustration-world-geography.jpg?s=612x612&w=0&k=20&c=2zyIEU77lizdDjqHCXsmxanggEwUhqEz-Urk-NpSebQ=" alt="" />
+    {/* <img src="https://media.istockphoto.com/id/1182253746/vector/black-map-of-bangladesh-isolated-on-white-background-vector-illustration-world-geography.jpg?s=612x612&w=0&k=20&c=2zyIEU77lizdDjqHCXsmxanggEwUhqEz-Urk-NpSebQ=" alt="" />
     <Image src="/assets/ss.png" width={764} height={900} style={{width:"100%",height:"fit-content"}}/>
     </Stack>
    <Stack>
-      <Image src="/assets/bit.png" width={1472} height={773} style={{width:"100%",height:"fit-content"}}/>
-      </Stack>
+      <Image src="/assets/bit.png" width={1472} height={773} style={{width:"100%",height:"fit-content"}}/> */}
+      {/* </Stack>  */}
     
   </Box>
   <Footer/>

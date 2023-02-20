@@ -191,6 +191,15 @@ theme.typography.cardHeader1 = {
     fontSize: "12px",
   },
 };
+theme.typography.homeFlash = {
+  fontSize: "16px",
+  fontWeight: "400",
+  // fontWeight:"400",
+  color: black,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "12px",
+  },
+};
 theme.typography.cardHeader12 = {
   fontSize: "14px",
   fontWeight: "bold",

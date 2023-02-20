@@ -276,7 +276,7 @@ const HomePageIntro = ({ title }) => {
                 <IconButton aria-label="">
                   <BiMap style={{ color: "#0A0A0A" }} />
                 </IconButton>
-                <Typography variant="cardHeader" color="initial">
+                <Typography variant="cardHeader" color="initial" sx={{cursor:"pointer"}}>
                   BD
                 </Typography>
               </Stack>
