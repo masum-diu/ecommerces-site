@@ -33,7 +33,7 @@ import Loader from "../../components/Loader/Loader";
 import HovarImage from "../../components/HovarableImage/HovarImage";
 const masterCollectionLayout = () => {
   const router = useRouter();
-  // console.log("sdsdf", router);
+  console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);

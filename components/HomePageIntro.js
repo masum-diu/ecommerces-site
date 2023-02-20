@@ -262,12 +262,13 @@ const HomePageIntro = ({ title }) => {
               ) : (
                 <>
                   <Typography
+                    className={style.menu3}
                     sx={{ cursor: "pointer" }}
                     variant="cardHeader"
                     color="initial"
                     onClick={() => setModalOpen(true)}
                   >
-                    LOGIN
+                    <li>LOGIN</li>
                   </Typography>
                 </>
               )}
