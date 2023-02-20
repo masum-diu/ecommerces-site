@@ -33,7 +33,7 @@ const FlashPage = ({ title }) => {
       <Box
         sx={{
           backgroundImage:
-            "url('https://static.zara.net/photos///contents/mkt/spots/aw22-north-man-edition/subhome-xmedia-w47//w/1920/IMAGE-landscape-fill-88c5ba6c-832e-442e-878f-48b60c0c8aa7-default_0.jpg?ts=1669457412950')",
+            "url('https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1676527368/aranya/r98zxbtcywpy4jocgyqd.jpg')",
           backgroundSize: "cover",
           height: "100vh",
           maxHeight: "fit-content",
@@ -76,7 +76,7 @@ const FlashPage = ({ title }) => {
             }}
             spacing={1}
           >
-            <Typography variant="subtitle1" color="initial">
+            <Typography variant="homeFlash" color="initial">
               Select your shipping country
             </Typography>
             <Select
@@ -88,13 +88,13 @@ const FlashPage = ({ title }) => {
               sx={{ backgroundColor: "white" }}
             >
               <MenuItem value={10} disabled>
-                Select Shipping Country{" "}
+                Select Shipping Country
               </MenuItem>
               <MenuItem value={20}>Bangladesh</MenuItem>
-              <MenuItem value={30}>England</MenuItem>
-              <MenuItem value={40}>India</MenuItem>
+              {/* <MenuItem value={30}>England</MenuItem>
+              <MenuItem value={40}>India</MenuItem> */}
             </Select>
-            <Typography variant="subtitle1" color="initial">
+            <Typography variant="homeFlash" color="initial">
               Select your currency
             </Typography>
             <Select
@@ -109,10 +109,10 @@ const FlashPage = ({ title }) => {
                 Select currency{" "}
               </MenuItem>
               <MenuItem value={20}>Taka</MenuItem>
-              <MenuItem value={30}>Euro</MenuItem>
-              <MenuItem value={40}>Dollar</MenuItem>
+              {/* <MenuItem value={30}>Euro</MenuItem>
+              <MenuItem value={40}>Dollar</MenuItem> */}
             </Select>
-            <Typography variant="subtitle1" color="initial">
+            <Typography variant="homeFlash" color="initial">
               Language
             </Typography>
             <Select
@@ -126,9 +126,9 @@ const FlashPage = ({ title }) => {
               <MenuItem value={10} disabled>
                 Select Language{" "}
               </MenuItem>
-              <MenuItem value={20}>Bangla</MenuItem>
-              <MenuItem value={30}>English</MenuItem>
-              <MenuItem value={40}>Hindi</MenuItem>
+              {/* <MenuItem value={20}>Bangla</MenuItem> */}
+              <MenuItem value={30} sx>English</MenuItem>
+              {/* <MenuItem value={40}>Hindi</MenuItem> */}
             </Select>
           </Stack>
           <Stack
