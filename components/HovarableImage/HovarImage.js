@@ -155,9 +155,9 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               </IconButton>
               <Button
                 onClick={() => router.push(url)}
-                sx={{ backgroundColor: "none" }}
+                sx={{ backgroundColor: "none",color:"#fff" }}
                 variant="text"
-                color="secondary"
+                // color="secondary"
               >
                 View Details
               </Button>
