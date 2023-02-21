@@ -78,43 +78,42 @@ const SearchModal = ({ open, setOpen }) => {
         }}
       >
         <Box p={2}>
-          <form style={{ width: "100%" }}>
-            <Stack
-              direction={"row"}
-              alignItems="center"
-              spacing={2}
-              justifyContent="right"
-            >
-              <TextField
-                fullWidth
-                id=""
-                label=""
-                // {...register("searchData", {
-                //   required: "Password is required",
-                // })}
-                // value={}
-                // onChange={handleChange}
-                value={filterVal}
-                onInput={(e) => handleFilter(e)}
-                size="small"
-                placeholder="search products…
+          <Stack
+            direction={"row"}
+            alignItems="center"
+            spacing={2}
+            justifyContent="right"
+          >
+            <TextField
+              fullWidth
+              id=""
+              label=""
+              // {...register("searchData", {
+              //   required: "Password is required",
+              // })}
+              // value={}
+              // onChange={handleChange}
+              value={filterVal}
+              onInput={(e) => handleFilter(e)}
+              size="small"
+              placeholder="search products…
                   "
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton type="submit">
-                        {" "}
-                        {/* <FiSearch style={{ fontSize: "18px" }} /> */}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <IconButton aria-label="" onClick={() => setOpen(false)}>
-                <MdClose />
-              </IconButton>
-            </Stack>
-          </form>
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton>
+                      {" "}
+                      {/* <FiSearch style={{ fontSize: "18px" }} /> */}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <IconButton aria-label="" onClick={() => setOpen(false)}>
+              <MdClose />
+            </IconButton>
+          </Stack>
+
           <Stack
             direction={"row"}
             flexWrap={"wrap"}
