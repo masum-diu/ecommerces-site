@@ -30,8 +30,13 @@ const checkout = () => {
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
   const [loading, setLoading] = useState(true);
+  const [isSameAddress, setIsSameAddress] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
   const dataFetchedRef = useRef(false);
-  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const subTotal = useSelector((state) => state.cart.totalPrice);
+  const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const [totalPrice, setSubtotal] = useState(subTotal);
+  const [toggleHomeDelivery, setToggleHomeDelivery] = useState(false);
   const router = useRouter();
   const handleDistict = (event) => {
     setDistict(event.target.value);
@@ -39,7 +44,10 @@ const checkout = () => {
   const handleDistict1 = (event) => {
     setDistict1(event.target.value);
   };
-
+  const handleHomeDelivery = (data) => {
+    setToggleHomeDelivery(data);
+  };
+  console.log("toggle home d", toggleHomeDelivery);
   useEffect(() => {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
@@ -74,13 +82,25 @@ const checkout = () => {
       phone_shipping: "",
       email_shipping: "",
       isSameAddress: false,
+      paymentMethod: "",
+      deliveryMethod: "",
     },
   });
-  const onSubmit = (data) => {
+
+  const onSubmit = async (data) => {
+    // console.log("submited data", data.onlinePayment)
+    // console.log("your log output", data);
+    setIsSameAddress(data?.isSameAddress);
     axios
       .post(
         "http://apiaranya.jumriz.com/public/api/order",
-        { data: data, cart: cart, totalPrice: totalPrice },
+        {
+          data: data,
+          cart: cart,
+          totalPrice: subTotal,
+          totalAmount: totalAmount,
+          isSameAddress: isSameAddress,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -88,8 +108,10 @@ const checkout = () => {
           },
         }
       )
-      .then((result) => {
-        console.log("post response", result.data);
+      .then(async (result) => {
+        console.log("post response", result?.data?.data?.original?.data);
+        // console.log("post response", result?.data?.data?.original?.logo);
+        await window.location.replace(result?.data?.data?.original?.data);
         // localStorage.setItem("acesstoken1", result.data.token);
         // localStorage.setItem("user", JSON.stringify(result.data.user));
         // setUserData(result.data);
@@ -99,7 +121,7 @@ const checkout = () => {
       .catch((err) => {
         console.log(err);
       });
-    console.log(data);
+    console.log("cart for arif vai", cart);
   };
   return (
     <>
@@ -311,9 +333,8 @@ const checkout = () => {
                 </Stack>
                 <Stack direction={"row"} alignItems="center" mt={1}>
                   <Controller
-                    name="checkbox"
+                    name="isSameAddress"
                     control={control}
-                    rules={{ required: true }}
                     render={({ field }) => <Checkbox {...field} />}
                   />
                   <Typography variant="cardLocation1" color="initial">
@@ -505,7 +526,7 @@ const checkout = () => {
                         SUBTOTAL :
                       </Typography>
                       <Typography variant="cardHeader" color="initial">
-                        ৳ {totalPrice}
+                        ৳ {subTotal}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -513,33 +534,40 @@ const checkout = () => {
                       <Typography variant="cardHeader" color="initial" mt={1}>
                         SHIPPING
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="female"
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="DHAKA"
-                          control={<Radio />}
-                          label="DHAKA : ৳ 100"
-                        />
-                        <FormControlLabel
-                          value="PICK FROM SHOWROOM"
-                          control={<Radio />}
-                          label="PICK FROM SHOWROOM"
-                        />
-                      </RadioGroup>
+                      <Controller
+                        rules={{ required: true }}
+                        control={control}
+                        name="deliveryMethod"
+                        render={({ field }) => (
+                          <RadioGroup {...field}>
+                            <FormControlLabel
+                              value="homeDelivery"
+                              control={
+                                <Radio
+                                  onChange={() => handleHomeDelivery(true)}
+                                />
+                              }
+                              label="DHAKA : ৳ 100"
+                            />
+                            <FormControlLabel
+                              value="pickFromShowroom"
+                              control={<Radio />}
+                              label="PICK FROM SHOWROOM"
+                            />
+                          </RadioGroup>
+                        )}
+                      />
                     </Stack>
                     <br />
                     <br />
-                    <Stack direction={"row"} spacing={9}>
+                    {/* <Stack direction={"row"} spacing={9}>
                       <Typography variant="cardHeader" color="initial">
                         TAX :
                       </Typography>
                       <Typography variant="cardHeader" color="initial">
                         ৳ 12
                       </Typography>
-                    </Stack>
+                    </Stack> */}
 
                     <Divider />
                     <Stack direction={"row"} spacing={7}>
@@ -558,34 +586,30 @@ const checkout = () => {
                     <Typography variant="cardHeader" color="initial">
                       ৳ 12,160
                     </Typography> */}
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="female"
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="Online Payment"
-                          control={<Radio />}
-                          label="Online Payment"
-                        />
-                        <Divider />
-                        <FormControlLabel
-                          value="Cash On Delivery"
-                          control={<Radio />}
-                          label="Cash On Delivery"
-                        />
-                        <Divider />
-                        {/* <FormControlLabel
-                          value="other"
-                          control={<Radio />}
-                          label="Other"
-                        /> */}
-                        <Divider />
-                      </RadioGroup>
+
+                      <Controller
+                        rules={{ required: true }}
+                        control={control}
+                        name="paymentMethod"
+                        render={({ field }) => (
+                          <RadioGroup {...field}>
+                            <FormControlLabel
+                              value="online"
+                              control={<Radio />}
+                              label="Online Payment"
+                            />
+                            <FormControlLabel
+                              value="cash"
+                              control={<Radio />}
+                              label="Cash On Delivery"
+                            />
+                          </RadioGroup>
+                        )}
+                      />
                     </Stack>
                     <Stack direction={"row"} width="100%" alignItems={"center"}>
                       <Controller
-                        name="checkbox"
+                        name="termsAndConditions"
                         control={control}
                         rules={{ required: true }}
                         render={({ field }) => <Checkbox {...field} />}

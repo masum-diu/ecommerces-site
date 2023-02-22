@@ -196,12 +196,12 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
                 <FiHeart style={{ color: "#fff" }} />
               </IconButton>
               <IconButton
-                style={{ display: `${showBrokenHeart}` }}
+                style={{ display: `${showBrokenHeart}`}}
                 aria-label=""
                 onClick={() =>
                   handleRemoveFromList({
                     id: data.id,
-                    amount:1,
+                    amount: 1,
                   })
                 }
               >
