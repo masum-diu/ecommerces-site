@@ -33,7 +33,7 @@ const SearchModal = ({ open, setOpen }) => {
   const [data, setData] = useState([]);
   const [searchApiData, setSearchApiData] = useState([]);
   const [filterVal, setFilterVal] = useState("");
-  console.log(data);
+  // console.log(data);
   const fetchData = () => {
     return axios
       .get(
@@ -117,24 +117,26 @@ const SearchModal = ({ open, setOpen }) => {
           <Stack
             direction={"row"}
             flexWrap={"wrap"}
-            columnGap={1}
-            rowGap={1}
+            columnGap={1.5}
+            rowGap={1.5}
+            justifyContent="center"
+            // alignItems={"center"}
             alignItems={"center"}
           >
-            {data?.map((data) => (
+            {data?.slice(0, 4).map((data) => (
               <>
                 <Stack direction={"column"} mt={4} spacing={1}>
-                  <img src={data?.feature_image} alt="" width={100} />
+                  <img src={data?.feature_image} alt="" width={150} />
                   <Typography variant="cardHeader2" color="initial">
                     {data?.p_name}
                   </Typography>
-                  <Typography
+                  {/* <Typography
                     variant="cardHeader2"
                     fontWeight={"bold"}
                     color="initial"
                   >
                     BDT {data?.p_sale_price} ৳
-                  </Typography>
+                  </Typography> */}
                 </Stack>
               </>
             ))}
