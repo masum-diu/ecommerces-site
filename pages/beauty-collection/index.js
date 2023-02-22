@@ -74,7 +74,7 @@ import {
     }
   
     // const products = data?.data;
-    // console.log("from shopsdfs", staticData);
+    // console.log("from shopsdfs", products);
     // console.log("from shop", sub_cat);
   
     return (

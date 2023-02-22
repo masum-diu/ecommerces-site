@@ -14,24 +14,54 @@ import {
   MenuItem,
   Checkbox,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import { useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+import Loader from "../components/Loader/Loader";
+import { useRef } from "react";
 
 const checkout = () => {
   const cart = useSelector((state) => state.cart.cart);
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
-  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const [loading, setLoading] = useState(true);
+  const [isSameAddress, setIsSameAddress] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
+  const dataFetchedRef = useRef(false);
+  const subTotal = useSelector((state) => state.cart.totalPrice);
+  const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const [totalPrice, setSubtotal] = useState(subTotal);
+  const [toggleHomeDelivery, setToggleHomeDelivery] = useState(false);
+  const router = useRouter();
   const handleDistict = (event) => {
     setDistict(event.target.value);
   };
   const handleDistict1 = (event) => {
     setDistict1(event.target.value);
   };
+  const handleHomeDelivery = (data) => {
+    setToggleHomeDelivery(data);
+  };
+  console.log("toggle home d", toggleHomeDelivery);
+  useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    const securePage = async () => {
+      const token = await localStorage.getItem("acesstoken");
+      if (!token) {
+        await toast.error("Please Login First");
+        await router.push("/addtocart");
+      } else {
+        setLoading(false);
+      }
+    };
+    securePage();
+  }, []);
 
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -52,13 +82,25 @@ const checkout = () => {
       phone_shipping: "",
       email_shipping: "",
       isSameAddress: false,
+      paymentMethod: "",
+      deliveryMethod: "",
     },
   });
-  const onSubmit = (data) => {
+
+  const onSubmit = async (data) => {
+    // console.log("submited data", data.onlinePayment)
+    // console.log("your log output", data);
+    setIsSameAddress(data?.isSameAddress);
     axios
       .post(
         "http://apiaranya.jumriz.com/public/api/order",
-        { data: data, cart: cart, totalPrice: totalPrice },
+        {
+          data: data,
+          cart: cart,
+          totalPrice: subTotal,
+          totalAmount: totalAmount,
+          isSameAddress: isSameAddress,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -66,8 +108,12 @@ const checkout = () => {
           },
         }
       )
-      .then((result) => {
-        console.log("post response", result.data);
+      .then(async (result) => {
+        console.log("post response", result?.data?.payment);
+        const response = JSON.parse(result?.data?.payment);
+
+        // console.log("post response", result?.data?.data?.original?.logo);
+        await window.location.replace(response?.data);
         // localStorage.setItem("acesstoken1", result.data.token);
         // localStorage.setItem("user", JSON.stringify(result.data.user));
         // setUserData(result.data);
@@ -77,14 +123,13 @@ const checkout = () => {
       .catch((err) => {
         console.log(err);
       });
-    console.log(data);
+    console.log("cart for arif vai", cart);
   };
   return (
     <>
       <HomePageIntro title={"Checkout "} />
       <Box
         sx={{
-         
           py: 15,
           width: { lg: "90%", xs: "100%" },
           maxWidth: "1500px",
@@ -111,7 +156,14 @@ const checkout = () => {
             onSubmit={handleSubmit(onSubmit)}
             style={{ width: "100%", margin: "0 auto" }}
           >
-            <Grid container  pt={5} xs={12} columnGap={5} rowGap={4} sx={{width:"90%",mx:"auto"}} >
+            <Grid
+              container
+              pt={5}
+              xs={12}
+              columnGap={5}
+              rowGap={4}
+              sx={{ width: "90%", mx: "auto" }}
+            >
               <Grid item lg={4} sx={{ width: "100%" }}>
                 <Typography variant="header1" color="initial">
                   BILLING DETAILS
@@ -283,9 +335,8 @@ const checkout = () => {
                 </Stack>
                 <Stack direction={"row"} alignItems="center" mt={1}>
                   <Controller
-                    name="checkbox"
+                    name="isSameAddress"
                     control={control}
-                    rules={{ required: true }}
                     render={({ field }) => <Checkbox {...field} />}
                   />
                   <Typography variant="cardLocation1" color="initial">
@@ -293,7 +344,7 @@ const checkout = () => {
                   </Typography>
                 </Stack>
               </Grid>
-              <Grid item lg={4}  sx={{ width: "100%" ,}}>
+              <Grid item lg={4} sx={{ width: "100%" }}>
                 <Typography variant="header1" color="initial">
                   SHIPPING DETAILS
                 </Typography>
@@ -477,7 +528,7 @@ const checkout = () => {
                         SUBTOTAL :
                       </Typography>
                       <Typography variant="cardHeader" color="initial">
-                        ৳ {totalPrice}
+                        ৳ {subTotal}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -485,33 +536,40 @@ const checkout = () => {
                       <Typography variant="cardHeader" color="initial" mt={1}>
                         SHIPPING
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="female"
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="DHAKA"
-                          control={<Radio />}
-                          label="DHAKA : ৳ 100"
-                        />
-                        <FormControlLabel
-                          value="PICK FROM SHOWROOM"
-                          control={<Radio />}
-                          label="PICK FROM SHOWROOM"
-                        />
-                      </RadioGroup>
+                      <Controller
+                        rules={{ required: true }}
+                        control={control}
+                        name="deliveryMethod"
+                        render={({ field }) => (
+                          <RadioGroup {...field}>
+                            <FormControlLabel
+                              value="homeDelivery"
+                              control={
+                                <Radio
+                                  onChange={() => handleHomeDelivery(true)}
+                                />
+                              }
+                              label="DHAKA : ৳ 100"
+                            />
+                            <FormControlLabel
+                              value="pickFromShowroom"
+                              control={<Radio />}
+                              label="PICK FROM SHOWROOM"
+                            />
+                          </RadioGroup>
+                        )}
+                      />
                     </Stack>
                     <br />
                     <br />
-                    <Stack direction={"row"} spacing={9}>
+                    {/* <Stack direction={"row"} spacing={9}>
                       <Typography variant="cardHeader" color="initial">
                         TAX :
                       </Typography>
                       <Typography variant="cardHeader" color="initial">
                         ৳ 12
                       </Typography>
-                    </Stack>
+                    </Stack> */}
 
                     <Divider />
                     <Stack direction={"row"} spacing={7}>
@@ -530,34 +588,30 @@ const checkout = () => {
                     <Typography variant="cardHeader" color="initial">
                       ৳ 12,160
                     </Typography> */}
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="female"
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="Online Payment"
-                          control={<Radio />}
-                          label="Online Payment"
-                        />
-                        <Divider />
-                        <FormControlLabel
-                          value="Cash On Delivery"
-                          control={<Radio />}
-                          label="Cash On Delivery"
-                        />
-                        <Divider />
-                        {/* <FormControlLabel
-                          value="other"
-                          control={<Radio />}
-                          label="Other"
-                        /> */}
-                        <Divider />
-                      </RadioGroup>
+
+                      <Controller
+                        rules={{ required: true }}
+                        control={control}
+                        name="paymentMethod"
+                        render={({ field }) => (
+                          <RadioGroup {...field}>
+                            <FormControlLabel
+                              value="online"
+                              control={<Radio />}
+                              label="Online Payment"
+                            />
+                            <FormControlLabel
+                              value="cash"
+                              control={<Radio />}
+                              label="Cash On Delivery"
+                            />
+                          </RadioGroup>
+                        )}
+                      />
                     </Stack>
                     <Stack direction={"row"} width="100%" alignItems={"center"}>
                       <Controller
-                        name="checkbox"
+                        name="termsAndConditions"
                         control={control}
                         rules={{ required: true }}
                         render={({ field }) => <Checkbox {...field} />}
