@@ -54,7 +54,7 @@ export const wishListSlice = createSlice({
           state.wishList = state.wishList.filter(
             (product) => product.id != productID.id
           );
-          state.totalAmount -= 1;
+          state.totalAmount -= productID.amount;
         }
       } catch (e) {}
     },
