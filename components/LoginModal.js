@@ -69,7 +69,7 @@ const LoginModal = ({ open, setOpen }) => {
       .post("http://apiaranya.jumriz.com/public/api/auth/login", data, {})
       .then((result) => {
         console.log(result.data);
-        localStorage.setItem("acesstoken1", result.data.token);
+        localStorage.setItem("acesstoken", result.data.token);
         localStorage.setItem("user", JSON.stringify(result.data.user));
         Cookies.set("acesstoken", result.data.token);
         Cookies.set("user", JSON.stringify(result.data.user));

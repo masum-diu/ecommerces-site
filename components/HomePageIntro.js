@@ -75,9 +75,6 @@ const HomePageIntro = ({ title }) => {
   };
   const handelogout = () => {
     localStorage.clear();
-    /* localStorage.removeItem("user");
-    localStorage.removeItem("acesstoken1");
-    localStorage.removeItem("persist:root"); */
     setUser("");
     setAnchorEl(null);
     handleMobileMenuClose();
