@@ -13,7 +13,7 @@ export const wishListSlice = createSlice({
     addToWishList: (state, action) => {
       // state.cart.push(action.payload);
       const productID = action.payload;
-      console.log("your log output inside stor", productID);
+      // console.log("your log output inside stor", productID);
       try {
         const exist = state.wishList.find(
           (product) => product.id === productID.id
@@ -41,35 +41,27 @@ export const wishListSlice = createSlice({
         return e;
       }
     },
-    /* removeFromCart: (state, action) => {
+    removeFromWishList: (state, action) => {
       const productID = action.payload;
+      console.log('your sdfsdfsdfst',state.totalAmount)
 
       try {
-        const exist = state.cart.find(
-          (product) =>
-            product.id === productID.id &&
-            product.size === productID.size &&
-            product.color === productID.color &&
-            product.colorCode === productID.colorCode
+        const exist = state.wishList.find(
+          (product) => product.id === productID.id
         );
-
-        if (exist.amount >= 1) {
-          state.cart = state.cart.filter(
-            (product) =>
-              product.id != productID.id ||
-              product.size !== productID.size ||
-              product.color !== productID.color ||
-              product.colorCode !== productID.colorCode
+        // console.log("your log output", exist);
+        if (exist.totalAmount >= 1) {
+          state.wishList = state.wishList.filter(
+            (product) => product.id != productID.id
           );
-          state.totalAmount -= productID.amount;
-          state.totalPrice -= productID.totalPrice;
+          state.totalAmount -= 1;
         }
       } catch (e) {}
-    }, */
+    },
   },
 });
 
-export const { addToWishList } = wishListSlice.actions;
+export const { addToWishList, removeFromWishList } = wishListSlice.actions;
 
 export default wishListSlice.reducer;
 

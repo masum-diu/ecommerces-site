@@ -7,7 +7,11 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../src/features/cart/cartSlice";
 import Link from "next/link";
-import { addToWishList } from "../../src/features/wishlist/wishlistSlice";
+import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
+import {
+  addToWishList,
+  removeFromWishList,
+} from "../../src/features/wishlist/wishlistSlice";
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -23,6 +27,9 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [colorId, setColorId] = useState(0);
   const [stockDetails, setStockDetails] = useState([]);
   const [stockAmount, setStockAmount] = useState(0);
+  const [showHeart, setShowHeart] = useState("block");
+  const [showBrokenHeart, setShowBrokenHeart] = useState("none");
+
   // console.log("your log output", cart);
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
@@ -91,6 +98,13 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   };
   const handleAddToWishList = (data) => {
     dispatch(addToWishList(data));
+    setShowBrokenHeart("block");
+    setShowHeart("none");
+  };
+  const handleRemoveFromList = (data) => {
+    dispatch(removeFromWishList(data));
+    setShowBrokenHeart("none");
+    setShowHeart("block");
   };
   const finalData = {
     id: data.id,
@@ -120,7 +134,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     stock: data?.p_stocks,
     totalAmount: 1,
   };
-  console.log("ami kas", dataForWishList);
+  // console.log("ami kas", dataForWishList);
   // console.log(imageURL);
   return (
     <div>
@@ -175,10 +189,23 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               className={style.size}
             >
               <IconButton
+                style={{ display: `${showHeart}` }}
                 aria-label=""
                 onClick={() => handleAddToWishList(dataForWishList)}
               >
                 <FiHeart style={{ color: "#fff" }} />
+              </IconButton>
+              <IconButton
+                style={{ display: `${showBrokenHeart}` }}
+                aria-label=""
+                onClick={() =>
+                  handleRemoveFromList({
+                    id: data.id,
+                    amount:1,
+                  })
+                }
+              >
+                <HeartBrokenOutlinedIcon style={{ color: "#fff" }} />
               </IconButton>
               <Button
                 onClick={() => router.push(url)}
