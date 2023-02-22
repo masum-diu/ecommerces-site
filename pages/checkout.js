@@ -109,9 +109,11 @@ const checkout = () => {
         }
       )
       .then(async (result) => {
-        console.log("post response", result?.data?.data?.original?.data);
+        console.log("post response", result?.data?.payment);
+        const response = JSON.parse(result?.data?.payment);
+
         // console.log("post response", result?.data?.data?.original?.logo);
-        await window.location.replace(result?.data?.data?.original?.data);
+        await window.location.replace(response?.data);
         // localStorage.setItem("acesstoken1", result.data.token);
         // localStorage.setItem("user", JSON.stringify(result.data.user));
         // setUserData(result.data);

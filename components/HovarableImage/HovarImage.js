@@ -16,6 +16,12 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
+  const showHeartred = useSelector((state) => state.wishList.toggleShowHeart);
+  const showBrokenHeartred = useSelector(
+    (state) => state.wishList.toggleShowBrokenHeart
+  );
+  const wishListArray = useSelector((state) => state.wishList.wishList);
+  const myProduct = wishListArray.find((product) => product.id === data.id);
   const [colorSelected, setColorSelected] = useState(false);
   const [sizeSelected, setSizeSelected] = useState(false);
   const [disableBtn, setDisableBtn] = useState(true);
@@ -24,13 +30,17 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [color, setColorName] = useState("");
   const [colorCode, setColorCode] = useState("");
   const [sizeId, setSizeId] = useState(0);
+  const [showHeart, setShowHeart] = useState(
+    myProduct?.showHeart ? myProduct?.showHeart : "block"
+  );
+  const [showBrokenHeart, setShowBrokenHeart] = useState(
+    myProduct?.showBrokenHeart ? myProduct?.showBrokenHeart : "none"
+  );
   const [colorId, setColorId] = useState(0);
   const [stockDetails, setStockDetails] = useState([]);
   const [stockAmount, setStockAmount] = useState(0);
-  const [showHeart, setShowHeart] = useState("block");
-  const [showBrokenHeart, setShowBrokenHeart] = useState("none");
 
-  // console.log("your log output", cart);
+  console.log("jits my product", myProduct);
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
       // console.log(sizeSelected);
@@ -133,6 +143,8 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     amount: 1,
     stock: data?.p_stocks,
     totalAmount: 1,
+    showHeart: "none",
+    showBrokenHeart: "block",
   };
   // console.log("ami kas", dataForWishList);
   // console.log(imageURL);
@@ -196,12 +208,14 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
                 <FiHeart style={{ color: "#fff" }} />
               </IconButton>
               <IconButton
-                style={{ display: `${showBrokenHeart}`}}
+                style={{ display: `${showBrokenHeart}` }}
                 aria-label=""
                 onClick={() =>
                   handleRemoveFromList({
                     id: data.id,
                     amount: 1,
+                    showHeart: "block",
+                    showBrokenHeart: "none",
                   })
                 }
               >
