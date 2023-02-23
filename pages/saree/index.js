@@ -3,16 +3,12 @@ import {
   Grid,
   Hidden,
   IconButton,
-  ImageListItem,
   Stack,
   Typography,
 } from "@mui/material";
-import Image from "next/image";
+
 import React, { useEffect } from "react";
-import {
-  MdOutlineKeyboardArrowDown,
-  MdOutlineKeyboardArrowRight,
-} from "react-icons/md";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { useRouter } from "next/router";
 import SegmentIcon from "@mui/icons-material/Segment";
 import SortIcon from "@mui/icons-material/Sort";
@@ -23,11 +19,10 @@ import Menu from "../../components/Menu";
 import Footer from "../../components/Footer";
 import MenuDawer from "../../components/MenuDawer";
 import Menu1Dawer from "../../components/Menu1Dawer";
-import Link from "next/link";
+
 import { useDispatch } from "react-redux";
 import {
   useGetCategoryAndSubWiseProductsQuery,
-  useGetProductsQuery,
   useGetSubWiseProductsQuery,
 } from "../../src/features/api/apiSlice";
 import Loader from "../../components/Loader/Loader";
@@ -39,8 +34,7 @@ const masterCollectionLayout = () => {
     router.pathname.replace("/", "").slice(1);
   const productName = router.pathname.replace("/", "").toUpperCase();
   const dispatch = useDispatch();
-  console.log("your log output", path);
-  console.log("sdsdf", router);
+
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
@@ -212,7 +206,7 @@ const masterCollectionLayout = () => {
                   {dataList?.p_name}
                 </Typography>
                 <Typography variant="cardHeader3" color="initial">
-                  BDT {dataList?.p_sale_price}
+                  BDT {dataList?.p_sale_price} ৳
                 </Typography>
               </Stack>
             </>
@@ -257,7 +251,7 @@ const masterCollectionLayout = () => {
                     {dataList?.p_name}
                   </Typography>
                   <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList?.p_sale_price}
+                    BDT {dataList?.p_sale_price} ৳
                   </Typography>
                 </Stack>
               </Grid>
@@ -318,7 +312,7 @@ const masterCollectionLayout = () => {
                     {dataList?.p_name}
                   </Typography>
                   <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList?.p_sale_price}
+                    BDT {dataList?.p_sale_price} ৳
                   </Typography>
                 </Stack>
               </Grid>
@@ -354,7 +348,7 @@ const masterCollectionLayout = () => {
                   {dataList?.p_name}
                 </Typography>
                 <Typography variant="cardHeader3" color="initial">
-                  BDT {dataList?.p_sale_price}
+                  BDT {dataList?.p_sale_price} ৳
                 </Typography>
               </Stack>
             </>

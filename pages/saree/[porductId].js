@@ -22,6 +22,7 @@ import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import { addToCart } from "../../src/features/cart/cartSlice";
+import { SideBySideMagnifier } from "react-image-magnifiers";
 const PorductDetails = () => {
   const router = useRouter();
   const path = router.asPath;
@@ -195,36 +196,25 @@ const PorductDetails = () => {
         >
           <Grid container>
             <Grid item xl={6} lg={7} md={6}>
-              {/* <Image
-            src={products?.feature_image}
-            width={1000}
-            height={1000}
-           sx={{width:"90vw",maxWidth:"100%"}}
-            /> */}
-              <img
-                src={products?.feature_image}
-                alt=""
-                style={{
-                  width: "90vw",
-                  maxWidth: "664px",
-                }}
+              <SideBySideMagnifier
+                alwaysInPlace
+                imageSrc={products?.feature_image}
+                style={{ width: "90vw", maxWidth: "330px" }}
+                largeImageSrc={products?.feature_image}
               />
-              <Stack direction={"row"} spacing={0.5} mb={0.5}>
-                <img
-                  src="/assets/6.png"
-                  alt=""
-                  style={{
-                    width: "90vw",
-                    maxWidth: "330px",
-                  }}
+
+              <Stack direction={"row"} spacing={0.5} mb={0.5} >
+                <SideBySideMagnifier
+                  alwaysInPlace
+                  imageSrc="https://aranya.com.bd/wp-content/uploads/2023/02/1-9.jpg"
+                  style={{ width: "90vw", maxWidth: "330px" }}
+                  largeImageSrc="https://aranya.com.bd/wp-content/uploads/2023/02/1-9.jpg"
                 />
-                <img
-                  src="/assets/7.png"
-                  alt=""
-                  style={{
-                    width: "90vw",
-                    maxWidth: "330px",
-                  }}
+                <SideBySideMagnifier
+                  alwaysInPlace
+                  imageSrc="https://aranya.com.bd/wp-content/uploads/2023/02/3-9.jpg"
+                  style={{ width: "90vw", maxWidth: "330px" }}
+                  largeImageSrc="https://aranya.com.bd/wp-content/uploads/2023/02/3-9.jpg"
                 />
               </Stack>
 

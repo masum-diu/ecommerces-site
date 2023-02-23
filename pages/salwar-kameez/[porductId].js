@@ -22,6 +22,7 @@ import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import { addToCart } from "../../src/features/cart/cartSlice";
+import { SideBySideMagnifier } from "react-image-magnifiers";
 const PorductDetails = () => {
   const router = useRouter();
   const path = router.asPath;
@@ -72,11 +73,11 @@ const PorductDetails = () => {
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         if (stockAmount > 0) {
-          console.log("stock morethan 0", stockAmount);
+          // console.log("stock morethan 0", stockAmount);
           setDisableBtn(false);
         }
         if (stockAmount === undefined) {
-          console.log("stock less then 0", stockAmount);
+          // console.log("stock less then 0", stockAmount);
           setDisableBtn(true);
         }
         // console.log("your stock", stockDetails);
@@ -88,18 +89,18 @@ const PorductDetails = () => {
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
     ) {
       if (sizeSelected == true || colorSelected == true) {
-        console.log("inside anyone");
+        // console.log("inside anyone");
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId || stock?.colour_id === colorId
         );
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         if (stockAmount > 0) {
-          console.log("stock morethan 0", stockAmount);
+          // console.log("stock morethan 0", stockAmount);
           setDisableBtn(false);
         }
         if (stockAmount === undefined) {
-          console.log("stock less then 0", stockAmount);
+          // console.log("stock less then 0", stockAmount);
           setDisableBtn(true);
         }
         // setDisableBtn(false);
@@ -131,7 +132,7 @@ const PorductDetails = () => {
   // console.log("your log output", router);
 
   // console.log(products?.product_size[0]?.size_name);
-  console.log("kash", products);
+  // console.log("kash", products);
   // console.log("sdfs", productId);
   // console.log(size);
   // console.log(color);
@@ -188,15 +189,25 @@ const PorductDetails = () => {
             width={1000}
             height={1000}
            sx={{width:"90vw",maxWidth:"100%"}}
+           
             /> */}
-              <img
+             <SideBySideMagnifier
+                alwaysInPlace
+                imageSrc={products?.feature_image}
+                style={{
+                  width: "90vw",
+                  maxWidth: "664px",
+                }}
+                largeImageSrc={products?.feature_image}
+              />
+              {/* <img
                 src={products?.feature_image}
                 alt=""
                 style={{
                   width: "90vw",
                   maxWidth: "664px",
                 }}
-              />
+              /> */}
               <Stack direction={"row"} spacing={0.5} mb={0.5}>
                 <img
                   src="/assets/6.png"

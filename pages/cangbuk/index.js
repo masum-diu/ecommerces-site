@@ -36,6 +36,7 @@ const masterCollectionLayout = () => {
   const path =
     router.pathname.replace("/", "").charAt(0).toUpperCase() +
     router.pathname.replace("/", "").slice(1);
+    const productName = router.pathname.replace("/", "").toUpperCase();
   // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
@@ -120,7 +121,7 @@ const masterCollectionLayout = () => {
             </Typography>
           </Stack>
           <Typography variant="cardHeader1" color="initial">
-            WOMEN SHIRT COLLECTION
+            {productName} COLLECTION
           </Typography>
         </Stack>
 
@@ -208,7 +209,7 @@ const masterCollectionLayout = () => {
                   {dataList?.p_name}
                 </Typography>
                 <Typography variant="cardHeader3" color="initial">
-                  BDT {dataList?.p_sale_price}
+                  BDT {dataList?.p_sale_price} ৳
                 </Typography>
               </Stack>
             </>
@@ -253,7 +254,7 @@ const masterCollectionLayout = () => {
                     {dataList?.p_name}
                   </Typography>
                   <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList?.p_sale_price}
+                    BDT {dataList?.p_sale_price} ৳
                   </Typography>
                 </Stack>
               </Grid>
@@ -314,7 +315,7 @@ const masterCollectionLayout = () => {
                     {dataList?.p_name}
                   </Typography>
                   <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList?.p_sale_price}
+                    BDT {dataList?.p_sale_price} ৳
                   </Typography>
                 </Stack>
               </Grid>
@@ -350,7 +351,7 @@ const masterCollectionLayout = () => {
                   {dataList?.p_name}
                 </Typography>
                 <Typography variant="cardHeader3" color="initial">
-                  BDT {dataList?.p_sale_price}
+                  BDT {dataList?.p_sale_price} ৳
                 </Typography>
               </Stack>
             </>
