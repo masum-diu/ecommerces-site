@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import axios from "axios";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
@@ -33,7 +34,7 @@ const SearchModal = ({ open, setOpen }) => {
   const [data, setData] = useState([]);
   const [searchApiData, setSearchApiData] = useState([]);
   const [filterVal, setFilterVal] = useState("");
-  console.log(data);
+  // console.log(data);
   const fetchData = () => {
     return axios
       .get(
@@ -44,7 +45,7 @@ const SearchModal = ({ open, setOpen }) => {
         setSearchApiData(response.data?.data);
       });
   };
-
+  console.log("search api", searchApiData);
   useEffect(() => {
     fetchData();
   }, []);
@@ -117,11 +118,13 @@ const SearchModal = ({ open, setOpen }) => {
           <Stack
             direction={"row"}
             flexWrap={"wrap"}
-            columnGap={1}
-            rowGap={1}
+            columnGap={1.5}
+            rowGap={1.5}
+            justifyContent="center"
+            // alignItems={"center"}
             alignItems={"center"}
           >
-            {data?.map((data) => (
+            {data?.slice(0, 4).map((data) => (
               <>
                 <Stack direction={"column"} mt={4} spacing={1}>
                   <img src={data?.feature_image} alt="" width={100} />

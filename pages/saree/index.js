@@ -39,8 +39,8 @@ const masterCollectionLayout = () => {
     router.pathname.replace("/", "").slice(1);
   const productName = router.pathname.replace("/", "").toUpperCase();
   const dispatch = useDispatch();
-  console.log("your log output", path);
-  console.log("sdsdf", router);
+  // console.log("your log output", path);
+  // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
@@ -79,7 +79,7 @@ const masterCollectionLayout = () => {
   }
 
   // const products = data?.data;
-  // console.log("from shopsdfs", staticData);
+  console.log("from shopsdfs", products);
   // console.log("from shop", sub_cat);
 
   return (

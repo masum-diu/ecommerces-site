@@ -78,11 +78,7 @@ const addtocart = () => {
                           }}
                         >
                           <IconButton
-                            onClick={() =>
-                              dispatch(
-                                removeFromCart(data)
-                              )
-                            }
+                            onClick={() => dispatch(removeFromCart(data))}
                           >
                             <MdClose />
                           </IconButton>
@@ -97,7 +93,9 @@ const addtocart = () => {
                               color="primary"
                               disabled={true}
                               style={{
-                                backgroundColor: `${data?.colorCode}`,width:"25px",height:"25px"
+                                backgroundColor: `${data?.colorCode}`,
+                                width: "25px",
+                                height: "25px",
                               }}
                             ></Box>
                             <Typography variant="subtitle1" color="initial">
@@ -140,12 +138,14 @@ const addtocart = () => {
                                     image: data.image,
                                     name: data.name,
                                     size: data.size,
+                                    size_id: data.size_id,
                                     text: data.text,
                                     color: data.color,
+                                    color_id: data.color_id,
                                     colorCode: data.colorCode,
                                     price: data.price,
                                     amount: data.amount + 1,
-                                    stock:data.stock,
+                                    stock: data.stock,
                                     totalAmount: 1,
                                     totalPrice:
                                       data.totalPrice + parseFloat(data.price),
