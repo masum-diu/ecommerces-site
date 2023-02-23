@@ -88,7 +88,7 @@ const PorductDetails = () => {
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
     ) {
       if (sizeSelected == true || colorSelected == true) {
-        /* console.log("inside anyone");
+        console.log("inside anyone");
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId || stock?.colour_id === colorId
         );
@@ -101,7 +101,7 @@ const PorductDetails = () => {
         if (stockAmount === undefined) {
           console.log("stock less then 0", stockAmount);
           setDisableBtn(true);
-        } */
+        }
         setDisableBtn(false);
       }
       /* console.log("inside any one");

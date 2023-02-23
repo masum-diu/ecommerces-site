@@ -68,6 +68,7 @@ const wishlists = () => {
                     onClick={() =>
                       handleRemoveFromList({
                         id: wishlistData.id,
+                        amount:1
                       })
                     }
                   >

@@ -30,6 +30,9 @@ export const productApi = createApi({
     getSubWiseProducts: builder.query({
       query: (sub_cat) => `/category/${sub_cat}`,
     }),
+    getAttributesOfProducts: builder.query({
+      query: (sub_cat) => `category-fabric/${sub_cat}`,
+    }),
   }),
 });
 
@@ -39,5 +42,5 @@ export const {
   useGetHomePageProductsQuery,useGetCampignListsQuery,useGetParticularCampignListsQuery,
   useGetCategoryAndSubWiseProductsQuery,
   useGetCategoryWiseProductsQuery,
-  useGetSubWiseProductsQuery
+  useGetSubWiseProductsQuery,useGetAttributesOfProductsQuery
 } = productApi;

@@ -45,7 +45,7 @@
   height: 1px;
   display: block;
   transition: all 0.3s ease;
-  bottom: 5%;
+  bottom: -1%;
 }
 .menu3 li:hover::after {
   width: 100%;

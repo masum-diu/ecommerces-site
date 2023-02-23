@@ -45,7 +45,7 @@ const SearchModal = ({ open, setOpen }) => {
         setSearchApiData(response.data?.data);
       });
   };
-  console.log("search api", searchApiData);
+  // console.log("search api", searchApiData);
   useEffect(() => {
     fetchData();
   }, []);
