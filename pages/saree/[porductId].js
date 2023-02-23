@@ -22,7 +22,9 @@ import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import { addToCart } from "../../src/features/cart/cartSlice";
+import ThumbsGallery from "../../components/thumble/ThumbsGallery";
 const PorductDetails = () => {
+  const [open,setOpen]=useState(false)
   const router = useRouter();
   const path = router.asPath;
   const productId = router?.query?.porductId;
@@ -185,7 +187,7 @@ const PorductDetails = () => {
     totalPrice: count * parseFloat(products?.p_sale_price),
   };
   // console.log("ami kas", finalData);
-
+   
   return (
     <>
       <HomePageIntro title={"Saree "} />
@@ -204,6 +206,7 @@ const PorductDetails = () => {
            sx={{width:"90vw",maxWidth:"100%"}}
             /> */}
               <img
+                onClick={()=>setOpen(true)}
                 src={products?.feature_image}
                 alt=""
                 style={{
@@ -213,6 +216,7 @@ const PorductDetails = () => {
               />
               <Stack direction={"row"} spacing={0.5} mb={0.5}>
                 <img
+              
                   src="/assets/6.png"
                   alt=""
                   style={{
@@ -435,8 +439,10 @@ const PorductDetails = () => {
             </Grid>
           </Grid>
         </Box>
+       
         <Footer />
       </Hidden>
+      {/* <ThumbsGallery open={open} setOpen={setOpen}/> */}
       <Hidden only={["md", "lg", "xl", "sm"]}>
         <Box mt={10} sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}>
           <Swiper
@@ -766,8 +772,11 @@ const PorductDetails = () => {
           </Stack>
         </Box>
       </Hidden>
+      <ThumbsGallery open={open} setOpen={setOpen}/>
     </>
+    
   );
+  
 };
 
 export default PorductDetails;
