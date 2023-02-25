@@ -2,30 +2,24 @@ import React, { useState } from "react";
 import { Stack } from "@mui/system";
 import { Box, IconButton, Modal, cancelOpen } from "@mui/material";
 import { MdClose } from "react-icons/md";
-
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
+const images = [
+  {
+    original: "https://picsum.photos/id/1018/1000/600/",
+    thumbnail: "https://picsum.photos/id/1018/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1015/1000/600/",
+    thumbnail: "https://picsum.photos/id/1015/250/150/",
+  },
+  {
+    original: "https://picsum.photos/id/1019/1000/600/",
+    thumbnail: "https://picsum.photos/id/1019/250/150/",
+  },
+];
 
 const ThumbsGallery = ({ open, setOpen }) => {
-  const imgs = [
-    {
-      id: 0,
-      value: "https://aranya.com.bd/wp-content/uploads/2023/02/1-2.jpg",
-    },
-    {
-      id: 1,
-      value: "https://aranya.com.bd/wp-content/uploads/2023/02/3-2.jpg",
-    },
-    {
-      id: 2,
-      value: "https://aranya.com.bd/wp-content/uploads/2023/02/2-2.jpg",
-    },
-  ];
-  const [sliderData, setSliderData] = useState(imgs[0]);
-
-  const handleClick = (index) => {
-    const slider = imgs[index];
-    setSliderData(slider);
-  };
-
   return (
     <>
       <Modal
@@ -62,54 +56,17 @@ const ThumbsGallery = ({ open, setOpen }) => {
             direction={"column"}
             justifyContent={"center"}
             alignItems="center"
+            sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto" }}
           >
-            <img
-              src={sliderData.value}
-              alt=""
-              style={{ width: "90vw", maxWidth: "600px", margin: "0 atuo" }}
-              height="fit-content"
+            <ImageGallery
+              items={images}
+              showPlayButton={false}
+              showFullscreenButton={false}
+              slideOnThumbnailOver={true}
             />
-
-            <Stack direction={"row"} mt={3} spacing={3}>
-              {imgs.map((data, i) => (
-                <>
-                  <img
-                    src={data.value}
-                    alt=""
-                    onClick={() => handleClick(i)}
-                    style={{ width: "90vw", maxWidth: "150px" }}
-                  />
-                </>
-              ))}
-            </Stack>
           </Stack>
         </Box>
       </Modal>
-
-      {/* <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        PaperProps={{
-          sx: { width:"100%", height: "fit-content" },
-        }}
-      >
-        <DialogTitle>
-          <Stack justifyContent={"flex-end"} alignItems={"flex-end"} p={1}>
-            <IconButton aria-label="" onClick={() => setOpen(false)}>
-              <MdClose />
-            </IconButton>
-          </Stack>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{display:"flex"}}>
-           <img src="https://static.massimodutti.net/3/photos//2023/V/0/1/p/5668/601/401/5668601401_2_5_16.jpg?t=1676548550007&impolicy=massimodutti-itxmediumhigh&imwidth=700&imformat=chrome" alt="" />
-           <img src="https://static.massimodutti.net/3/photos//2023/V/0/1/p/5668/601/401/5668601401_2_5_16.jpg?t=1676548550007&impolicy=massimodutti-itxmediumhigh&imwidth=700&imformat=chrome" alt="" />
-           <img src="https://static.massimodutti.net/3/photos//2023/V/0/1/p/5668/601/401/5668601401_2_5_16.jpg?t=1676548550007&impolicy=massimodutti-itxmediumhigh&imwidth=700&imformat=chrome" alt="" />
-           <img src="https://static.massimodutti.net/3/photos//2023/V/0/1/p/5668/601/401/5668601401_2_5_16.jpg?t=1676548550007&impolicy=massimodutti-itxmediumhigh&imwidth=700&imformat=chrome" alt="" />
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions></DialogActions>
-      </Dialog> */}
     </>
   );
 };
