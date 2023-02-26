@@ -51,7 +51,7 @@ const PorductDetails = () => {
   const initialColor = products?.p_colours[0]?.slug
     ? products?.p_colours[0]?.slug
     : "No Color Selected"; */
-console.log('your log output',typeof(productId),productId)
+  // console.log('your log output',typeof(productId),productId)
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
@@ -71,12 +71,12 @@ console.log('your log output',typeof(productId),productId)
         );
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
-        if (stockAmount>0) {
-          console.log('stock morethan 0',stockAmount)
+        if (stockAmount > 0) {
+          console.log("stock morethan 0", stockAmount);
           setDisableBtn(false);
         }
-        if (stockAmount===undefined) {
-          console.log('stock less then 0',stockAmount)
+        if (stockAmount === undefined) {
+          console.log("stock less then 0", stockAmount);
           setDisableBtn(true);
         }
         // console.log("your stock", stockDetails);
@@ -104,11 +104,8 @@ console.log('your log output',typeof(productId),productId)
         }
         // setDisableBtn(false);
       }
-      /* if (sizeSelected == true || colorSelected == true) {
-        setDisableBtn(false);
-      } */
     }
-  }, [sizeSelected, colorSelected, stockDetails, colorId, sizeId,stockAmount]);
+  }, [sizeSelected, colorSelected, stockDetails, colorId, sizeId, stockAmount]);
 
   if (isLoading) {
     return <Loader></Loader>;
@@ -204,7 +201,7 @@ console.log('your log output',typeof(productId),productId)
               />
               <Stack direction={"row"} spacing={0.5} mb={0.5}>
                 <img
-                  src="/assets/6.png"
+                  src={products?.p_image_one}
                   alt=""
                   style={{
                     width: "90vw",
@@ -212,7 +209,7 @@ console.log('your log output',typeof(productId),productId)
                   }}
                 />
                 <img
-                  src="/assets/7.png"
+                  src={products?.p_image_two}
                   alt=""
                   style={{
                     width: "90vw",
@@ -222,7 +219,11 @@ console.log('your log output',typeof(productId),productId)
               </Stack>
 
               <img
-                src="/assets/Bitmap.png"
+                src={
+                  products?.p_image_three
+                    ? products?.p_image_three
+                    : "/assets/Bitmap.png"
+                }
                 alt=""
                 style={{
                   width: "90vw",
@@ -281,6 +282,7 @@ console.log('your log output',typeof(productId),productId)
                   <Stack direction={"row"}>
                     {products?.p_sizes?.map((size, index) => (
                       <Button
+                      key={index}
                         variant="primary"
                         color="primary"
                         onClick={() =>
@@ -403,7 +405,8 @@ console.log('your log output',typeof(productId),productId)
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
-                    In Availability: {stockAmount>0 ? "In Stock" : "Out of Stock"}
+                    In Availability:{" "}
+                    {stockAmount > 0 ? "In Stock" : "Out of Stock"}
                   </Typography>
                   <Typography variant="cardHeader12" color="initial">
                     Check In Store Availability
@@ -437,8 +440,7 @@ console.log('your log output',typeof(productId),productId)
           >
             <SwiperSlide
               style={{
-                backgroundImage:
-                  "url('https://aranya.com.bd/wp-content/uploads/2023/02/1-2.jpg')",
+                backgroundImage: `url(${products?.feature_image})`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -467,8 +469,7 @@ console.log('your log output',typeof(productId),productId)
             </SwiperSlide>
             <SwiperSlide
               style={{
-                backgroundImage:
-                  "url('https://aranya.com.bd/wp-content/uploads/2023/02/3-2.jpg')",
+                backgroundImage: `url(${products?.p_image_one})`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -497,8 +498,11 @@ console.log('your log output',typeof(productId),productId)
             </SwiperSlide>
             <SwiperSlide
               style={{
-                backgroundImage:
-                  "url('https://aranya.com.bd/wp-content/uploads/2023/02/2-2.jpg')",
+                backgroundImage: `url(${
+                  products?.p_image_two
+                    ? products?.p_image_two
+                    : "/assets/Bitmap.png"
+                })`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -527,8 +531,11 @@ console.log('your log output',typeof(productId),productId)
             </SwiperSlide>
             <SwiperSlide
               style={{
-                backgroundImage:
-                  "url('https://aranya.com.bd/wp-content/uploads/2023/02/4-2.jpg')",
+                backgroundImage: `url(${
+                  products?.p_image_three
+                    ? products?.p_image_three
+                    : "/assets/Bitmap.png"
+                })`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -557,14 +564,14 @@ console.log('your log output',typeof(productId),productId)
             </SwiperSlide>
           </Swiper>
           <Grid container>
-            <Grid item xl={6} lg={5} md={6}>
+            <Grid item xl={6} lg={5} md={6} width={"100%"}>
               <Stack
                 direction={"column"}
                 mt={3}
                 spacing={2}
                 sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
               >
-                <Stack direction={"row"} spacing={1} alignItems="center">
+                <Stack direction={"row"} spacing={1} alignItems="center" >
                   <Typography variant="cardHeader3" color="#959595">
                     Sizes
                   </Typography>
@@ -587,9 +594,12 @@ console.log('your log output',typeof(productId),productId)
                   <Stack direction={"row"}>
                     {products?.p_sizes?.map((size, index) => (
                       <Button
+                      key={index}
                         variant="primary"
                         color="primary"
-                        onClick={() => handleSelectSize(size?.size_name)}
+                        onClick={() =>
+                          handleSelectSize(size?.size_name, size?.id)
+                        }
                       >
                         {size?.size_name}
                       </Button>
@@ -683,7 +693,11 @@ console.log('your log output',typeof(productId),productId)
                         border: "1px solid #000",
                       }}
                       onClick={() =>
-                        handleSelectColor(color?.color_name, color?.color_code)
+                        handleSelectColor(
+                          color?.color_name,
+                          color?.color_code,
+                          color?.id
+                        )
                       }
                     ></Box>
                   ))}
@@ -707,7 +721,8 @@ console.log('your log output',typeof(productId),productId)
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
-                  In Availability: {stockAmount>0 ? "In Stock" : "Out of Stock"}
+                    In Availability:{" "}
+                    {stockAmount > 0 ? "In Stock" : "Out of Stock"}
                   </Typography>
                   <Typography variant="cardHeader12" color="initial">
                     Check In Store Availability
@@ -760,3 +775,4 @@ console.log('your log output',typeof(productId),productId)
 };
 
 export default PorductDetails;
+

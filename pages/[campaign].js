@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import HovarImage from "../components/HovarableImage/HovarImage";
@@ -9,16 +9,20 @@ import Loader from "../components/Loader/Loader";
 import { useGetParticularCampignListsQuery } from "../src/features/api/apiSlice";
 const campaign = () => {
   const router = useRouter();
+  const [campData, setCampData] = useState([]);
 
-  if (router.asPath !== router.route) {
-    var Camp_id = router?.query.cat_id;
-    var Camp_name = router?.query.cat_name;
-  }
+  const Camp_id = router?.query?.cat_id;
+  const Camp_name = router?.query?.cat_name;
 
   const { data, isLoading, isSuccess, isError, error } =
     useGetParticularCampignListsQuery(Camp_id);
-  const camp = data?.data;
-  console.log(camp);
+  useEffect(() => {
+    if (isSuccess) {
+      setCampData(data?.data);
+    }
+  }, [data,isSuccess]);
+
+  console.log(campData);
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -52,7 +56,7 @@ const campaign = () => {
           columnGap={3}
           rowGap={3}
         >
-          {camp?.map((data) => (
+          {campData?.map((data) => (
             <>
               <Stack direction={"column"} spacing={2} key={data?.id}>
                 <HovarImage
