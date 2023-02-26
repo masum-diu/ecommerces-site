@@ -127,6 +127,7 @@ const SearchModal = ({ open, setOpen }) => {
             {data?.slice(0, 4).map((data) => (
               <>
                 <Link
+                style={{textDecoration:"none"}}
                   href={`/${
                     data?.p_subcategory?.slug === "unknown"
                       ? data?.p_category?.slug
@@ -135,16 +136,16 @@ const SearchModal = ({ open, setOpen }) => {
                 >
                   <Stack direction={"column"} mt={4} spacing={1}>
                     <img src={data?.feature_image} alt="" width={100} />
-                    <Typography variant="cardHeader2" color="initial">
+                    <Typography variant="cardHeader2" color="initial" textAlign={"center"} >
                       {data?.p_name}
                     </Typography>
-                    <Typography
+                    {/* <Typography
                       variant="cardHeader2"
                       fontWeight={"bold"}
                       color="initial"
                     >
                       BDT {data?.p_sale_price} ৳
-                    </Typography>
+                    </Typography> */}
                   </Stack>
                 </Link>
               </>

@@ -440,6 +440,35 @@ const PorductDetails = () => {
           >
             <SwiperSlide
               style={{
+                backgroundImage: `url(${products?.feature_image})`,
+                backgroundSize: "cover",
+                height: "100vh",
+                maxHeight: "fit-content",
+                backgroundPosition: "center",
+                width: "100%",
+              }}
+            >
+              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
+                <Stack direction={"column"}>
+                  <Typography variant="login2" color="initial">
+                    {products?.p_name}
+                  </Typography>
+
+                  <Typography
+                    variant="cardHeader1"
+                    color="initial"
+                    textTransform={"uppercase"}
+                  >
+                    Home {path}
+                  </Typography>
+                </Stack>
+                <Typography variant="tabText1" color="initial">
+                  Price : {products?.p_sale_price} ৳
+                </Typography>
+              </Stack>
+            </SwiperSlide>
+            <SwiperSlide
+              style={{
                 backgroundImage: `url(${products?.p_image_one})`,
                 backgroundSize: "cover",
                 height: "100vh",
@@ -469,7 +498,11 @@ const PorductDetails = () => {
             </SwiperSlide>
             <SwiperSlide
               style={{
-                backgroundImage: `url(${products?.p_image_two})`,
+                backgroundImage: `url(${
+                  products?.p_image_two
+                    ? products?.p_image_two
+                    : "/assets/Bitmap.png"
+                })`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -510,39 +543,6 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
-                <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial">
-                    {products?.p_name}
-                  </Typography>
-
-                  <Typography
-                    variant="cardHeader1"
-                    color="initial"
-                    textTransform={"uppercase"}
-                  >
-                    Home {path}
-                  </Typography>
-                </Stack>
-                <Typography variant="tabText1" color="initial">
-                  Price : {products?.p_sale_price} ৳
-                </Typography>
-              </Stack>
-            </SwiperSlide>
-            <SwiperSlide
-              style={{
-                backgroundImage: `url(${
-                  products?.p_image_four
-                    ? products?.p_image_four
-                    : "/assets/Bitmap.png"
-                })`,
-                backgroundSize: "cover",
-                height: "100vh",
-                maxHeight: "fit-content",
-                backgroundPosition: "center",
-                width: "100%",
-              }}
-            >
               <Stack direction={"column"} spacing={5} sx={{ pt: 85, px: 4 }}>
                 <Stack direction={"column"}>
                   <Typography variant="login2" color="initial">
@@ -571,7 +571,7 @@ const PorductDetails = () => {
                 spacing={2}
                 sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
               >
-                <Stack direction={"row"} spacing={1} alignItems="center">
+                <Stack direction={"row"} spacing={1} alignItems="center" >
                   <Typography variant="cardHeader3" color="#959595">
                     Sizes
                   </Typography>
@@ -591,7 +591,7 @@ const PorductDetails = () => {
                   alignItems="center"
                   justifyContent={"space-between"}
                 >
-                  <Stack direction={"row"} >
+                  <Stack direction={"row"}>
                     {products?.p_sizes?.map((size, index) => (
                       <Button
                       key={index}

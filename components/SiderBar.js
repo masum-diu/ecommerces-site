@@ -1148,7 +1148,7 @@ const SiderBar = ({ open, setOpen }) => {
                   pl: 1.5,
                 }}
               >
-                <Badge badgeContent={4} color="background2">
+                <Badge badgeContent={totalAmount} color="background2">
                   {" "}
                   <FiHeart
                     style={{ color: "#0A0A0A" }}

@@ -111,7 +111,7 @@ const masterCollectionLayout = () => {
   if (attirbutesloading) {
     return <Loader></Loader>;
   }
-
+  console.log('your log output',products)
   return (
     <>
       <HomePageIntro title={"Saree "} />
