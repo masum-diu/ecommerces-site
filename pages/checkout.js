@@ -125,6 +125,7 @@ const checkout = () => {
       });
     console.log("cart for arif vai", cart);
   };
+  console.log("cart for arif vai", cart);
   return (
     <>
       <HomePageIntro title={"Checkout "} />
