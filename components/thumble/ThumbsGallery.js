@@ -20,6 +20,17 @@ const images = [
 ];
 
 const ThumbsGallery = ({ open, setOpen }) => {
+  const imgs = [
+    { id: 0, value: "https://aranya.com.bd/wp-content/uploads/2022/06/62.jpg" },
+    { id: 1, value: "https://aranya.com.bd/wp-content/uploads/2022/06/66.jpg" },
+    { id: 2, value: "https://aranya.com.bd/wp-content/uploads/2022/06/65.jpg" },
+    { id: 3, value: "https://aranya.com.bd/wp-content/uploads/2022/06/64.jpg" },
+  ];
+  const [silderData, setSilderData] = useState(imgs[0]);
+  const handleClick = (index) => {
+    const slider = imgs[index];
+    setSilderData(slider);
+  };
   return (
     <>
       <Modal
@@ -58,12 +69,35 @@ const ThumbsGallery = ({ open, setOpen }) => {
             alignItems="center"
             sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto" }}
           >
-            <ImageGallery
+            {/* <ImageGallery
               items={images}
               showPlayButton={false}
               showFullscreenButton={false}
               slideOnThumbnailOver={true}
-            />
+            /> */}
+          </Stack>
+          <Stack
+            direction={"column"}
+            justifyContent={"center"}
+            alignItems="center"
+            sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto" }}
+          >
+            <img src={silderData.value} width={500} />
+
+            <Stack direction={"row"} mt={5}>
+              {imgs.map((data, i) => (
+                <>
+                  <img
+                    src={data.value}
+                    alt=""
+                    onClick={() => handleClick(i)}
+                    height={200}
+                  />
+                </>
+              ))}
+              
+            </Stack>
+            
           </Stack>
         </Box>
       </Modal>
