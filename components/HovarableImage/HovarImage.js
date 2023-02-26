@@ -11,7 +11,7 @@ import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
 import {
   addToWishList,
   removeFromWishList,
-} from "../../src/features/wishlist/wishlistSlice";
+} from "../../src/features/wishlist/wishListSlice";
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
   const dispatch = useDispatch();

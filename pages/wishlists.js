@@ -5,7 +5,7 @@ import { MdClose } from "react-icons/md";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromWishList } from "../src/features/wishlist/wishlistSlice";
+import { removeFromWishList } from "../src/features/wishlist/wishListSlice";
 import { useRouter } from "next/router";
 
 const wishlists = () => {
