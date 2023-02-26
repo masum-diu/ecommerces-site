@@ -65,7 +65,9 @@ const wishlists = () => {
                     width: "100%",
                     justifyContent: "space-between",
                     alignItems: "center",
+                   
                   }}
+                 
                 >
                   <IconButton
                     onClick={() =>
@@ -81,7 +83,8 @@ const wishlists = () => {
                   <Typography variant="cardHeader12" color="initial">
                     {wishlistData.name}
                   </Typography>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="initial" >
+                    
                     ৳{wishlistData.price}
                   </Typography>
                   <Typography variant="cardHeader12" color="initial">

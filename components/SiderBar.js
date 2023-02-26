@@ -205,7 +205,7 @@ const SiderBar = ({ open, setOpen }) => {
         <Box p={2}>
           <Stack direction={"row"} alignItems="center" spacing={2}>
             <IconButton aria-label="" onClick={() => setOpen(false)}>
-              <MdClose style={{ marginTop: ".5rem" }} />
+              <MdClose  />
             </IconButton>
             <img src="/assets/headerLogo.png" alt="" />
           </Stack>
