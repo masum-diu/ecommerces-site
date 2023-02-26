@@ -440,6 +440,36 @@ const PorductDetails = () => {
           >
             <SwiperSlide
               style={{
+                backgroundImage: `url(${products?.feature_image
+                })`,
+                backgroundSize: "cover",
+                height: "100vh",
+                maxHeight: "fit-content",
+                backgroundPosition: "center",
+                width: "100%",
+              }}
+            >
+              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
+                <Stack direction={"column"}>
+                  <Typography variant="login2" color="initial">
+                    {products?.p_name}
+                  </Typography>
+
+                  <Typography
+                    variant="cardHeader1"
+                    color="initial"
+                    textTransform={"uppercase"}
+                  >
+                    Home {path}
+                  </Typography>
+                </Stack>
+                <Typography variant="tabText1" color="initial">
+                  Price : {products?.p_sale_price} ৳
+                </Typography>
+              </Stack>
+            </SwiperSlide>
+            <SwiperSlide
+              style={{
                 backgroundImage: `url(${products?.p_image_one})`,
                 backgroundSize: "cover",
                 height: "100vh",
@@ -469,38 +499,9 @@ const PorductDetails = () => {
             </SwiperSlide>
             <SwiperSlide
               style={{
-                backgroundImage: `url(${products?.p_image_two})`,
-                backgroundSize: "cover",
-                height: "100vh",
-                maxHeight: "fit-content",
-                backgroundPosition: "center",
-                width: "100%",
-              }}
-            >
-              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
-                <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial">
-                    {products?.p_name}
-                  </Typography>
-
-                  <Typography
-                    variant="cardHeader1"
-                    color="initial"
-                    textTransform={"uppercase"}
-                  >
-                    Home {path}
-                  </Typography>
-                </Stack>
-                <Typography variant="tabText1" color="initial">
-                  Price : {products?.p_sale_price} ৳
-                </Typography>
-              </Stack>
-            </SwiperSlide>
-            <SwiperSlide
-              style={{
                 backgroundImage: `url(${
-                  products?.p_image_three
-                    ? products?.p_image_three
+                  products?.p_image_two
+                    ? products?.p_image_two
                     : "/assets/Bitmap.png"
                 })`,
                 backgroundSize: "cover",
@@ -532,8 +533,8 @@ const PorductDetails = () => {
             <SwiperSlide
               style={{
                 backgroundImage: `url(${
-                  products?.p_image_four
-                    ? products?.p_image_four
+                  products?.p_image_three
+                    ? products?.p_image_three
                     : "/assets/Bitmap.png"
                 })`,
                 backgroundSize: "cover",
