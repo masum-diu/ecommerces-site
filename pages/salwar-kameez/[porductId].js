@@ -131,7 +131,7 @@ const PorductDetails = () => {
   // console.log("your log output", router);
 
   // console.log(products?.product_size[0]?.size_name);
-  console.log("kashs", products);
+  console.log("kash", products);
   // console.log("sdfs", productId);
   // console.log(size);
   // console.log(color);
@@ -562,7 +562,7 @@ const PorductDetails = () => {
                 spacing={2}
                 sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
               >
-                <Stack direction={"row"} spacing={1} alignItems="center">
+                <Stack direction={"row"} spacing={1} alignItems="center" >
                   <Typography variant="cardHeader3" color="#959595">
                     Sizes
                   </Typography>
@@ -759,3 +759,4 @@ const PorductDetails = () => {
 };
 
 export default PorductDetails;
+
