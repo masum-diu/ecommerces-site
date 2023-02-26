@@ -6,8 +6,10 @@ import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishList } from "../src/features/wishlist/wishlistSlice";
+import { useRouter } from "next/router";
 
 const wishlists = () => {
+  const router = useRouter();
   const wishlist = useSelector((state) => state.wishList.wishList);
   // console.log("your log output", wishlist);
   const dispatch = useDispatch();
@@ -39,6 +41,7 @@ const wishlists = () => {
       stock: "IN STOCK",
     },
   ]; */
+  console.log("your log output wishlist", wishlist);
   return (
     <>
       <HomePageIntro title={"wishlist "} />
@@ -68,7 +71,7 @@ const wishlists = () => {
                     onClick={() =>
                       handleRemoveFromList({
                         id: wishlistData.id,
-                        amount:1
+                        amount: 1,
                       })
                     }
                   >
@@ -84,8 +87,21 @@ const wishlists = () => {
                   <Typography variant="cardHeader12" color="initial">
                     {wishlistData.stock[0]?.stock}
                   </Typography>
-                  <Button variant="contained" color="background2" size="small">
-                    Add to Cart
+                  <Button
+                    variant="contained"
+                    color="background2"
+                    size="small"
+                    onClick={() =>
+                      router.push(
+                        `/${
+                          wishlistData?.sub_category?.slug === "unknown"
+                            ? wishlistData?.category?.slug
+                            : wishlistData?.sub_category?.slug
+                        }/${wishlistData?.id}`
+                      )
+                    }
+                  >
+                    View Product
                   </Button>
                 </Stack>
                 <Divider />

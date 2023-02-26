@@ -40,7 +40,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [stockDetails, setStockDetails] = useState([]);
   const [stockAmount, setStockAmount] = useState(0);
 
-  // console.log("jits my product", myProduct);
+  console.log("jits my product", data);
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
       // console.log(sizeSelected);
@@ -143,6 +143,8 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     amount: 1,
     stock: data?.p_stocks,
     totalAmount: 1,
+    category: data?.p_category,
+    sub_category: data?.p_subcategory,
     showHeart: "none",
     showBrokenHeart: "block",
   };
