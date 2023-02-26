@@ -155,7 +155,7 @@ const masterCollectionLayout = () => {
             </Typography>
           </Stack>
           <Typography variant="cardHeader1" color="initial">
-            WOMEN {productName} COLLECTION
+            {productName} COLLECTION
           </Typography>
         </Stack>
 
