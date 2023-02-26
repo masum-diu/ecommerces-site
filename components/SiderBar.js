@@ -505,7 +505,7 @@ const SiderBar = ({ open, setOpen }) => {
                         sx={{ cursor: "pointer" }}
                         onClick={() =>
                           router.push({
-                            pathname: "/tshirts",
+                            pathname: "/t-shirt",
                             query: { cat: 2, sub_cat: 17 },
                           })
                         }

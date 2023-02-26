@@ -10,18 +10,30 @@ import {
 } from "../src/features/api/apiSlice";
 
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const shop = () => {
   const [homedata, setHomeData] = useState([]);
+  const [products, setProducts] = useState([]);
   const router = useRouter();
   const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
   const {
     data: landingdata,
     isSuccess: isLandingSuccess,
+    isLoading: isLandingLoading,
     isError: isLandingError,
     error: landingError,
   } = useGetHomePageProductsQuery();
   // console.log('output',post)
+  useEffect(() => {
+    if (isSuccess) {
+      const handleSuccess = async () => {
+        await setProducts(data?.data);
+      };
+      handleSuccess();
+    }
+  }, [data, isLoading]);
+
   useEffect(() => {
     if (isLandingSuccess) {
       const handleSuccess = async () => {
@@ -33,8 +45,11 @@ const shop = () => {
   if (isLoading) {
     return <Loader></Loader>;
   }
-  const products = data?.data;
-  console.log("from shop", products);
+  if (isLandingLoading) {
+    return <Loader></Loader>;
+  }
+  // const products = data?.data;
+  console.log("from shop", homedata);
   return (
     <>
       <HomePageIntro title={"Shop "} />
@@ -69,15 +84,30 @@ const shop = () => {
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/v1676527368/aranya/${homedata?.image_three?.substring(
               homedata?.image_three?.lastIndexOf("/") + 1
             )}`}
+            style={{cursor: "pointer"}}
             alt=""
             width={"50%"}
+            onClick={() =>
+              router.push({
+                pathname: `${homedata?.back_url_two}`,
+                query: { cat: 2, sub_cat: 13 },
+              })
+            }
           />
+
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/v1676527368/aranya/${homedata?.image_four?.substring(
               homedata?.image_four?.lastIndexOf("/") + 1
             )}`}
+            style={{cursor: "pointer"}}
             alt=""
             width={"50%"}
+            onClick={() =>
+              router.push({
+                pathname: `${homedata?.back_url_three}`,
+                query: { cat: 1, sub_cat: 7 },
+              })
+            }
           />
         </Stack>
         <Box mt={4}>
