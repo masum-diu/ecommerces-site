@@ -131,7 +131,7 @@ const PorductDetails = () => {
   // console.log("your log output", router);
 
   // console.log(products?.product_size[0]?.size_name);
-  console.log("kash", products);
+  console.log("kashs", products);
   // console.log("sdfs", productId);
   // console.log(size);
   // console.log(color);
