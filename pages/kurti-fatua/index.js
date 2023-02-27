@@ -192,7 +192,7 @@ const masterCollectionLayout = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Stack direction={"row"} spacing={4}>
+              <Stack direction={"row"} spacing={4} alignItems={"center"}>
               <Typography
                     sx={{ cursor: "pointer" }}
                     onClick={() => setFilteredData(products)}
@@ -401,7 +401,7 @@ const masterCollectionLayout = () => {
         </Stack>
       </Box>
       <Footer />
-      <MenuDawer open={lists} setOpen={setLists} />
+      <MenuDawer products={products} fabrics={fabrics} open={lists} setOpen={setLists} setFilteredData={setFilteredData} setFabricName={setFabricName} />
       <Menu1Dawer open={lists1} setOpen={setLists1} />
     </>
   );

@@ -33,6 +33,8 @@ export const wishListSlice = createSlice({
             price: productID.price,
             amount: productID.amount,
             stock: productID.stock,
+            category:productID.category,
+            sub_category:productID.sub_category,
             totalAmount: productID.totalAmount,
             showHeart: productID.showHeart,
             showBrokenHeart: productID.showBrokenHeart,
@@ -45,7 +47,7 @@ export const wishListSlice = createSlice({
     },
     removeFromWishList: (state, action) => {
       const productID = action.payload;
-      console.log("your sdfsdfsdfst", state.totalAmount);
+      console.log("your sddfdfsdfsdfst", state.totalAmount);
 
       try {
         const exist = state.wishList.find(

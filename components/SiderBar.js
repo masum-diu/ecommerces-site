@@ -27,7 +27,7 @@ import {
 import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
-import { FiHeart, FiSearch } from "react-icons/fi";
+import { FiHeart, FiSearch, FiShoppingCart } from "react-icons/fi";
 import LoginModal from "./LoginModal";
 
 import USER_CONTEXT from "./userContext";
@@ -55,6 +55,9 @@ const SiderBar = ({ open, setOpen }) => {
     setArrow(!arrow);
   };
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const totalWishedProduct = useSelector(
+    (state) => state?.wishList?.wishList?.length
+  );
   const handleClickAway = () => {
     setOpenList(false);
   };
@@ -205,7 +208,7 @@ const SiderBar = ({ open, setOpen }) => {
         <Box p={2}>
           <Stack direction={"row"} alignItems="center" spacing={2}>
             <IconButton aria-label="" onClick={() => setOpen(false)}>
-              <MdClose style={{ marginTop: ".5rem" }} />
+              <MdClose  />
             </IconButton>
             <img src="/assets/headerLogo.png" alt="" />
           </Stack>
@@ -1148,7 +1151,7 @@ const SiderBar = ({ open, setOpen }) => {
                   pl: 1.5,
                 }}
               >
-                <Badge badgeContent={4} color="background2">
+                <Badge badgeContent={totalWishedProduct} color="background2">
                   {" "}
                   <FiHeart
                     style={{ color: "#0A0A0A" }}
@@ -1166,7 +1169,7 @@ const SiderBar = ({ open, setOpen }) => {
                 }}
               >
                 <Badge badgeContent={totalAmount} color="background2">
-                  <BiShoppingBag
+                  <FiShoppingCart
                     style={{ color: "#0A0A0A" }}
                     onClick={() => router.push("/addtocart")}
                   />

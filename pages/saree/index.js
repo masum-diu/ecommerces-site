@@ -53,21 +53,21 @@ const masterCollectionLayout = () => {
   const cat = router.query.cat;
   const sub_cat = router?.query?.sub_cat;
   const { data, isLoading, isSuccess, isError, error } =
-    useGetCategoryAndSubWiseProductsQuery({ cat, sub_cat });
+    useGetCategoryAndSubWiseProductsQuery({ cat, sub_cat },{refetchOnMountOrArgChange:true});
   const {
     data: staticDatas,
     isLoading: loading,
     isSuccess: success,
     isError: errorstate,
     error: errormessage,
-  } = useGetSubWiseProductsQuery(sub_cat);
+  } = useGetSubWiseProductsQuery(sub_cat,{refetchOnMountOrArgChange:true});
   const {
     data: attirbutesDatas,
     isLoading: attirbutesloading,
     isSuccess: attirbutessuccess,
     isError: attirbuteserrorstate,
     error: attirbuteserrormessage,
-  } = useGetAttributesOfProductsQuery(sub_cat);
+  } = useGetAttributesOfProductsQuery(sub_cat,{refetchOnMountOrArgChange:true});
 
   useEffect(() => {
     if (isSuccess) {
@@ -104,7 +104,7 @@ const masterCollectionLayout = () => {
     };
     handelFilterGallery();
   }, [fabricName]);
-  console.log("your log outputsdfsd", filteredData);
+  console.log("yours log outputsdfsd", filteredData);
   if (isLoading || loading) {
     return <Loader></Loader>;
   }
@@ -192,7 +192,7 @@ const masterCollectionLayout = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Stack direction={"row"} spacing={4}>
+              <Stack direction={"row"} spacing={4} alignItems={"center"}>
               <Typography
                     sx={{ cursor: "pointer" }}
                     onClick={() => setFilteredData(products)}
@@ -401,7 +401,7 @@ const masterCollectionLayout = () => {
         </Stack>
       </Box>
       <Footer />
-      <MenuDawer open={lists} setOpen={setLists} />
+      <MenuDawer products={products} fabrics={fabrics} open={lists} setOpen={setLists} setFilteredData={setFilteredData} setFabricName={setFabricName} />
       <Menu1Dawer open={lists1} setOpen={setLists1} />
     </>
   );

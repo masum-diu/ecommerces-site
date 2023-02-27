@@ -1,4 +1,17 @@
-import { Stack, Typography, Button, IconButton, Divider } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  Button,
+  IconButton,
+  Divider,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { MdClose } from "react-icons/md";
@@ -6,8 +19,11 @@ import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishList } from "../src/features/wishlist/wishListSlice";
+import { useRouter } from "next/router";
+import { FiHeart } from "react-icons/fi";
 
 const wishlists = () => {
+  const router = useRouter();
   const wishlist = useSelector((state) => state.wishList.wishList);
   // console.log("your log output", wishlist);
   const dispatch = useDispatch();
@@ -39,6 +55,7 @@ const wishlists = () => {
       stock: "IN STOCK",
     },
   ]; */
+  console.log("your log output wishlist", wishlist);
   return (
     <>
       <HomePageIntro title={"wishlist "} />
@@ -52,9 +69,9 @@ const wishlists = () => {
           >
             Wishlist
           </Typography>
-          <Stack direction={"column"} spacing={2} pt={5}>
+          {/* <Stack direction={"column"} spacing={2} pt={5}>
             {wishlist.map((wishlistData) => (
-              <div div key={wishlistData.id}>
+              <div key={wishlistData.id}>
                 <Stack
                   spacing={2}
                   direction={{ lg: "row", xs: "column" }}
@@ -68,7 +85,7 @@ const wishlists = () => {
                     onClick={() =>
                       handleRemoveFromList({
                         id: wishlistData.id,
-                        amount:1
+                        amount: 1,
                       })
                     }
                   >
@@ -84,14 +101,99 @@ const wishlists = () => {
                   <Typography variant="cardHeader12" color="initial">
                     {wishlistData.stock[0]?.stock}
                   </Typography>
-                  <Button variant="contained" color="background2" size="small">
-                    Add to Cart
+                  <Button
+                    variant="contained"
+                    color="background2"
+                    size="small"
+                    onClick={() =>
+                      router.push(
+                        `/${
+                          wishlistData?.sub_category?.slug === "unknown"
+                            ? wishlistData?.category?.slug
+                            : wishlistData?.sub_category?.slug
+                        }/${wishlistData?.id}`
+                      )
+                    }
+                  >
+                    View Product
                   </Button>
                 </Stack>
                 <Divider />
               </div>
             ))}
-          </Stack>
+          </Stack> */}
+          {wishlist?.length > 0 ?(<TableContainer  >
+            <Table >
+              <TableBody sx={{ width: "100%" }}>
+                {wishlist?.map((wishlistData) => (
+                  <>
+                    <TableRow
+                    // sx={{background:"#fdc",px:40}}
+                      key={wishlistData.id}
+                      // sx={{ display: "flex", justifyContent: "space-between",alignItems:"center",textDecoration:"none",border:"none" }}
+                    >
+                      <TableCell sx={{ border: "none", }}>
+                        <IconButton
+                          aria-label=""
+                          onClick={() =>
+                            handleRemoveFromList({
+                              id: wishlistData.id,
+                              amount: 1,
+                            })
+                          }
+                        >
+                          <MdClose />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell sx={{ border: "none", }}>
+                        <img src={wishlistData.image} alt="" width={100} />
+                      </TableCell>
+                     
+                      <TableCell sx={{ border: "none",textAlign: "left", }}>
+                        {" "}
+                        {wishlistData.name}
+                      </TableCell>
+                      <TableCell sx={{ border: "none", textAlign: "left", }}>
+                      ৳ {wishlistData.price}
+                      </TableCell>
+                      {/* <TableCell sx={{ border: "none" }}>
+                        {wishlistData.stock[0]?.stock}
+                      </TableCell> */}
+                      <TableCell sx={{ border: "none",textAlign: "center", }}>
+                        <Button
+                          variant="contained"
+                          color="background2"
+                          size="small"
+                          onClick={() =>
+                            router.push(
+                              `/${
+                                wishlistData?.sub_category?.slug === "unknown"
+                                  ? wishlistData?.category?.slug
+                                  : wishlistData?.sub_category?.slug
+                              }/${wishlistData?.id}`
+                            )
+                          }
+                        >
+                          View Product
+                        </Button>
+                      </TableCell>
+                     
+                    </TableRow>
+                  </>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>):(<Stack
+                    direction={"column"}
+                    spacing={2}
+                    sx={{ justifyContent: "center", alignItems: "center",height:"100%",mt:10 }}
+                  >
+                     <FiHeart style={{ color: "#0A0A0A",fontSize:"128px" }} />
+                    <Typography variant="header1">
+                    No products added to the wishlist
+                    </Typography>
+                  </Stack>)}
+          
         </Stack>
       </Box>
       <Footer />
