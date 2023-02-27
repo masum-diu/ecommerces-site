@@ -27,7 +27,7 @@ import {
 import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
-import { FiHeart, FiSearch } from "react-icons/fi";
+import { FiHeart, FiSearch, FiShoppingCart } from "react-icons/fi";
 import LoginModal from "./LoginModal";
 
 import USER_CONTEXT from "./userContext";
@@ -1166,7 +1166,7 @@ const SiderBar = ({ open, setOpen }) => {
                 }}
               >
                 <Badge badgeContent={totalAmount} color="background2">
-                  <BiShoppingBag
+                  <FiShoppingCart
                     style={{ color: "#0A0A0A" }}
                     onClick={() => router.push("/addtocart")}
                   />
