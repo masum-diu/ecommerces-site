@@ -11,6 +11,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Hidden,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
@@ -69,131 +70,166 @@ const wishlists = () => {
           >
             Wishlist
           </Typography>
-          {/* <Stack direction={"column"} spacing={2} pt={5}>
-            {wishlist.map((wishlistData) => (
-              <div key={wishlistData.id}>
-                <Stack
-                  spacing={2}
-                  direction={{ lg: "row", xs: "column" }}
-                  sx={{
-                    width: "100%",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <IconButton
-                    onClick={() =>
-                      handleRemoveFromList({
-                        id: wishlistData.id,
-                        amount: 1,
-                      })
-                    }
-                  >
-                    <MdClose />
-                  </IconButton>
-                  <img src={wishlistData.image} alt="" width={100} />
-                  <Typography variant="cardHeader12" color="initial">
-                    {wishlistData.name}
-                  </Typography>
-                  <Typography variant="cardHeader12" color="initial">
-                    ৳{wishlistData.price}
-                  </Typography>
-                  <Typography variant="cardHeader12" color="initial">
-                    {wishlistData.stock[0]?.stock}
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="background2"
-                    size="small"
-                    onClick={() =>
-                      router.push(
-                        `/${
-                          wishlistData?.sub_category?.slug === "unknown"
-                            ? wishlistData?.category?.slug
-                            : wishlistData?.sub_category?.slug
-                        }/${wishlistData?.id}`
-                      )
-                    }
-                  >
-                    View Product
-                  </Button>
-                </Stack>
-                <Divider />
-              </div>
-            ))}
-          </Stack> */}
-          {wishlist?.length > 0 ?(<TableContainer  >
-            <Table >
-              <TableBody sx={{ width: "100%" }}>
-                {wishlist?.map((wishlistData) => (
+          <Hidden only={["md", "lg", "xl", "sm"]}>
+            {wishlist?.length > 0 ? (
+              <Stack direction={"column"} spacing={2} pt={5}>
+                {wishlist.map((wishlistData) => (
                   <>
-                    <TableRow
-                    // sx={{background:"#fdc",px:40}}
+                    <Stack
+                      spacing={2}
                       key={wishlistData.id}
-                      // sx={{ display: "flex", justifyContent: "space-between",alignItems:"center",textDecoration:"none",border:"none" }}
+                      direction={{ lg: "row", xs: "column" }}
+                      sx={{
+                        width: "100%",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
                     >
-                      <TableCell sx={{ border: "none", }}>
-                        <IconButton
-                          aria-label=""
-                          onClick={() =>
-                            handleRemoveFromList({
-                              id: wishlistData.id,
-                              amount: 1,
-                            })
-                          }
-                        >
-                          <MdClose />
-                        </IconButton>
-                      </TableCell>
-                      <TableCell sx={{ border: "none", }}>
-                        <img src={wishlistData.image} alt="" width={100} />
-                      </TableCell>
-                     
-                      <TableCell sx={{ border: "none",textAlign: "left", }}>
-                        {" "}
+                      <IconButton
+                        onClick={() =>
+                          handleRemoveFromList({
+                            id: wishlistData.id,
+                            amount: 1,
+                          })
+                        }
+                      >
+                        <MdClose />
+                      </IconButton>
+                      <img src={wishlistData.image} alt="" width={100} />
+                      <Typography variant="cardHeader12" color="initial">
                         {wishlistData.name}
-                      </TableCell>
-                      <TableCell sx={{ border: "none", textAlign: "left", }}>
-                      ৳ {wishlistData.price}
-                      </TableCell>
-                      {/* <TableCell sx={{ border: "none" }}>
+                      </Typography>
+                      <Typography variant="cardHeader12" color="initial">
+                        ৳{wishlistData.price}
+                      </Typography>
+                      <Typography variant="cardHeader12" color="initial">
                         {wishlistData.stock[0]?.stock}
-                      </TableCell> */}
-                      <TableCell sx={{ border: "none",textAlign: "center", }}>
-                        <Button
-                          variant="contained"
-                          color="background2"
-                          size="small"
-                          onClick={() =>
-                            router.push(
-                              `/${
-                                wishlistData?.sub_category?.slug === "unknown"
-                                  ? wishlistData?.category?.slug
-                                  : wishlistData?.sub_category?.slug
-                              }/${wishlistData?.id}`
-                            )
-                          }
-                        >
-                          View Product
-                        </Button>
-                      </TableCell>
-                     
-                    </TableRow>
+                      </Typography>
+                      <Button
+                        variant="contained"
+                        color="background2"
+                        size="small"
+                        onClick={() =>
+                          router.push(
+                            `/${
+                              wishlistData?.sub_category?.slug === "unknown"
+                                ? wishlistData?.category?.slug
+                                : wishlistData?.sub_category?.slug
+                            }/${wishlistData?.id}`
+                          )
+                        }
+                      >
+                        View Product
+                      </Button>
+                    </Stack>
+                    <br />
+                    <Divider />
                   </>
                 ))}
-              </TableBody>
-            </Table>
-          </TableContainer>):(<Stack
-                    direction={"column"}
-                    spacing={2}
-                    sx={{ justifyContent: "center", alignItems: "center",height:"100%",mt:10 }}
-                  >
-                     <FiHeart style={{ color: "#0A0A0A",fontSize:"128px" }} />
-                    <Typography variant="header1">
-                    No products added to the wishlist
-                    </Typography>
-                  </Stack>)}
-          
+              </Stack>
+            ) : (
+              <Stack
+                direction={"column"}
+                spacing={2}
+                sx={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  mt: 10,
+                }}
+              >
+                <FiHeart style={{ color: "#0A0A0A", fontSize: "128px" }} />
+                <Typography variant="header1">
+                  No products added to the wishlist
+                </Typography>
+              </Stack>
+            )}
+          </Hidden>
+          {/*  */}
+          <Hidden only={["xms", "xs"]}>
+            {wishlist?.length > 0 ? (
+              <TableContainer>
+                <Table>
+                  <TableBody sx={{ width: "100%" }}>
+                    {wishlist?.map((wishlistData) => (
+                      <>
+                        <TableRow
+                          // sx={{background:"#fdc",px:40}}
+                          key={wishlistData.id}
+                          // sx={{ display: "flex", justifyContent: "space-between",alignItems:"center",textDecoration:"none",border:"none" }}
+                        >
+                          <TableCell sx={{ border: "none" }}>
+                            <IconButton
+                              aria-label=""
+                              onClick={() =>
+                                handleRemoveFromList({
+                                  id: wishlistData.id,
+                                  amount: 1,
+                                })
+                              }
+                            >
+                              <MdClose />
+                            </IconButton>
+                          </TableCell>
+                          <TableCell sx={{ border: "none" }}>
+                            <img src={wishlistData.image} alt="" width={100} />
+                          </TableCell>
+
+                          <TableCell sx={{ border: "none", textAlign: "left" }}>
+                            {" "}
+                            {wishlistData.name}
+                          </TableCell>
+                          <TableCell sx={{ border: "none", textAlign: "left" }}>
+                            ৳ {wishlistData.price}
+                          </TableCell>
+                          {/* <TableCell sx={{ border: "none" }}>
+                        {wishlistData.stock[0]?.stock}
+                      </TableCell> */}
+                          <TableCell
+                            sx={{ border: "none", textAlign: "center" }}
+                          >
+                            <Button
+                              variant="contained"
+                              color="background2"
+                              size="small"
+                              onClick={() =>
+                                router.push(
+                                  `/${
+                                    wishlistData?.sub_category?.slug ===
+                                    "unknown"
+                                      ? wishlistData?.category?.slug
+                                      : wishlistData?.sub_category?.slug
+                                  }/${wishlistData?.id}`
+                                )
+                              }
+                            >
+                              View Product
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      </>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : (
+              <Stack
+                direction={"column"}
+                spacing={2}
+                sx={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  mt: 10,
+                }}
+              >
+                <FiHeart style={{ color: "#0A0A0A", fontSize: "128px" }} />
+                <Typography variant="header1">
+                  No products added to the wishlist
+                </Typography>
+              </Stack>
+            )}
+          </Hidden>
         </Stack>
       </Box>
       <Footer />
