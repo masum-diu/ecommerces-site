@@ -69,14 +69,14 @@ const ThumbsGallery = ({ open, setOpen }) => {
             alignItems="center"
             sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto" }}
           >
-            {/* <ImageGallery
+            <ImageGallery
               items={images}
               showPlayButton={false}
               showFullscreenButton={false}
               slideOnThumbnailOver={true}
-            /> */}
+            />
           </Stack>
-          <Stack
+          {/* <Stack
             direction={"column"}
             justifyContent={"center"}
             alignItems="center"
@@ -98,7 +98,7 @@ const ThumbsGallery = ({ open, setOpen }) => {
               
             </Stack>
             
-          </Stack>
+          </Stack> */}
         </Box>
       </Modal>
     </>
