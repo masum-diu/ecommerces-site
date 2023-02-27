@@ -192,7 +192,7 @@ const masterCollectionLayout = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Stack direction={"row"} spacing={4}>
+              <Stack direction={"row"} spacing={4}  alignItems={"center"}>
               <Typography
                     sx={{ cursor: "pointer" }}
                     onClick={() => setFilteredData(products)}
