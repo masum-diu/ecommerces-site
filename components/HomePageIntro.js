@@ -51,6 +51,9 @@ const HomePageIntro = ({ title }) => {
   const totalAmountWishList = useSelector(
     (state) => state?.wishList?.totalAmount
   );
+  const totalWishedProduct = useSelector(
+    (state) => state?.wishList?.wishList?.length
+  );
   // console.log('your log outputxxfgdfd',totalAmountWishList)
   // console.log('your log output',totalAmount)
 
@@ -296,7 +299,7 @@ const HomePageIntro = ({ title }) => {
                 aria-label=""
                 onClick={() => router.push("/wishlists")}
               >
-                <Badge badgeContent={totalAmountWishList} color="background2">
+                <Badge badgeContent={totalWishedProduct} color="background2">
                   <FiHeart style={{ color: "#0A0A0A" }} />
                 </Badge>
               </IconButton>

@@ -55,6 +55,9 @@ const SiderBar = ({ open, setOpen }) => {
     setArrow(!arrow);
   };
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const totalWishedProduct = useSelector(
+    (state) => state?.wishList?.wishList?.length
+  );
   const handleClickAway = () => {
     setOpenList(false);
   };
@@ -1148,7 +1151,7 @@ const SiderBar = ({ open, setOpen }) => {
                   pl: 1.5,
                 }}
               >
-                <Badge badgeContent={totalAmount} color="background2">
+                <Badge badgeContent={totalWishedProduct} color="background2">
                   {" "}
                   <FiHeart
                     style={{ color: "#0A0A0A" }}
