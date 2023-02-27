@@ -234,8 +234,8 @@ const PorductDetails = () => {
                 >
                   <Stack
                     direction={"row"}
-                    spacing={"2"}
-                    width={"30%"}
+                    spacing={2}
+                    width={"20%"}
                     justifyContent="space-between"
                   >
                     {products?.p_sizes?.map((size, index) => (
