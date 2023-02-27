@@ -156,9 +156,9 @@ const wishlists = () => {
                       <TableCell sx={{ border: "none", textAlign: "left", }}>
                       ৳ {wishlistData.price}
                       </TableCell>
-                      <TableCell sx={{ border: "none" }}>
+                      {/* <TableCell sx={{ border: "none" }}>
                         {wishlistData.stock[0]?.stock}
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell sx={{ border: "none",textAlign: "center", }}>
                         <Button
                           variant="contained"
