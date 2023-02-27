@@ -17,7 +17,7 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
 import { GoThreeBars } from "react-icons/go";
-import { FiSearch, FiHeart } from "react-icons/fi";
+import { FiSearch, FiHeart, FiShoppingCart } from "react-icons/fi";
 import SiderBar from "./SiderBar";
 import { useRouter } from "next/router";
 import LoginModal from "./LoginModal";
@@ -308,7 +308,7 @@ const HomePageIntro = ({ title }) => {
                 onClick={() => router.push("/addtocart")}
               >
                 <Badge badgeContent={totalAmount} color="background2">
-                  <BiShoppingBag style={{ color: "#0A0A0A" }} />
+                  <FiShoppingCart style={{ color: "#0A0A0A" }} />
                 </Badge>
               </IconButton>
             </Stack>
