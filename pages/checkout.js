@@ -105,6 +105,7 @@ const checkout = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + localStorage.getItem("acesstoken"),
+            "Access-Control-Allow-Origin": "*"
           },
         }
       )
