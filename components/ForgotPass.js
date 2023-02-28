@@ -26,9 +26,7 @@ const ForgotPass = ({ open, setOpen }) => {
     axios
       .post(
         "http://apiaranya.jumriz.com/public/api/user-password-email-reset-link",
-        {
-          data: data.mail,
-        },
+        data.email,
         {
           headers: {
             "Content-Type": "application/json",
@@ -42,7 +40,7 @@ const ForgotPass = ({ open, setOpen }) => {
       .catch((err) => {
         console.log(err);
       });
-    console.log("reset data", data);
+    console.log("reset data", data.email);
     setOpen(false);
   };
   return (
@@ -81,7 +79,7 @@ const ForgotPass = ({ open, setOpen }) => {
                   USERNAME OR EMAIL
                 </Typography>
                 <TextField
-                  {...register("mail", {
+                  {...register("email", {
                     required: {
                       value: true,
                       message: "Email Address is required",
@@ -94,7 +92,7 @@ const ForgotPass = ({ open, setOpen }) => {
                   size="small"
                   placeholder="Username or Email*"
                 />
-                {errors.mail && <p role="alert">{errors.mail?.message}</p>}
+                {errors.email && <p role="alert">{errors.email?.message}</p>}
               </Stack>
 
               <Button
