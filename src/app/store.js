@@ -11,7 +11,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import { combineReducers } from "redux";
-import storage from "redux-persist/lib/storage";
+import storage from "./persistStore";
 import filterSlice from "../features/filter/filterSlice";
 import wishListSlice from "../features/wishlist/wishListSlice";
 
