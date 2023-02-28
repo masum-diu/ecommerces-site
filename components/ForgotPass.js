@@ -26,16 +26,15 @@ const ForgotPass = ({ open, setOpen }) => {
     axios
       .post(
         "http://apiaranya.jumriz.com/public/api/user-password-email-reset-link",
-        data.email,
+        data,
         {
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
           },
         }
       )
       .then(async (result) => {
-        console.log("post response", result?.data?.payment);
+        console.log("post response", result);
       })
       .catch((err) => {
         console.log(err);
