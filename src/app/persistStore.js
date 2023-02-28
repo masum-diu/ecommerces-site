@@ -14,7 +14,7 @@ const createNoopStorage = () => {
   };
 };
 
-const storage =
-  typeof window === "undefined" ? createNoopStorage() : createWebStorage();
+const Asyncstorage =
+  typeof window === "undefined" ? createWebStorage() : createNoopStorage();
 
-export default storage;
+export default Asyncstorage;

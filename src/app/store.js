@@ -12,7 +12,6 @@ import {
 } from "redux-persist";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-import thunk from "redux-thunk";
 import filterSlice from "../features/filter/filterSlice";
 import wishListSlice from "../features/wishlist/wishListSlice";
 
@@ -22,11 +21,10 @@ const reducers = combineReducers({
   filter: filterSlice,
   wishList: wishListSlice,
 });
-
 const persistConfig = {
   key: "root",
   version: 1,
-  storage,
+  storage
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 export const store = configureStore({
