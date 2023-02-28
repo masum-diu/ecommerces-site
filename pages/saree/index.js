@@ -44,16 +44,20 @@ const masterCollectionLayout = () => {
   // console.log("your log output", path);
   // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
+  const [page,setPage]=useState(1)
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
   const [staticData, setStaticData] = useState([]);
   const [fabrics, setFabric] = useState([]);
   const [fabricName, setFabricName] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [loadings,setLoadings]=useState(true)
   const cat = router.query.cat;
   const sub_cat = router?.query?.sub_cat;
   const { data, isLoading, isSuccess, isError, error } =
-    useGetCategoryAndSubWiseProductsQuery({ cat, sub_cat },{refetchOnMountOrArgChange:true});
+    useGetCategoryAndSubWiseProductsQuery({ cat, sub_cat, page },{refetchOnMountOrArgChange:true});
+
+    console.log("check it",data)
   const {
     data: staticDatas,
     isLoading: loading,
@@ -73,7 +77,8 @@ const masterCollectionLayout = () => {
     if (isSuccess) {
       const handleSuccess = async () => {
         await setProducts(data?.data);
-        await setFilteredData(data?.data);
+        await setFilteredData( prev=>[...prev, ...data?.data] );
+          // setLoadings(false)
       };
       handleSuccess();
     }
@@ -108,8 +113,19 @@ const masterCollectionLayout = () => {
       setFilteredData(products)
     }
 
-  }, [fabricName]);
+  }, [fabricName,page]);
   
+  const handleScroll=()=>{
+    // console.log("height",document.documentElement.scrollHeight)
+    if(window.innerHeight + document.documentElement.scrollTop + 1>=document.documentElement.scrollHeight){
+      setLoadings(true)
+      setPage((prev)=>prev + 1)
+    }
+  }
+  useEffect(()=>{
+    window.addEventListener("scroll",handleScroll)
+    return ()=>window.removeEventListener("scroll",handleScroll)
+  },[])
   
   
   if (isLoading || loading) {
@@ -118,7 +134,7 @@ const masterCollectionLayout = () => {
   if (attirbutesloading) {
     return <Loader></Loader>;
   }
-console.log("some of worf",filteredData)
+// console.log("some of worf",filteredData)
   return (
     <>
       <HomePageIntro title={"Saree "} />
@@ -405,7 +421,14 @@ console.log("some of worf",filteredData)
               </Stack>
             </>
           ))}
+         
         </Stack>
+        {loadings && <Loader/>}
+        {
+          filteredData?.map((data)=><>
+            <img src={data.feature_image} width={200}/>
+          </>)
+        }
       </Box>
       <Footer />
       <MenuDawer products={products} fabrics={fabrics} open={lists} setOpen={setLists} setFilteredData={setFilteredData} setFabricName={setFabricName} />
