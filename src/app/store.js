@@ -22,11 +22,10 @@ const reducers = combineReducers({
   filter: filterSlice,
   wishList: wishListSlice,
 });
-
 const persistConfig = {
   key: "root",
   version: 1,
-  storage,
+  storage
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 export const store = configureStore({

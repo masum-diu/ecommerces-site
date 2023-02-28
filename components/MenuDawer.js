@@ -43,7 +43,7 @@ const MenuDawer = ({
         <Stack direction={"column"}>
           <ListItemButton
             sx={{ cursor: "pointer" }}
-            onClick={() => setFilteredData(products)}
+            onClick={() => setFabricName("all")}
           >
             All Product
           </ListItemButton>

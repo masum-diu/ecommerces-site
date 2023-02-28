@@ -208,7 +208,7 @@ const SiderBar = ({ open, setOpen }) => {
         <Box p={2}>
           <Stack direction={"row"} alignItems="center" spacing={2}>
             <IconButton aria-label="" onClick={() => setOpen(false)}>
-              <MdClose  />
+              <MdClose />
             </IconButton>
             <img src="/assets/headerLogo.png" alt="" />
           </Stack>
@@ -532,12 +532,10 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
 
-                
                 <Button
                   variant="text"
                   color="inherit"
                   fullWidth
-
                   sx={{
                     display: "flex",
                     alignItems: "flex-start",
@@ -742,7 +740,6 @@ const SiderBar = ({ open, setOpen }) => {
                   variant="text"
                   color="inherit"
                   fullWidth
-
                   sx={{
                     display: "flex",
                     alignItems: "flex-start",
@@ -1044,8 +1041,8 @@ const SiderBar = ({ open, setOpen }) => {
             </Box>
           </ClickAwayListener>
           <Hidden only={["md", "lg", "xl"]}>
-            <Stack direction={"column"} mt={3} spacing={2}>
-              <ListItemButton>
+            <Stack direction={"column"} mt={3} spacing={2} justifyContent="flex-start" alignItems={"flex-start"}>
+              <Button variant="text" fullWidth sx={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start"}}>
                 <Typography
                   variant="cardHeader"
                   color="initial"
@@ -1053,8 +1050,8 @@ const SiderBar = ({ open, setOpen }) => {
                 >
                   SHOP
                 </Typography>
-              </ListItemButton>
-              <ListItemButton>
+              </Button>
+              <Button variant="text" fullWidth sx={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start"}}>
                 <Typography
                   variant="cardHeader"
                   color="initial"
@@ -1062,59 +1059,23 @@ const SiderBar = ({ open, setOpen }) => {
                 >
                   STORY
                 </Typography>
-              </ListItemButton>
-              <ListItemButton>
+              </Button>
+              <Button variant="text" fullWidth sx={{display:"flex",justifyContent:"flex-start",alignItems:"flex-start",}}>
                 {userjsondata || user.status == true ? (
                   <>
-                    {/* <MenuItem>
-                    <IconButton
-                      sx={{ cursor: "pointer" }}
-                      variant="cardHeader"
-                      color="initial"
-                      size="large"
-                      aria-label="account of current user"
-                      aria-controls="primary-search-account-menu"
-                      aria-haspopup="true"
+                    <Stack
+                      onClick={handleProfileMenuOpen}
+                      direction={"row"}
+                      spacing={1}
+                      sx={{ alignItems: "center" }}
                     >
-                      <AccountCircle />
-                    </IconButton>
-                    <p>{userjsondata?.name}</p>
-                  </MenuItem> */}
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: "flex" } }}>
-                      <MenuItem onClick={handleProfileMenuOpen}>
-                        <IconButton
-                          sx={{
-                            cursor: "pointer",
-                            color: "#0A0A0A",
-                            marginRight: "5px",
-                          }}
-                          variant="cardHeader"
-                          size="large"
-                          edge="end"
-                          aria-label="account of current user"
-                          aria-controls={menuId}
-                          aria-haspopup="true"
-                        >
-                          <AccountCircle />
-                        </IconButton>
-                        <p style={{ color: "#0A0A0A" }}>
-                          {userjsondata ? userjsondata.name : user.name}
-                        </p>
-                      </MenuItem>
-                    </Box>
-                    {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                    <IconButton
-                      size="large"
-                      aria-label="show more"
-                      aria-controls={mobileMenuId}
-                      aria-haspopup="true"
-                      onClick={handleMobileMenuOpen}
-                      color="initial"
-                    >
-                      <MoreIcon />
-                    </IconButton>
-                  </Box> */}
+                      <AccountCircle style={{ color: "#0A0A0A" }} />
+
+                      <Typography variant="cardHeader">
+                        {userjsondata ?  <Typography variant="cardHeader">{userjsondata.name}</Typography> : <Typography variant="cardHeader">{user.name}</Typography> }
+                      </Typography>
+                    </Stack>
+
                     {renderMobileMenu}
                     {renderMenu}
                   </>
@@ -1129,7 +1090,7 @@ const SiderBar = ({ open, setOpen }) => {
                     </Typography>
                   </>
                 )}
-              </ListItemButton>
+              </Button>
 
               <Stack alignItems="center" direction={"row"}>
                 <IconButton aria-label="">
@@ -1142,39 +1103,32 @@ const SiderBar = ({ open, setOpen }) => {
               {/* <IconButton aria-label="">
                 <FiSearch style={{ color: "#0A0A0A" }} />
               </IconButton> */}
-              <IconButton
-                aria-label=""
+              <Stack
                 sx={{
                   display: "flex",
+                  alignItems: "flex-start",
                   justifyContent: "flex-start",
-                  width: "100%",
-                  pl: 1.5,
                 }}
+                spacing={1}
               >
-                <Badge badgeContent={totalWishedProduct} color="background2">
-                  {" "}
-                  <FiHeart
-                    style={{ color: "#0A0A0A" }}
-                    onClick={() => router.push("/wishlists")}
-                  />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-label=""
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  width: "100%",
-                  pl: 1.5,
-                }}
-              >
-                <Badge badgeContent={totalAmount} color="background2">
-                  <FiShoppingCart
-                    style={{ color: "#0A0A0A" }}
-                    onClick={() => router.push("/addtocart")}
-                  />
-                </Badge>
-              </IconButton>
+                <IconButton aria-label="">
+                  <Badge badgeContent={totalWishedProduct} color="background2">
+                    {" "}
+                    <FiHeart
+                      style={{ color: "#0A0A0A" }}
+                      onClick={() => router.push("/wishlists")}
+                    />
+                  </Badge>
+                </IconButton>
+                <IconButton aria-label="">
+                  <Badge badgeContent={totalAmount} color="background2">
+                    <FiShoppingCart
+                      style={{ color: "#0A0A0A" }}
+                      onClick={() => router.push("/addtocart")}
+                    />
+                  </Badge>
+                </IconButton>
+              </Stack>
             </Stack>
           </Hidden>
         </Box>

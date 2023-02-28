@@ -103,15 +103,22 @@ const masterCollectionLayout = () => {
       setFilteredData(content);
     };
     handelFilterGallery();
+
+    if(fabricName === "all"){
+      setFilteredData(products)
+    }
+
   }, [fabricName]);
-  console.log("yours log outputsdfsd", filteredData);
+  
+  
+  
   if (isLoading || loading) {
     return <Loader></Loader>;
   }
   if (attirbutesloading) {
     return <Loader></Loader>;
   }
-
+console.log("some of worf",filteredData)
   return (
     <>
       <HomePageIntro title={"Saree "} />
@@ -195,7 +202,7 @@ const masterCollectionLayout = () => {
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
               <Typography
                     sx={{ cursor: "pointer" }}
-                    onClick={() => setFilteredData(products)}
+                    onClick={() => setFabricName("all")}
                   >All Product</Typography>
                 {fabrics.map((fabric) => (
                   <Typography
