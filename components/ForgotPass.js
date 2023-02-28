@@ -13,6 +13,7 @@ import {
 import React from "react";
 import { MdClose } from "react-icons/md";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const ForgotPass = ({ open, setOpen }) => {
   const {
@@ -22,7 +23,27 @@ const ForgotPass = ({ open, setOpen }) => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    axios
+      .post(
+        "http://apiaranya.jumriz.com/public/api/user-password-email-reset-link",
+        {
+          data: data.mail,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then(async (result) => {
+        console.log("post response", result?.data?.payment);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log("reset data", data);
+    setOpen(false);
   };
   return (
     <>
@@ -61,8 +82,10 @@ const ForgotPass = ({ open, setOpen }) => {
                 </Typography>
                 <TextField
                   {...register("mail", {
-                    required: true,
-                    message: "Email Address is required",
+                    required: {
+                      value: true,
+                      message: "Email Address is required",
+                    },
                   })}
                   // id=""
                   // label=""
@@ -71,16 +94,19 @@ const ForgotPass = ({ open, setOpen }) => {
                   size="small"
                   placeholder="Username or Email*"
                 />
+                {errors.mail && <p role="alert">{errors.mail?.message}</p>}
               </Stack>
-              {errors.mail && <p role="alert">{errors.mail?.message}</p>}
+
               <Button
+                type="submit"
                 variant="contained"
                 color="background2"
                 fullWidth
-                onClick={() => setOpen(false)}
               >
                 reset password
               </Button>
+
+              {/* <input type="submit" /> */}
             </form>
           </DialogContentText>
         </DialogContent>
