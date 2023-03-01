@@ -25,6 +25,7 @@ import Footer from "../../../components/Footer";
 import MenuDawer from "../../../components/MenuDawer";
 import Menu1Dawer from "../../../components/Menu1Dawer";
 import Link from "next/link";
+import { NextPageContext } from "next";
 import { useDispatch } from "react-redux";
 import {
   useGetAttributesOfProductsQuery,
@@ -44,7 +45,7 @@ const masterCollectionLayout = () => {
   const dispatch = useDispatch();
 
   const ursl = router.asPath.toString().split("/").join("/");
-  console.log("your amazign output", ursl);
+  console.log("your amazign output", router);
   // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
@@ -55,19 +56,22 @@ const masterCollectionLayout = () => {
   const [filteredData, setFilteredData] = useState([]);
   const cat = router.query.cat;
   const sub_cat = router?.query?.sub_cat;
-  
+
+  // Getting product data with subCategory
   const { data, isLoading, isSuccess, isError, error } =
     useGetCategoryAndSubWiseProductsQuery(
       { cat, sub_cat },
       { refetchOnMountOrArgChange: true }
     );
 
+  // Getting product data with only category
   const {
     data: catetoryData,
     isLoading: categoryLoading,
     isSuccess: categoryisSuccess,
   } = useGetCategoryWiseProductsQuery(cat);
 
+  // Getting static data with subCategory
   const {
     data: staticDatas,
     isLoading: loading,
@@ -75,6 +79,19 @@ const masterCollectionLayout = () => {
     isError: errorstate,
     error: errormessage,
   } = useGetSubWiseProductsQuery(sub_cat, { refetchOnMountOrArgChange: true });
+  
+  
+  // Getting static data with Category
+  const {
+    data: staticDatasCat,
+    isLoading: loadingCat,
+    isSuccess: successCat,
+    isError: errorstateCat,
+    error: errormessageCat,
+  } = useGetSubWiseProductsQuery(cat);
+  
+  
+  // Getting attributes of Product with subCategory
   const {
     data: attirbutesDatas,
     isLoading: attirbutesloading,
@@ -85,6 +102,19 @@ const masterCollectionLayout = () => {
     refetchOnMountOrArgChange: true,
   });
 
+
+  // Getting attributes of Product with Category
+  const {
+    data: attirbutesDatasCat,
+    isLoading: attirbutesloadingCat,
+    isSuccess: attirbutessuccessCat,
+    isError: attirbuteserrorstateCat,
+    error: attirbuteserrormessageCat,
+  } = useGetAttributesOfProductsQuery(cat);
+
+
+
+  // Setting product in a state
   useEffect(() => {
     if (isSuccess || categoryisSuccess) {
       const handleSuccess = async () => {
@@ -98,24 +128,58 @@ const masterCollectionLayout = () => {
       };
       handleSuccess();
     }
-  }, [data, isSuccess, isLoading, catetoryData, categoryisSuccess, categoryLoading]);
-  useEffect(() => {
-    if (success) {
-      const handleSuccess = async () => {
-        await setStaticData(staticDatas?.data);
-      };
-      handleSuccess();
-    }
-  }, [staticDatas, loading, success]);
-  useEffect(() => {
-    if (attirbutessuccess) {
-      const handleSuccess = async () => {
-        await setFabric(attirbutesDatas);
-      };
-      handleSuccess();
-    }
-  }, [attirbutesDatas, attirbutesloading, attirbutessuccess]);
+  }, [
+    data,
+    isSuccess,
+    isLoading,
+    catetoryData,
+    categoryisSuccess,
+    categoryLoading,
+  ]);
 
+
+
+
+  // Setting static data of products in a state
+  useEffect(() => {
+    if (success || successCat) {
+      const handleSuccess = async () => {
+        if (sub_cat) {
+          await setStaticData(staticDatas?.data);
+        } else {
+          setStaticData(staticDatasCat?.data);
+        }
+      };
+      handleSuccess();
+    }
+  }, [staticDatas, loading, success, staticDatasCat, loadingCat, successCat]);
+
+
+
+  // Setting attributes of products in a state
+  useEffect(() => {
+    if (attirbutessuccess || attirbutessuccessCat) {
+      const handleSuccess = async () => {
+        if (sub_cat) {
+          await setFabric(attirbutesDatas);
+        } else {
+          await setFabric(attirbutesDatas);
+        }
+      };
+      handleSuccess();
+    }
+  }, [
+    attirbutesDatas,
+    attirbutesloading,
+    attirbutessuccess,
+    attirbutesDatasCat,
+    attirbutesloadingCat,
+    attirbutessuccessCat,
+  ]);
+
+
+
+  // Filtering the products
   useEffect(() => {
     const handelFilterGallery = async () => {
       const content = products.filter(
@@ -130,6 +194,9 @@ const masterCollectionLayout = () => {
     }
   }, [fabricName]);
 
+
+
+  // Handling the loading state
   if (isLoading || loading) {
     return <Loader></Loader>;
   }
