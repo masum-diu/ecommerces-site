@@ -128,7 +128,7 @@ const SearchModal = ({ open, setOpen }) => {
               <>
                 <Link
                 style={{textDecoration:"none"}}
-                  href={`/${
+                  href={`/products/${
                     data?.p_subcategory?.slug === "unknown"
                       ? data?.p_category?.slug
                       : data?.p_subcategory?.slug

@@ -89,7 +89,7 @@ const shop = () => {
             width={"50%"}
             onClick={() =>
               router.push({
-                pathname: `${homedata?.back_url_two}`,
+                pathname: `/products/${homedata?.back_url_two}`,
                 query: { cat: 2, sub_cat: 13 },
               })
             }
@@ -104,7 +104,7 @@ const shop = () => {
             width={"50%"}
             onClick={() =>
               router.push({
-                pathname: `${homedata?.back_url_three}`,
+                pathname: `/products/${homedata?.back_url_three}`,
                 query: { cat: 1, sub_cat: 7 },
               })
             }
@@ -136,7 +136,7 @@ const shop = () => {
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
                     <HovarImage
-                      url={`/${
+                      url={`/products/${
                         data?.p_subcategory?.slug === "unknown"
                           ? data?.p_category?.slug
                           : data?.p_subcategory?.slug
@@ -218,7 +218,7 @@ const shop = () => {
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
                     <HovarImage
-                      url={`/${
+                      url={`/products/${
                         data?.p_subcategory?.slug === "unknown"
                           ? data?.p_category?.slug
                           : data?.p_subcategory?.slug
