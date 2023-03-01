@@ -260,7 +260,7 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push({
                             pathname: "/products/saree",
                             query: { cat: 1, sub_cat: 7 },
-                          },'/products/saree')
+                          },"/products/saree")
                         }
                       >
                         Saree
@@ -275,7 +275,7 @@ const SiderBar = ({ open, setOpen }) => {
                     </Stack>
 
                     {/* demo rout  starts */}
-                    <Stack
+                    {/* <Stack
                       direction={"row"}
                       mt={2}
                       justifyContent="space-between"
@@ -288,7 +288,7 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push({
                             pathname: "/products/saree",
                             query: { cat: 1, sub_cat: 7 },
-                          },'/products/saree')
+                          },"/products/saree")
                         }
                       >
                         SareeOfProduct
@@ -300,7 +300,7 @@ const SiderBar = ({ open, setOpen }) => {
                       >
                         What’s New
                       </Typography>
-                    </Stack>
+                    </Stack> */}
 
                     {/* demo rout  ends */}
                     <Stack

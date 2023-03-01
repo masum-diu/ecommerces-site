@@ -58,7 +58,7 @@ const masterCollectionLayout = () => {
   
   const { data, isLoading, isSuccess, isError, error } =
     useGetCategoryAndSubWiseProductsQuery(
-      { cat, sub_cat },
+      { cat, sub_cat, page },
       { refetchOnMountOrArgChange: true }
     );
 
