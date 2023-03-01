@@ -18,12 +18,12 @@ import { useRouter } from "next/router";
 import SegmentIcon from "@mui/icons-material/Segment";
 import SortIcon from "@mui/icons-material/Sort";
 import { useState } from "react";
-import HomePageIntro from "../../components/HomePageIntro";
-import Menu1 from "../../components/Menu1";
-import Menu from "../../components/Menu";
-import Footer from "../../components/Footer";
-import MenuDawer from "../../components/MenuDawer";
-import Menu1Dawer from "../../components/Menu1Dawer";
+import HomePageIntro from "../../../components/HomePageIntro";
+import Menu1 from "../../../components/Menu1";
+import Menu from "../../../components/Menu";
+import Footer from "../../../components/Footer";
+import MenuDawer from "../../../components/MenuDawer";
+import Menu1Dawer from "../../../components/Menu1Dawer";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import {
@@ -32,9 +32,9 @@ import {
   useGetProductsQuery,
   useGetCategoryWiseProductsQuery,
   useGetSubWiseProductsQuery,
-} from "../../src/features/api/apiSlice";
-import Loader from "../../components/Loader/Loader";
-import HovarImage from "../../components/HovarableImage/HovarImage";
+} from "../../../src/features/api/apiSlice";
+import Loader from "../../../components/Loader/Loader";
+import HovarImage from "../../../components/HovarableImage/HovarImage";
 const masterCollectionLayout = () => {
   const router = useRouter();
   const path =
@@ -42,7 +42,9 @@ const masterCollectionLayout = () => {
     router.pathname.replace("/", "").slice(1);
   const productName = router.pathname.replace("/", "").toUpperCase();
   const dispatch = useDispatch();
-  console.log("your demo output", router.pathname);
+
+  const ursl = router.asPath.toString().split("/").join("/");
+  console.log("your amazign output", ursl);
   // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
@@ -53,13 +55,18 @@ const masterCollectionLayout = () => {
   const [filteredData, setFilteredData] = useState([]);
   const cat = router.query.cat;
   const sub_cat = router?.query?.sub_cat;
+  
   const { data, isLoading, isSuccess, isError, error } =
-    useGetCategoryAndSubWiseProductsQuery({ cat, sub_cat },{refetchOnMountOrArgChange:true});
+    useGetCategoryAndSubWiseProductsQuery(
+      { cat, sub_cat },
+      { refetchOnMountOrArgChange: true }
+    );
 
-
-    const { data:catetoryData, isLoading:categoryLoading, isSuccess:categoryisSuccess } =
-    useGetCategoryWiseProductsQuery(cat);
-
+  const {
+    data: catetoryData,
+    isLoading: categoryLoading,
+    isSuccess: categoryisSuccess,
+  } = useGetCategoryWiseProductsQuery(cat);
 
   const {
     data: staticDatas,
@@ -67,24 +74,31 @@ const masterCollectionLayout = () => {
     isSuccess: success,
     isError: errorstate,
     error: errormessage,
-  } = useGetSubWiseProductsQuery(sub_cat,{refetchOnMountOrArgChange:true});
+  } = useGetSubWiseProductsQuery(sub_cat, { refetchOnMountOrArgChange: true });
   const {
     data: attirbutesDatas,
     isLoading: attirbutesloading,
     isSuccess: attirbutessuccess,
     isError: attirbuteserrorstate,
     error: attirbuteserrormessage,
-  } = useGetAttributesOfProductsQuery(sub_cat,{refetchOnMountOrArgChange:true});
+  } = useGetAttributesOfProductsQuery(sub_cat, {
+    refetchOnMountOrArgChange: true,
+  });
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess || categoryisSuccess) {
       const handleSuccess = async () => {
-        await setProducts(data?.data);
-        await setFilteredData(data?.data);
+        if (sub_cat) {
+          await setProducts(data?.data);
+          await setFilteredData(data?.data);
+        } else {
+          await setProducts(catetoryData?.data);
+          await setFilteredData(catetoryData?.data);
+        }
       };
       handleSuccess();
     }
-  }, [data, isSuccess, isLoading]);
+  }, [data, isSuccess, isLoading, catetoryData, categoryisSuccess, categoryLoading]);
   useEffect(() => {
     if (success) {
       const handleSuccess = async () => {
@@ -111,21 +125,18 @@ const masterCollectionLayout = () => {
     };
     handelFilterGallery();
 
-    if(fabricName === "all"){
-      setFilteredData(products)
+    if (fabricName === "all") {
+      setFilteredData(products);
     }
-
   }, [fabricName]);
-  
-  
-  
+
   if (isLoading || loading) {
     return <Loader></Loader>;
   }
   if (attirbutesloading) {
     return <Loader></Loader>;
   }
-console.log("some of worf",filteredData)
+  console.log("some of worf", filteredData);
   return (
     <>
       <HomePageIntro title={"Saree "} />
@@ -207,10 +218,12 @@ console.log("some of worf",filteredData)
               }}
             >
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
-              <Typography
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => setFabricName("all")}
-                  >All Product</Typography>
+                <Typography
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => setFabricName("all")}
+                >
+                  All Product
+                </Typography>
                 {fabrics.map((fabric) => (
                   <Typography
                     sx={{ cursor: "pointer" }}
@@ -219,7 +232,7 @@ console.log("some of worf",filteredData)
                 ))}
 
                 {/* <Menu1 title={"Nakshikantha Saree"} />
-                <Menu1 title={"Jamdani Saree"} /> */}
+                  <Menu1 title={"Jamdani Saree"} /> */}
               </Stack>
               <Stack direction={"row"} spacing={4}>
                 <Menu title={"Category"} />
@@ -243,7 +256,9 @@ console.log("some of worf",filteredData)
           {filteredData?.slice(0, 1).map((dataList) => (
             <>
               <HovarImage
-                url={`/${router.pathname}/${dataList?.id}`}
+                url={`${router.asPath.toString().split("/").join("/")}/${
+                  dataList?.id
+                }`}
                 data={dataList}
                 imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                   dataList?.feature_image?.lastIndexOf("/") + 1
@@ -287,13 +302,15 @@ console.log("some of worf",filteredData)
             <>
               <Grid item lg={4} sm={6} key={dataList?.id}>
                 {/* <img
-                    src={dataList?.feature_image}
-                    width={568}
-                    height={827}
-                    style={{ maxWidth: "100%", height: "fit-content" }}
-                  /> */}
+                      src={dataList?.feature_image}
+                      width={568}
+                      height={827}
+                      style={{ maxWidth: "100%", height: "fit-content" }}
+                    /> */}
                 <HovarImage
-                  url={`/${router.pathname}/${dataList?.id}`}
+                  url={`${router.asPath.toString().split("/").join("/")}/${
+                    dataList?.id
+                  }`}
                   data={dataList}
                   imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                     dataList?.feature_image?.lastIndexOf("/") + 1
@@ -354,7 +371,9 @@ console.log("some of worf",filteredData)
                 key={dataList?.id}
               >
                 <HovarImage
-                  url={`/${router.pathname}/${dataList?.id}`}
+                  url={`${router.asPath.toString().split("/").join("/")}/${
+                    dataList?.id
+                  }`}
                   data={dataList}
                   imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                     dataList?.feature_image?.lastIndexOf("/") + 1
@@ -385,7 +404,9 @@ console.log("some of worf",filteredData)
           {filteredData?.slice(1, 2).map((dataList) => (
             <>
               <HovarImage
-                url={`/${router.pathname}/${dataList?.id}`}
+                url={`${router.asPath.toString().split("/").join("/")}/${
+                  dataList?.id
+                }`}
                 data={dataList}
                 imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                   dataList?.feature_image?.lastIndexOf("/") + 1
@@ -415,7 +436,14 @@ console.log("some of worf",filteredData)
         </Stack>
       </Box>
       <Footer />
-      <MenuDawer products={products} fabrics={fabrics} open={lists} setOpen={setLists} setFilteredData={setFilteredData} setFabricName={setFabricName} />
+      <MenuDawer
+        products={products}
+        fabrics={fabrics}
+        open={lists}
+        setOpen={setLists}
+        setFilteredData={setFilteredData}
+        setFabricName={setFabricName}
+      />
       <Menu1Dawer open={lists1} setOpen={setLists1} />
     </>
   );
