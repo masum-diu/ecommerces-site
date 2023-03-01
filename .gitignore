@@ -14,7 +14,6 @@
 
 # production
 /build
-
 # misc
 .DS_Store
 *.pem
@@ -34,3 +33,38 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+#unwanted files
+/aatong
+/ashtodhatu-jewellery
+/baby-kantha
+/basket
+/beauty-collection
+/bed-cover
+/cangbuk
+/ceramic
+/cushion-cover
+/fatua
+/jackets
+/kaftan
+/kids
+/kimono
+/kurti-fatua
+/metal-jewellery
+/napkin
+/orna
+/other-jewellery
+/panjabi
+/salwar-kameez
+/saree
+/scarves
+/shawls
+/shirts
+/silver-jewellery
+/stoles
+/t-shirt
+/table-cloth
+/table-runner
+/tops-shirts
+/vest
