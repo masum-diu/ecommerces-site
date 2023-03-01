@@ -57,7 +57,7 @@ const masterCollectionLayout = () => {
   const sub_cat = router?.query?.sub_cat;
   const { data, isLoading, isSuccess, isError, error } =
     useGetCategoryAndSubWiseProductsQuery(
-      { cat, sub_cat, page },
+      { cat, sub_cat },
       { refetchOnMountOrArgChange: true }
     );
   const {
@@ -81,7 +81,7 @@ const masterCollectionLayout = () => {
     if (isSuccess) {
       const handleSuccess = async () => {
         await setProducts(data?.data);
-        await setFilteredData((prev) => [...prev, ...data?.data]);
+        await setFilteredData(data?.data);
         setLoadings(false);
       };
       handleSuccess();
@@ -89,7 +89,7 @@ const masterCollectionLayout = () => {
   }, [data, isSuccess, isLoading, page]);
 
   // infiniteScroll area
-  const handelInfinitScroll = async () => {
+  /* const handelInfinitScroll = async () => {
     try {
       if (
         window.innerHeight + document.documentElement.scrollTop + 1 >=
@@ -105,7 +105,7 @@ const masterCollectionLayout = () => {
   useEffect(() => {
     window.addEventListener("scroll", handelInfinitScroll);
     return () => window.removeEventListener("scroll", handelInfinitScroll);
-  }, []);
+  }, []); */
   useEffect(() => {
     if (success) {
       const handleSuccess = async () => {

@@ -25,12 +25,10 @@ import Footer from "../../../components/Footer";
 import MenuDawer from "../../../components/MenuDawer";
 import Menu1Dawer from "../../../components/Menu1Dawer";
 import Link from "next/link";
-import { NextPageContext } from "next";
 import { useDispatch } from "react-redux";
 import {
   useGetAttributesOfProductsQuery,
   useGetCategoryAndSubWiseProductsQuery,
-  useGetProductsQuery,
   useGetCategoryWiseProductsQuery,
   useGetSubWiseProductsQuery,
 } from "../../../src/features/api/apiSlice";
@@ -41,12 +39,12 @@ const masterCollectionLayout = () => {
   const path =
     router.pathname.replace("/", "").charAt(0).toUpperCase() +
     router.pathname.replace("/", "").slice(1);
-  const productName = router.pathname.replace("/", "").toUpperCase();
-  const dispatch = useDispatch();
+  const currentPath =
+    router?.query?.product?.charAt(0).toUpperCase() +
+    router?.query?.product?.slice(1);
+  const productName = router?.query?.product?.toUpperCase();
 
-  const ursl = router.asPath.toString().split("/").join("/");
-  console.log("your amazign output", router);
-  // console.log("sdsdf", router);
+  const dispatch = useDispatch();
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
@@ -54,13 +52,13 @@ const masterCollectionLayout = () => {
   const [fabrics, setFabric] = useState([]);
   const [fabricName, setFabricName] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const cat = router.query.cat;
+  const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
 
   // Getting product data with subCategory
   const { data, isLoading, isSuccess, isError, error } =
     useGetCategoryAndSubWiseProductsQuery(
-      { cat, sub_cat, page },
+      { cat, sub_cat },
       { refetchOnMountOrArgChange: true }
     );
 
@@ -79,8 +77,7 @@ const masterCollectionLayout = () => {
     isError: errorstate,
     error: errormessage,
   } = useGetSubWiseProductsQuery(sub_cat, { refetchOnMountOrArgChange: true });
-  
-  
+
   // Getting static data with Category
   const {
     data: staticDatasCat,
@@ -89,8 +86,7 @@ const masterCollectionLayout = () => {
     isError: errorstateCat,
     error: errormessageCat,
   } = useGetSubWiseProductsQuery(cat);
-  
-  
+
   // Getting attributes of Product with subCategory
   const {
     data: attirbutesDatas,
@@ -102,7 +98,6 @@ const masterCollectionLayout = () => {
     refetchOnMountOrArgChange: true,
   });
 
-
   // Getting attributes of Product with Category
   const {
     data: attirbutesDatasCat,
@@ -111,8 +106,6 @@ const masterCollectionLayout = () => {
     isError: attirbuteserrorstateCat,
     error: attirbuteserrormessageCat,
   } = useGetAttributesOfProductsQuery(cat);
-
-
 
   // Setting product in a state
   useEffect(() => {
@@ -137,9 +130,6 @@ const masterCollectionLayout = () => {
     categoryLoading,
   ]);
 
-
-
-
   // Setting static data of products in a state
   useEffect(() => {
     if (success || successCat) {
@@ -153,8 +143,6 @@ const masterCollectionLayout = () => {
       handleSuccess();
     }
   }, [staticDatas, loading, success, staticDatasCat, loadingCat, successCat]);
-
-
 
   // Setting attributes of products in a state
   useEffect(() => {
@@ -177,8 +165,6 @@ const masterCollectionLayout = () => {
     attirbutessuccessCat,
   ]);
 
-
-
   // Filtering the products
   useEffect(() => {
     const handelFilterGallery = async () => {
@@ -193,8 +179,6 @@ const masterCollectionLayout = () => {
       setFilteredData(products);
     }
   }, [fabricName]);
-
-
 
   // Handling the loading state
   if (isLoading || loading) {
@@ -242,11 +226,11 @@ const masterCollectionLayout = () => {
               sx={{ cursor: "pointer" }}
               color="initial"
             >
-              {path}
+              {currentPath}
             </Typography>
           </Stack>
           <Typography variant="cardHeader1" color="initial">
-            WOMEN {productName} COLLECTION
+            {productName} COLLECTION
           </Typography>
         </Stack>
 
@@ -291,7 +275,7 @@ const masterCollectionLayout = () => {
                 >
                   All Product
                 </Typography>
-                {fabrics.map((fabric) => (
+                {fabrics?.map((fabric) => (
                   <Typography
                     sx={{ cursor: "pointer" }}
                     onClick={() => setFabricName(fabric?.fabric_name)}
@@ -323,9 +307,7 @@ const masterCollectionLayout = () => {
           {filteredData?.slice(0, 1).map((dataList) => (
             <>
               <HovarImage
-                url={`${router.asPath.toString().split("/").join("/")}/${
-                  dataList?.id
-                }`}
+                url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
                 data={dataList}
                 imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                   dataList?.feature_image?.lastIndexOf("/") + 1
@@ -375,9 +357,7 @@ const masterCollectionLayout = () => {
                       style={{ maxWidth: "100%", height: "fit-content" }}
                     /> */}
                 <HovarImage
-                  url={`${router.asPath.toString().split("/").join("/")}/${
-                    dataList?.id
-                  }`}
+                  url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
                   data={dataList}
                   imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                     dataList?.feature_image?.lastIndexOf("/") + 1
@@ -438,9 +418,7 @@ const masterCollectionLayout = () => {
                 key={dataList?.id}
               >
                 <HovarImage
-                  url={`${router.asPath.toString().split("/").join("/")}/${
-                    dataList?.id
-                  }`}
+                  url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
                   data={dataList}
                   imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                     dataList?.feature_image?.lastIndexOf("/") + 1
@@ -471,9 +449,7 @@ const masterCollectionLayout = () => {
           {filteredData?.slice(1, 2).map((dataList) => (
             <>
               <HovarImage
-                url={`${router.asPath.toString().split("/").join("/")}/${
-                  dataList?.id
-                }`}
+                url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
                 data={dataList}
                 imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                   dataList?.feature_image?.lastIndexOf("/") + 1
