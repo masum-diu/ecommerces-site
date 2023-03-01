@@ -45,46 +45,67 @@ const masterCollectionLayout = () => {
   console.log("your demo output", router.pathname);
   // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
+  const [page, setPage] = useState(1);
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
   const [staticData, setStaticData] = useState([]);
   const [fabrics, setFabric] = useState([]);
   const [fabricName, setFabricName] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [loadings, setLoadings] = useState(true);
   const cat = router.query.cat;
   const sub_cat = router?.query?.sub_cat;
   const { data, isLoading, isSuccess, isError, error } =
-    useGetCategoryAndSubWiseProductsQuery({ cat, sub_cat },{refetchOnMountOrArgChange:true});
-
-
-    const { data:catetoryData, isLoading:categoryLoading, isSuccess:categoryisSuccess } =
-    useGetCategoryWiseProductsQuery(cat);
-
-
+    useGetCategoryAndSubWiseProductsQuery(
+      { cat, sub_cat, page },
+      { refetchOnMountOrArgChange: true }
+    );
   const {
     data: staticDatas,
     isLoading: loading,
     isSuccess: success,
     isError: errorstate,
     error: errormessage,
-  } = useGetSubWiseProductsQuery(sub_cat,{refetchOnMountOrArgChange:true});
+  } = useGetSubWiseProductsQuery(sub_cat, { refetchOnMountOrArgChange: true });
   const {
     data: attirbutesDatas,
     isLoading: attirbutesloading,
     isSuccess: attirbutessuccess,
     isError: attirbuteserrorstate,
     error: attirbuteserrormessage,
-  } = useGetAttributesOfProductsQuery(sub_cat,{refetchOnMountOrArgChange:true});
+  } = useGetAttributesOfProductsQuery(sub_cat, {
+    refetchOnMountOrArgChange: true,
+  });
 
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
         await setProducts(data?.data);
-        await setFilteredData(data?.data);
+        await setFilteredData((prev) => [...prev, ...data?.data]);
+        setLoadings(false);
       };
       handleSuccess();
     }
-  }, [data, isSuccess, isLoading]);
+  }, [data, isSuccess, isLoading, page]);
+
+  // infiniteScroll area
+  const handelInfinitScroll = async () => {
+    try {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        document.documentElement.scrollHeight
+      ) {
+        setLoadings(true);
+        setPage((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handelInfinitScroll);
+    return () => window.removeEventListener("scroll", handelInfinitScroll);
+  }, []);
   useEffect(() => {
     if (success) {
       const handleSuccess = async () => {
@@ -111,21 +132,18 @@ const masterCollectionLayout = () => {
     };
     handelFilterGallery();
 
-    if(fabricName === "all"){
-      setFilteredData(products)
+    if (fabricName === "all") {
+      setFilteredData(products);
     }
-
   }, [fabricName]);
-  
-  
-  
+
   if (isLoading || loading) {
     return <Loader></Loader>;
   }
   if (attirbutesloading) {
     return <Loader></Loader>;
   }
-console.log("some of worf",filteredData)
+  // console.log("some of worf", filteredData);
   return (
     <>
       <HomePageIntro title={"Saree "} />
@@ -207,10 +225,12 @@ console.log("some of worf",filteredData)
               }}
             >
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
-              <Typography
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => setFabricName("all")}
-                  >All Product</Typography>
+                <Typography
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => setFabricName("all")}
+                >
+                  All Product
+                </Typography>
                 {fabrics.map((fabric) => (
                   <Typography
                     sx={{ cursor: "pointer" }}
@@ -413,9 +433,62 @@ console.log("some of worf",filteredData)
             </>
           ))}
         </Stack>
+        <Grid
+          container
+          justifyContent={"center"}
+          spacing={2}
+          sx={{
+            width: "90%",
+            maxWidth: "1500px",
+            margin: "0 auto",
+            marginTop: "3rem",
+          }}
+        >
+          {filteredData?.map((dataList) => (
+            <>
+              <Grid
+                item
+                lg={4}
+                sm={6}
+                justifyContent="center"
+                key={dataList?.id}
+              >
+                <HovarImage
+                  url={`/${router.pathname}/${dataList?.id}`}
+                  data={dataList}
+                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                    dataList?.feature_image?.lastIndexOf("/") + 1
+                  )}`}
+                  width={568}
+                  height={827}
+                ></HovarImage>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  justifyContent={"space-between"}
+                >
+                  <Typography variant="cardHeader3" color="initial">
+                    {dataList?.p_name}
+                  </Typography>
+                  <Typography variant="cardHeader3" color="initial">
+                    BDT {dataList?.p_sale_price} ৳
+                  </Typography>
+                </Stack>
+              </Grid>
+            </>
+          ))}
+          {loadings && <Loader />}
+        </Grid>
       </Box>
       <Footer />
-      <MenuDawer products={products} fabrics={fabrics} open={lists} setOpen={setLists} setFilteredData={setFilteredData} setFabricName={setFabricName} />
+      <MenuDawer
+        products={products}
+        fabrics={fabrics}
+        open={lists}
+        setOpen={setLists}
+        setFilteredData={setFilteredData}
+        setFabricName={setFabricName}
+      />
       <Menu1Dawer open={lists1} setOpen={setLists1} />
     </>
   );
