@@ -151,7 +151,7 @@ const masterCollectionLayout = () => {
         if (sub_cat) {
           await setFabric(attirbutesDatas);
         } else {
-          await setFabric(attirbutesDatas);
+          await setFabric(attirbutesDatasCat);
         }
       };
       handleSuccess();

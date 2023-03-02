@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
+import instance from "../pages/api/api_instance";
 
 const SearchModal = ({ open, setOpen }) => {
   // const [message, setMessage] = useState("");
@@ -36,9 +37,9 @@ const SearchModal = ({ open, setOpen }) => {
   const [filterVal, setFilterVal] = useState("");
   // console.log(data);
   const fetchData = () => {
-    return axios
+    return instance
       .get(
-        `https://apiaranya.jumriz.com/public/api/product?no_paginate=yes&keyword`
+        `/product?no_paginate=yes&keyword`
       )
       .then((response) => {
         // setData(response.data?.data);

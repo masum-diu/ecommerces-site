@@ -16,6 +16,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 import USER_CONTEXT from "./userContext";
 import Cookies from "js-cookie";
+import instance from "../pages/api/api_instance";
 
 const LoginModal = ({ open, setOpen }) => {
   const { userdata, setUserData } = useContext(USER_CONTEXT);
@@ -65,8 +66,8 @@ const LoginModal = ({ open, setOpen }) => {
   });
   // const password = useWatch({ control, name: "password" });
   const onSubmit = (data) => {
-    axios
-      .post("http://apiaranya.jumriz.com/public/api/auth/login", data, {})
+    instance
+      .post("/auth/login", data, {})
       .then((result) => {
         console.log(result.data);
         localStorage.setItem("acesstoken", result.data.token);

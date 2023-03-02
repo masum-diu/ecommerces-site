@@ -13,6 +13,7 @@ import { useContext } from "react";
 import USER_CONTEXT from "./userContext";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Cookies from "js-cookie";
+import instance from "../pages/api/api_instance";
 const SignInModal = ({ open, setOpen, signModal }) => {
   const [values, setValues] = useState({
     pass: "",
@@ -61,8 +62,8 @@ const SignInModal = ({ open, setOpen, signModal }) => {
   console.log(errors);
 
   const onSubmit = (data) => {
-    axios
-      .post("http://apiaranya.jumriz.com/public/api/auth/register", data, {})
+    instance
+      .post("/auth/register", data, {})
       .then((result) => {
         console.log("user created", result.data);
         localStorage.setItem("acesstoken", result.data.token);
