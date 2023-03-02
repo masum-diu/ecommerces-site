@@ -184,7 +184,7 @@ const masterCollectionLayout = () => {
   if (isLoading || loading) {
     return <Loader></Loader>;
   }
-  if (attirbutesloading) {
+  if (attirbutesloading || attirbutesloadingCat) {
     return <Loader></Loader>;
   }
   return (
