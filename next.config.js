@@ -7,6 +7,9 @@ const nextConfig = {
         $: "jquery",
         jQuery: "jquery",
         "window.jQuery": "jquery",
+        devServer: {
+          hot: false, // disable HMR
+        },
       })
     );
     return config;

@@ -49,7 +49,6 @@ const shop = () => {
     return <Loader></Loader>;
   }
   // const products = data?.data;
-  console.log("from shop", homedata);
   return (
     <>
       <HomePageIntro title={"Shop "} />

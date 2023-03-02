@@ -146,9 +146,9 @@ const FlashPage = ({ title }) => {
             <Button
               variant="contained"
               color="black"
-              /* onClick={() => router.push("/shop")} */
+              onClick={() => router.push("/shop")}
             >
-              <Link sx={{textDecoration:"none"}} href={"/shop"}>continue</Link>
+              continue
             </Button>
           </Stack>
         </Box>
