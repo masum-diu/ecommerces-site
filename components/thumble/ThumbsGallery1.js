@@ -12,7 +12,7 @@ import "swiper/css/thumbs";
 import "swiper/css/zoom";
 
 import { FreeMode, Navigation, Thumbs, Zoom } from "swiper";
-const ThumbsGallery = ({ open, setOpen }) => {
+const ThumbsGallery1 = ({ open, setOpen }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
@@ -46,7 +46,7 @@ const ThumbsGallery = ({ open, setOpen }) => {
             style={{
               "--swiper-navigation-color": "#000",
               "--swiper-pagination-color": "red",
-              marginTop: "3rem",
+              // marginTop: "3rem",
             }}
             loop={true}
             zoom={true}
@@ -102,25 +102,24 @@ const ThumbsGallery = ({ open, setOpen }) => {
           </Swiper>
           <Swiper
             onSwiper={setThumbsSwiper}
-            loop={true}
+             loop={true}
             spaceBetween={0}
-            slidesPerView={2}
+            slidesPerView={3}
             freeMode={true}
             watchSlidesProgress={true}
             modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper"
+            // className="mySwiper"
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "8rem",
+              marginTop: "1rem",
+              width:"35%"
+              // backgroundColor: "red",
+              // width: "100%",
             }}
           >
             <SwiperSlide>
               <img
                 src="https://aranya.com.bd/wp-content/uploads/2023/02/1-2-768x768.jpg"
                 width={200}
-                height={200}
               />
             </SwiperSlide>
 
@@ -128,21 +127,18 @@ const ThumbsGallery = ({ open, setOpen }) => {
               <img
                 src="https://aranya.com.bd/wp-content/uploads/2023/02/3-2.jpg"
                 width={200}
-                height={200}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://aranya.com.bd/wp-content/uploads/2023/02/2-2.jpg"
                 width={200}
-                height={200}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://aranya.com.bd/wp-content/uploads/2023/02/4-2.jpg"
                 width={200}
-                height={200}
               />
             </SwiperSlide>
           </Swiper>
@@ -152,4 +148,4 @@ const ThumbsGallery = ({ open, setOpen }) => {
   );
 };
 
-export default ThumbsGallery;
+export default ThumbsGallery1;

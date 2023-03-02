@@ -23,6 +23,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { addToCart } from "../../src/features/cart/cartSlice";
 import ThumbsGallery from "../../components/thumble/ThumbsGallery";
+import ThumbsGallery1 from "../../components/thumble/ThumbsGallery1";
 const PorductDetails = () => {
   const [open,setOpen]=useState(false)
   const router = useRouter();
@@ -772,7 +773,12 @@ const PorductDetails = () => {
           </Stack>
         </Box>
       </Hidden>
+      <Hidden only={["xl","lg","md","sm"]}>
       <ThumbsGallery open={open} setOpen={setOpen}/>
+      </Hidden>
+      <Hidden only={["sm","xs","xms"]}>
+      <ThumbsGallery1 open={open} setOpen={setOpen}/>
+      </Hidden>
     </>
     
   );

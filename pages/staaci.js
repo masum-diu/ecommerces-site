@@ -7,11 +7,11 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-
+import "swiper/css/zoom";
 // import "./styles.css";
 
 // import required modules
-import { FreeMode, Navigation, Thumbs } from "swiper";
+import { FreeMode, Navigation, Thumbs, Zoom } from "swiper";
 
 export default function staaci() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -20,87 +20,70 @@ export default function staaci() {
     <>
       <Swiper
         style={{
-          "--swiper-navigation-color": "#fff",
-          "--swiper-pagination-color": "#fff",
+          "--swiper-navigation-color": "#000",
+          "--swiper-pagination-color": "red",
         }}
         loop={true}
+        zoom={true}
         spaceBetween={10}
         navigation={true}
-        thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
+        thumbs={{
+          swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
+        }}
+        modules={[FreeMode, Navigation, Thumbs,Zoom]}
         className="mySwiper2"
       >
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+        
+        <SwiperSlide style={{ display: "flex", justifyContent: "center" }}>
+        <div className="swiper-zoom-container">
+        <img src="https://aranya.com.bd/wp-content/uploads/2023/02/1-2-768x768.jpg" />
+          </div>
+         
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+        <SwiperSlide style={{ display: "flex", justifyContent: "center" }}>
+        <div className="swiper-zoom-container">
+        <img src="https://aranya.com.bd/wp-content/uploads/2023/02/3-2.jpg" />
+          </div>
+        
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+        <SwiperSlide style={{ display: "flex", justifyContent: "center" }}>
+        <div className="swiper-zoom-container">
+        <img src="https://aranya.com.bd/wp-content/uploads/2023/02/2-2.jpg" />
+          </div>
+          
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+        <SwiperSlide  style={{display:"flex",justifyContent:"center"}}>
+        <div className="swiper-zoom-container">
+        <img src="https://aranya.com.bd/wp-content/uploads/2023/02/4-2.jpg" />
+          </div>
+        
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-        </SwiperSlide>
+        
       </Swiper>
       <Swiper
-        onSwiper={()=>setThumbsSwiper}
+        onSwiper={setThumbsSwiper}
         loop={true}
-        spaceBetween={10}
-        slidesPerView={4}
+        spaceBetween={0}
+        slidesPerView={3}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
+        style={{ display: "flex", justifyContent: "center",alignItems:"center", }}
       >
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+        <SwiperSlide style={{ display: "flex", justifyContent: "center" }}>
+          <img src="https://aranya.com.bd/wp-content/uploads/2023/02/1-2-768x768.jpg" width={500} />
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+        <SwiperSlide style={{ display: "flex", justifyContent: "center" }}>
+          <img src="https://aranya.com.bd/wp-content/uploads/2023/02/3-2.jpg" width={500} />
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+        <SwiperSlide style={{ display: "flex", justifyContent: "center" }}>
+          <img src="https://aranya.com.bd/wp-content/uploads/2023/02/2-2.jpg" width={500} />
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+        <SwiperSlide  style={{display:"flex",justifyContent:"center"}}>
+          <img src="https://aranya.com.bd/wp-content/uploads/2023/02/4-2.jpg" width={500} />
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-        </SwiperSlide>
+        
       </Swiper>
     </>
   );
