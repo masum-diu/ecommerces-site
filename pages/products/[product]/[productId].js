@@ -43,8 +43,6 @@ const PorductDetails = () => {
   const [activecolor, setActiveColor] = useState(null);
   const dispatch = useDispatch();
 
-console.log('your log output',router)
-
 
   const { data, isLoading, isSuccess, isError, error } =
     useGetParticularProductsQuery(productId);

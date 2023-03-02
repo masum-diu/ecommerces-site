@@ -187,7 +187,6 @@ const masterCollectionLayout = () => {
   if (attirbutesloading) {
     return <Loader></Loader>;
   }
-  console.log("some of worf", filteredData);
   return (
     <>
       <HomePageIntro title={"Saree "} />

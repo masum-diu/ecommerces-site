@@ -24,7 +24,6 @@ const shop = () => {
     isError: isLandingError,
     error: landingError,
   } = useGetHomePageProductsQuery();
-  // console.log('output',post)
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
@@ -49,7 +48,6 @@ const shop = () => {
     return <Loader></Loader>;
   }
   // const products = data?.data;
-  console.log("from shop", homedata);
   return (
     <>
       <HomePageIntro title={"Shop "} />
