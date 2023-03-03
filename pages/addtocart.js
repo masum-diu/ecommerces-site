@@ -139,8 +139,10 @@ const addtocart = () => {
                                     image: data.image,
                                     name: data.name,
                                     size: data.size,
+                                    size_id: data.size_id,
                                     text: data.text,
                                     color: data.color,
+                                    color_id: data.color_id,
                                     colorCode: data.colorCode,
                                     price: data.price,
                                     amount: data.amount + 1,
@@ -188,10 +190,10 @@ const addtocart = () => {
                   <Stack
                     direction={"column"}
                     spacing={2}
-                    sx={{ justifyContent: "center", alignItems: "center" }}
+                    sx={{ justifyContent: "center", alignItems: "center",mt:10 }}
                   >
                     <ProductionQuantityLimitsIcon
-                      sx={{ fontSize: "15em" }}
+                      style={{ color: "#0A0A0A",fontSize:"128px" }}
                     ></ProductionQuantityLimitsIcon>
                     <Typography variant="header1">
                       Your cart is currently empty.

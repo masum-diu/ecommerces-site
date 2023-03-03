@@ -87,10 +87,10 @@ const FlashPage = ({ title }) => {
               size="small"
               sx={{ backgroundColor: "white" }}
             >
-              <MenuItem value={10} disabled>
+              <MenuItem value={20} disabled>
                 Select Shipping Country
               </MenuItem>
-              <MenuItem value={20}>Bangladesh</MenuItem>
+              <MenuItem value={10}>Bangladesh</MenuItem>
               {/* <MenuItem value={30}>England</MenuItem>
               <MenuItem value={40}>India</MenuItem> */}
             </Select>
@@ -105,10 +105,10 @@ const FlashPage = ({ title }) => {
               size="small"
               sx={{ backgroundColor: "white" }}
             >
-              <MenuItem value={10} disabled>
+              <MenuItem value={20} disabled>
                 Select currency{" "}
               </MenuItem>
-              <MenuItem value={20}>Taka</MenuItem>
+              <MenuItem value={10}>Taka</MenuItem>
               {/* <MenuItem value={30}>Euro</MenuItem>
               <MenuItem value={40}>Dollar</MenuItem> */}
             </Select>
@@ -123,11 +123,11 @@ const FlashPage = ({ title }) => {
               size="small"
               sx={{ backgroundColor: "white" }}
             >
-              <MenuItem value={10} disabled>
+              <MenuItem value={20} disabled>
                 Select Language{" "}
               </MenuItem>
               {/* <MenuItem value={20}>Bangla</MenuItem> */}
-              <MenuItem value={30} sx>English</MenuItem>
+              <MenuItem value={10} sx>English</MenuItem>
               {/* <MenuItem value={40}>Hindi</MenuItem> */}
             </Select>
           </Stack>

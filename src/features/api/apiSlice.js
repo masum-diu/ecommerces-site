@@ -25,10 +25,14 @@ export const productApi = createApi({
       query: (cat) => `/product/${cat}`,
     }),
     getCategoryAndSubWiseProducts: builder.query({
-      query: ({cat,sub_cat}) => `/product/${cat}/${sub_cat}`,
+      query: ({ cat, sub_cat, page }) =>
+        `/product/${cat}/${sub_cat}?page=${page}&per_page=8`,
     }),
     getSubWiseProducts: builder.query({
       query: (sub_cat) => `/category/${sub_cat}`,
+    }),
+    getAttributesOfProducts: builder.query({
+      query: (sub_cat) => `category-fabric/${sub_cat}`,
     }),
   }),
 });
@@ -36,8 +40,11 @@ export const productApi = createApi({
 export const {
   useGetProductsQuery,
   useGetParticularProductsQuery,
-  useGetHomePageProductsQuery,useGetCampignListsQuery,useGetParticularCampignListsQuery,
+  useGetHomePageProductsQuery,
+  useGetCampignListsQuery,
+  useGetParticularCampignListsQuery,
   useGetCategoryAndSubWiseProductsQuery,
   useGetCategoryWiseProductsQuery,
-  useGetSubWiseProductsQuery
+  useGetSubWiseProductsQuery,
+  useGetAttributesOfProductsQuery,
 } = productApi;

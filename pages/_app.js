@@ -12,22 +12,26 @@ import { Provider } from "react-redux";
 import { store } from "../src/app/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+<<<<<<< HEAD
 import { Toaster } from 'react-hot-toast';
+=======
+import { Toaster } from "react-hot-toast";
+>>>>>>> e24577b9b42df0e734e67ac7cc02da05f9776410
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
-let persistor = persistStore(store)
+let persistor = persistStore(store);
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        {/* <meta name="viewport" content="initial-scale=1, width=device-width" />
         <meta
           httpEquiv="Content-Security-Policy"
           content="upgrade-insecure-requests"
-        ></meta>
+        ></meta> */}
       </Head>
 
       <ThemeProvider theme={theme}>

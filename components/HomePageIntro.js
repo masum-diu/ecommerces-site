@@ -17,7 +17,7 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
 import { GoThreeBars } from "react-icons/go";
-import { FiSearch, FiHeart } from "react-icons/fi";
+import { FiSearch, FiHeart, FiShoppingCart } from "react-icons/fi";
 import SiderBar from "./SiderBar";
 import { useRouter } from "next/router";
 import LoginModal from "./LoginModal";
@@ -47,7 +47,14 @@ const HomePageIntro = ({ title }) => {
   // console.log(userjsondata)
   // console.log("from local", userjsondata);
 
-  const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const totalAmount = useSelector((state) => state.cart?.totalAmount);
+  const totalAmountWishList = useSelector(
+    (state) => state?.wishList?.totalAmount
+  );
+  const totalWishedProduct = useSelector(
+    (state) => state?.wishList?.wishList?.length
+  );
+  // console.log('your log outputxxfgdfd',totalAmountWishList)
   // console.log('your log output',totalAmount)
 
   // Profile section starts here
@@ -71,9 +78,6 @@ const HomePageIntro = ({ title }) => {
   };
   const handelogout = () => {
     localStorage.clear();
-    /* localStorage.removeItem("user");
-    localStorage.removeItem("acesstoken1");
-    localStorage.removeItem("persist:root"); */
     setUser("");
     setAnchorEl(null);
     handleMobileMenuClose();
@@ -277,7 +281,11 @@ const HomePageIntro = ({ title }) => {
                 <IconButton aria-label="">
                   <BiMap style={{ color: "#0A0A0A" }} />
                 </IconButton>
-                <Typography variant="cardHeader" color="initial" sx={{cursor:"pointer"}}>
+                <Typography
+                  variant="cardHeader"
+                  color="initial"
+                  sx={{ cursor: "pointer" }}
+                >
                   BD
                 </Typography>
               </Stack>
@@ -291,7 +299,7 @@ const HomePageIntro = ({ title }) => {
                 aria-label=""
                 onClick={() => router.push("/wishlists")}
               >
-                <Badge badgeContent={4} color="background2">
+                <Badge badgeContent={totalWishedProduct} color="background2">
                   <FiHeart style={{ color: "#0A0A0A" }} />
                 </Badge>
               </IconButton>
@@ -300,7 +308,7 @@ const HomePageIntro = ({ title }) => {
                 onClick={() => router.push("/addtocart")}
               >
                 <Badge badgeContent={totalAmount} color="background2">
-                  <BiShoppingBag style={{ color: "#0A0A0A" }} />
+                  <FiShoppingCart style={{ color: "#0A0A0A" }} />
                 </Badge>
               </IconButton>
             </Stack>

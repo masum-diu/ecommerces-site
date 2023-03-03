@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Grid,
   Hidden,
   IconButton,
@@ -24,7 +25,9 @@ import Footer from "../../components/Footer";
 import MenuDawer from "../../components/MenuDawer";
 import Menu1Dawer from "../../components/Menu1Dawer";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 import {
+  useGetAttributesOfProductsQuery,
   useGetCategoryAndSubWiseProductsQuery,
   useGetProductsQuery,
   useGetSubWiseProductsQuery,
@@ -33,14 +36,22 @@ import Loader from "../../components/Loader/Loader";
 import HovarImage from "../../components/HovarableImage/HovarImage";
 const masterCollectionLayout = () => {
   const router = useRouter();
-  const path = router.pathname.replace('/','').charAt(0).toUpperCase() + router.pathname.replace('/','').slice(1);
+  const path =
+    router.pathname.replace("/", "").charAt(0).toUpperCase() +
+    router.pathname.replace("/", "").slice(1);
+  const productName = router.pathname.replace("/", "").toUpperCase();
+  const dispatch = useDispatch();
+  // console.log("your log output", path);
   // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
   const [staticData, setStaticData] = useState([]);
+  const [fabrics, setFabric] = useState([]);
+  const [fabricName, setFabricName] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const cat = router.query.cat;
-  const sub_cat = parseInt(router?.query?.sub_cat);
+  const sub_cat = router?.query?.sub_cat;
   const { data, isLoading, isSuccess, isError, error } =
     useGetCategoryAndSubWiseProductsQuery({ cat, sub_cat });
   const {
@@ -50,11 +61,19 @@ const masterCollectionLayout = () => {
     isError: errorstate,
     error: errormessage,
   } = useGetSubWiseProductsQuery(sub_cat);
+  const {
+    data: attirbutesDatas,
+    isLoading: attirbutesloading,
+    isSuccess: attirbutessuccess,
+    isError: attirbuteserrorstate,
+    error: attirbuteserrormessage,
+  } = useGetAttributesOfProductsQuery(sub_cat);
 
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
         await setProducts(data?.data);
+        await setFilteredData(data?.data);
       };
       handleSuccess();
     }
@@ -67,14 +86,36 @@ const masterCollectionLayout = () => {
       handleSuccess();
     }
   }, [staticDatas, loading, success]);
+  useEffect(() => {
+    if (attirbutessuccess) {
+      const handleSuccess = async () => {
+        await setFabric(attirbutesDatas);
+      };
+      handleSuccess();
+    }
+  }, [attirbutesDatas, attirbutesloading, attirbutessuccess]);
 
+  useEffect(() => {
+    const handelFilterGallery = async () => {
+      const content = products.filter(
+        (product) => fabricName == product?.p_fabric[0]?.fabric_name
+      );
+      setFilteredData(content);
+    };
+    handelFilterGallery();
+
+    if(fabricName === "all"){
+      setFilteredData(products)
+    }
+
+  }, [fabricName]);
+  console.log("your log outputsdfsd", filteredData);
   if (isLoading || loading) {
     return <Loader></Loader>;
   }
-
-  // const products = data?.data;
-  // console.log("from shopsdfs", staticData);
-  // console.log("from shop", sub_cat);
+  if (attirbutesloading) {
+    return <Loader></Loader>;
+  }
 
   return (
     <>
@@ -104,7 +145,7 @@ const masterCollectionLayout = () => {
               variant="cardHeader2"
               color="initial"
               sx={{ cursor: "pointer" }}
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/shop")}
             >
               Home
             </Typography>
@@ -118,7 +159,7 @@ const masterCollectionLayout = () => {
             </Typography>
           </Stack>
           <Typography variant="cardHeader1" color="initial">
-            WOMEN SHIRT COLLECTION
+            {productName} COLLECTION
           </Typography>
         </Stack>
 
@@ -156,11 +197,20 @@ const masterCollectionLayout = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Stack direction={"row"} spacing={4}>
-                <Menu1 title={"Cotton Saree"} />
-                <Menu1 title={"Silk Saree"} />
-                <Menu1 title={"Nakshikantha Saree"} />
-                <Menu1 title={"Jamdani Saree"} />
+              <Stack direction={"row"} spacing={4}  alignItems={"center"}>
+              <Typography
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => setFabricName("all")}
+                  >All Product</Typography>
+                {fabrics.map((fabric) => (
+                  <Typography
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => setFabricName(fabric?.fabric_name)}
+                  >{`${fabric?.fabric_name}`}</Typography>
+                ))}
+
+                {/* <Menu1 title={"Nakshikantha Saree"} />
+                <Menu1 title={"Jamdani Saree"} /> */}
               </Stack>
               <Stack direction={"row"} spacing={4}>
                 <Menu title={"Category"} />
@@ -181,12 +231,12 @@ const masterCollectionLayout = () => {
             mt: { xs: 1, lg: 2 },
           }}
         >
-          {products?.slice(0, 1).map((dataList) => (
+          {filteredData?.slice(0, 1).map((dataList) => (
             <>
               <HovarImage
                 url={`/${router.pathname}/${dataList?.id}`}
                 data={dataList}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/c_fit,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                   dataList?.feature_image?.lastIndexOf("/") + 1
                 )}`}
                 width={568}
@@ -206,7 +256,7 @@ const masterCollectionLayout = () => {
                   {dataList?.p_name}
                 </Typography>
                 <Typography variant="cardHeader3" color="initial">
-                  BDT {dataList?.p_sale_price}
+                  BDT {dataList?.p_sale_price} ৳
                 </Typography>
               </Stack>
             </>
@@ -224,7 +274,7 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {products?.slice(1, 4).map((dataList) => (
+          {filteredData?.slice(1, 4).map((dataList) => (
             <>
               <Grid item lg={4} sm={6} key={dataList?.id}>
                 {/* <img
@@ -236,7 +286,7 @@ const masterCollectionLayout = () => {
                 <HovarImage
                   url={`/${router.pathname}/${dataList?.id}`}
                   data={dataList}
-                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_855,w_586/c_fit,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                     dataList?.feature_image?.lastIndexOf("/") + 1
                   )}`}
                   width={568}
@@ -251,7 +301,7 @@ const masterCollectionLayout = () => {
                     {dataList?.p_name}
                   </Typography>
                   <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList?.p_sale_price}
+                    BDT {dataList?.p_sale_price} ৳
                   </Typography>
                 </Stack>
               </Grid>
@@ -260,14 +310,14 @@ const masterCollectionLayout = () => {
         </Grid>
         <Stack direction={"row"} sx={{ width: "100%" }} mt={4}>
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_828,w_720/v1676527368/aranya/${staticData?.cat_img_one?.substring(
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_828,w_720/v1676527368/aranya/${staticData?.cat_img_two?.substring(
               staticData?.cat_img_two?.lastIndexOf("/") + 1
             )}`}
             alt=""
             width={"50%"}
           />
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_828,w_720/v1676527368/aranya/${staticData?.cat_img_one?.substring(
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_828,w_720/v1676527368/aranya/${staticData?.cat_img_three?.substring(
               staticData?.cat_img_three?.lastIndexOf("/") + 1
             )}`}
             alt=""
@@ -285,7 +335,7 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {products?.slice(2, 5).map((dataList) => (
+          {filteredData?.slice(2, 5).map((dataList) => (
             <>
               <Grid
                 item
@@ -297,7 +347,7 @@ const masterCollectionLayout = () => {
                 <HovarImage
                   url={`/${router.pathname}/${dataList?.id}`}
                   data={dataList}
-                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_855,w_586/c_fit,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                     dataList?.feature_image?.lastIndexOf("/") + 1
                   )}`}
                   width={568}
@@ -312,7 +362,7 @@ const masterCollectionLayout = () => {
                     {dataList?.p_name}
                   </Typography>
                   <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList?.p_sale_price}
+                    BDT {dataList?.p_sale_price} ৳
                   </Typography>
                 </Stack>
               </Grid>
@@ -323,12 +373,12 @@ const masterCollectionLayout = () => {
           direction={"column"}
           sx={{ justifyContent: "center", alignItems: "center", mt: 5 }}
         >
-          {products?.slice(1, 2).map((dataList) => (
+          {filteredData?.slice(1, 2).map((dataList) => (
             <>
               <HovarImage
                 url={`/${router.pathname}/${dataList?.id}`}
                 data={dataList}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/c_fit,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                   dataList?.feature_image?.lastIndexOf("/") + 1
                 )}`}
                 width={568}
@@ -348,7 +398,7 @@ const masterCollectionLayout = () => {
                   {dataList?.p_name}
                 </Typography>
                 <Typography variant="cardHeader3" color="initial">
-                  BDT {dataList?.p_sale_price}
+                  BDT {dataList?.p_sale_price} ৳
                 </Typography>
               </Stack>
             </>
@@ -356,7 +406,7 @@ const masterCollectionLayout = () => {
         </Stack>
       </Box>
       <Footer />
-      <MenuDawer open={lists} setOpen={setLists} />
+      <MenuDawer products={products} fabrics={fabrics} open={lists} setOpen={setLists} setFilteredData={setFilteredData} setFabricName={setFabricName} />
       <Menu1Dawer open={lists1} setOpen={setLists1} />
     </>
   );

@@ -18,22 +18,24 @@ import { useRouter } from "next/router";
 import SegmentIcon from "@mui/icons-material/Segment";
 import SortIcon from "@mui/icons-material/Sort";
 import { useState } from "react";
-import HomePageIntro from "../../components/HomePageIntro";
-import Menu1 from "../../components/Menu1";
-import Menu from "../../components/Menu";
-import Footer from "../../components/Footer";
-import MenuDawer from "../../components/MenuDawer";
-import Menu1Dawer from "../../components/Menu1Dawer";
+import HomePageIntro from "../../../components/HomePageIntro";
+import Menu1 from "../../../components/Menu1";
+import Menu from "../../../components/Menu";
+import Footer from "../../../components/Footer";
+import MenuDawer from "../../../components/MenuDawer";
+import Menu1Dawer from "../../../components/Menu1Dawer";
 import Link from "next/link";
+import { NextPageContext } from "next";
 import { useDispatch } from "react-redux";
 import {
   useGetAttributesOfProductsQuery,
   useGetCategoryAndSubWiseProductsQuery,
   useGetProductsQuery,
+  useGetCategoryWiseProductsQuery,
   useGetSubWiseProductsQuery,
-} from "../../src/features/api/apiSlice";
-import Loader from "../../components/Loader/Loader";
-import HovarImage from "../../components/HovarableImage/HovarImage";
+} from "../../../src/features/api/apiSlice";
+import Loader from "../../../components/Loader/Loader";
+import HovarImage from "../../../components/HovarableImage/HovarImage";
 const masterCollectionLayout = () => {
   const router = useRouter();
   const path =
@@ -41,7 +43,9 @@ const masterCollectionLayout = () => {
     router.pathname.replace("/", "").slice(1);
   const productName = router.pathname.replace("/", "").toUpperCase();
   const dispatch = useDispatch();
-  // console.log("your log output", path);
+
+  const ursl = router.asPath.toString().split("/").join("/");
+  console.log("your amazign output", router);
   // console.log("sdsdf", router);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
@@ -52,49 +56,130 @@ const masterCollectionLayout = () => {
   const [filteredData, setFilteredData] = useState([]);
   const cat = router.query.cat;
   const sub_cat = router?.query?.sub_cat;
+
+  // Getting product data with subCategory
   const { data, isLoading, isSuccess, isError, error } =
-    useGetCategoryAndSubWiseProductsQuery({ cat, sub_cat });
+    useGetCategoryAndSubWiseProductsQuery(
+      { cat, sub_cat },
+      { refetchOnMountOrArgChange: true }
+    );
+
+  // Getting product data with only category
+  const {
+    data: catetoryData,
+    isLoading: categoryLoading,
+    isSuccess: categoryisSuccess,
+  } = useGetCategoryWiseProductsQuery(cat);
+
+  // Getting static data with subCategory
   const {
     data: staticDatas,
     isLoading: loading,
     isSuccess: success,
     isError: errorstate,
     error: errormessage,
-  } = useGetSubWiseProductsQuery(sub_cat);
+  } = useGetSubWiseProductsQuery(sub_cat, { refetchOnMountOrArgChange: true });
+  
+  
+  // Getting static data with Category
+  const {
+    data: staticDatasCat,
+    isLoading: loadingCat,
+    isSuccess: successCat,
+    isError: errorstateCat,
+    error: errormessageCat,
+  } = useGetSubWiseProductsQuery(cat);
+  
+  
+  // Getting attributes of Product with subCategory
   const {
     data: attirbutesDatas,
     isLoading: attirbutesloading,
     isSuccess: attirbutessuccess,
     isError: attirbuteserrorstate,
     error: attirbuteserrormessage,
-  } = useGetAttributesOfProductsQuery(sub_cat);
+  } = useGetAttributesOfProductsQuery(sub_cat, {
+    refetchOnMountOrArgChange: true,
+  });
 
-  useEffect(() => {
-    if (isSuccess) {
-      const handleSuccess = async () => {
-        await setProducts(data?.data);
-        await setFilteredData(data?.data);
-      };
-      handleSuccess();
-    }
-  }, [data, isSuccess, isLoading]);
-  useEffect(() => {
-    if (success) {
-      const handleSuccess = async () => {
-        await setStaticData(staticDatas?.data);
-      };
-      handleSuccess();
-    }
-  }, [staticDatas, loading, success]);
-  useEffect(() => {
-    if (attirbutessuccess) {
-      const handleSuccess = async () => {
-        await setFabric(attirbutesDatas);
-      };
-      handleSuccess();
-    }
-  }, [attirbutesDatas, attirbutesloading, attirbutessuccess]);
 
+  // Getting attributes of Product with Category
+  const {
+    data: attirbutesDatasCat,
+    isLoading: attirbutesloadingCat,
+    isSuccess: attirbutessuccessCat,
+    isError: attirbuteserrorstateCat,
+    error: attirbuteserrormessageCat,
+  } = useGetAttributesOfProductsQuery(cat);
+
+
+
+  // Setting product in a state
+  useEffect(() => {
+    if (isSuccess || categoryisSuccess) {
+      const handleSuccess = async () => {
+        if (sub_cat) {
+          await setProducts(data?.data);
+          await setFilteredData(data?.data);
+        } else {
+          await setProducts(catetoryData?.data);
+          await setFilteredData(catetoryData?.data);
+        }
+      };
+      handleSuccess();
+    }
+  }, [
+    data,
+    isSuccess,
+    isLoading,
+    catetoryData,
+    categoryisSuccess,
+    categoryLoading,
+  ]);
+
+
+
+
+  // Setting static data of products in a state
+  useEffect(() => {
+    if (success || successCat) {
+      const handleSuccess = async () => {
+        if (sub_cat) {
+          await setStaticData(staticDatas?.data);
+        } else {
+          setStaticData(staticDatasCat?.data);
+        }
+      };
+      handleSuccess();
+    }
+  }, [staticDatas, loading, success, staticDatasCat, loadingCat, successCat]);
+
+
+
+  // Setting attributes of products in a state
+  useEffect(() => {
+    if (attirbutessuccess || attirbutessuccessCat) {
+      const handleSuccess = async () => {
+        if (sub_cat) {
+          await setFabric(attirbutesDatas);
+        } else {
+          await setFabric(attirbutesDatas);
+        }
+      };
+      handleSuccess();
+    }
+  }, [
+    attirbutesDatas,
+    attirbutesloading,
+    attirbutessuccess,
+    attirbutesDatasCat,
+    attirbutesloadingCat,
+    attirbutessuccessCat,
+  ]);
+
+
+
+  // Filtering the products
   useEffect(() => {
     const handelFilterGallery = async () => {
       const content = products.filter(
@@ -104,19 +189,21 @@ const masterCollectionLayout = () => {
     };
     handelFilterGallery();
 
-    if(fabricName === "all"){
-      setFilteredData(products)
+    if (fabricName === "all") {
+      setFilteredData(products);
     }
-
   }, [fabricName]);
-  console.log("your log outputsdfsd", filteredData);
+
+
+
+  // Handling the loading state
   if (isLoading || loading) {
     return <Loader></Loader>;
   }
   if (attirbutesloading) {
     return <Loader></Loader>;
   }
-
+  console.log("some of worf", filteredData);
   return (
     <>
       <HomePageIntro title={"Saree "} />
@@ -159,7 +246,7 @@ const masterCollectionLayout = () => {
             </Typography>
           </Stack>
           <Typography variant="cardHeader1" color="initial">
-            {productName} COLLECTION
+            WOMEN {productName} COLLECTION
           </Typography>
         </Stack>
 
@@ -198,10 +285,12 @@ const masterCollectionLayout = () => {
               }}
             >
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
-              <Typography
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => setFabricName("all")}
-                  >All Product</Typography>
+                <Typography
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => setFabricName("all")}
+                >
+                  All Product
+                </Typography>
                 {fabrics.map((fabric) => (
                   <Typography
                     sx={{ cursor: "pointer" }}
@@ -210,7 +299,7 @@ const masterCollectionLayout = () => {
                 ))}
 
                 {/* <Menu1 title={"Nakshikantha Saree"} />
-                <Menu1 title={"Jamdani Saree"} /> */}
+                  <Menu1 title={"Jamdani Saree"} /> */}
               </Stack>
               <Stack direction={"row"} spacing={4}>
                 <Menu title={"Category"} />
@@ -234,7 +323,9 @@ const masterCollectionLayout = () => {
           {filteredData?.slice(0, 1).map((dataList) => (
             <>
               <HovarImage
-                url={`/${router.pathname}/${dataList?.id}`}
+                url={`${router.asPath.toString().split("/").join("/")}/${
+                  dataList?.id
+                }`}
                 data={dataList}
                 imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                   dataList?.feature_image?.lastIndexOf("/") + 1
@@ -278,13 +369,15 @@ const masterCollectionLayout = () => {
             <>
               <Grid item lg={4} sm={6} key={dataList?.id}>
                 {/* <img
-                    src={dataList?.feature_image}
-                    width={568}
-                    height={827}
-                    style={{ maxWidth: "100%", height: "fit-content" }}
-                  /> */}
+                      src={dataList?.feature_image}
+                      width={568}
+                      height={827}
+                      style={{ maxWidth: "100%", height: "fit-content" }}
+                    /> */}
                 <HovarImage
-                  url={`/${router.pathname}/${dataList?.id}`}
+                  url={`${router.asPath.toString().split("/").join("/")}/${
+                    dataList?.id
+                  }`}
                   data={dataList}
                   imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                     dataList?.feature_image?.lastIndexOf("/") + 1
@@ -345,7 +438,9 @@ const masterCollectionLayout = () => {
                 key={dataList?.id}
               >
                 <HovarImage
-                  url={`/${router.pathname}/${dataList?.id}`}
+                  url={`${router.asPath.toString().split("/").join("/")}/${
+                    dataList?.id
+                  }`}
                   data={dataList}
                   imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                     dataList?.feature_image?.lastIndexOf("/") + 1
@@ -376,7 +471,9 @@ const masterCollectionLayout = () => {
           {filteredData?.slice(1, 2).map((dataList) => (
             <>
               <HovarImage
-                url={`/${router.pathname}/${dataList?.id}`}
+                url={`${router.asPath.toString().split("/").join("/")}/${
+                  dataList?.id
+                }`}
                 data={dataList}
                 imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
                   dataList?.feature_image?.lastIndexOf("/") + 1
@@ -406,7 +503,14 @@ const masterCollectionLayout = () => {
         </Stack>
       </Box>
       <Footer />
-      <MenuDawer products={products} fabrics={fabrics} open={lists} setOpen={setLists} setFilteredData={setFilteredData} setFabricName={setFabricName} />
+      <MenuDawer
+        products={products}
+        fabrics={fabrics}
+        open={lists}
+        setOpen={setLists}
+        setFilteredData={setFilteredData}
+        setFabricName={setFabricName}
+      />
       <Menu1Dawer open={lists1} setOpen={setLists1} />
     </>
   );

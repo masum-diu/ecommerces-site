@@ -8,27 +8,24 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import HomePageIntro from "../../components/HomePageIntro";
+import HomePageIntro from "../../../components/HomePageIntro";
 import { Box } from "@mui/system";
-import Footer from "../../components/Footer";
+import Footer from "../../../components/Footer";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import {
-  
-  useGetCategoryWiseProductsQuery, useGetParticularProductsQuery,
-} from "../../src/features/api/apiSlice";
+import { useGetParticularProductsQuery } from "../../../src/features/api/apiSlice";
 import { useDispatch } from "react-redux";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../../components/Loader/Loader";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
-import { addToCart } from "../../src/features/cart/cartSlice";
+import { addToCart } from "../../../src/features/cart/cartSlice";
 const PorductDetails = () => {
   const router = useRouter();
   const path = router.asPath;
-  const productId = router?.query?.porductId;
+  const productId = router?.query?.productId;
   const [colorSelected, setColorSelected] = useState(false);
   const [sizeSelected, setSizeSelected] = useState(false);
   const [disableBtn, setDisableBtn] = useState(true);
@@ -39,31 +36,25 @@ const PorductDetails = () => {
   const [sizeId, setSizeId] = useState(0);
   const [colorId, setColorId] = useState(0);
   const [stockDetails, setStockDetails] = useState([]);
-  const [activesize, setActiveSize] = useState(null);
-  const [activecolor, setActiveColor] = useState(null);
   const [stockAmount, setStockAmount] = useState(0);
   const [productPrice, setProductPrice] = useState(0);
   const [products, setProducts] = useState([]);
+  const [activesize, setActiveSize] = useState(null);
+  const [activecolor, setActiveColor] = useState(null);
   const dispatch = useDispatch();
+
+console.log('your log output',router)
+
+
   const { data, isLoading, isSuccess, isError, error } =
-  useGetParticularProductsQuery(productId);
+    useGetParticularProductsQuery(productId);
 
-  // const products = data?.data;
-
-  /* const initialSize = products?.p_sizes[0]?.size_name
-    ? products?.p_sizes[0]?.size_name
-    : "No Size Selected";
-  const initialColor = products?.p_colours[0]?.slug
-    ? products?.p_colours[0]?.slug
-    : "No Color Selected"; */
-  console.log("your kids output", router?.query?.porductId
-  );
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
         await setProducts(data?.data);
-        await setActiveSize(data?.data.p_sizes[0]?.id);
-        await setActiveColor(data?.data.p_colours[0]?.id);
+        setActiveSize(data?.data.p_sizes[0]?.id);
+        setActiveColor(data?.data.p_colours[0]?.id);
       };
       handleSuccess();
     }
@@ -71,8 +62,6 @@ const PorductDetails = () => {
 
   useEffect(() => {
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
-      // console.log(sizeSelected);
-      // console.log(colorSelected);
       if (sizeSelected === true && colorSelected === true) {
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
@@ -80,15 +69,11 @@ const PorductDetails = () => {
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         if (stockAmount > 0) {
-          console.log("stock morethan 0", stockAmount);
           setDisableBtn(false);
         }
         if (stockAmount === undefined) {
-          console.log("stock less then 0", stockAmount);
           setDisableBtn(true);
         }
-        // console.log("your stock", stockDetails);
-        // console.log("your log outputsdfsdfsdds");
       }
     }
     if (
@@ -96,21 +81,17 @@ const PorductDetails = () => {
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
     ) {
       if (sizeSelected == true || colorSelected == true) {
-        console.log("inside anyone");
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId || stock?.colour_id === colorId
         );
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         if (stockAmount > 0) {
-          console.log("stock morethan 0", stockAmount);
           setDisableBtn(false);
         }
         if (stockAmount === undefined) {
-          console.log("stock less then 0", stockAmount);
           setDisableBtn(true);
         }
-        // setDisableBtn(false);
       }
     }
   }, [sizeSelected, colorSelected, stockDetails, colorId, sizeId, stockAmount]);
@@ -118,11 +99,6 @@ const PorductDetails = () => {
   if (isLoading) {
     return <Loader></Loader>;
   }
-
-  /* useEffect(() => {
-    handleSuccess();
-  }, [data, isSuccess, isLoading]); */
-  // useEffect(() => {}, [sizeSelected, colorSelected]);
 
   const handleSelectSize = (data, id) => {
     setSizeSelected(true);
@@ -138,34 +114,7 @@ const PorductDetails = () => {
     setActiveColor(id);
   };
 
-  // console.log("your log output", router);
-
-  // console.log(products?.product_size[0]?.size_name);
-  // console.log("kash", products);
-  // console.log("sdfs", productId);
-  // console.log(size);
-  // console.log(color);
-  // console.log(count);
-
-  // discount calculation here
-
-  /* if (products.discount.length > 0) {
-    products.discount.forEach((element) => {
-      let ds_price = 0;
-      if (element.discount_type == "percentage") {
-        ds_price = prdoucts.mrp_price * (element.discount_amount / 100);
-        if (ds_price > element.max_amount) {
-          ds_price = element.max_amount;
-        }
-
-        setProductPrice(prdoucts.mrp_price - ds_price);
-      } else {
-      }
-    });
-  } */
-  const description =
-    products?.p_description; /* parse(products?.p_description)?.props?.children?.props?.children */
-  // console.log("your log output", description);
+  const description = products?.p_description;
   const finalData = {
     id: products.id,
     image: products.feature_image,
@@ -182,7 +131,6 @@ const PorductDetails = () => {
     totalAmount: count,
     totalPrice: count * parseFloat(products?.p_sale_price),
   };
-  // console.log("ami kas", finalData);
 
   return (
     <>
@@ -195,12 +143,6 @@ const PorductDetails = () => {
         >
           <Grid container>
             <Grid item xl={6} lg={7} md={6}>
-              {/* <Image
-            src={products?.feature_image}
-            width={1000}
-            height={1000}
-           sx={{width:"90vw",maxWidth:"100%"}}
-            /> */}
               <img
                 src={products?.feature_image}
                 alt=""
@@ -285,11 +227,16 @@ const PorductDetails = () => {
                 </Stack>
                 <Stack
                   direction={"row"}
-                  spacing={2}
+                  spacing={1}
                   alignItems="center"
                   justifyContent={"space-between"}
                 >
-                  <Stack direction={"row"}>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    width={"20%"}
+                    justifyContent="space-between"
+                  >
                     {products?.p_sizes?.map((size, index) => (
                       <Button
                         key={index}
@@ -456,6 +403,35 @@ const PorductDetails = () => {
           >
             <SwiperSlide
               style={{
+                backgroundImage: `url(${products?.feature_image})`,
+                backgroundSize: "cover",
+                height: "100vh",
+                maxHeight: "fit-content",
+                backgroundPosition: "center",
+                width: "100%",
+              }}
+            >
+              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
+                <Stack direction={"column"}>
+                  <Typography variant="login2" color="initial">
+                    {products?.p_name}
+                  </Typography>
+
+                  <Typography
+                    variant="cardHeader1"
+                    color="initial"
+                    textTransform={"uppercase"}
+                  >
+                    Home {path}
+                  </Typography>
+                </Stack>
+                <Typography variant="tabText1" color="initial">
+                  Price : {products?.p_sale_price} ৳
+                </Typography>
+              </Stack>
+            </SwiperSlide>
+            <SwiperSlide
+              style={{
                 backgroundImage: `url(${products?.p_image_one})`,
                 backgroundSize: "cover",
                 height: "100vh",
@@ -485,38 +461,9 @@ const PorductDetails = () => {
             </SwiperSlide>
             <SwiperSlide
               style={{
-                backgroundImage: `url(${products?.p_image_two})`,
-                backgroundSize: "cover",
-                height: "100vh",
-                maxHeight: "fit-content",
-                backgroundPosition: "center",
-                width: "100%",
-              }}
-            >
-              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
-                <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial">
-                    {products?.p_name}
-                  </Typography>
-
-                  <Typography
-                    variant="cardHeader1"
-                    color="initial"
-                    textTransform={"uppercase"}
-                  >
-                    Home {path}
-                  </Typography>
-                </Stack>
-                <Typography variant="tabText1" color="initial">
-                  Price : {products?.p_sale_price} ৳
-                </Typography>
-              </Stack>
-            </SwiperSlide>
-            <SwiperSlide
-              style={{
                 backgroundImage: `url(${
-                  products?.p_image_three
-                    ? products?.p_image_three
+                  products?.p_image_two
+                    ? products?.p_image_two
                     : "/assets/Bitmap.png"
                 })`,
                 backgroundSize: "cover",
@@ -548,8 +495,8 @@ const PorductDetails = () => {
             <SwiperSlide
               style={{
                 backgroundImage: `url(${
-                  products?.p_image_four
-                    ? products?.p_image_four
+                  products?.p_image_three
+                    ? products?.p_image_three
                     : "/assets/Bitmap.png"
                 })`,
                 backgroundSize: "cover",

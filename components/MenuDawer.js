@@ -1,9 +1,22 @@
-import { Drawer, IconButton, ListItemButton, Stack } from "@mui/material";
+import {
+  Drawer,
+  IconButton,
+  ListItemButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { MdClose } from "react-icons/md";
 import Menu1 from "./Menu1";
 
-const MenuDawer = ({ open, setOpen }) => {
+const MenuDawer = ({
+  open,
+  setOpen,
+  fabrics,
+  products,
+  setFilteredData,
+  setFabricName,
+}) => {
   return (
     <>
       <Drawer
@@ -28,7 +41,19 @@ const MenuDawer = ({ open, setOpen }) => {
           </IconButton>
         </Stack>
         <Stack direction={"column"}>
-          <ListItemButton>
+          <ListItemButton
+            sx={{ cursor: "pointer" }}
+            onClick={() => setFabricName("all")}
+          >
+            All Product
+          </ListItemButton>
+          {fabrics.map((fabric) => (
+            <ListItemButton
+              sx={{ cursor: "pointer" }}
+              onClick={() => setFabricName(fabric?.fabric_name)}
+            >{`${fabric?.fabric_name}`}</ListItemButton>
+          ))}
+          {/* <ListItemButton>
             <Menu1 title={"Cotton Saree"} />
           </ListItemButton>
           <ListItemButton>
@@ -39,7 +64,7 @@ const MenuDawer = ({ open, setOpen }) => {
           </ListItemButton>
           <ListItemButton>
             <Menu1 title={"Jamdani Saree"} />
-          </ListItemButton>
+          </ListItemButton> */}
         </Stack>
       </Drawer>
     </>

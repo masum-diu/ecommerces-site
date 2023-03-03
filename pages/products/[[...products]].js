@@ -1,13 +1,13 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Footer from "../components/Footer";
-import HomePageIntro from "../components/HomePageIntro";
-import HovarImage from "../components/HovarableImage/HovarImage";
-import Loader from "../components/Loader/Loader";
+import Footer from "../../components/Footer";
+import HomePageIntro from "../../components/HomePageIntro";
+import HovarImage from "../../components/HovarableImage/HovarImage";
+import Loader from "../../components/Loader/Loader";
 import {
   useGetProductsQuery,
   useGetHomePageProductsQuery,
-} from "../src/features/api/apiSlice";
+} from "../../src/features/api/apiSlice";
 
 import { useRouter } from "next/router";
 import Link from "next/link";

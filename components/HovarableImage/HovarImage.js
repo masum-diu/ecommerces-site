@@ -7,11 +7,21 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../src/features/cart/cartSlice";
 import Link from "next/link";
-
+import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
+import {
+  addToWishList,
+  removeFromWishList,
+} from "../../src/features/wishlist/wishListSlice";
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
+  const showHeartred = useSelector((state) => state.wishList.toggleShowHeart);
+  const showBrokenHeartred = useSelector(
+    (state) => state.wishList.toggleShowBrokenHeart
+  );
+  const wishListArray = useSelector((state) => state.wishList.wishList);
+  const myProduct = wishListArray.find((product) => product.id === data.id);
   const [colorSelected, setColorSelected] = useState(false);
   const [sizeSelected, setSizeSelected] = useState(false);
   const [disableBtn, setDisableBtn] = useState(true);
@@ -20,10 +30,17 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [color, setColorName] = useState("");
   const [colorCode, setColorCode] = useState("");
   const [sizeId, setSizeId] = useState(0);
+  const [showHeart, setShowHeart] = useState(
+    myProduct?.showHeart ? myProduct?.showHeart : "block"
+  );
+  const [showBrokenHeart, setShowBrokenHeart] = useState(
+    myProduct?.showBrokenHeart ? myProduct?.showBrokenHeart : "none"
+  );
   const [colorId, setColorId] = useState(0);
   const [stockDetails, setStockDetails] = useState([]);
   const [stockAmount, setStockAmount] = useState(0);
-  console.log("your log output", cart);
+
+  console.log("jits my product", data);
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
       // console.log(sizeSelected);
@@ -89,6 +106,16 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     setColorSelected(false);
     setSizeSelected(false);
   };
+  const handleAddToWishList = (data) => {
+    dispatch(addToWishList(data));
+    setShowBrokenHeart("block");
+    setShowHeart("none");
+  };
+  const handleRemoveFromList = (data) => {
+    dispatch(removeFromWishList(data));
+    setShowBrokenHeart("none");
+    setShowHeart("block");
+  };
   const finalData = {
     id: data.id,
     image: data.feature_image,
@@ -105,7 +132,23 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     totalAmount: 1,
     totalPrice: parseFloat(data?.p_sale_price),
   };
-  // console.log("ami kas", finalData);
+  const dataForWishList = {
+    id: data.id,
+    image: data.feature_image,
+    name: data?.p_name,
+    size: data?.p_sizes,
+    text: data?.p_description,
+    color: data?.p_colours,
+    price: data?.p_sale_price,
+    amount: 1,
+    stock: data?.p_stocks,
+    totalAmount: 1,
+    category: data?.p_category,
+    sub_category: data?.p_subcategory,
+    showHeart: "none",
+    showBrokenHeart: "block",
+  };
+  // console.log("ami kas", dataForWishList);
   // console.log(imageURL);
   return (
     <div>
@@ -159,8 +202,26 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               justifyContent="space-between"
               className={style.size}
             >
-              <IconButton aria-label="">
+              <IconButton
+                style={{ display: `${showHeart}` }}
+                aria-label=""
+                onClick={() => handleAddToWishList(dataForWishList)}
+              >
                 <FiHeart style={{ color: "#fff" }} />
+              </IconButton>
+              <IconButton
+                style={{ display: `${showBrokenHeart}` }}
+                aria-label=""
+                onClick={() =>
+                  handleRemoveFromList({
+                    id: data.id,
+                    amount: 1,
+                    showHeart: "block",
+                    showBrokenHeart: "none",
+                  })
+                }
+              >
+                <HeartBrokenOutlinedIcon style={{ color: "#fff" }} />
               </IconButton>
               <Button
                 onClick={() => router.push(url)}
