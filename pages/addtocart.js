@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
@@ -29,6 +29,7 @@ const addtocart = () => {
   const carts = useSelector((state) => state.cart);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  
   // console.log("yourdf log output", totalAmountIndividual);
   console.log("yourdf log output", cart);
   // console.log("yourdf log output", cart);
@@ -78,11 +79,7 @@ const addtocart = () => {
                           }}
                         >
                           <IconButton
-                            onClick={() =>
-                              dispatch(
-                                removeFromCart(data)
-                              )
-                            }
+                            onClick={() => dispatch(removeFromCart(data))}
                           >
                             <MdClose />
                           </IconButton>
@@ -97,7 +94,9 @@ const addtocart = () => {
                               color="primary"
                               disabled={true}
                               style={{
-                                backgroundColor: `${data?.colorCode}`,width:"25px",height:"25px"
+                                backgroundColor: `${data?.colorCode}`,
+                                width: "25px",
+                                height: "25px",
                               }}
                             ></Box>
                             <Typography variant="subtitle1" color="initial">
@@ -145,7 +144,7 @@ const addtocart = () => {
                                     colorCode: data.colorCode,
                                     price: data.price,
                                     amount: data.amount + 1,
-                                    stock:data.stock,
+                                    stock: data.stock,
                                     totalAmount: 1,
                                     totalPrice:
                                       data.totalPrice + parseFloat(data.price),

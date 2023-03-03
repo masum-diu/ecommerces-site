@@ -19,6 +19,7 @@ import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import { useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
+import {useRouter} from "next/router"
 import axios from "axios";
 
 const checkout = () => {
@@ -26,6 +27,18 @@ const checkout = () => {
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
   const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  console.log("inside add to cart", router);
+  useEffect(() => {
+    const token = localStorage.getItem("acesstoken");
+
+    const securePage = async () => {
+      if (!token) {
+        router.push("/addtocart")
+      }
+    };
+  }, []);
   const handleDistict = (event) => {
     setDistict(event.target.value);
   };
