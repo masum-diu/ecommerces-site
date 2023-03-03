@@ -261,7 +261,10 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/saree",
-                              query: { cat: 1, sub_cat: 7 },
+                              query: {
+                                cat: 1,
+                                sub_cat: 7,
+                              },
                             },
                             "/products/saree?cat=1&sub_cat=7"
                           )
@@ -289,16 +292,10 @@ const SiderBar = ({ open, setOpen }) => {
                         color="initial"
                         sx={{ cursor: "pointer" }}
                         onClick={() =>
-                          router.push(
-                            {
-                              pathname: "/products/saree",
-                              query: {
-                                cat: 1,
-                                sub_cat: 7,
-                              },
-                            },
-                            "/products/saree?cat=1&sub_cat=7"
-                          )
+                          router.push({
+                            pathname: "/products/saree",
+                            query: { cat: 1, sub_cat: 7 },
+                          },'/products/saree')
                         }
                       >
                         SareeOfProduct

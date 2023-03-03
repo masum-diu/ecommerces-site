@@ -40,7 +40,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [stockDetails, setStockDetails] = useState([]);
   const [stockAmount, setStockAmount] = useState(0);
 
-  console.log("jits my product", data);
+  // console.log("jits my product", data);
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
       // console.log(sizeSelected);
@@ -152,7 +152,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   // console.log(imageURL);
   return (
     <div>
-      <div class={style.uicard}>
+      <div className={style.uicard}>
         <Link href={url}>
           <img
             src={imageURL}
@@ -161,7 +161,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
             height={height}
           />
         </Link>
-        <div class={style.description}>
+        <div className={style.description}>
           <Stack direction={"column"} spacing={1}>
             {/* <Stack className={style.size} direction={"row"} spacing={1} mx={1}>
               {data?.p_sizes?.map((size, index) => (

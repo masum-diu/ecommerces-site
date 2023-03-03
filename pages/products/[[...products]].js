@@ -24,7 +24,6 @@ const shop = () => {
     isError: isLandingError,
     error: landingError,
   } = useGetHomePageProductsQuery();
-  // console.log('output',post)
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
@@ -49,7 +48,6 @@ const shop = () => {
     return <Loader></Loader>;
   }
   // const products = data?.data;
-  console.log("from shop", homedata);
   return (
     <>
       <HomePageIntro title={"Shop "} />
@@ -136,7 +134,7 @@ const shop = () => {
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
                     <HovarImage
-                      url={`/${
+                      url={`/products/${
                         data?.p_subcategory?.slug === "unknown"
                           ? data?.p_category?.slug
                           : data?.p_subcategory?.slug
@@ -218,7 +216,7 @@ const shop = () => {
                 <>
                   <Stack direction={"column"} spacing={2} key={data?.id}>
                     <HovarImage
-                      url={`/${
+                      url={`/products/${
                         data?.p_subcategory?.slug === "unknown"
                           ? data?.p_category?.slug
                           : data?.p_subcategory?.slug

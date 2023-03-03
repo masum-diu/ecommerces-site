@@ -25,6 +25,7 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader/Loader";
 import { useRef } from "react";
+import instance from "./api/api_instance";
 
 const checkout = () => {
   const cart = useSelector((state) => state.cart.cart);
@@ -92,9 +93,9 @@ const checkout = () => {
     // console.log("submited data", data.onlinePayment)
     // console.log("your log output", data);
     setIsSameAddress(data?.isSameAddress);
-    axios
+    instance
       .post(
-        "http://apiaranya.jumriz.com/public/api/order",
+        "/order",
         {
           data: data,
           cart: cart,

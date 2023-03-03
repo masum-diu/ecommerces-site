@@ -1,11 +1,25 @@
 /** @type {import('next').NextConfig} */
+const webpack = require("webpack");
 const nextConfig = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    config.plugins.push(
+      new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery",
+        devServer: {
+          hot: false, // disable HMR
+        },
+      })
+    );
+    return config;
+  },
   reactStrictMode: true,
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "api.lorem.space",
+        hostname: "cloudinary.com",
       },
     ],
   },
