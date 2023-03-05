@@ -172,7 +172,7 @@ const HomePageIntro = ({ title }) => {
               <GoThreeBars style={{ color: "#0A0A0A" }} />
             </IconButton>
             <Link href={"/"}>
-              <img src="/assets/headerLogo.png" alt="" />
+              <img  style={{cursor:"pointer"}} src="/assets/headerLogo.png" alt="" />
             </Link>
             <Hidden only={["lg", "xl"]}>
               <IconButton aria-label="">

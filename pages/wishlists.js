@@ -193,7 +193,7 @@ const wishlists = () => {
                               size="small"
                               onClick={() =>
                                 router.push(
-                                  `/${
+                                  `/products/${
                                     wishlistData?.sub_category?.slug ===
                                     "unknown"
                                       ? wishlistData?.category?.slug

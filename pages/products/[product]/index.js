@@ -373,10 +373,10 @@ const masterCollectionLayout = () => {
                     sx={{ backgroundColor: "white" }}
                   >
                     <MenuItem value={20} onClick={() => setFabricName("high")}>
-                      High > Low
+                      High `{'>'}` Low
                     </MenuItem>
                     <MenuItem value={30} onClick={() => setFabricName("low")}>
-                      Low > High
+                      Low `{'>'}` High
                     </MenuItem>
                   </Select>
                 </FormControl>

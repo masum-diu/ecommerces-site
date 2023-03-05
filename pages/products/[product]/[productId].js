@@ -22,6 +22,8 @@ import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import { addToCart } from "../../../src/features/cart/cartSlice";
+import ThumbsGallery from "../../../components/thumble/ThumbsGallery";
+import ThumbsGallery1 from "../../../components/thumble/ThumbsGallery1";
 const PorductDetails = () => {
   const router = useRouter();
   const path = router.asPath;
@@ -41,8 +43,9 @@ const PorductDetails = () => {
   const [products, setProducts] = useState([]);
   const [activesize, setActiveSize] = useState(null);
   const [activecolor, setActiveColor] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [imageData, setImageData] = useState([]);
   const dispatch = useDispatch();
-
 
   const { data, isLoading, isSuccess, isError, error } =
     useGetParticularProductsQuery(productId);
@@ -112,6 +115,12 @@ const PorductDetails = () => {
     setActiveColor(id);
   };
 
+  const handleImageForThumble = (data, images) => {
+    setOpen(data);
+    setImageData(images);
+    // console.log('your log output',images)
+  };
+
   const description = products?.p_description;
   const finalData = {
     id: products.id,
@@ -142,6 +151,14 @@ const PorductDetails = () => {
           <Grid container>
             <Grid item xl={6} lg={7} md={6}>
               <img
+                onClick={() =>
+                  handleImageForThumble(true, {
+                    img1: products?.feature_image,
+                    img2: products?.p_image_one,
+                    img3: products?.p_image_two,
+                    img4: products?.p_image_three,
+                  })
+                }
                 src={products?.feature_image}
                 alt=""
                 style={{
@@ -151,6 +168,14 @@ const PorductDetails = () => {
               />
               <Stack direction={"row"} spacing={0.5} mb={0.5}>
                 <img
+                  onClick={() =>
+                    handleImageForThumble(true, {
+                      img1: products?.p_image_one,
+                      img2: products?.feature_image,
+                      img3: products?.p_image_two,
+                      img4: products?.p_image_three,
+                    })
+                  }
                   src={products?.p_image_one}
                   alt=""
                   style={{
@@ -159,6 +184,14 @@ const PorductDetails = () => {
                   }}
                 />
                 <img
+                  onClick={() =>
+                    handleImageForThumble(true, {
+                      img1: products?.p_image_two,
+                      img2: products?.feature_image,
+                      img3: products?.p_image_one,
+                      img4: products?.p_image_three,
+                    })
+                  }
                   src={products?.p_image_two}
                   alt=""
                   style={{
@@ -169,11 +202,15 @@ const PorductDetails = () => {
               </Stack>
 
               <img
-                src={
-                  products?.p_image_three
-                    ? products?.p_image_three
-                    : "/assets/Bitmap.png"
+                onClick={() =>
+                  handleImageForThumble(true, {
+                    img1: products?.p_image_three,
+                    img2: products?.feature_image,
+                    img3: products?.p_image_one,
+                    img4: products?.p_image_two,
+                  })
                 }
+                src={products?.p_image_three}
                 alt=""
                 style={{
                   width: "90vw",
@@ -400,6 +437,14 @@ const PorductDetails = () => {
             modules={[Pagination]}
           >
             <SwiperSlide
+              onClick={() =>
+                handleImageForThumble(true, {
+                  img1: products?.feature_image,
+                  img2: products?.p_image_one,
+                  img3: products?.p_image_two,
+                  img4: products?.p_image_three,
+                })
+              }
               style={{
                 backgroundImage: `url(${products?.feature_image})`,
                 backgroundSize: "cover",
@@ -429,6 +474,14 @@ const PorductDetails = () => {
               </Stack>
             </SwiperSlide>
             <SwiperSlide
+              onClick={() =>
+                handleImageForThumble(true, {
+                  img1: products?.p_image_one,
+                  img2: products?.feature_image,
+                  img3: products?.p_image_two,
+                  img4: products?.p_image_three,
+                })
+              }
               style={{
                 backgroundImage: `url(${products?.p_image_one})`,
                 backgroundSize: "cover",
@@ -458,12 +511,16 @@ const PorductDetails = () => {
               </Stack>
             </SwiperSlide>
             <SwiperSlide
+              onClick={() =>
+                handleImageForThumble(true, {
+                  img1: products?.p_image_two,
+                  img2: products?.feature_image,
+                  img3: products?.p_image_one,
+                  img4: products?.p_image_three,
+                })
+              }
               style={{
-                backgroundImage: `url(${
-                  products?.p_image_two
-                    ? products?.p_image_two
-                    : "/assets/Bitmap.png"
-                })`,
+                backgroundImage: `url(${products?.p_image_two})`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -491,12 +548,16 @@ const PorductDetails = () => {
               </Stack>
             </SwiperSlide>
             <SwiperSlide
+              onClick={() =>
+                handleImageForThumble(true, {
+                  img1: products?.p_image_three,
+                  img2: products?.feature_image,
+                  img3: products?.p_image_one,
+                  img4: products?.p_image_two,
+                })
+              }
               style={{
-                backgroundImage: `url(${
-                  products?.p_image_three
-                    ? products?.p_image_three
-                    : "/assets/Bitmap.png"
-                })`,
+                backgroundImage: `url(${products?.p_image_three})`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -655,7 +716,7 @@ const PorductDetails = () => {
                         cursor: "pointer",
                         border: `${
                           activecolor === color?.id
-                            ? "5px solid gray"
+                            ? "4px solid #2d323f"
                             : "1px solid black"
                         }`,
                       }}
@@ -736,6 +797,12 @@ const PorductDetails = () => {
             </Typography>
           </Stack>
         </Box>
+      </Hidden>
+      <Hidden only={["xl", "lg", "md", "sm"]}>
+        <ThumbsGallery open={open} setOpen={setOpen} imageData={imageData} />
+      </Hidden>
+      <Hidden only={["sm", "xs", "xms"]}>
+        <ThumbsGallery1 open={open} setOpen={setOpen} imageData={imageData} />
       </Hidden>
     </>
   );
