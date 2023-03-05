@@ -57,6 +57,7 @@ const masterCollectionLayout = () => {
   const [fabricName, setFabricName] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [initialName, setInitialName] = useState("color");
+  const [rangeInputValue, setRangeInputValue] = useState(0);
   const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
 
@@ -199,6 +200,17 @@ const masterCollectionLayout = () => {
     }
   }, [fabricName]);
 
+  // Filtering the products using fabric
+  useEffect(() => {
+    const handelFilterGalleryRangeWise = async () => {
+      const content = products.filter(
+        (product) => rangeInputValue >= product?.p_sale_price
+      );
+      setFilteredData(content);
+    };
+    handelFilterGalleryRangeWise();
+  }, [rangeInputValue]);
+
   // handling fabric change state
   const handleFabricChange = (data) => {
     setFabricName(data);
@@ -229,8 +241,6 @@ const masterCollectionLayout = () => {
     ?.map((item) => item?.p_colours?.map((item) => item?.color_name))
     .filter((value, index, self) => self.indexOf(value) === index);
   let uniqueColor = [...new Set(colorWiseFilter.flat(1))];
-
-  console.log("your logged output", uniqueColor);
   return (
     <>
       <HomePageIntro title={"Saree "} />
@@ -415,9 +425,11 @@ const masterCollectionLayout = () => {
                       >
                         <Typography>Price Range</Typography>
                         <input
-                        min="0"
-                        max={max>0?max:""}
-                        
+                          min="0"
+                          max={max > 0 ? max : "100000"}
+                          onChange={(event) =>
+                            setRangeInputValue(event.target.value)
+                          }
                           style={{ width: "100%", marginBottom: "10px" }}
                           type="range"
                         />
@@ -436,7 +448,7 @@ const masterCollectionLayout = () => {
                           />
                           <TextField
                             size="small"
-                            value={max>0?max:""}
+                            value={max > 0 ? max : ""}
                             disabled
                             style={{ width: "70px", borderRadius: "0px" }}
                             variant="outlined"

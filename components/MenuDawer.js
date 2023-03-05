@@ -47,7 +47,7 @@ const MenuDawer = ({
           >
             All Product
           </ListItemButton>
-          {fabrics.map((fabric) => (
+          {fabrics?.map((fabric) => (
             <ListItemButton
               sx={{ cursor: "pointer" }}
               onClick={() => setFabricName(fabric?.fabric_name)}
