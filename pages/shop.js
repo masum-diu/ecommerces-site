@@ -53,8 +53,8 @@ const shop = () => {
   return (
     <>
       <HomePageIntro title={"Shop "} />
-      <Box mt={10} sx={{ width: "100%", mb: 4 }}>
-        <Stack>
+      <Box mt={10} sx={{ width: "100%", mb: 4, }}>
+        <Stack sx={{position: "relative"}}>
           {/* <video
             src="https://static.zara.net/photos///contents/mkt/spots/aw22-north-kids-party/subhome-xmedia-47-2//w/1920/IMAGE-landscape-fill-90388659-c9ad-44c0-8fbc-3e049adef8d9-default_0.jpg?ts=1669457847606"
             alt=""
@@ -78,13 +78,41 @@ const shop = () => {
             alt=""
             style={{ width: "100%", height: "fit-content" }}
           />
+          <Stack
+            direction={"row"}
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="cardHeader"
+              color="initial"
+              textAlign={"center"}
+              fontWeight={"600"}
+              textTransform="uppercase"
+              onClick={() =>
+                router.push({
+                  // pathname: `${homedata?.back_url_one}`,
+                  query: { cat: 1, sub_cat: 7 },
+                })}
+              sx={{display:"flex",justifyContent:"center",alignItems:"Center",width:"100%",pb:4,cursor:"pointer"}}
+            >
+             Latest Collection
+            </Typography>
+            
+          </Stack>
         </Stack>
-        <Stack direction={"row"} sx={{ width: "100%" }}>
+        <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/v1676527368/aranya/${homedata?.image_three?.substring(
               homedata?.image_three?.lastIndexOf("/") + 1
             )}`}
-            style={{cursor: "pointer"}}
+            style={{ cursor: "pointer" }}
             alt=""
             width={"50%"}
             onClick={() =>
@@ -99,7 +127,7 @@ const shop = () => {
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/v1676527368/aranya/${homedata?.image_four?.substring(
               homedata?.image_four?.lastIndexOf("/") + 1
             )}`}
-            style={{cursor: "pointer"}}
+            style={{ cursor: "pointer" }}
             alt=""
             width={"50%"}
             onClick={() =>
@@ -109,6 +137,47 @@ const shop = () => {
               })
             }
           />
+          <Stack
+            direction={"row"}
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="cardHeader"
+              color="initial"
+              textAlign={"center"}
+              fontWeight={"600"}
+              textTransform="uppercase"
+              onClick={() =>
+                router.push({
+                  pathname: `${homedata?.back_url_two}`,
+                  query: { cat: 1, sub_cat: 7 },
+                })}
+              sx={{display:"flex",justifyContent:"center",alignItems:"Center",width:"100%",pb:4,cursor:"pointer"}}
+            >
+              {homedata?.back_url_two}
+            </Typography>
+            <Typography
+              variant="cardHeader"
+              color="initial"
+              fontWeight={"600"}
+              textTransform="uppercase"
+              onClick={() =>
+                router.push({
+                  pathname: `${homedata?.back_url_four}`,
+                  query: { cat: 1, sub_cat: 7 },
+                })}
+              sx={{display:"flex",justifyContent:"center",alignItems:"Center",width:"100%",pb:4,cursor:"pointer"}}
+            >
+              {homedata?.back_url_four}
+            </Typography>
+          </Stack>
         </Stack>
         <Box mt={4}>
           <Stack
@@ -185,13 +254,44 @@ const shop = () => {
           style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
           height={700}
         /> */}
+        <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
         <img
           src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1676527368/aranya/${homedata?.image_five?.substring(
             homedata?.image_five?.lastIndexOf("/") + 1
           )}`}
           alt=""
           style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
+        
         />
+        <Stack
+            direction={"row"}
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="cardHeader"
+              color="initial"
+              textAlign={"center"}
+              fontWeight={"600"}
+              textTransform="uppercase"
+              onClick={() =>
+                router.push({
+                  // pathname: `${homedata?.back_url_one}`,
+                  query: { cat: 1, sub_cat: 7 },
+                })}
+              sx={{display:"flex",justifyContent:"center",alignItems:"Center",width:"100%",pb:4,cursor:"pointer"}}
+            >
+             Home & Décor
+            </Typography>
+            
+          </Stack>
+          </Stack>
         <Box mt={4}>
           <Stack
             direction={"column"}
