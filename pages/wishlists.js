@@ -26,11 +26,10 @@ import { FiHeart } from "react-icons/fi";
 const wishlists = () => {
   const router = useRouter();
   const wishlist = useSelector((state) => state.wishList.wishList);
-  // console.log("your log output", wishlist);
+
   const dispatch = useDispatch();
 
   const handleRemoveFromList = (data) => {
-    console.log("your log output", data);
     dispatch(removeFromWishList(data));
   };
   /* const wishlistData = [
@@ -56,7 +55,7 @@ const wishlists = () => {
       stock: "IN STOCK",
     },
   ]; */
-  console.log("your log output wishlist", wishlist);
+
   return (
     <>
       <HomePageIntro title={"wishlist "} />
@@ -111,7 +110,7 @@ const wishlists = () => {
                         size="small"
                         onClick={() =>
                           router.push(
-                            `/${
+                            `/products/${
                               wishlistData?.sub_category?.slug === "unknown"
                                 ? wishlistData?.category?.slug
                                 : wishlistData?.sub_category?.slug
@@ -194,7 +193,7 @@ const wishlists = () => {
                               size="small"
                               onClick={() =>
                                 router.push(
-                                  `/${
+                                  `/products/${
                                     wishlistData?.sub_category?.slug ===
                                     "unknown"
                                       ? wishlistData?.category?.slug

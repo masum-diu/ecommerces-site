@@ -1,19 +1,20 @@
 import {
   Box,
   Button,
+  ClickAwayListener,
+  FormControl,
   Grid,
   Hidden,
   IconButton,
   ImageListItem,
+  InputLabel,
+  MenuItem,
   Stack,
+  Select,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect } from "react";
-import {
-  MdOutlineKeyboardArrowDown,
-  MdOutlineKeyboardArrowRight,
-} from "react-icons/md";
 import { useRouter } from "next/router";
 import SegmentIcon from "@mui/icons-material/Segment";
 import SortIcon from "@mui/icons-material/Sort";
@@ -34,6 +35,7 @@ import {
 } from "../../../src/features/api/apiSlice";
 import Loader from "../../../components/Loader/Loader";
 import HovarImage from "../../../components/HovarableImage/HovarImage";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 const masterCollectionLayout = () => {
   const router = useRouter();
   const path =
@@ -50,6 +52,7 @@ const masterCollectionLayout = () => {
   const [products, setProducts] = useState([]);
   const [staticData, setStaticData] = useState([]);
   const [fabrics, setFabric] = useState([]);
+  const [fabricSelect, setFabricSelect] = useState([]);
   const [fabricName, setFabricName] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const cat = router?.query?.cat;
@@ -151,7 +154,7 @@ const masterCollectionLayout = () => {
         if (sub_cat) {
           await setFabric(attirbutesDatas);
         } else {
-          await setFabric(attirbutesDatas);
+          await setFabric(attirbutesDatasCat);
         }
       };
       handleSuccess();
@@ -165,7 +168,7 @@ const masterCollectionLayout = () => {
     attirbutessuccessCat,
   ]);
 
-  // Filtering the products
+  // Filtering the products using fabric
   useEffect(() => {
     const handelFilterGallery = async () => {
       const content = products.filter(
@@ -178,16 +181,44 @@ const masterCollectionLayout = () => {
     if (fabricName === "all") {
       setFilteredData(products);
     }
+    if (fabricName === "high") {
+      let sortedbyPriceDsc = [...products];
+      sortedbyPriceDsc = sortedbyPriceDsc?.sort(
+        (a, b) => parseFloat(b.p_sale_price) - parseFloat(a.p_sale_price)
+      );
+      setFilteredData(sortedbyPriceDsc);
+    }
+    if (fabricName === "low") {
+      let sortedbyPriceAsc = [...products];
+      sortedbyPriceAsc = sortedbyPriceAsc?.sort(
+        (a, b) => parseFloat(a.p_sale_price) - parseFloat(b.p_sale_price)
+      );
+      setFilteredData(sortedbyPriceAsc);
+    }
   }, [fabricName]);
+
+  const handleFabricChange = (data, toggleContent) => {
+    setFabricName(data);
+    setFabricSelect(data);
+  };
+
+  /* array.map(item => item.age)
+  .filter((value, index, self) => self.indexOf(value) === index) */
 
   // Handling the loading state
   if (isLoading || loading) {
     return <Loader></Loader>;
   }
-  if (attirbutesloading) {
+  if (attirbutesloading || attirbutesloadingCat) {
     return <Loader></Loader>;
   }
-  console.log("some of worf", filteredData);
+
+  const colorWiseFilter = products
+    ?.map((item) => item?.p_colours?.map((item) => item?.color_name))
+    .filter((value, index, self) => self.indexOf(value) === index);
+  let uniqueColor = [...new Set(colorWiseFilter.flat(1))];
+
+  console.log("your logged output", uniqueColor);
   return (
     <>
       <HomePageIntro title={"Saree "} />
@@ -270,27 +301,85 @@ const masterCollectionLayout = () => {
             >
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
                 <Typography
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => setFabricName("all")}
+                  style={
+                    fabricSelect === "all"
+                      ? {
+                          borderBottom: "2px solid gray",
+                        }
+                      : {}
+                  }
+                  sx={{
+                    cursor: "pointer",
+                    padding: "5px",
+                  }}
+                  onClick={() => handleFabricChange("all")}
                 >
                   All Product
                 </Typography>
                 {fabrics?.map((fabric) => (
                   <Typography
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => setFabricName(fabric?.fabric_name)}
+                    style={
+                      fabricSelect === fabric?.fabric_name
+                        ? {
+                            borderBottom: "2px solid gray",
+                          }
+                        : {}
+                    }
+                    sx={{
+                      cursor: "pointer",
+                      padding: "5px",
+                    }}
+                    onClick={() => handleFabricChange(fabric?.fabric_name)}
                   >{`${fabric?.fabric_name}`}</Typography>
                 ))}
 
                 {/* <Menu1 title={"Nakshikantha Saree"} />
                   <Menu1 title={"Jamdani Saree"} /> */}
               </Stack>
-              <Stack direction={"row"} spacing={4}>
-                <Menu title={"Category"} />
-                <Menu title={"Color"} />
-                <Menu title={"Fabric"} />
-                <Menu title={"Price"} />
-                <Menu title={"Size"} />
+              <Stack direction={"row"} spacing={4} alignItems={"center"}>
+                <FormControl sx={{ minWidth: 120 }}>
+                  <InputLabel id="color-filter">Color</InputLabel>
+                  <Select
+                    fullWidth
+                    labelId="color-filter"
+                    id="demo-simple-select"
+                    size="small"
+                    variant="standard"
+                    sx={{ backgroundColor: "white" }}
+                  >
+                    {uniqueColor?.map((color,index) => (
+                      <MenuItem
+                        key={index}
+                        value={20}
+                        onClick={() => setFabricName("high")}
+                      >
+                        {color}
+                      </MenuItem>
+                    ))}
+
+                    {/* <MenuItem value={30} onClick={() => setFabricName("low")}>
+                      Low To High
+                    </MenuItem> */}
+                  </Select>
+                </FormControl>
+                <FormControl sx={{ minWidth: 120 }}>
+                  <InputLabel id="price-filter">Price</InputLabel>
+                  <Select
+                    fullWidth
+                    labelId="price-filter"
+                    id="demo-simple-select"
+                    size="small"
+                    variant="standard"
+                    sx={{ backgroundColor: "white" }}
+                  >
+                    <MenuItem value={20} onClick={() => setFabricName("high")}>
+                      High `{'>'}` Low
+                    </MenuItem>
+                    <MenuItem value={30} onClick={() => setFabricName("low")}>
+                      Low `{'>'}` High
+                    </MenuItem>
+                  </Select>
+                </FormControl>
               </Stack>
             </Stack>
           </Hidden>

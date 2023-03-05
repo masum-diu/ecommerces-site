@@ -14,6 +14,7 @@ import React from "react";
 import { MdClose } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import instance from "../pages/api/api_instance";
 
 const ForgotPass = ({ open, setOpen }) => {
   const {
@@ -23,23 +24,14 @@ const ForgotPass = ({ open, setOpen }) => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    axios
-      .post(
-        "http://apiaranya.jumriz.com/public/api/user-password-email-reset-link",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then(async (result) => {
-        console.log("post response", result);
+    instance
+      .post("/user-password-email-reset-link", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .catch((err) => {
-        console.log(err);
-      });
-    console.log("reset data", data.email);
+      .then(async (result) => {})
+      .catch((err) => {});
     setOpen(false);
   };
   return (

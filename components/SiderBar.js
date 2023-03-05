@@ -102,7 +102,6 @@ const SiderBar = ({ open, setOpen }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  // console.log("user hay", user);
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);

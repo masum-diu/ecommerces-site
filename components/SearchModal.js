@@ -13,39 +13,19 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
+import instance from "../pages/api/api_instance";
 
 const SearchModal = ({ open, setOpen }) => {
-  // const [message, setMessage] = useState("");
-
-  // console.log(message);
-  // const handleChange = (event) => {
-  //   // 👇 Get input value from "event"
-  //   setMessage(event.target.value);
-  // };
-  // const { handleSubmit, register } = useForm({
-  //   defaultValues: {
-  //     searchData: message,
-  //   },
-  // });
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  // };
-
   const [data, setData] = useState([]);
   const [searchApiData, setSearchApiData] = useState([]);
   const [filterVal, setFilterVal] = useState("");
-  // console.log(data);
+
   const fetchData = () => {
-    return axios
-      .get(
-        `https://apiaranya.jumriz.com/public/api/product?no_paginate=yes&keyword`
-      )
-      .then((response) => {
-        // setData(response.data?.data);
-        setSearchApiData(response.data?.data);
-      });
+    return instance.get(`/product?no_paginate=yes&keyword`).then((response) => {
+      setSearchApiData(response.data?.data);
+    });
   };
-  // console.log("search api", searchApiData);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -70,7 +50,7 @@ const SearchModal = ({ open, setOpen }) => {
         PaperProps={{
           sx: {
             width: "100vw",
-            // maxWidth: { lg: "100%",  },
+
             height: { lg: "fit-content", xs: "fit-content" },
             mx: "auto",
             display: "flex",
@@ -89,11 +69,6 @@ const SearchModal = ({ open, setOpen }) => {
               fullWidth
               id=""
               label=""
-              // {...register("searchData", {
-              //   required: "Password is required",
-              // })}
-              // value={}
-              // onChange={handleChange}
               value={filterVal}
               onInput={(e) => handleFilter(e)}
               size="small"
@@ -102,10 +77,7 @@ const SearchModal = ({ open, setOpen }) => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="start">
-                    <IconButton>
-                      {" "}
-                      {/* <FiSearch style={{ fontSize: "18px" }} /> */}
-                    </IconButton>
+                    <IconButton> </IconButton>
                   </InputAdornment>
                 ),
               }}
@@ -127,8 +99,8 @@ const SearchModal = ({ open, setOpen }) => {
             {data?.slice(0, 4).map((data) => (
               <>
                 <Link
-                style={{textDecoration:"none"}}
-                  href={`/${
+                  style={{ textDecoration: "none" }}
+                  href={`/products/${
                     data?.p_subcategory?.slug === "unknown"
                       ? data?.p_category?.slug
                       : data?.p_subcategory?.slug
@@ -136,7 +108,11 @@ const SearchModal = ({ open, setOpen }) => {
                 >
                   <Stack direction={"column"} mt={4} spacing={1}>
                     <img src={data?.feature_image} alt="" width={100} />
-                    <Typography variant="cardHeader2" color="initial" textAlign={"center"} >
+                    <Typography
+                      variant="cardHeader2"
+                      color="initial"
+                      textAlign={"center"}
+                    >
                       {data?.p_name}
                     </Typography>
                     {/* <Typography

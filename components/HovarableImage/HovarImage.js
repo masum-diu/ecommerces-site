@@ -40,11 +40,8 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [stockDetails, setStockDetails] = useState([]);
   const [stockAmount, setStockAmount] = useState(0);
 
-  // console.log("jits my product", data);
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
-      // console.log(sizeSelected);
-      // console.log(colorSelected);
       if (sizeSelected === true && colorSelected === true) {
         const selectedProduct = data?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
@@ -52,16 +49,11 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         if (stockAmount > 0) {
-          console.log("stock morethan 0", stockAmount);
           setDisableBtn(false);
         }
         if (stockAmount === undefined) {
-          console.log("stock less then 0", stockAmount);
           setDisableBtn(true);
         }
-        // setDisableBtn(false);
-        // console.log("your stock", stockDetails);
-        // console.log("your log outputsdfsdfsdds");
       }
     }
     if (
@@ -74,11 +66,9 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
         );
         setStockAmount(selectedProduct?.stock);
         if (stockAmount > 0) {
-          console.log("stock morethan 0", stockAmount);
           setDisableBtn(false);
         }
         if (stockAmount === undefined) {
-          console.log("stock less then 0", stockAmount);
           setDisableBtn(true);
         }
         // setDisableBtn(false);
@@ -148,11 +138,9 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     showHeart: "none",
     showBrokenHeart: "block",
   };
-  // console.log("ami kas", dataForWishList);
-  // console.log(imageURL);
   return (
     <div>
-      <div class={style.uicard}>
+      <div className={style.uicard}>
         <Link href={url}>
           <img
             src={imageURL}
@@ -161,7 +149,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
             height={height}
           />
         </Link>
-        <div class={style.description}>
+        <div className={style.description}>
           <Stack direction={"column"} spacing={1}>
             {/* <Stack className={style.size} direction={"row"} spacing={1} mx={1}>
               {data?.p_sizes?.map((size, index) => (

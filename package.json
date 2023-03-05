@@ -34,10 +34,12 @@
     "react-redux": "^8.0.5",
     "redux-persist": "^5.10.0",
     "swiper": "^9.0.5",
-    "vercel": "^28.11.0"
+    "vercel": "^28.11.0",
+    "webpack": "^5.75.0"
   },
   "devDependencies": {
     "eslint": "latest",
-    "eslint-config-next": "^13.2.1"
+    "eslint-config-next": "^13.2.1",
+    "webpack-cli": "^5.0.1"
   }
 }

@@ -14,7 +14,6 @@ export const cartSlice = createSlice({
     addToCart: (state, action) => {
       // state.cart.push(action.payload);
       const productID = action.payload;
-      console.log("your log output inside stor", productID);
       try {
         const exist = state.cart.find(
           (product) =>

@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { MenuItem, Select, Stack, Button } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const FlashPage = ({ title }) => {
   const [country, setCountry] = React.useState(10);
@@ -127,7 +128,9 @@ const FlashPage = ({ title }) => {
                 Select Language{" "}
               </MenuItem>
               {/* <MenuItem value={20}>Bangla</MenuItem> */}
-              <MenuItem value={10} sx>English</MenuItem>
+              <MenuItem value={10} sx>
+                English
+              </MenuItem>
               {/* <MenuItem value={40}>Hindi</MenuItem> */}
             </Select>
           </Stack>
