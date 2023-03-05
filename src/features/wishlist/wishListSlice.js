@@ -11,9 +11,8 @@ export const wishListSlice = createSlice({
   initialState,
   reducers: {
     addToWishList: (state, action) => {
-      // state.cart.push(action.payload);
       const productID = action.payload;
-      // console.log("your log output inside stor", productID);
+
       try {
         const exist = state.wishList.find(
           (product) => product.id === productID.id
@@ -33,8 +32,8 @@ export const wishListSlice = createSlice({
             price: productID.price,
             amount: productID.amount,
             stock: productID.stock,
-            category:productID.category,
-            sub_category:productID.sub_category,
+            category: productID.category,
+            sub_category: productID.sub_category,
             totalAmount: productID.totalAmount,
             showHeart: productID.showHeart,
             showBrokenHeart: productID.showBrokenHeart,
@@ -47,13 +46,12 @@ export const wishListSlice = createSlice({
     },
     removeFromWishList: (state, action) => {
       const productID = action.payload;
-      console.log("your sddfdfsdfsdfst", state.totalAmount);
 
       try {
         const exist = state.wishList.find(
           (product) => product.id === productID.id
         );
-        // console.log("your log output", exist);
+        
         if (exist.totalAmount >= 1) {
           state.wishList = state.wishList.filter(
             (product) => product.id != productID.id
@@ -68,4 +66,3 @@ export const wishListSlice = createSlice({
 export const { addToWishList, removeFromWishList } = wishListSlice.actions;
 
 export default wishListSlice.reducer;
-

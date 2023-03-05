@@ -48,7 +48,6 @@ const checkout = () => {
   const handleHomeDelivery = (data) => {
     setToggleHomeDelivery(data);
   };
-  console.log("toggle home d", toggleHomeDelivery);
   useEffect(() => {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
@@ -89,8 +88,6 @@ const checkout = () => {
   });
 
   const onSubmit = async (data) => {
-    // console.log("submited data", data.onlinePayment)
-    // console.log("your log output", data);
     setIsSameAddress(data?.isSameAddress);
     instance
       .post(
@@ -106,15 +103,13 @@ const checkout = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + localStorage.getItem("acesstoken"),
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "*",
           },
         }
       )
       .then(async (result) => {
-        console.log("post response", result?.data?.payment);
         const response = JSON.parse(result?.data?.payment);
 
-        // console.log("post response", result?.data?.data?.original?.logo);
         await window.location.replace(response?.data);
         // localStorage.setItem("acesstoken1", result.data.token);
         // localStorage.setItem("user", JSON.stringify(result.data.user));
@@ -122,12 +117,8 @@ const checkout = () => {
         // reset();
         // setOpen(false);
       })
-      .catch((err) => {
-        console.log(err);
-      });
-    console.log("cart for arif vai", cart);
+      .catch((err) => {});
   };
-  console.log("cart for arif vai", cart);
   return (
     <>
       <HomePageIntro title={"Checkout "} />

@@ -22,7 +22,6 @@ const campaign = () => {
     }
   }, [data,isSuccess]);
 
-  console.log(campData);
   if (isLoading) {
     return <Loader></Loader>;
   }

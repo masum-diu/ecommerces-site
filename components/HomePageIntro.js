@@ -40,12 +40,11 @@ const HomePageIntro = ({ title }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  // console.log("user hay", user);
+
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
-  // console.log(userjsondata)
-  // console.log("from local", userjsondata);
+  //
 
   const totalAmount = useSelector((state) => state.cart?.totalAmount);
   const totalAmountWishList = useSelector(
@@ -54,8 +53,6 @@ const HomePageIntro = ({ title }) => {
   const totalWishedProduct = useSelector(
     (state) => state?.wishList?.wishList?.length
   );
-  // console.log('your log outputxxfgdfd',totalAmountWishList)
-  // console.log('your log output',totalAmount)
 
   // Profile section starts here
   const [anchorEl, setAnchorEl] = React.useState(null);

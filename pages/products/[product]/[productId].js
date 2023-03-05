@@ -336,7 +336,7 @@ const PorductDetails = () => {
                         cursor: "pointer",
                         border: `${
                           activecolor === color?.id
-                            ? "5px solid gray"
+                            ? "4px solid #2d323f"
                             : "1px solid black"
                         }`,
                       }}

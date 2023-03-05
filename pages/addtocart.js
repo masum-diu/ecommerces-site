@@ -29,9 +29,6 @@ const addtocart = () => {
   const carts = useSelector((state) => state.cart);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  // console.log("yourdf log output", totalAmountIndividual);
-  console.log("yourdf log output", cart);
-  // console.log("yourdf log output", cart);
   return (
     <>
       <HomePageIntro title={"Cart "} />

@@ -69,7 +69,6 @@ const LoginModal = ({ open, setOpen }) => {
     instance
       .post("/auth/login", data, {})
       .then((result) => {
-        console.log(result.data);
         localStorage.setItem("acesstoken", result.data.token);
         localStorage.setItem("user", JSON.stringify(result.data.user));
         Cookies.set("acesstoken", result.data.token);
@@ -79,11 +78,9 @@ const LoginModal = ({ open, setOpen }) => {
         setOpen(false);
       })
       .catch((err) => {
-        // console.log(err);
         setUserData(err);
       });
   };
-  console.log("hellos", userdata);
 
   return (
     <>

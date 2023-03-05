@@ -59,13 +59,12 @@ const SignInModal = ({ open, setOpen, signModal }) => {
     },
   });
   const password = watch("password");
-  console.log(errors);
+  
 
   const onSubmit = (data) => {
     instance
       .post("/auth/register", data, {})
       .then((result) => {
-        console.log("user created", result.data);
         localStorage.setItem("acesstoken", result.data.token);
         localStorage.setItem("user", JSON.stringify(result.data.user));
         setUser(result?.data?.user);
@@ -73,7 +72,6 @@ const SignInModal = ({ open, setOpen, signModal }) => {
         setOpen(false);
       })
       .catch((err) => {
-        console.log(err);
       });
   };
   return (
