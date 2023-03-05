@@ -16,7 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useGetParticularProductsQuery } from "../../../src/features/api/apiSlice";
 import { useDispatch } from "react-redux";
 import Loader from "../../../components/Loader/Loader";
-
+import toast from "react-hot-toast";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/css";
@@ -113,6 +113,11 @@ const PorductDetails = () => {
     setColorName(data);
     setColorCode(code);
     setActiveColor(id);
+  };
+
+  const handleAddToCart = async (finalData) => {
+    dispatch(addToCart(finalData));
+    await toast.success("Added To Cart!");
   };
 
   const handleImageForThumble = (data, images) => {
@@ -418,7 +423,7 @@ const PorductDetails = () => {
                   color="background2"
                   type="submit"
                   disabled={disableBtn}
-                  onClick={() => dispatch(addToCart(finalData))}
+                  onClick={() => handleAddToCart(finalData)}
                 >
                   ADD TO CART
                 </Button>
@@ -764,7 +769,7 @@ const PorductDetails = () => {
                   color="background2"
                   type="submit"
                   disabled={disableBtn}
-                  onClick={() => dispatch(addToCart(finalData))}
+                  onClick={() => handleAddToCart(finalData)}
                 >
                   ADD TO CART
                 </Button>

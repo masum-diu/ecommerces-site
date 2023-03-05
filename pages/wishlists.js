@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishList } from "../src/features/wishlist/wishListSlice";
 import { useRouter } from "next/router";
 import { FiHeart } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 const wishlists = () => {
   const router = useRouter();
@@ -29,8 +30,9 @@ const wishlists = () => {
 
   const dispatch = useDispatch();
 
-  const handleRemoveFromList = (data) => {
+  const handleRemoveFromList = async (data) => {
     dispatch(removeFromWishList(data));
+    await toast.error("Removed From Wishlist!")
   };
   /* const wishlistData = [
     {

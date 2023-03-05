@@ -22,6 +22,8 @@ import {
   decreaseFromCart,
 } from "../src/features/cart/cartSlice";
 
+import toast from "react-hot-toast";
+
 const addtocart = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -29,6 +31,11 @@ const addtocart = () => {
   const carts = useSelector((state) => state.cart);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+
+  const removeItemFromCart = async (data) => {
+    dispatch(removeFromCart(data));
+    await toast.error("Removed From Cart!");
+  };
   return (
     <>
       <HomePageIntro title={"Cart "} />
@@ -74,9 +81,7 @@ const addtocart = () => {
                             alignItems: "center",
                           }}
                         >
-                          <IconButton
-                            onClick={() => dispatch(removeFromCart(data))}
-                          >
+                          <IconButton onClick={() => removeItemFromCart(data)}>
                             <MdClose />
                           </IconButton>
                           <img src={data.image} alt="" width={100} />
@@ -186,10 +191,14 @@ const addtocart = () => {
                   <Stack
                     direction={"column"}
                     spacing={2}
-                    sx={{ justifyContent: "center", alignItems: "center",mt:10 }}
+                    sx={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      mt: 10,
+                    }}
                   >
                     <ProductionQuantityLimitsIcon
-                      style={{ color: "#0A0A0A",fontSize:"128px" }}
+                      style={{ color: "#0A0A0A", fontSize: "128px" }}
                     ></ProductionQuantityLimitsIcon>
                     <Typography variant="header1">
                       Your cart is currently empty.

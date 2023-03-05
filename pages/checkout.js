@@ -37,7 +37,10 @@ const checkout = () => {
   const subTotal = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const [totalPrice, setSubtotal] = useState(subTotal);
-  const [toggleHomeDelivery, setToggleHomeDelivery] = useState(false);
+  const [isDhakaChecked, setIsDhakaChecked] = useState(false);
+  const [isOutSideChecked, setIsOutSideChecked] = useState(false);
+  const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
+  const [total, setTotal] = useState(subTotal);
   const router = useRouter();
   const handleDistict = (event) => {
     setDistict(event.target.value);
@@ -45,9 +48,35 @@ const checkout = () => {
   const handleDistict1 = (event) => {
     setDistict1(event.target.value);
   };
-  const handleHomeDelivery = (data) => {
-    setToggleHomeDelivery(data);
+
+  const handleDhakaSelected = () => {
+    setIsDhakaChecked(!isDhakaChecked);
+    setIsOutSideChecked(false);
+    setIsFromShowRoomChecked(false);
   };
+  const handleOutSideDhakaSelected = () => {
+    setIsOutSideChecked(!isOutSideChecked);
+    setIsDhakaChecked(false);
+    setIsFromShowRoomChecked(false);
+  };
+  const handleShowRoomSelected = () => {
+    setIsFromShowRoomChecked(!isFromShowRoomChecked);
+    setIsDhakaChecked(false);
+    setIsOutSideChecked(false);
+  };
+
+  useEffect(() => {
+    if (isDhakaChecked === true) {
+      setTotal(subTotal + 100);
+    }
+    if (isOutSideChecked === true) {
+      setTotal(subTotal + 250);
+    }
+    if (isFromShowRoomChecked === true) {
+      setTotal(subTotal + 0);
+    }
+  }, [isDhakaChecked, isOutSideChecked, isFromShowRoomChecked]);
+
   useEffect(() => {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
@@ -89,6 +118,7 @@ const checkout = () => {
 
   const onSubmit = async (data) => {
     setIsSameAddress(data?.isSameAddress);
+    console.log("your log output", data);
     instance
       .post(
         "/order",
@@ -108,8 +138,8 @@ const checkout = () => {
         }
       )
       .then(async (result) => {
+        console.log("your log output", result);
         const response = JSON.parse(result?.data?.payment);
-
         await window.location.replace(response?.data);
         // localStorage.setItem("acesstoken1", result.data.token);
         // localStorage.setItem("user", JSON.stringify(result.data.user));
@@ -507,9 +537,9 @@ const checkout = () => {
               </Grid>
 
               <Grid item lg={3} mt={4} xs={12}>
-                <Paper elevation={3} mb={1}>
+                <Paper elevation={3} mb={1} sx={{ width: "100%" }}>
                   <Stack
-                    sx={{ width: "90%", mx: "auto", p: 2 }}
+                    sx={{ width: "100%", mx: "auto", py: 2, px: 1.2 }}
                     direction={"column"}
                     spacing={2}
                   >
@@ -526,7 +556,7 @@ const checkout = () => {
                       </Typography>
                     </Stack>
                     <Divider />
-                    <Stack direction={"row"} spacing={5} mb={5}>
+                    <Stack direction={"row"} spacing={2} mb={5}>
                       <Typography variant="cardHeader" color="initial" mt={1}>
                         SHIPPING
                       </Typography>
@@ -537,17 +567,22 @@ const checkout = () => {
                         render={({ field }) => (
                           <RadioGroup {...field}>
                             <FormControlLabel
-                              value="homeDelivery"
-                              control={
-                                <Radio
-                                  onChange={() => handleHomeDelivery(true)}
-                                />
-                              }
+                              value="insideDhaka"
+                              control={<Radio onClick={handleDhakaSelected} />}
                               label="DHAKA : ৳ 100"
                             />
                             <FormControlLabel
+                              value="outSideDhaka"
+                              control={
+                                <Radio onClick={handleOutSideDhakaSelected} />
+                              }
+                              label="OUTSIDE DHAKA : ৳ 250"
+                            />
+                            <FormControlLabel
                               value="pickFromShowroom"
-                              control={<Radio />}
+                              control={
+                                <Radio onClick={handleShowRoomSelected} />
+                              }
                               label="PICK FROM SHOWROOM"
                             />
                           </RadioGroup>
@@ -571,7 +606,7 @@ const checkout = () => {
                         TOTAL :
                       </Typography>
                       <Typography variant="cardHeader" color="initial">
-                        ৳ 12,160
+                        ৳ {total}
                       </Typography>
                     </Stack>
                     <Divider />

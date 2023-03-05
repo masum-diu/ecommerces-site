@@ -12,6 +12,7 @@ import {
   Stack,
   Select,
   Typography,
+  TextField,
 } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect } from "react";
@@ -55,6 +56,7 @@ const masterCollectionLayout = () => {
   const [fabricSelect, setFabricSelect] = useState([]);
   const [fabricName, setFabricName] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [initialName, setInitialName] = useState("color");
   const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
 
@@ -197,10 +199,20 @@ const masterCollectionLayout = () => {
     }
   }, [fabricName]);
 
-  const handleFabricChange = (data, toggleContent) => {
+  // handling fabric change state
+  const handleFabricChange = (data) => {
     setFabricName(data);
     setFabricSelect(data);
   };
+
+  const handleColor = (e) => {
+    setInitialName(e.target.value);
+  };
+
+  // finding minimum and maximum price
+
+  const min = Math.min(...products?.map((item) => item?.p_sale_price));
+  const max = Math.max(...products?.map((item) => item?.p_sale_price));
 
   /* array.map(item => item.age)
   .filter((value, index, self) => self.indexOf(value) === index) */
@@ -338,23 +350,37 @@ const masterCollectionLayout = () => {
               </Stack>
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
                 <FormControl sx={{ minWidth: 120 }}>
-                  <InputLabel id="color-filter">Color</InputLabel>
                   <Select
                     fullWidth
                     labelId="color-filter"
                     id="demo-simple-select"
                     size="small"
-                    variant="standard"
-                    sx={{ backgroundColor: "white" }}
+                    value={initialName}
+                    onChange={handleColor}
+                    sx={{
+                      boxShadow: "none",
+                      ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                      "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                        {
+                          border: 0,
+                        },
+                      "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                        {
+                          border: 0,
+                        },
+                    }}
                   >
-                    {uniqueColor?.map((color,index) => (
-                      <MenuItem
-                        key={index}
-                        value={20}
-                        onClick={() => setFabricName("high")}
-                      >
-                        {color}
-                      </MenuItem>
+                    {uniqueColor?.map((color, index) => (
+                      <>
+                        {/* <MenuItem value={10}>{color}</MenuItem> */}
+                        <MenuItem
+                          key={index}
+                          value={20}
+                          // onClick={() => setFabricName("high")}
+                        >
+                          {color}
+                        </MenuItem>
+                      </>
                     ))}
 
                     {/* <MenuItem value={30} onClick={() => setFabricName("low")}>
@@ -362,7 +388,7 @@ const masterCollectionLayout = () => {
                     </MenuItem> */}
                   </Select>
                 </FormControl>
-                <FormControl sx={{ minWidth: 120 }}>
+                <FormControl sx={{ minWidth: 220 }}>
                   <InputLabel id="price-filter">Price</InputLabel>
                   <Select
                     fullWidth
@@ -373,11 +399,51 @@ const masterCollectionLayout = () => {
                     sx={{ backgroundColor: "white" }}
                   >
                     <MenuItem value={20} onClick={() => setFabricName("high")}>
-                      High `{'>'}` Low
+                      High To Low
                     </MenuItem>
                     <MenuItem value={30} onClick={() => setFabricName("low")}>
-                      Low `{'>'}` High
+                      Low To High
                     </MenuItem>
+                    <hr style={{ width: "50%", marginTop: "30px" }} />
+
+                    <Box style={{ marginTop: "20px" }}>
+                      <Stack
+                        sx={{ paddingX: "10px" }}
+                        direction={"column"}
+                        justifyContent={"space-between"}
+                        alignItems={"flex-start"}
+                      >
+                        <Typography>Price Range</Typography>
+                        <input
+                        min="0"
+                        max={max>0?max:""}
+                        
+                          style={{ width: "100%", marginBottom: "10px" }}
+                          type="range"
+                        />
+                        <Stack
+                          sx={{ width: "100%" }}
+                          direction={"row"}
+                          justifyContent={"space-between"}
+                          alignItems={"center"}
+                        >
+                          <TextField
+                            size="small"
+                            disabled
+                            value={0}
+                            style={{ width: "70px", borderRadius: "0px" }}
+                            variant="outlined"
+                          />
+                          <TextField
+                            size="small"
+                            value={max>0?max:""}
+                            disabled
+                            style={{ width: "70px", borderRadius: "0px" }}
+                            variant="outlined"
+                          />
+                        </Stack>
+                      </Stack>
+                    </Box>
                   </Select>
                 </FormControl>
               </Stack>

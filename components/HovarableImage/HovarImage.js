@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../src/features/cart/cartSlice";
 import Link from "next/link";
+import toast from "react-hot-toast";
 import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
 import {
   addToWishList,
@@ -96,15 +97,17 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     setColorSelected(false);
     setSizeSelected(false);
   };
-  const handleAddToWishList = (data) => {
+  const handleAddToWishList = async (data) => {
     dispatch(addToWishList(data));
     setShowBrokenHeart("block");
     setShowHeart("none");
+    await toast.success("Added To WishList!")
   };
-  const handleRemoveFromList = (data) => {
+  const handleRemoveFromList = async (data) => {
     dispatch(removeFromWishList(data));
     setShowBrokenHeart("none");
     setShowHeart("block");
+    await toast.error("Removed From Wishlist!")
   };
   const finalData = {
     id: data.id,
