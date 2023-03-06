@@ -38,6 +38,7 @@ import {
 import Loader from "../../../components/Loader/Loader";
 import HovarImage from "../../../components/HovarableImage/HovarImage";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import Filter from "../../../components/Filter";
 const masterCollectionLayout = () => {
   const router = useRouter();
   const path =
@@ -49,6 +50,7 @@ const masterCollectionLayout = () => {
   const productName = router?.query?.product?.toUpperCase();
 
   const dispatch = useDispatch();
+  const [filter, setFilter] = useState(false);
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
@@ -228,12 +230,10 @@ const masterCollectionLayout = () => {
   const min = Math.min(...products?.map((item) => item?.p_sale_price));
   const max = Math.max(...products?.map((item) => item?.p_sale_price));
 
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log('your log output',rangeValue)
-
+  console.log("your log output", rangeValue);
 
   /* array.map(item => item.age)
   .filter((value, index, self) => self.indexOf(value) === index) */
@@ -310,11 +310,11 @@ const masterCollectionLayout = () => {
               <SortIcon />
             </Hidden>
           </IconButton>
-          <IconButton onClick={() => setLists1(true)}>
+          {/* <IconButton onClick={() => setLists1(true)}>
             <Hidden only={["xl", "lg"]}>
               <SegmentIcon />
             </Hidden>
-          </IconButton>
+          </IconButton> */}
         </Stack>
 
         <Box sx={{ backgroundColor: "#FAFAFA" }}>
@@ -328,10 +328,12 @@ const masterCollectionLayout = () => {
                 margin: "0 auto",
                 height: "61px",
                 justifyContent: "space-between",
+                alignItems:"center"
               }}
             >
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
                 <Typography
+                  variant="homeFlash"
                   style={
                     fabricSelect === "all"
                       ? {
@@ -349,6 +351,7 @@ const masterCollectionLayout = () => {
                 </Typography>
                 {fabrics?.map((fabric) => (
                   <Typography
+                    variant="homeFlash"
                     style={
                       fabricSelect === fabric?.fabric_name
                         ? {
@@ -366,117 +369,16 @@ const masterCollectionLayout = () => {
 
                 {/* <Menu1 title={"Nakshikantha Saree"} />
                   <Menu1 title={"Jamdani Saree"} /> */}
+               
               </Stack>
-              <Stack direction={"row"} spacing={4} alignItems={"center"}>
-                <FormControl sx={{ minWidth: 120 }}>
-                  <Select
-                    fullWidth
-                    labelId="color-filter"
-                    id="demo-simple-select"
-                    size="small"
-                    value={initialName}
-                    onChange={handleColor}
-                    sx={{
-                      boxShadow: "none",
-                      ".MuiOutlinedInput-notchedOutline": { border: 0 },
-                      "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                        {
-                          border: 0,
-                        },
-                      "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          border: 0,
-                        },
-                    }}
-                  >
-                    {uniqueColor?.map((color, index) => (
-                      <>
-                        {/* <MenuItem value={10}>{color}</MenuItem> */}
-                        <MenuItem
-                          key={index}
-                          value={20}
-                          // onClick={() => setFabricName("high")}
-                        >
-                          {color}
-                        </MenuItem>
-                      </>
-                    ))}
-
-                    {/* <MenuItem value={30} onClick={() => setFabricName("low")}>
-                      Low To High
-                    </MenuItem> */}
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ minWidth: 220 }}>
-                  <InputLabel id="price-filter">Price</InputLabel>
-                  <Select
-                    fullWidth
-                    labelId="price-filter"
-                    id="demo-simple-select"
-                    size="small"
-                    variant="standard"
-                    sx={{ backgroundColor: "white" }}
-                  >
-                    <MenuItem value={20} onClick={() => setFabricName("high")}>
-                      High To Low
-                    </MenuItem>
-                    <MenuItem value={30} onClick={() => setFabricName("low")}>
-                      Low To High
-                    </MenuItem>
-                    <hr style={{ width: "50%", marginTop: "30px" }} />
-
-                    <Box style={{ marginTop: "20px" }}>
-                      <Stack
-                        sx={{ paddingX: "10px" }}
-                        direction={"column"}
-                        justifyContent={"space-between"}
-                        alignItems={"flex-start"}
-                      >
-                        <Typography>Price Range</Typography>
-                        {/* <input
-                          min="0"
-                          max={max > 0 ? max : "100000"}
-                          onChange={(event) =>
-                            setRangeInputValue(event.target.value)
-                          }
-                          style={{ width: "100%", marginBottom: "10px" }}
-                          type="range"
-                        /> */}
-                        <Box sx={{ width: 300,padding:"20px" }}>
-                          <Slider
-                            
-                            value={rangeValue}
-                            onChange={handleChange}
-                            valueLabelDisplay="auto"
-                            
-                          />
-                        </Box>
-                        <Stack
-                          sx={{ width: "100%" }}
-                          direction={"row"}
-                          justifyContent={"space-between"}
-                          alignItems={"center"}
-                        >
-                          <TextField
-                            size="small"
-                            disabled
-                            value={0}
-                            style={{ width: "70px", borderRadius: "0px" }}
-                            variant="outlined"
-                          />
-                          <TextField
-                            size="small"
-                            value={max > 0 ? max : ""}
-                            disabled
-                            style={{ width: "70px", borderRadius: "0px" }}
-                            variant="outlined"
-                          />
-                        </Stack>
-                      </Stack>
-                    </Box>
-                  </Select>
-                </FormControl>
-              </Stack>
+              <Typography
+                  variant="homeFlash"
+                  color="initial"
+                  sx={{cursor:"pointer" }}
+                  onClick={()=>setFilter(true)}
+                >
+                  Filters
+                </Typography>
             </Stack>
           </Hidden>
         </Box>
@@ -673,6 +575,7 @@ const masterCollectionLayout = () => {
         setFabricName={setFabricName}
       />
       <Menu1Dawer open={lists1} setOpen={setLists1} />
+      <Filter open={filter} setOpen={setFilter} uniqueColor={uniqueColor}/>
     </>
   );
 };
