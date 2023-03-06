@@ -54,14 +54,16 @@ const masterCollectionLayout = () => {
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
+  const min = Math.min(...products?.map((item) => item?.p_sale_price));
+  const max = Math.max(...products?.map((item) => item?.p_sale_price));
   const [staticData, setStaticData] = useState([]);
   const [fabrics, setFabric] = useState([]);
   const [fabricSelect, setFabricSelect] = useState([]);
   const [fabricName, setFabricName] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [initialName, setInitialName] = useState("color");
-  const [rangeInputValue, setRangeInputValue] = useState(0);
-  const [rangeValue, setValue] = useState([20, 37]);
+  const [selectedColor, setSelectedColor] = useState("");
+  const [rangeValue, setValue] = useState([min, max]);
+  const [demo, setDemo] = useState("");
   const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
 
@@ -204,16 +206,34 @@ const masterCollectionLayout = () => {
     }
   }, [fabricName]);
 
-  // Filtering the products using fabric
+  // Filtering data by colors
   useEffect(() => {
-    const handelFilterGalleryRangeWise = async () => {
-      const content = products.filter(
-        (product) => rangeInputValue >= product?.p_sale_price
+    const handleFilterUsingColor = () => {
+      const content = products.filter((product) =>
+        product?.p_colours.some(
+          (color) =>
+            color?.color_name === selectedColor && color?.color_name !== null
+        )
       );
       setFilteredData(content);
     };
-    handelFilterGalleryRangeWise();
-  }, [rangeInputValue]);
+    handleFilterUsingColor();
+  }, [selectedColor]);
+
+  // Filtering the products using fabric
+  useEffect(() => {
+    if (rangeValue[0] !== Infinity && rangeValue[1] !== -Infinity) {
+      const handelFilterGalleryRangeWise = async () => {
+        const content = products.filter(
+          (product) =>
+            rangeValue[0] <= product?.p_sale_price &&
+            rangeValue[1] >= product?.p_sale_price
+        );
+        setFilteredData(content);
+      };
+      handelFilterGalleryRangeWise();
+    }
+  }, [rangeValue]);
 
   // handling fabric change state
   const handleFabricChange = (data) => {
@@ -221,19 +241,11 @@ const masterCollectionLayout = () => {
     setFabricSelect(data);
   };
 
-  const handleColor = (e) => {
-    setInitialName(e.target.value);
-  };
-
   // finding minimum and maximum price
 
-  const min = Math.min(...products?.map((item) => item?.p_sale_price));
-  const max = Math.max(...products?.map((item) => item?.p_sale_price));
-
-  const handleChange = (event, newValue) => {
+  /* const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-  console.log("your log output", rangeValue);
+  }; */
 
   /* array.map(item => item.age)
   .filter((value, index, self) => self.indexOf(value) === index) */
@@ -250,6 +262,7 @@ const masterCollectionLayout = () => {
     ?.map((item) => item?.p_colours?.map((item) => item?.color_name))
     .filter((value, index, self) => self.indexOf(value) === index);
   let uniqueColor = [...new Set(colorWiseFilter.flat(1))];
+
   return (
     <>
       <HomePageIntro title={"Saree "} />
@@ -328,7 +341,7 @@ const masterCollectionLayout = () => {
                 margin: "0 auto",
                 height: "61px",
                 justifyContent: "space-between",
-                alignItems:"center"
+                alignItems: "center",
               }}
             >
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -369,16 +382,15 @@ const masterCollectionLayout = () => {
 
                 {/* <Menu1 title={"Nakshikantha Saree"} />
                   <Menu1 title={"Jamdani Saree"} /> */}
-               
               </Stack>
               <Typography
-                  variant="homeFlash"
-                  color="initial"
-                  sx={{cursor:"pointer" }}
-                  onClick={()=>setFilter(true)}
-                >
-                  Filters
-                </Typography>
+                variant="homeFlash"
+                color="initial"
+                sx={{ cursor: "pointer" }}
+                onClick={() => setFilter(true)}
+              >
+                Filters
+              </Typography>
             </Stack>
           </Hidden>
         </Box>
@@ -575,7 +587,16 @@ const masterCollectionLayout = () => {
         setFabricName={setFabricName}
       />
       <Menu1Dawer open={lists1} setOpen={setLists1} />
-      <Filter open={filter} setOpen={setFilter} uniqueColor={uniqueColor}/>
+      <Filter
+        open={filter}
+        setOpen={setFilter}
+        uniqueColor={uniqueColor}
+        max={max}
+        min={min}
+        setValue={setValue}
+        rangeValue={rangeValue}
+        setSelectedColor={setSelectedColor}
+      />
     </>
   );
 };

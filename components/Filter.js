@@ -6,6 +6,7 @@ import {
   IconButton,
   Slider,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import {
@@ -13,10 +14,16 @@ import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
-function valuetext(value) {
-  return `${value}°C`;
-}
-const Filter = ({ open, setOpen, uniqueColor }) => {
+
+const Filter = ({
+  open,
+  setOpen,
+  uniqueColor,
+  min,
+  max,
+  setValue,
+  rangeValue,setSelectedColor
+}) => {
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
   const handleClick = () => {
@@ -30,7 +37,7 @@ const Filter = ({ open, setOpen, uniqueColor }) => {
     setArrow1(!arrow1);
   };
   //price range state
-  const [value, setValue] = React.useState([0, 37]);
+  // const [value, setValue] = useState([min, max]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -86,6 +93,7 @@ const Filter = ({ open, setOpen, uniqueColor }) => {
                 {uniqueColor?.map((color) => (
                   <>
                     <Typography
+                    onClick={()=>setSelectedColor(color)}
                       variant="cardHeader3"
                       color="initial"
                       key={color}
@@ -123,16 +131,35 @@ const Filter = ({ open, setOpen, uniqueColor }) => {
           </Button>
           {openList1 ? (
             <Box sx={{ width: "100%", margin: "0 auto", px: 2 }}>
-              <Stack direction={"column"} spacing={1.5}  >
+              <Stack direction={"column"} spacing={1.5}>
                 <Slider
-                  getAriaLabel={() => "Temperature range"}
-                 
-                  value={value}
+                  min={min}
+                  max={max}
+                  value={rangeValue}
                   onChange={handleChange}
                   valueLabelDisplay="auto"
-                  getAriaValueText={valuetext}
                 />
-               
+              </Stack>
+              <Stack
+                sx={{ width: "100%" }}
+                direction={"row"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+              >
+                <TextField
+                  size="small"
+                  disabled
+                  value={0}
+                  style={{ width: "70px", borderRadius: "0px" }}
+                  variant="outlined"
+                />
+                <TextField
+                  size="small"
+                  value={max > 0 ? max : ""}
+                  disabled
+                  style={{ width: "70px", borderRadius: "0px" }}
+                  variant="outlined"
+                />
               </Stack>
             </Box>
           ) : null}
