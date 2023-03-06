@@ -18,7 +18,7 @@ import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import { useSelector } from "react-redux";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
@@ -40,30 +40,9 @@ const checkout = () => {
   const [isDhakaChecked, setIsDhakaChecked] = useState(false);
   const [isOutSideChecked, setIsOutSideChecked] = useState(false);
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
+  const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [total, setTotal] = useState(subTotal);
   const router = useRouter();
-  const handleDistict = (event) => {
-    setDistict(event.target.value);
-  };
-  const handleDistict1 = (event) => {
-    setDistict1(event.target.value);
-  };
-
-  const handleDhakaSelected = () => {
-    setIsDhakaChecked(!isDhakaChecked);
-    setIsOutSideChecked(false);
-    setIsFromShowRoomChecked(false);
-  };
-  const handleOutSideDhakaSelected = () => {
-    setIsOutSideChecked(!isOutSideChecked);
-    setIsDhakaChecked(false);
-    setIsFromShowRoomChecked(false);
-  };
-  const handleShowRoomSelected = () => {
-    setIsFromShowRoomChecked(!isFromShowRoomChecked);
-    setIsDhakaChecked(false);
-    setIsOutSideChecked(false);
-  };
 
   useEffect(() => {
     if (isDhakaChecked === true) {
@@ -92,6 +71,34 @@ const checkout = () => {
     securePage();
   }, []);
 
+  // handling Different Form Events
+  const handleDistict = (event) => {
+    setDistict(event.target.value);
+  };
+  const handleDistict1 = (event) => {
+    setDistict1(event.target.value);
+  };
+
+  const handleDhakaSelected = () => {
+    setIsDhakaChecked(!isDhakaChecked);
+    setIsOutSideChecked(false);
+    setIsFromShowRoomChecked(false);
+  };
+  const handleOutSideDhakaSelected = () => {
+    setIsOutSideChecked(!isOutSideChecked);
+    setIsDhakaChecked(false);
+    setIsFromShowRoomChecked(false);
+  };
+  const handleShowRoomSelected = () => {
+    setIsFromShowRoomChecked(!isFromShowRoomChecked);
+    setIsDhakaChecked(false);
+    setIsOutSideChecked(false);
+  };
+  const handleSameAddressSelected = () => {
+    setIsSameAddressChecked(!isSameAddressChecked);
+  };
+
+  // Handling React Hook Rorm
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
       first_name_billing: "",
@@ -105,6 +112,7 @@ const checkout = () => {
       first_name_shipping: "",
       last_name_shipping: "",
       street_address_shipping: "",
+      apartment_address_billing: "",
       city_shipping: "",
       country_shipping: "",
       post_code_shipping: "",
@@ -118,7 +126,6 @@ const checkout = () => {
 
   const onSubmit = async (data) => {
     setIsSameAddress(data?.isSameAddress);
-    console.log("your log output", data);
     instance
       .post(
         "/order",
@@ -138,17 +145,26 @@ const checkout = () => {
         }
       )
       .then(async (result) => {
-        console.log("your log output", result);
         const response = JSON.parse(result?.data?.payment);
         await window.location.replace(response?.data);
-        // localStorage.setItem("acesstoken1", result.data.token);
-        // localStorage.setItem("user", JSON.stringify(result.data.user));
-        // setUserData(result.data);
-        // reset();
-        // setOpen(false);
       })
       .catch((err) => {});
   };
+
+  // Getting Billing Realtime Data
+  const firstName = useWatch({ control, name: "first_name_billing" });
+  const lastName = useWatch({ control, name: "last_name_billing" });
+  const streetAddress = useWatch({ control, name: "street_address_billing" });
+  const apartmentAddress = useWatch({
+    control,
+    name: "apartment_address_billing",
+  });
+  const cityAddress = useWatch({ control, name: "city_billing" });
+  const country = useWatch({ control, name: "country_billing" });
+  const postBilling = useWatch({ control, name: "post_code_billing" });
+  const phoneBilling = useWatch({ control, name: "phone_billing" });
+  const emailBilling = useWatch({ control, name: "email_billing" });
+  console.log("your log output", country);
   return (
     <>
       <HomePageIntro title={"Checkout "} />
@@ -257,6 +273,9 @@ const checkout = () => {
                     // label=""
                     // value={}
                     // onChange={}
+                    {...register("apartment_address_billing", {
+                      required: "Apartment Address is required",
+                    })}
                     placeholder="Apartment suite, unit, etc (optional)"
                     size="small"
                   />
@@ -361,10 +380,15 @@ const checkout = () => {
                   <Controller
                     name="isSameAddress"
                     control={control}
-                    render={({ field }) => <Checkbox {...field} />}
+                    render={({ field }) => (
+                      <Checkbox
+                        onClick={handleSameAddressSelected}
+                        {...field}
+                      />
+                    )}
                   />
                   <Typography variant="cardLocation1" color="initial">
-                    Same As Billing Adress.
+                    Same As Billing Address.
                   </Typography>
                 </Stack>
               </Grid>
@@ -384,7 +408,10 @@ const checkout = () => {
                       required: "First Name is required",
                     })}
                     // onChange={}
-                    placeholder="First Name *"
+                    disabled={isSameAddressChecked === true ? true : false}
+                    placeholder={
+                      isSameAddressChecked === true ? firstName : "First Name *"
+                    }
                     size="small"
                   />
                 </Stack>
@@ -400,7 +427,10 @@ const checkout = () => {
                     {...register("last_name_shipping", {
                       required: "Last Name is required",
                     })}
-                    placeholder="Last Name *"
+                    disabled={isSameAddressChecked === true ? true : false}
+                    placeholder={
+                      isSameAddressChecked === true ? lastName : "Last Name *"
+                    }
                     size="small"
                   />
                 </Stack>
@@ -429,7 +459,12 @@ const checkout = () => {
                     {...register("street_address_shipping", {
                       required: "Street Address is required",
                     })}
-                    placeholder="House Number and street name"
+                    disabled={isSameAddressChecked === true ? true : false}
+                    placeholder={
+                      isSameAddressChecked === true
+                        ? streetAddress
+                        : "House Number and street name"
+                    }
                     size="small"
                   />
                   <TextField
@@ -437,7 +472,12 @@ const checkout = () => {
                     // label=""
                     // value={}
                     // onChange={}
-                    placeholder="Apartment suite, unit, etc (optional)"
+                    disabled={isSameAddressChecked === true ? true : false}
+                    placeholder={
+                      isSameAddressChecked === true
+                        ? apartmentAddress
+                        : "Apartment suite, unit, etc (optional)"
+                    }
                     size="small"
                   />
                 </Stack>
@@ -453,7 +493,12 @@ const checkout = () => {
                     {...register("city_shipping", {
                       required: "City is required",
                     })}
-                    placeholder="Town / City"
+                    disabled={isSameAddressChecked === true ? true : false}
+                    placeholder={
+                      isSameAddressChecked === true
+                        ? cityAddress
+                        : "Town / City"
+                    }
                     size="small"
                   />
                 </Stack>
@@ -473,7 +518,7 @@ const checkout = () => {
                     {...register("country_shipping")}
                     id="demo-simple-select"
                     size="small"
-                    value={distict1}
+                    value={isSameAddressChecked === true ? distict : distict1}
                     onChange={handleDistict1}
                   >
                     <MenuItem value={"Select Country"}>Select Country</MenuItem>
@@ -493,7 +538,12 @@ const checkout = () => {
                     {...register("post_code_shipping", {
                       required: "Post Code is required",
                     })}
-                    placeholder="Postcode / zip (Optional)"
+                    disabled={isSameAddressChecked === true ? true : false}
+                    placeholder={
+                      isSameAddressChecked === true
+                        ? postBilling
+                        : "Postcode / zip (Optional)"
+                    }
                     size="small"
                   />
                 </Stack>
@@ -509,7 +559,10 @@ const checkout = () => {
                     {...register("phone_shipping", {
                       required: "Phone is required",
                     })}
-                    placeholder="Phone *"
+                    disabled={isSameAddressChecked === true ? true : false}
+                    placeholder={
+                      isSameAddressChecked === true ? phoneBilling : "Phone *"
+                    }
                     size="small"
                   />
                 </Stack>
@@ -530,7 +583,12 @@ const checkout = () => {
                         message: "This is not a valid email",
                       },
                     })}
-                    placeholder="Email Address *"
+                    disabled={isSameAddressChecked === true ? true : false}
+                    placeholder={
+                      isSameAddressChecked === true
+                        ? emailBilling
+                        : "Email Address *"
+                    }
                     size="small"
                   />
                 </Stack>
