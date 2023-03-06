@@ -164,7 +164,10 @@ const PorductDetails = () => {
                     img4: products?.p_image_three,
                   })
                 }
-                src={products?.feature_image}
+                // src={products?.feature_image}
+                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_830,w_664/v1676527368/aranya/${products?.feature_image?.substring(
+                  products?.feature_image?.lastIndexOf("/") + 1
+                )}`}
                 alt=""
                 style={{
                   width: "90vw",
@@ -181,7 +184,10 @@ const PorductDetails = () => {
                       img4: products?.p_image_three,
                     })
                   }
-                  src={products?.p_image_one}
+                  // src={products?.p_image_one}
+                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_750,w_332/v1676527368/aranya/${products?.p_image_one?.substring(
+                    products?.p_image_one?.lastIndexOf("/") + 1
+                  )}`}
                   alt=""
                   style={{
                     width: "90vw",
@@ -197,7 +203,10 @@ const PorductDetails = () => {
                       img4: products?.p_image_three,
                     })
                   }
-                  src={products?.p_image_two}
+                  // src={products?.p_image_two}
+                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_750,w_332/v1676527368/aranya/${products?.p_image_two?.substring(
+                    products?.p_image_two?.lastIndexOf("/") + 1
+                  )}`}
                   alt=""
                   style={{
                     width: "90vw",
@@ -215,7 +224,10 @@ const PorductDetails = () => {
                     img4: products?.p_image_two,
                   })
                 }
-                src={products?.p_image_three}
+                // src={products?.p_image_three}
+                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_830,w_664/v1676527368/aranya/${products?.p_image_three?.substring(
+                  products?.feature_image?.lastIndexOf("/") + 1
+                )}`}
                 alt=""
                 style={{
                   width: "90vw",

@@ -107,7 +107,10 @@ const SearchModal = ({ open, setOpen }) => {
                   }/${data?.id}`}
                 >
                   <Stack direction={"column"} mt={4} spacing={1}>
-                    <img src={data?.feature_image} alt="" width={100} />
+                    {/* <img src={data?.feature_image} alt="" width={100} /> */}
+                    <img style={{cursor:"pointer"}} src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_150,w_150/v1676527368/aranya/${data?.feature_image?.substring(
+                    data?.feature_image?.lastIndexOf("/") + 1
+                  )}`} />
                     <Typography
                       variant="cardHeader2"
                       color="initial"

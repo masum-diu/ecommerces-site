@@ -29,7 +29,6 @@ import { useRouter } from "next/router";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
 import { FiHeart, FiSearch, FiShoppingCart } from "react-icons/fi";
 import LoginModal from "./LoginModal";
-
 import USER_CONTEXT from "./userContext";
 import { CleaningServices } from "@mui/icons-material";
 import AccountCircle from "@mui/icons-material/AccountCircle";

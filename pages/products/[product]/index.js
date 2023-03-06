@@ -13,6 +13,7 @@ import {
   Select,
   Typography,
   TextField,
+  Slider,
 } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect } from "react";
@@ -58,6 +59,7 @@ const masterCollectionLayout = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [initialName, setInitialName] = useState("color");
   const [rangeInputValue, setRangeInputValue] = useState(0);
+  const [rangeValue, setValue] = useState([20, 37]);
   const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
 
@@ -225,6 +227,13 @@ const masterCollectionLayout = () => {
 
   const min = Math.min(...products?.map((item) => item?.p_sale_price));
   const max = Math.max(...products?.map((item) => item?.p_sale_price));
+
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  console.log('your log output',rangeValue)
+
 
   /* array.map(item => item.age)
   .filter((value, index, self) => self.indexOf(value) === index) */
@@ -424,7 +433,7 @@ const masterCollectionLayout = () => {
                         alignItems={"flex-start"}
                       >
                         <Typography>Price Range</Typography>
-                        <input
+                        {/* <input
                           min="0"
                           max={max > 0 ? max : "100000"}
                           onChange={(event) =>
@@ -432,7 +441,16 @@ const masterCollectionLayout = () => {
                           }
                           style={{ width: "100%", marginBottom: "10px" }}
                           type="range"
-                        />
+                        /> */}
+                        <Box sx={{ width: 300,padding:"20px" }}>
+                          <Slider
+                            
+                            value={rangeValue}
+                            onChange={handleChange}
+                            valueLabelDisplay="auto"
+                            
+                          />
+                        </Box>
                         <Stack
                           sx={{ width: "100%" }}
                           direction={"row"}

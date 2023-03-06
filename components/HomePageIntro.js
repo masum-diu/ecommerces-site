@@ -171,7 +171,7 @@ const HomePageIntro = ({ title }) => {
             <IconButton onClick={() => setOpen(true)}>
               <GoThreeBars style={{ color: "#0A0A0A" }} />
             </IconButton>
-            <Link href={"/"}>
+            <Link href={"/shop"}>
               <img  style={{cursor:"pointer"}} src="/assets/headerLogo.png" alt="" />
             </Link>
             <Hidden only={["lg", "xl"]}>
