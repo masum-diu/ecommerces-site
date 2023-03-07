@@ -77,6 +77,7 @@ const masterCollectionLayout = () => {
   const [page, setPage] = useState(1);
   const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
+  console.log('your logsdfsdf output',router)
 
   // Getting product data with subCategory
   const { data, isLoading, isSuccess, isError, error } =
@@ -278,6 +279,9 @@ const masterCollectionLayout = () => {
     if (fabricName === "all") {
       setFilteredData(products);
     }
+    if (filterLoadingCatFab || filterLoadingFab) {
+      return <Loader></Loader>;
+    }
 
     /* const handelFilterGallery = async () => {
       const content = products.filter(
@@ -305,9 +309,7 @@ const masterCollectionLayout = () => {
       setFilteredData(sortedbyPriceAsc);
     } */
   }, [fabricID]);
-  if (filterLoadingCatFab || filterLoadingFab) {
-    return <Loader></Loader>;
-  }
+  
 
   // Filtering data by colors
   useEffect(() => {
