@@ -54,23 +54,25 @@ const masterCollectionLayout = () => {
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
-  const min = Math.min(...products?.map((item) => item?.p_sale_price));
-  const max = Math.max(...products?.map((item) => item?.p_sale_price));
+  const [min, setMin] = useState();
+  const [max, setMax] = useState();
   const [staticData, setStaticData] = useState([]);
   const [fabrics, setFabric] = useState([]);
   const [fabricSelect, setFabricSelect] = useState([]);
   const [fabricName, setFabricName] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedColor, setSelectedColor] = useState([]);
   const [rangeValue, setValue] = useState([min, max]);
-  const [demo, setDemo] = useState("");
+  const [uniqueColors, setUniqueColors] = useState([]);
+  const [loadings, setLoadings] = useState(true);
+  const [page, setPage] = useState(1);
   const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
 
   // Getting product data with subCategory
   const { data, isLoading, isSuccess, isError, error } =
     useGetCategoryAndSubWiseProductsQuery(
-      { cat, sub_cat },
+      { cat, sub_cat, page },
       { refetchOnMountOrArgChange: true }
     );
 
@@ -79,7 +81,10 @@ const masterCollectionLayout = () => {
     data: catetoryData,
     isLoading: categoryLoading,
     isSuccess: categoryisSuccess,
-  } = useGetCategoryWiseProductsQuery(cat);
+  } = useGetCategoryWiseProductsQuery(
+    { cat, page },
+    { refetchOnMountOrArgChange: true }
+  );
 
   // Getting static data with subCategory
   const {
@@ -109,7 +114,6 @@ const masterCollectionLayout = () => {
   } = useGetAttributesOfProductsQuery(sub_cat, {
     refetchOnMountOrArgChange: true,
   });
-
   // Getting attributes of Product with Category
   const {
     data: attirbutesDatasCat,
@@ -141,6 +145,17 @@ const masterCollectionLayout = () => {
     categoryisSuccess,
     categoryLoading,
   ]);
+
+  //handling minimum and maximum value
+
+  useEffect(() => {
+    if (products) {
+      const min = Math.min(...products?.map((item) => item?.p_sale_price));
+      const max = Math.max(...products?.map((item) => item?.p_sale_price));
+      setMin(min);
+      setMax(max);
+    }
+  }, [products]);
 
   // Setting static data of products in a state
   useEffect(() => {
@@ -212,7 +227,7 @@ const masterCollectionLayout = () => {
       const content = products.filter((product) =>
         product?.p_colours.some(
           (color) =>
-            color?.color_name === selectedColor && color?.color_name !== null
+            color?.color_name === selectedColor[0] && color?.color_name !== null
         )
       );
       setFilteredData(content);
@@ -235,20 +250,47 @@ const masterCollectionLayout = () => {
     }
   }, [rangeValue]);
 
+  //handling unique colors
+  useEffect(() => {
+    const colorWiseFilter = products
+      ?.map((item) =>
+        item?.p_colours?.map((item) =>
+          item.color_name ? { name: item.color_name, id: item.id } : null
+        )
+      )
+      .filter((value, index, self) => self.indexOf(value) === index);
+    let unified = [...new Set(colorWiseFilter.flat(1))];
+
+    const uniqueColor = [
+      ...new Map(unified.map((item) => [item["name"], item])).values(),
+    ];
+    setUniqueColors(uniqueColor);
+  }, [products]);
+
   // handling fabric change state
   const handleFabricChange = (data) => {
     setFabricName(data);
     setFabricSelect(data);
   };
 
-  // finding minimum and maximum price
-
-  /* const handleChange = (event, newValue) => {
-    setValue(newValue);
+  // handling lazy loading
+  /* useEffect(() => {
+    window.addEventListener("scroll", handelInfinitScroll);
+    return () => window.removeEventListener("scroll", handelInfinitScroll);
+  }, []);
+  const handelInfinitScroll = async () => {
+    try {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        document.documentElement.scrollHeight
+      ) {
+        setLoadings(true);
+        setPage((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }; */
-
-  /* array.map(item => item.age)
-  .filter((value, index, self) => self.indexOf(value) === index) */
 
   // Handling the loading state
   if (isLoading || loading) {
@@ -257,11 +299,6 @@ const masterCollectionLayout = () => {
   if (attirbutesloading || attirbutesloadingCat) {
     return <Loader></Loader>;
   }
-
-  const colorWiseFilter = products
-    ?.map((item) => item?.p_colours?.map((item) => item?.color_name))
-    .filter((value, index, self) => self.indexOf(value) === index);
-  let uniqueColor = [...new Set(colorWiseFilter.flat(1))];
 
   return (
     <>
@@ -590,7 +627,7 @@ const masterCollectionLayout = () => {
       <Filter
         open={filter}
         setOpen={setFilter}
-        uniqueColor={uniqueColor}
+        uniqueColors={uniqueColors}
         max={max}
         min={min}
         setValue={setValue}

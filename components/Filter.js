@@ -18,7 +18,7 @@ import {
 const Filter = ({
   open,
   setOpen,
-  uniqueColor,
+  uniqueColors,
   min,
   max,
   setValue,
@@ -90,16 +90,16 @@ const Filter = ({
           {openList ? (
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
               <Stack direction={"column"} spacing={1.5}>
-                {uniqueColor?.map((color) => (
+                {uniqueColors?.map((color,index) => (
                   <>
                     <Typography
-                    onClick={()=>setSelectedColor(color)}
+                    onClick={()=>setSelectedColor([color.name,color.id])}
                       variant="cardHeader3"
                       color="initial"
-                      key={color}
+                      key={index}
                       sx={{ cursor: "pointer" }}
                     >
-                      {color}
+                      {color.name}
                     </Typography>
                   </>
                 ))}
@@ -134,7 +134,7 @@ const Filter = ({
               <Stack direction={"column"} spacing={1.5}>
                 <Slider
                   min={min}
-                  max={max}
+                  max={max > 0 ? max : ""}
                   value={rangeValue}
                   onChange={handleChange}
                   valueLabelDisplay="auto"
