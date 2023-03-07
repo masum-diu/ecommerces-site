@@ -101,7 +101,9 @@ const HomePageIntro = ({ title }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <Link href="/userProfile">
+        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      </Link>
       <MenuItem onClick={handelogout}>Logout</MenuItem>
     </Menu>
   );
@@ -172,7 +174,11 @@ const HomePageIntro = ({ title }) => {
               <GoThreeBars style={{ color: "#0A0A0A" }} />
             </IconButton>
             <Link href={"/shop"}>
-              <img  style={{cursor:"pointer"}} src="/assets/headerLogo.png" alt="" />
+              <img
+                style={{ cursor: "pointer" }}
+                src="/assets/headerLogo.png"
+                alt=""
+              />
             </Link>
             <Hidden only={["lg", "xl"]}>
               <IconButton aria-label="">

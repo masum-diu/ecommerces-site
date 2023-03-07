@@ -39,7 +39,25 @@ import Loader from "../../../components/Loader/Loader";
 import HovarImage from "../../../components/HovarableImage/HovarImage";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Filter from "../../../components/Filter";
+import { useRef } from "react";
+const NUM_PER_PAGE = 3;
+const TOTAL_PAGES = 100;
 const masterCollectionLayout = () => {
+  // const images = posts["data"];
+  const triggerRef = useRef(null);
+  const onGrabData = (currentPage) => {
+    // This would be where you'll call your API
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const data = filteredData?.slice(
+          ((currentPage - 1) % TOTAL_PAGES) * NUM_PER_PAGE,
+          NUM_PER_PAGE * (currentPage % TOTAL_PAGES)
+        );
+        console.log(data);
+        resolve(data);
+      }, 3000);
+    });
+  };
   const router = useRouter();
   const path =
     router.pathname.replace("/", "").charAt(0).toUpperCase() +
@@ -330,7 +348,14 @@ const masterCollectionLayout = () => {
           </IconButton> */}
         </Stack>
 
-        <Box sx={{ backgroundColor: "#FAFAFA" }}>
+        <Box
+          sx={{
+            backgroundColor: "#FAFAFA",
+            position: "sticky",
+            top: 65,
+            zIndex: 1,
+          }}
+        >
           <Hidden only={["xs", "xms", "sm"]}>
             <Stack
               direction={"row"}
