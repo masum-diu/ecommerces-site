@@ -38,6 +38,8 @@ import {
   useGetColorWiseFilteredProductsWithOutSubQuery,
   useGetPriceWiseFilteredProductsQuery,
   useGetPriceWiseFilteredProductsWithOutSubQuery,
+  useGetFabricWiseFilteredProductsWithOutSubQuery,
+  useGetFabricWiseFilteredProductsQuery,
 } from "../../../src/features/api/apiSlice";
 import Loader from "../../../components/Loader/Loader";
 import HovarImage from "../../../components/HovarableImage/HovarImage";
@@ -66,6 +68,7 @@ const masterCollectionLayout = () => {
   const [fabrics, setFabric] = useState([]);
   const [fabricSelect, setFabricSelect] = useState([]);
   const [fabricName, setFabricName] = useState("");
+  const [fabricID, setFabricID] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
   const [rangeValue, setValue] = useState([0, 10000]);
@@ -153,7 +156,6 @@ const masterCollectionLayout = () => {
   // Getting Filtered data by price
   const up = rangeValue[1];
   const low = rangeValue[0];
-  console.log('your log output',up,low)
 
   const {
     data: filterDataSubp,
@@ -169,6 +171,28 @@ const masterCollectionLayout = () => {
     isSuccess: filterSuccessCatp,
   } = useGetPriceWiseFilteredProductsWithOutSubQuery(
     { cat, up, low },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  // Getting filtered by fabric
+  // const fabSelectedID = fabricSelect[0]
+  console.log("your log output", filterDataSubFab);
+  const {
+    data: filterDataSubFab,
+    isLoading: filterLoadingFab,
+    isSuccess: filterSuccessFab,
+  } = useGetFabricWiseFilteredProductsQuery(
+    { cat, sub_cat, fabricID },
+    { refetchOnMountOrArgChange: true }
+  );
+  const {
+    data: filterDataCatFab,
+    isLoading: filterLoadingCatFab,
+    isSuccess: filterSuccessCatFab,
+  } = useGetFabricWiseFilteredProductsWithOutSubQuery(
+    { cat, fabricID },
     {
       refetchOnMountOrArgChange: true,
     }
@@ -198,7 +222,6 @@ const masterCollectionLayout = () => {
   ]);
 
   //handling minimum and maximum value
-
   useEffect(() => {
     if (products) {
       const min = Math.min(...products?.map((item) => item?.p_sale_price));
@@ -245,7 +268,18 @@ const masterCollectionLayout = () => {
 
   // Filtering the products using fabric
   useEffect(() => {
-    const handelFilterGallery = async () => {
+    if ((filterSuccessFab || filterSuccessCatFab) && fabricID) {
+      if (sub_cat) {
+        setFilteredData(filterDataSubFab?.data);
+      } else {
+        setFilteredData(filterDataCatFab?.data);
+      }
+    }
+    if (fabricName === "all") {
+      setFilteredData(products);
+    }
+
+    /* const handelFilterGallery = async () => {
       const content = products.filter(
         (product) => fabricName == product?.p_fabric[0]?.fabric_name
       );
@@ -269,12 +303,15 @@ const masterCollectionLayout = () => {
         (a, b) => parseFloat(a.p_sale_price) - parseFloat(b.p_sale_price)
       );
       setFilteredData(sortedbyPriceAsc);
-    }
-  }, [fabricName]);
+    } */
+  }, [fabricID]);
+  if (filterLoadingCatFab || filterLoadingFab) {
+    return <Loader></Loader>;
+  }
 
   // Filtering data by colors
   useEffect(() => {
-    if ((filterSuccess || filterSuccessCat)&&selectedColor) {
+    if ((filterSuccess || filterSuccessCat) && selectedColor) {
       if (sub_cat) {
         setFilteredData(filterDataSub?.data);
       } else {
@@ -288,7 +325,7 @@ const masterCollectionLayout = () => {
 
   // Filtering the products using price
   useEffect(() => {
-    if ((filterSuccessCatp || filterSuccessp)&&rangeValue) {
+    if ((filterSuccessCatp || filterSuccessp) && rangeValue) {
       if (sub_cat) {
         setFilteredData(filterDataSubp?.data);
       } else {
@@ -333,9 +370,10 @@ const masterCollectionLayout = () => {
   }, [products]);
 
   // handling fabric change state
-  const handleFabricChange = (data) => {
+  const handleFabricChange = (data, id) => {
     setFabricName(data);
     setFabricSelect(data);
+    setFabricID(id);
   };
 
   // handling lazy loading
@@ -487,7 +525,9 @@ const masterCollectionLayout = () => {
                       padding: "5px",
                       letterSpacing: 1.5,
                     }}
-                    onClick={() => handleFabricChange(fabric?.fabric_name)}
+                    onClick={() =>
+                      handleFabricChange(fabric?.fabric_name, fabric?.fabric_id)
+                    }
                   >{`${fabric?.fabric_name}`}</Typography>
                 ))}
 
