@@ -39,6 +39,7 @@ import Loader from "../../../components/Loader/Loader";
 import HovarImage from "../../../components/HovarableImage/HovarImage";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Filter from "../../../components/Filter";
+import { BiFilter } from "react-icons/bi";
 const masterCollectionLayout = () => {
   const router = useRouter();
   const path =
@@ -64,7 +65,7 @@ const masterCollectionLayout = () => {
   const [rangeValue, setValue] = useState([20, 37]);
   const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
-
+  
   // Getting product data with subCategory
   const { data, isLoading, isSuccess, isError, error } =
     useGetCategoryAndSubWiseProductsQuery(
@@ -317,18 +318,18 @@ const masterCollectionLayout = () => {
           </IconButton> */}
         </Stack>
 
-        <Box sx={{ backgroundColor: "#FAFAFA" }}>
+        <Box sx={{ backgroundColor: "#FAFAFA",position:"sticky",top:82,zIndex:1 }}>
           <Hidden only={["xs", "xms", "sm"]}>
             <Stack
               direction={"row"}
               spacing={2}
               sx={{
-                width: "100%",
+                width: "90%",
                 maxWidth: "1500px",
                 margin: "0 auto",
                 height: "61px",
                 justifyContent: "space-between",
-                alignItems:"center"
+                alignItems: "center",
               }}
             >
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
@@ -344,6 +345,7 @@ const masterCollectionLayout = () => {
                   sx={{
                     cursor: "pointer",
                     padding: "5px",
+                    letterSpacing: 1.5,
                   }}
                   onClick={() => handleFabricChange("all")}
                 >
@@ -362,6 +364,7 @@ const masterCollectionLayout = () => {
                     sx={{
                       cursor: "pointer",
                       padding: "5px",
+                      letterSpacing: 1.5,
                     }}
                     onClick={() => handleFabricChange(fabric?.fabric_name)}
                   >{`${fabric?.fabric_name}`}</Typography>
@@ -369,16 +372,18 @@ const masterCollectionLayout = () => {
 
                 {/* <Menu1 title={"Nakshikantha Saree"} />
                   <Menu1 title={"Jamdani Saree"} /> */}
-               
               </Stack>
-              <Typography
+              <Stack direction={"row"} alignItems="center" spacing={.5} onClick={() => setFilter(true)}>
+                <Typography
                   variant="homeFlash"
                   color="initial"
-                  sx={{cursor:"pointer" }}
-                  onClick={()=>setFilter(true)}
+                  sx={{ cursor: "pointer", letterSpacing: 1.5 }}
+                  
                 >
-                  Filters
+                  Filter
                 </Typography>
+                <BiFilter style={{fontSize:"18px"}} />
+              </Stack>
             </Stack>
           </Hidden>
         </Box>
@@ -575,7 +580,7 @@ const masterCollectionLayout = () => {
         setFabricName={setFabricName}
       />
       <Menu1Dawer open={lists1} setOpen={setLists1} />
-      <Filter open={filter} setOpen={setFilter} uniqueColor={uniqueColor}/>
+      <Filter open={filter} setOpen={setFilter} uniqueColor={uniqueColor} />
     </>
   );
 };

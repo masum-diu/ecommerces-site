@@ -89,7 +89,7 @@ const Filter = ({ open, setOpen, uniqueColor }) => {
                       variant="cardHeader3"
                       color="initial"
                       key={color}
-                      sx={{ cursor: "pointer" }}
+                      sx={{ cursor: "pointer", }}
                     >
                       {color}
                     </Typography>
@@ -126,11 +126,12 @@ const Filter = ({ open, setOpen, uniqueColor }) => {
               <Stack direction={"column"} spacing={1.5}  >
                 <Slider
                   getAriaLabel={() => "Temperature range"}
-                 
+                 size="small"
                   value={value}
                   onChange={handleChange}
                   valueLabelDisplay="auto"
                   getAriaValueText={valuetext}
+                  sx={{color:"#2D323F"}}
                 />
                
               </Stack>
