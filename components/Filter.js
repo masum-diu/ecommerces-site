@@ -22,7 +22,8 @@ const Filter = ({
   min,
   max,
   setValue,
-  rangeValue,setSelectedColor
+  rangeValue,
+  setSelectedColor,
 }) => {
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
@@ -90,10 +91,10 @@ const Filter = ({
           {openList ? (
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
               <Stack direction={"column"} spacing={1.5}>
-                {uniqueColors?.map((color,index) => (
+                {uniqueColors?.map((color, index) => (
                   <>
                     <Typography
-                    onClick={()=>setSelectedColor([color.name,color.id])}
+                      onClick={() => setSelectedColor([color.name, color.id])}
                       variant="cardHeader3"
                       color="initial"
                       key={index}
@@ -133,32 +134,14 @@ const Filter = ({
             <Box sx={{ width: "100%", margin: "0 auto", px: 2 }}>
               <Stack direction={"column"} spacing={1.5}>
                 <Slider
+                  size="small"
+                  step={50}
                   min={min}
                   max={max > 0 ? max : ""}
                   value={rangeValue}
                   onChange={handleChange}
                   valueLabelDisplay="auto"
-                />
-              </Stack>
-              <Stack
-                sx={{ width: "100%" }}
-                direction={"row"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-              >
-                <TextField
-                  size="small"
-                  disabled
-                  value={0}
-                  style={{ width: "70px", borderRadius: "0px" }}
-                  variant="outlined"
-                />
-                <TextField
-                  size="small"
-                  value={max > 0 ? max : ""}
-                  disabled
-                  style={{ width: "70px", borderRadius: "0px" }}
-                  variant="outlined"
+                  sx={{ color: "#2D323F" }}
                 />
               </Stack>
             </Box>

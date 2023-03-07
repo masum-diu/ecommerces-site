@@ -34,11 +34,17 @@ import {
   useGetCategoryAndSubWiseProductsQuery,
   useGetCategoryWiseProductsQuery,
   useGetSubWiseProductsQuery,
+  useGetColorWiseFilteredProductsQuery,
+  useGetColorWiseFilteredProductsWithOutSubQuery,
+  useGetPriceWiseFilteredProductsQuery,
+  useGetPriceWiseFilteredProductsWithOutSubQuery,
 } from "../../../src/features/api/apiSlice";
 import Loader from "../../../components/Loader/Loader";
 import HovarImage from "../../../components/HovarableImage/HovarImage";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Filter from "../../../components/Filter";
+import { BiFilter } from "react-icons/bi";
+import instance from "../../api/api_instance";
 const masterCollectionLayout = () => {
   const router = useRouter();
   const path =
@@ -54,15 +60,15 @@ const masterCollectionLayout = () => {
   const [lists, setLists] = useState(false);
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
-  const [min, setMin] = useState();
-  const [max, setMax] = useState();
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(100);
   const [staticData, setStaticData] = useState([]);
   const [fabrics, setFabric] = useState([]);
   const [fabricSelect, setFabricSelect] = useState([]);
   const [fabricName, setFabricName] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
-  const [rangeValue, setValue] = useState([min, max]);
+  const [rangeValue, setValue] = useState([0, 10000]);
   const [uniqueColors, setUniqueColors] = useState([]);
   const [loadings, setLoadings] = useState(true);
   const [page, setPage] = useState(1);
@@ -122,6 +128,51 @@ const masterCollectionLayout = () => {
     isError: attirbuteserrorstateCat,
     error: attirbuteserrormessageCat,
   } = useGetAttributesOfProductsQuery(cat);
+
+  // Getting Filtered data by color
+  const colorSelected = selectedColor[1];
+  const {
+    data: filterDataSub,
+    isLoading: filterLoading,
+    isSuccess: filterSuccess,
+  } = useGetColorWiseFilteredProductsQuery(
+    { cat, sub_cat, colorSelected },
+    { refetchOnMountOrArgChange: true }
+  );
+  const {
+    data: filterDataCat,
+    isLoading: filterLoadingCat,
+    isSuccess: filterSuccessCat,
+  } = useGetColorWiseFilteredProductsWithOutSubQuery(
+    { cat, colorSelected },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  // Getting Filtered data by price
+  const up = rangeValue[1];
+  const low = rangeValue[0];
+  console.log('your log output',up,low)
+
+  const {
+    data: filterDataSubp,
+    isLoading: filterLoadingp,
+    isSuccess: filterSuccessp,
+  } = useGetPriceWiseFilteredProductsQuery(
+    { cat, sub_cat, up, low },
+    { refetchOnMountOrArgChange: true }
+  );
+  const {
+    data: filterDataCatp,
+    isLoading: filterLoadingCatp,
+    isSuccess: filterSuccessCatp,
+  } = useGetPriceWiseFilteredProductsWithOutSubQuery(
+    { cat, up, low },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   // Setting product in a state
   useEffect(() => {
@@ -223,20 +274,34 @@ const masterCollectionLayout = () => {
 
   // Filtering data by colors
   useEffect(() => {
-    const handleFilterUsingColor = () => {
-      const content = products.filter((product) =>
-        product?.p_colours.some(
-          (color) =>
-            color?.color_name === selectedColor[0] && color?.color_name !== null
-        )
-      );
-      setFilteredData(content);
-    };
-    handleFilterUsingColor();
+    if (filterSuccess || filterSuccessCat) {
+      if (sub_cat) {
+        setFilteredData(filterDataSub?.data);
+      } else {
+        setFilteredData(filterDataCat?.data);
+      }
+    }
+    if (filterLoading || filterLoadingCat) {
+      return <Loader></Loader>;
+    }
   }, [selectedColor]);
 
-  // Filtering the products using fabric
+  // Filtering the products using price
   useEffect(() => {
+    if (filterSuccessCatp || filterSuccessp) {
+      if (sub_cat) {
+        setFilteredData(filterDataSubp?.data);
+      } else {
+        setFilteredData(filterDataCatp?.data);
+      }
+    }
+    if (filterLoadingp || filterLoadingCatp) {
+      return <Loader></Loader>;
+    }
+  }, [rangeValue]);
+
+  // Through static data
+  /* useEffect(() => {
     if (rangeValue[0] !== Infinity && rangeValue[1] !== -Infinity) {
       const handelFilterGalleryRangeWise = async () => {
         const content = products.filter(
@@ -248,7 +313,7 @@ const masterCollectionLayout = () => {
       };
       handelFilterGalleryRangeWise();
     }
-  }, [rangeValue]);
+  }, [rangeValue]); */
 
   //handling unique colors
   useEffect(() => {
@@ -259,7 +324,7 @@ const masterCollectionLayout = () => {
         )
       )
       .filter((value, index, self) => self.indexOf(value) === index);
-    let unified = [...new Set(colorWiseFilter.flat(1))];
+    let unified = [...new Set(colorWiseFilter?.flat(1))];
 
     const uniqueColor = [
       ...new Map(unified.map((item) => [item["name"], item])).values(),
@@ -367,13 +432,20 @@ const masterCollectionLayout = () => {
           </IconButton> */}
         </Stack>
 
-        <Box sx={{ backgroundColor: "#FAFAFA" }}>
+        <Box
+          sx={{
+            backgroundColor: "#FAFAFA",
+            position: "sticky",
+            top: 82,
+            zIndex: 1,
+          }}
+        >
           <Hidden only={["xs", "xms", "sm"]}>
             <Stack
               direction={"row"}
               spacing={2}
               sx={{
-                width: "100%",
+                width: "90%",
                 maxWidth: "1500px",
                 margin: "0 auto",
                 height: "61px",
@@ -394,6 +466,7 @@ const masterCollectionLayout = () => {
                   sx={{
                     cursor: "pointer",
                     padding: "5px",
+                    letterSpacing: 1.5,
                   }}
                   onClick={() => handleFabricChange("all")}
                 >
@@ -412,6 +485,7 @@ const masterCollectionLayout = () => {
                     sx={{
                       cursor: "pointer",
                       padding: "5px",
+                      letterSpacing: 1.5,
                     }}
                     onClick={() => handleFabricChange(fabric?.fabric_name)}
                   >{`${fabric?.fabric_name}`}</Typography>
@@ -420,14 +494,22 @@ const masterCollectionLayout = () => {
                 {/* <Menu1 title={"Nakshikantha Saree"} />
                   <Menu1 title={"Jamdani Saree"} /> */}
               </Stack>
-              <Typography
-                variant="homeFlash"
-                color="initial"
-                sx={{ cursor: "pointer" }}
+              <Stack
+                direction={"row"}
+                alignItems="center"
+                spacing={0.5}
                 onClick={() => setFilter(true)}
               >
-                Filters
-              </Typography>
+                <Typography
+                  variant="homeFlash"
+                  color="initial"
+                  sx={{ cursor: "pointer", letterSpacing: 1.5 }}
+                  onClick={() => setFilter(true)}
+                >
+                  Filter
+                </Typography>
+                <BiFilter style={{ fontSize: "18px" }} />
+              </Stack>
             </Stack>
           </Hidden>
         </Box>

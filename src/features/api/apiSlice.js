@@ -33,6 +33,21 @@ export const productApi = createApi({
     getAttributesOfProducts: builder.query({
       query: (sub_cat) => `category-fabric/${sub_cat}`,
     }),
+    getColorWiseFilteredProducts: builder.query({
+      query: ({ cat, sub_cat, colorSelected }) =>
+        `product/${cat}/${sub_cat}?attrname=colour&attrid=${colorSelected}`,
+    }),
+    getColorWiseFilteredProductsWithOutSub: builder.query({
+      query: ({ cat, colorSelected }) =>
+        `product/${cat}?attrname=colour&attrid=${colorSelected}`,
+    }),
+    getPriceWiseFilteredProducts: builder.query({
+      query: ({ cat, sub_cat, up, low }) =>
+        `/product/${cat}/${sub_cat}?range=${low}-${up}`,
+    }),
+    getPriceWiseFilteredProductsWithOutSub: builder.query({
+      query: ({ cat, up, low }) => `/product/${cat}?range=${low}-${up}`,
+    }),
   }),
 });
 
@@ -46,4 +61,8 @@ export const {
   useGetCategoryWiseProductsQuery,
   useGetSubWiseProductsQuery,
   useGetAttributesOfProductsQuery,
+  useGetColorWiseFilteredProductsQuery,
+  useGetColorWiseFilteredProductsWithOutSubQuery,
+  useGetPriceWiseFilteredProductsQuery,
+  useGetPriceWiseFilteredProductsWithOutSubQuery
 } = productApi;
