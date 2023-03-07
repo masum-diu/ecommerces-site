@@ -274,7 +274,7 @@ const masterCollectionLayout = () => {
 
   // Filtering data by colors
   useEffect(() => {
-    if (filterSuccess || filterSuccessCat) {
+    if ((filterSuccess || filterSuccessCat)&&selectedColor) {
       if (sub_cat) {
         setFilteredData(filterDataSub?.data);
       } else {
@@ -288,7 +288,7 @@ const masterCollectionLayout = () => {
 
   // Filtering the products using price
   useEffect(() => {
-    if (filterSuccessCatp || filterSuccessp) {
+    if ((filterSuccessCatp || filterSuccessp)&&rangeValue) {
       if (sub_cat) {
         setFilteredData(filterDataSubp?.data);
       } else {
