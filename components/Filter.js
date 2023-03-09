@@ -40,7 +40,7 @@ const Filter = ({
   //price range state
   // const [value, setValue] = useState([min, max]);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     setValue(newValue);
   };
   return (

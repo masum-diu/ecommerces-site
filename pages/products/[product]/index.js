@@ -46,7 +46,7 @@ import HovarImage from "../../../components/HovarableImage/HovarImage";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Filter from "../../../components/Filter";
 import { BiFilter } from "react-icons/bi";
-import instance from "../../api/api_instance";
+import { useRef } from "react";
 const masterCollectionLayout = () => {
   const router = useRouter();
   const path =
@@ -72,12 +72,13 @@ const masterCollectionLayout = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
   const [rangeValue, setValue] = useState([0, 10000]);
+  const dataFetchedRef = useRef(false);
   const [uniqueColors, setUniqueColors] = useState([]);
   const [loadings, setLoadings] = useState(true);
   const [page, setPage] = useState(1);
   const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
-  console.log('your logsdfsdf output',router)
+  // console.log("your log output", rangeValue);
 
   // Getting product data with subCategory
   const { data, isLoading, isSuccess, isError, error } =
@@ -179,7 +180,7 @@ const masterCollectionLayout = () => {
 
   // Getting filtered by fabric
   // const fabSelectedID = fabricSelect[0]
-  console.log("your log output", filterDataSubFab);
+  // console.log("your log output", filterDataSubFab);
   const {
     data: filterDataSubFab,
     isLoading: filterLoadingFab,
@@ -280,7 +281,10 @@ const masterCollectionLayout = () => {
       setFilteredData(products);
     }
     if (filterLoadingCatFab || filterLoadingFab) {
-      return <Loader></Loader>;
+      const setLoader = () => {
+        return <Loader></Loader>;
+      };
+      setLoader();
     }
 
     /* const handelFilterGallery = async () => {
@@ -308,8 +312,7 @@ const masterCollectionLayout = () => {
       );
       setFilteredData(sortedbyPriceAsc);
     } */
-  }, [fabricID]);
-  
+  }, [fabricID,fabricName]);
 
   // Filtering data by colors
   useEffect(() => {
@@ -321,12 +324,17 @@ const masterCollectionLayout = () => {
       }
     }
     if (filterLoading || filterLoadingCat) {
-      return <Loader></Loader>;
+      const setLoader = () => {
+        return <Loader></Loader>;
+      };
+      setLoader();
     }
   }, [selectedColor]);
 
   // Filtering the products using price
   useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
     if ((filterSuccessCatp || filterSuccessp) && rangeValue) {
       if (sub_cat) {
         setFilteredData(filterDataSubp?.data);
@@ -335,7 +343,10 @@ const masterCollectionLayout = () => {
       }
     }
     if (filterLoadingp || filterLoadingCatp) {
-      return <Loader></Loader>;
+      const setLoader = () => {
+        return <Loader></Loader>;
+      };
+      setLoader();
     }
   }, [rangeValue]);
 
