@@ -16,7 +16,7 @@ import {
   Slider,
 } from "@mui/material";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { createRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import SegmentIcon from "@mui/icons-material/Segment";
 import SortIcon from "@mui/icons-material/Sort";
@@ -40,6 +40,7 @@ import {
   useGetPriceWiseFilteredProductsWithOutSubQuery,
   useGetFabricWiseFilteredProductsWithOutSubQuery,
   useGetFabricWiseFilteredProductsQuery,
+  useLazyGetCategoryAndSubWiseProductsQuery,
 } from "../../../src/features/api/apiSlice";
 import Loader from "../../../components/Loader/Loader";
 import HovarImage from "../../../components/HovarableImage/HovarImage";
@@ -63,7 +64,7 @@ const masterCollectionLayout = () => {
   const [lists1, setLists1] = useState(false);
   const [products, setProducts] = useState([]);
   const [min, setMin] = useState(0);
-  const [max, setMax] = useState(100);
+  const [max, setMax] = useState(1000);
   const [staticData, setStaticData] = useState([]);
   const [fabrics, setFabric] = useState([]);
   const [fabricSelect, setFabricSelect] = useState([]);
@@ -71,21 +72,23 @@ const masterCollectionLayout = () => {
   const [fabricID, setFabricID] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
-  const [rangeValue, setValue] = useState([0, 10000]);
+  const [rangeValue, setValue] = useState([min, max]);
   const dataFetchedRef = useRef(false);
   const [uniqueColors, setUniqueColors] = useState([]);
   const [loadings, setLoadings] = useState(true);
   const [page, setPage] = useState(1);
+  const divRef = useRef(null);
   const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
-  // console.log("your log output", rangeValue);
 
   // Getting product data with subCategory
-  const { data, isLoading, isSuccess, isError, error } =
+  /* const { data, isLoading, isSuccess, isError, error } =
     useGetCategoryAndSubWiseProductsQuery(
       { cat, sub_cat, page },
-      { refetchOnMountOrArgChange: true }
-    );
+      { refetchOnMountOrArgChange: true, skip: !sub_cat }
+    ); */
+  const [lazyLoadData, { data, isLoading, isSuccess, isError, error }] =
+    useLazyGetCategoryAndSubWiseProductsQuery();
 
   // Getting product data with only category
   const {
@@ -94,7 +97,7 @@ const masterCollectionLayout = () => {
     isSuccess: categoryisSuccess,
   } = useGetCategoryWiseProductsQuery(
     { cat, page },
-    { refetchOnMountOrArgChange: true }
+    { refetchOnMountOrArgChange: true, skip: sub_cat || !cat }
   );
 
   // Getting static data with subCategory
@@ -104,7 +107,10 @@ const masterCollectionLayout = () => {
     isSuccess: success,
     isError: errorstate,
     error: errormessage,
-  } = useGetSubWiseProductsQuery(sub_cat, { refetchOnMountOrArgChange: true });
+  } = useGetSubWiseProductsQuery(sub_cat, {
+    refetchOnMountOrArgChange: true,
+    skip: cat == 5 || cat == 3||!sub_cat,
+  });
 
   // Getting static data with Category
   const {
@@ -113,7 +119,7 @@ const masterCollectionLayout = () => {
     isSuccess: successCat,
     isError: errorstateCat,
     error: errormessageCat,
-  } = useGetSubWiseProductsQuery(cat);
+  } = useGetSubWiseProductsQuery(cat, { skip: sub_cat });
 
   // Getting attributes of Product with subCategory
   const {
@@ -124,6 +130,7 @@ const masterCollectionLayout = () => {
     error: attirbuteserrormessage,
   } = useGetAttributesOfProductsQuery(sub_cat, {
     refetchOnMountOrArgChange: true,
+    skip: cat == 5 || cat == 3,
   });
   // Getting attributes of Product with Category
   const {
@@ -132,7 +139,7 @@ const masterCollectionLayout = () => {
     isSuccess: attirbutessuccessCat,
     isError: attirbuteserrorstateCat,
     error: attirbuteserrormessageCat,
-  } = useGetAttributesOfProductsQuery(cat);
+  } = useGetAttributesOfProductsQuery(cat, { skip: sub_cat });
 
   // Getting Filtered data by color
   const colorSelected = selectedColor[1];
@@ -142,7 +149,10 @@ const masterCollectionLayout = () => {
     isSuccess: filterSuccess,
   } = useGetColorWiseFilteredProductsQuery(
     { cat, sub_cat, colorSelected },
-    { refetchOnMountOrArgChange: true }
+    {
+      refetchOnMountOrArgChange: true,
+      skip: cat == 5 || cat == 3 || !colorSelected,
+    }
   );
   const {
     data: filterDataCat,
@@ -152,12 +162,14 @@ const masterCollectionLayout = () => {
     { cat, colorSelected },
     {
       refetchOnMountOrArgChange: true,
+      skip: sub_cat || !colorSelected,
     }
   );
 
   // Getting Filtered data by price
   const up = rangeValue[1];
   const low = rangeValue[0];
+  console.log("your log output", up, low);
 
   const {
     data: filterDataSubp,
@@ -165,7 +177,10 @@ const masterCollectionLayout = () => {
     isSuccess: filterSuccessp,
   } = useGetPriceWiseFilteredProductsQuery(
     { cat, sub_cat, up, low },
-    { refetchOnMountOrArgChange: true }
+    {
+      refetchOnMountOrArgChange: true,
+      skip: cat == 5 || cat == 3 || !up || !low,
+    }
   );
   const {
     data: filterDataCatp,
@@ -175,8 +190,10 @@ const masterCollectionLayout = () => {
     { cat, up, low },
     {
       refetchOnMountOrArgChange: true,
+      skip: sub_cat || !up || !low,
     }
   );
+  console.log("your log output", filteredData);
 
   // Getting filtered by fabric
   // const fabSelectedID = fabricSelect[0]
@@ -187,7 +204,7 @@ const masterCollectionLayout = () => {
     isSuccess: filterSuccessFab,
   } = useGetFabricWiseFilteredProductsQuery(
     { cat, sub_cat, fabricID },
-    { refetchOnMountOrArgChange: true }
+    { refetchOnMountOrArgChange: true, skip: cat == 5 || cat == 3 || !fabricID }
   );
   const {
     data: filterDataCatFab,
@@ -197,6 +214,7 @@ const masterCollectionLayout = () => {
     { cat, fabricID },
     {
       refetchOnMountOrArgChange: true,
+      skip: !sub_cat || !fabricID,
     }
   );
 
@@ -204,15 +222,39 @@ const masterCollectionLayout = () => {
   useEffect(() => {
     if (isSuccess || categoryisSuccess) {
       const handleSuccess = async () => {
-        if (sub_cat) {
-          await setProducts(data?.data);
-          await setFilteredData(data?.data);
+        if (sub_cat && data?.data) {
+          setProducts(data?.data);
+          setFilteredData((prev) => [...prev, ...data?.data]);
+
+          const min = Math.min(
+            ...data?.data?.map((item) => item?.p_sale_price)
+          );
+          const max = Math.max(
+            ...data?.data?.map((item) => item?.p_sale_price)
+          );
+          setMin(min);
+          setMax(max);
         } else {
-          await setProducts(catetoryData?.data);
-          await setFilteredData(catetoryData?.data);
+          setProducts(catetoryData?.data);
+          setFilteredData((prev) => [...prev, ...catetoryData?.data]);
+          const min = Math.min(
+            ...catetoryData?.data?.map((item) => item?.p_sale_price)
+          );
+          const max = Math.max(
+            ...catetoryData?.data?.map((item) => item?.p_sale_price)
+          );
+          setMin(min);
+          setMax(max);
         }
+        setLoadings(false);
       };
       handleSuccess();
+    }
+    if (isLoading || categoryLoading) {
+      const setLoader = () => {
+        return <Loader></Loader>;
+      };
+      setLoader();
     }
   }, [
     data,
@@ -221,10 +263,13 @@ const masterCollectionLayout = () => {
     catetoryData,
     categoryisSuccess,
     categoryLoading,
+    page,
   ]);
 
   //handling minimum and maximum value
-  useEffect(() => {
+  /* useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
     if (products) {
       const min = Math.min(...products?.map((item) => item?.p_sale_price));
       const max = Math.max(...products?.map((item) => item?.p_sale_price));
@@ -232,6 +277,8 @@ const masterCollectionLayout = () => {
       setMax(max);
     }
   }, [products]);
+  console.log("your log output", min);
+  console.log("your log output", max); */
 
   // Setting static data of products in a state
   useEffect(() => {
@@ -244,6 +291,12 @@ const masterCollectionLayout = () => {
         }
       };
       handleSuccess();
+    }
+    if (loading || loadingCat) {
+      const setLoader = () => {
+        return <Loader></Loader>;
+      };
+      setLoader();
     }
   }, [staticDatas, loading, success, staticDatasCat, loadingCat, successCat]);
 
@@ -259,6 +312,12 @@ const masterCollectionLayout = () => {
       };
       handleSuccess();
     }
+    if (attirbutesloading || attirbutesloadingCat) {
+      const setLoader = () => {
+        return <Loader></Loader>;
+      };
+      setLoader();
+    }
   }, [
     attirbutesDatas,
     attirbutesloading,
@@ -270,16 +329,25 @@ const masterCollectionLayout = () => {
 
   // Filtering the products using fabric
   useEffect(() => {
-    if ((filterSuccessFab || filterSuccessCatFab) && fabricID) {
-      if (sub_cat) {
-        setFilteredData(filterDataSubFab?.data);
-      } else {
-        setFilteredData(filterDataCatFab?.data);
+    const handleSuccess = () => {
+      if ((filterSuccessFab || filterSuccessCatFab) && fabricID) {
+        if (sub_cat) {
+          setTimeout(() => {
+            setFilteredData(filterDataSubFab?.data);
+          }, 100);
+        } else {
+          setTimeout(() => {
+            setFilteredData(filterDataCatFab?.data);
+          }, 100);
+        }
       }
-    }
-    if (fabricName === "all") {
-      setFilteredData(products);
-    }
+      if (fabricName === "all") {
+        setTimeout(() => {
+          setFilteredData(products);
+        }, 100);
+      }
+    };
+    handleSuccess();
     if (filterLoadingCatFab || filterLoadingFab) {
       const setLoader = () => {
         return <Loader></Loader>;
@@ -312,15 +380,18 @@ const masterCollectionLayout = () => {
       );
       setFilteredData(sortedbyPriceAsc);
     } */
-  }, [fabricID,fabricName]);
-
+  }, [fabricID, fabricName]);
   // Filtering data by colors
   useEffect(() => {
     if ((filterSuccess || filterSuccessCat) && selectedColor) {
       if (sub_cat) {
-        setFilteredData(filterDataSub?.data);
+        setTimeout(() => {
+          setFilteredData(filterDataSub?.data);
+        }, 100);
       } else {
-        setFilteredData(filterDataCat?.data);
+        setTimeout(() => {
+          setFilteredData(filterDataCat?.data);
+        }, 100);
       }
     }
     if (filterLoading || filterLoadingCat) {
@@ -333,13 +404,17 @@ const masterCollectionLayout = () => {
 
   // Filtering the products using price
   useEffect(() => {
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
     if ((filterSuccessCatp || filterSuccessp) && rangeValue) {
       if (sub_cat) {
-        setFilteredData(filterDataSubp?.data);
+        setTimeout(() => {
+          setFilteredData(filterDataSubp?.data);
+          console.log("your log output", filterDataSubp);
+        }, 100);
       } else {
-        setFilteredData(filterDataCatp?.data);
+        setTimeout(() => {
+          setFilteredData(filterDataCatp?.data);
+          console.log("your log output", filterDataSubp);
+        }, 100);
       }
     }
     if (filterLoadingp || filterLoadingCatp) {
@@ -349,7 +424,6 @@ const masterCollectionLayout = () => {
       setLoader();
     }
   }, [rangeValue]);
-
   // Through static data
   /* useEffect(() => {
     if (rangeValue[0] !== Infinity && rangeValue[1] !== -Infinity) {
@@ -382,6 +456,16 @@ const masterCollectionLayout = () => {
     setUniqueColors(uniqueColor);
   }, [products]);
 
+  console.log("cat", cat);
+  console.log("sub_cat", sub_cat);
+  //handling unique colors
+  /*   useEffect(() => {
+    const min = Math.min(...filteredData?.map((item) => item?.p_sale_price));
+    const max = Math.max(...filteredData?.map((item) => item?.p_sale_price));
+    setMin(min);
+    setMax(max);
+  }, [filteredData]); */
+
   // handling fabric change state
   const handleFabricChange = (data, id) => {
     setFabricName(data);
@@ -390,31 +474,34 @@ const masterCollectionLayout = () => {
   };
 
   // handling lazy loading
-  /* useEffect(() => {
-    window.addEventListener("scroll", handelInfinitScroll);
-    return () => window.removeEventListener("scroll", handelInfinitScroll);
-  }, []);
-  const handelInfinitScroll = async () => {
+  const handelInfinitScroll = async (cat, sub_cat,page) => {
+    console.log("your log output", divRef.current);
+    console.log("your log output", divRef.current.offsetTop);
+    console.log("your log output", scrollY);
     try {
-      if (
-        window.innerHeight + document.documentElement.scrollTop + 1 >=
-        document.documentElement.scrollHeight
-      ) {
+      if (scrollY > divRef.current.offsetTop - 700) {
+        console.log("your in data");
+        if (loadings) {
+          return;
+        }
         setLoadings(true);
         setPage((prev) => prev + 1);
+        lazyLoadData({ cat:1, sub_cat:7,page:1 });
       }
     } catch (error) {
+      setLoadings(false);
       console.log(error);
     }
-  }; */
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", () => handelInfinitScroll(cat, sub_cat,page));
+    return () =>
+      window.removeEventListener("scroll", () =>
+        handelInfinitScroll(cat, sub_cat,page)
+      );
+  }, []);
 
   // Handling the loading state
-  if (isLoading || loading) {
-    return <Loader></Loader>;
-  }
-  if (attirbutesloading || attirbutesloadingCat) {
-    return <Loader></Loader>;
-  }
 
   return (
     <>
@@ -575,7 +662,7 @@ const masterCollectionLayout = () => {
             mt: { xs: 1, lg: 2 },
           }}
         >
-          {filteredData?.slice(0, 1).map((dataList) => (
+          {/* {filteredData?.slice(0, 1).map((dataList) => (
             <>
               <HovarImage
                 url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
@@ -604,7 +691,7 @@ const masterCollectionLayout = () => {
                 </Typography>
               </Stack>
             </>
-          ))}
+          ))} */}
         </Stack>
 
         <Grid
@@ -618,15 +705,9 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {filteredData?.slice(1, 4).map((dataList) => (
+          {/* {filteredData?.slice(1, 4).map((dataList) => (
             <>
               <Grid item lg={4} sm={6} key={dataList?.id}>
-                {/* <img
-                      src={dataList?.feature_image}
-                      width={568}
-                      height={827}
-                      style={{ maxWidth: "100%", height: "fit-content" }}
-                    /> */}
                 <HovarImage
                   url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
                   data={dataList}
@@ -650,7 +731,7 @@ const masterCollectionLayout = () => {
                 </Stack>
               </Grid>
             </>
-          ))}
+          ))} */}
         </Grid>
         <Stack direction={"row"} sx={{ width: "100%" }} mt={4}>
           <img
@@ -679,7 +760,7 @@ const masterCollectionLayout = () => {
             marginTop: "3rem",
           }}
         >
-          {filteredData?.slice(2, 5).map((dataList) => (
+          {/* {filteredData?.slice(2, 5).map((dataList) => (
             <>
               <Grid
                 item
@@ -711,13 +792,13 @@ const masterCollectionLayout = () => {
                 </Stack>
               </Grid>
             </>
-          ))}
+          ))} */}
         </Grid>
         <Stack
           direction={"column"}
           sx={{ justifyContent: "center", alignItems: "center", mt: 5 }}
         >
-          {filteredData?.slice(1, 2).map((dataList) => (
+          {/* {filteredData?.slice(1, 2).map((dataList) => (
             <>
               <HovarImage
                 url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
@@ -746,8 +827,56 @@ const masterCollectionLayout = () => {
                 </Typography>
               </Stack>
             </>
-          ))}
+          ))} */}
         </Stack>
+
+        <Grid
+          container
+          justifyContent={"center"}
+          spacing={2}
+          sx={{
+            width: "90%",
+            maxWidth: "1500px",
+            margin: "0 auto",
+            marginTop: "3rem",
+          }}
+        >
+          {filteredData?.map((dataList) => (
+            <>
+              <Grid
+                item
+                lg={4}
+                sm={6}
+                justifyContent="center"
+                key={dataList?.id}
+              >
+                <HovarImage
+                  url={`/${router.pathname}/${dataList?.id}`}
+                  data={dataList}
+                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
+                    dataList?.feature_image?.lastIndexOf("/") + 1
+                  )}`}
+                  width={568}
+                  height={827}
+                ></HovarImage>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  justifyContent={"space-between"}
+                >
+                  <Typography variant="cardHeader3" color="initial">
+                    {dataList?.p_name}
+                  </Typography>
+                  <Typography variant="cardHeader3" color="initial">
+                    BDT {dataList?.p_sale_price} ৳
+                  </Typography>
+                </Stack>
+              </Grid>
+            </>
+          ))}
+          <div style={{ height: "20px" }} ref={divRef} className=""></div>
+          {loadings && <Loader />}
+        </Grid>
       </Box>
       <Footer />
       <MenuDawer

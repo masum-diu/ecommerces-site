@@ -12,8 +12,9 @@ import {
 import {
   MdClose,
   MdOutlineKeyboardArrowDown,
-  MdOutlineKeyboardArrowUp,
+  MdOutlineKeyboardArrowUp,AiOutlinePlus
 } from "react-icons/md";
+
 
 const Filter = ({
   open,
@@ -40,11 +41,12 @@ const Filter = ({
   //price range state
   // const [value, setValue] = useState([min, max]);
 
-  const handleChange = (newValue) => {
+  const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   return (
-    <>
+    <React.Fragment>
       <Drawer
         anchor="right"
         open={open}
@@ -135,20 +137,22 @@ const Filter = ({
               <Stack direction={"column"} spacing={1.5}>
                 <Slider
                   size="small"
-                  step={50}
+                  max={max}
                   min={min}
-                  max={max > 0 ? max : ""}
                   value={rangeValue}
-                  onChange={handleChange}
-                  valueLabelDisplay="auto"
+                  onChange={(event, newValue) => handleChange(event, newValue)}
                   sx={{ color: "#2D323F" }}
                 />
+                <Stack direction={"row"} justifyContent="space-between">
+                  <Typography>{rangeValue[0]}</Typography>
+                  <Typography>{rangeValue[1]}</Typography>
+                </Stack>
               </Stack>
             </Box>
           ) : null}
         </Stack>
       </Drawer>
-    </>
+    </React.Fragment>
   );
 };
 
