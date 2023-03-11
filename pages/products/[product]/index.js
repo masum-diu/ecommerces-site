@@ -48,6 +48,20 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Filter from "../../../components/Filter";
 import { BiFilter } from "react-icons/bi";
 import { useRef } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import instance from "../../api/api_instance";
+import ProductsLayoutWithStaticImage from "../../../components/ProductsLayoutWithStaticImage";
+import ProductsLayout from "../../../components/ProductsLayout";
+
+function chunkArray(arr, chunkSize = 8) {
+  const chunkedArray = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    chunkedArray.push(arr.slice(i, i + chunkSize));
+  }
+  // console.log(chunkedArray, 'chunked');
+  return chunkedArray;
+}
+
 const masterCollectionLayout = () => {
   const router = useRouter();
   const path =
@@ -74,21 +88,26 @@ const masterCollectionLayout = () => {
   const [selectedColor, setSelectedColor] = useState([]);
   const [rangeValue, setValue] = useState([min, max]);
   const dataFetchedRef = useRef(false);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const [uniqueColors, setUniqueColors] = useState([]);
   const [loadings, setLoadings] = useState(true);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const divRef = useRef(null);
   const cat = router?.query?.cat;
   const sub_cat = router?.query?.sub_cat;
 
   // Getting product data with subCategory
-  /* const { data, isLoading, isSuccess, isError, error } =
+  const { data, isLoading, isSuccess, isError, error } =
     useGetCategoryAndSubWiseProductsQuery(
       { cat, sub_cat, page },
-      { refetchOnMountOrArgChange: true, skip: !sub_cat }
-    ); */
-  const [lazyLoadData, { data, isLoading, isSuccess, isError, error }] =
-    useLazyGetCategoryAndSubWiseProductsQuery();
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !sub_cat || page < 1 || !hasMore,
+      }
+    );
+  /* const [lazyLoadData, { data, isLoading, isSuccess, isError, error }] =
+    useLazyGetCategoryAndSubWiseProductsQuery(); */
 
   // Getting product data with only category
   const {
@@ -97,7 +116,7 @@ const masterCollectionLayout = () => {
     isSuccess: categoryisSuccess,
   } = useGetCategoryWiseProductsQuery(
     { cat, page },
-    { refetchOnMountOrArgChange: true, skip: sub_cat || !cat }
+    { refetchOnMountOrArgChange: true, skip: sub_cat || !cat || page < 1 }
   );
 
   // Getting static data with subCategory
@@ -109,7 +128,7 @@ const masterCollectionLayout = () => {
     error: errormessage,
   } = useGetSubWiseProductsQuery(sub_cat, {
     refetchOnMountOrArgChange: true,
-    skip: cat == 5 || cat == 3||!sub_cat,
+    skip: cat == 5 || cat == 3 || sub_cat === undefined,
   });
 
   // Getting static data with Category
@@ -119,7 +138,9 @@ const masterCollectionLayout = () => {
     isSuccess: successCat,
     isError: errorstateCat,
     error: errormessageCat,
-  } = useGetSubWiseProductsQuery(cat, { skip: sub_cat });
+  } = useGetSubWiseProductsQuery(cat, {
+    skip: sub_cat || sub_cat === undefined,
+  });
 
   // Getting attributes of Product with subCategory
   const {
@@ -130,7 +151,7 @@ const masterCollectionLayout = () => {
     error: attirbuteserrormessage,
   } = useGetAttributesOfProductsQuery(sub_cat, {
     refetchOnMountOrArgChange: true,
-    skip: cat == 5 || cat == 3,
+    skip: cat === 5 || cat === 3 || sub_cat === undefined,
   });
   // Getting attributes of Product with Category
   const {
@@ -139,7 +160,9 @@ const masterCollectionLayout = () => {
     isSuccess: attirbutessuccessCat,
     isError: attirbuteserrorstateCat,
     error: attirbuteserrormessageCat,
-  } = useGetAttributesOfProductsQuery(cat, { skip: sub_cat });
+  } = useGetAttributesOfProductsQuery(cat, {
+    skip: sub_cat,
+  });
 
   // Getting Filtered data by color
   const colorSelected = selectedColor[1];
@@ -169,7 +192,6 @@ const masterCollectionLayout = () => {
   // Getting Filtered data by price
   const up = rangeValue[1];
   const low = rangeValue[0];
-  console.log("your log output", up, low);
 
   const {
     data: filterDataSubp,
@@ -193,7 +215,6 @@ const masterCollectionLayout = () => {
       skip: sub_cat || !up || !low,
     }
   );
-  console.log("your log output", filteredData);
 
   // Getting filtered by fabric
   // const fabSelectedID = fabricSelect[0]
@@ -214,29 +235,43 @@ const masterCollectionLayout = () => {
     { cat, fabricID },
     {
       refetchOnMountOrArgChange: true,
-      skip: !sub_cat || !fabricID,
+      skip: sub_cat || !fabricID,
     }
   );
 
   // Setting product in a state
   useEffect(() => {
-    if (isSuccess || categoryisSuccess) {
+    if (isLoading || categoryLoading) {
+      const setLoader = () => {
+        return <Loader></Loader>;
+      };
+      setLoader();
+    }
+    if ((isSuccess || categoryisSuccess) && hasMore && data.data) {
       const handleSuccess = async () => {
         if (sub_cat && data?.data) {
-          setProducts(data?.data);
-          setFilteredData((prev) => [...prev, ...data?.data]);
+          setProducts((prev) => [...prev, ...data.data]);
+          setFilteredData((prev) => [...prev, ...data.data]);
+          setTotalProducts((prev) => prev + data.meta?.total);
+          if (!data.data?.length) {
+            setHasMore(false);
+          }
 
           const min = Math.min(
+            ...products,
             ...data?.data?.map((item) => item?.p_sale_price)
           );
           const max = Math.max(
+            products,
             ...data?.data?.map((item) => item?.p_sale_price)
           );
           setMin(min);
           setMax(max);
         } else {
           setProducts(catetoryData?.data);
-          setFilteredData((prev) => [...prev, ...catetoryData?.data]);
+          setFilteredData(catetoryData?.data);
+          setTotalProducts(data?.meta?.total);
+          // console.log("yisnide else");
           const min = Math.min(
             ...catetoryData?.data?.map((item) => item?.p_sale_price)
           );
@@ -250,12 +285,6 @@ const masterCollectionLayout = () => {
       };
       handleSuccess();
     }
-    if (isLoading || categoryLoading) {
-      const setLoader = () => {
-        return <Loader></Loader>;
-      };
-      setLoader();
-    }
   }, [
     data,
     isSuccess,
@@ -263,7 +292,7 @@ const masterCollectionLayout = () => {
     catetoryData,
     categoryisSuccess,
     categoryLoading,
-    page,
+    hasMore,
   ]);
 
   //handling minimum and maximum value
@@ -329,6 +358,12 @@ const masterCollectionLayout = () => {
 
   // Filtering the products using fabric
   useEffect(() => {
+    if (filterLoadingCatFab || filterLoadingFab) {
+      const setLoader = () => {
+        return <Loader></Loader>;
+      };
+      setLoader();
+    }
     const handleSuccess = () => {
       if ((filterSuccessFab || filterSuccessCatFab) && fabricID) {
         if (sub_cat) {
@@ -348,12 +383,6 @@ const masterCollectionLayout = () => {
       }
     };
     handleSuccess();
-    if (filterLoadingCatFab || filterLoadingFab) {
-      const setLoader = () => {
-        return <Loader></Loader>;
-      };
-      setLoader();
-    }
 
     /* const handelFilterGallery = async () => {
       const content = products.filter(
@@ -408,12 +437,10 @@ const masterCollectionLayout = () => {
       if (sub_cat) {
         setTimeout(() => {
           setFilteredData(filterDataSubp?.data);
-          console.log("your log output", filterDataSubp);
         }, 100);
       } else {
         setTimeout(() => {
           setFilteredData(filterDataCatp?.data);
-          console.log("your log output", filterDataSubp);
         }, 100);
       }
     }
@@ -455,16 +482,16 @@ const masterCollectionLayout = () => {
     ];
     setUniqueColors(uniqueColor);
   }, [products]);
-
-  console.log("cat", cat);
-  console.log("sub_cat", sub_cat);
   //handling unique colors
-  /*   useEffect(() => {
+  useEffect(() => {
     const min = Math.min(...filteredData?.map((item) => item?.p_sale_price));
     const max = Math.max(...filteredData?.map((item) => item?.p_sale_price));
-    setMin(min);
+    setMin(min === max ? 0 : min);
     setMax(max);
-  }, [filteredData]); */
+  }, [filteredData]);
+
+  console.log("min", min);
+  console.log("max", max);
 
   // handling fabric change state
   const handleFabricChange = (data, id) => {
@@ -473,35 +500,26 @@ const masterCollectionLayout = () => {
     setFabricID(id);
   };
 
-  // handling lazy loading
-  const handelInfinitScroll = async (cat, sub_cat,page) => {
-    console.log("your log output", divRef.current);
-    console.log("your log output", divRef.current.offsetTop);
-    console.log("your log output", scrollY);
-    try {
-      if (scrollY > divRef.current.offsetTop - 700) {
-        console.log("your in data");
-        if (loadings) {
-          return;
-        }
-        setLoadings(true);
-        setPage((prev) => prev + 1);
-        lazyLoadData({ cat:1, sub_cat:7,page:1 });
-      }
-    } catch (error) {
-      setLoadings(false);
-      console.log(error);
-    }
+  const getMoreProducts = async () => {
+    // Getting product data with subCategory
+    console.log("getting more products....");
+    if (isLoading || categoryLoading || !hasMore) return;
+    console.log("setting page");
+    setPage((prev) => prev + 1);
   };
-  useEffect(() => {
-    window.addEventListener("scroll", () => handelInfinitScroll(cat, sub_cat,page));
-    return () =>
-      window.removeEventListener("scroll", () =>
-        handelInfinitScroll(cat, sub_cat,page)
-      );
-  }, []);
 
   // Handling the loading state
+  // console.log("your log output", products);
+  // console.log("your log output", filteredData);
+
+  const productsForStatic = filteredData.slice(0, 7);
+  const productsForDynamic = chunkArray(filteredData.slice(7));
+  console.log(
+    filteredData,
+    productsForStatic,
+    productsForDynamic,
+    "filteredData"
+  );
 
   return (
     <>
@@ -654,229 +672,26 @@ const masterCollectionLayout = () => {
           </Hidden>
         </Box>
 
-        <Stack
-          direction={"column"}
-          sx={{
-            justifyContent: "center",
-            alignItems: "center",
-            mt: { xs: 1, lg: 2 },
-          }}
+        <InfiniteScroll
+          dataLength={filteredData.length} //This is important field to render the next data
+          next={getMoreProducts}
+          hasMore={hasMore}
+          loader={<Loader />}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
         >
-          {/* {filteredData?.slice(0, 1).map((dataList) => (
-            <>
-              <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
-                data={dataList}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
-                  dataList?.feature_image?.lastIndexOf("/") + 1
-                )}`}
-                width={568}
-                height={827}
-              ></HovarImage>
-              <Stack
-                direction={"row"}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "90%",
-                  maxWidth: "565px",
-                  mt: 2,
-                }}
-              >
-                <Typography variant="cardHeader3" color="initial">
-                  {dataList?.p_name}
-                </Typography>
-                <Typography variant="cardHeader3" color="initial">
-                  BDT {dataList?.p_sale_price} ৳
-                </Typography>
-              </Stack>
-            </>
-          ))} */}
-        </Stack>
-
-        <Grid
-          container
-          justifyContent={"center"}
-          spacing={2}
-          sx={{
-            width: "90%",
-            maxWidth: "1500px",
-            margin: "0 auto",
-            marginTop: "3rem",
-          }}
-        >
-          {/* {filteredData?.slice(1, 4).map((dataList) => (
-            <>
-              <Grid item lg={4} sm={6} key={dataList?.id}>
-                <HovarImage
-                  url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
-                  data={dataList}
-                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
-                    dataList?.feature_image?.lastIndexOf("/") + 1
-                  )}`}
-                  width={568}
-                  height={827}
-                ></HovarImage>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  justifyContent={"space-between"}
-                >
-                  <Typography variant="cardHeader3" color="initial">
-                    {dataList?.p_name}
-                  </Typography>
-                  <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList?.p_sale_price} ৳
-                  </Typography>
-                </Stack>
-              </Grid>
-            </>
-          ))} */}
-        </Grid>
-        <Stack direction={"row"} sx={{ width: "100%" }} mt={4}>
-          <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_828,w_720/v1676527368/aranya/${staticData?.cat_img_two?.substring(
-              staticData?.cat_img_two?.lastIndexOf("/") + 1
-            )}`}
-            alt=""
-            width={"50%"}
+          <ProductsLayoutWithStaticImage
+            productsDataChunk={productsForStatic}
+            staticData={staticData}
+            isLoading={attirbutesloading}
           />
-          <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_828,w_720/v1676527368/aranya/${staticData?.cat_img_three?.substring(
-              staticData?.cat_img_three?.lastIndexOf("/") + 1
-            )}`}
-            alt=""
-            width={"50%"}
-          />
-        </Stack>
-        <Grid
-          container
-          justifyContent={"center"}
-          spacing={2}
-          sx={{
-            width: "90%",
-            maxWidth: "1500px",
-            margin: "0 auto",
-            marginTop: "3rem",
-          }}
-        >
-          {/* {filteredData?.slice(2, 5).map((dataList) => (
-            <>
-              <Grid
-                item
-                lg={4}
-                sm={6}
-                justifyContent="center"
-                key={dataList?.id}
-              >
-                <HovarImage
-                  url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
-                  data={dataList}
-                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
-                    dataList?.feature_image?.lastIndexOf("/") + 1
-                  )}`}
-                  width={568}
-                  height={827}
-                ></HovarImage>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  justifyContent={"space-between"}
-                >
-                  <Typography variant="cardHeader3" color="initial">
-                    {dataList?.p_name}
-                  </Typography>
-                  <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList?.p_sale_price} ৳
-                  </Typography>
-                </Stack>
-              </Grid>
-            </>
-          ))} */}
-        </Grid>
-        <Stack
-          direction={"column"}
-          sx={{ justifyContent: "center", alignItems: "center", mt: 5 }}
-        >
-          {/* {filteredData?.slice(1, 2).map((dataList) => (
-            <>
-              <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${dataList?.id}`}
-                data={dataList}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
-                  dataList?.feature_image?.lastIndexOf("/") + 1
-                )}`}
-                width={568}
-                height={827}
-              ></HovarImage>
-              <Stack
-                direction={"row"}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "90%",
-                  maxWidth: "565px",
-                  mt: 2,
-                }}
-              >
-                <Typography variant="cardHeader3" color="initial">
-                  {dataList?.p_name}
-                </Typography>
-                <Typography variant="cardHeader3" color="initial">
-                  BDT {dataList?.p_sale_price} ৳
-                </Typography>
-              </Stack>
-            </>
-          ))} */}
-        </Stack>
-
-        <Grid
-          container
-          justifyContent={"center"}
-          spacing={2}
-          sx={{
-            width: "90%",
-            maxWidth: "1500px",
-            margin: "0 auto",
-            marginTop: "3rem",
-          }}
-        >
-          {filteredData?.map((dataList) => (
-            <>
-              <Grid
-                item
-                lg={4}
-                sm={6}
-                justifyContent="center"
-                key={dataList?.id}
-              >
-                <HovarImage
-                  url={`/${router.pathname}/${dataList?.id}`}
-                  data={dataList}
-                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${dataList?.feature_image?.substring(
-                    dataList?.feature_image?.lastIndexOf("/") + 1
-                  )}`}
-                  width={568}
-                  height={827}
-                ></HovarImage>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  justifyContent={"space-between"}
-                >
-                  <Typography variant="cardHeader3" color="initial">
-                    {dataList?.p_name}
-                  </Typography>
-                  <Typography variant="cardHeader3" color="initial">
-                    BDT {dataList?.p_sale_price} ৳
-                  </Typography>
-                </Stack>
-              </Grid>
-            </>
+          {productsForDynamic.map((productsDataChunk, idx) => (
+            <ProductsLayout key={idx} productsDataChunk={productsDataChunk} />
           ))}
-          <div style={{ height: "20px" }} ref={divRef} className=""></div>
-          {loadings && <Loader />}
-        </Grid>
+        </InfiniteScroll>
       </Box>
       <Footer />
       <MenuDawer

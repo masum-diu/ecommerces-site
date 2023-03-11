@@ -16,7 +16,7 @@ import { MdClose } from "react-icons/md";
 import instance from "../pages/api/api_instance";
 
 const SearchModal = ({ open, setOpen }) => {
-  const [data, setData] = useState([]);
+  const [searchText, setData] = useState([]);
   const [searchApiData, setSearchApiData] = useState([]);
   const [filterVal, setFilterVal] = useState("");
 
@@ -28,7 +28,8 @@ const SearchModal = ({ open, setOpen }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [searchText]);
+  
   const handleFilter = (e) => {
     if (e.target.value === "") {
       setData(setFilterVal);
@@ -96,7 +97,7 @@ const SearchModal = ({ open, setOpen }) => {
             // alignItems={"center"}
             alignItems={"center"}
           >
-            {data?.slice(0, 4).map((data) => (
+            {searchText?.slice(0, 4).map((data) => (
               <>
                 <Link
                   style={{ textDecoration: "none" }}

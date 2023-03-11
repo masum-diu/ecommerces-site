@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const productApi = createApi ({
+export const productApi = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://apiaranya.jumriz.com/public/api",
@@ -25,7 +25,8 @@ export const productApi = createApi ({
       query: ({ cat, page }) => `/product/${cat}?page=${page}&per_page=8`,
     }),
     getCategoryAndSubWiseProducts: builder.query({
-      query: ({ cat, sub_cat, page }) => `/product/${1}/${7}?page=${page}&per_page=3`,
+      query: ({ cat, sub_cat, page }) =>
+        `/product/${cat}/${sub_cat}?page=${page}&per_page=3`,
     }),
     getSubWiseProducts: builder.query({
       query: (sub_cat) => `/category/${sub_cat}`,
@@ -75,5 +76,5 @@ export const {
   useGetPriceWiseFilteredProductsWithOutSubQuery,
   useGetFabricWiseFilteredProductsQuery,
   useGetFabricWiseFilteredProductsWithOutSubQuery,
-  useLazyGetCategoryAndSubWiseProductsQuery
+  useLazyGetCategoryAndSubWiseProductsQuery,
 } = productApi;
