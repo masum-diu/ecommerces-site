@@ -45,7 +45,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               {productsDataChunk[0]?.p_name}
             </Typography>
             <Typography variant="cardHeader3" color="initial">
-              BDT {productsDataChunk[0]?.p_sale_price} ৳
+              BDT {productsDataChunk[0]?.p_sale_price} 
             </Typography>
           </Stack>
         </Stack>
@@ -82,7 +82,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                   {product?.p_name}
                 </Typography>
                 <Typography variant="cardHeader3" color="initial">
-                  BDT {product?.p_sale_price} ৳
+                  BDT {product?.p_sale_price} 
                 </Typography>
               </Stack>
             </Grid>
@@ -121,7 +121,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                   {product?.p_name}
                 </Typography>
                 <Typography variant="cardHeader3" color="initial">
-                  BDT {product?.p_sale_price} ৳
+                  BDT {product?.p_sale_price} 
                 </Typography>
               </Stack>
             </Grid>
@@ -160,7 +160,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                   {product?.p_name}
                 </Typography>
                 <Typography variant="cardHeader3" color="initial">
-                  BDT {product?.p_sale_price} ৳
+                  BDT {product?.p_sale_price} 
                 </Typography>
               </Stack>
             </Grid>

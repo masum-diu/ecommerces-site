@@ -87,7 +87,7 @@ const campaign = () => {
                     fontWeight={"bold"}
                     color="initial"
                   >
-                    BDT {data?.p_sale_price} ৳
+                    BDT {data?.p_sale_price} 
                   </Typography>
                 </Stack>
               </Stack>
