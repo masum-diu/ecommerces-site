@@ -34,8 +34,9 @@ const SearchModal = ({ open, setOpen }) => {
   }, [searchText]);
 
   const handleFilter = (e) => {
+    console.log('your log output',typeof e.target.value)
     if (e.target.value === "") {
-      setData(setFilterVal);
+      setData([]);
     } else {
       const filterResults = searchApiData.filter((item) =>
         item.p_name.toLowerCase().includes(e.target.value.toLowerCase())
@@ -74,7 +75,7 @@ const SearchModal = ({ open, setOpen }) => {
               fullWidth
               id=""
               label=""
-              value={filterVal}
+              value={filterVal?filterVal:null}
               onInput={(e) => handleFilter(e)}
               size="small"
               placeholder="search products…

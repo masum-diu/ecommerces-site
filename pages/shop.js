@@ -130,6 +130,7 @@ const shop = () => {
             }}
           >
             <Typography
+              className={style.menu3}
               variant="cardHeader"
               color="initial"
               textAlign={"center"}
@@ -150,7 +151,7 @@ const shop = () => {
                 cursor: "pointer",
               }}
             >
-              Latest Collection
+              <li>Latest Collection</li>
             </Typography>
           </Stack>
         </Stack>
