@@ -156,7 +156,7 @@ const HomePageIntro = ({ title }) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            py: 1,
+            py: 2,
           }}
         >
           <Stack
