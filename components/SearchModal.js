@@ -45,7 +45,6 @@ const SearchModal = ({ open, setOpen }) => {
     setFilterVal(e.target.value);
   };
 
-  console.log("your log output", searchText);
   return (
     <>
       {/*  */}

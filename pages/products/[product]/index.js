@@ -548,7 +548,7 @@ const masterCollectionLayout = () => {
 
   const productsForStatic = filteredData.slice(0, 7);
   const productsForDynamic = chunkArray(filteredData.slice(8));
-console.log('sdfsd',staticData)
+
   return (
     <>
       <Head>
@@ -741,7 +741,7 @@ console.log('sdfsd',staticData)
               loader={<Loader></Loader>}
               endMessage={
                 <p style={{ textAlign: "center" }}>
-                  <b>Yay! You have seen it all</b>
+                  <b>NO MORE ITEMS AVAILABLE...</b>
                 </p>
               }
             >
