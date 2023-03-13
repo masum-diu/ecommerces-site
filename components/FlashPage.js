@@ -34,10 +34,11 @@ const FlashPage = ({ title }) => {
       <Box
         sx={{
           backgroundImage:
-            "url('https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1676527368/aranya/r98zxbtcywpy4jocgyqd.jpg')",
+            "url('https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1678530353/aranya-product/boishakh/ZS001671.jpg')",
           backgroundSize: "cover",
           height: "100vh",
           maxHeight: "fit-content",
+          objectFit:"cover"
         }}
       >
         <AppBar

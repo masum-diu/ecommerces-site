@@ -53,7 +53,7 @@ const PorductDetails = () => {
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
-        await setProducts(data?.data);
+        setProducts(data?.data);
         setActiveSize(data?.data.p_sizes[0]?.id);
         setActiveColor(data?.data.p_colours[0]?.id);
       };
@@ -142,8 +142,12 @@ const PorductDetails = () => {
     stock: stockAmount,
     totalAmount: count,
     totalPrice: count * parseFloat(products?.p_sale_price),
+    taxAmount: products?.p_tax?.tax_percentage,
+    priceWithTax:
+      products?.p_sale_price * (products?.p_tax?.tax_percentage / 100) +
+      products?.p_sale_price,
   };
-
+  console.log("your log output", products);
   return (
     <>
       <HomePageIntro title={"Saree "} />
@@ -165,9 +169,10 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.feature_image}
-                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_830,w_664/v1676527368/aranya/${products?.feature_image?.substring(
-                  products?.feature_image?.lastIndexOf("/") + 1
-                )}`}
+                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_830,w_664/${products?.feature_image
+                  ?.split("/")
+                  .slice(-3)
+                  .join("/")}`}
                 alt=""
                 style={{
                   width: "90vw",
@@ -185,9 +190,10 @@ const PorductDetails = () => {
                     })
                   }
                   // src={products?.p_image_one}
-                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_750,w_332/v1676527368/aranya/${products?.p_image_one?.substring(
-                    products?.p_image_one?.lastIndexOf("/") + 1
-                  )}`}
+                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_750,w_332/${products?.p_image_one
+                    ?.split("/")
+                    .slice(-3)
+                    .join("/")}`}
                   alt=""
                   style={{
                     width: "90vw",
@@ -204,9 +210,10 @@ const PorductDetails = () => {
                     })
                   }
                   // src={products?.p_image_two}
-                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_750,w_332/v1676527368/aranya/${products?.p_image_two?.substring(
-                    products?.p_image_two?.lastIndexOf("/") + 1
-                  )}`}
+                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_750,w_332/${products?.p_image_two
+                    ?.split("/")
+                    .slice(-3)
+                    .join("/")}`}
                   alt=""
                   style={{
                     width: "90vw",
@@ -225,9 +232,10 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.p_image_three}
-                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_830,w_664/v1676527368/aranya/${products?.p_image_three?.substring(
-                  products?.feature_image?.lastIndexOf("/") + 1
-                )}`}
+                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_830,w_664/${products?.p_image_three
+                  ?.split("/")
+                  .slice(-3)
+                  .join("/")}`}
                 alt=""
                 style={{
                   width: "90vw",

@@ -23,11 +23,11 @@ export default function MyApp(props) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        {/* <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
         <meta
           httpEquiv="Content-Security-Policy"
           content="upgrade-insecure-requests"
-        ></meta> */}
+        ></meta>
       </Head>
 
       <ThemeProvider theme={theme}>

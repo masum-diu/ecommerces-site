@@ -48,18 +48,24 @@ const shop = () => {
     return <Loader></Loader>;
   }
   // const products = data?.data;
+  // The way of getting data by transforming
+  const slicedData = homedata?.image_two?.split("/").slice(-4).join("/");
+  const slicedDats = homedata?.image_two?.split("/")
+  console.log('your log output',slicedData)
+  console.log('your log output',products)
+
   return (
     <>
       <HomePageIntro title={"Shop "} />
-      <Box mt={10} sx={{ width: "100%", mb: 4, }}>
-        <Stack sx={{position: "relative"}}>
+      <Box mt={10} sx={{ width: "100%", mb: 4 }}>
+        <Stack sx={{ position: "relative" }}>
           {/* <video
             src="https://static.zara.net/photos///contents/mkt/spots/aw22-north-kids-party/subhome-xmedia-47-2//w/1920/IMAGE-landscape-fill-90388659-c9ad-44c0-8fbc-3e049adef8d9-default_0.jpg?ts=1669457847606"
             alt=""
             width="100%"
           /> */}
 
-          <video width="100%" autoPlay muted loop>
+          <video width="100%" autoPlay={true} muted={true} loop={true}>
             <source src={homedata?.image_one} />
           </video>
           {/* <Image
@@ -70,9 +76,10 @@ const shop = () => {
             height={700}
           /> */}
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1676527368/aranya/${homedata?.image_two?.substring(
-              homedata?.image_two?.lastIndexOf("/") + 1
-            )}`}
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/${homedata?.image_two
+              ?.split("/")
+              .slice(-4)
+              .join("/")}`}
             alt=""
             style={{ width: "100%", height: "fit-content" }}
           />
@@ -97,40 +104,49 @@ const shop = () => {
                 router.push({
                   // pathname: `${homedata?.back_url_one}`,
                   query: { cat: 1, sub_cat: 7 },
-                })}
-              sx={{display:"flex",justifyContent:"center",alignItems:"Center",width:"100%",pb:4,cursor:"pointer"}}
+                })
+              }
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "Center",
+                width: "100%",
+                pb: 4,
+                cursor: "pointer",
+              }}
             >
-             Latest Collection
+              Latest Collection
             </Typography>
-            
           </Stack>
         </Stack>
         <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/v1676527368/aranya/${homedata?.image_three?.substring(
-              homedata?.image_three?.lastIndexOf("/") + 1
-            )}`}
-            style={{ cursor: "pointer" }}
-            alt=""
-            width={"50%"}
-            onClick={() =>
-              router.push({
-                pathname: `/products/${homedata?.back_url_two}`,
-                query: { cat: 2, sub_cat: 13 },
-              })
-            }
-          />
-
-          <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/v1676527368/aranya/${homedata?.image_four?.substring(
-              homedata?.image_four?.lastIndexOf("/") + 1
-            )}`}
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/${homedata?.image_three
+              ?.split("/")
+              .slice(-4)
+              .join("/")}`}
             style={{ cursor: "pointer" }}
             alt=""
             width={"50%"}
             onClick={() =>
               router.push({
                 pathname: `/products/${homedata?.back_url_three}`,
+                query: { cat: 2, sub_cat: 13 },
+              })
+            }
+          />
+
+          <img
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/${homedata?.image_four
+              ?.split("/")
+              .slice(-4)
+              .join("/")}`}
+            style={{ cursor: "pointer" }}
+            alt=""
+            width={"50%"}
+            onClick={() =>
+              router.push({
+                pathname: `/products/${homedata?.back_url_two}`,
                 query: { cat: 1, sub_cat: 7 },
               })
             }
@@ -154,12 +170,20 @@ const shop = () => {
               textTransform="uppercase"
               onClick={() =>
                 router.push({
-                  pathname: `${homedata?.back_url_two}`,
+                  pathname: `${homedata?.back_url_three}`,
                   query: { cat: 1, sub_cat: 7 },
-                })}
-              sx={{display:"flex",justifyContent:"center",alignItems:"Center",width:"100%",pb:4,cursor:"pointer"}}
+                })
+              }
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "Center",
+                width: "100%",
+                pb: 4,
+                cursor: "pointer",
+              }}
             >
-              {homedata?.back_url_two}
+              {homedata?.back_url_three}
             </Typography>
             <Typography
               variant="cardHeader"
@@ -168,12 +192,20 @@ const shop = () => {
               textTransform="uppercase"
               onClick={() =>
                 router.push({
-                  pathname: `${homedata?.back_url_four}`,
+                  pathname: `${homedata?.back_url_two}`,
                   query: { cat: 1, sub_cat: 7 },
-                })}
-              sx={{display:"flex",justifyContent:"center",alignItems:"Center",width:"100%",pb:4,cursor:"pointer"}}
+                })
+              }
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "Center",
+                width: "100%",
+                pb: 4,
+                cursor: "pointer",
+              }}
             >
-              {homedata?.back_url_four}
+              {homedata?.back_url_two}
             </Typography>
           </Stack>
         </Stack>
@@ -209,14 +241,15 @@ const shop = () => {
                           : data?.p_subcategory?.slug
                       }/${data?.id}`}
                       data={data}
-                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
-                        data?.feature_image?.lastIndexOf("/") + 1
-                      )}`}
+                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/${data?.feature_image
+                        ?.split("/")
+                        .slice(-3)
+                        .join("/")}`}
                       width={350}
                       height={827}
                     ></HovarImage>
                     {/* <img
-                      src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya/${data?.feature_image?.substring(
+                      src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
                         data?.feature_image?.lastIndexOf("/") + 1
                       )}`}
                       alt=""
@@ -253,15 +286,15 @@ const shop = () => {
           height={700}
         /> */}
         <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
-        <img
-          src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1676527368/aranya/${homedata?.image_five?.substring(
-            homedata?.image_five?.lastIndexOf("/") + 1
-          )}`}
-          alt=""
-          style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
-        
-        />
-        <Stack
+          <img
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/${homedata?.image_five
+              ?.split("/")
+              .slice(-4)
+              .join("/")}`}
+            alt=""
+            style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
+          />
+          <Stack
             direction={"row"}
             sx={{
               position: "absolute",
@@ -282,14 +315,21 @@ const shop = () => {
                 router.push({
                   // pathname: `${homedata?.back_url_one}`,
                   query: { cat: 1, sub_cat: 7 },
-                })}
-              sx={{display:"flex",justifyContent:"center",alignItems:"Center",width:"100%",pb:4,cursor:"pointer"}}
+                })
+              }
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "Center",
+                width: "100%",
+                pb: 4,
+                cursor: "pointer",
+              }}
             >
-             Home & Décor
+              Home & Décor
             </Typography>
-            
           </Stack>
-          </Stack>
+        </Stack>
         <Box mt={4}>
           <Stack
             direction={"column"}
@@ -322,9 +362,10 @@ const shop = () => {
                           : data?.p_subcategory?.slug
                       }/${data?.id}`}
                       data={data}
-                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
-                        data?.feature_image?.lastIndexOf("/") + 1
-                      )}`}
+                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/${data?.feature_image
+                        ?.split("/")
+                        .slice(-3)
+                        .join("/")}`}
                       width={350}
                       height={827}
                     ></HovarImage>

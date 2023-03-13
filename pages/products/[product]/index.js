@@ -116,8 +116,12 @@ const masterCollectionLayout = () => {
     isSuccess: categoryisSuccess,
   } = useGetCategoryWiseProductsQuery(
     { cat, page },
-    { refetchOnMountOrArgChange: true, skip: sub_cat || !cat || page < 1 }
+    { refetchOnMountOrArgChange: true, skip: sub_cat|| !cat || page < 1||!hasMore }
   );
+
+
+  console.log('your log output',cat)
+  console.log('your log output',sub_cat)
 
   // Getting static data with subCategory
   const {
@@ -247,7 +251,7 @@ const masterCollectionLayout = () => {
       };
       setLoader();
     }
-    if ((isSuccess || categoryisSuccess) && hasMore && data.data) {
+    if ((isSuccess || categoryisSuccess) && hasMore && (data?.data||catetoryData?.data)) {
       const handleSuccess = async () => {
         if (sub_cat && data?.data) {
           setProducts((prev) => [...prev, ...data.data]);
@@ -258,17 +262,36 @@ const masterCollectionLayout = () => {
           }
 
           const min = Math.min(
-            ...products,
+            ...filteredData,
             ...data?.data?.map((item) => item?.p_sale_price)
           );
           const max = Math.max(
-            products,
+            filteredData,
             ...data?.data?.map((item) => item?.p_sale_price)
           );
           setMin(min);
           setMax(max);
-        } else {
-          setProducts(catetoryData?.data);
+        } if (cat && !sub_cat && catetoryData?.data) {
+
+          console.log('dfgdfgd',catetoryData)
+          setProducts((prev) => [...prev, ...catetoryData?.data]);
+          setFilteredData((prev) => [...prev, ...catetoryData?.data]);
+          setTotalProducts((prev) => prev + catetoryData.meta?.total);
+          if (!catetoryData.data?.length) {
+            setHasMore(false);
+          }
+
+          const min = Math.min(
+            ...filteredData,
+            ...catetoryData?.data?.map((item) => item?.p_sale_price)
+          );
+          const max = Math.max(
+            filteredData,
+            ...catetoryData?.data?.map((item) => item?.p_sale_price)
+          );
+          setMin(min);
+          setMax(max);
+          /* setProducts(catetoryData?.data);
           setFilteredData(catetoryData?.data);
           setTotalProducts(data?.meta?.total);
           // console.log("yisnide else");
@@ -279,7 +302,7 @@ const masterCollectionLayout = () => {
             ...catetoryData?.data?.map((item) => item?.p_sale_price)
           );
           setMin(min);
-          setMax(max);
+          setMax(max); */
         }
         setLoadings(false);
       };
@@ -295,6 +318,8 @@ const masterCollectionLayout = () => {
     hasMore,
   ]);
 
+
+  console.log('your log output',filteredData)
   //handling minimum and maximum value
   /* useEffect(() => {
     if (dataFetchedRef.current) return;

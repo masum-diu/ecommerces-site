@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const productApi = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://apiaranya.jumriz.com/public/api",
+    baseUrl: "http://165.22.247.151/apiaranya/public/api",
   }),
   endpoints: (builder) => ({
     getProducts: builder.query({
@@ -22,11 +22,11 @@ export const productApi = createApi({
       query: (id) => `product?no_paginate=y&camp_id=${id}`,
     }),
     getCategoryWiseProducts: builder.query({
-      query: ({ cat, page }) => `/product/${cat}?page=${page}&per_page=8`,
+      query: ({ cat, page }) => `/product/${cat}?page=${page}&per_page=4`,
     }),
     getCategoryAndSubWiseProducts: builder.query({
       query: ({ cat, sub_cat, page }) =>
-        `/product/${cat}/${sub_cat}?page=${page}&per_page=3`,
+        `/product/${cat}/${sub_cat}?page=${page}&per_page=9`,
     }),
     getSubWiseProducts: builder.query({
       query: (sub_cat) => `/category/${sub_cat}`,
