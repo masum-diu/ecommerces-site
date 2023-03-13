@@ -11,6 +11,7 @@ import {
 
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Head from "next/head";
 
 const shop = () => {
   const [homedata, setHomeData] = useState([]);
@@ -54,6 +55,22 @@ const shop = () => {
 
   return (
     <>
+      <Head>
+        <meta name="keywords" content="Aranya online shop"/>
+        <meta name="twitter:card" content="Shop"/>
+        <meta name="twitter:title" content="Aranya Bangladesh- Sustainable and Ethical Fashion and Lifestyle Brand"/>
+        <meta name="description" content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials."></meta>
+        <meta name="twitter:site" content="@webable_digital"/>
+        <meta name="twitter:creator" content="@webable_digital"/>
+        <meta name="twitter:description" content=" Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials."/>
+        <meta name="twitter:image" content={homedata?.image_two}/>
+
+        <meta property="og:title" content="Aranya Bangladesh- Sustainable and Ethical Fashion and Lifestyle Brand" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={router.pathname} />
+        <meta property="og:image" content={homedata?.image_two} />
+        <meta property="og:description" content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials." />
+      </Head>
       <HomePageIntro title={"Shop "} />
       <Box mt={10} sx={{ width: "100%", mb: 4 }}>
         <Stack sx={{ position: "relative" }}>
@@ -271,7 +288,7 @@ const shop = () => {
                         fontWeight={"bold"}
                         color="initial"
                       >
-                        BDT {data?.p_sale_price} ৳
+                        BDT {data?.p_sale_price}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -385,7 +402,7 @@ const shop = () => {
                         fontWeight={"bold"}
                         color="initial"
                       >
-                        BDT {data?.p_sale_price} ৳
+                        BDT {data?.p_sale_price}
                       </Typography>
                     </Stack>
                   </Stack>

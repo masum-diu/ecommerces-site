@@ -17,12 +17,7 @@ export default class MyDocument extends Document {
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="emotion-insertion-point" content="" />
-          <link
-            httpEquiv="Content-Security-Policy"
-            content="upgrade-insecure-requests"
-            href="https://fonts.cdnfonts.com/css/gellix?styles=49882,49886,49878,49880,49884,49874,49876,49872"
-            rel="stylesheet"
-          />
+          <link href="https://fonts.cdnfonts.com/css/gellix" rel="stylesheet"/>
 
           {this.props.emotionStyleTags}
         </Head>

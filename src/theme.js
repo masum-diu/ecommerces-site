@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material/styles";
-
 const primary = "#787878"; 
 const secondary = "#FBB03B"; 
 const background = "#ffffff";
@@ -107,7 +106,7 @@ theme.typography.header1 = {
 
 theme.typography.login1 = {
   fontSize: "48px",
-  fontWeight: "500",
+  fontWeight: "bold",
   color: primary,
   [theme.breakpoints.down("md")]: {
     fontSize: "24px",

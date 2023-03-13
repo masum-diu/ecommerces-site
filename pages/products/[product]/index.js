@@ -52,6 +52,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import instance from "../../api/api_instance";
 import ProductsLayoutWithStaticImage from "../../../components/ProductsLayoutWithStaticImage";
 import ProductsLayout from "../../../components/ProductsLayout";
+import Head from "next/head";
 
 function chunkArray(arr, chunkSize = 8) {
   const chunkedArray = [];
@@ -550,10 +551,28 @@ const masterCollectionLayout = () => {
 
   return (
     <>
+      <Head>
+          <meta name="description" content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials." />
+          <meta name="keywords" content="Aranya online shop" />
+          <meta name="sitemap_link" content="sitemap.com" />
+          <meta property="og:site_name" content="aranya.com.bd" />
+         
+          <meta name="twitter:card" content="Category" />
+          <meta name="twitter:title" content={'Aranya | '+productName} />
+          <meta name="twitter:site" content="@my_twitter" />
+          <meta name="twitter:creator" content="@my_twitter" />
+
+          <meta property="og:title" content={'Aranya | '+productName} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={currentPath} />
+          <meta property="og:image" content={staticData?.cat_img_one} />
+          <meta property="og:description" content={'Find all product  in '+productName+ 'category'} />
+      
+      </Head>
       <HomePageIntro title={"Saree "} />
       <Box mt={10} mb={4}>
         <Stack direction={"row"} alignItems="center">
-          {/* <img
+          <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_700,w_1920/${staticData?.cat_img_one
               ?.split("/")
               .slice(-3)
@@ -561,13 +580,13 @@ const masterCollectionLayout = () => {
             width={1900}
             style={{ width: "100%", height: "fit-content" }}
             height={700}
-          /> */}
-          <img
+          />
+          {/* <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1678530353/aranya-product/boishakh/ZS001671.jpg`}
             width={1900}
             style={{ width: "100%", height: "fit-content" }}
             height={700}
-          />
+          /> */}
         </Stack>
         <Stack
           direction={"column"}

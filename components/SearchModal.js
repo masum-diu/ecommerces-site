@@ -7,11 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { FiSearch } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
 import instance from "../pages/api/api_instance";
 
@@ -20,16 +17,22 @@ const SearchModal = ({ open, setOpen }) => {
   const [searchApiData, setSearchApiData] = useState([]);
   const [filterVal, setFilterVal] = useState("");
 
-  const fetchData = () => {
-    return instance.get(`/product?no_paginate=yes&keyword`).then((response) => {
-      setSearchApiData(response.data?.data);
-    });
+  const fetchData = async () => {
+    return await instance
+      .get(`/product?no_paginate=yes&keyword`)
+      .then(function (response) {
+        setSearchApiData(response.data?.data);
+      })
+
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
     fetchData();
   }, [searchText]);
-  
+
   const handleFilter = (e) => {
     if (e.target.value === "") {
       setData(setFilterVal);
@@ -41,6 +44,8 @@ const SearchModal = ({ open, setOpen }) => {
     }
     setFilterVal(e.target.value);
   };
+
+  console.log("your log output", searchText);
   return (
     <>
       {/*  */}
@@ -109,9 +114,12 @@ const SearchModal = ({ open, setOpen }) => {
                 >
                   <Stack direction={"column"} mt={4} spacing={1}>
                     {/* <img src={data?.feature_image} alt="" width={100} /> */}
-                    <img style={{cursor:"pointer"}} src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_150,w_150/v1676527368/aranya/${data?.feature_image?.substring(
-                    data?.feature_image?.lastIndexOf("/") + 1
-                  )}`} />
+                    <img
+                      style={{ cursor: "pointer" }}
+                      src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto:face,h_180,w_180/${data?.feature_image?.split("/")
+                        .slice(-3)
+                        .join("/")}`}
+                    />
                     <Typography
                       variant="cardHeader2"
                       color="initial"
