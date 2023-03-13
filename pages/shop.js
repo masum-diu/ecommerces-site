@@ -11,6 +11,7 @@ import {
 
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Head from "next/head";
 
 const shop = () => {
   const [homedata, setHomeData] = useState([]);
@@ -50,31 +51,40 @@ const shop = () => {
   // const products = data?.data;
   // The way of getting data by transforming
   const slicedData = homedata?.image_two?.split("/").slice(-4).join("/");
-  const slicedDats = homedata?.image_two?.split("/")
-  console.log('your log output',slicedData)
-  console.log('your log output',products)
+  const slicedDats = homedata?.image_two?.split("/");
+  console.log("your log output", slicedData);
+  console.log("your log output", products);
 
   return (
     <>
+      <Head>
+        <meta name="keywords" content="Aranya online shop"/>
+        <meta name="twitter:card" content="Shop"/>
+        <meta name="twitter:title" content="Aranya Bangladesh- Sustainable and Ethical Fashion and Lifestyle Brand"/>
+        <meta name="description" content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials."></meta>
+        <meta name="twitter:site" content="@webable_digital"/>
+        <meta name="twitter:creator" content="@webable_digital"/>
+        <meta name="twitter:description" content=" Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials."/>
+        <meta name="twitter:image" content={homedata?.image_two}/>
+
+        <meta property="og:title" content="Aranya Bangladesh- Sustainable and Ethical Fashion and Lifestyle Brand" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={router.pathname} />
+        <meta property="og:image" content={homedata?.image_two} />
+        <meta property="og:description" content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials." />
+      </Head>
       <HomePageIntro title={"Shop "} />
       <Box mt={10} sx={{ width: "100%", mb: 4 }}>
         <Stack sx={{ position: "relative" }}>
-          {/* <video
-            src="https://static.zara.net/photos///contents/mkt/spots/aw22-north-kids-party/subhome-xmedia-47-2//w/1920/IMAGE-landscape-fill-90388659-c9ad-44c0-8fbc-3e049adef8d9-default_0.jpg?ts=1669457847606"
-            alt=""
-            width="100%"
-          /> */}
+          <video
+            autoPlay
+            playsinline
+            loop
+            muted={true}
+            src={homedata?.image_one}
+          />
 
-          <video width="100%" autoPlay={true} muted={true} loop={true}>
-            <source src={homedata?.image_one} />
-          </video>
-          {/* <Image
-            src=
-            {repo.image_two}
-            width={1900}
-            style={{ width: "100%", height: "fit-content" }}
-            height={700}
-          /> */}
+          
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/${homedata?.image_two
               ?.split("/")
@@ -269,7 +279,7 @@ const shop = () => {
                         fontWeight={"bold"}
                         color="initial"
                       >
-                        BDT {data?.p_sale_price} ৳
+                        BDT {data?.p_sale_price}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -383,7 +393,7 @@ const shop = () => {
                         fontWeight={"bold"}
                         color="initial"
                       >
-                        BDT {data?.p_sale_price} ৳
+                        BDT {data?.p_sale_price}
                       </Typography>
                     </Stack>
                   </Stack>

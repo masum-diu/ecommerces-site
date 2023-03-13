@@ -24,6 +24,7 @@ import "swiper/css/pagination";
 import { addToCart } from "../../../src/features/cart/cartSlice";
 import ThumbsGallery from "../../../components/thumble/ThumbsGallery";
 import ThumbsGallery1 from "../../../components/thumble/ThumbsGallery1";
+import Head from "next/head";
 const PorductDetails = () => {
   const router = useRouter();
   const path = router.asPath;
@@ -150,12 +151,33 @@ const PorductDetails = () => {
   console.log("your log output", products);
   return (
     <>
+      <Head>
+          <meta name="author" content="Aranya" />
+          <meta name="sitemap_link" content="sitemap.com" />
+          <meta property="og:site_name" content="Aranya" />
+           
+          <meta name="keywords" content={products?.p_name} />
+          <meta name="twitter:card" content="product" />
+          <meta name="twitter:title" content={products?.p_name} />
+          <meta name="twitter:site" content="@webable_digital" />
+          <meta name="twitter:creator" content="@webable_digital" />
+          <meta name="twitter:description" content={products?.p_description} />
+          <meta name="twitter:image" content={products?.feature_image } />
+          
+          <meta property="og:title" content={products?.p_name} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={router.pathname} />
+          <meta property="og:image" content={products?.feature_image } />
+          <meta property="og:description" content={products?.p_description} />
+          <meta property="og:price:amount" content={products?.p_sale_price} />
+          <meta property="og:price:currency" content="BDT"/>
+      </Head>
       <HomePageIntro title={"Saree "} />
       <Hidden only={["xms", "xs"]}>
         <Box
           mt={10}
           mb={4}
-          sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
+          //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
             <Grid item xl={6} lg={7} md={6}>
@@ -175,8 +197,8 @@ const PorductDetails = () => {
                   .join("/")}`}
                 alt=""
                 style={{
-                  width: "90vw",
-                  maxWidth: "664px",
+                  width: "100%",
+                  // maxWidth: "664px",
                 }}
               />
               <Stack direction={"row"} spacing={0.5} mb={0.5}>
@@ -196,8 +218,8 @@ const PorductDetails = () => {
                     .join("/")}`}
                   alt=""
                   style={{
-                    width: "90vw",
-                    maxWidth: "330px",
+                    width: "100%",
+                    // maxWidth: "330px",
                   }}
                 />
                 <img
@@ -216,8 +238,8 @@ const PorductDetails = () => {
                     .join("/")}`}
                   alt=""
                   style={{
-                    width: "90vw",
-                    maxWidth: "330px",
+                    width: "100%",
+                    // maxWidth: "330px",
                   }}
                 />
               </Stack>
@@ -238,21 +260,23 @@ const PorductDetails = () => {
                   .join("/")}`}
                 alt=""
                 style={{
-                  width: "90vw",
-                  maxWidth: "664px",
+                  width: "100%",
+                  // maxWidth: "664px",
                 }}
               />
             </Grid>
-            <Grid item xl={6} lg={5} md={6}>
+            <Grid item xl={5} lg={5} md={6}>
               <Stack direction={"column"} mx={5} mt={3} width={"100%"}>
-                <Typography variant="login1" color="initial" fontWeight="bold">
+                <Typography className="fonts" variant="login1" color="initial"sx={{letterSpacing:.6,}} >
                   {products?.p_name}
                 </Typography>
                 <Stack direction={"row"} spacing={1}>
                   <Typography
                     variant="cardHeader1"
+                    fontWeight={400}
                     color="initial"
                     textTransform={"uppercase"}
+                     sx={{letterSpacing:.6}}
                   >
                     Home {path}
                   </Typography>
@@ -265,11 +289,11 @@ const PorductDetails = () => {
                 </Stack>
               </Stack>
               <Stack direction={"column"} mx={5} mt={3} spacing={3}>
-                <Typography variant="cardHeader3" color="initial">
+                <Typography variant="cardHeader3" color="initial" sx={{letterSpacing:.17}}>
                   {description}
                 </Typography>
-                <Typography variant="header1" color="initial">
-                  Price : {products?.p_sale_price} ৳
+                <Typography variant="header1" color="initial" letterSpacing={.3} fontWeight={700}>
+                  Price : ৳ {products?.p_sale_price} 
                 </Typography>
                 <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="initial">

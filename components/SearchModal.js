@@ -7,11 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { FiSearch } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
 import instance from "../pages/api/api_instance";
 
@@ -20,9 +17,15 @@ const SearchModal = ({ open, setOpen }) => {
   const [searchApiData, setSearchApiData] = useState([]);
   const [filterVal, setFilterVal] = useState("");
 
-  const fetchData = () => {
-    return instance.get(`/product?no_paginate=yes&keyword`).then((response) => {
+  const fetchData = async () => {
+     return await instance.get(`/product?no_paginate=yes&keyword`) 
+    .then(function(response) {
       setSearchApiData(response.data?.data);
+      alert();
+    })
+   
+    .catch(function(error) {
+      console.log(error);
     });
   };
 
