@@ -86,7 +86,7 @@ const masterCollectionLayout = () => {
   const [fabricID, setFabricID] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
-  const [rangeValue, setValue] = useState([min, max]);
+  const [rangeValue, setValue] = useState([0, 10000]);
   const dataFetchedRef = useRef(false);
   const [totalProducts, setTotalProducts] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -730,7 +730,7 @@ const masterCollectionLayout = () => {
             staticData={staticData}
             // isLoading={page === 1 && (isFetchingSubCat || isFetchingCat)}
           />
-          {productsForStatic.length > 0 && (
+          {productsForStatic?.length > 0 && (
             <InfiniteScroll
               key={sub_cat + cat}
               style={{ minHeight: 100 }}
@@ -745,7 +745,7 @@ const masterCollectionLayout = () => {
                 </p>
               }
             >
-              {productsForDynamic.map((productsDataChunk, idx) => (
+              {productsForDynamic?.map((productsDataChunk, idx) => (
                 <ProductsLayout
                   key={idx}
                   productsDataChunk={productsDataChunk}
@@ -769,8 +769,8 @@ const masterCollectionLayout = () => {
         open={filter}
         setOpen={setFilter}
         uniqueColors={uniqueColors}
-        max={max}
-        min={min}
+        max={rangeValue[1]}
+        min={rangeValue[0]}
         setValue={setValue}
         rangeValue={rangeValue}
         setSelectedColor={setSelectedColor}

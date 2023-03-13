@@ -12,9 +12,9 @@ import {
 import {
   MdClose,
   MdOutlineKeyboardArrowDown,
-  MdOutlineKeyboardArrowUp,AiOutlinePlus
+  MdOutlineKeyboardArrowUp,
+  AiOutlinePlus,
 } from "react-icons/md";
-
 
 const Filter = ({
   open,
@@ -137,15 +137,16 @@ const Filter = ({
               <Stack direction={"column"} spacing={1.5}>
                 <Slider
                   size="small"
-                  max={max}
-                  min={min}
+                  min={0}
+                  step={1}
+                  max={10000}
                   value={rangeValue}
                   onChange={(event, newValue) => handleChange(event, newValue)}
                   sx={{ color: "#2D323F" }}
                 />
                 <Stack direction={"row"} justifyContent="space-between">
-                  <Typography>{rangeValue[0]}</Typography>
-                  <Typography>{rangeValue[1]}</Typography>
+                  <Typography>{min}</Typography>
+                  <Typography>{max}</Typography>
                 </Stack>
               </Stack>
             </Box>
