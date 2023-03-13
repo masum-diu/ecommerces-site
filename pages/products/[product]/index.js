@@ -547,8 +547,8 @@ const masterCollectionLayout = () => {
   // Handling the loading state
 
   const productsForStatic = filteredData.slice(0, 7);
-  const productsForDynamic = chunkArray(filteredData.slice(7));
-
+  const productsForDynamic = chunkArray(filteredData.slice(8));
+console.log('sdfsd',staticData)
   return (
     <>
       <Head>

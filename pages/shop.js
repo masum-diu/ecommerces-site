@@ -12,6 +12,7 @@ import {
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
+import style from "../public/assets/css/HomePageIntro.module.css";
 
 const shop = () => {
   const [homedata, setHomeData] = useState([]);
@@ -56,20 +57,35 @@ const shop = () => {
   return (
     <>
       <Head>
-        <meta name="keywords" content="Aranya online shop"/>
-        <meta name="twitter:card" content="Shop"/>
-        <meta name="twitter:title" content="Aranya Bangladesh- Sustainable and Ethical Fashion and Lifestyle Brand"/>
-        <meta name="description" content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials."></meta>
-        <meta name="twitter:site" content="@webable_digital"/>
-        <meta name="twitter:creator" content="@webable_digital"/>
-        <meta name="twitter:description" content=" Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials."/>
-        <meta name="twitter:image" content={homedata?.image_two}/>
+        <meta name="keywords" content="Aranya online shop" />
+        <meta name="twitter:card" content="Shop" />
+        <meta
+          name="twitter:title"
+          content="Aranya Bangladesh- Sustainable and Ethical Fashion and Lifestyle Brand"
+        />
+        <meta
+          name="description"
+          content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials."
+        ></meta>
+        <meta name="twitter:site" content="@webable_digital" />
+        <meta name="twitter:creator" content="@webable_digital" />
+        <meta
+          name="twitter:description"
+          content=" Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials."
+        />
+        <meta name="twitter:image" content={homedata?.image_two} />
 
-        <meta property="og:title" content="Aranya Bangladesh- Sustainable and Ethical Fashion and Lifestyle Brand" />
+        <meta
+          property="og:title"
+          content="Aranya Bangladesh- Sustainable and Ethical Fashion and Lifestyle Brand"
+        />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={router.pathname} />
         <meta property="og:image" content={homedata?.image_two} />
-        <meta property="og:description" content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials." />
+        <meta
+          property="og:description"
+          content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials."
+        />
       </Head>
       <HomePageIntro title={"Shop "} />
       <Box mt={10} sx={{ width: "100%", mb: 4 }}>
@@ -97,7 +113,7 @@ const shop = () => {
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/${homedata?.image_two
               ?.split("/")
-              .slice(-4)
+              .slice(-3)
               .join("/")}`}
             alt=""
             style={{ width: "100%", height: "fit-content" }}
@@ -140,9 +156,9 @@ const shop = () => {
         </Stack>
         <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/${homedata?.image_three
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
               ?.split("/")
-              .slice(-4)
+              .slice(-3)
               .join("/")}`}
             style={{ cursor: "pointer" }}
             alt=""
@@ -156,9 +172,9 @@ const shop = () => {
           />
 
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1000,w_900/${homedata?.image_four
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
               ?.split("/")
-              .slice(-4)
+              .slice(-3)
               .join("/")}`}
             style={{ cursor: "pointer" }}
             alt=""
@@ -182,6 +198,7 @@ const shop = () => {
             }}
           >
             <Typography
+              className={style.menu3}
               variant="cardHeader"
               color="initial"
               textAlign={"center"}
@@ -202,9 +219,10 @@ const shop = () => {
                 cursor: "pointer",
               }}
             >
-              {homedata?.back_url_three}
+              <li>{homedata?.back_url_three}</li>
             </Typography>
             <Typography
+              className={style.menu3}
               variant="cardHeader"
               color="initial"
               fontWeight={"600"}
@@ -224,7 +242,7 @@ const shop = () => {
                 cursor: "pointer",
               }}
             >
-              {homedata?.back_url_two}
+              <li>{homedata?.back_url_two}</li>
             </Typography>
           </Stack>
         </Stack>
@@ -308,7 +326,7 @@ const shop = () => {
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/${homedata?.image_five
               ?.split("/")
-              .slice(-4)
+              .slice(-3)
               .join("/")}`}
             alt=""
             style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
@@ -325,16 +343,20 @@ const shop = () => {
             }}
           >
             <Typography
+              className={style.menu3}
               variant="cardHeader"
               color="initial"
               textAlign={"center"}
               fontWeight={"600"}
               textTransform="uppercase"
               onClick={() =>
-                router.push({
-                  // pathname: `${homedata?.back_url_one}`,
-                  query: { cat: 1, sub_cat: 7 },
-                })
+                router.push(
+                  {
+                    pathname: "/products/kurti-fatua",
+                    query: { cat: 1, sub_cat: 9 },
+                  },
+                  "/products/kurti-fatua?cat=1&sub_cat=9"
+                )
               }
               sx={{
                 display: "flex",
@@ -345,7 +367,7 @@ const shop = () => {
                 cursor: "pointer",
               }}
             >
-              Home & Décor
+              <li>Kurti & Fatua</li>
             </Typography>
           </Stack>
         </Stack>
