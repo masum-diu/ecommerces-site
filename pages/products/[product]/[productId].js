@@ -150,25 +150,25 @@ const PorductDetails = () => {
   return (
     <>
       <Head>
-          <meta name="author" content="Aranya" />
-          <meta name="sitemap_link" content="sitemap.com" />
-          <meta property="og:site_name" content="Aranya" />
-           
-          <meta name="keywords" content={products?.p_name} />
-          <meta name="twitter:card" content="product" />
-          <meta name="twitter:title" content={products?.p_name} />
-          <meta name="twitter:site" content="@webable_digital" />
-          <meta name="twitter:creator" content="@webable_digital" />
-          <meta name="twitter:description" content={products?.p_description} />
-          <meta name="twitter:image" content={products?.feature_image } />
-          
-          <meta property="og:title" content={products?.p_name} />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content={router.pathname} />
-          <meta property="og:image" content={products?.feature_image } />
-          <meta property="og:description" content={products?.p_description} />
-          <meta property="og:price:amount" content={products?.p_sale_price} />
-          <meta property="og:price:currency" content="BDT"/>
+        <meta name="author" content="Aranya" />
+        <meta name="sitemap_link" content="sitemap.com" />
+        <meta property="og:site_name" content="Aranya" />
+
+        <meta name="keywords" content={products?.p_name} />
+        <meta name="twitter:card" content="product" />
+        <meta name="twitter:title" content={products?.p_name} />
+        <meta name="twitter:site" content="@webable_digital" />
+        <meta name="twitter:creator" content="@webable_digital" />
+        <meta name="twitter:description" content={products?.p_description} />
+        <meta name="twitter:image" content={products?.feature_image} />
+
+        <meta property="og:title" content={products?.p_name} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={router.pathname} />
+        <meta property="og:image" content={products?.feature_image} />
+        <meta property="og:description" content={products?.p_description} />
+        <meta property="og:price:amount" content={products?.p_sale_price} />
+        <meta property="og:price:currency" content="BDT" />
       </Head>
       <HomePageIntro title={"Saree "} />
       <Hidden only={["xms", "xs"]}>
@@ -265,7 +265,12 @@ const PorductDetails = () => {
             </Grid>
             <Grid item xl={5} lg={5} md={6}>
               <Stack direction={"column"} mx={5} mt={3} width={"100%"}>
-                <Typography className="fonts" variant="login1" color="initial"sx={{letterSpacing:.6,}} >
+                <Typography
+                  className="fonts"
+                  variant="login1"
+                  color="initial"
+                  sx={{ letterSpacing: 0.6 }}
+                >
                   {products?.p_name}
                 </Typography>
                 <Stack direction={"row"} spacing={1}>
@@ -274,7 +279,7 @@ const PorductDetails = () => {
                     fontWeight={400}
                     color="initial"
                     textTransform={"uppercase"}
-                     sx={{letterSpacing:.6}}
+                    sx={{ letterSpacing: 0.6 }}
                   >
                     Home {path}
                   </Typography>
@@ -287,11 +292,20 @@ const PorductDetails = () => {
                 </Stack>
               </Stack>
               <Stack direction={"column"} mx={5} mt={3} spacing={3}>
-                <Typography variant="cardHeader3" color="initial" sx={{letterSpacing:.17}}>
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  sx={{ letterSpacing: 0.17 }}
+                >
                   {description}
                 </Typography>
-                <Typography variant="header1" color="initial" letterSpacing={.3} fontWeight={700}>
-                  Price : ৳ {products?.p_sale_price} 
+                <Typography
+                  variant="header1"
+                  color="initial"
+                  letterSpacing={0.3}
+                  fontWeight={700}
+                >
+                  Price : ৳ {products?.p_sale_price}
                 </Typography>
                 <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="initial">

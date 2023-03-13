@@ -34,7 +34,6 @@ const SearchModal = ({ open, setOpen }) => {
   }, [searchText]);
 
   const handleFilter = (e) => {
-    console.log('your log output',typeof e.target.value)
     if (e.target.value === "") {
       setData([]);
     } else {
