@@ -50,9 +50,7 @@ const shop = () => {
   // const products = data?.data;
   // The way of getting data by transforming
   const slicedData = homedata?.image_two?.split("/").slice(-4).join("/");
-  const slicedDats = homedata?.image_two?.split("/")
-  console.log('your log output',slicedData)
-  console.log('your log output',products)
+  const slicedDats = homedata?.image_two?.split("/");
 
   return (
     <>
@@ -64,10 +62,14 @@ const shop = () => {
             alt=""
             width="100%"
           /> */}
-
-          <video width="100%" autoPlay={true} muted={true} loop={true}>
-            <source src={homedata?.image_one} />
-          </video>
+          <video
+            width={"100%"}
+            autoPlay
+            // playsinline
+            loop
+            muted={true}
+            src={homedata?.image_one}
+          />
           {/* <Image
             src=
             {repo.image_two}

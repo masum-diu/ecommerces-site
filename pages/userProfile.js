@@ -16,7 +16,6 @@ const userProfile = () => {
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
-  console.log(userjsondata);
   //
   return (
     <>

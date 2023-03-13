@@ -22,7 +22,7 @@ export const productApi = createApi({
       query: (id) => `product?no_paginate=y&camp_id=${id}`,
     }),
     getCategoryWiseProducts: builder.query({
-      query: ({ cat, page }) => `/product/${cat}?page=${page}&per_page=4`,
+      query: ({ cat, page }) => `/product/${cat}?page=${page}&per_page=9`,
     }),
     getCategoryAndSubWiseProducts: builder.query({
       query: ({ cat, sub_cat, page }) =>

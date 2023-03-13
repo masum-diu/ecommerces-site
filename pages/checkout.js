@@ -164,7 +164,6 @@ const checkout = () => {
   const postBilling = useWatch({ control, name: "post_code_billing" });
   const phoneBilling = useWatch({ control, name: "phone_billing" });
   const emailBilling = useWatch({ control, name: "email_billing" });
-  console.log("your log output", country);
   return (
     <>
       <HomePageIntro title={"Checkout "} />

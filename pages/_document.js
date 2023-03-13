@@ -1,20 +1,29 @@
-import * as React from 'react';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
-import createEmotionServer from '@emotion/server/create-instance';
-import theme, { roboto } from '../src/theme';
-import createEmotionCache from '../src/createEmotionCache';
+import * as React from "react";
+import Document, { Html, Head, Main, NextScript } from "next/document";
+import createEmotionServer from "@emotion/server/create-instance";
+import theme, { roboto } from "../src/theme";
+import createEmotionCache from "../src/createEmotionCache";
 
 export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
         <Head>
+          <meta
+            httpEquiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+          ></meta>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="emotion-insertion-point" content="" />
-          <link href="https://fonts.cdnfonts.com/css/gellix?styles=49882,49886,49878,49880,49884,49874,49876,49872" rel="stylesheet"/>
-                       
+          <link
+            httpEquiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+            href="https://fonts.cdnfonts.com/css/gellix?styles=49882,49886,49878,49880,49884,49874,49876,49872"
+            rel="stylesheet"
+          />
+
           {this.props.emotionStyleTags}
         </Head>
         <body>
@@ -72,7 +81,7 @@ MyDocument.getInitialProps = async (ctx) => {
   const emotionStyles = extractCriticalToChunks(initialProps.html);
   const emotionStyleTags = emotionStyles.styles.map((style) => (
     <style
-      data-emotion={`${style.key} ${style.ids.join(' ')}`}
+      data-emotion={`${style.key} ${style.ids.join(" ")}`}
       key={style.key}
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: style.css }}

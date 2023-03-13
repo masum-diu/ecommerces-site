@@ -21,9 +21,13 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           <HovarImage
             url={`${router?.asPath?.split("?")[0]}/${productsDataChunk[0]?.id}`}
             data={productsDataChunk}
-            imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/v1676527368/aranya/${productsDataChunk[0]?.feature_image?.substring(
-              productsDataChunk[0]?.feature_image?.lastIndexOf("/") + 1
-            )}`}
+            /* src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/${homedata?.image_five
+              ?.split("/")
+              .slice(-4)
+              .join("/")}`} */
+            imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/${productsDataChunk[0]?.feature_image?.split("/")
+            .slice(-3)
+            .join("/")}`}
             width={568}
             height={827}
           />
@@ -63,9 +67,9 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               <HovarImage
                 url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
                 data={product}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${product?.feature_image?.substring(
-                  product?.feature_image?.lastIndexOf("/") + 1
-                )}`}
+                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image?.split("/")
+                .slice(-3)
+                .join("/")}`}
                 width={568}
                 height={827}
               />
@@ -102,9 +106,9 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               <HovarImage
                 url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
                 data={product}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${product?.feature_image?.substring(
-                  product?.feature_image?.lastIndexOf("/") + 1
-                )}`}
+                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image?.split("/")
+                .slice(-3)
+                .join("/")}`}
                 width={568}
                 height={827}
               />
@@ -141,9 +145,9 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               <HovarImage
                 url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
                 data={product}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/v1676527368/aranya/${product?.feature_image?.substring(
-                  product?.feature_image?.lastIndexOf("/") + 1
-                )}`}
+                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image?.split("/")
+                .slice(-3)
+                .join("/")}`}
                 width={568}
                 height={827}
               />

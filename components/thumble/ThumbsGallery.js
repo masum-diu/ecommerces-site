@@ -15,7 +15,6 @@ import { FreeMode, Navigation, Thumbs, Zoom } from "swiper";
 const ThumbsGallery = ({ open, setOpen, imageData }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const {img1,img2,img3,img4} = imageData;
-  console.log('your log output',imageData)
 
   return (
     <>

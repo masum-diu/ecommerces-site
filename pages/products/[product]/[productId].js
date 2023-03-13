@@ -123,7 +123,6 @@ const PorductDetails = () => {
   const handleImageForThumble = (data, images) => {
     setOpen(data);
     setImageData(images);
-    // console.log('your log output',images)
   };
 
   const description = products?.p_description;
@@ -147,7 +146,6 @@ const PorductDetails = () => {
       products?.p_sale_price * (products?.p_tax?.tax_percentage / 100) +
       products?.p_sale_price,
   };
-  console.log("your log output", products);
   return (
     <>
       <HomePageIntro title={"Saree "} />
