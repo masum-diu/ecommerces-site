@@ -147,6 +147,8 @@ const PorductDetails = () => {
       products?.p_sale_price * (products?.p_tax?.tax_percentage / 100) +
       products?.p_sale_price,
   };
+
+  console.log('your log output',products)
   return (
     <>
       <Head>
