@@ -194,6 +194,7 @@ const SiderBar = ({ open, setOpen }) => {
   return (
     <>
       <Drawer
+      transitionDuration={{ enter: 500, exit: 500 }}
         anchor="left"
         open={open}
         onClose={() => setOpen(false)}
