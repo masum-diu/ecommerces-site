@@ -66,7 +66,7 @@ const ThumbsGallery1 = ({ open, setOpen, imageData }) => {
               <div className="swiper-zoom-container">
                 <img
                   src={img1}
-                  width={600}
+                  width={400}
                 />
               </div>
             </SwiperSlide>
@@ -76,7 +76,7 @@ const ThumbsGallery1 = ({ open, setOpen, imageData }) => {
               <div className="swiper-zoom-container">
                 <img
                   src={img2}
-                  width={600}
+                  width={400}
                 />
               </div>
             </SwiperSlide>
@@ -86,7 +86,7 @@ const ThumbsGallery1 = ({ open, setOpen, imageData }) => {
               <div className="swiper-zoom-container">
                 <img
                   src={img3}
-                  width={600}
+                  width={400}
                 />
               </div>
             </SwiperSlide>
@@ -96,7 +96,7 @@ const ThumbsGallery1 = ({ open, setOpen, imageData }) => {
               <div className="swiper-zoom-container">
                 <img
                   src={img4}
-                  width={600}
+                  width={400}
                 />
               </div>
             </SwiperSlide>
@@ -112,7 +112,7 @@ const ThumbsGallery1 = ({ open, setOpen, imageData }) => {
             // className="mySwiper"
             style={{
               marginTop: "1rem",
-              width:"35%"
+              width:"25%"
               // backgroundColor: "red",
               // width: "100%",
             }}
@@ -120,26 +120,26 @@ const ThumbsGallery1 = ({ open, setOpen, imageData }) => {
             <SwiperSlide>
               <img
                 src={img1}
-                width={200}
+                width={150}
               />
             </SwiperSlide>
 
             <SwiperSlide>
               <img
                 src={img2}
-                width={200}
+                width={150}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src={img3}
-                width={200}
+                width={150}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src={img4}
-                width={200}
+                width={150}
               />
             </SwiperSlide>
           </Swiper>

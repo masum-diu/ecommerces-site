@@ -665,6 +665,7 @@ const masterCollectionLayout = () => {
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
                 <Typography
                   variant="homeFlash"
+                  className="SemiBold"
                   style={
                     fabricSelect === "all"
                       ? {
@@ -683,6 +684,7 @@ const masterCollectionLayout = () => {
                 </Typography>
                 {fabrics?.slice(0, 4).map((fabric) => (
                   <Typography
+                  className="SemiBold"
                     variant="homeFlash"
                     style={
                       fabricSelect === fabric?.fabric_name
@@ -713,6 +715,7 @@ const masterCollectionLayout = () => {
               >
                 <Typography
                   variant="homeFlash"
+                  className="SemiBold"
                   color="initial"
                   sx={{ cursor: "pointer", letterSpacing: 1.5 }}
                   onClick={() => setFilter(true)}

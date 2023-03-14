@@ -12,7 +12,7 @@ import "swiper/css/thumbs";
 import "swiper/css/zoom";
 
 import { FreeMode, Navigation, Thumbs, Zoom } from "swiper";
-const ThumbsGallery = ({ open, setOpen, imageData }) => {
+const ThumbsGallery2 = ({ open, setOpen, imageData }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const {img1,img2,img3,img4} = imageData;
 
@@ -47,7 +47,7 @@ const ThumbsGallery = ({ open, setOpen, imageData }) => {
             style={{
               "--swiper-navigation-color": "#000",
               "--swiper-pagination-color": "red",
-              marginTop: "1rem",
+              // marginTop: "3rem",
             }}
             loop={true}
             zoom={true}
@@ -103,44 +103,43 @@ const ThumbsGallery = ({ open, setOpen, imageData }) => {
           </Swiper>
           <Swiper
             onSwiper={setThumbsSwiper}
-            loop={true}
+             loop={true}
             spaceBetween={0}
             slidesPerView={3}
             freeMode={true}
             watchSlidesProgress={true}
             modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper"
+            // className="mySwiper"
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
               marginTop: "1rem",
-              width:"75%"
+              width:"65%"
+              // backgroundColor: "red",
+              // width: "100%",
             }}
           >
             <SwiperSlide>
               <img
                 src={img1}
-                width={100}
+                width={150}
               />
             </SwiperSlide>
 
             <SwiperSlide>
               <img
                 src={img2}
-                width={100}
+                width={150}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src={img3}
-                width={100}
+                width={150}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src={img4}
-                width={100}
+                width={150}
               />
             </SwiperSlide>
           </Swiper>
@@ -150,4 +149,4 @@ const ThumbsGallery = ({ open, setOpen, imageData }) => {
   );
 };
 
-export default ThumbsGallery;
+export default ThumbsGallery2;

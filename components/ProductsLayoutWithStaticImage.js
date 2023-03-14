@@ -46,10 +46,10 @@ const ProductsLayoutWithStaticImage = ({
               mt: 2,
             }}
           >
-            <Typography variant="cardHeader3" color="initial">
+            <Typography variant="cardHeader3" color="initial" className="SemiBold">
               {productsDataChunk[0]?.p_name}
             </Typography>
-            <Typography variant="cardHeader3" color="initial">
+            <Typography variant="cardHeader3" color="initial" className="bold">
               BDT {productsDataChunk[0]?.p_sale_price} 
             </Typography>
           </Stack>
@@ -83,11 +83,12 @@ const ProductsLayoutWithStaticImage = ({
                 direction={"row"}
                 spacing={2}
                 justifyContent={"space-between"}
+                mt={2}
               >
-                <Typography variant="cardHeader3" color="initial">
+                <Typography variant="cardHeader3" color="initial" className="SemiBold">
                   {product?.p_name}
                 </Typography>
-                <Typography variant="cardHeader3" color="initial">
+                <Typography variant="cardHeader3" color="initial"className="bold">
                   BDT {product?.p_sale_price} 
                 </Typography>
               </Stack>
@@ -141,11 +142,12 @@ const ProductsLayoutWithStaticImage = ({
                 direction={"row"}
                 spacing={2}
                 justifyContent={"space-between"}
+                mt={2}
               >
-                <Typography variant="cardHeader3" color="initial">
+                <Typography variant="cardHeader3" color="initial" className="SemiBold">
                   {product?.p_name}
                 </Typography>
-                <Typography variant="cardHeader3" color="initial">
+                <Typography variant="cardHeader3" color="initial" className="bold">
                   BDT {product?.p_sale_price} 
                 </Typography>
               </Stack>

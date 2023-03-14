@@ -25,6 +25,7 @@ import { addToCart } from "../../../src/features/cart/cartSlice";
 import ThumbsGallery from "../../../components/thumble/ThumbsGallery";
 import ThumbsGallery1 from "../../../components/thumble/ThumbsGallery1";
 import Head from "next/head";
+import ThumbsGallery2 from "../../../components/thumble/ThumbsGallery2";
 const PorductDetails = () => {
   const router = useRouter();
   const path = router.asPath;
@@ -180,7 +181,7 @@ const PorductDetails = () => {
           //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
-            <Grid item xl={6} lg={7} md={6}>
+            <Grid item xl={6} lg={7} md={6} sm={12}>
               <img
                 onClick={() =>
                   handleImageForThumble(true, {
@@ -652,7 +653,7 @@ const PorductDetails = () => {
             </SwiperSlide>
           </Swiper>
           <Grid container>
-            <Grid item xl={6} lg={5} md={6} width={"100%"}>
+            <Grid item xl={6} lg={5} md={6} sm={6} width={"100%"}>
               <Stack
                 direction={"column"}
                 mt={3}
@@ -867,8 +868,11 @@ const PorductDetails = () => {
       <Hidden only={["xl", "lg", "md", "sm"]}>
         <ThumbsGallery open={open} setOpen={setOpen} imageData={imageData} />
       </Hidden>
-      <Hidden only={["sm", "xs", "xms"]}>
+      <Hidden only={["sm","xs", "xms"]}>
         <ThumbsGallery1 open={open} setOpen={setOpen} imageData={imageData} />
+      </Hidden>
+      <Hidden only={["xs", "xms"]}>
+        <ThumbsGallery2 open={open} setOpen={setOpen} imageData={imageData} />
       </Hidden>
     </>
   );

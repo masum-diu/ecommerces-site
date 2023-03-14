@@ -48,6 +48,7 @@ const Filter = ({
   return (
     <React.Fragment>
       <Drawer
+       transitionDuration={{ enter: 500, exit: 500 }}
         anchor="right"
         open={open}
         onClose={() => setOpen(false)}
