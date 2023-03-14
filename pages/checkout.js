@@ -517,6 +517,7 @@ const checkout = () => {
                     {...register("country_shipping")}
                     id="demo-simple-select"
                     size="small"
+                    disabled={isSameAddressChecked === true ? true : false}
                     value={isSameAddressChecked === true ? distict : distict1}
                     onChange={handleDistict1}
                   >
