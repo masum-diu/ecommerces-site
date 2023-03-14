@@ -77,6 +77,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                 direction={"row"}
                 spacing={2}
                 justifyContent={"space-between"}
+                mt={2}
               >
                 <Typography variant="cardHeader3" color="initial">
                   {product?.p_name}
@@ -116,6 +117,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                 direction={"row"}
                 spacing={2}
                 justifyContent={"space-between"}
+                mt={2}
               >
                 <Typography variant="cardHeader3" color="initial">
                   {product?.p_name}
@@ -155,6 +157,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                 direction={"row"}
                 spacing={2}
                 justifyContent={"space-between"}
+                mt={2}
               >
                 <Typography variant="cardHeader3" color="initial">
                   {product?.p_name}
