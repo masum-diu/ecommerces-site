@@ -125,6 +125,7 @@ const checkout = () => {
   });
 
   const onSubmit = async (data) => {
+    console.log("your log output", data);
     setIsSameAddress(data?.isSameAddress);
     instance
       .post(
