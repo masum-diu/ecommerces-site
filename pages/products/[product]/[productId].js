@@ -268,7 +268,7 @@ const PorductDetails = () => {
             <Grid item xl={5} lg={5} md={6}>
               <Stack direction={"column"} mx={5} mt={3} width={"100%"}>
                 <Typography
-                  className="fonts"
+                  className="exterBold"
                   variant="login1"
                   color="initial"
                   sx={{ letterSpacing: 0.6 }}
@@ -278,6 +278,7 @@ const PorductDetails = () => {
                 <Stack direction={"row"} spacing={1}>
                   <Typography
                     variant="cardHeader1"
+                    className="SemiBold"
                     fontWeight={400}
                     color="initial"
                     textTransform={"uppercase"}
@@ -295,6 +296,7 @@ const PorductDetails = () => {
               </Stack>
               <Stack direction={"column"} mx={5} mt={3} spacing={3}>
                 <Typography
+                 className="light"
                   variant="cardHeader3"
                   color="initial"
                   sx={{ letterSpacing: 0.17 }}
@@ -303,6 +305,7 @@ const PorductDetails = () => {
                 </Typography>
                 <Typography
                   variant="header1"
+                  className="SemiBold"
                   color="initial"
                   letterSpacing={0.3}
                   fontWeight={700}
@@ -310,7 +313,7 @@ const PorductDetails = () => {
                   Price : ৳ {products?.p_sale_price}
                 </Typography>
                 <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="initial">
+                  <Typography variant="cardHeader3" color="#959595"  className="SemiBold" >
                     Sizes
                   </Typography>
                   <hr
@@ -368,7 +371,7 @@ const PorductDetails = () => {
                   </Button>
                 </Stack>
                 <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595">
+                  <Typography variant="cardHeader3" color="#959595"  className="SemiBold">
                     Quantity
                   </Typography>
                   <hr
@@ -411,7 +414,7 @@ const PorductDetails = () => {
                   </IconButton>
                 </Stack>
                 <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595">
+                  <Typography variant="cardHeader3" color="#959595" className="SemiBold">
                     Colors
                   </Typography>
                   <hr
@@ -451,7 +454,7 @@ const PorductDetails = () => {
                   ))}
                 </Stack>
                 <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595" width="25%">
+                  <Typography variant="cardHeader3" color="#959595" width="25%" className="SemiBold">
                     Avalability & Spces
                   </Typography>
                   <hr
@@ -465,14 +468,14 @@ const PorductDetails = () => {
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="initial" className="SemiBold">
                     In Availability:{" "}
                     {stockAmount > 0 ? "In Stock" : "Out of Stock"}
                   </Typography>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="initial" className="SemiBold">
                     Check In Store Availability
                   </Typography>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="initial" className="SemiBold">
                     Check Specs
                   </Typography>
                 </Stack>

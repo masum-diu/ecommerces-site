@@ -106,7 +106,7 @@ theme.typography.header1 = {
 
 theme.typography.login1 = {
   fontSize: "48px",
-  fontWeight: "bold",
+  // fontWeight: "bold",
   color: primary,
   [theme.breakpoints.down("md")]: {
     fontSize: "24px",

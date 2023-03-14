@@ -264,6 +264,7 @@ const HomePageIntro = ({ title }) => {
                 <>
                   <Typography
                     className={style.menu3}
+                   
                     sx={{ cursor: "pointer" }}
                     variant="cardHeader"
                     color="initial"

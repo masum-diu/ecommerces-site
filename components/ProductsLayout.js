@@ -44,7 +44,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
             <Typography variant="cardHeader3" color="initial">
               {productsDataChunk[0]?.p_name}
             </Typography>
-            <Typography variant="cardHeader3" color="initial">
+            <Typography variant="cardHeader3" color="initial"  fontWeight={"bold"}>
               BDT {productsDataChunk[0]?.p_sale_price} 
             </Typography>
           </Stack>
