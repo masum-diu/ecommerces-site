@@ -181,7 +181,8 @@ const PorductDetails = () => {
           //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
-            <Grid item xl={6} lg={7} md={6} sm={12}>
+            <Grid item xl={6} lg={7} md={6} sm={12} sx=
+            {{position:"sticky"}}>
               <img
                 onClick={() =>
                   handleImageForThumble(true, {
@@ -266,8 +267,9 @@ const PorductDetails = () => {
                 }}
               />
             </Grid>
-            <Grid item xl={5} lg={5} md={6}>
-              <Stack direction={"column"} mx={5} mt={3} width={"100%"}>
+            <Grid item xl={5} lg={5} md={6}  >
+              <div style={{position:"fixed",top: 0}}>
+              <Stack direction={"column"} mx={5} mt={3} width={"100%"} >
                 <Typography
                   className="exterBold"
                   variant="login1"
@@ -490,10 +492,14 @@ const PorductDetails = () => {
                   ADD TO CART
                 </Button>
               </Stack>
+              </div>
             </Grid>
           </Grid>
         </Box>
+        
         <Footer />
+       
+        
       </Hidden>
       <Hidden only={["md", "lg", "xl", "sm"]}>
         <Box mt={10} sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}>
@@ -871,7 +877,7 @@ const PorductDetails = () => {
       <Hidden only={["sm","xs", "xms"]}>
         <ThumbsGallery1 open={open} setOpen={setOpen} imageData={imageData} />
       </Hidden>
-      <Hidden only={["xs", "xms"]}>
+      <Hidden only={["xs", "xms","xl", "lg", "md",]}>
         <ThumbsGallery2 open={open} setOpen={setOpen} imageData={imageData} />
       </Hidden>
     </>
