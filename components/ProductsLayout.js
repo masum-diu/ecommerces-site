@@ -141,7 +141,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           marginTop: "3rem",
         }}
       >
-        {productsDataChunk?.slice(6, 8).map((product) => (
+        {productsDataChunk?.slice(6, 9).map((product) => (
           <>
             <Grid item lg={4} sm={6} key={product?.id}>
               <HovarImage

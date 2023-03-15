@@ -30,9 +30,7 @@ const checkout = () => {
   const cart = useSelector((state) => state.cart.cart);
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
-  const [loading, setLoading] = useState(true);
   const [isSameAddress, setIsSameAddress] = useState(false);
-  const [isOnline, setIsOnline] = useState(true);
   const dataFetchedRef = useRef(false);
   const subTotal = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
@@ -56,12 +54,13 @@ const checkout = () => {
     }
   }, [isDhakaChecked, isOutSideChecked, isFromShowRoomChecked]);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
     const securePage = async () => {
       const token = await localStorage.getItem("acesstoken");
       if (!token) {
+        setLoginModal(true);
         await toast.error("Please Login First");
         await router.push("/addtocart");
       } else {
@@ -69,7 +68,7 @@ const checkout = () => {
       }
     };
     securePage();
-  }, []);
+  }, []); */
 
   // handling Different Form Events
   const handleDistict = (event) => {

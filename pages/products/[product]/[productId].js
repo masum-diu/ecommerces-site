@@ -283,7 +283,7 @@ const PorductDetails = () => {
                     textTransform={"uppercase"}
                     sx={{ letterSpacing: 0.6 }}
                   >
-                    Home {path}
+                    Home {path?path.split("/").join(" / "):""}
                   </Typography>
                   {/* <Typography variant="cardHeader1" color="initial">
                 WOMEN /

@@ -9,15 +9,11 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {/* <meta
-            httpEquiv="Content-Security-Policy"
-            content="upgrade-insecure-requests"
-          ></meta> */}
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="emotion-insertion-point" content="" />
-          <link href="https://fonts.cdnfonts.com/css/gellix" rel="stylesheet"/>
+          <link href="https://fonts.cdnfonts.com/css/gellix" rel="stylesheet" />
 
           {this.props.emotionStyleTags}
         </Head>

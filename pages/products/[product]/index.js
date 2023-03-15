@@ -54,7 +54,7 @@ import ProductsLayoutWithStaticImage from "../../../components/ProductsLayoutWit
 import ProductsLayout from "../../../components/ProductsLayout";
 import Head from "next/head";
 
-function chunkArray(arr, chunkSize = 8) {
+function chunkArray(arr, chunkSize = 9) {
   const chunkedArray = [];
   for (let i = 0; i < arr.length; i += chunkSize) {
     chunkedArray.push(arr.slice(i, i + chunkSize));
@@ -547,7 +547,7 @@ const masterCollectionLayout = () => {
   // Handling the loading state
 
   const productsForStatic = filteredData.slice(0, 7);
-  const productsForDynamic = chunkArray(filteredData.slice(8));
+  const productsForDynamic = chunkArray(filteredData.slice(9));
 
   return (
     <>
