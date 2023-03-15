@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import Drawer from "@mui/material/Drawer";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+
 import {
   Box,
   Button,
@@ -9,12 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  MdClose,
-  MdOutlineKeyboardArrowDown,
-  MdOutlineKeyboardArrowUp,
-  AiOutlinePlus,
-} from "react-icons/md";
+import { MdClose, AiOutlinePlus } from "react-icons/md";
 
 const Filter = ({
   open,
@@ -48,7 +46,7 @@ const Filter = ({
   return (
     <React.Fragment>
       <Drawer
-       transitionDuration={{ enter: 500, exit: 500 }}
+        transitionDuration={{ enter: 500, exit: 500 }}
         anchor="right"
         open={open}
         onClose={() => setOpen(false)}
@@ -83,9 +81,9 @@ const Filter = ({
             }}
             endIcon={
               arrow ? (
-                <MdOutlineKeyboardArrowUp onClick={() => setArrow(!arrow)} />
+                <RemoveIcon onClick={() => setArrow(!arrow)} />
               ) : (
-                <MdOutlineKeyboardArrowDown onClick={() => setArrow(!arrow)} />
+                <AddIcon onClick={() => setArrow(!arrow)} />
               )
             }
           >
@@ -123,11 +121,9 @@ const Filter = ({
             }}
             endIcon={
               arrow1 ? (
-                <MdOutlineKeyboardArrowUp onClick={() => setArrow1(!arrow1)} />
+                <RemoveIcon onClick={() => setArrow1(!arrow1)} />
               ) : (
-                <MdOutlineKeyboardArrowDown
-                  onClick={() => setArrow1(!arrow1)}
-                />
+                <AddIcon onClick={() => setArrow1(!arrow1)} />
               )
             }
           >

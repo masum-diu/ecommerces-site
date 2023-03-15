@@ -152,7 +152,9 @@ const SiderBar = ({ open, setOpen }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-       <Link href={"/userProfile"}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></Link>
+      <Link href={"/userProfile"}>
+        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      </Link>
       <MenuItem onClick={handelogout}>Logout</MenuItem>
     </Menu>
   );
@@ -194,7 +196,7 @@ const SiderBar = ({ open, setOpen }) => {
   return (
     <>
       <Drawer
-      transitionDuration={{ enter: 500, exit: 500 }}
+        transitionDuration={{ enter: 500, exit: 500 }}
         anchor="left"
         open={open}
         onClose={() => setOpen(false)}
@@ -221,7 +223,7 @@ const SiderBar = ({ open, setOpen }) => {
             <Box mt={2}>
               <Stack direction={"column"}>
                 <Button
-                className="SemiBold"
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick}
@@ -443,7 +445,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
-                className="SemiBold"
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick1}
@@ -588,7 +590,7 @@ const SiderBar = ({ open, setOpen }) => {
                 ) : null}
 
                 <Button
-                className="SemiBold"
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   fullWidth
@@ -639,7 +641,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
-                className="SemiBold"
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick3}
@@ -821,7 +823,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
-                className="SemiBold"
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   fullWidth
@@ -885,7 +887,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
-                className="SemiBold"
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick5}
@@ -1106,7 +1108,7 @@ const SiderBar = ({ open, setOpen }) => {
                 ) : null}
               </Stack>
               <Button
-              className="SemiBold"
+                className="SemiBold"
                 variant="text"
                 color="inherit"
                 onClick={handleClick6}
@@ -1257,7 +1259,11 @@ const SiderBar = ({ open, setOpen }) => {
                 <IconButton aria-label="">
                   <BiMap style={{ color: "#0A0A0A" }} />
                 </IconButton>
-                <Typography variant="cardHeader" color="initial" className="SemiBold">
+                <Typography
+                  variant="cardHeader"
+                  color="initial"
+                  className="SemiBold"
+                >
                   BD
                 </Typography>
               </Stack>
