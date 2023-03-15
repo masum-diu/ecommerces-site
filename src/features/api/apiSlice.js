@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const productApi = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://165.22.247.151/api",
+    baseUrl: "https://backend.aranya.com.bd/api",
   }),
   endpoints: (builder) => ({
     getProducts: builder.query({
@@ -14,6 +14,9 @@ export const productApi = createApi({
     }),
     getHomePageProducts: builder.query({
       query: () => `/home-pagedata`,
+    }),
+    getSearchResult: builder.query({
+      query: (keyWord) => `/product?no_paginate=yes&keyword=${keyWord}`,
     }),
     getCampignLists: builder.query({
       query: () => "/all-campaign?status",
@@ -65,6 +68,7 @@ export const {
   useGetParticularProductsQuery,
   useGetHomePageProductsQuery,
   useGetCampignListsQuery,
+  useGetSearchResultQuery,
   useGetParticularCampignListsQuery,
   useGetCategoryAndSubWiseProductsQuery,
   useGetCategoryWiseProductsQuery,

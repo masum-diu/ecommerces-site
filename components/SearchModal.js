@@ -11,13 +11,30 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import instance from "../pages/api/api_instance";
+import { useGetSearchResultQuery } from "../src/features/api/apiSlice";
+import Loader from "./Loader/Loader";
 
 const SearchModal = ({ open, setOpen }) => {
   const [searchText, setData] = useState([]);
   const [searchApiData, setSearchApiData] = useState([]);
-  const [filterVal, setFilterVal] = useState("");
+  const [filterVal, setFilterVal] = useState();
 
-  const fetchData = async () => {
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isSuccess,
+    // isError,
+    // error,
+    // isFetching: isFetchingSubCat,
+  } = useGetSearchResultQuery(searchText, {
+    refetchOnMountOrArgChange: true,
+    skip: !filterVal,
+  });
+
+  console.log("your log output", typeof filterVal);
+
+  /*   const fetchData = async () => {
     return await instance
       .get(`/product?no_paginate=yes&keyword`)
       .then(function (response) {
@@ -31,6 +48,12 @@ const SearchModal = ({ open, setOpen }) => {
 
   useEffect(() => {
     fetchData();
+  }, [searchText]); */
+
+  useEffect(() => {
+    if (isSuccess) {
+      setSearchApiData(data?.data);
+    }
   }, [searchText]);
 
   const handleFilter = (e) => {
@@ -74,7 +97,7 @@ const SearchModal = ({ open, setOpen }) => {
               fullWidth
               id=""
               label=""
-              value={filterVal?filterVal:null}
+              value={filterVal ? filterVal : null}
               onInput={(e) => handleFilter(e)}
               size="small"
               placeholder="search products…
@@ -115,7 +138,8 @@ const SearchModal = ({ open, setOpen }) => {
                     {/* <img src={data?.feature_image} alt="" width={100} /> */}
                     <img
                       style={{ cursor: "pointer" }}
-                      src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto:face,h_180,w_180/${data?.feature_image?.split("/")
+                      src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto:face,h_180,w_180/${data?.feature_image
+                        ?.split("/")
                         .slice(-3)
                         .join("/")}`}
                     />

@@ -299,12 +299,12 @@ const shop = () => {
                       spacing={2}
                       justifyContent={"space-between"}
                     >
-                      <Typography variant="cardHeader2" color="initial">
+                      <Typography variant="cardHeader2" color="initial" className="SemiBold">
                         {data?.p_name}
                       </Typography>
                       <Typography
                         variant="cardHeader2"
-                        fontWeight={"bold"}
+                        className="bold"
                         color="initial"
                       >
                         BDT {data?.p_sale_price}
@@ -417,12 +417,13 @@ const shop = () => {
                       spacing={2}
                       justifyContent={"space-between"}
                     >
-                      <Typography variant="cardHeader2" color="initial">
+                      <Typography variant="cardHeader2" color="initial" className="SemiBold">
                         {data?.p_name}
                       </Typography>
                       <Typography
+                      className="bold"
                         variant="cardHeader2"
-                        fontWeight={"bold"}
+                        
                         color="initial"
                       >
                         BDT {data?.p_sale_price}

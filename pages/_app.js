@@ -13,8 +13,7 @@ import { store } from "../src/app/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "react-hot-toast";
-import "../styles/globals.css";
-
+import "../styles/globals.css"
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 let persistor = persistStore(store);

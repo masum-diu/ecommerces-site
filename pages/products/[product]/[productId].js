@@ -25,6 +25,7 @@ import { addToCart } from "../../../src/features/cart/cartSlice";
 import ThumbsGallery from "../../../components/thumble/ThumbsGallery";
 import ThumbsGallery1 from "../../../components/thumble/ThumbsGallery1";
 import Head from "next/head";
+import ThumbsGallery2 from "../../../components/thumble/ThumbsGallery2";
 const PorductDetails = () => {
   const router = useRouter();
   const path = router.asPath;
@@ -180,7 +181,8 @@ const PorductDetails = () => {
           //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
-            <Grid item xl={6} lg={7} md={6}>
+            <Grid item xl={6} lg={7} md={6} sm={12} sx=
+            {{position:"sticky"}}>
               <img
                 onClick={() =>
                   handleImageForThumble(true, {
@@ -265,10 +267,11 @@ const PorductDetails = () => {
                 }}
               />
             </Grid>
-            <Grid item xl={5} lg={5} md={6}>
-              <Stack direction={"column"} mx={5} mt={3} width={"100%"}>
+            <Grid item xl={5} lg={5} md={6}  >
+              <div style={{position:"fixed",top: 0}}>
+              <Stack direction={"column"} mx={5} mt={3} width={"100%"} >
                 <Typography
-                  className="fonts"
+                  className="exterBold"
                   variant="login1"
                   color="initial"
                   sx={{ letterSpacing: 0.6 }}
@@ -278,6 +281,7 @@ const PorductDetails = () => {
                 <Stack direction={"row"} spacing={1}>
                   <Typography
                     variant="cardHeader1"
+                    className="SemiBold"
                     fontWeight={400}
                     color="initial"
                     textTransform={"uppercase"}
@@ -295,6 +299,7 @@ const PorductDetails = () => {
               </Stack>
               <Stack direction={"column"} mx={5} mt={3} spacing={3}>
                 <Typography
+                 className="light"
                   variant="cardHeader3"
                   color="initial"
                   sx={{ letterSpacing: 0.17 }}
@@ -303,6 +308,7 @@ const PorductDetails = () => {
                 </Typography>
                 <Typography
                   variant="header1"
+                  className="SemiBold"
                   color="initial"
                   letterSpacing={0.3}
                   fontWeight={700}
@@ -310,7 +316,7 @@ const PorductDetails = () => {
                   Price : ৳ {products?.p_sale_price}
                 </Typography>
                 <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="initial">
+                  <Typography variant="cardHeader3" color="#959595"  className="SemiBold" >
                     Sizes
                   </Typography>
                   <hr
@@ -368,7 +374,7 @@ const PorductDetails = () => {
                   </Button>
                 </Stack>
                 <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595">
+                  <Typography variant="cardHeader3" color="#959595"  className="SemiBold">
                     Quantity
                   </Typography>
                   <hr
@@ -411,7 +417,7 @@ const PorductDetails = () => {
                   </IconButton>
                 </Stack>
                 <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595">
+                  <Typography variant="cardHeader3" color="#959595" className="SemiBold">
                     Colors
                   </Typography>
                   <hr
@@ -451,7 +457,7 @@ const PorductDetails = () => {
                   ))}
                 </Stack>
                 <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595" width="25%">
+                  <Typography variant="cardHeader3" color="#959595" width="25%" className="SemiBold">
                     Avalability & Spces
                   </Typography>
                   <hr
@@ -465,14 +471,14 @@ const PorductDetails = () => {
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="initial" className="SemiBold">
                     In Availability:{" "}
                     {stockAmount > 0 ? "In Stock" : "Out of Stock"}
                   </Typography>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="initial" className="SemiBold">
                     Check In Store Availability
                   </Typography>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="initial" className="SemiBold">
                     Check Specs
                   </Typography>
                 </Stack>
@@ -486,10 +492,14 @@ const PorductDetails = () => {
                   ADD TO CART
                 </Button>
               </Stack>
+              </div>
             </Grid>
           </Grid>
         </Box>
+        
         <Footer />
+       
+        
       </Hidden>
       <Hidden only={["md", "lg", "xl", "sm"]}>
         <Box mt={10} sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}>
@@ -649,7 +659,7 @@ const PorductDetails = () => {
             </SwiperSlide>
           </Swiper>
           <Grid container>
-            <Grid item xl={6} lg={5} md={6} width={"100%"}>
+            <Grid item xl={6} lg={5} md={6} sm={6} width={"100%"}>
               <Stack
                 direction={"column"}
                 mt={3}
@@ -864,8 +874,11 @@ const PorductDetails = () => {
       <Hidden only={["xl", "lg", "md", "sm"]}>
         <ThumbsGallery open={open} setOpen={setOpen} imageData={imageData} />
       </Hidden>
-      <Hidden only={["sm", "xs", "xms"]}>
+      <Hidden only={["sm","xs", "xms"]}>
         <ThumbsGallery1 open={open} setOpen={setOpen} imageData={imageData} />
+      </Hidden>
+      <Hidden only={["xs", "xms","xl", "lg", "md",]}>
+        <ThumbsGallery2 open={open} setOpen={setOpen} imageData={imageData} />
       </Hidden>
     </>
   );

@@ -194,6 +194,7 @@ const SiderBar = ({ open, setOpen }) => {
   return (
     <>
       <Drawer
+      transitionDuration={{ enter: 500, exit: 500 }}
         anchor="left"
         open={open}
         onClose={() => setOpen(false)}
@@ -220,6 +221,7 @@ const SiderBar = ({ open, setOpen }) => {
             <Box mt={2}>
               <Stack direction={"column"}>
                 <Button
+                className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick}
@@ -441,6 +443,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
+                className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick1}
@@ -585,6 +588,7 @@ const SiderBar = ({ open, setOpen }) => {
                 ) : null}
 
                 <Button
+                className="SemiBold"
                   variant="text"
                   color="inherit"
                   fullWidth
@@ -635,6 +639,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
+                className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick3}
@@ -816,6 +821,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
+                className="SemiBold"
                   variant="text"
                   color="inherit"
                   fullWidth
@@ -879,6 +885,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
+                className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick5}
@@ -1099,6 +1106,7 @@ const SiderBar = ({ open, setOpen }) => {
                 ) : null}
               </Stack>
               <Button
+              className="SemiBold"
                 variant="text"
                 color="inherit"
                 onClick={handleClick6}
@@ -1171,6 +1179,7 @@ const SiderBar = ({ open, setOpen }) => {
               >
                 <Typography
                   variant="cardHeader"
+                  className="SemiBold"
                   color="initial"
                   onClick={() => router.push("/shop")}
                 >
@@ -1188,6 +1197,7 @@ const SiderBar = ({ open, setOpen }) => {
               >
                 <Typography
                   variant="cardHeader"
+                  className="SemiBold"
                   color="initial"
                   onClick={() => router.push("/story")}
                 >
@@ -1213,7 +1223,7 @@ const SiderBar = ({ open, setOpen }) => {
                     >
                       <AccountCircle style={{ color: "#0A0A0A" }} />
 
-                      <Typography variant="cardHeader">
+                      <Typography variant="cardHeader" className="SemiBold">
                         {userjsondata ? (
                           <Typography variant="cardHeader">
                             {userjsondata.name}
@@ -1233,6 +1243,7 @@ const SiderBar = ({ open, setOpen }) => {
                   <>
                     <Typography
                       variant="cardHeader"
+                      className="SemiBold"
                       color="initial"
                       onClick={() => setModalOpen(true)}
                     >
@@ -1246,7 +1257,7 @@ const SiderBar = ({ open, setOpen }) => {
                 <IconButton aria-label="">
                   <BiMap style={{ color: "#0A0A0A" }} />
                 </IconButton>
-                <Typography variant="cardHeader" color="initial">
+                <Typography variant="cardHeader" color="initial" className="SemiBold">
                   BD
                 </Typography>
               </Stack>

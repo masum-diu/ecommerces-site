@@ -252,8 +252,8 @@ const masterCollectionLayout = () => {
   useEffect(() => {
     if (productsForStatic.length) {
     }
-    // setFilteredData([]);
-    // setProducts([]);
+    setFilteredData([]);
+    setProducts([]);
     setHasMore(true);
     setPage(1);
     setMin(0);
@@ -276,6 +276,7 @@ const masterCollectionLayout = () => {
       const handleSuccess = async () => {
         if (sub_cat && (cat !== 3 || cat !== 5) && data?.data) {
           if (page === 1) {
+            console.log("inside set data");
             setProducts((prev) => [...data.data]);
             setFilteredData((prev) => [...data.data]);
           } else {
@@ -421,7 +422,12 @@ const masterCollectionLayout = () => {
         }
       }
       if (fabricName === "all") {
-        setFilteredData(products);
+        if (sub_cat) {
+          setFilteredData(products);
+        } else {
+          setFilteredData(products);
+        }
+        // setFilteredData(products);
       }
     };
     handleSuccess();
@@ -552,28 +558,33 @@ const masterCollectionLayout = () => {
   return (
     <>
       <Head>
-          <meta name="description" content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials." />
-          <meta name="keywords" content="Aranya online shop" />
-          <meta name="sitemap_link" content="sitemap.com" />
-          <meta property="og:site_name" content="aranya.com.bd" />
-         
-          <meta name="twitter:card" content="Category" />
-          <meta name="twitter:title" content={'Aranya | '+productName} />
-          <meta name="twitter:site" content="@my_twitter" />
-          <meta name="twitter:creator" content="@my_twitter" />
+        <meta
+          name="description"
+          content="Aranya produces sustainable and fair trade craft products that ranges from Men, Women and Children's wear to lifestyle luxury products using natural dyes, azo free dyes,natural fibres and textiles and other biodegradable materials."
+        />
+        <meta name="keywords" content="Aranya online shop" />
+        <meta name="sitemap_link" content="sitemap.com" />
+        <meta property="og:site_name" content="aranya.com.bd" />
 
-          <meta property="og:title" content={'Aranya | '+productName} />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content={currentPath} />
-          <meta property="og:image" content={staticData?.cat_img_one} />
-          <meta property="og:description" content={'Find all product  in '+productName+ 'category'} />
-      
+        <meta name="twitter:card" content="Category" />
+        <meta name="twitter:title" content={"Aranya | " + productName} />
+        <meta name="twitter:site" content="@my_twitter" />
+        <meta name="twitter:creator" content="@my_twitter" />
+
+        <meta property="og:title" content={"Aranya | " + productName} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={currentPath} />
+        <meta property="og:image" content={staticData?.cat_img_one} />
+        <meta
+          property="og:description"
+          content={"Find all product  in " + productName + "category"}
+        />
       </Head>
       <HomePageIntro title={"Saree "} />
       <Box mt={10} mb={4}>
         <Stack direction={"row"} alignItems="center">
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_700,w_1920/${staticData?.cat_img_one
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${staticData?.cat_img_one
               ?.split("/")
               .slice(-3)
               .join("/")}`}
@@ -665,6 +676,7 @@ const masterCollectionLayout = () => {
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
                 <Typography
                   variant="homeFlash"
+                  className="SemiBold"
                   style={
                     fabricSelect === "all"
                       ? {
@@ -683,6 +695,7 @@ const masterCollectionLayout = () => {
                 </Typography>
                 {fabrics?.slice(0, 4).map((fabric) => (
                   <Typography
+                    className="SemiBold"
                     variant="homeFlash"
                     style={
                       fabricSelect === fabric?.fabric_name
@@ -713,6 +726,7 @@ const masterCollectionLayout = () => {
               >
                 <Typography
                   variant="homeFlash"
+                  className="SemiBold"
                   color="initial"
                   sx={{ cursor: "pointer", letterSpacing: 1.5 }}
                   onClick={() => setFilter(true)}
