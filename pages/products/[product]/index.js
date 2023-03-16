@@ -780,6 +780,12 @@ const masterCollectionLayout = () => {
         setOpen={setLists}
         setFilteredData={setFilteredData}
         setFabricName={setFabricName}
+        uniqueColors={uniqueColors}
+        max={rangeValue[1]}
+        min={rangeValue[0]}
+        setValue={setValue}
+        rangeValue={rangeValue}
+        setSelectedColor={setSelectedColor}
       />
       {/* <Menu1Dawer open={lists1} setOpen={setLists1} /> */}
       <Filter
