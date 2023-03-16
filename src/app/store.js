@@ -22,7 +22,8 @@ const reducers = combineReducers({
 const persistConfig = {
   key: "root",
   version: 1,
-  storage
+  storage,
+  blacklist: ['productApi']
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 export const store = configureStore({

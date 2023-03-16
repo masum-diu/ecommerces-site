@@ -40,7 +40,6 @@ import {
   useGetPriceWiseFilteredProductsWithOutSubQuery,
   useGetFabricWiseFilteredProductsWithOutSubQuery,
   useGetFabricWiseFilteredProductsQuery,
-  useLazyGetCategoryAndSubWiseProductsQuery,
 } from "../../../src/features/api/apiSlice";
 import Loader from "../../../components/Loader/Loader";
 import HovarImage from "../../../components/HovarableImage/HovarImage";
@@ -83,7 +82,7 @@ const masterCollectionLayout = () => {
   const [fabrics, setFabric] = useState([]);
   const [fabricSelect, setFabricSelect] = useState([]);
   const [fabricName, setFabricName] = useState("");
-  const [fabricID, setFabricID] = useState("");
+  const [fabricID, setFabricID] = useState(0);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
   const [rangeValue, setValue] = useState([0, 10000]);
@@ -208,6 +207,8 @@ const masterCollectionLayout = () => {
     data: filterDataSubp,
     isLoading: filterLoadingp,
     isSuccess: filterSuccessp,
+    isFetching: isPriceSubFetching,
+    queryFulfilled: isPriceFulfilledSub,
   } = useGetPriceWiseFilteredProductsQuery(
     { cat, sub_cat, up, low },
     {
@@ -219,6 +220,8 @@ const masterCollectionLayout = () => {
     data: filterDataCatp,
     isLoading: filterLoadingCatp,
     isSuccess: filterSuccessCatp,
+    isFetching: isPriceCatFetching,
+    queryFulfilled: isPriceFulfilledCat,
   } = useGetPriceWiseFilteredProductsWithOutSubQuery(
     { cat, up, low },
     {
@@ -228,8 +231,6 @@ const masterCollectionLayout = () => {
   );
 
   // Getting filtered by fabric
-  // const fabSelectedID = fabricSelect[0]
-
   const {
     data: filterDataSubFab,
     isLoading: filterLoadingFab,
@@ -264,24 +265,14 @@ const masterCollectionLayout = () => {
   // Setting product in a state
   useEffect(() => {
     if (isLoading || categoryLoading) {
-      // const setLoader = () => {
-      //   return <Loader></Loader>;
-      // };
-      // setLoader();
     }
-    if (
-      // (isSuccess || categoryisSuccess) &&
-      hasMore &&
-      (data?.data || catetoryData?.data)
-    ) {
+    if (hasMore && (data?.data || catetoryData?.data)) {
       const handleSuccess = async () => {
         if (sub_cat && (cat !== 3 || cat !== 5) && data?.data) {
           if (page === 1) {
-            console.log("inside set data");
             setProducts((prev) => [...data.data]);
             setFilteredData((prev) => [...data.data]);
           } else {
-            console.log("inside not page 1");
             setProducts((prev) => [...prev, ...data.data]);
             setFilteredData((prev) => [...prev, ...data.data]);
           }
@@ -343,20 +334,8 @@ const masterCollectionLayout = () => {
     hasMore,
     cat,
     sub_cat,
-    page
+    page,
   ]);
-  //handling minimum and maximum value
-  /* useEffect(() => {
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
-    if (products) {
-      const min = Math.min(...products?.map((item) => item?.p_sale_price));
-      const max = Math.max(...products?.map((item) => item?.p_sale_price));
-      setMin(min);
-      setMax(max);
-    }
-  }, [products]);
-   */
 
   // Setting static data of products in a state
 
@@ -372,12 +351,6 @@ const masterCollectionLayout = () => {
       };
       handleSuccess();
     }
-    // if (loading || loadingCat) {
-    //   const setLoader = () => {
-    //     return <Loader></Loader>;
-    //   };
-    //   setLoader();
-    // }
   }, [staticDatas, loading, success, staticDatasCat, loadingCat, successCat]);
 
   // Setting attributes of products in a state
@@ -392,12 +365,6 @@ const masterCollectionLayout = () => {
       };
       handleSuccess();
     }
-    // if (attirbutesloading || attirbutesloadingCat) {
-    //   const setLoader = () => {
-    //     return <Loader></Loader>;
-    //   };
-    //   setLoader();
-    // }
   }, [
     attirbutesDatas,
     attirbutesloading,
@@ -410,10 +377,6 @@ const masterCollectionLayout = () => {
   // Filtering the products using fabric
   useEffect(() => {
     if (filterLoadingCatFab || filterLoadingFab) {
-      // const setLoader = () => {
-      //   return <Loader></Loader>;
-      // };
-      // setLoader();
     }
     const handleSuccess = () => {
       if ((filterSuccessFab || filterSuccessCatFab) && fabricID) {
@@ -433,32 +396,6 @@ const masterCollectionLayout = () => {
       }
     };
     handleSuccess();
-
-    /* const handelFilterGallery = async () => {
-      const content = products.filter(
-        (product) => fabricName == product?.p_fabric[0]?.fabric_name
-      );
-      setFilteredData(content);
-    };
-    handelFilterGallery();
-
-    if (fabricName === "all") {
-      setFilteredData(products);
-    }
-    if (fabricName === "high") {
-      let sortedbyPriceDsc = [...products];
-      sortedbyPriceDsc = sortedbyPriceDsc?.sort(
-        (a, b) => parseFloat(b.p_sale_price) - parseFloat(a.p_sale_price)
-      );
-      setFilteredData(sortedbyPriceDsc);
-    }
-    if (fabricName === "low") {
-      let sortedbyPriceAsc = [...products];
-      sortedbyPriceAsc = sortedbyPriceAsc?.sort(
-        (a, b) => parseFloat(a.p_sale_price) - parseFloat(b.p_sale_price)
-      );
-      setFilteredData(sortedbyPriceAsc);
-    } */
   }, [fabricID, fabricName]);
   // Filtering data by colors
   useEffect(() => {
@@ -470,43 +407,26 @@ const masterCollectionLayout = () => {
       }
     }
     if (filterLoading || filterLoadingCat) {
-      // const setLoader = () => {
-      //   return <Loader></Loader>;
-      // };
-      // setLoader();
     }
   }, [selectedColor]);
 
   // Filtering the products using price
-  useEffect(() => {
-    if ((filterSuccessCatp || filterSuccessp) && rangeValue) {
-      if (sub_cat) {
-        setFilteredData(filterDataSubp?.data);
-      } else {
-        setFilteredData(filterDataCatp?.data);
+  useEffect(
+    () => {
+      if (filterDataSubp || filterDataCatp) {
+        if (sub_cat) {
+          setFilteredData(filterDataSubp?.data);
+        } else {
+          setFilteredData(filterDataCatp?.data);
+        }
       }
-    }
-    if (filterLoadingp || filterLoadingCatp) {
-      // const setLoader = () => {
-      //   return <Loader></Loader>;
-      // };
-      // setLoader();
-    }
-  }, [rangeValue]);
-  // Through static data
-  /* useEffect(() => {
-    if (rangeValue[0] !== Infinity && rangeValue[1] !== -Infinity) {
-      const handelFilterGalleryRangeWise = async () => {
-        const content = products.filter(
-          (product) =>
-            rangeValue[0] <= product?.p_sale_price &&
-            rangeValue[1] >= product?.p_sale_price
-        );
-        setFilteredData(content);
-      };
-      handelFilterGalleryRangeWise();
-    }
-  }, [rangeValue]); */
+      if (filterLoadingp || filterLoadingCatp) {
+      }
+    },
+    [rangeValue[0], rangeValue[1]],
+    filterDataCatp,
+    filterDataSubp
+  );
 
   //handling unique colors
   useEffect(() => {
@@ -537,6 +457,10 @@ const masterCollectionLayout = () => {
   //     setHasMore(!hasMore);
   //   }
   // }, [cat, sub_cat]);
+
+  /*  if (isPriceSubFetching || isPriceCatFetching) {
+    return <p>Loading</p> ;
+  } */
 
   // handling fabric change state
   const handleFabricChange = (data, id) => {
@@ -777,6 +701,7 @@ const masterCollectionLayout = () => {
         setOpen={setLists}
         setFilteredData={setFilteredData}
         setFabricName={setFabricName}
+        setFabricID={setFabricID}
         uniqueColors={uniqueColors}
         max={rangeValue[1]}
         min={rangeValue[0]}
@@ -794,6 +719,9 @@ const masterCollectionLayout = () => {
         setValue={setValue}
         rangeValue={rangeValue}
         setSelectedColor={setSelectedColor}
+        fabrics={fabrics}
+        setFabricName={setFabricName}
+        setFabricID={setFabricID}
       />
     </>
   );

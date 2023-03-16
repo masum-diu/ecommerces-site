@@ -23,6 +23,11 @@ const Filter = ({
   setValue,
   rangeValue,
   setSelectedColor,
+  fabrics,
+  products,
+  setFilteredData,
+  setFabricName,
+  setFabricID,
 }) => {
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
@@ -36,13 +41,22 @@ const Filter = ({
     setOpenList1((prev) => !prev);
     setArrow1(!arrow1);
   };
+  const [openList2, setOpenList2] = React.useState(false);
+  const [arrow2, setArrow2] = useState(false);
+  const handleClick2 = () => {
+    setOpenList2((prev) => !prev);
+    setArrow2(!arrow2);
+  };
   //price range state
   // const [value, setValue] = useState([min, max]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const handleFabric = (name, id) => {
+    setFabricName(name);
+    setFabricID(id);
+  };
   return (
     <React.Fragment>
       <Drawer
@@ -68,6 +82,7 @@ const Filter = ({
           </IconButton>
         </Stack>
         <Stack direction={"column"} spacing={1} p={2}>
+          {/* Fabric Wise Filter Starts */}
           <Button
             variant="text"
             color="inherit"
@@ -87,27 +102,39 @@ const Filter = ({
               )
             }
           >
-            Colors
+            Fabric
           </Button>
           {openList ? (
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
               <Stack direction={"column"} spacing={1.5}>
-                {uniqueColors?.map((color, index) => (
+                <Typography
+                  onClick={() => handleFabric("all")}
+                  variant="cardHeader3"
+                  color="initial"
+                  sx={{ cursor: "pointer" }}
+                >
+                  All Product
+                </Typography>
+                {fabrics?.map((fabric, index) => (
                   <>
                     <Typography
-                      onClick={() => setSelectedColor([color.name, color.id])}
+                      onClick={() =>
+                        handleFabric(fabric?.fabric_name, fabric?.fabric_id)
+                      }
                       variant="cardHeader3"
                       color="initial"
                       key={index}
                       sx={{ cursor: "pointer" }}
                     >
-                      {color.name}
+                      {fabric?.fabric_name}
                     </Typography>
                   </>
                 ))}
               </Stack>
             </Box>
           ) : null}
+
+          {/* Color Wise Filter Starts */}
           <Button
             variant="text"
             color="inherit"
@@ -127,9 +154,51 @@ const Filter = ({
               )
             }
           >
-            Price Range
+            Colors
           </Button>
           {openList1 ? (
+            <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
+              <Stack direction={"column"} spacing={1.5}>
+                {uniqueColors?.map((color, index) => (
+                  <>
+                    <Typography
+                      onClick={() => setSelectedColor([color.name, color.id])}
+                      variant="cardHeader3"
+                      color="initial"
+                      key={index}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      {color.name}
+                    </Typography>
+                  </>
+                ))}
+              </Stack>
+            </Box>
+          ) : null}
+
+          {/* Price wise filter Starts */}
+          <Button
+            variant="text"
+            color="inherit"
+            onClick={handleClick2}
+            fullWidth
+            sx={{
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              textTransform: "capitalize",
+            }}
+            endIcon={
+              arrow2 ? (
+                <RemoveIcon onClick={() => setArrow2(!arrow2)} />
+              ) : (
+                <AddIcon onClick={() => setArrow2(!arrow2)} />
+              )
+            }
+          >
+            Price Range
+          </Button>
+          {openList2 ? (
             <Box sx={{ width: "100%", margin: "0 auto", px: 2 }}>
               <Stack direction={"column"} spacing={1.5}>
                 <Slider

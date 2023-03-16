@@ -56,9 +56,21 @@ export const productApi = createApi({
     getPriceWiseFilteredProducts: builder.query({
       query: ({ cat, sub_cat, up, low }) =>
         `/product/${cat}/${sub_cat}?range=${low}-${up}`,
+      debounce: {
+        // Use throttle to limit the rate at which the query function is called
+        wait: 60000,
+        leading: true,
+        trailing: true,
+      },
     }),
     getPriceWiseFilteredProductsWithOutSub: builder.query({
       query: ({ cat, up, low }) => `/product/${cat}?range=${low}-${up}`,
+      throttle: {
+        // Use throttle to limit the rate at which the query function is called
+        wait: 500,
+        leading: true,
+        trailing: true,
+      },
     }),
   }),
 });
@@ -77,6 +89,7 @@ export const {
   useGetColorWiseFilteredProductsQuery,
   useGetColorWiseFilteredProductsWithOutSubQuery,
   useGetPriceWiseFilteredProductsQuery,
+  useLazyGetPriceWiseFilteredProductsQuery,
   useGetPriceWiseFilteredProductsWithOutSubQuery,
   useGetFabricWiseFilteredProductsQuery,
   useGetFabricWiseFilteredProductsWithOutSubQuery,

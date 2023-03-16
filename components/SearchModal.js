@@ -32,7 +32,6 @@ const SearchModal = ({ open, setOpen }) => {
     skip: !filterVal,
   });
 
-  console.log("your log output", typeof filterVal);
 
   /*   const fetchData = async () => {
     return await instance

@@ -21,6 +21,7 @@ const MenuDawer = ({
   products,
   setFilteredData,
   setFabricName,
+  setFabricID,
   uniqueColors,
   min,
   max,
@@ -46,11 +47,17 @@ const MenuDawer = ({
     setOpenList2((prev) => !prev);
     setArrow2(!arrow2);
   };
+  console.log("your log output", fabrics);
   //price range state
   // const [value, setValue] = useState([min, max]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleFabric = (name, id) => {
+    setFabricName(name);
+    setFabricID(id);
   };
   return (
     <>
@@ -75,34 +82,23 @@ const MenuDawer = ({
             <MdClose />
           </IconButton>
         </Stack>
-        <Stack direction={"column"}>
+        {/* <Stack direction={"column"}>
           <ListItemButton
             sx={{ cursor: "pointer" }}
-            onClick={() => setFabricName("all")}
+            onClick={() => handleFabric("all")}
           >
             All Product
           </ListItemButton>
           {fabrics?.map((fabric) => (
             <ListItemButton
               sx={{ cursor: "pointer" }}
-              onClick={() => setFabricName(fabric?.fabric_name)}
+              onClick={() =>
+                handleFabric(fabric?.fabric_name, fabric?.fabric_id)
+              }
             >{`${fabric?.fabric_name}`}</ListItemButton>
           ))}
-          {/* <ListItemButton>
-            <Menu1 title={"Cotton Saree"} />
-          </ListItemButton>
-          <ListItemButton>
-            <Menu1 title={"Silk Saree"} />
-          </ListItemButton>
-          <ListItemButton>
-            <Menu1 title={"Nakshikantha Saree"} />
-          </ListItemButton>
-          <ListItemButton>
-            <Menu1 title={"Jamdani Saree"} />
-          </ListItemButton> */}
-        </Stack>
+        </Stack> */}
         <Stack direction={"column"} spacing={1} p={2}>
-
           {/* Fabric Filter Starts */}
           <Button
             variant="text"
@@ -128,16 +124,24 @@ const MenuDawer = ({
           {openList ? (
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
               <Stack direction={"column"} spacing={1.5}>
-                {uniqueColors?.map((color, index) => (
+                <Typography
+                  onClick={() => handleFabric("all")}
+                  variant="cardHeader3"
+                  color="initial"
+                  sx={{ cursor: "pointer" }}
+                >
+                  All Product
+                </Typography>
+                {fabrics?.map((fabric, index) => (
                   <>
                     <Typography
-                      onClick={() => setSelectedColor([color.name, color.id])}
+                      onClick={() => handleFabric(fabric?.fabric_name, fabric?.fabric_id)}
                       variant="cardHeader3"
                       color="initial"
                       key={index}
                       sx={{ cursor: "pointer" }}
                     >
-                      {color.name}
+                      {fabric?.fabric_name}
                     </Typography>
                   </>
                 ))}
@@ -159,9 +163,9 @@ const MenuDawer = ({
             }}
             endIcon={
               arrow1 ? (
-                <RemoveIcon onClick={() => setArrow(!arrow1)} />
+                <RemoveIcon onClick={() => setArrow1(!arrow1)} />
               ) : (
-                <AddIcon onClick={() => setArrow(!arrow1)} />
+                <AddIcon onClick={() => setArrow1(!arrow1)} />
               )
             }
           >
@@ -201,9 +205,9 @@ const MenuDawer = ({
             }}
             endIcon={
               arrow2 ? (
-                <RemoveIcon onClick={() => setArrow1(!arrow2)} />
+                <RemoveIcon onClick={() => setArrow2(!arrow2)} />
               ) : (
-                <AddIcon onClick={() => setArrow1(!arrow2)} />
+                <AddIcon onClick={() => setArrow2(!arrow2)} />
               )
             }
           >

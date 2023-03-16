@@ -99,20 +99,17 @@ const PorductDetails = () => {
       }
 
       if (sizeSelected === true && colorSelected === true) {
-        console.log("clicked");
-        console.log("size id", sizeId);
-        console.log("size id", colorId);
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
         );
-        console.log("selectedProduct", selectedProduct);
+
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         if (stockAmount > 0) {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
         }
-        if (stockAmount === undefined ||stockAmount === 0) {
+        if (stockAmount === undefined || stockAmount === 0) {
           setDisableBtn(true);
           setNoteTextForStock("Out of Stock");
         }
@@ -729,7 +726,11 @@ const PorductDetails = () => {
             >
               <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
                 <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial" className="exterBold">
+                  <Typography
+                    variant="login2"
+                    color="initial"
+                    className="exterBold"
+                  >
                     {products?.p_name}
                   </Typography>
 
@@ -742,7 +743,11 @@ const PorductDetails = () => {
                     Home {path}
                   </Typography>
                 </Stack>
-                <Typography variant="tabText1" color="initial" className="exterBold">
+                <Typography
+                  variant="tabText1"
+                  color="initial"
+                  className="exterBold"
+                >
                   Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
@@ -767,7 +772,11 @@ const PorductDetails = () => {
             >
               <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
                 <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial" className="exterBold">
+                  <Typography
+                    variant="login2"
+                    color="initial"
+                    className="exterBold"
+                  >
                     {products?.p_name}
                   </Typography>
 
@@ -780,7 +789,11 @@ const PorductDetails = () => {
                     Home {path}
                   </Typography>
                 </Stack>
-                <Typography variant="tabText1" color="initial" className="exterBold">
+                <Typography
+                  variant="tabText1"
+                  color="initial"
+                  className="exterBold"
+                >
                   Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
@@ -805,7 +818,11 @@ const PorductDetails = () => {
             >
               <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
                 <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial" className="exterBold">
+                  <Typography
+                    variant="login2"
+                    color="initial"
+                    className="exterBold"
+                  >
                     {products?.p_name}
                   </Typography>
 
@@ -818,7 +835,11 @@ const PorductDetails = () => {
                     Home {path}
                   </Typography>
                 </Stack>
-                <Typography variant="tabText1" color="initial" className="exterBold">
+                <Typography
+                  variant="tabText1"
+                  color="initial"
+                  className="exterBold"
+                >
                   Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
@@ -843,7 +864,11 @@ const PorductDetails = () => {
             >
               <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
                 <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial" className="exterBold">
+                  <Typography
+                    variant="login2"
+                    color="initial"
+                    className="exterBold"
+                  >
                     {products?.p_name}
                   </Typography>
 
@@ -856,7 +881,11 @@ const PorductDetails = () => {
                     Home {path}
                   </Typography>
                 </Stack>
-                <Typography variant="tabText1" color="initial" className="exterBold">
+                <Typography
+                  variant="tabText1"
+                  color="initial"
+                  className="exterBold"
+                >
                   Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
