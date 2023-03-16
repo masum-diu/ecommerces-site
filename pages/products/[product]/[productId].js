@@ -73,7 +73,6 @@ const PorductDetails = () => {
 
   useEffect(() => {
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
-      console.log("inside both ");
       if (colorSelected === false && sizeSelected === false) {
         setNoteTextForStock(
           " Please select a color and size in order to check stock availability"
@@ -81,23 +80,22 @@ const PorductDetails = () => {
         setNoteTextForCart(
           " Please select a color and size in order to enable Add To Cart"
         );
-        if (colorSelected === false && sizeSelected === true) {
-          setNoteTextForStock(
-            " Please select a color in order to check stock availability"
-          );
-          setNoteTextForCart(
-            " Please select a color in order to enable Add To Cart"
-          );
-        }
-        if (sizeSelected === false && colorSelected === true) {
-          console.log("inside last");
-          setNoteTextForStock(
-            " Please select a size in order to check stock availability"
-          );
-          setNoteTextForCart(
-            " Please select a size in order to enable Add To Cart."
-          );
-        }
+      }
+      if (colorSelected === false && sizeSelected === true) {
+        setNoteTextForStock(
+          " Please select a color in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a color in order to enable Add To Cart"
+        );
+      }
+      if (sizeSelected === false && colorSelected === true) {
+        setNoteTextForStock(
+          " Please select a size in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a size in order to enable Add To Cart."
+        );
       }
 
       if (sizeSelected === true && colorSelected === true) {
@@ -107,15 +105,14 @@ const PorductDetails = () => {
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
         );
+        console.log("selectedProduct", selectedProduct);
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
-        console.log("selected product", selectedProduct);
-        console.log("stock amount", stockAmount);
         if (stockAmount > 0) {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
         }
-        if (stockAmount === undefined) {
+        if (stockAmount === undefined ||stockAmount === 0) {
           setDisableBtn(true);
           setNoteTextForStock("Out of Stock");
         }
@@ -167,15 +164,12 @@ const PorductDetails = () => {
           setStockAmount(selectedProduct?.stock);
         }
         if (sizeSelected == true) {
-          console.log("sizeId", sizeId);
           const selectedProduct = products?.p_stocks?.find(
             (stock) => stock?.size_id === sizeId
           );
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
-
-        console.log("stock amount", stockAmount);
 
         if (stockAmount > 0) {
           setDisableBtn(false);
@@ -188,15 +182,11 @@ const PorductDetails = () => {
 
         setNoteTextForCart("");
       }
-      console.log(
-        "check length",
-        products?.p_colours?.length,
-        products?.p_sizes?.length
-      );
 
       if (
         products?.p_colours?.length > 0 &&
-        (products?.p_sizes?.length === undefined||products?.p_sizes?.length ===0) &&
+        (products?.p_sizes?.length === undefined ||
+          products?.p_sizes?.length === 0) &&
         colorSelected === false
       ) {
         setNoteTextForStock(
@@ -207,8 +197,9 @@ const PorductDetails = () => {
         );
       }
       if (
-        (products?.p_colours?.length ===undefined||products?.p_colours?.length===0) &&
-        products?.p_sizes?.length >0 &&
+        (products?.p_colours?.length === undefined ||
+          products?.p_colours?.length === 0) &&
+        products?.p_sizes?.length > 0 &&
         sizeSelected === false
       ) {
         setNoteTextForStock(
@@ -228,7 +219,6 @@ const PorductDetails = () => {
     products?.p_colours?.length,
     products?.p_sizes?.length,
   ]);
-  console.log("stock details", stockDetails);
   /*   useEffect(() => {
     if (
       products?.p_sizes?.length > 0 &&
@@ -350,7 +340,7 @@ const PorductDetails = () => {
           //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
-            <Grid item xl={6} lg={7} md={6} sm={12} >
+            <Grid item xl={6} lg={7} md={6} sm={12}>
               <img
                 onClick={() =>
                   handleImageForThumble(true, {
@@ -438,99 +428,98 @@ const PorductDetails = () => {
 
             {/* Details Section */}
             <Grid item xl={5} lg={5} md={6}>
-             
-                <Stack direction={"column"} mx={5}  width={"100%"}>
+              <Stack direction={"column"} mx={5} width={"100%"}>
+                <Typography
+                  className="exterBold"
+                  variant="login1"
+                  color="initial"
+                  sx={{ letterSpacing: 0.6 }}
+                >
+                  {products?.p_name}
+                </Typography>
+                <Stack direction={"row"} spacing={1}>
                   <Typography
-                    className="exterBold"
-                    variant="login1"
+                    variant="cardHeader1"
+                    className="SemiBold"
+                    fontWeight={400}
                     color="initial"
+                    textTransform={"uppercase"}
                     sx={{ letterSpacing: 0.6 }}
                   >
-                    {products?.p_name}
+                    Home {path ? path.split("/").join(" / ") : ""}
                   </Typography>
-                  <Stack direction={"row"} spacing={1}>
-                    <Typography
-                      variant="cardHeader1"
-                      className="SemiBold"
-                      fontWeight={400}
-                      color="initial"
-                      textTransform={"uppercase"}
-                      sx={{ letterSpacing: 0.6 }}
-                    >
-                      Home {path ? path.split("/").join(" / ") : ""}
-                    </Typography>
-                    {/* <Typography variant="cardHeader1" color="initial">
+                  {/* <Typography variant="cardHeader1" color="initial">
                 WOMEN /
               </Typography>
               <Typography variant="cardHeader1" color="initial">
                 KURTI & FATUA
               </Typography> */}
-                  </Stack>
                 </Stack>
-                <Stack direction={"column"} mx={5} mt={3} spacing={3}>
+              </Stack>
+              <Stack direction={"column"} mx={5} mt={3} spacing={3}>
+                <Typography
+                  className="light"
+                  variant="cardHeader3"
+                  color="initial"
+                  sx={{ letterSpacing: 0.17 }}
+                >
+                  {description}
+                </Typography>
+                <Typography
+                  variant="header1"
+                  className="SemiBold"
+                  color="initial"
+                  letterSpacing={0.3}
+                  fontWeight={700}
+                >
+                  Price : BDT {products?.p_sale_price}
+                </Typography>
+                <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography
-                    className="light"
                     variant="cardHeader3"
-                    color="initial"
-                    sx={{ letterSpacing: 0.17 }}
-                  >
-                    {description}
-                  </Typography>
-                  <Typography
-                    variant="header1"
+                    color="#959595"
                     className="SemiBold"
-                    color="initial"
-                    letterSpacing={0.3}
-                    fontWeight={700}
                   >
-                    Price : BDT {products?.p_sale_price}
+                    Sizes
                   </Typography>
-                  <Stack direction={"row"} spacing={1} alignItems="center">
-                    <Typography
-                      variant="cardHeader3"
-                      color="#959595"
-                      className="SemiBold"
-                    >
-                      Sizes
-                    </Typography>
-                    <hr
-                      style={{
-                        textAlign: "left",
-                        width: "100%",
-                        height: "1px",
-                        backgroundColor: "black",
-                        // maxWidth: "350px",
-                      }}
-                    />
-                  </Stack>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "350px",
+                    }}
+                  />
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={1}
+                  alignItems="center"
+                  justifyContent={"space-between"}
+                >
                   <Stack
                     direction={"row"}
-                    spacing={1}
-                    alignItems="center"
-                    justifyContent={"space-between"}
+                    spacing={2}
+                    width={"20%"}
+                    justifyContent="space-between"
                   >
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      width={"20%"}
-                      justifyContent="space-between"
-                    >
-                      {products?.p_sizes?.map((size, index) => (
-                        <Button
-                          key={index}
-                          variant={`${
-                            activesize === size?.id ? "outlined" : "primary"
-                          }`}
-                          color="primary"
-                          onClick={() =>
-                            handleSelectSize(size?.size_name, size?.id)
-                          }
-                        >
-                          {size?.size_name}
-                        </Button>
-                      ))}
+                    {products?.p_sizes?.map((size, index) => (
+                      <Button
+                        key={index}
+                        variant={`${
+                          activesize === size?.id ? "outlined" : "primary"
+                        }`}
+                        color="primary"
+                        onClick={() =>
+                          handleSelectSize(size?.size_name, size?.id)
+                        }
+                      >
+                        {size?.size_name}
+                      </Button>
+                    ))}
 
-                      {/* <Button variant="text" color="primary">
+                    {/* <Button variant="text" color="primary">
                     M
                   </Button>
                   <Button variant="text" color="primary">
@@ -542,171 +531,170 @@ const PorductDetails = () => {
                   <Button variant="text" color="primary">
                     XXL
                   </Button> */}
-                    </Stack>
-                    <Button variant="text" color="primary">
-                      size guide
-                    </Button>
                   </Stack>
-                  <Stack direction={"row"} spacing={1} alignItems="center">
-                    <Typography
-                      variant="cardHeader3"
-                      color="#959595"
-                      className="SemiBold"
-                    >
-                      Quantity
-                    </Typography>
-                    <hr
-                      style={{
-                        textAlign: "left",
-                        width: "100%",
-                        height: "1px",
-                        backgroundColor: "black",
-                        // maxWidth: "340px",
-                      }}
-                    />
-                  </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    alignItems="center"
-                    justifyContent={"space-between"}
-                    sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                  <Button variant="text" color="primary">
+                    size guide
+                  </Button>
+                </Stack>
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography
+                    variant="cardHeader3"
+                    color="#959595"
+                    className="SemiBold"
                   >
-                    <IconButton
+                    Quantity
+                  </Typography>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "340px",
+                    }}
+                  />
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  alignItems="center"
+                  justifyContent={"space-between"}
+                  sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                >
+                  <IconButton
+                    size="small"
+                    aria-label="reduce"
+                    onClick={() => {
+                      setCount(Math.max(count - 1, 1));
+                    }}
+                  >
+                    <RemoveIcon fontSize="small" />
+                  </IconButton>
+                  <Typography variant="cardHeader3" color="#959595">
+                    {" "}
+                    {count}
+                  </Typography>
+                  <IconButton
+                    aria-label="increase"
+                    onClick={() => {
+                      setCount(count + 1);
+                    }}
+                  >
+                    <AddIcon fontSize="small" />
+                  </IconButton>
+                </Stack>
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography
+                    variant="cardHeader3"
+                    color="#959595"
+                    className="SemiBold"
+                  >
+                    Colors
+                  </Typography>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "350px",
+                    }}
+                  />
+                </Stack>
+                <Stack direction={"row"} spacing={1} height={40}>
+                  {products?.p_colours?.map((color, index) => (
+                    <Box
                       size="small"
-                      aria-label="reduce"
-                      onClick={() => {
-                        setCount(Math.max(count - 1, 1));
-                      }}
-                    >
-                      <RemoveIcon fontSize="small" />
-                    </IconButton>
-                    <Typography variant="cardHeader3" color="#959595">
-                      {" "}
-                      {count}
-                    </Typography>
-                    <IconButton
-                      aria-label="increase"
-                      onClick={() => {
-                        setCount(count + 1);
-                      }}
-                    >
-                      <AddIcon fontSize="small" />
-                    </IconButton>
-                  </Stack>
-                  <Stack direction={"row"} spacing={1} alignItems="center">
-                    <Typography
-                      variant="cardHeader3"
-                      color="#959595"
-                      className="SemiBold"
-                    >
-                      Colors
-                    </Typography>
-                    <hr
+                      key={index}
                       style={{
-                        textAlign: "left",
-                        width: "100%",
-                        height: "1px",
-                        backgroundColor: "black",
-                        // maxWidth: "350px",
+                        backgroundColor: `${color?.color_code}`,
+                        width: "40px",
+                        height: "40px",
+                        cursor: "pointer",
+                        border: `${
+                          activecolor === color?.id
+                            ? "4px solid #2d323f"
+                            : "1px solid black"
+                        }`,
                       }}
-                    />
-                  </Stack>
-                  <Stack direction={"row"} spacing={1} height={40}>
-                    {products?.p_colours?.map((color, index) => (
-                      <Box
-                        size="small"
-                        key={index}
-                        style={{
-                          backgroundColor: `${color?.color_code}`,
-                          width: "40px",
-                          height: "40px",
-                          cursor: "pointer",
-                          border: `${
-                            activecolor === color?.id
-                              ? "4px solid #2d323f"
-                              : "1px solid black"
-                          }`,
-                        }}
-                        onClick={() =>
-                          handleSelectColor(
-                            color?.color_name,
-                            color?.color_code,
-                            color?.id
-                          )
-                        }
-                      ></Box>
-                    ))}
-                  </Stack>
-                  <Stack direction={"row"} spacing={1} alignItems="center">
-                    <Typography
-                      variant="cardHeader3"
-                      color="#959595"
-                      width="25%"
-                      className="SemiBold"
-                    >
-                      Avalability & Spces
-                    </Typography>
-                    <hr
-                      style={{
-                        textAlign: "left",
-                        width: "100%",
-                        height: "1px",
-                        backgroundColor: "black",
-                        // maxWidth: "340px",
-                      }}
-                    />
-                  </Stack>
-                  <Stack direction={"column"} spacing={1}>
-                    {/* <Typography
+                      onClick={() =>
+                        handleSelectColor(
+                          color?.color_name,
+                          color?.color_code,
+                          color?.id
+                        )
+                      }
+                    ></Box>
+                  ))}
+                </Stack>
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography
+                    variant="cardHeader3"
+                    color="#959595"
+                    width="25%"
+                    className="SemiBold"
+                  >
+                    Avalability & Spces
+                  </Typography>
+                  <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "340px",
+                    }}
+                  />
+                </Stack>
+                <Stack direction={"column"} spacing={1}>
+                  {/* <Typography
                       variant="cardHeader12"
                       color="initial"
                       className="SemiBold"
                     >
                       Note: {noteTextForStock}
                     </Typography> */}
-                    <Typography
-                      variant="cardHeader12"
-                      color="initial"
-                      className="SemiBold"
-                    >
-                      In Availability:{" "}
-                      {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
-                      {noteTextForStock}
-                    </Typography>
-                    <Typography
-                      variant="cardHeader12"
-                      color="initial"
-                      className="SemiBold"
-                    >
-                      Check In Store Availability
-                    </Typography>
-                    <Typography
-                      variant="cardHeader12"
-                      color="initial"
-                      className="SemiBold"
-                    >
-                      Check Specs
-                    </Typography>
-                  </Stack>
-                  <Button
-                    variant="contained"
-                    color="background2"
-                    type="submit"
-                    disabled={disableBtn}
-                    onClick={() => handleAddToCart(finalData)}
+                  <Typography
+                    variant="cardHeader12"
+                    color="initial"
+                    className="SemiBold"
                   >
-                    ADD TO CART
-                  </Button>
-                  {noteTextForCart && (
-                    <Alert severity="warning">
-                      <AlertTitle>
-                        <strong>{noteTextForCart}</strong>
-                      </AlertTitle>
-                    </Alert>
-                  )}
+                    In Availability:{" "}
+                    {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
+                    {noteTextForStock}
+                  </Typography>
+                  <Typography
+                    variant="cardHeader12"
+                    color="initial"
+                    className="SemiBold"
+                  >
+                    Check In Store Availability
+                  </Typography>
+                  <Typography
+                    variant="cardHeader12"
+                    color="initial"
+                    className="SemiBold"
+                  >
+                    Check Specs
+                  </Typography>
                 </Stack>
-              
+                <Button
+                  variant="contained"
+                  color="background2"
+                  type="submit"
+                  disabled={disableBtn}
+                  onClick={() => handleAddToCart(finalData)}
+                >
+                  ADD TO CART
+                </Button>
+                {noteTextForCart && (
+                  <Alert severity="warning">
+                    <AlertTitle>
+                      <strong>{noteTextForCart}</strong>
+                    </AlertTitle>
+                  </Alert>
+                )}
+              </Stack>
             </Grid>
           </Grid>
         </Box>
@@ -1035,7 +1023,8 @@ const PorductDetails = () => {
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
                     In Availability:{" "}
-                    {stockAmount > 0 ? "In Stock" : "Out of Stock"}
+                    {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
+                    {noteTextForStock}
                   </Typography>
                   <Typography variant="cardHeader12" color="initial">
                     Check In Store Availability
