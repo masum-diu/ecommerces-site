@@ -885,9 +885,9 @@ const PorductDetails = () => {
                   />
                 </Stack>
                 <Stack
-                  direction={"row"}
+                  direction={"column"}
                   spacing={1}
-                  alignItems="center"
+                  alignItems="start"
                   justifyContent={"space-between"}
                 >
                   <Stack direction={"row"}>
