@@ -501,9 +501,9 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/fatua",
-                              query: { cat: 2, sub_cat: 14 },
+                              query: { cat: 2, sub_cat: 16 },
                             },
-                            "/products/fatua?cat=2&sub_cat=14"
+                            "/products/fatua?cat=2&sub_cat=16"
                           )
                         }
                       >
@@ -523,9 +523,9 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/vest",
-                              query: { cat: 2, sub_cat: 15 },
+                              query: { cat: 2, sub_cat: 14 },
                             },
-                            "/products/vest?cat=2&sub_cat=15"
+                            "/products/vest?cat=2&sub_cat=14"
                           )
                         }
                       >
@@ -539,9 +539,9 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/shirts",
-                              query: { cat: 2, sub_cat: 16 },
+                              query: { cat: 2, sub_cat: 17 },
                             },
-                            "/products/shirts?cat=2&sub_cat=16"
+                            "/products/shirts?cat=2&sub_cat=17"
                           )
                         }
                       >
@@ -561,9 +561,9 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/t-shirt",
-                              query: { cat: 2, sub_cat: 17 },
+                              query: { cat: 2, sub_cat: 15 },
                             },
-                            "/products/t-shirt?cat=2&sub_cat=17"
+                            "/products/t-shirt?cat=2&sub_cat=15"
                           )
                         }
                       >
@@ -579,7 +579,7 @@ const SiderBar = ({ open, setOpen }) => {
                               pathname: "/products/jackets",
                               query: { cat: 2, sub_cat: 18 },
                             },
-                            "/products/jackets?cat=2&sub_cat=19"
+                            "/products/jackets?cat=2&sub_cat=18"
                           )
                         }
                       >

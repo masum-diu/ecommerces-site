@@ -91,7 +91,6 @@ const masterCollectionLayout = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [uniqueColors, setUniqueColors] = useState([]);
-  const [loadings, setLoadings] = useState(true);
   const [page, setPage] = useState(1);
   const divRef = useRef(null);
   const cat = router.query?.cat;
@@ -282,7 +281,7 @@ const masterCollectionLayout = () => {
             setProducts((prev) => [...data.data]);
             setFilteredData((prev) => [...data.data]);
           } else {
-            console.log('inside not page 1')
+            console.log("inside not page 1");
             setProducts((prev) => [...prev, ...data.data]);
             setFilteredData((prev) => [...prev, ...data.data]);
           }
@@ -331,7 +330,6 @@ const masterCollectionLayout = () => {
           setMin(min);
           setMax(max);
         }
-        setLoadings(false);
       };
       handleSuccess();
     }
@@ -345,6 +343,7 @@ const masterCollectionLayout = () => {
     hasMore,
     cat,
     sub_cat,
+    page
   ]);
   //handling minimum and maximum value
   /* useEffect(() => {
@@ -750,10 +749,8 @@ const masterCollectionLayout = () => {
           {productsForStatic?.length > 0 && (
             <InfiniteScroll
               key={sub_cat + cat}
-              style={{ minHeight: 100 }}
               dataLength={filteredData.length} //This is important field to render the next data
               next={getMoreProducts}
-              scrollThreshold="100px"
               hasMore={hasMore}
               loader={<Loader></Loader>}
               endMessage={

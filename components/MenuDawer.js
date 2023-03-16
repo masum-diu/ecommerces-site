@@ -40,6 +40,12 @@ const MenuDawer = ({
     setOpenList1((prev) => !prev);
     setArrow1(!arrow1);
   };
+  const [openList2, setOpenList2] = useState(false);
+  const [arrow2, setArrow2] = useState(false);
+  const handleClick2 = () => {
+    setOpenList2((prev) => !prev);
+    setArrow2(!arrow2);
+  };
   //price range state
   // const [value, setValue] = useState([min, max]);
 
@@ -96,6 +102,8 @@ const MenuDawer = ({
           </ListItemButton> */}
         </Stack>
         <Stack direction={"column"} spacing={1} p={2}>
+
+          {/* Fabric Filter Starts */}
           <Button
             variant="text"
             color="inherit"
@@ -115,7 +123,7 @@ const MenuDawer = ({
               )
             }
           >
-            Colors
+            Fabric
           </Button>
           {openList ? (
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
@@ -136,6 +144,8 @@ const MenuDawer = ({
               </Stack>
             </Box>
           ) : null}
+
+          {/* Color Filter Starts Here */}
           <Button
             variant="text"
             color="inherit"
@@ -149,15 +159,57 @@ const MenuDawer = ({
             }}
             endIcon={
               arrow1 ? (
-                <RemoveIcon onClick={() => setArrow1(!arrow1)} />
+                <RemoveIcon onClick={() => setArrow(!arrow1)} />
               ) : (
-                <AddIcon onClick={() => setArrow1(!arrow1)} />
+                <AddIcon onClick={() => setArrow(!arrow1)} />
+              )
+            }
+          >
+            Colors
+          </Button>
+          {openList1 ? (
+            <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
+              <Stack direction={"column"} spacing={1.5}>
+                {uniqueColors?.map((color, index) => (
+                  <>
+                    <Typography
+                      onClick={() => setSelectedColor([color.name, color.id])}
+                      variant="cardHeader3"
+                      color="initial"
+                      key={index}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      {color.name}
+                    </Typography>
+                  </>
+                ))}
+              </Stack>
+            </Box>
+          ) : null}
+
+          {/* Price Range starts here */}
+          <Button
+            variant="text"
+            color="inherit"
+            onClick={handleClick2}
+            fullWidth
+            sx={{
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              textTransform: "capitalize",
+            }}
+            endIcon={
+              arrow2 ? (
+                <RemoveIcon onClick={() => setArrow1(!arrow2)} />
+              ) : (
+                <AddIcon onClick={() => setArrow1(!arrow2)} />
               )
             }
           >
             Price Range
           </Button>
-          {openList1 ? (
+          {openList2 ? (
             <Box sx={{ width: "100%", margin: "0 auto", px: 2 }}>
               <Stack direction={"column"} spacing={1.5}>
                 <Slider
