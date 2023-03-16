@@ -781,7 +781,7 @@ const masterCollectionLayout = () => {
         setFilteredData={setFilteredData}
         setFabricName={setFabricName}
       />
-      <Menu1Dawer open={lists1} setOpen={setLists1} />
+      {/* <Menu1Dawer open={lists1} setOpen={setLists1} /> */}
       <Filter
         open={filter}
         setOpen={setFilter}
