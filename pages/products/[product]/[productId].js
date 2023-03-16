@@ -719,7 +719,7 @@ const PorductDetails = () => {
                 })
               }
               style={{
-                backgroundImage: `url(${products?.feature_image})`,
+                backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.feature_image})`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -727,9 +727,9 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
+              <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
                 <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial">
+                  <Typography variant="login2" color="initial" className="exterBold">
                     {products?.p_name}
                   </Typography>
 
@@ -737,11 +737,12 @@ const PorductDetails = () => {
                     variant="cardHeader1"
                     color="initial"
                     textTransform={"uppercase"}
+                    className="SemiBold"
                   >
                     Home {path}
                   </Typography>
                 </Stack>
-                <Typography variant="tabText1" color="initial">
+                <Typography variant="tabText1" color="initial" className="exterBold">
                   Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
@@ -756,7 +757,7 @@ const PorductDetails = () => {
                 })
               }
               style={{
-                backgroundImage: `url(${products?.p_image_one})`,
+                backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.p_image_one})`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -764,9 +765,9 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
+              <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
                 <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial">
+                  <Typography variant="login2" color="initial" className="exterBold">
                     {products?.p_name}
                   </Typography>
 
@@ -774,11 +775,12 @@ const PorductDetails = () => {
                     variant="cardHeader1"
                     color="initial"
                     textTransform={"uppercase"}
+                    className="SemiBold"
                   >
                     Home {path}
                   </Typography>
                 </Stack>
-                <Typography variant="tabText1" color="initial">
+                <Typography variant="tabText1" color="initial" className="exterBold">
                   Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
@@ -793,7 +795,7 @@ const PorductDetails = () => {
                 })
               }
               style={{
-                backgroundImage: `url(${products?.p_image_two})`,
+                backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.p_image_two})`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -801,9 +803,9 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={3} sx={{ pt: 85, px: 4 }}>
+              <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
                 <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial">
+                  <Typography variant="login2" color="initial" className="exterBold">
                     {products?.p_name}
                   </Typography>
 
@@ -811,11 +813,12 @@ const PorductDetails = () => {
                     variant="cardHeader1"
                     color="initial"
                     textTransform={"uppercase"}
+                    className="SemiBold"
                   >
                     Home {path}
                   </Typography>
                 </Stack>
-                <Typography variant="tabText1" color="initial">
+                <Typography variant="tabText1" color="initial" className="exterBold">
                   Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
@@ -830,7 +833,7 @@ const PorductDetails = () => {
                 })
               }
               style={{
-                backgroundImage: `url(${products?.p_image_three})`,
+                backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.p_image_three})`,
                 backgroundSize: "cover",
                 height: "100vh",
                 maxHeight: "fit-content",
@@ -838,9 +841,9 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={5} sx={{ pt: 85, px: 4 }}>
+              <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
                 <Stack direction={"column"}>
-                  <Typography variant="login2" color="initial">
+                  <Typography variant="login2" color="initial" className="exterBold">
                     {products?.p_name}
                   </Typography>
 
@@ -848,11 +851,12 @@ const PorductDetails = () => {
                     variant="cardHeader1"
                     color="initial"
                     textTransform={"uppercase"}
+                    className="SemiBold"
                   >
                     Home {path}
                   </Typography>
                 </Stack>
-                <Typography variant="tabText1" color="initial">
+                <Typography variant="tabText1" color="initial" className="exterBold">
                   Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
@@ -1076,9 +1080,9 @@ const PorductDetails = () => {
                 Kurti & Fatua{" "}
               </Typography>
             </Stack>
-            <Typography variant="tabText1" color="#fff">
+            {/* <Typography variant="tabText1" color="#fff">
               Add To Cart
-            </Typography>
+            </Typography> */}
           </Stack>
         </Box>
       </Hidden>
