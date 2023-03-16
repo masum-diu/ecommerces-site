@@ -48,7 +48,7 @@ const addtocart = () => {
         const token = await localStorage.getItem("acesstoken");
         if (!token) {
           setLoginModal(true);
-          await toast.error("Please Login First");
+          // await toast.error("Please Login First");
           await router.push("/addtocart");
           setIsProceedClicked(false);
         } else {
@@ -200,17 +200,17 @@ const addtocart = () => {
                       {" "}
                       <Button
                         variant="contained"
-                        color="background2"
-                        onClick={() => setIsProceedClicked(true)}
-                      >
-                        proceed to checkout
-                      </Button>
-                      <Button
-                        variant="contained"
                         color="secondary"
                         onClick={() => router.push("/shop")}
                       >
                         CONTINUE SHOPPING
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="background2"
+                        onClick={() => setIsProceedClicked(true)}
+                      >
+                        proceed to checkout
                       </Button>
                     </Stack>
                   </Stack>

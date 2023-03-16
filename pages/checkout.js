@@ -207,7 +207,7 @@ const checkout = () => {
                 <Typography variant="header1" color="initial">
                   BILLING DETAILS
                 </Typography>
-                <Stack direction={"column"} spacing={2} mt={2}>
+                <Stack direction={"column"} spacing={2} mt={{lg:10.3}}>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
@@ -375,6 +375,27 @@ const checkout = () => {
                     size="small"
                   />
                 </Stack>
+                {/* <Stack direction={"row"} alignItems="center" mt={1}>
+                  <Controller
+                    name="isSameAddress"
+                    control={control}
+                    render={({ field }) => (
+                      <Checkbox
+                        onClick={handleSameAddressSelected}
+                        {...field}
+                      />
+                    )}
+                  />
+                  <Typography variant="cardLocation1" color="initial">
+                    Same As Billing Address.
+                  </Typography>
+                </Stack> */}
+              </Grid>
+              <Grid item lg={4} sx={{ width: "100%" }}>
+                <Typography variant="header1" color="initial">
+                  SHIPPING DETAILS
+                </Typography>
+                <Stack direction={"column"} spacing={2} mt={2}>
                 <Stack direction={"row"} alignItems="center" mt={1}>
                   <Controller
                     name="isSameAddress"
@@ -390,12 +411,6 @@ const checkout = () => {
                     Same As Billing Address.
                   </Typography>
                 </Stack>
-              </Grid>
-              <Grid item lg={4} sx={{ width: "100%" }}>
-                <Typography variant="header1" color="initial">
-                  SHIPPING DETAILS
-                </Typography>
-                <Stack direction={"column"} spacing={2} mt={2}>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
@@ -606,16 +621,16 @@ const checkout = () => {
                       spacing={2}
                       justifyContent="space-between"
                     >
-                      <Typography variant="cardHeader" color="initial">
+                      <Typography variant="cardHeader" color="initial" className="bold">
                         SUBTOTAL :
                       </Typography>
-                      <Typography variant="cardHeader" color="initial">
+                      <Typography variant="cardHeader" color="initial"  className="bold">
                         ৳ {subTotal}
                       </Typography>
                     </Stack>
                     <Divider />
                     <Stack direction={"row"} spacing={2} mb={5}>
-                      <Typography variant="cardHeader" color="initial" mt={1}>
+                      <Typography variant="cardHeader" color="initial" mt={1}  className="bold">
                         SHIPPING
                       </Typography>
                       <Controller

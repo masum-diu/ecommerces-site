@@ -15,7 +15,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           sx={{
             justifyContent: "center",
             alignItems: "center",
-            mt: { xs: 1, lg: 2 },
+            mt: { xs: 1, lg: 4 },
           }}
         >
           <HovarImage
@@ -25,11 +25,11 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               ?.split("/")
               .slice(-4)
               .join("/")}`} */
-            imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/${productsDataChunk[0]?.feature_image?.split("/")
+            imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${productsDataChunk[0]?.feature_image?.split("/")
             .slice(-3)
             .join("/")}`}
-            width={568}
-            height={827}
+            width={550}
+            height={850}
           />
           <Stack
             direction={"row"}
@@ -58,7 +58,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           width: "90%",
           maxWidth: "1500px",
           margin: "0 auto",
-          marginTop: "3rem",
+          marginTop: "1rem",
         }}
       >
         {productsDataChunk?.slice(1, 4).map((product) => (
@@ -98,7 +98,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           width: "90%",
           maxWidth: "1500px",
           margin: "0 auto",
-          marginTop: "3rem",
+          marginTop: "1rem",
         }}
       >
         {productsDataChunk?.slice(4, 6).map((product) => (
@@ -138,7 +138,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           width: "90%",
           maxWidth: "1500px",
           margin: "0 auto",
-          marginTop: "3rem",
+          marginTop: "1rem",
         }}
       >
         {productsDataChunk?.slice(6, 9).map((product) => (

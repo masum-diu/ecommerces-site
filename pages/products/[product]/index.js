@@ -101,6 +101,7 @@ const masterCollectionLayout = () => {
   const {
     data,
     isLoading,
+    isFetching,
     // isSuccess,
     // isError,
     // error,
@@ -120,6 +121,7 @@ const masterCollectionLayout = () => {
   const {
     data: catetoryData,
     isLoading: categoryLoading,
+    isFetching: isCategoryFetching,
     // isSuccess: categoryisSuccess,
     // isFetching: isFetchingCat,
   } = useGetCategoryWiseProductsQuery(
@@ -280,6 +282,7 @@ const masterCollectionLayout = () => {
             setProducts((prev) => [...data.data]);
             setFilteredData((prev) => [...data.data]);
           } else {
+            console.log('inside not page 1')
             setProducts((prev) => [...prev, ...data.data]);
             setFilteredData((prev) => [...prev, ...data.data]);
           }

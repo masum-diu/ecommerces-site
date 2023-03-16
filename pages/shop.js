@@ -279,7 +279,7 @@ const shop = () => {
                           : data?.p_subcategory?.slug
                       }/${data?.id}`}
                       data={data}
-                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/${data?.feature_image
+                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
                         ?.split("/")
                         .slice(-3)
                         .join("/")}`}
@@ -404,7 +404,7 @@ const shop = () => {
                           : data?.p_subcategory?.slug
                       }/${data?.id}`}
                       data={data}
-                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/${data?.feature_image
+                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
                         ?.split("/")
                         .slice(-3)
                         .join("/")}`}

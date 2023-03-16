@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
+  Alert,
+  AlertTitle,
   Button,
   Grid,
   Hidden,
@@ -46,6 +48,12 @@ const PorductDetails = () => {
   const [activesize, setActiveSize] = useState(null);
   const [activecolor, setActiveColor] = useState(null);
   const [open, setOpen] = useState(false);
+  const [noteTextForStock, setNoteTextForStock] = useState(
+    " Please select a color and size in order to check stock availability."
+  );
+  const [noteTextForCart, setNoteTextForCart] = useState(
+    " Please select a color and size in order to enable Add To Cart."
+  );
   const [imageData, setImageData] = useState([]);
   const dispatch = useDispatch();
 
@@ -65,39 +73,201 @@ const PorductDetails = () => {
 
   useEffect(() => {
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
+      console.log("inside both ");
+      if (colorSelected === false && sizeSelected === false) {
+        setNoteTextForStock(
+          " Please select a color and size in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a color and size in order to enable Add To Cart"
+        );
+        if (colorSelected === false && sizeSelected === true) {
+          setNoteTextForStock(
+            " Please select a color in order to check stock availability"
+          );
+          setNoteTextForCart(
+            " Please select a color in order to enable Add To Cart"
+          );
+        }
+        if (sizeSelected === false && colorSelected === true) {
+          console.log("inside last");
+          setNoteTextForStock(
+            " Please select a size in order to check stock availability"
+          );
+          setNoteTextForCart(
+            " Please select a size in order to enable Add To Cart."
+          );
+        }
+      }
+
       if (sizeSelected === true && colorSelected === true) {
+        console.log("clicked");
+        console.log("size id", sizeId);
+        console.log("size id", colorId);
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
         );
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
+        console.log("selected product", selectedProduct);
+        console.log("stock amount", stockAmount);
         if (stockAmount > 0) {
           setDisableBtn(false);
+          setNoteTextForStock("In Stock");
         }
         if (stockAmount === undefined) {
           setDisableBtn(true);
+          setNoteTextForStock("Out of Stock");
         }
+        setNoteTextForCart("");
+      }
+      /* if (sizeSelected === false || colorSelected === false) {
+        setNoteTextForCart(
+          " Please select a color and size in order to enable Add To Cart."
+        );
+        setNoteTextForStock(
+          " Please select a color and size in order to check stock availability."
+        );
+      } */ if (
+        products?.p_colours?.length > 0 &&
+        colorSelected === false &&
+        sizeSelected === true
+      ) {
+        setNoteTextForStock(
+          " Please select a color in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a color in order to enable Add To Cart"
+        );
+      }
+      if (
+        products?.p_sizes?.length > 0 &&
+        sizeSelected === false &&
+        colorSelected === true
+      ) {
+        setNoteTextForStock(
+          " Please select a size in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a size in order to enable Add To Cart."
+        );
       }
     }
+
     if (
       (products?.p_colours?.length == 0 || products?.p_sizes?.length == 0) &&
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
     ) {
       if (sizeSelected == true || colorSelected == true) {
-        const selectedProduct = products?.p_stocks?.find(
-          (stock) => stock?.size_id === sizeId || stock?.colour_id === colorId
-        );
-        setStockDetails(selectedProduct);
-        setStockAmount(selectedProduct?.stock);
+        if (colorSelected == true) {
+          const selectedProduct = products?.p_stocks?.find(
+            (stock) => stock?.colour_id === colorId
+          );
+          setStockDetails(selectedProduct);
+          setStockAmount(selectedProduct?.stock);
+        }
+        if (sizeSelected == true) {
+          console.log("sizeId", sizeId);
+          const selectedProduct = products?.p_stocks?.find(
+            (stock) => stock?.size_id === sizeId
+          );
+          setStockDetails(selectedProduct);
+          setStockAmount(selectedProduct?.stock);
+        }
+
+        console.log("stock amount", stockAmount);
+
         if (stockAmount > 0) {
           setDisableBtn(false);
+          setNoteTextForStock("In Stock");
         }
         if (stockAmount === undefined) {
           setDisableBtn(true);
+          setNoteTextForStock("Out of Stock");
         }
+
+        setNoteTextForCart("");
+      }
+      console.log(
+        "check length",
+        products?.p_colours?.length,
+        products?.p_sizes?.length
+      );
+
+      if (
+        products?.p_colours?.length > 0 &&
+        (products?.p_sizes?.length === undefined||products?.p_sizes?.length ===0) &&
+        colorSelected === false
+      ) {
+        setNoteTextForStock(
+          " Please select a color in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a color in order to enable Add To Cart"
+        );
+      }
+      if (
+        (products?.p_colours?.length ===undefined||products?.p_colours?.length===0) &&
+        products?.p_sizes?.length >0 &&
+        sizeSelected === false
+      ) {
+        setNoteTextForStock(
+          " Please select a size in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a size in order to enable Add To Cart"
+        );
       }
     }
-  }, [sizeSelected, colorSelected, stockDetails, colorId, sizeId, stockAmount]);
+  }, [
+    sizeSelected,
+    colorSelected,
+    colorId,
+    sizeId,
+    stockAmount,
+    products?.p_colours?.length,
+    products?.p_sizes?.length,
+  ]);
+  console.log("stock details", stockDetails);
+  /*   useEffect(() => {
+    if (
+      products?.p_sizes?.length > 0 &&
+      products?.p_colours?.length > 0 &&
+      sizeSelected === false &&
+      colorSelected === false
+    ) {
+      setNoteTextForCart(
+        " Please select a color and size in order to enable Add To Cart."
+      );
+      setNoteTextForStock(
+        " Please select a color and size in order to check stock availability."
+      );
+    }
+    if (
+      products?.p_sizes?.length > 0 &&
+      products?.p_colours?.length < 0 &&
+      sizeSelected === false
+    ) {
+      setNoteTextForCart(
+        " Please select a size in order to enable Add To Cart."
+      );
+      setNoteTextForStock(
+        " Please select a size in order to check stock availability."
+      );
+    }
+    if (
+      products?.p_colours?.length > 0 &&
+      products?.p_sizes?.length < 0 &&
+      colorSelected === false
+    ) {
+      setNoteTextForCart(
+        " Please select a color in order to enable Add To Cart"
+      );
+      setNoteTextForStock(
+        " Please select a color in order to check stock availability"
+      );
+    }
+  }, [sizeSelected, colorSelected]); */
 
   if (isLoading) {
     return <Loader></Loader>;
@@ -148,6 +318,7 @@ const PorductDetails = () => {
       products?.p_sale_price * (products?.p_tax?.tax_percentage / 100) +
       products?.p_sale_price,
   };
+
   return (
     <>
       <Head>
@@ -179,7 +350,7 @@ const PorductDetails = () => {
           //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
-            <Grid item xl={6} lg={7} md={6} sm={12} sx={{ position: "sticky" }}>
+            <Grid item xl={6} lg={7} md={6} sm={12} >
               <img
                 onClick={() =>
                   handleImageForThumble(true, {
@@ -267,8 +438,8 @@ const PorductDetails = () => {
 
             {/* Details Section */}
             <Grid item xl={5} lg={5} md={6}>
-              <div style={{ position: "fixed" }}>
-                <Stack direction={"column"} mx={5} mt={3} width={"100%"}>
+             
+                <Stack direction={"column"} mx={5}  width={"100%"}>
                   <Typography
                     className="exterBold"
                     variant="login1"
@@ -487,13 +658,21 @@ const PorductDetails = () => {
                     />
                   </Stack>
                   <Stack direction={"column"} spacing={1}>
+                    {/* <Typography
+                      variant="cardHeader12"
+                      color="initial"
+                      className="SemiBold"
+                    >
+                      Note: {noteTextForStock}
+                    </Typography> */}
                     <Typography
                       variant="cardHeader12"
                       color="initial"
                       className="SemiBold"
                     >
                       In Availability:{" "}
-                      {stockAmount > 0 ? "In Stock" : "Out of Stock"}
+                      {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
+                      {noteTextForStock}
                     </Typography>
                     <Typography
                       variant="cardHeader12"
@@ -519,8 +698,15 @@ const PorductDetails = () => {
                   >
                     ADD TO CART
                   </Button>
+                  {noteTextForCart && (
+                    <Alert severity="warning">
+                      <AlertTitle>
+                        <strong>{noteTextForCart}</strong>
+                      </AlertTitle>
+                    </Alert>
+                  )}
                 </Stack>
-              </div>
+              
             </Grid>
           </Grid>
         </Box>
@@ -867,6 +1053,16 @@ const PorductDetails = () => {
                 >
                   ADD TO CART
                 </Button>
+                {noteTextForCart && (
+                  <Alert severity="warning">
+                    <AlertTitle>Remainder</AlertTitle>
+
+                    {`${noteTextForCart.split("Add To Cart.")[0]}`}
+                    <strong>
+                      {`${noteTextForCart.split("Add To Cart.")[1]}`}
+                    </strong>
+                  </Alert>
+                )}
               </Stack>
             </Grid>
           </Grid>

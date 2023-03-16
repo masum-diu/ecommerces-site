@@ -29,12 +29,12 @@ const ProductsLayoutWithStaticImage = ({
           <HovarImage
             url={`${router?.asPath?.split("?")[0]}/${productsDataChunk[0]?.id}`}
             data={productsDataChunk}
-            imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_565,w_586/${productsDataChunk[0]?.feature_image
+            imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${productsDataChunk[0]?.feature_image
               ?.split("/")
               .slice(-3)
               .join("/")}`}
-            width={568}
-            height={827}
+            width={550}
+            height={850}
           />
           <Stack
             direction={"row"}
@@ -63,7 +63,7 @@ const ProductsLayoutWithStaticImage = ({
           width: "90%",
           maxWidth: "1500px",
           margin: "0 auto",
-          marginTop: "3rem",
+          marginTop: "1rem",
         }}
       >
         {productsDataChunk?.slice(1, 4).map((product) => (

@@ -63,7 +63,7 @@ const ThumbsGallery1 = ({ open, setOpen, imageData }) => {
             <SwiperSlide
             // style={{ display: "flex", justifyContent: "center" }}
             >
-              <div className="swiper-zoom-container">
+              <div style={{width:"100vw"}} className="swiper-zoom-container">
                 <img
                   src={img1}
                   width={400}
