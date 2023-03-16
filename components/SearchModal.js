@@ -155,7 +155,7 @@ const SearchModal = ({ open, setOpen }) => {
                       fontWeight={"bold"}
                       color="initial"
                     >
-                      BDT {data?.p_sale_price} ৳
+                      BDT {data?.p_sale_price} BDT
                     </Typography> */}
                   </Stack>
                 </Link>

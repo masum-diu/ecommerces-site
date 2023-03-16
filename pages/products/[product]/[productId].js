@@ -483,7 +483,7 @@ const PorductDetails = () => {
                     letterSpacing={0.3}
                     fontWeight={700}
                   >
-                    Price : ৳ {products?.p_sale_price}
+                    Price : BDT {products?.p_sale_price}
                   </Typography>
                   <Stack direction={"row"} spacing={1} alignItems="center">
                     <Typography
@@ -754,7 +754,7 @@ const PorductDetails = () => {
                   </Typography>
                 </Stack>
                 <Typography variant="tabText1" color="initial">
-                  Price : {products?.p_sale_price} ৳
+                  Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -791,7 +791,7 @@ const PorductDetails = () => {
                   </Typography>
                 </Stack>
                 <Typography variant="tabText1" color="initial">
-                  Price : {products?.p_sale_price} ৳
+                  Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -828,7 +828,7 @@ const PorductDetails = () => {
                   </Typography>
                 </Stack>
                 <Typography variant="tabText1" color="initial">
-                  Price : {products?.p_sale_price} ৳
+                  Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -865,7 +865,7 @@ const PorductDetails = () => {
                   </Typography>
                 </Stack>
                 <Typography variant="tabText1" color="initial">
-                  Price : {products?.p_sale_price} ৳
+                  Price : {products?.p_sale_price} BDT
                 </Typography>
               </Stack>
             </SwiperSlide>

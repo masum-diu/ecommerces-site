@@ -101,7 +101,7 @@ const wishlists = () => {
                         {wishlistData?.name}
                       </Typography>
                       <Typography variant="cardHeader12" color="initial">
-                        ৳{wishlistData?.price}
+                        BDT {wishlistData?.price}
                       </Typography>
                       {/* <Typography variant="cardHeader12" color="initial">
                         {wishlistData?.stock[0]?.stock}
@@ -181,7 +181,7 @@ const wishlists = () => {
                             {wishlistData?.name}
                           </TableCell>
                           <TableCell sx={{ border: "none", textAlign: "left" }}>
-                            ৳ {wishlistData?.price}
+                            BDT {wishlistData?.price}
                           </TableCell>
                           {/* <TableCell sx={{ border: "none" }}>
                         {wishlistData.stock[0]?.stock}

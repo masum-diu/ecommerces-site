@@ -137,7 +137,7 @@ const addtocart = () => {
                             {data.size}
                           </Typography>
                           <Typography variant="subtitle1" color="initial">
-                            {data.totalPrice}৳
+                            BDT {data.totalPrice}
                           </Typography>
                           <Stack
                             direction={"row"}

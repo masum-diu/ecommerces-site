@@ -112,6 +112,7 @@ const checkout = () => {
       last_name_shipping: "",
       street_address_shipping: "",
       apartment_address_billing: "",
+      apartment_address_shipping: "",
       city_shipping: "",
       country_shipping: "",
       post_code_shipping: "",
@@ -207,7 +208,7 @@ const checkout = () => {
                 <Typography variant="header1" color="initial">
                   BILLING DETAILS
                 </Typography>
-                <Stack direction={"column"} spacing={2} mt={{lg:10.3}}>
+                <Stack direction={"column"} spacing={2} mt={{ lg: 10.3 }}>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
@@ -396,21 +397,26 @@ const checkout = () => {
                   SHIPPING DETAILS
                 </Typography>
                 <Stack direction={"column"} spacing={2} mt={2}>
-                <Stack direction={"row"} alignItems="center" mt={1}>
-                  <Controller
-                    name="isSameAddress"
-                    control={control}
-                    render={({ field }) => (
-                      <Checkbox
-                        onClick={handleSameAddressSelected}
-                        {...field}
-                      />
-                    )}
-                  />
-                  <Typography variant="cardLocation1" color="initial">
-                    Same As Billing Address.
-                  </Typography>
-                </Stack>
+                  <Stack
+                    direction={"row"}
+                    justifyContent="left"
+                    alignItems="center"
+                    mt={1}
+                  >
+                    <Controller
+                      name="isSameAddress"
+                      control={control}
+                      render={({ field }) => (
+                        <Checkbox
+                          onClick={handleSameAddressSelected}
+                          {...field}
+                        />
+                      )}
+                    />
+                    <Typography variant="cardLocation1" color="initial">
+                      Same As Billing Address.
+                    </Typography>
+                  </Stack>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
@@ -418,12 +424,13 @@ const checkout = () => {
                     // id=""
                     // label=""
                     // value={}
-                    {...register("first_name_shipping", {
-                      required: "First Name is required",
-                    })}
+                    {...register("first_name_shipping")}
                     // onChange={}
                     disabled={isSameAddressChecked === true ? true : false}
                     placeholder={
+                      isSameAddressChecked === true ? firstName : "First Name *"
+                    }
+                    defaultValue={
                       isSameAddressChecked === true ? firstName : "First Name *"
                     }
                     size="small"
@@ -438,11 +445,12 @@ const checkout = () => {
                     // label=""
                     // value={}
                     // onChange={}
-                    {...register("last_name_shipping", {
-                      required: "Last Name is required",
-                    })}
+                    {...register("last_name_shipping")}
                     disabled={isSameAddressChecked === true ? true : false}
                     placeholder={
+                      isSameAddressChecked === true ? lastName : "Last Name *"
+                    }
+                    defaultValue={
                       isSameAddressChecked === true ? lastName : "Last Name *"
                     }
                     size="small"
@@ -470,11 +478,14 @@ const checkout = () => {
                     // label=""
                     // value={}
                     // onChange={}
-                    {...register("street_address_shipping", {
-                      required: "Street Address is required",
-                    })}
+                    {...register("street_address_shipping")}
                     disabled={isSameAddressChecked === true ? true : false}
                     placeholder={
+                      isSameAddressChecked === true
+                        ? streetAddress
+                        : "House Number and street name"
+                    }
+                    defaultValue={
                       isSameAddressChecked === true
                         ? streetAddress
                         : "House Number and street name"
@@ -486,8 +497,14 @@ const checkout = () => {
                     // label=""
                     // value={}
                     // onChange={}
+                    {...register("apartment_address_shipping")}
                     disabled={isSameAddressChecked === true ? true : false}
                     placeholder={
+                      isSameAddressChecked === true
+                        ? apartmentAddress
+                        : "Apartment suite, unit, etc (optional)"
+                    }
+                    defaultValue={
                       isSameAddressChecked === true
                         ? apartmentAddress
                         : "Apartment suite, unit, etc (optional)"
@@ -504,11 +521,14 @@ const checkout = () => {
                     // label=""
                     // value={}
                     // onChange={}
-                    {...register("city_shipping", {
-                      required: "City is required",
-                    })}
+                    {...register("city_shipping")}
                     disabled={isSameAddressChecked === true ? true : false}
                     placeholder={
+                      isSameAddressChecked === true
+                        ? cityAddress
+                        : "Town / City"
+                    }
+                    defaultValue={
                       isSameAddressChecked === true
                         ? cityAddress
                         : "Town / City"
@@ -532,7 +552,7 @@ const checkout = () => {
                     {...register("country_shipping")}
                     id="demo-simple-select"
                     size="small"
-                    disabled={isSameAddressChecked === true ? true : false}
+                    defaultValue={isSameAddressChecked === true ? true : false}
                     value={isSameAddressChecked === true ? distict : distict1}
                     onChange={handleDistict1}
                   >
@@ -550,11 +570,14 @@ const checkout = () => {
                     // label=""
                     // value={}
                     // onChange={}
-                    {...register("post_code_shipping", {
-                      required: "Post Code is required",
-                    })}
+                    {...register("post_code_shipping")}
                     disabled={isSameAddressChecked === true ? true : false}
                     placeholder={
+                      isSameAddressChecked === true
+                        ? postBilling
+                        : "Postcode / zip (Optional)"
+                    }
+                    defaultValue={
                       isSameAddressChecked === true
                         ? postBilling
                         : "Postcode / zip (Optional)"
@@ -571,11 +594,12 @@ const checkout = () => {
                     // label=""
                     // value={}
                     // onChange={}
-                    {...register("phone_shipping", {
-                      required: "Phone is required",
-                    })}
+                    {...register("phone_shipping")}
                     disabled={isSameAddressChecked === true ? true : false}
                     placeholder={
+                      isSameAddressChecked === true ? phoneBilling : "Phone *"
+                    }
+                    defaultValue={
                       isSameAddressChecked === true ? phoneBilling : "Phone *"
                     }
                     size="small"
@@ -591,7 +615,6 @@ const checkout = () => {
                     // value={}
                     // onChange={}
                     {...register("email_shipping", {
-                      required: "Email is required",
                       pattern: {
                         value:
                           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -600,6 +623,11 @@ const checkout = () => {
                     })}
                     disabled={isSameAddressChecked === true ? true : false}
                     placeholder={
+                      isSameAddressChecked === true
+                        ? emailBilling
+                        : "Email Address *"
+                    }
+                    defaultValue={
                       isSameAddressChecked === true
                         ? emailBilling
                         : "Email Address *"
@@ -621,16 +649,29 @@ const checkout = () => {
                       spacing={2}
                       justifyContent="space-between"
                     >
-                      <Typography variant="cardHeader" color="initial" className="bold">
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                      >
                         SUBTOTAL :
                       </Typography>
-                      <Typography variant="cardHeader" color="initial"  className="bold">
-                        ৳ {subTotal}
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                      >
+                        BDT {subTotal}
                       </Typography>
                     </Stack>
                     <Divider />
                     <Stack direction={"row"} spacing={2} mb={5}>
-                      <Typography variant="cardHeader" color="initial" mt={1}  className="bold">
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        mt={1}
+                        className="bold"
+                      >
                         SHIPPING
                       </Typography>
                       <Controller
@@ -642,21 +683,45 @@ const checkout = () => {
                             <FormControlLabel
                               value="insideDhaka"
                               control={<Radio onClick={handleDhakaSelected} />}
-                              label="DHAKA : ৳ 100"
+                              label={
+                                <Typography
+                                  variant="cardHeader"
+                                  className="bold"
+                                  mb={0.6}
+                                >
+                                  DHAKA : BDT 100
+                                </Typography>
+                              }
                             />
                             <FormControlLabel
                               value="outSideDhaka"
                               control={
                                 <Radio onClick={handleOutSideDhakaSelected} />
                               }
-                              label="OUTSIDE DHAKA : ৳ 250"
+                              label={
+                                <Typography
+                                  variant="cardHeader"
+                                  className="bold"
+                                  mb={0.6}
+                                >
+                                  OUTSIDE DHAKA : BDT 250
+                                </Typography>
+                              }
                             />
                             <FormControlLabel
                               value="pickFromShowroom"
                               control={
                                 <Radio onClick={handleShowRoomSelected} />
                               }
-                              label="PICK FROM SHOWROOM"
+                              label={
+                                <Typography
+                                  variant="cardHeader"
+                                  className="bold"
+                                  mb={0.6}
+                                >
+                                  PICK FROM SHOWROOM
+                                </Typography>
+                              }
                             />
                           </RadioGroup>
                         )}
@@ -669,17 +734,25 @@ const checkout = () => {
                         TAX :
                       </Typography>
                       <Typography variant="cardHeader" color="initial">
-                        ৳ 12
+                        BDT 12
                       </Typography>
                     </Stack> */}
 
                     <Divider />
                     <Stack direction={"row"} spacing={7}>
-                      <Typography variant="cardHeader" color="initial">
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                      >
                         TOTAL :
                       </Typography>
-                      <Typography variant="cardHeader" color="initial">
-                        ৳ {total}
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                      >
+                        BDT {total}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -688,7 +761,7 @@ const checkout = () => {
                       TOTAL :
                     </Typography>
                     <Typography variant="cardHeader" color="initial">
-                      ৳ 12,160
+                      BDT 12,160
                     </Typography> */}
 
                       <Controller
@@ -700,12 +773,28 @@ const checkout = () => {
                             <FormControlLabel
                               value="online"
                               control={<Radio />}
-                              label="Online Payment"
+                              label={
+                                <Typography
+                                  variant="cardHeader"
+                                  className="bold"
+                                  mb={0.6}
+                                >
+                                  Online Payment
+                                </Typography>
+                              }
                             />
                             <FormControlLabel
                               value="cash"
                               control={<Radio />}
-                              label="Cash On Delivery"
+                              label={
+                                <Typography
+                                  variant="cardHeader"
+                                  className="bold"
+                                  mb={0.6}
+                                >
+                                  Cash On Delivery
+                                </Typography>
+                              }
                             />
                           </RadioGroup>
                         )}

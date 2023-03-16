@@ -265,7 +265,7 @@ const shop = () => {
               direction={"row"}
               flexWrap={"wrap"}
               alignItems="center"
-              justifyContent={"center"}
+              justifyContent={{lg:"space-between",xs:"center"}}
               columnGap={3}
               rowGap={3}
             >
@@ -390,7 +390,7 @@ const shop = () => {
               direction={"row"}
               flexWrap={"wrap"}
               alignItems="center"
-              justifyContent={"center"}
+              justifyContent={"space-between"}
               columnGap={3}
               rowGap={3}
             >
