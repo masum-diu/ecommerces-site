@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
@@ -248,45 +248,36 @@ const shop = () => {
           </Stack>
         </Stack>
         <Box mt={4}>
-          <Stack
-            direction={"column"}
-            spacing={2}
-            sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px" }}
-          >
-            <Stack direction={"row"} justifyContent="space-between">
-              <Typography variant="tabText" color="initial">
+         
+            <Stack direction={"row"} justifyContent="space-between" sx={{ width: "95%", margin: "0 auto", maxWidth:{lg:"1500px"} }}  >
+              <Typography variant="tabText" color="initial" px={{xs:2.5}}>
                 YOU MAY ALSO LIKE
               </Typography>
-              <Typography variant="tabText" color="initial">
+              <Typography variant="tabText" color="initial"pr={{xs:2.5,xl:0,md:0,sm:0}}>
                 VIEW ALL
               </Typography>
             </Stack>
-            <Stack
-              direction={"row"}
-              flexWrap={"wrap"}
-              alignItems="center"
-              justifyContent={{lg:"space-between",xs:"center"}}
-              columnGap={3}
-              rowGap={3}
-            >
+
+            <Grid container spacing={3} sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px"}}>
               {products?.slice(0, 4).map((data) => (
                 <>
-                  <Stack direction={"column"} spacing={2} key={data?.id}>
-                    <HovarImage
-                      url={`/products/${
-                        data?.p_subcategory?.slug === "unknown"
-                          ? data?.p_category?.slug
-                          : data?.p_subcategory?.slug
-                      }/${data?.id}`}
-                      data={data}
-                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
-                        ?.split("/")
-                        .slice(-3)
-                        .join("/")}`}
-                      width={350}
-                      height={827}
-                    ></HovarImage>
-                    {/* <img
+                  <Grid item xl={3} lg={3} md={3} sm={6} >
+                    <Stack direction={"column"} spacing={2}>
+                      <HovarImage
+                        url={`/products/${
+                          data?.p_subcategory?.slug === "unknown"
+                            ? data?.p_category?.slug
+                            : data?.p_subcategory?.slug
+                        }/${data?.id}`}
+                        data={data}
+                        imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
+                          ?.split("/")
+                          .slice(-3)
+                          .join("/")}`}
+                        width={350}
+                        height={827}
+                      ></HovarImage>
+                      {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
                         data?.feature_image?.lastIndexOf("/") + 1
                       )}`}
@@ -294,27 +285,32 @@ const shop = () => {
                       width={300}
                     /> */}
 
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      justifyContent={"space-between"}
-                    >
-                      <Typography variant="cardHeader2" color="initial" className="SemiBold">
-                        {data?.p_name}
-                      </Typography>
-                      <Typography
-                        variant="cardHeader2"
-                        className="bold"
-                        color="initial"
+                      <Stack
+                        direction={{xl:"row",lg:"row",md:"column",xs:"row"}}
+                        spacing={2}
+                        justifyContent={"space-between"}
                       >
-                        BDT {data?.p_sale_price}
-                      </Typography>
+                        <Typography
+                          variant="cardHeader2"
+                          color="initial"
+                          className="SemiBold"
+                        >
+                          {data?.p_name}
+                        </Typography>
+                        <Typography
+                          variant="cardHeader2"
+                          className="bold"
+                          color="initial"
+                        >
+                          BDT {data?.p_sale_price}
+                        </Typography>
+                      </Stack>
                     </Stack>
-                  </Stack>
+                  </Grid>
                 </>
               ))}
-            </Stack>
-          </Stack>
+            </Grid>
+          
         </Box>
 
         {/* <Image
@@ -373,67 +369,67 @@ const shop = () => {
           </Stack>
         </Stack>
         <Box mt={4}>
-          <Stack
-            direction={"column"}
-            spacing={2}
-            sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px" }}
-          >
-            <Stack direction={"row"} justifyContent="space-between">
-              <Typography variant="tabText" color="initial">
+          
+            <Stack direction={"row"} justifyContent="space-between" sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px"}}>
+              <Typography variant="tabText" color="initial"px={{xs:2.5}}>
                 WHAT'S NEW
               </Typography>
-              <Typography variant="tabText" color="initial">
+              <Typography variant="tabText" color="initial"pr={{xs:2.5,xl:0,md:0,sm:0}}>
                 VIEW ALL
               </Typography>
             </Stack>
-            <Stack
-              direction={"row"}
-              flexWrap={"wrap"}
-              alignItems="center"
-              justifyContent={{lg:"space-between",xs:"center"}}
-              columnGap={3}
-              rowGap={3}
-            >
+            <Grid container spacing={3} sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px"}}>
               {products?.slice(0, 4).map((data) => (
                 <>
-                  <Stack direction={"column"} spacing={2} key={data?.id}>
-                    <HovarImage
-                      url={`/products/${
-                        data?.p_subcategory?.slug === "unknown"
-                          ? data?.p_category?.slug
-                          : data?.p_subcategory?.slug
-                      }/${data?.id}`}
-                      data={data}
-                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
-                        ?.split("/")
-                        .slice(-3)
-                        .join("/")}`}
-                      width={350}
-                      height={827}
-                    ></HovarImage>
+                  <Grid item xl={3} lg={3} md={3} sm={6} >
+                    <Stack direction={"column"} spacing={2}>
+                      <HovarImage
+                        url={`/products/${
+                          data?.p_subcategory?.slug === "unknown"
+                            ? data?.p_category?.slug
+                            : data?.p_subcategory?.slug
+                        }/${data?.id}`}
+                        data={data}
+                        imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
+                          ?.split("/")
+                          .slice(-3)
+                          .join("/")}`}
+                        width={350}
+                        height={827}
+                      ></HovarImage>
+                      {/* <img
+                      src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
+                        data?.feature_image?.lastIndexOf("/") + 1
+                      )}`}
+                      alt=""
+                      width={300}
+                    /> */}
 
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      justifyContent={"space-between"}
-                    >
-                      <Typography variant="cardHeader2" color="initial" className="SemiBold">
-                        {data?.p_name}
-                      </Typography>
-                      <Typography
-                      className="bold"
-                        variant="cardHeader2"
-                        
-                        color="initial"
+                      <Stack
+                        direction={{xl:"row",lg:"row",md:"column",xs:"row"}}
+                        spacing={2}
+                        justifyContent={"space-between"}
                       >
-                        BDT {data?.p_sale_price}
-                      </Typography>
+                        <Typography
+                          variant="cardHeader2"
+                          color="initial"
+                          className="SemiBold"
+                        >
+                          {data?.p_name}
+                        </Typography>
+                        <Typography
+                          variant="cardHeader2"
+                          className="bold"
+                          color="initial"
+                        >
+                          BDT {data?.p_sale_price}
+                        </Typography>
+                      </Stack>
                     </Stack>
-                  </Stack>
+                  </Grid>
                 </>
               ))}
-            </Stack>
-          </Stack>
+            </Grid>
         </Box>
       </Box>
       <Footer />
