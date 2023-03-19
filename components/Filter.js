@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { MdClose, AiOutlinePlus } from "react-icons/md";
+import { useDebouncedCallback, useDebounce } from "use-debounce";
 
 const Filter = ({
   open,
@@ -28,15 +29,31 @@ const Filter = ({
   setFilteredData,
   setFabricName,
   setFabricID,
+  setDebounced,
+  setPriceSelected,
 }) => {
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
+  const [value] = useDebounce(rangeValue, 1000, { trailing: true });
+  const dataFetchedRef = useRef(false);
+
+  // console.log("your log output", value);
   const handleClick = () => {
     setOpenList((prev) => !prev);
     setArrow(!arrow);
   };
   const [openList1, setOpenList1] = React.useState(false);
   const [arrow1, setArrow1] = useState(false);
+  /* const debounced = useDebouncedCallback(
+    (rangeValue) => {
+      setValue(rangeValue);
+    },
+
+    1000
+  ); */
+  useEffect(() => {
+    setDebounced(value);
+  }, [value]);
   const handleClick1 = () => {
     setOpenList1((prev) => !prev);
     setArrow1(!arrow1);
@@ -52,6 +69,7 @@ const Filter = ({
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setPriceSelected(true);
   };
   const handleFabric = (name, id) => {
     setFabricName(name);
@@ -204,7 +222,7 @@ const Filter = ({
                 <Slider
                   size="small"
                   min={0}
-                  step={1}
+                  step={50}
                   max={10000}
                   value={rangeValue}
                   onChange={(event, newValue) => handleChange(event, newValue)}

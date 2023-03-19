@@ -843,7 +843,7 @@ const SiderBar = ({ open, setOpen }) => {
                     )
                   }
                 >
-                  Beauty Colection
+                  Beauty Collection
                 </Button>
                 {/* <Typography
                   variant="cardHeader3"

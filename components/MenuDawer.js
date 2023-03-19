@@ -28,6 +28,7 @@ const MenuDawer = ({
   setValue,
   rangeValue,
   setSelectedColor,
+  setPriceSelected,
 }) => {
   const [openList, setOpenList] = useState(false);
   const [arrow, setArrow] = useState(false);
@@ -47,12 +48,12 @@ const MenuDawer = ({
     setOpenList2((prev) => !prev);
     setArrow2(!arrow2);
   };
-  console.log("your log output", fabrics);
   //price range state
   // const [value, setValue] = useState([min, max]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setPriceSelected(true);
   };
 
   const handleFabric = (name, id) => {
@@ -135,7 +136,9 @@ const MenuDawer = ({
                 {fabrics?.map((fabric, index) => (
                   <>
                     <Typography
-                      onClick={() => handleFabric(fabric?.fabric_name, fabric?.fabric_id)}
+                      onClick={() =>
+                        handleFabric(fabric?.fabric_name, fabric?.fabric_id)
+                      }
                       variant="cardHeader3"
                       color="initial"
                       key={index}

@@ -87,13 +87,17 @@ const masterCollectionLayout = () => {
   const [selectedColor, setSelectedColor] = useState([]);
   const [rangeValue, setValue] = useState([0, 10000]);
   const dataFetchedRef = useRef(false);
+  const [priceSelected, setPriceSelected] = useState(false);
   const [totalProducts, setTotalProducts] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [uniqueColors, setUniqueColors] = useState([]);
   const [page, setPage] = useState(1);
+  const [debounced, setDebounced] = useState([]);
   const divRef = useRef(null);
   const cat = router.query?.cat;
   const sub_cat = router.query?.sub_cat;
+
+  // console.log('your log output',debounced)
 
   // Getting product data with subCategory
   const {
@@ -160,10 +164,13 @@ const masterCollectionLayout = () => {
     isSuccess: attirbutessuccess,
     isError: attirbuteserrorstate,
     error: attirbuteserrormessage,
+    isFetching: isAttributeFetchingSub,
   } = useGetAttributesOfProductsQuery(sub_cat, {
     refetchOnMountOrArgChange: true,
     skip: cat === 5 || cat === 3 || sub_cat === undefined,
   });
+
+  // console.log("your log output", attirbutesloading);
   // Getting attributes of Product with Category
   const {
     data: attirbutesDatasCat,
@@ -171,6 +178,7 @@ const masterCollectionLayout = () => {
     isSuccess: attirbutessuccessCat,
     isError: attirbuteserrorstateCat,
     error: attirbuteserrormessageCat,
+    isFetching: isAttributeFetchingCat,
   } = useGetAttributesOfProductsQuery(cat, {
     skip: sub_cat,
   });
@@ -180,6 +188,7 @@ const masterCollectionLayout = () => {
     data: filterDataSub,
     isLoading: filterLoading,
     isSuccess: filterSuccess,
+    isFetching: isColorFetchingSub,
   } = useGetColorWiseFilteredProductsQuery(
     { cat, sub_cat, colorSelected },
     {
@@ -191,6 +200,7 @@ const masterCollectionLayout = () => {
     data: filterDataCat,
     isLoading: filterLoadingCat,
     isSuccess: filterSuccessCat,
+    isFetching: isColorFetchingCat,
   } = useGetColorWiseFilteredProductsWithOutSubQuery(
     { cat, colorSelected },
     {
@@ -200,8 +210,18 @@ const masterCollectionLayout = () => {
   );
 
   // Getting Filtered data by price
-  const up = rangeValue[1];
-  const low = rangeValue[0];
+  const up = debounced[1];
+  const low = debounced[0];
+  const ups = rangeValue[1];
+  const lows = rangeValue[0];
+
+  console.log(
+    "your log output",
+    debounced[1],
+    debounced[0],
+    rangeValue[1],
+    rangeValue[0]
+  );
 
   const {
     data: filterDataSubp,
@@ -213,9 +233,10 @@ const masterCollectionLayout = () => {
     { cat, sub_cat, up, low },
     {
       refetchOnMountOrArgChange: true,
-      skip: cat == 5 || cat == 3 || !up || !low,
+      skip: cat == 5 || cat == 3 || priceSelected === false,
     }
   );
+
   const {
     data: filterDataCatp,
     isLoading: filterLoadingCatp,
@@ -226,7 +247,7 @@ const masterCollectionLayout = () => {
     { cat, up, low },
     {
       refetchOnMountOrArgChange: true,
-      skip: sub_cat || !up || !low,
+      skip: sub_cat || priceSelected === false,
     }
   );
 
@@ -252,7 +273,7 @@ const masterCollectionLayout = () => {
   );
 
   useEffect(() => {
-    if (productsForStatic.length) {
+    if (productsForStatic?.length) {
     }
     setFilteredData([]);
     setProducts([]);
@@ -372,6 +393,8 @@ const masterCollectionLayout = () => {
     attirbutesDatasCat,
     attirbutesloadingCat,
     attirbutessuccessCat,
+    fabricName,
+    fabricID,
   ]);
 
   // Filtering the products using fabric
@@ -396,7 +419,17 @@ const masterCollectionLayout = () => {
       }
     };
     handleSuccess();
-  }, [fabricID, fabricName]);
+  }, [
+    filterDataSubFab,
+    filterLoadingFab,
+    filterSuccessFab,
+    filterDataCatFab,
+    filterLoadingCatFab,
+    filterSuccessCatFab,
+    fabricID,
+    fabricName,
+  ]);
+
   // Filtering data by colors
   useEffect(() => {
     if ((filterSuccess || filterSuccessCat) && selectedColor) {
@@ -408,29 +441,45 @@ const masterCollectionLayout = () => {
     }
     if (filterLoading || filterLoadingCat) {
     }
-  }, [selectedColor]);
+  }, [
+    filterDataSub,
+    filterLoading,
+    filterSuccess,
+    isColorFetchingSub,
+    filterDataCat,
+    filterLoadingCat,
+    filterSuccessCat,
+    isColorFetchingCat,
+    selectedColor,
+  ]);
 
   // Filtering the products using price
-  useEffect(
-    () => {
-      if (filterDataSubp || filterDataCatp) {
-        if (sub_cat) {
-          setFilteredData(filterDataSubp?.data);
-        } else {
-          setFilteredData(filterDataCatp?.data);
-        }
+  useEffect(() => {
+    if (filterSuccessp || filterSuccessCatp) {
+      if (sub_cat) {
+        // console.log("inside filter");
+        setFilteredData(filterDataSubp?.data);
+        // console.log('inside Setting',filteredData)
+      } else {
+        setFilteredData(filterDataCatp?.data);
       }
-      if (filterLoadingp || filterLoadingCatp) {
-      }
-    },
-    [rangeValue[0], rangeValue[1]],
+    }
+  }, [
     filterDataCatp,
-    filterDataSubp
-  );
+    filterDataSubp,
+    filterLoadingp,
+    filterSuccessp,
+    filterLoadingCatp,
+    filterSuccessCatp,
+  ]);
+
+  console.log('your log output',priceSelected)
+
+  // console.log('your log output',filteredData)
 
   //handling unique colors
   useEffect(() => {
-    const colorWiseFilter = filteredData
+    const colorWiseFilter = products
       ?.map((item) =>
         item?.p_colours?.map((item) =>
           item.color_name ? { name: item.color_name, id: item.id } : null
@@ -443,7 +492,7 @@ const masterCollectionLayout = () => {
       ...new Map(unified.map((item) => [item["name"], item])).values(),
     ];
     setUniqueColors(uniqueColor);
-  }, [filteredData]);
+  }, [products]);
   //handling unique price
   useEffect(() => {
     const min = Math.min(...filteredData?.map((item) => item?.p_sale_price));
@@ -461,13 +510,24 @@ const masterCollectionLayout = () => {
   /*  if (isPriceSubFetching || isPriceCatFetching) {
     return <p>Loading</p> ;
   } */
-
+  /*   if (filterLoadingp || filterLoadingCatp) {
+    return <Loader></Loader>;
+  } */
   // handling fabric change state
   const handleFabricChange = (data, id) => {
     setFabricName(data);
     setFabricSelect(data);
     setFabricID(id);
   };
+
+  /* if (
+    isAttributeFetchingSub ||
+    isAttributeFetchingCat ||
+    isColorFetchingSub ||
+    isColorFetchingCat
+  ) {
+    return <Loader></Loader>;
+  } */
 
   const getMoreProducts = async () => {
     // Getting product data with subCategory
@@ -673,6 +733,8 @@ const masterCollectionLayout = () => {
           {productsForStatic?.length > 0 && (
             <InfiniteScroll
               key={sub_cat + cat}
+              style={{ minHeight: 400 }}
+              scrollThreshold="400px"
               dataLength={filteredData.length} //This is important field to render the next data
               next={getMoreProducts}
               hasMore={hasMore}
@@ -708,6 +770,7 @@ const masterCollectionLayout = () => {
         setValue={setValue}
         rangeValue={rangeValue}
         setSelectedColor={setSelectedColor}
+        setPriceSelected={setPriceSelected}
       />
       {/* <Menu1Dawer open={lists1} setOpen={setLists1} /> */}
       <Filter
@@ -722,6 +785,8 @@ const masterCollectionLayout = () => {
         fabrics={fabrics}
         setFabricName={setFabricName}
         setFabricID={setFabricID}
+        setDebounced={setDebounced}
+        setPriceSelected={setPriceSelected}
       />
     </>
   );
