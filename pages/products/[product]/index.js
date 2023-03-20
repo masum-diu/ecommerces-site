@@ -212,16 +212,6 @@ const masterCollectionLayout = () => {
   // Getting Filtered data by price
   const up = debounced[1];
   const low = debounced[0];
-  const ups = rangeValue[1];
-  const lows = rangeValue[0];
-
-  console.log(
-    "your log output",
-    debounced[1],
-    debounced[0],
-    rangeValue[1],
-    rangeValue[0]
-  );
 
   const {
     data: filterDataSubp,
@@ -284,10 +274,12 @@ const masterCollectionLayout = () => {
   }, [cat, sub_cat]);
 
   // Setting product in a state
+
   useEffect(() => {
-    if (isLoading || categoryLoading) {
-    }
     if (hasMore && (data?.data || catetoryData?.data)) {
+      if (isLoading || categoryLoading || isFetching || isCategoryFetching) {
+        return;
+      }
       const handleSuccess = async () => {
         if (sub_cat && (cat !== 3 || cat !== 5) && data?.data) {
           if (page === 1) {
@@ -348,10 +340,10 @@ const masterCollectionLayout = () => {
   }, [
     data,
     // isSuccess,
-    isLoading,
+    // isLoading,
     catetoryData,
     // categoryisSuccess,
-    categoryLoading,
+    // categoryLoading,
     hasMore,
     cat,
     sub_cat,
@@ -473,8 +465,6 @@ const masterCollectionLayout = () => {
     filterSuccessCatp,
   ]);
 
-  console.log('your log output',priceSelected)
-
   // console.log('your log output',filteredData)
 
   //handling unique colors
@@ -501,18 +491,6 @@ const masterCollectionLayout = () => {
     setMax(max);
   }, [filteredData]);
 
-  // useEffect(() => {
-  //   if (hasMore === false) {
-  //     setHasMore(!hasMore);
-  //   }
-  // }, [cat, sub_cat]);
-
-  /*  if (isPriceSubFetching || isPriceCatFetching) {
-    return <p>Loading</p> ;
-  } */
-  /*   if (filterLoadingp || filterLoadingCatp) {
-    return <Loader></Loader>;
-  } */
   // handling fabric change state
   const handleFabricChange = (data, id) => {
     setFabricName(data);
@@ -520,26 +498,17 @@ const masterCollectionLayout = () => {
     setFabricID(id);
   };
 
-  /* if (
-    isAttributeFetchingSub ||
-    isAttributeFetchingCat ||
-    isColorFetchingSub ||
-    isColorFetchingCat
-  ) {
-    return <Loader></Loader>;
-  } */
-
+  // Getting product data with subCategory
   const getMoreProducts = async () => {
-    // Getting product data with subCategory
-
     if (isLoading || categoryLoading || !hasMore) return;
 
     setPage((prev) => prev + 1);
   };
-  // Handling the loading state
 
+  // Slicing data for static products and dynamic products
   const productsForStatic = filteredData.slice(0, 7);
   const productsForDynamic = chunkArray(filteredData.slice(9));
+
 
   return (
     <>
@@ -733,8 +702,8 @@ const masterCollectionLayout = () => {
           {productsForStatic?.length > 0 && (
             <InfiniteScroll
               key={sub_cat + cat}
-              style={{ minHeight: 400 }}
-              scrollThreshold="400px"
+              style={{ minHeight: "100px" }}
+              scrollThreshold="950px"
               dataLength={filteredData.length} //This is important field to render the next data
               next={getMoreProducts}
               hasMore={hasMore}
