@@ -192,6 +192,7 @@ const checkout = () => {
       isSameAddress: isSameAddressChecked,
       isGuestCheckout: true,
     });
+    console.log("token", hasToken);
     if (hasToken === true) {
       instance
         .post(
@@ -219,7 +220,7 @@ const checkout = () => {
         })
         .catch((err) => {});
     }
-    console.log("geust checkout output", dfat);
+    console.log("geust checkout output", data);
     // console.log("geust checkout output", isGuestCheckout);
   };
 
@@ -500,7 +501,6 @@ const checkout = () => {
                       // onChange={}
                       value={firstName}
                       disabled
-                      readOnly
                       size="small"
                     />
                   ) : (
