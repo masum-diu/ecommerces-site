@@ -74,11 +74,11 @@ const wishlists = () => {
           <Hidden only={["md", "lg", "xl", "sm"]}>
             {wishlist?.length > 0 ? (
               <Stack direction={"column"} spacing={2} pt={5}>
-                {wishlist.map((wishlistData) => (
+                {wishlist?.map((wishlistData) => (
                   <>
                     <Stack
                       spacing={2}
-                      key={wishlistData.id}
+                      key={wishlistData?.id}
                       direction={{ lg: "row", xs: "column" }}
                       sx={{
                         width: "100%",
@@ -89,23 +89,23 @@ const wishlists = () => {
                       <IconButton
                         onClick={() =>
                           handleRemoveFromList({
-                            id: wishlistData.id,
+                            id: wishlistData?.id,
                             amount: 1,
                           })
                         }
                       >
                         <MdClose />
                       </IconButton>
-                      <img src={wishlistData.image} alt="" width={100} />
+                      <img src={wishlistData?.image} alt="" width={100} />
                       <Typography variant="cardHeader12" color="initial">
-                        {wishlistData.name}
+                        {wishlistData?.name}
                       </Typography>
                       <Typography variant="cardHeader12" color="initial">
-                        ৳{wishlistData.price}
+                        BDT {wishlistData?.price}
                       </Typography>
-                      <Typography variant="cardHeader12" color="initial">
-                        {wishlistData.stock[0]?.stock}
-                      </Typography>
+                      {/* <Typography variant="cardHeader12" color="initial">
+                        {wishlistData?.stock[0]?.stock}
+                      </Typography> */}
                       <Button
                         variant="contained"
                         color="background2"
@@ -125,7 +125,7 @@ const wishlists = () => {
                     </Stack>
                     <br />
                     <Divider />
-                  </>
+                  </> 
                 ))}
               </Stack>
             ) : (
@@ -156,7 +156,7 @@ const wishlists = () => {
                       <>
                         <TableRow
                           // sx={{background:"#fdc",px:40}}
-                          key={wishlistData.id}
+                          key={wishlistData?.id}
                           // sx={{ display: "flex", justifyContent: "space-between",alignItems:"center",textDecoration:"none",border:"none" }}
                         >
                           <TableCell sx={{ border: "none" }}>
@@ -164,7 +164,7 @@ const wishlists = () => {
                               aria-label=""
                               onClick={() =>
                                 handleRemoveFromList({
-                                  id: wishlistData.id,
+                                  id: wishlistData?.id,
                                   amount: 1,
                                 })
                               }
@@ -173,15 +173,15 @@ const wishlists = () => {
                             </IconButton>
                           </TableCell>
                           <TableCell sx={{ border: "none" }}>
-                            <img src={wishlistData.image} alt="" width={100} />
+                            <img src={wishlistData?.image} alt="" width={100} />
                           </TableCell>
 
                           <TableCell sx={{ border: "none", textAlign: "left" }}>
                             {" "}
-                            {wishlistData.name}
+                            {wishlistData?.name}
                           </TableCell>
                           <TableCell sx={{ border: "none", textAlign: "left" }}>
-                            ৳ {wishlistData.price}
+                            BDT {wishlistData?.price}
                           </TableCell>
                           {/* <TableCell sx={{ border: "none" }}>
                         {wishlistData.stock[0]?.stock}

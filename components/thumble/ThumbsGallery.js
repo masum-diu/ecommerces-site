@@ -15,7 +15,6 @@ import { FreeMode, Navigation, Thumbs, Zoom } from "swiper";
 const ThumbsGallery = ({ open, setOpen, imageData }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const {img1,img2,img3,img4} = imageData;
-  console.log('your log output',imageData)
 
   return (
     <>
@@ -48,7 +47,7 @@ const ThumbsGallery = ({ open, setOpen, imageData }) => {
             style={{
               "--swiper-navigation-color": "#000",
               "--swiper-pagination-color": "red",
-              marginTop: "3rem",
+              marginTop: "1rem",
             }}
             loop={true}
             zoom={true}
@@ -67,7 +66,7 @@ const ThumbsGallery = ({ open, setOpen, imageData }) => {
               <div className="swiper-zoom-container">
                 <img
                   src={img1}
-                  width={600}
+                  width={400}
                 />
               </div>
             </SwiperSlide>
@@ -77,7 +76,7 @@ const ThumbsGallery = ({ open, setOpen, imageData }) => {
               <div className="swiper-zoom-container">
                 <img
                   src={img2}
-                  width={600}
+                  width={400}
                 />
               </div>
             </SwiperSlide>
@@ -87,7 +86,7 @@ const ThumbsGallery = ({ open, setOpen, imageData }) => {
               <div className="swiper-zoom-container">
                 <img
                   src={img3}
-                  width={600}
+                  width={400}
                 />
               </div>
             </SwiperSlide>
@@ -97,7 +96,7 @@ const ThumbsGallery = ({ open, setOpen, imageData }) => {
               <div className="swiper-zoom-container">
                 <img
                   src={img4}
-                  width={600}
+                  width={400}
                 />
               </div>
             </SwiperSlide>
@@ -106,7 +105,7 @@ const ThumbsGallery = ({ open, setOpen, imageData }) => {
             onSwiper={setThumbsSwiper}
             loop={true}
             spaceBetween={0}
-            slidesPerView={2}
+            slidesPerView={3}
             freeMode={true}
             watchSlidesProgress={true}
             modules={[FreeMode, Navigation, Thumbs]}
@@ -115,36 +114,33 @@ const ThumbsGallery = ({ open, setOpen, imageData }) => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              marginTop: "8rem",
+              marginTop: "1rem",
+              width:"75%"
             }}
           >
             <SwiperSlide>
               <img
                 src={img1}
-                width={200}
-                height={200}
+                width={100}
               />
             </SwiperSlide>
 
             <SwiperSlide>
               <img
                 src={img2}
-                width={200}
-                height={200}
+                width={100}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src={img3}
-                width={200}
-                height={200}
+                width={100}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src={img4}
-                width={200}
-                height={200}
+                width={100}
               />
             </SwiperSlide>
           </Swiper>

@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Drawer from "@mui/material/Drawer";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+
 import {
   Box,
   Button,
@@ -9,42 +12,73 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  MdClose,
-  MdOutlineKeyboardArrowDown,
-  MdOutlineKeyboardArrowUp,
-} from "react-icons/md";
+import { MdClose, AiOutlinePlus } from "react-icons/md";
+import { useDebouncedCallback, useDebounce } from "use-debounce";
 
 const Filter = ({
   open,
   setOpen,
-  uniqueColor,
+  uniqueColors,
   min,
   max,
   setValue,
-  rangeValue,setSelectedColor
+  rangeValue,
+  setSelectedColor,
+  fabrics,
+  products,
+  setFilteredData,
+  setFabricName,
+  setFabricID,
+  setDebounced,
+  setPriceSelected,
 }) => {
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
+  const [value] = useDebounce(rangeValue, 1000, { trailing: true });
+  const dataFetchedRef = useRef(false);
+
+  // console.log("your log output", value);
   const handleClick = () => {
     setOpenList((prev) => !prev);
     setArrow(!arrow);
   };
   const [openList1, setOpenList1] = React.useState(false);
   const [arrow1, setArrow1] = useState(false);
+  /* const debounced = useDebouncedCallback(
+    (rangeValue) => {
+      setValue(rangeValue);
+    },
+
+    1000
+  ); */
+  useEffect(() => {
+    setDebounced(value);
+  }, [value]);
   const handleClick1 = () => {
     setOpenList1((prev) => !prev);
     setArrow1(!arrow1);
+  };
+  const [openList2, setOpenList2] = React.useState(false);
+  const [arrow2, setArrow2] = useState(false);
+  const handleClick2 = () => {
+    setOpenList2((prev) => !prev);
+    setArrow2(!arrow2);
   };
   //price range state
   // const [value, setValue] = useState([min, max]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setPriceSelected(true);
+  };
+  const handleFabric = (name, id) => {
+    setFabricName(name);
+    setFabricID(id);
   };
   return (
-    <>
+    <React.Fragment>
       <Drawer
+        transitionDuration={{ enter: 500, exit: 500 }}
         anchor="right"
         open={open}
         onClose={() => setOpen(false)}
@@ -66,6 +100,7 @@ const Filter = ({
           </IconButton>
         </Stack>
         <Stack direction={"column"} spacing={1} p={2}>
+          {/* Fabric Wise Filter Starts */}
           <Button
             variant="text"
             color="inherit"
@@ -79,33 +114,45 @@ const Filter = ({
             }}
             endIcon={
               arrow ? (
-                <MdOutlineKeyboardArrowUp onClick={() => setArrow(!arrow)} />
+                <RemoveIcon onClick={() => setArrow(!arrow)} />
               ) : (
-                <MdOutlineKeyboardArrowDown onClick={() => setArrow(!arrow)} />
+                <AddIcon onClick={() => setArrow(!arrow)} />
               )
             }
           >
-            Colors
+            Fabric
           </Button>
           {openList ? (
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
               <Stack direction={"column"} spacing={1.5}>
-                {uniqueColor?.map((color) => (
+                <Typography
+                  onClick={() => handleFabric("all")}
+                  variant="cardHeader3"
+                  color="initial"
+                  sx={{ cursor: "pointer" }}
+                >
+                  All Product
+                </Typography>
+                {fabrics?.map((fabric, index) => (
                   <>
                     <Typography
-                    onClick={()=>setSelectedColor(color)}
+                      onClick={() =>
+                        handleFabric(fabric?.fabric_name, fabric?.fabric_id)
+                      }
                       variant="cardHeader3"
                       color="initial"
-                      key={color}
+                      key={index}
                       sx={{ cursor: "pointer" }}
                     >
-                      {color}
+                      {fabric?.fabric_name}
                     </Typography>
                   </>
                 ))}
               </Stack>
             </Box>
           ) : null}
+
+          {/* Color Wise Filter Starts */}
           <Button
             variant="text"
             color="inherit"
@@ -119,53 +166,78 @@ const Filter = ({
             }}
             endIcon={
               arrow1 ? (
-                <MdOutlineKeyboardArrowUp onClick={() => setArrow1(!arrow1)} />
+                <RemoveIcon onClick={() => setArrow1(!arrow1)} />
               ) : (
-                <MdOutlineKeyboardArrowDown
-                  onClick={() => setArrow1(!arrow1)}
-                />
+                <AddIcon onClick={() => setArrow1(!arrow1)} />
+              )
+            }
+          >
+            Colors
+          </Button>
+          {openList1 ? (
+            <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
+              <Stack direction={"column"} spacing={1.5}>
+                {uniqueColors?.map((color, index) => (
+                  <>
+                    <Typography
+                      onClick={() => setSelectedColor([color.name, color.id])}
+                      variant="cardHeader3"
+                      color="initial"
+                      key={index}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      {color.name}
+                    </Typography>
+                  </>
+                ))}
+              </Stack>
+            </Box>
+          ) : null}
+
+          {/* Price wise filter Starts */}
+          <Button
+            variant="text"
+            color="inherit"
+            onClick={handleClick2}
+            fullWidth
+            sx={{
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              textTransform: "capitalize",
+            }}
+            endIcon={
+              arrow2 ? (
+                <RemoveIcon onClick={() => setArrow2(!arrow2)} />
+              ) : (
+                <AddIcon onClick={() => setArrow2(!arrow2)} />
               )
             }
           >
             Price Range
           </Button>
-          {openList1 ? (
+          {openList2 ? (
             <Box sx={{ width: "100%", margin: "0 auto", px: 2 }}>
               <Stack direction={"column"} spacing={1.5}>
                 <Slider
-                  min={min}
-                  max={max}
+                  size="small"
+                  min={0}
+                  step={50}
+                  max={10000}
                   value={rangeValue}
-                  onChange={handleChange}
-                  valueLabelDisplay="auto"
+                  onChange={(event, newValue) => handleChange(event, newValue)}
+                  sx={{ color: "#2D323F" }}
                 />
-              </Stack>
-              <Stack
-                sx={{ width: "100%" }}
-                direction={"row"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-              >
-                <TextField
-                  size="small"
-                  disabled
-                  value={0}
-                  style={{ width: "70px", borderRadius: "0px" }}
-                  variant="outlined"
-                />
-                <TextField
-                  size="small"
-                  value={max > 0 ? max : ""}
-                  disabled
-                  style={{ width: "70px", borderRadius: "0px" }}
-                  variant="outlined"
-                />
+                <Stack direction={"row"} justifyContent="space-between">
+                  <Typography>{min}</Typography>
+                  <Typography>{max}</Typography>
+                </Stack>
               </Stack>
             </Box>
           ) : null}
         </Stack>
       </Drawer>
-    </>
+    </React.Fragment>
   );
 };
 

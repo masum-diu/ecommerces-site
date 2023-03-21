@@ -3,7 +3,7 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
 const instance = axios.create({
-  baseURL: "http://apiaranya.jumriz.com/public/api",
+  baseURL: "https://backend.aranya.com.bd/api",
   headers: {
     "Content-Type": "application/json",
     timeout: 1000,

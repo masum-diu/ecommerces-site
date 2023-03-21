@@ -152,7 +152,9 @@ const SiderBar = ({ open, setOpen }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <Link href={"/userProfile"}>
+        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      </Link>
       <MenuItem onClick={handelogout}>Logout</MenuItem>
     </Menu>
   );
@@ -194,6 +196,7 @@ const SiderBar = ({ open, setOpen }) => {
   return (
     <>
       <Drawer
+        transitionDuration={{ enter: 500, exit: 500 }}
         anchor="left"
         open={open}
         onClose={() => setOpen(false)}
@@ -220,6 +223,7 @@ const SiderBar = ({ open, setOpen }) => {
             <Box mt={2}>
               <Stack direction={"column"}>
                 <Button
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick}
@@ -441,6 +445,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick1}
@@ -496,9 +501,9 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/fatua",
-                              query: { cat: 2, sub_cat: 14 },
+                              query: { cat: 2, sub_cat: 16 },
                             },
-                            "/products/fatua?cat=2&sub_cat=14"
+                            "/products/fatua?cat=2&sub_cat=16"
                           )
                         }
                       >
@@ -518,9 +523,9 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/vest",
-                              query: { cat: 2, sub_cat: 15 },
+                              query: { cat: 2, sub_cat: 14 },
                             },
-                            "/products/vest?cat=2&sub_cat=15"
+                            "/products/vest?cat=2&sub_cat=14"
                           )
                         }
                       >
@@ -534,9 +539,9 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/shirts",
-                              query: { cat: 2, sub_cat: 16 },
+                              query: { cat: 2, sub_cat: 17 },
                             },
-                            "/products/shirts?cat=2&sub_cat=16"
+                            "/products/shirts?cat=2&sub_cat=17"
                           )
                         }
                       >
@@ -556,9 +561,9 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/t-shirt",
-                              query: { cat: 2, sub_cat: 17 },
+                              query: { cat: 2, sub_cat: 15 },
                             },
-                            "/products/t-shirt?cat=2&sub_cat=17"
+                            "/products/t-shirt?cat=2&sub_cat=15"
                           )
                         }
                       >
@@ -574,7 +579,7 @@ const SiderBar = ({ open, setOpen }) => {
                               pathname: "/products/jackets",
                               query: { cat: 2, sub_cat: 18 },
                             },
-                            "/products/jackets?cat=2&sub_cat=19"
+                            "/products/jackets?cat=2&sub_cat=18"
                           )
                         }
                       >
@@ -585,6 +590,7 @@ const SiderBar = ({ open, setOpen }) => {
                 ) : null}
 
                 <Button
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   fullWidth
@@ -635,6 +641,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick3}
@@ -816,6 +823,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   fullWidth
@@ -835,7 +843,7 @@ const SiderBar = ({ open, setOpen }) => {
                     )
                   }
                 >
-                  Beauty Colection
+                  Beauty Collection
                 </Button>
                 {/* <Typography
                   variant="cardHeader3"
@@ -879,6 +887,7 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
                 <Button
+                  className="SemiBold"
                   variant="text"
                   color="inherit"
                   onClick={handleClick5}
@@ -1099,6 +1108,7 @@ const SiderBar = ({ open, setOpen }) => {
                 ) : null}
               </Stack>
               <Button
+                className="SemiBold"
                 variant="text"
                 color="inherit"
                 onClick={handleClick6}
@@ -1171,6 +1181,7 @@ const SiderBar = ({ open, setOpen }) => {
               >
                 <Typography
                   variant="cardHeader"
+                  className="SemiBold"
                   color="initial"
                   onClick={() => router.push("/shop")}
                 >
@@ -1188,6 +1199,7 @@ const SiderBar = ({ open, setOpen }) => {
               >
                 <Typography
                   variant="cardHeader"
+                  className="SemiBold"
                   color="initial"
                   onClick={() => router.push("/story")}
                 >
@@ -1213,7 +1225,7 @@ const SiderBar = ({ open, setOpen }) => {
                     >
                       <AccountCircle style={{ color: "#0A0A0A" }} />
 
-                      <Typography variant="cardHeader">
+                      <Typography variant="cardHeader" className="SemiBold">
                         {userjsondata ? (
                           <Typography variant="cardHeader">
                             {userjsondata.name}
@@ -1233,6 +1245,7 @@ const SiderBar = ({ open, setOpen }) => {
                   <>
                     <Typography
                       variant="cardHeader"
+                      className="SemiBold"
                       color="initial"
                       onClick={() => setModalOpen(true)}
                     >
@@ -1246,7 +1259,11 @@ const SiderBar = ({ open, setOpen }) => {
                 <IconButton aria-label="">
                   <BiMap style={{ color: "#0A0A0A" }} />
                 </IconButton>
-                <Typography variant="cardHeader" color="initial">
+                <Typography
+                  variant="cardHeader"
+                  color="initial"
+                  className="SemiBold"
+                >
                   BD
                 </Typography>
               </Stack>

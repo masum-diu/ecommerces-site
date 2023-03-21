@@ -7,31 +7,57 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { FiSearch } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
 import instance from "../pages/api/api_instance";
+import { useGetSearchResultQuery } from "../src/features/api/apiSlice";
+import Loader from "./Loader/Loader";
 
 const SearchModal = ({ open, setOpen }) => {
-  const [data, setData] = useState([]);
+  const [searchText, setData] = useState([]);
   const [searchApiData, setSearchApiData] = useState([]);
-  const [filterVal, setFilterVal] = useState("");
+  const [filterVal, setFilterVal] = useState();
 
-  const fetchData = () => {
-    return instance.get(`/product?no_paginate=yes&keyword`).then((response) => {
-      setSearchApiData(response.data?.data);
-    });
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isSuccess,
+    // isError,
+    // error,
+    // isFetching: isFetchingSubCat,
+  } = useGetSearchResultQuery(searchText, {
+    refetchOnMountOrArgChange: true,
+    skip: !filterVal,
+  });
+
+
+  /*   const fetchData = async () => {
+    return await instance
+      .get(`/product?no_paginate=yes&keyword`)
+      .then(function (response) {
+        setSearchApiData(response.data?.data);
+      })
+
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [searchText]); */
+
+  useEffect(() => {
+    if (isSuccess) {
+      setSearchApiData(data?.data);
+    }
+  }, [searchText]);
+
   const handleFilter = (e) => {
     if (e.target.value === "") {
-      setData(setFilterVal);
+      setData([]);
     } else {
       const filterResults = searchApiData.filter((item) =>
         item.p_name.toLowerCase().includes(e.target.value.toLowerCase())
@@ -40,6 +66,7 @@ const SearchModal = ({ open, setOpen }) => {
     }
     setFilterVal(e.target.value);
   };
+
   return (
     <>
       {/*  */}
@@ -69,7 +96,7 @@ const SearchModal = ({ open, setOpen }) => {
               fullWidth
               id=""
               label=""
-              value={filterVal}
+              value={filterVal ? filterVal : null}
               onInput={(e) => handleFilter(e)}
               size="small"
               placeholder="search products…
@@ -96,7 +123,7 @@ const SearchModal = ({ open, setOpen }) => {
             // alignItems={"center"}
             alignItems={"center"}
           >
-            {data?.slice(0, 4).map((data) => (
+            {searchText?.slice(0, 4).map((data) => (
               <>
                 <Link
                   style={{ textDecoration: "none" }}
@@ -108,9 +135,13 @@ const SearchModal = ({ open, setOpen }) => {
                 >
                   <Stack direction={"column"} mt={4} spacing={1}>
                     {/* <img src={data?.feature_image} alt="" width={100} /> */}
-                    <img style={{cursor:"pointer"}} src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_150,w_150/v1676527368/aranya/${data?.feature_image?.substring(
-                    data?.feature_image?.lastIndexOf("/") + 1
-                  )}`} />
+                    <img
+                      style={{ cursor: "pointer" }}
+                      src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto:face,h_180,w_180/${data?.feature_image
+                        ?.split("/")
+                        .slice(-3)
+                        .join("/")}`}
+                    />
                     <Typography
                       variant="cardHeader2"
                       color="initial"
@@ -123,7 +154,7 @@ const SearchModal = ({ open, setOpen }) => {
                       fontWeight={"bold"}
                       color="initial"
                     >
-                      BDT {data?.p_sale_price} ৳
+                      BDT {data?.p_sale_price} BDT
                     </Typography> */}
                   </Stack>
                 </Link>

@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
@@ -23,12 +23,17 @@ import {
 } from "../src/features/cart/cartSlice";
 
 import toast from "react-hot-toast";
+import LoginModal from "../components/LoginModal";
 
 const addtocart = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  // const dataFetchedRef = useRef(false);
+  const [loading, setLoading] = useState(true);
   const cart = useSelector((state) => state.cart.cart);
+  const [openLoginModal, setLoginModal] = useState(false);
   const carts = useSelector((state) => state.cart);
+  const [isProceedClicked, setIsProceedClicked] = useState(false);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
 
@@ -36,6 +41,30 @@ const addtocart = () => {
     dispatch(removeFromCart(data));
     await toast.error("Removed From Cart!");
   };
+
+  /* useEffect(() => {
+    if (isProceedClicked === true) {
+      const securePage = async () => {
+        const token = await localStorage.getItem("acesstoken");
+        if (!token) {
+          setLoginModal(true);
+          // await toast.error("Please Login First");
+          await router.push("/addtocart");
+          setIsProceedClicked(false);
+        } else {
+          setLoading(false);
+          router.push("/checkout");
+        }
+      };
+      securePage();
+    }
+  }, [isProceedClicked]); */
+
+  /* useEffect(() => {
+    const handleProceedToCheckout = () => {};
+    handleProceedToCheckout();
+  }, []); */
+
   return (
     <>
       <HomePageIntro title={"Cart "} />
@@ -108,7 +137,7 @@ const addtocart = () => {
                             {data.size}
                           </Typography>
                           <Typography variant="subtitle1" color="initial">
-                            {data.totalPrice}৳
+                            BDT {data.totalPrice}
                           </Typography>
                           <Stack
                             direction={"row"}
@@ -171,17 +200,17 @@ const addtocart = () => {
                       {" "}
                       <Button
                         variant="contained"
-                        color="background2"
-                        onClick={() => router.push("/checkout")}
-                      >
-                        proceed to checkout
-                      </Button>
-                      <Button
-                        variant="contained"
                         color="secondary"
                         onClick={() => router.push("/shop")}
                       >
                         CONTINUE SHOPPING
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="background2"
+                        onClick={() => router.push("/checkout")}
+                      >
+                        proceed to checkout
                       </Button>
                     </Stack>
                   </Stack>
@@ -212,6 +241,7 @@ const addtocart = () => {
       </Box>
 
       <Footer />
+      <LoginModal open={openLoginModal} setOpen={setLoginModal}></LoginModal>
     </>
   );
 };

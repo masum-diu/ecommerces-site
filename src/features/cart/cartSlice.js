@@ -43,6 +43,7 @@ export const cartSlice = createSlice({
             amount: productID.amount,
             stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
+            taxAmount:productID.taxAmount
           });
           state.totalAmount += productID.amount;
           state.totalPrice += productID.totalPrice;
@@ -82,6 +83,7 @@ export const cartSlice = createSlice({
             amount: productID.amount,
             stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
+            taxAmount:productID.taxAmount
           });
           state.totalAmount += productID.amount;
           state.totalPrice += productID.price;

@@ -101,9 +101,7 @@ const HomePageIntro = ({ title }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link href="/userProfile">
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      </Link>
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handelogout}>Logout</MenuItem>
     </Menu>
   );
@@ -158,7 +156,7 @@ const HomePageIntro = ({ title }) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            py: 1,
+            py: 2,
           }}
         >
           <Stack

@@ -9,6 +9,7 @@ import { MenuItem, Select, Stack, Button } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Padding } from "@mui/icons-material";
 
 const FlashPage = ({ title }) => {
   const [country, setCountry] = React.useState(10);
@@ -34,10 +35,13 @@ const FlashPage = ({ title }) => {
       <Box
         sx={{
           backgroundImage:
-            "url('https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1676527368/aranya/r98zxbtcywpy4jocgyqd.jpg')",
-          backgroundSize: "cover",
-          height: "100vh",
-          maxHeight: "fit-content",
+            "url('https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1678608771/aranya-product/boishakh/ZS002030.jpg')",
+          height:"100vh",
+          backgroundRepeat:"no-repeat",
+          backgroundPosition:"top",
+          backgroundSize:"cover",
+          backgroundAttachment:"fixed"
+
         }}
       >
         <AppBar
@@ -77,7 +81,7 @@ const FlashPage = ({ title }) => {
             }}
             spacing={1}
           >
-            <Typography variant="homeFlash" color="initial">
+            <Typography variant="homeFlash" >
               Select your shipping country
             </Typography>
             <Select
@@ -88,10 +92,10 @@ const FlashPage = ({ title }) => {
               size="small"
               sx={{ backgroundColor: "white" }}
             >
-              <MenuItem value={20} disabled>
+              <MenuItem value={20} disabled >
                 Select Shipping Country
               </MenuItem>
-              <MenuItem value={10}>Bangladesh</MenuItem>
+              <MenuItem value={10} >Bangladesh</MenuItem>
               {/* <MenuItem value={30}>England</MenuItem>
               <MenuItem value={40}>India</MenuItem> */}
             </Select>

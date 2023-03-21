@@ -1,9 +1,8 @@
 import { createTheme } from "@mui/material/styles";
-
-const primary = "#787878"; 
-const secondary = "#FBB03B"; 
+const primary = "#787878";
+const secondary = "#FBB03B";
 const background = "#ffffff";
-const background2 = "#2D323F"; 
+const background2 = "#2D323F";
 const background3 = "#4CC0B6";
 const background4 = "#FF6A6A";
 const error = "#FF0000";
@@ -107,14 +106,13 @@ theme.typography.header1 = {
 
 theme.typography.login1 = {
   fontSize: "48px",
-  fontWeight: "500",
+  // fontWeight: "bold",
   color: primary,
   [theme.breakpoints.down("md")]: {
     fontSize: "24px",
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: "18px",
-   
   },
 };
 theme.typography.login2 = {
@@ -160,7 +158,7 @@ theme.typography.pre = {
 theme.typography.cardHeader = {
   fontSize: "14px",
   fontWeight: "500",
- 
+
   color: black,
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
@@ -168,16 +166,16 @@ theme.typography.cardHeader = {
 };
 theme.typography.cardHeader2 = {
   fontSize: "14px",
-  fontWeight:"400",
-  
+  fontWeight: "400",
+
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
   },
 };
 theme.typography.cardHeader3 = {
   fontSize: "14px",
-  fontWeight:"400",
-  color:"#3A3A3A",
+  fontWeight: "400",
+  color: "#3A3A3A",
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
   },
@@ -212,7 +210,7 @@ theme.typography.cardHeader12 = {
 
 theme.typography.cardLocation = {
   fontSize: "12px",
-  fontWeight:"400",
+  fontWeight: "400",
   // color: ,
   [theme.breakpoints.down("sm")]: {
     fontSize: "8px",
@@ -236,7 +234,6 @@ theme.typography.tabText = {
 theme.typography.tabText1 = {
   fontSize: "18px",
   fontWeight: "700",
-  
 };
 
 export default theme;

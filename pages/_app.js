@@ -13,7 +13,7 @@ import { store } from "../src/app/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "react-hot-toast";
-
+import "../styles/globals.css"
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 let persistor = persistStore(store);
@@ -23,15 +23,10 @@ export default function MyApp(props) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        {/* <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        ></meta> */}
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <NextNProgress
           color="#29D"

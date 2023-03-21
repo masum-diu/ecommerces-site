@@ -17,16 +17,19 @@ import axios from "axios";
 import USER_CONTEXT from "./userContext";
 import Cookies from "js-cookie";
 import instance from "../pages/api/api_instance";
+import GuestCheckout from "./GuestCheckout";
 
-const LoginModal = ({ open, setOpen }) => {
+const LoginModal = ({ open, setOpen, isGuestCheckout, setHasToken }) => {
   const { userdata, setUserData } = useContext(USER_CONTEXT);
-  const {errormessage, setErrormessage} = useState("")
+  const { errormessage, setErrormessage } = useState("");
   const [signModal, setSignModal] = useState(false);
   const [forgotModal, setForgotModal] = useState(false);
+  const [openGuestCheckoutModalOpen, setGuestCheckoutModalOpen] =
+    useState(false);
   const router = useRouter();
 
   const handleclearuser = () => {
-    setUserData("")
+    setUserData("");
   };
   const handleChange = () => {
     setOpen(false);
@@ -39,6 +42,10 @@ const LoginModal = ({ open, setOpen }) => {
   const handleRestPass = () => {
     setOpen(false);
     router.push("/forgotPassword");
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setGuestCheckoutModalOpen(true);
   };
   const [values, setValues] = useState({
     pass: "",
@@ -76,6 +83,7 @@ const LoginModal = ({ open, setOpen }) => {
         setUserData(result.data);
         reset();
         setOpen(false);
+        setHasToken(true);
       })
       .catch((err) => {
         setUserData(err);
@@ -92,7 +100,7 @@ const LoginModal = ({ open, setOpen }) => {
         }}
       >
         <Stack justifyContent={"flex-end"} alignItems={"flex-end"} p={1}>
-          <IconButton aria-label="" onClick={() => setOpen(false)}>
+          <IconButton aria-label="" onClick={() => handleClose()}>
             <MdClose />
           </IconButton>
         </Stack>
@@ -140,15 +148,13 @@ const LoginModal = ({ open, setOpen }) => {
                   <TextField
                     {...register("password", {
                       required: "Password is required",
-                     
+
                       minLength: {
                         value: 8,
                         message: `Password must be more the 8 characters`,
                       },
-                      
-                    
                     })}
-                    onKeyUp={()=>handleclearuser()}
+                    onKeyUp={() => handleclearuser()}
                     name="password"
                     id=""
                     label=""
@@ -175,7 +181,13 @@ const LoginModal = ({ open, setOpen }) => {
                     }}
                   />
 
-                  <p style={{ color: "red" }}>{errors?.password?errors.password?.message:(userdata?.response?.status == 401? userdata?.response?.data?.message:"")}</p>
+                  <p style={{ color: "red" }}>
+                    {errors?.password
+                      ? errors.password?.message
+                      : userdata?.response?.status == 401
+                      ? userdata?.response?.data?.message
+                      : ""}
+                  </p>
                 </Stack>
 
                 <Typography
@@ -215,6 +227,11 @@ const LoginModal = ({ open, setOpen }) => {
         signModal={setOpen}
       />
       <ForgotPass open={forgotModal} setOpen={setForgotModal} />
+      <GuestCheckout
+        open={openGuestCheckoutModalOpen}
+        setOpen={setGuestCheckoutModalOpen}
+        // setIsGuestCheckout={setIsGuestCheckout}
+      ></GuestCheckout>
     </>
   );
 };
