@@ -42,7 +42,7 @@ const addtocart = () => {
     await toast.error("Removed From Cart!");
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (isProceedClicked === true) {
       const securePage = async () => {
         const token = await localStorage.getItem("acesstoken");
@@ -58,7 +58,7 @@ const addtocart = () => {
       };
       securePage();
     }
-  }, [isProceedClicked]);
+  }, [isProceedClicked]); */
 
   /* useEffect(() => {
     const handleProceedToCheckout = () => {};
@@ -208,7 +208,7 @@ const addtocart = () => {
                       <Button
                         variant="contained"
                         color="background2"
-                        onClick={() => setIsProceedClicked(true)}
+                        onClick={() => router.push("/checkout")}
                       >
                         proceed to checkout
                       </Button>

@@ -14,7 +14,7 @@ import {
   MenuItem,
   Checkbox,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
 import { useSelector } from "react-redux";
@@ -23,8 +23,10 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader/Loader";
-import { useRef } from "react";
 import instance from "./api/api_instance";
+import LoginModal from "../components/LoginModal";
+import GuestCheckout from "../components/GuestCheckout";
+import USER_CONTEXT from "../components/userContext";
 
 const checkout = () => {
   const cart = useSelector((state) => state.cart.cart);
@@ -40,6 +42,12 @@ const checkout = () => {
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [total, setTotal] = useState(subTotal);
+  const [openLoginModal, setLoginModal] = useState(false);
+  const [isPlaceOrder, setIsPlaceOrder] = useState(false);
+  // const [isGuestCheckout, setIsGuestCheckout] = useState(false);
+  const [orderInfo, setOrderInfo] = useState({});
+  const [hasToken, setHasToken] = useState(false);
+  const { isGuestCheckout, setIsGuestCheckout } = useContext(USER_CONTEXT);
   const router = useRouter();
 
   useEffect(() => {
@@ -54,6 +62,51 @@ const checkout = () => {
     }
   }, [isDhakaChecked, isOutSideChecked, isFromShowRoomChecked]);
 
+  useEffect(() => {
+    if (isPlaceOrder === true) {
+      console.log("inside place order");
+      const securePage = async () => {
+        const token = await localStorage.getItem("acesstoken");
+        if (!token) {
+          setLoginModal(true);
+          // await toast.error("Please Login First");
+          setHasToken(false);
+          // await router.push("/addtocart");
+          setIsPlaceOrder(false);
+        }
+        if (token) {
+          setHasToken(true);
+          // router.push("/checkout");
+        }
+      };
+      securePage();
+    }
+  }, [isPlaceOrder, hasToken]);
+
+  useEffect(() => {
+    if (hasToken === false && isGuestCheckout === true) {
+      instance
+        .post("/guest-order", orderInfo, {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        })
+        .then(async (result) => {
+          const response = JSON.parse(result?.data?.payment);
+          await window.location.replace(response?.data);
+        })
+        .catch((err) => {});
+    }
+    setIsGuestCheckout(false);
+  }, [isPlaceOrder, orderInfo, isGuestCheckout, hasToken]);
+
+  /* useEffect(()=>{
+    if (openLoginModal === false) {
+          setGuestCheckoutModalOpen(true);
+        }
+  },[]) */
+  // console.log("geust checkout output", isGuestCheckout);
   /*   useEffect(() => {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
@@ -97,6 +150,8 @@ const checkout = () => {
     setIsSameAddressChecked(!isSameAddressChecked);
   };
 
+  console.log("is it checked", isSameAddressChecked);
+
   // Handling React Hook Rorm
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -125,30 +180,47 @@ const checkout = () => {
   });
 
   const onSubmit = async (data) => {
-    setIsSameAddress(data?.isSameAddress);
-    instance
-      .post(
-        "/order",
-        {
-          data: data,
-          cart: cart,
-          totalPrice: subTotal,
-          totalAmount: totalAmount,
-          isSameAddress: isSameAddress,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("acesstoken"),
-            "Access-Control-Allow-Origin": "*",
+    console.log("inside submit");
+    setIsPlaceOrder(true);
+    console.log("is same address", isSameAddressChecked);
+    setIsSameAddress(isSameAddressChecked);
+    setOrderInfo({
+      data: data,
+      cart: cart,
+      totalPrice: subTotal,
+      totalAmount: totalAmount,
+      isSameAddress: isSameAddressChecked,
+      isGuestCheckout: true,
+    });
+    if (hasToken === true) {
+      instance
+        .post(
+          "/order",
+          {
+            data: data,
+            cart: cart,
+            totalPrice: subTotal,
+            totalAmount: totalAmount,
+            isSameAddress: isSameAddressChecked,
+            isGuestCheckout: isGuestCheckout,
           },
-        }
-      )
-      .then(async (result) => {
-        const response = JSON.parse(result?.data?.payment);
-        await window.location.replace(response?.data);
-      })
-      .catch((err) => {});
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("acesstoken"),
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        )
+        .then(async (result) => {
+          setIsPlaceOrder(false);
+          const response = JSON.parse(result?.data?.payment);
+          await window.location.replace(response?.data);
+        })
+        .catch((err) => {});
+    }
+    console.log("geust checkout output", dfat);
+    // console.log("geust checkout output", isGuestCheckout);
   };
 
   // Getting Billing Realtime Data
@@ -407,7 +479,7 @@ const checkout = () => {
                       control={control}
                       render={({ field }) => (
                         <Checkbox
-                          onClick={handleSameAddressSelected}
+                          onClick={() => handleSameAddressSelected()}
                           {...field}
                         />
                       )}
@@ -419,41 +491,57 @@ const checkout = () => {
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    {...register("first_name_shipping")}
-                    // onChange={}
-                    disabled={isSameAddressChecked === true ? true : false}
-                    placeholder={
-                      isSameAddressChecked === true ? firstName : "First Name *"
-                    }
-                    defaultValue={
-                      isSameAddressChecked === true ? firstName : "First Name *"
-                    }
-                    size="small"
-                  />
+                  {isSameAddressChecked === true ? (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("first_name_shipping")}
+                      // onChange={}
+                      value={firstName}
+                      disabled
+                      readOnly
+                      size="small"
+                    />
+                  ) : (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("first_name_shipping")}
+                      // onChange={}
+                      placeholder="First Name *"
+                      size="small"
+                    />
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
                     LAST NAME *
                   </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("last_name_shipping")}
-                    disabled={isSameAddressChecked === true ? true : false}
-                    placeholder={
-                      isSameAddressChecked === true ? lastName : "Last Name *"
-                    }
-                    defaultValue={
-                      isSameAddressChecked === true ? lastName : "Last Name *"
-                    }
-                    size="small"
-                  />
+                  {isSameAddressChecked === true ? (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("last_name_shipping")}
+                      // onChange={}
+                      value={lastName}
+                      disabled
+                      readOnly
+                      size="small"
+                    />
+                  ) : (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("last_name_shipping")}
+                      // onChange={}
+                      placeholder="Last Name *"
+                      size="small"
+                    />
+                  )}
                 </Stack>
                 {/* <Stack direction={"column"} spacing={2} mt={3}>
                 <Typography variant="cardHeader1" color="initial">
@@ -472,68 +560,80 @@ const checkout = () => {
                   <Typography variant="cardHeader1" color="initial">
                     STREET ADDRESS *
                   </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("street_address_shipping")}
-                    disabled={isSameAddressChecked === true ? true : false}
-                    placeholder={
-                      isSameAddressChecked === true
-                        ? streetAddress
-                        : "House Number and street name"
-                    }
-                    defaultValue={
-                      isSameAddressChecked === true
-                        ? streetAddress
-                        : "House Number and street name"
-                    }
-                    size="small"
-                  />
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("apartment_address_shipping")}
-                    disabled={isSameAddressChecked === true ? true : false}
-                    placeholder={
-                      isSameAddressChecked === true
-                        ? apartmentAddress
-                        : "Apartment suite, unit, etc (optional)"
-                    }
-                    defaultValue={
-                      isSameAddressChecked === true
-                        ? apartmentAddress
-                        : "Apartment suite, unit, etc (optional)"
-                    }
-                    size="small"
-                  />
+                  {isSameAddressChecked === true ? (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("street_address_shipping")}
+                      // onChange={}
+                      value={streetAddress}
+                      disabled
+                      readOnly
+                      size="small"
+                    />
+                  ) : (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("street_address_shipping")}
+                      // onChange={}
+                      placeholder="House Number and street name"
+                      size="small"
+                    />
+                  )}
+                  {isSameAddressChecked === true ? (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("apartment_address_shipping")}
+                      // onChange={}
+                      value={apartmentAddress}
+                      disabled
+                      readOnly
+                      size="small"
+                    />
+                  ) : (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("apartment_address_shipping")}
+                      // onChange={}
+                      placeholder="Apartment suite, unit, etc (optional)"
+                      size="small"
+                    />
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("city_shipping")}
-                    disabled={isSameAddressChecked === true ? true : false}
-                    placeholder={
-                      isSameAddressChecked === true
-                        ? cityAddress
-                        : "Town / City"
-                    }
-                    defaultValue={
-                      isSameAddressChecked === true
-                        ? cityAddress
-                        : "Town / City"
-                    }
-                    size="small"
-                  />
+                  {isSameAddressChecked === true ? (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("city_shipping")}
+                      // onChange={}
+                      value={cityAddress}
+                      disabled
+                      readOnly
+                      size="small"
+                    />
+                  ) : (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("city_shipping")}
+                      // onChange={}
+                      placeholder="Town / City"
+                      size="small"
+                    />
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -551,7 +651,7 @@ const checkout = () => {
                     {...register("country_shipping")}
                     id="demo-simple-select"
                     size="small"
-                    defaultValue={isSameAddressChecked === true ? true : false}
+                    disabled={isSameAddressChecked === true ? true : false}
                     value={isSameAddressChecked === true ? distict : distict1}
                     onChange={handleDistict1}
                   >
@@ -564,75 +664,91 @@ const checkout = () => {
                   <Typography variant="cardHeader1" color="initial">
                     POSTCODE / ZIP (OPTIONAL)
                   </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("post_code_shipping")}
-                    disabled={isSameAddressChecked === true ? true : false}
-                    placeholder={
-                      isSameAddressChecked === true
-                        ? postBilling
-                        : "Postcode / zip (Optional)"
-                    }
-                    defaultValue={
-                      isSameAddressChecked === true
-                        ? postBilling
-                        : "Postcode / zip (Optional)"
-                    }
-                    size="small"
-                  />
+                  {isSameAddressChecked === true ? (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("post_code_shipping")}
+                      // onChange={}
+                      value={postBilling}
+                      disabled
+                      readOnly
+                      size="small"
+                    />
+                  ) : (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("post_code_shipping")}
+                      // onChange={}
+                      placeholder="Postcode / zip (Optional)"
+                      size="small"
+                    />
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
                     PHONE *
                   </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("phone_shipping")}
-                    disabled={isSameAddressChecked === true ? true : false}
-                    placeholder={
-                      isSameAddressChecked === true ? phoneBilling : "Phone *"
-                    }
-                    defaultValue={
-                      isSameAddressChecked === true ? phoneBilling : "Phone *"
-                    }
-                    size="small"
-                  />
+                  {isSameAddressChecked === true ? (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("phone_shipping")}
+                      // onChange={}
+                      value={phoneBilling}
+                      disabled
+                      readOnly
+                      size="small"
+                    />
+                  ) : (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("phone_shipping")}
+                      // onChange={}
+                      placeholder="Phone *"
+                      size="small"
+                    />
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
                     EMAIL ADDRESS *
                   </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("email_shipping", {
-                      pattern: {
-                        value:
-                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: "This is not a valid email",
-                      },
-                    })}
-                    disabled={isSameAddressChecked === true ? true : false}
-                    placeholder={
-                      isSameAddressChecked === true
-                        ? emailBilling
-                        : "Email Address *"
-                    }
-                    defaultValue={
-                      isSameAddressChecked === true
-                        ? emailBilling
-                        : "Email Address *"
-                    }
-                    size="small"
-                  />
+                  {isSameAddressChecked === true ? (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("email_shipping")}
+                      // onChange={}
+                      value={emailBilling}
+                      disabled
+                      readOnly
+                      size="small"
+                    />
+                  ) : (
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("email_shipping", {
+                        pattern: {
+                          value:
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: "This is not a valid email",
+                        },
+                      })}
+                      // onChange={}
+                      placeholder="Email Address *"
+                      size="small"
+                    />
+                  )}
                 </Stack>
               </Grid>
 
@@ -815,7 +931,7 @@ const checkout = () => {
                       variant="contained"
                       color="background2"
                       type="submit"
-                      // onClick={() => router.push("/checkout")}
+                      // onClick={() => setIsPlaceOrder(true)}
                     >
                       place order
                     </Button>
@@ -828,6 +944,17 @@ const checkout = () => {
       </Box>
 
       <Footer />
+      <LoginModal
+        open={openLoginModal}
+        setOpen={setLoginModal}
+        isGuestCheckout={isGuestCheckout}
+        // setIsGuestCheckout={setIsGuestCheckout}
+        setHasToken={setHasToken}
+      ></LoginModal>
+      {/* <GuestCheckout
+        isGuestCheckout={isGuestCheckout}
+        setIsGuestCheckout={setIsGuestCheckout}
+      ></GuestCheckout> */}
     </>
   );
 };
