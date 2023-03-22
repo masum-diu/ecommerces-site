@@ -124,7 +124,7 @@ const SizeModal = ({ open, setOpen }) => {
         <DialogContent>
           {/* <DialogContentText></DialogContentText> */}
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 550 }} aria-label="simple table">
+            <Table sx={{ minWidth: { lg: 550, xs: "80%" } }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell align="left">Size</TableCell>

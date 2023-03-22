@@ -958,7 +958,7 @@ const PorductDetails = () => {
                     XXL
                   </Button> */}
                   </Stack>
-                  <Button variant="text" color="primary" size="small">
+                  <Button variant="text" color="primary" size="small"  onClick={()=>setSizeGuide(true)}>
                     size guide
                   </Button>
                 </Stack>
