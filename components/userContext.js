@@ -6,7 +6,8 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState({});
   const [userdata, setUserData] = useState({});
   const [isGuestCheckout, setIsGuestCheckout] = useState(false);
-  const value = { user, setUser,userdata, setUserData,isGuestCheckout, setIsGuestCheckout };
+  const [hasToken, setHasToken] = useState(false);
+  const value = { user, setUser,userdata, setUserData,isGuestCheckout, setIsGuestCheckout,hasToken, setHasToken };
   return (
     <USER_CONTEXT.Provider value={value}>{children}</USER_CONTEXT.Provider>
   );

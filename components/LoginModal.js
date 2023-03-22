@@ -14,16 +14,18 @@ import ForgotPass from "./ForgotPass";
 import { useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
-import USER_CONTEXT from "./userContext";
 import Cookies from "js-cookie";
 import instance from "../pages/api/api_instance";
 import GuestCheckout from "./GuestCheckout";
+import USER_CONTEXT from "./userContext";
 
-const LoginModal = ({ open, setOpen, isGuestCheckout, setHasToken }) => {
-  const { userdata, setUserData } = useContext(USER_CONTEXT);
+const LoginModal = ({ open, setOpen }) => {
+  const { userdata, setUserData, hasToken, setHasToken } =
+    useContext(USER_CONTEXT);
   const { errormessage, setErrormessage } = useState("");
   const [signModal, setSignModal] = useState(false);
   const [forgotModal, setForgotModal] = useState(false);
+
   const [openGuestCheckoutModalOpen, setGuestCheckoutModalOpen] =
     useState(false);
   const router = useRouter();

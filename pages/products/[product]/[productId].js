@@ -425,100 +425,101 @@ const PorductDetails = () => {
 
             {/* Details Section */}
             <Grid item xl={5} lg={5} md={6}>
-              <div style={{position:"sticky",top:100}}>
-
-              <Stack direction={"column"} mx={5} width={"100%"}>
-                <Typography
-                  className="exterBold"
-                  variant="login1"
-                  color="initial"
-                  sx={{ letterSpacing: 0.6 }}
-                >
-                  {products?.p_name}
-                </Typography>
-                <Stack direction={"row"} spacing={1}>
+              <div style={{ position: "sticky", top: 100 }}>
+                <Stack direction={"column"} mx={5} width={"100%"}>
                   <Typography
-                    variant="cardHeader1"
-                    className="SemiBold"
-                    fontWeight={400}
+                    className="exterBold"
+                    variant="login1"
                     color="initial"
-                    textTransform={"uppercase"}
                     sx={{ letterSpacing: 0.6 }}
                   >
-                    Home {path ? path.split("/").join(" / ") : ""}
+                    {products?.p_name}
                   </Typography>
-                  {/* <Typography variant="cardHeader1" color="initial">
+                  <Stack direction={"row"} spacing={1}>
+                    <Typography
+                      variant="cardHeader1"
+                      className="SemiBold"
+                      fontWeight={400}
+                      color="initial"
+                      textTransform={"uppercase"}
+                      sx={{ letterSpacing: 0.6 }}
+                    >
+                      Home {path ? path.split("/").join(" / ") : ""}
+                    </Typography>
+                    {/* <Typography variant="cardHeader1" color="initial">
                 WOMEN /
               </Typography>
               <Typography variant="cardHeader1" color="initial">
                 KURTI & FATUA
               </Typography> */}
+                  </Stack>
                 </Stack>
-              </Stack>
-              <Stack direction={"column"} mx={5} mt={3} spacing={3}>
-                <Typography
-                  className="light"
-                  variant="cardHeader3"
-                  color="initial"
-                  sx={{ letterSpacing: 0.17 }}
-                >
-                  {description}
-                </Typography>
-                <Typography
-                  variant="header1"
-                  className="SemiBold"
-                  color="initial"
-                  letterSpacing={0.3}
-                  fontWeight={700}
-                >
-                  Price : BDT {products?.p_sale_price}
-                </Typography>
-                <Stack direction={"row"} spacing={1} alignItems="center">
+                <Stack direction={"column"} mx={5} mt={3} spacing={3}>
                   <Typography
+                    className="light"
                     variant="cardHeader3"
-                    color="#959595"
-                    className="SemiBold"
+                    color="initial"
+                    sx={{ letterSpacing: 0.17 }}
                   >
-                    Sizes
+                    {description}
                   </Typography>
-                  <hr
-                    style={{
-                      textAlign: "left",
-                      width: "100%",
-                      height: "1px",
-                      backgroundColor: "black",
-                      // maxWidth: "350px",
-                    }}
-                  />
-                </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={1}
-                  alignItems="center"
-                  justifyContent={"space-between"}
-                >
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    width={"20%"}
-                    justifyContent="space-between"
+                  <Typography
+                    variant="header1"
+                    className="SemiBold"
+                    color="initial"
+                    letterSpacing={0.3}
+                    fontWeight={700}
                   >
-                    {products?.p_sizes?.map((size, index) => (
-                      <Button
-                        key={index}
-                        variant={`${
-                          activesize === size?.id ? "outlined" : "primary"
-                        }`}
-                        color="primary"
-                        onClick={() =>
-                          handleSelectSize(size?.size_name, size?.id)
-                        }
+                    Price : BDT {products?.p_sale_price}
+                  </Typography>
+                  {products?.p_sizes?.length > 0 ? (
+                    <>
+                      <Stack direction={"row"} spacing={1} alignItems="center">
+                        <Typography
+                          variant="cardHeader3"
+                          color="#959595"
+                          className="SemiBold"
+                        >
+                          Sizes
+                        </Typography>
+                        <hr
+                          style={{
+                            textAlign: "left",
+                            width: "100%",
+                            height: "1px",
+                            backgroundColor: "black",
+                            // maxWidth: "350px",
+                          }}
+                        />
+                      </Stack>
+                      <Stack
+                        direction={"row"}
+                        spacing={1}
+                        alignItems="center"
+                        justifyContent={"space-between"}
                       >
-                        {size?.size_name}
-                      </Button>
-                    ))}
+                        <Stack
+                          direction={"row"}
+                          spacing={2}
+                          width={"20%"}
+                          justifyContent="space-between"
+                        >
+                          {products?.p_sizes?.map((size, index) => (
+                            <Button
+                              key={index}
+                              variant={`${
+                                activesize === size?.id ? "outlined" : "primary"
+                              }`}
+                              color="primary"
+                              onClick={() =>
+                                handleSelectSize(size?.size_name, size?.id)
+                              }
+                            >
+                              {size?.size_name}
+                            </Button>
+                          ))}
 
-                    {/* <Button variant="text" color="primary">
+                          {/* <Button variant="text" color="primary">
                     M
                   </Button>
                   <Button variant="text" color="primary">
@@ -530,173 +531,175 @@ const PorductDetails = () => {
                   <Button variant="text" color="primary">
                     XXL
                   </Button> */}
-                  </Stack>
-                  <Button variant="text" color="primary">
-                    size guide
-                  </Button>
-                </Stack>
-                <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography
-                    variant="cardHeader3"
-                    color="#959595"
-                    className="SemiBold"
-                  >
-                    Quantity
-                  </Typography>
-                  <hr
-                    style={{
-                      textAlign: "left",
-                      width: "100%",
-                      height: "1px",
-                      backgroundColor: "black",
-                      // maxWidth: "340px",
-                    }}
-                  />
-                </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  alignItems="center"
-                  justifyContent={"space-between"}
-                  sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
-                >
-                  <IconButton
-                    size="small"
-                    aria-label="reduce"
-                    onClick={() => {
-                      setCount(Math.max(count - 1, 1));
-                    }}
-                  >
-                    <RemoveIcon fontSize="small" />
-                  </IconButton>
-                  <Typography variant="cardHeader3" color="#959595">
-                    {" "}
-                    {count}
-                  </Typography>
-                  <IconButton
-                    aria-label="increase"
-                    onClick={() => {
-                      setCount(count + 1);
-                    }}
-                  >
-                    <AddIcon fontSize="small" />
-                  </IconButton>
-                </Stack>
-                <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography
-                    variant="cardHeader3"
-                    color="#959595"
-                    className="SemiBold"
-                  >
-                    Colors
-                  </Typography>
-                  <hr
-                    style={{
-                      textAlign: "left",
-                      width: "100%",
-                      height: "1px",
-                      backgroundColor: "black",
-                      // maxWidth: "350px",
-                    }}
-                  />
-                </Stack>
-                <Stack direction={"row"} spacing={1} height={40}>
-                  {products?.p_colours?.map((color, index) => (
-                    <Box
-                      size="small"
-                      key={index}
+                        </Stack>
+                        <Button variant="text" color="primary">
+                          size guide
+                        </Button>
+                      </Stack>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  <Stack direction={"row"} spacing={1} alignItems="center">
+                    <Typography
+                      variant="cardHeader3"
+                      color="#959595"
+                      className="SemiBold"
+                    >
+                      Quantity
+                    </Typography>
+                    <hr
                       style={{
-                        backgroundColor: `${color?.color_code}`,
-                        width: "40px",
-                        height: "40px",
-                        cursor: "pointer",
-                        border: `${
-                          activecolor === color?.id
-                            ? "4px solid #2d323f"
-                            : "1px solid black"
-                        }`,
+                        textAlign: "left",
+                        width: "100%",
+                        height: "1px",
+                        backgroundColor: "black",
+                        // maxWidth: "340px",
                       }}
-                      onClick={() =>
-                        handleSelectColor(
-                          color?.color_name,
-                          color?.color_code,
-                          color?.id
-                        )
-                      }
-                    ></Box>
-                  ))}
-                </Stack>
-                <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography
-                    variant="cardHeader3"
-                    color="#959595"
-                    width="25%"
-                    className="SemiBold"
+                    />
+                  </Stack>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    alignItems="center"
+                    justifyContent={"space-between"}
+                    sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
                   >
-                    Avalability & Spces
-                  </Typography>
-                  <hr
-                    style={{
-                      textAlign: "left",
-                      width: "100%",
-                      height: "1px",
-                      backgroundColor: "black",
-                      // maxWidth: "340px",
-                    }}
-                  />
-                </Stack>
-                <Stack direction={"column"} spacing={1}>
-                  {/* <Typography
+                    <IconButton
+                      size="small"
+                      aria-label="reduce"
+                      onClick={() => {
+                        setCount(Math.max(count - 1, 1));
+                      }}
+                    >
+                      <RemoveIcon fontSize="small" />
+                    </IconButton>
+                    <Typography variant="cardHeader3" color="#959595">
+                      {" "}
+                      {count}
+                    </Typography>
+                    <IconButton
+                      aria-label="increase"
+                      onClick={() => {
+                        setCount(count + 1);
+                      }}
+                    >
+                      <AddIcon fontSize="small" />
+                    </IconButton>
+                  </Stack>
+                  <Stack direction={"row"} spacing={1} alignItems="center">
+                    <Typography
+                      variant="cardHeader3"
+                      color="#959595"
+                      className="SemiBold"
+                    >
+                      Colors
+                    </Typography>
+                    <hr
+                      style={{
+                        textAlign: "left",
+                        width: "100%",
+                        height: "1px",
+                        backgroundColor: "black",
+                        // maxWidth: "350px",
+                      }}
+                    />
+                  </Stack>
+                  <Stack direction={"row"} spacing={1} height={40}>
+                    {products?.p_colours?.map((color, index) => (
+                      <Box
+                        size="small"
+                        key={index}
+                        style={{
+                          backgroundColor: `${color?.color_code}`,
+                          width: "40px",
+                          height: "40px",
+                          cursor: "pointer",
+                          border: `${
+                            activecolor === color?.id
+                              ? "4px solid #2d323f"
+                              : "1px solid black"
+                          }`,
+                        }}
+                        onClick={() =>
+                          handleSelectColor(
+                            color?.color_name,
+                            color?.color_code,
+                            color?.id
+                          )
+                        }
+                      ></Box>
+                    ))}
+                  </Stack>
+                  <Stack direction={"row"} spacing={1} alignItems="center">
+                    <Typography
+                      variant="cardHeader3"
+                      color="#959595"
+                      width="25%"
+                      className="SemiBold"
+                    >
+                      Avalability & Spces
+                    </Typography>
+                    <hr
+                      style={{
+                        textAlign: "left",
+                        width: "100%",
+                        height: "1px",
+                        backgroundColor: "black",
+                        // maxWidth: "340px",
+                      }}
+                    />
+                  </Stack>
+                  <Stack direction={"column"} spacing={1}>
+                    {/* <Typography
                       variant="cardHeader12"
                       color="initial"
                       className="SemiBold"
                     >
                       Note: {noteTextForStock}
                     </Typography> */}
-                  <Typography
-                    variant="cardHeader12"
-                    color="initial"
-                    className="SemiBold"
+                    <Typography
+                      variant="cardHeader12"
+                      color="initial"
+                      className="SemiBold"
+                    >
+                      In Availability:{" "}
+                      {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
+                      {noteTextForStock}
+                    </Typography>
+                    <Typography
+                      variant="cardHeader12"
+                      color="initial"
+                      className="SemiBold"
+                    >
+                      Check In Store Availability
+                    </Typography>
+                    <Typography
+                      variant="cardHeader12"
+                      color="initial"
+                      className="SemiBold"
+                    >
+                      Check Specs
+                    </Typography>
+                  </Stack>
+                  <Button
+                    variant="contained"
+                    color="background2"
+                    type="submit"
+                    disabled={disableBtn}
+                    onClick={() => handleAddToCart(finalData)}
                   >
-                    In Availability:{" "}
-                    {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
-                    {noteTextForStock}
-                  </Typography>
-                  <Typography
-                    variant="cardHeader12"
-                    color="initial"
-                    className="SemiBold"
-                  >
-                    Check In Store Availability
-                  </Typography>
-                  <Typography
-                    variant="cardHeader12"
-                    color="initial"
-                    className="SemiBold"
-                  >
-                    Check Specs
-                  </Typography>
+                    ADD TO CART
+                  </Button>
+                  {noteTextForCart && (
+                    <Alert severity="warning">
+                      <AlertTitle>
+                        <strong>{noteTextForCart}</strong>
+                      </AlertTitle>
+                    </Alert>
+                  )}
                 </Stack>
-                <Button
-                  variant="contained"
-                  color="background2"
-                  type="submit"
-                  disabled={disableBtn}
-                  onClick={() => handleAddToCart(finalData)}
-                >
-                  ADD TO CART
-                </Button>
-                {noteTextForCart && (
-                  <Alert severity="warning">
-                    <AlertTitle>
-                      <strong>{noteTextForCart}</strong>
-                    </AlertTitle>
-                  </Alert>
-                )}
-              </Stack>
-
               </div>
-              
             </Grid>
           </Grid>
         </Box>

@@ -28,12 +28,12 @@ import LoginModal from "../components/LoginModal";
 import GuestCheckout from "../components/GuestCheckout";
 import USER_CONTEXT from "../components/userContext";
 
-const checkout = () => {
+const checkout = ({ someProp }) => {
   const cart = useSelector((state) => state.cart.cart);
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
   const [isSameAddress, setIsSameAddress] = useState(false);
-  const dataFetchedRef = useRef(false);
+  const isInitialMount = useRef(true);
   const subTotal = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const [totalPrice, setSubtotal] = useState(subTotal);
@@ -46,9 +46,23 @@ const checkout = () => {
   const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   // const [isGuestCheckout, setIsGuestCheckout] = useState(false);
   const [orderInfo, setOrderInfo] = useState({});
-  const [hasToken, setHasToken] = useState(false);
-  const { isGuestCheckout, setIsGuestCheckout } = useContext(USER_CONTEXT);
+  // const [hasToken, setHasToken] = useState(false);
+  const { isGuestCheckout, setIsGuestCheckout, hasToken, setHasToken } =
+    useContext(USER_CONTEXT);
   const router = useRouter();
+
+  /* useEffect(() => {
+    const token = localStorage.getItem("acesstoken");
+    if (isInitialMount.current) {
+      // Perform initial mount actions here
+      isInitialMount.current = false;
+    } else {
+      // Perform actions on subsequent renders here
+      if (!token) {
+        setHasToken(false);
+      }
+    }
+  }, [hasToken, localStorage.getItem("acesstoken"),isInitialMount.current,someProp]); */
 
   useEffect(() => {
     if (isDhakaChecked === true) {
@@ -64,9 +78,8 @@ const checkout = () => {
 
   useEffect(() => {
     if (isPlaceOrder === true) {
-      console.log("inside place order");
       const securePage = async () => {
-        const token = await localStorage.getItem("acesstoken");
+        const token = localStorage.getItem("acesstoken");
         if (!token) {
           setLoginModal(true);
           // await toast.error("Please Login First");
@@ -150,7 +163,14 @@ const checkout = () => {
     setIsSameAddressChecked(!isSameAddressChecked);
   };
 
-  console.log("is it checked", isSameAddressChecked);
+  const token = localStorage.getItem("acesstoken");
+  if (token) {
+    setHasToken(true);
+    console.log("inside token");
+  } if(!token) {
+    setHasToken(false);
+    console.log("inside no token");
+  }
 
   // Handling React Hook Rorm
   const { register, handleSubmit, control } = useForm({
