@@ -79,8 +79,6 @@ export const productApi = createApi({
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
-          "Access-Control-Allow-Origin": "*",
-          RequestMode: "no-cors",
         },
       }),
     }),

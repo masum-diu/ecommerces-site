@@ -132,6 +132,7 @@ const SiderBar = ({ open, setOpen }) => {
     setUser("");
     setAnchorEl(null);
     handleMobileMenuClose();
+    setModalOpen(false)
   };
 
   const handleMobileMenuOpen = (event) => {

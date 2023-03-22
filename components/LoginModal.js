@@ -19,8 +19,15 @@ import instance from "../pages/api/api_instance";
 import GuestCheckout from "./GuestCheckout";
 import USER_CONTEXT from "./userContext";
 
-const LoginModal = ({ open, setOpen }) => {
-  const { userdata, setUserData, hasToken, setHasToken } =
+const LoginModal = ({
+  open,
+  setOpen,
+  // isPlaceOrder,
+  // setIsPlaceOrder,
+  isGuestCheckout,
+  setIsGuestCheckout,
+}) => {
+  const { userdata, setUserData, hasToken, setHasToken,isPlaceOrder, setIsPlaceOrder } =
     useContext(USER_CONTEXT);
   const { errormessage, setErrormessage } = useState("");
   const [signModal, setSignModal] = useState(false);
@@ -47,7 +54,7 @@ const LoginModal = ({ open, setOpen }) => {
   };
   const handleClose = () => {
     setOpen(false);
-    setGuestCheckoutModalOpen(true);
+    setIsPlaceOrder(false);
   };
   const [values, setValues] = useState({
     pass: "",
@@ -91,7 +98,7 @@ const LoginModal = ({ open, setOpen }) => {
         setUserData(err);
       });
   };
-
+  console.log("isPlaceOrder", isPlaceOrder);
   return (
     <>
       <Dialog
@@ -221,6 +228,19 @@ const LoginModal = ({ open, setOpen }) => {
               </Stack>
             </form>
           </DialogContentText>
+
+          {isPlaceOrder === true ? (
+            <>
+              <hr style={{ width: "50%" }} />
+              <Stack>
+                <Button onClick={() => setIsGuestCheckout(true)}>
+                  Checkout as Guest?
+                </Button>
+              </Stack>
+            </>
+          ) : (
+            ""
+          )}
         </DialogContent>
       </Dialog>
       <SignInModal

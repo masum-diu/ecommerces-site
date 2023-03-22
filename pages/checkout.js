@@ -43,12 +43,11 @@ const checkout = ({ someProp }) => {
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [total, setTotal] = useState(subTotal);
   const [openLoginModal, setLoginModal] = useState(false);
-  const [isPlaceOrder, setIsPlaceOrder] = useState(false);
-  // const [isGuestCheckout, setIsGuestCheckout] = useState(false);
+  // const [isPlaceOrder, setIsPlaceOrder] = useState(false);
+  const [isGuestCheckout, setIsGuestCheckout] = useState(false);
   const [orderInfo, setOrderInfo] = useState({});
   // const [hasToken, setHasToken] = useState(false);
-  const { isGuestCheckout, setIsGuestCheckout, hasToken, setHasToken } =
-    useContext(USER_CONTEXT);
+  const { hasToken, setHasToken,isPlaceOrder, setIsPlaceOrder } = useContext(USER_CONTEXT);
   const router = useRouter();
 
   /* useEffect(() => {
@@ -166,10 +165,9 @@ const checkout = ({ someProp }) => {
   const token = localStorage.getItem("acesstoken");
   if (token) {
     setHasToken(true);
-    console.log("inside token");
-  } if(!token) {
+  }
+  if (!token) {
     setHasToken(false);
-    console.log("inside no token");
   }
 
   // Handling React Hook Rorm
@@ -200,9 +198,7 @@ const checkout = ({ someProp }) => {
   });
 
   const onSubmit = async (data) => {
-    console.log("inside submit");
     setIsPlaceOrder(true);
-    console.log("is same address", isSameAddressChecked);
     setIsSameAddress(isSameAddressChecked);
     setOrderInfo({
       data: data,
@@ -240,7 +236,7 @@ const checkout = ({ someProp }) => {
         })
         .catch((err) => {});
     }
-    console.log("geust checkout output", data);
+
     // console.log("geust checkout output", isGuestCheckout);
   };
 
@@ -951,7 +947,7 @@ const checkout = ({ someProp }) => {
                       variant="contained"
                       color="background2"
                       type="submit"
-                      // onClick={() => setIsPlaceOrder(true)}
+                      onClick={() => setIsPlaceOrder(true)}
                     >
                       place order
                     </Button>
@@ -968,8 +964,10 @@ const checkout = ({ someProp }) => {
         open={openLoginModal}
         setOpen={setLoginModal}
         isGuestCheckout={isGuestCheckout}
-        // setIsGuestCheckout={setIsGuestCheckout}
+        setIsGuestCheckout={setIsGuestCheckout}
         setHasToken={setHasToken}
+        // isPlaceOrder={isPlaceOrder}
+        // setIsPlaceOrder={setIsPlaceOrder}
       ></LoginModal>
       {/* <GuestCheckout
         isGuestCheckout={isGuestCheckout}

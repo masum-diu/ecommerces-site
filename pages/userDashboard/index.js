@@ -62,7 +62,7 @@ const userDashboard = () => {
           <Grid item lg={3}>
             <List>
               {["User Profile", "Order"].map((text, index) => (
-                <ListItem key={text} disablePadding>
+                <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => handleMenuClick(text)}>
                     {/* <ListItemIcon>
                       {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
