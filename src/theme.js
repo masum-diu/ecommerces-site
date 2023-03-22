@@ -9,6 +9,7 @@ const error = "#FF0000";
 const success = "#308129";
 const black = "#000";
 const ash = "#E9E9E9";
+const bandColor="#3D5675"
 
 const breakpoints = {
   // for responsiveness
@@ -47,6 +48,10 @@ const theme = createTheme({
     },
     background3: {
       main: background3,
+      contrastText: background,
+    },
+    bandColor: {
+      main: bandColor,
       contrastText: background,
     },
     background4: {
