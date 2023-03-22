@@ -28,6 +28,7 @@ import ThumbsGallery from "../../../components/thumble/ThumbsGallery";
 import ThumbsGallery1 from "../../../components/thumble/ThumbsGallery1";
 import Head from "next/head";
 import ThumbsGallery2 from "../../../components/thumble/ThumbsGallery2";
+import SizeModal from "../../../components/SizeModal";
 const PorductDetails = () => {
   const router = useRouter();
   const path = router.asPath;
@@ -48,6 +49,7 @@ const PorductDetails = () => {
   const [activesize, setActiveSize] = useState(null);
   const [activecolor, setActiveColor] = useState(null);
   const [open, setOpen] = useState(false);
+  const [sizeGuide, setSizeGuide]=useState(false)
   const [noteTextForStock, setNoteTextForStock] = useState(
     " Please select a color and size in order to check stock availability."
   );
@@ -532,7 +534,7 @@ const PorductDetails = () => {
                     XXL
                   </Button> */}
                         </Stack>
-                        <Button variant="text" color="primary">
+                        <Button variant="text" color="primary" onClick={()=>setSizeGuide(true)}>
                           size guide
                         </Button>
                       </Stack>
@@ -1132,6 +1134,7 @@ const PorductDetails = () => {
       <Hidden only={["xs", "xms", "xl", "lg", "md"]}>
         <ThumbsGallery2 open={open} setOpen={setOpen} imageData={imageData} />
       </Hidden>
+      <SizeModal open={sizeGuide} setOpen={setSizeGuide}></SizeModal>
     </>
   );
 };
