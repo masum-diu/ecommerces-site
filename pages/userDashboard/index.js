@@ -31,7 +31,6 @@ const styles = {
   },
   main: {
     flexGrow: 1,
-    padding: "20px",
   },
   drawer: {
     width: drawerWidth,
@@ -70,15 +69,7 @@ const Dashboard = (props) => {
   const drawer = (
     <div>
       <List>
-        {[
-          "User Profile",
-          "Order",
-          "Send email",
-          "Drafts",
-          "All mail",
-          "Trash",
-          "Spam",
-        ].map((text, index) => (
+        {["User Profile", "Order"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton onClick={() => handleMenuClick(text)}>
               <ListItemIcon>
@@ -98,26 +89,26 @@ const Dashboard = (props) => {
   return (
     <div style={{ position: "relative" }}>
       <HomePageIntro></HomePageIntro>
-      <Box  sx={{ display: "flex",height:"1000px",marginTop:"100px", }}>
+      <Box sx={{ display: "flex", height: "1000px", marginTop: "100px" }}>
         <CssBaseline />
         <AppBar
-          style={{marginTop:"100px"}}
+          style={{ marginTop: "100px" }}
           sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
-            ml: { sm: `${drawerWidth}px` },background:"none",boxShadow:"none", paddingLeft:"10px"
+            ml: { sm: `${drawerWidth}px` },
+            background: "none",
+            boxShadow: "none",
+            paddingLeft: "10px",
           }}
         >
-          <Toolbar sx={{display:"flex",justifyContent:"end"}}>
+          <Toolbar sx={{ display: "flex", justifyContent: "end" }}>
             <IconButton
-              
               aria-label="open drawer"
-              
               onClick={handleDrawerToggle}
               sx={{ mr: 2, display: { sm: "none" } }}
             >
               <MenuIcon />
             </IconButton>
-            
           </Toolbar>
         </AppBar>
         <Box
@@ -127,7 +118,7 @@ const Dashboard = (props) => {
         >
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Drawer
-          anchor="right"
+            anchor="right"
             container={container}
             variant="temporary"
             open={mobileOpen}
@@ -146,13 +137,16 @@ const Dashboard = (props) => {
             {drawer}
           </Drawer>
           <Drawer
-          anchor="left"
+            anchor="left"
             variant="permanent"
             sx={{
               display: { xs: "none", sm: "block" },
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
-                width: drawerWidth,marginTop:"100px",height:"1000px", paddingLeft:"15px"
+                width: drawerWidth,
+                marginTop: "100px",
+                height: "1000px",
+                paddingLeft: "15px",
               },
             }}
             open
@@ -164,15 +158,11 @@ const Dashboard = (props) => {
           component="main"
           sx={{
             flexGrow: 1,
-            p: 3,
             width: { sm: `calc(100% - ${drawerWidth}px)` },
           }}
         >
           <Toolbar />
-          <Typography paragraph>
-          {renderMenuContent()}
-          </Typography>
-          
+          <Typography paragraph>{renderMenuContent()}</Typography>
         </Box>
       </Box>
 

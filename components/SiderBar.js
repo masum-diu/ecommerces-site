@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Drawer from "@mui/material/Drawer";
 import {
   Stack,
@@ -49,6 +49,8 @@ const SiderBar = ({ open, setOpen }) => {
   const [openList4, setOpenList4] = React.useState(false);
   const [openList5, setOpenList5] = React.useState(false);
   const [openList6, setOpenList6] = React.useState(false);
+  const { isGuestCheckout, setIsGuestCheckout, hasToken, setHasToken } =
+    useContext(USER_CONTEXT);
   let usera = true;
   const handleClick = () => {
     setOpenList((prev) => !prev);
@@ -58,6 +60,7 @@ const SiderBar = ({ open, setOpen }) => {
   const totalWishedProduct = useSelector(
     (state) => state?.wishList?.wishList?.length
   );
+
   const handleClickAway = () => {
     setOpenList(false);
   };

@@ -80,6 +80,7 @@ export const productApi = createApi({
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
           "Access-Control-Allow-Origin": "*",
+          RequestMode: "no-cors",
         },
       }),
     }),
@@ -105,5 +106,5 @@ export const {
   useGetFabricWiseFilteredProductsQuery,
   useGetFabricWiseFilteredProductsWithOutSubQuery,
   useLazyGetCategoryAndSubWiseProductsQuery,
-  useGetOrderDetailsQuery
+  useGetOrderDetailsQuery,
 } = productApi;
