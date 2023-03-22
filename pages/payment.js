@@ -3,13 +3,20 @@ import { useRouter } from 'next/router';
 import React from 'react'
 import { BiError } from 'react-icons/bi';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../src/features/cart/cartSlice';
 const payment = () => {
+  const dispatch = useDispatch();
   const router = useRouter()
   // const container =
   // window !== undefined ? () => window().document.body : undefined;
   // console.log(router.query?.payment)
   const { payment,orderid } = router.query
    console.log(router)
+   const handleClearButtonClick = () => {
+    dispatch(clearCart('cart'));
+    router.push("/shop")
+  };
   // const {id}
 
   return (
@@ -22,7 +29,7 @@ const payment = () => {
               <BsFillCheckCircleFill style={{ fontSize: '50px', color: "green" }} />
               <Typography variant="header1" color="initial">Thank you for your purchase !</Typography>
               <Typography variant="legend" color="initial" className='SemiBold'>Your order ID is : {orderid}</Typography>
-              <Button variant="contained" color="bandColor" onClick={() => router.push("/shop")} size="small" >
+              <Button variant="contained" color="bandColor" onClick={()=>handleClearButtonClick()} size="small" >
                 continue shopping
               </Button>
             </Stack>

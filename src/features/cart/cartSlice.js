@@ -43,7 +43,7 @@ export const cartSlice = createSlice({
             amount: productID.amount,
             stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
-            taxAmount:productID.taxAmount
+            taxAmount: productID.taxAmount,
           });
           state.totalAmount += productID.amount;
           state.totalPrice += productID.totalPrice;
@@ -83,7 +83,7 @@ export const cartSlice = createSlice({
             amount: productID.amount,
             stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
-            taxAmount:productID.taxAmount
+            taxAmount: productID.taxAmount,
           });
           state.totalAmount += productID.amount;
           state.totalPrice += productID.price;
@@ -147,10 +147,24 @@ export const cartSlice = createSlice({
         }
       } catch (e) {}
     },
+    clearCart: (state, action) => {
+      const productID = action.payload;
+
+      try {
+        state.cart = [];
+        state.totalAmount = 0;
+        state.totalPrice = 0;
+      } catch (e) {}
+    },
   },
 });
 
-export const { addToCart, removeFromCart, increaseCart, decreaseFromCart } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  increaseCart,
+  decreaseFromCart,
+  clearCart,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

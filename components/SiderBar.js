@@ -157,7 +157,7 @@ const SiderBar = ({ open, setOpen }) => {
       onClose={handleMenuClose}
     >
       <Link href={"/userDashboard"}>
-        <MenuItem onClick={handleMenuClose}>Dashboard</MenuItem>
+        <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
       </Link>
       <MenuItem onClick={handelogout}>Logout</MenuItem>
     </Menu>

@@ -43,11 +43,13 @@ const checkout = ({ someProp }) => {
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [total, setTotal] = useState(subTotal);
   const [openLoginModal, setLoginModal] = useState(false);
+  const [payment, setPayment] = useState("");
   // const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   const [isGuestCheckout, setIsGuestCheckout] = useState(false);
   const [orderInfo, setOrderInfo] = useState({});
   // const [hasToken, setHasToken] = useState(false);
-  const { hasToken, setHasToken,isPlaceOrder, setIsPlaceOrder } = useContext(USER_CONTEXT);
+  const { hasToken, setHasToken, isPlaceOrder, setIsPlaceOrder } =
+    useContext(USER_CONTEXT);
   const router = useRouter();
 
   /* useEffect(() => {
@@ -96,7 +98,11 @@ const checkout = ({ someProp }) => {
   }, [isPlaceOrder, hasToken]);
 
   useEffect(() => {
-    if (hasToken === false && isGuestCheckout === true) {
+    if (
+      hasToken === false &&
+      isGuestCheckout === true &&
+      payment === "online"
+    ) {
       instance
         .post("/guest-order", orderInfo, {
           headers: {
@@ -209,7 +215,7 @@ const checkout = ({ someProp }) => {
       isGuestCheckout: true,
     });
     console.log("token", hasToken);
-    if (hasToken === true) {
+    if (hasToken === true && payment === "online") {
       instance
         .post(
           "/order",
@@ -253,6 +259,11 @@ const checkout = ({ someProp }) => {
   const postBilling = useWatch({ control, name: "post_code_billing" });
   const phoneBilling = useWatch({ control, name: "phone_billing" });
   const emailBilling = useWatch({ control, name: "email_billing" });
+  const method = useWatch({ control, name: "paymentMethod" });
+  useEffect(() => {
+    setPayment(method);
+  }, [payment, method]);
+  console.log("your log output", payment);
   return (
     <>
       <HomePageIntro title={"Checkout "} />
