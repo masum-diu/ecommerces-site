@@ -1,6 +1,6 @@
 // import { Button, Drawer, List, ListItem, ListItemText } from "@mui/material";
 import OrderDetails from "../../components/Dashboard/OrderDetails";
-import UserProfile from "../../components/Dashboard/userProfile";
+import UserProfile from "../../components/Dashboard/Profile";
 import Footer from "../../components/Footer";
 import HomePageIntro from "../../components/HomePageIntro";
 import * as React from "react";

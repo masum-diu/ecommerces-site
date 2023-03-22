@@ -10,25 +10,13 @@ import {
   Typography,
 } from "@mui/material";
 
-const UserProfile = () => {
+const Profile = () => {
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
   return (
-    <div>
+    <>
       <Box mt={10} mb={4} height={"100vh"}>
-        <Stack>
-          <Typography
-            variant="header1"
-            color="#7E7250"
-            sx={{ background: "#2C3649", py: 10 }}
-            textAlign={"center"}
-            textTransform={"uppercase"}
-            fontWeight="500"
-          >
-            welcome, {userjsondata.name}
-          </Typography>
-        </Stack>
         <Stack
           direction={"column"}
           spacing={1}
@@ -91,8 +79,8 @@ const UserProfile = () => {
           </Paper>
         </Stack>
       </Box>
-    </div>
+    </>
   );
 };
 
-export default UserProfile;
+export default Profile;

@@ -2,21 +2,44 @@ import {
   Box,
   Divider,
   Grid,
+  List,
+  ListItem,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Paper,
   Stack,
   Typography,
 } from "@mui/material";
 import React from "react";
+import OrderDetails from "../components/Dashboard/OrderDetails";
+import UserProfile from "../components/Dashboard/Profile";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
+import MailIcon from "@mui/icons-material/Mail";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import Profile from "../components/Dashboard/Profile";
 
 const userProfile = () => {
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
-  //
+  const [selectedMenu, setSelectedMenu] = React.useState("User Profile");
+
+  const handleMenuClick = (menu) => {
+    setSelectedMenu(menu);
+  };
+
+  const renderMenuContent = () => {
+    switch (selectedMenu) {
+      case "User Profile":
+        return <Profile></Profile>;
+      case "Order":
+        return <OrderDetails></OrderDetails>;
+      default:
+        return null;
+    }
+  };
   return (
     <>
       <HomePageIntro title={"UserProfile "} />
@@ -33,64 +56,37 @@ const userProfile = () => {
             welcome, {userjsondata.name}
           </Typography>
         </Stack>
-        <Stack
-          direction={"column"}
-          spacing={1}
-          sx={{ justifyContent: "center", alignItems: "center", mt: 3 }}
-        >
-          <Typography variant="cardHeader1" color="initial">
-            ACCOUNT INFORMATION
+
+        <Grid container spacing={2} sx={{width:"90%",maxWidth:"1500px",margin:"0 auto",mt:2}}>
+          <Grid item lg={3}>
+            <List>
+              {[
+                "User Profile",
+                "Order",
+                "Send email",
+                "Drafts",
+                "All mail",
+                "Trash",
+                "Spam",
+              ].map((text, index) => (
+                <ListItem key={text} disablePadding>
+                  <ListItemButton onClick={() => handleMenuClick(text)}>
+                    {/* <ListItemIcon>
+                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon> */}
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Grid>
+          <Grid item lg={6}>
+          <Typography paragraph>
+          {renderMenuContent()}
           </Typography>
-          <Typography variant="cardLocation1" color="initial">
-            This section contains your address information
-          </Typography>
-          <br />
-          <Paper
-            sx={{ p: 2, width: "90%", maxWidth: "800px", marginTop: "30px" }}
-            elevation={2}
-          >
-            <Typography variant="cardHeader12" color="initial">
-              Personal Information
-            </Typography>
-           
-            <Divider />
-            <Stack direction={"row"} sx={{justifyContent:"space-between"}} mt={2}>
-              <Stack direction={"column"} spacing={1} >
-                <Typography variant="cardLocation1" color="#807f83">
-                  User Name
-                </Typography>
-                <Typography variant="cardLocation1" color="initial">
-                  {userjsondata.name}
-                </Typography>
-              </Stack>
-              <Stack direction={"column"}  spacing={1}>
-                <Typography variant="cardLocation1" color="#807f83">
-                Email Address
-                </Typography>
-                <Typography variant="cardLocation1" color="initial">
-                  {userjsondata.email}
-                </Typography>
-              </Stack>
-              <Stack direction={"column"}  spacing={1}>
-                {/* <Typography variant="cardLocation1" color="initial">
-                  First Name
-                </Typography>
-                <Typography variant="cardLocation1" color="initial">
-                  masum
-                </Typography> */}
-              </Stack>
-              <Stack direction={"column"}  spacing={1}>
-                {/* <Typography variant="cardLocation1" color="initial">
-                  First Name
-                </Typography>
-                <Typography variant="cardLocation1" color="initial">
-                  masum
-                </Typography> */}
-              </Stack>
-            </Stack>
-            
-          </Paper>
-        </Stack>
+          </Grid>
+        </Grid>
+
       </Box>
       <Footer />
     </>
