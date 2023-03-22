@@ -101,7 +101,7 @@ const HomePageIntro = ({ title }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link href={"/userProfile"}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></Link>
+      <Link href={"/userDashboard"}><MenuItem onClick={handleMenuClose}>Dash Board</MenuItem></Link>
       <MenuItem onClick={handelogout}>Logout</MenuItem>
     </Menu>
   );

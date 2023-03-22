@@ -1,38 +1,98 @@
-import { useState } from 'react';
-import { Grid, Typography, Card, CardContent, Avatar } from '@mui/material';
-import { makeStyles } from '@mui/material/styles';
-
-const useStyles = makeStyles({
-  card: {
-    minWidth: 275,
-    margin: '1rem'
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
+import React from "react";
+import {
+  Box,
+  Divider,
+  Grid,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 const UserProfile = () => {
-  const classes = useStyles();
+  const userdata =
+    typeof window !== "undefined" ? localStorage.getItem("user") : null;
+  const userjsondata = JSON.parse(userdata);
   return (
-    <Card className={classes.card}>
-      <CardContent>
-        <Avatar />
-        <Typography className={classes.title}>
-          User Profile
-        </Typography>
-        <Typography variant="body2" component="p">
-          Name: John Doe
-        </Typography>
-        <Typography variant="body2" component="p">
-          Email: john.doe@example.com
-        </Typography>
-      </CardContent>
-    </Card>
+    <div style={{ widows: "1000px" }}>
+      <Box mt={10} mb={4} height={"100vh"}>
+        <Stack>
+          <Typography
+            variant="header1"
+            color="#7E7250"
+            sx={{ background: "#2C3649", py: 10 }}
+            textAlign={"center"}
+            textTransform={"uppercase"}
+            fontWeight="500"
+          >
+            welcome, {userjsondata.name}
+          </Typography>
+        </Stack>
+        <Stack
+          direction={"column"}
+          spacing={1}
+          sx={{ justifyContent: "center", alignItems: "center", mt: 3 }}
+        >
+          <Typography variant="cardHeader1" color="initial">
+            ACCOUNT INFORMATION
+          </Typography>
+          <Typography variant="cardLocation1" color="initial">
+            This section contains your address information
+          </Typography>
+          <br />
+          <Paper
+            sx={{ p: 2, width: "90%", maxWidth: "800px", marginTop: "30px" }}
+            elevation={2}
+          >
+            <Typography variant="cardHeader12" color="initial">
+              Personal Information
+            </Typography>
+
+            <Divider />
+            <Stack
+              direction={"row"}
+              sx={{ justifyContent: "space-between" }}
+              mt={2}
+            >
+              <Stack direction={"column"} spacing={1}>
+                <Typography variant="cardLocation1" color="#807f83">
+                  User Name
+                </Typography>
+                <Typography variant="cardLocation1" color="initial">
+                  {userjsondata.name}
+                </Typography>
+              </Stack>
+              <Stack direction={"column"} spacing={1}>
+                <Typography variant="cardLocation1" color="#807f83">
+                  Email Address
+                </Typography>
+                <Typography variant="cardLocation1" color="initial">
+                  {userjsondata.email}
+                </Typography>
+              </Stack>
+              <Stack direction={"column"} spacing={1}>
+                {/* <Typography variant="cardLocation1" color="initial">
+                  First Name
+                </Typography>
+                <Typography variant="cardLocation1" color="initial">
+                  masum
+                </Typography> */}
+              </Stack>
+              <Stack direction={"column"} spacing={1}>
+                {/* <Typography variant="cardLocation1" color="initial">
+                  First Name
+                </Typography>
+                <Typography variant="cardLocation1" color="initial">
+                  masum
+                </Typography> */}
+              </Stack>
+            </Stack>
+          </Paper>
+        </Stack>
+      </Box>
+    </div>
   );
-}
+};
 
 export default UserProfile;
