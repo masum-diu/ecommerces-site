@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography } from "@mui/material";
+import { Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useGetOrderDetailsQuery } from "../../src/features/api/apiSlice";
 import Loader from "../Loader/Loader";
 
@@ -22,17 +22,45 @@ const OrderDetails = () => {
     }
   }, [data, isLoading, isFetching, isSuccess, isError, error]);
 
-  if(isLoading|| isFetching){
+  if (isLoading || isFetching) {
     return <Loader></Loader>
   }
+  
   console.log("your log output", info);
   return (
-    <div style={{ widows: "1000px" }}>
-      <Typography variant="h6">Order Details</Typography>
-      <Typography>Order Number: 123456</Typography>
-      <Typography>Date: March 21, 2023</Typography>
-      <Typography>Amount: $50.00</Typography>
-    </div>
+    <>
+    <Stack direction={"column"} spacing={2} mt={4} sx={{height:"fit-content"}}>
+    <Typography variant="cardHeader1" color="initial" textAlign={"center"}>Order History</Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Order Id</TableCell>
+              <TableCell>Order Date</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+
+            {
+
+              info?.map((orderInfo) => <>
+                <TableRow> 
+                  <TableCell>{orderInfo?.order_id}</TableCell>
+                  <TableCell>{orderInfo?.order_date}</TableCell>
+                  <TableCell>{orderInfo?.total_price}</TableCell>
+                  <TableCell>{(orderInfo?.payment_status?"Paid":"Unpaid")}</TableCell>
+                  </TableRow>
+              </>)
+
+            }
+
+          </TableBody>
+        </Table>
+      </TableContainer>
+      </Stack>
+    </>
   );
 };
 

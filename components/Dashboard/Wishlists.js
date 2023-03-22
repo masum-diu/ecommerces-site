@@ -62,9 +62,9 @@ import { removeFromWishList } from "../../src/features/wishlist/wishListSlice";
       <>
         <HomePageIntro title={"wishlist "} />
         <Box sx={{ height: "fit-content" }}>
-          <Stack sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }} py={2}>
+          <Stack sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }} py={4}>
             <Typography
-              variant="header1"
+              variant="cardHeader1"
               color="initial"
               textAlign={"center"}
               textTransform={"uppercase"}
