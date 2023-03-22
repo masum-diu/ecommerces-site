@@ -425,6 +425,8 @@ const PorductDetails = () => {
 
             {/* Details Section */}
             <Grid item xl={5} lg={5} md={6}>
+              <div style={{position:"sticky",top:100}}>
+
               <Stack direction={"column"} mx={5} width={"100%"}>
                 <Typography
                   className="exterBold"
@@ -692,6 +694,9 @@ const PorductDetails = () => {
                   </Alert>
                 )}
               </Stack>
+
+              </div>
+              
             </Grid>
           </Grid>
         </Box>
