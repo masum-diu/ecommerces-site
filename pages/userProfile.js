@@ -1,23 +1,15 @@
 import {
   Box,
-  Divider,
   Grid,
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
-  Paper,
   Stack,
   Typography,
 } from "@mui/material";
 import React from "react";
 import OrderDetails from "../components/Dashboard/OrderDetails";
-import UserProfile from "../components/Dashboard/Profile";
-import Footer from "../components/Footer";
-import HomePageIntro from "../components/HomePageIntro";
-import MailIcon from "@mui/icons-material/Mail";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Profile from "../components/Dashboard/Profile";
 
 const userProfile = () => {
@@ -57,7 +49,11 @@ const userProfile = () => {
           </Typography>
         </Stack>
 
-        <Grid container spacing={2} sx={{width:"90%",maxWidth:"1500px",margin:"0 auto",mt:2}}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto", mt: 2 }}
+        >
           <Grid item lg={3}>
             <List>
               {[
@@ -81,12 +77,9 @@ const userProfile = () => {
             </List>
           </Grid>
           <Grid item lg={6}>
-          <Typography paragraph>
-          {renderMenuContent()}
-          </Typography>
+            <Typography paragraph>{renderMenuContent()}</Typography>
           </Grid>
         </Grid>
-
       </Box>
       <Footer />
     </>
