@@ -72,6 +72,17 @@ export const productApi = createApi({
         trailing: true,
       },
     }),
+    getOrderDetails: builder.query({
+      query: (token) => ({
+        url: `/order`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+          "Access-Control-Allow-Origin": "*",
+        },
+      }),
+    }),
   }),
 });
 
@@ -94,4 +105,5 @@ export const {
   useGetFabricWiseFilteredProductsQuery,
   useGetFabricWiseFilteredProductsWithOutSubQuery,
   useLazyGetCategoryAndSubWiseProductsQuery,
+  useGetOrderDetailsQuery
 } = productApi;

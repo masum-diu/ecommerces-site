@@ -15,7 +15,7 @@ const UserProfile = () => {
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
   return (
-    <div style={{ widows: "1000px" }}>
+    <div>
       <Box mt={10} mb={4} height={"100vh"}>
         <Stack>
           <Typography
