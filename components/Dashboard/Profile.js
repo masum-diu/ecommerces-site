@@ -7,7 +7,7 @@ import {
   ListItemText,
   Paper,
   Stack,
-  Typography,
+  Typography, Button,
 } from "@mui/material";
 
 const Profile = () => {
@@ -16,11 +16,11 @@ const Profile = () => {
   const userjsondata = JSON.parse(userdata);
   return (
     <>
-      <Box mt={10} mb={4} height={"100vh"}>
+      <Box>
         <Stack
           direction={"column"}
           spacing={1}
-          sx={{ justifyContent: "center", alignItems: "center", mt: 3 }}
+           sx={{ justifyContent: "center", alignItems: "center", mt: 3 }}
         >
           <Typography variant="cardHeader1" color="initial">
             ACCOUNT INFORMATION
@@ -33,9 +33,15 @@ const Profile = () => {
             sx={{ p: 2, width: "90%", maxWidth: "800px", marginTop: "30px" }}
             elevation={2}
           >
+            <Stack direction={"row"} sx={{justifyContent:"space-between",alignItems:"center",mb:2}}>
             <Typography variant="cardHeader12" color="initial">
               Personal Information
             </Typography>
+            <Button variant="contained" color="background2" size="small">
+              edit
+            </Button>
+            </Stack>
+           
 
             <Divider />
             <Stack
@@ -59,22 +65,7 @@ const Profile = () => {
                   {userjsondata.email}
                 </Typography>
               </Stack>
-              <Stack direction={"column"} spacing={1}>
-                {/* <Typography variant="cardLocation1" color="initial">
-                  First Name
-                </Typography>
-                <Typography variant="cardLocation1" color="initial">
-                  masum
-                </Typography> */}
-              </Stack>
-              <Stack direction={"column"} spacing={1}>
-                {/* <Typography variant="cardLocation1" color="initial">
-                  First Name
-                </Typography>
-                <Typography variant="cardLocation1" color="initial">
-                  masum
-                </Typography> */}
-              </Stack>
+              
             </Stack>
           </Paper>
         </Stack>

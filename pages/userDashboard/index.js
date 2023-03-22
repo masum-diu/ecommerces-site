@@ -1,6 +1,7 @@
 import {
   Box,
   Divider,
+  Drawer,
   Grid,
   List,
   ListItem,
@@ -9,19 +10,24 @@ import {
   ListItemText,
   Paper,
   Stack,
-  Typography,
+  Typography, Button, Hidden, IconButton,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import HomePageIntro from "../../components/HomePageIntro";
 import Footer from "../../components/Footer";
 import Profile from "../../components/Dashboard/Profile";
 import OrderDetails from "../../components/Dashboard/OrderDetails";
+import Wishlists from "../../components/Dashboard/Wishlists";
+import SortIcon from "@mui/icons-material/Sort";
+import SegmentIcon from "@mui/icons-material/Segment";
+
 
 const userDashboard = () => {
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
-  const [selectedMenu, setSelectedMenu] = React.useState("User Profile");
+  const [selectedMenu, setSelectedMenu] = React.useState("Account Information");
+  const [open,setOpen]=useState(false)
 
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
@@ -29,10 +35,12 @@ const userDashboard = () => {
 
   const renderMenuContent = () => {
     switch (selectedMenu) {
-      case "User Profile":
+      case "Account Information":
         return <Profile></Profile>;
-      case "Order":
+      case "Order History":
         return <OrderDetails></OrderDetails>;
+      case "Wishlist":
+        return <Wishlists/>;
       default:
         return null;
     }
@@ -40,7 +48,7 @@ const userDashboard = () => {
   return (
     <>
       <HomePageIntro title={"UserProfile "} />
-      <Box mt={10} mb={4} height={"100vh"}>
+      <Box mt={10} mb={4} height={"fit-content"}>
         <Stack>
           <Typography
             variant="header1"
@@ -53,15 +61,28 @@ const userDashboard = () => {
             welcome, {userjsondata.name}
           </Typography>
         </Stack>
-
+        <Stack direction={"row"} sx={{justifyContent:"flex-end",width:"100%",alignItems:"flex-end"}}>
+        <IconButton onClick={()=>setOpen(true)}>
+            <Hidden only={["xl","lg","md"]}>
+             
+                 <SegmentIcon />
+             
+             
+            </Hidden>
+          </IconButton>
+          </Stack>
+        
+       
         <Grid
           container
           spacing={2}
           sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto", mt: 2 }}
         >
-          <Grid item lg={3}>
-            <List>
-              {["User Profile", "Order"].map((text, index) => (
+            <Hidden only={["sm","xs","xms"]}>
+          <Grid item lg={3} sx={{height:"600px"}}>
+        
+            <List >
+              {["Account Information", "Order History","Wishlist"].map((text, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => handleMenuClick(text)}>
                     {/* <ListItemIcon>
@@ -72,13 +93,43 @@ const userDashboard = () => {
                 </ListItem>
               ))}
             </List>
+           
           </Grid>
-          <Grid item lg={6}>
+          </Hidden>
+          <Grid item lg={6} sm={12} xs={12} >
             <Typography paragraph>{renderMenuContent()}</Typography>
           </Grid>
         </Grid>
       </Box>
       <Footer />
+       {/* mobile views */}
+
+       <Drawer
+        transitionDuration={{ enter: 500, exit: 500 }}
+        anchor="right"
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            width: "90vw",
+            maxWidth: { lg: "433px", xs: "300px" },
+          },
+        }}
+      >
+         <List >
+              {["Account Information", "Order History","Wishlist"].map((text, index) => (
+                <ListItem key={index} disablePadding>
+                  <ListItemButton onClick={() => handleMenuClick(text)}>
+                    {/* <ListItemIcon>
+                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon> */}
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+      </Drawer>
+
     </>
   );
 };
