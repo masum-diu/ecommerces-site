@@ -622,7 +622,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.first_name_shipping && (
+                  {errors.first_name_shipping && isSameAddressChecked===false&& (
                     <p style={{ color: "red" }}>
                       {errors.first_name_shipping?.message}
                     </p>
@@ -660,7 +660,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.last_name_shipping && (
+                  {errors.last_name_shipping && isSameAddressChecked===false&& (
                     <p style={{ color: "red" }}>
                       {errors.last_name_shipping?.message}
                     </p>
@@ -713,7 +713,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.street_address_shipping && (
+                  {errors.street_address_shipping && isSameAddressChecked===false&&(
                     <p style={{ color: "red" }}>
                       {errors.street_address_shipping?.message}
                     </p>
@@ -748,7 +748,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.apartment_address_shipping && (
+                  {errors.apartment_address_shipping && isSameAddressChecked===false&&(
                     <p style={{ color: "red" }}>
                       {errors.apartment_address_shipping?.message}
                     </p>
@@ -786,7 +786,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.city_shipping && (
+                  {errors.city_shipping && isSameAddressChecked===false&&(
                     <p style={{ color: "red" }}>
                       {errors.city_shipping?.message}
                     </p>
@@ -844,7 +844,7 @@ const checkout = ({ someProp }) => {
                       {/* <MenuItem value={"India"}>India</MenuItem> */}
                     </Select>
                   )}
-                  {errors.country_shipping && (
+                  {errors.country_shipping && isSameAddressChecked===false&&(
                     <p style={{ color: "red" }}>
                       {errors.country_shipping?.message}
                     </p>
@@ -882,7 +882,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.post_code_shipping && (
+                  {errors.post_code_shipping && isSameAddressChecked===false&&(
                     <p style={{ color: "red" }}>
                       {errors.post_code_shipping?.message}
                     </p>
@@ -920,7 +920,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.phone_shipping && (
+                  {errors.phone_shipping && isSameAddressChecked===false &&(
                     <p style={{ color: "red" }}>
                       {errors.phone_shipping?.message}
                     </p>
@@ -963,7 +963,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.email_shipping && (
+                  {errors.email_shipping && isSameAddressChecked===false&&(
                     <p style={{ color: "red" }}>
                       {errors.email_shipping?.message}
                     </p>
