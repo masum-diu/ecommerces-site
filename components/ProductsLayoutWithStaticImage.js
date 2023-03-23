@@ -28,7 +28,7 @@ const ProductsLayoutWithStaticImage = ({
         >
           <HovarImage
             url={`${router?.asPath?.split("?")[0]}/${productsDataChunk[0]?.id}`}
-            data={productsDataChunk}
+            data={productsDataChunk[0]}
             imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${productsDataChunk[0]?.feature_image
               ?.split("/")
               .slice(-3)

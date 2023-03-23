@@ -20,7 +20,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
         >
           <HovarImage
             url={`${router?.asPath?.split("?")[0]}/${productsDataChunk[0]?.id}`}
-            data={productsDataChunk}
+            data={productsDataChunk[0]}
             /* src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/${homedata?.image_five
               ?.split("/")
               .slice(-4)
