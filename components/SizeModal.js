@@ -54,10 +54,10 @@ const SizeModal = ({ open, setOpen, subCat, cat }) => {
   }
 
   const rowsTShirt = [
-    createDataTShirt("S", "18inc", "28inc"),
-    createDataTShirt("M", "20inc", "29inc"),
-    createDataTShirt("L", "22inc", "30inc"),
-    createDataTShirt("XL", "24inc", "31inc"),
+    createDataTShirt("S", "18 inch", "28 inch"),
+    createDataTShirt("M", "20 inch", "29 inch"),
+    createDataTShirt("L", "22 inch", "30 inch"),
+    createDataTShirt("XL", "24 inch", "31 inch"),
   ];
 
   useEffect(() => {

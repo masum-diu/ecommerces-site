@@ -418,7 +418,7 @@ const checkout = ({ someProp }) => {
                       Select Country
                     </MenuItem>
                     <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
-                    <MenuItem value={"India"}>India</MenuItem>
+                    {/* <MenuItem value={"India"}>India</MenuItem> */}
                   </Select>
                   {/* <Select label="Age"  /> */}
                 </Stack>
@@ -682,9 +682,9 @@ const checkout = ({ someProp }) => {
                     value={isSameAddressChecked === true ? distict : distict1}
                     onChange={handleDistict1}
                   >
-                    <MenuItem value={"Select Country"}>Select Country</MenuItem>
+                    <MenuItem value={"Select Country"} disabled>Select Country</MenuItem>
                     <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
-                    <MenuItem value={"India"}>India</MenuItem>
+                    {/* <MenuItem value={"India"}>India</MenuItem> */}
                   </Select>
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
