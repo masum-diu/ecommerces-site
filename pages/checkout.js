@@ -118,8 +118,9 @@ const checkout = ({ someProp }) => {
           if(result?.data?.type=="cash"){
             // const response = JSON.parse(result?.data);
             // await window.location.replace(response?.data);
-            console.log(result)
-            router.push("/payment")
+            // console.log(result)
+            // router.push("/payment")
+            router.push({pathname:"/payment",query:{payment:"success",orderid:result?.data?.order_id,type:'cash'}})
           }
          
         })
@@ -253,7 +254,7 @@ const checkout = ({ someProp }) => {
           if(result?.data?.type=="cash"){
             //  const response = JSON.parse(result?.data);
             //  await window.location.replace(response?.data);
-            console.log(result)
+            // console.log(result)
             
             router.push({pathname:"/payment",query:{payment:"success",orderid:result?.data?.order_id,type:'cash'}})
            }
