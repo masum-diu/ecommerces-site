@@ -57,6 +57,8 @@ const PorductDetails = () => {
     " Please select a color and size in order to enable Add To Cart."
   );
   const [imageData, setImageData] = useState([]);
+  const [subCat, setSubCat] = useState(0);
+  const [cat, setCat] = useState(0);
   const dispatch = useDispatch();
 
   const { data, isLoading, isSuccess, isError, error } =
@@ -218,45 +220,6 @@ const PorductDetails = () => {
     products?.p_colours?.length,
     products?.p_sizes?.length,
   ]);
-  /*   useEffect(() => {
-    if (
-      products?.p_sizes?.length > 0 &&
-      products?.p_colours?.length > 0 &&
-      sizeSelected === false &&
-      colorSelected === false
-    ) {
-      setNoteTextForCart(
-        " Please select a color and size in order to enable Add To Cart."
-      );
-      setNoteTextForStock(
-        " Please select a color and size in order to check stock availability."
-      );
-    }
-    if (
-      products?.p_sizes?.length > 0 &&
-      products?.p_colours?.length < 0 &&
-      sizeSelected === false
-    ) {
-      setNoteTextForCart(
-        " Please select a size in order to enable Add To Cart."
-      );
-      setNoteTextForStock(
-        " Please select a size in order to check stock availability."
-      );
-    }
-    if (
-      products?.p_colours?.length > 0 &&
-      products?.p_sizes?.length < 0 &&
-      colorSelected === false
-    ) {
-      setNoteTextForCart(
-        " Please select a color in order to enable Add To Cart"
-      );
-      setNoteTextForStock(
-        " Please select a color in order to check stock availability"
-      );
-    }
-  }, [sizeSelected, colorSelected]); */
 
   if (isLoading) {
     return <Loader></Loader>;
@@ -285,7 +248,12 @@ const PorductDetails = () => {
     setOpen(data);
     setImageData(images);
   };
-
+  const handleSizeGuide = (subcat_id, cat_id) => {
+    setSizeGuide(true);
+    setSubCat(subcat_id);
+    setCat(cat_id);
+  };
+  console.log("your cat", cat);
   const description = products?.p_description;
   const finalData = {
     id: products.id,
@@ -307,7 +275,7 @@ const PorductDetails = () => {
       products?.p_sale_price * (products?.p_tax?.tax_percentage / 100) +
       products?.p_sale_price,
   };
-
+  console.log("your log output", products);
   return (
     <>
       <Head>
@@ -536,13 +504,24 @@ const PorductDetails = () => {
                     XXL
                   </Button> */}
                         </Stack>
-                        <Button
-                          variant="text"
-                          color="primary"
-                          onClick={() => setSizeGuide(true)}
-                        >
-                          size guide
-                        </Button>
+                        {products?.subcat_id === 13 ||
+                        products?.subcat_id === 15 ||
+                        products?.cat_id === 1 ? (
+                          <Button
+                            variant="text"
+                            color="primary"
+                            onClick={() =>
+                              handleSizeGuide(
+                                products?.subcat_id,
+                                products?.cat_id
+                              )
+                            }
+                          >
+                            size guide
+                          </Button>
+                        ) : (
+                          ""
+                        )}
                       </Stack>
                     </>
                   ) : (
@@ -917,44 +896,45 @@ const PorductDetails = () => {
                 spacing={2}
                 sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
               >
-                {products?.p_sizes?.length > 0 ?<>
-                  <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595">
-                    Sizes
-                  </Typography>
-                  <hr
-                    style={{
-                      textAlign: "left",
-                      width: "100%",
-                      height: "1px",
-                      backgroundColor: "black",
-                      // maxWidth: "350px",
-                    }}
-                  />
-                </Stack>
-                <Stack
-                  direction={"column"}
-                  spacing={1}
-                  alignItems="start"
-                  justifyContent={"space-between"}
-                >
-                  <Stack direction={"row"}>
-                    {products?.p_sizes?.map((size, index) => (
-                      <Button
-                        key={index}
-                        variant={`${
-                          activesize === size?.id ? "outlined" : "primary"
-                        }`}
-                        color="primary"
-                        onClick={() =>
-                          handleSelectSize(size?.size_name, size?.id)
-                        }
-                      >
-                        {size?.size_name}
-                      </Button>
-                    ))}
+                {products?.p_sizes?.length > 0 ? (
+                  <>
+                    <Stack direction={"row"} spacing={1} alignItems="center">
+                      <Typography variant="cardHeader3" color="#959595">
+                        Sizes
+                      </Typography>
+                      <hr
+                        style={{
+                          textAlign: "left",
+                          width: "100%",
+                          height: "1px",
+                          backgroundColor: "black",
+                          // maxWidth: "350px",
+                        }}
+                      />
+                    </Stack>
+                    <Stack
+                      direction={"column"}
+                      spacing={1}
+                      alignItems="start"
+                      justifyContent={"space-between"}
+                    >
+                      <Stack direction={"row"}>
+                        {products?.p_sizes?.map((size, index) => (
+                          <Button
+                            key={index}
+                            variant={`${
+                              activesize === size?.id ? "outlined" : "primary"
+                            }`}
+                            color="primary"
+                            onClick={() =>
+                              handleSelectSize(size?.size_name, size?.id)
+                            }
+                          >
+                            {size?.size_name}
+                          </Button>
+                        ))}
 
-                    {/* <Button variant="text" color="primary">
+                        {/* <Button variant="text" color="primary">
                     M
                   </Button>
                   <Button variant="text" color="primary">
@@ -966,16 +946,20 @@ const PorductDetails = () => {
                   <Button variant="text" color="primary">
                     XXL
                   </Button> */}
-                  </Stack>
-                  <Button
-                    variant="text"
-                    color="primary"
-                    size="small"
-                    onClick={() => setSizeGuide(true)}
-                  >
-                    size guide
-                  </Button>
-                </Stack></>:""}
+                      </Stack>
+                      <Button
+                        variant="text"
+                        color="primary"
+                        size="small"
+                        onClick={() => setSizeGuide(true)}
+                      >
+                        size guide
+                      </Button>
+                    </Stack>
+                  </>
+                ) : (
+                  ""
+                )}
                 <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="#959595">
                     Quantity
@@ -1102,11 +1086,7 @@ const PorductDetails = () => {
                 {noteTextForCart && (
                   <Alert severity="warning">
                     <AlertTitle>Remainder</AlertTitle>
-
-                    {`${noteTextForCart.split("Add To Cart.")[0]}`}
-                    <strong>
-                      {`${noteTextForCart.split("Add To Cart.")[1]}`}
-                    </strong>
+                    <strong>{noteTextForCart}</strong>
                   </Alert>
                 )}
               </Stack>
@@ -1148,7 +1128,12 @@ const PorductDetails = () => {
       <Hidden only={["xs", "xms", "xl", "lg", "md"]}>
         <ThumbsGallery2 open={open} setOpen={setOpen} imageData={imageData} />
       </Hidden>
-      <SizeModal open={sizeGuide} setOpen={setSizeGuide}></SizeModal>
+      <SizeModal
+        open={sizeGuide}
+        setOpen={setSizeGuide}
+        subCat={subCat}
+        cat={cat}
+      ></SizeModal>
     </>
   );
 };

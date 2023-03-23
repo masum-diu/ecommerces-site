@@ -1,13 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {
   IconButton,
-  InputAdornment,
   Paper,
   Stack,
   Table,
@@ -16,24 +13,21 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
 } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import { useState } from "react";
-import SignInModal from "./SignInModal";
 import { useRouter } from "next/router";
-import ForgotPass from "./ForgotPass";
-import { useForm } from "react-hook-form";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import axios from "axios";
-import Cookies from "js-cookie";
-import instance from "../pages/api/api_instance";
-import GuestCheckout from "./GuestCheckout";
-import USER_CONTEXT from "./userContext";
 
-const SizeModal = ({ open, setOpen }) => {
-  function createDataW(name, chest, waist) {
-    return { name, chest, waist };
+const SizeModal = ({ open, setOpen, subCat, cat }) => {
+  const [row, setRow] = useState([]);
+  const router = useRouter();
+  // const productName = router?.query?.product?.toUpperCase();
+  const productName =
+    router?.query?.product?.charAt(0).toUpperCase() +
+    router?.query?.product?.slice(1);
+  console.log("selected subCat", router);
+  function createDataW(name, chest, length) {
+    return { name, chest, length };
   }
 
   const rowsWomen = [
@@ -44,31 +38,41 @@ const SizeModal = ({ open, setOpen }) => {
     createDataW("XXL", 46, 44),
   ];
 
-
-  function createData(size, chest, length) {
-    return { size, chest, length };
+  function createDataPanjabi(name, chest, length) {
+    return { name, chest, length };
   }
 
   const rowsPanjabi = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
+    createDataPanjabi(38, 44, 41),
+    createDataPanjabi(40, 46, 42),
+    createDataPanjabi(42, 48, 43),
+    createDataPanjabi(44, 50, 44),
+    createDataPanjabi(46, 52, 45),
   ];
-  function createData(size, chest, length) {
-    return { size, chest, length };
+  function createDataTShirt(name, chest, length) {
+    return { name, chest, length };
   }
 
-  const rowsTeeShirt = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
+  const rowsTShirt = [
+    createDataTShirt("S", "18inc", "28inc"),
+    createDataTShirt("M", "20inc", "29inc"),
+    createDataTShirt("L", "22inc", "30inc"),
+    createDataTShirt("XL", "24inc", "31inc"),
   ];
 
-  const router = useRouter();
+  useEffect(() => {
+    if (cat === 1) {
+      setRow(rowsWomen);
+    }
+    if (cat === 2 && subCat === 13) {
+      setRow(rowsPanjabi);
+    }
+    if (cat === 2 && subCat === 15) {
+      setRow(rowsTShirt);
+    }
+  }, [cat, subCat]);
+
+  console.log("your row", row);
 
   const handleclearuser = () => {
     setUserData("");
@@ -118,13 +122,16 @@ const SizeModal = ({ open, setOpen }) => {
             color="initial"
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            Size Guide
+            Size Guide For {productName}
           </Typography>
         </DialogTitle>
         <DialogContent>
           {/* <DialogContentText></DialogContentText> */}
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: { lg: 550, xs: "80%" } }} aria-label="simple table">
+            <Table
+              sx={{ minWidth: { lg: 550, xs: "80%" } }}
+              aria-label="simple table"
+            >
               <TableHead>
                 <TableRow>
                   <TableCell align="left">Size</TableCell>
@@ -133,16 +140,14 @@ const SizeModal = ({ open, setOpen }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rowsWomen.map((row) => (
+                {row.map((row) => (
                   <TableRow
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell align="left">
-                      {row.name}
-                    </TableCell>
+                    <TableCell align="left">{row.name}</TableCell>
                     <TableCell align="center">{row.chest}</TableCell>
-                    <TableCell align="right">{row.waist}</TableCell>
+                    <TableCell align="right">{row.length}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
