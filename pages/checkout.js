@@ -100,8 +100,8 @@ const checkout = ({ someProp }) => {
   useEffect(() => {
     if (
       hasToken === false &&
-      isGuestCheckout === true &&
-      payment === "online"
+      isGuestCheckout === true 
+      // payment === "online"
     ) {
       instance
         .post("/guest-order", orderInfo, {
@@ -111,8 +111,17 @@ const checkout = ({ someProp }) => {
           },
         })
         .then(async (result) => {
-          const response = JSON.parse(result?.data?.payment);
-          await window.location.replace(response?.data);
+          if(result?.data?.type=="online"){
+            const response = JSON.parse(result?.data?.payment);
+            await window.location.replace(response?.data);
+          }
+          if(result?.data?.type=="cash"){
+            // const response = JSON.parse(result?.data);
+            // await window.location.replace(response?.data);
+            console.log(result)
+            router.push("/payment")
+          }
+         
         })
         .catch((err) => {});
     }
@@ -215,7 +224,7 @@ const checkout = ({ someProp }) => {
       isGuestCheckout: true,
     });
     console.log("token", hasToken);
-    if (hasToken === true && payment === "online") {
+    if (hasToken === true ) {
       instance
         .post(
           "/order",
@@ -237,8 +246,19 @@ const checkout = ({ someProp }) => {
         )
         .then(async (result) => {
           setIsPlaceOrder(false);
-          const response = JSON.parse(result?.data?.payment);
-          await window.location.replace(response?.data);
+          if(result?.data?.type=="online"){
+            const response = JSON.parse(result?.data?.payment);
+            await window.location.replace(response?.data);
+          }
+          if(result?.data?.type=="cash"){
+            //  const response = JSON.parse(result?.data);
+            //  await window.location.replace(response?.data);
+            console.log(result)
+            
+            router.push({pathname:"/payment",query:{payment:"success",orderid:result?.data?.order_id,type:'cash'}})
+           }
+          // const response = JSON.parse(result?.data?.payment);
+          // await window.location.replace(response?.data);
         })
         .catch((err) => {});
     }
