@@ -42,6 +42,7 @@ const checkout = ({ someProp }) => {
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [total, setTotal] = useState(subTotal);
+  const [error, setError] = useState(true);
   const [openLoginModal, setLoginModal] = useState(false);
   const [payment, setPayment] = useState("");
   // const [isPlaceOrder, setIsPlaceOrder] = useState(false);
@@ -51,19 +52,6 @@ const checkout = ({ someProp }) => {
   const { hasToken, setHasToken, isPlaceOrder, setIsPlaceOrder } =
     useContext(USER_CONTEXT);
   const router = useRouter();
-
-  /* useEffect(() => {
-    const token = localStorage.getItem("acesstoken");
-    if (isInitialMount.current) {
-      // Perform initial mount actions here
-      isInitialMount.current = false;
-    } else {
-      // Perform actions on subsequent renders here
-      if (!token) {
-        setHasToken(false);
-      }
-    }
-  }, [hasToken, localStorage.getItem("acesstoken"),isInitialMount.current,someProp]); */
 
   useEffect(() => {
     if (isDhakaChecked === true) {
@@ -81,12 +69,12 @@ const checkout = ({ someProp }) => {
     if (isPlaceOrder === true) {
       const securePage = async () => {
         const token = localStorage.getItem("acesstoken");
-        if (!token) {
+        if (!token && error === false) {
           setLoginModal(true);
+          // setIsGuestCheckout(true);
           // await toast.error("Please Login First");
-          setHasToken(false);
+
           // await router.push("/addtocart");
-          setIsPlaceOrder(false);
         }
         if (token) {
           setHasToken(true);
@@ -95,14 +83,11 @@ const checkout = ({ someProp }) => {
       };
       securePage();
     }
-  }, [isPlaceOrder, hasToken]);
+  }, [isPlaceOrder, hasToken, error]);
 
   useEffect(() => {
-    if (
-      hasToken === false &&
-      isGuestCheckout === true &&
-      payment === "online"
-    ) {
+    if (hasToken === false && isGuestCheckout === true) {
+      console.log("inside guest payment", hasToken, isGuestCheckout, payment);
       instance
         .post("/guest-order", orderInfo, {
           headers: {
@@ -115,31 +100,20 @@ const checkout = ({ someProp }) => {
           await window.location.replace(response?.data);
         })
         .catch((err) => {});
+      setIsGuestCheckout(false);
     }
-    setIsGuestCheckout(false);
-  }, [isPlaceOrder, orderInfo, isGuestCheckout, hasToken]);
-
-  /* useEffect(()=>{
-    if (openLoginModal === false) {
-          setGuestCheckoutModalOpen(true);
-        }
-  },[]) */
-  // console.log("geust checkout output", isGuestCheckout);
-  /*   useEffect(() => {
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
-    const securePage = async () => {
-      const token = await localStorage.getItem("acesstoken");
-      if (!token) {
-        setLoginModal(true);
-        await toast.error("Please Login First");
-        await router.push("/addtocart");
-      } else {
-        setLoading(false);
-      }
-    };
-    securePage();
-  }, []); */
+  }, [
+    isPlaceOrder,
+    orderInfo,
+    isGuestCheckout,
+    hasToken,
+    isSameAddressChecked,
+  ]);
+  /* useEffect(() => {
+    if (hasToken === false && isPlaceOrder === true) {
+      setIsGuestCheckout(true);
+    }
+  }, [hasToken, isPlaceOrder, isGuestCheckout]); */
 
   // handling Different Form Events
   const handleDistict = (event) => {
@@ -167,17 +141,22 @@ const checkout = ({ someProp }) => {
   const handleSameAddressSelected = () => {
     setIsSameAddressChecked(!isSameAddressChecked);
   };
-
   const token = localStorage.getItem("acesstoken");
+  const handlePlaceOrder = () => {
+    setIsPlaceOrder(true);
+  };
+
   if (token) {
     setHasToken(true);
   }
-  if (!token) {
-    setHasToken(false);
-  }
 
   // Handling React Hook Rorm
-  const { register, handleSubmit, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       first_name_billing: "",
       last_name_billing: "",
@@ -202,6 +181,12 @@ const checkout = ({ someProp }) => {
       deliveryMethod: "",
     },
   });
+  /* useEffect(() => {
+    console.log("no errors", errors);
+    if (errors.length < 0) {
+      setError(false);
+    }
+  }, [error, errors]); */
 
   const onSubmit = async (data) => {
     setIsPlaceOrder(true);
@@ -214,8 +199,9 @@ const checkout = ({ someProp }) => {
       isSameAddress: isSameAddressChecked,
       isGuestCheckout: true,
     });
-    console.log("token", hasToken);
-    if (hasToken === true && payment === "online") {
+    console.log("for log payment", hasToken, payment, error);
+    if (hasToken === true && payment === "online" && error === false) {
+      console.log("inside LOG payment");
       instance
         .post(
           "/order",
@@ -263,7 +249,14 @@ const checkout = ({ someProp }) => {
   useEffect(() => {
     setPayment(method);
   }, [payment, method]);
-  console.log("your log output", payment);
+
+  const errorObject = Object.keys(errors).length;
+  useEffect(() => {
+    if (errorObject === 0) {
+      setError(false);
+    }
+  }, [error, errorObject]);
+
   return (
     <>
       <HomePageIntro title={"Checkout "} />
@@ -303,6 +296,7 @@ const checkout = ({ someProp }) => {
               rowGap={4}
               sx={{ width: "90%", mx: "auto" }}
             >
+              {/* Billing form */}
               <Grid item lg={4} sx={{ width: "100%" }}>
                 <Typography variant="header1" color="initial">
                   BILLING DETAILS
@@ -316,12 +310,20 @@ const checkout = ({ someProp }) => {
                     // label=""
                     // value={}
                     {...register("first_name_billing", {
-                      required: "First Name is required",
+                      required: {
+                        value: true,
+                        message: "First Name Required",
+                      },
                     })}
                     // onChange={}
                     placeholder="First Name *"
                     size="small"
                   />
+                  {errors.first_name_billing && (
+                    <p style={{ color: "red" }}>
+                      {errors.first_name_billing?.message}
+                    </p>
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -333,11 +335,19 @@ const checkout = ({ someProp }) => {
                     // value={}
                     // onChange={}
                     {...register("last_name_billing", {
-                      required: "Last Name is required",
+                      required: {
+                        value: true,
+                        message: "Last Name Required",
+                      },
                     })}
                     placeholder="Last Name *"
                     size="small"
                   />
+                  {errors.last_name_billing && (
+                    <p style={{ color: "red" }}>
+                      {errors.last_name_billing?.message}
+                    </p>
+                  )}
                 </Stack>
                 {/* <Stack direction={"column"} spacing={2} mt={3}>
                 <Typography variant="cardHeader1" color="initial">
@@ -362,22 +372,38 @@ const checkout = ({ someProp }) => {
                     // value={}
                     // onChange={}
                     {...register("street_address_billing", {
-                      required: "Street Address is required",
+                      required: {
+                        value: true,
+                        message: "House and Street Address Required",
+                      },
                     })}
                     placeholder="House Number and street name"
                     size="small"
                   />
+                  {errors.street_address_billing && (
+                    <p style={{ color: "red" }}>
+                      {errors.street_address_billing?.message}
+                    </p>
+                  )}
                   <TextField
                     // id=""
                     // label=""
                     // value={}
                     // onChange={}
                     {...register("apartment_address_billing", {
-                      required: "Apartment Address is required",
+                      required: {
+                        value: true,
+                        message: "Apartment Address Required",
+                      },
                     })}
-                    placeholder="Apartment suite, unit, etc (optional)"
+                    placeholder="Apartment suite, unit, etc."
                     size="small"
                   />
+                  {errors.apartment_address_billing && (
+                    <p style={{ color: "red" }}>
+                      {errors.apartment_address_billing?.message}
+                    </p>
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -389,11 +415,19 @@ const checkout = ({ someProp }) => {
                     // value={}
                     // onChange={}
                     {...register("city_billing", {
-                      required: "City is required",
+                      required: {
+                        value: true,
+                        message: "Town/City is Required",
+                      },
                     })}
                     placeholder="Town / City"
                     size="small"
                   />
+                  {errors.city_billing && (
+                    <p style={{ color: "red" }}>
+                      {errors.city_billing?.message}
+                    </p>
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -409,7 +443,12 @@ const checkout = ({ someProp }) => {
                 /> */}
                   <Select
                     id="demo-simple-select"
-                    {...register("country_billing")}
+                    {...register("country_billing", {
+                      required: {
+                        value: true,
+                        message: "Country is Required",
+                      },
+                    })}
                     size="small"
                     value={distict}
                     onChange={handleDistict}
@@ -420,6 +459,11 @@ const checkout = ({ someProp }) => {
                     <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
                     {/* <MenuItem value={"India"}>India</MenuItem> */}
                   </Select>
+                  {errors.country_billing && (
+                    <p style={{ color: "red" }}>
+                      {errors.country_billing?.message}
+                    </p>
+                  )}
                   {/* <Select label="Age"  /> */}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
@@ -432,11 +476,19 @@ const checkout = ({ someProp }) => {
                     // value={}
                     // onChange={}
                     {...register("post_code_billing", {
-                      required: "Post Code is required",
+                      required: {
+                        value: false,
+                        message: "Country is Required",
+                      },
                     })}
                     placeholder="Postcode / zip (Optional)"
                     size="small"
                   />
+                  {errors.post_code_billing && (
+                    <p style={{ color: "red" }}>
+                      {errors.post_code_billing?.message}
+                    </p>
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -448,11 +500,19 @@ const checkout = ({ someProp }) => {
                     // value={}
                     // onChange={}
                     {...register("phone_billing", {
-                      required: "Phone is required",
+                      required: {
+                        value: true,
+                        message: "Phone Number is Required",
+                      },
                     })}
                     placeholder="Phone *"
                     size="small"
                   />
+                  {errors.phone_billing && (
+                    <p style={{ color: "red" }}>
+                      {errors.phone_billing?.message}
+                    </p>
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -464,7 +524,10 @@ const checkout = ({ someProp }) => {
                     // value={}
                     // onChange={}
                     {...register("email_billing", {
-                      required: "Email is required",
+                      required: {
+                        value: true,
+                        message: "Email Address is Required",
+                      },
                       pattern: {
                         value:
                           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -474,23 +537,15 @@ const checkout = ({ someProp }) => {
                     placeholder="Email Address *"
                     size="small"
                   />
+                  {errors.email_billing && (
+                    <p style={{ color: "red" }}>
+                      {errors.email_billing?.message}
+                    </p>
+                  )}
                 </Stack>
-                {/* <Stack direction={"row"} alignItems="center" mt={1}>
-                  <Controller
-                    name="isSameAddress"
-                    control={control}
-                    render={({ field }) => (
-                      <Checkbox
-                        onClick={handleSameAddressSelected}
-                        {...field}
-                      />
-                    )}
-                  />
-                  <Typography variant="cardLocation1" color="initial">
-                    Same As Billing Address.
-                  </Typography>
-                </Stack> */}
               </Grid>
+
+              {/* Shipping Form */}
               <Grid item lg={4} sx={{ width: "100%" }}>
                 <Typography variant="header1" color="initial">
                   SHIPPING DETAILS
@@ -524,7 +579,7 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("first_name_shipping")}
+                      {...register("first_name_shipping", { required: false })}
                       // onChange={}
                       value={firstName}
                       disabled
@@ -535,11 +590,21 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("first_name_shipping")}
+                      {...register("first_name_shipping", {
+                        required: {
+                          value: true,
+                          message: "First Name Required",
+                        },
+                      })}
                       // onChange={}
                       placeholder="First Name *"
                       size="small"
                     />
+                  )}
+                  {errors.first_name_shipping && (
+                    <p style={{ color: "red" }}>
+                      {errors.first_name_shipping?.message}
+                    </p>
                   )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
@@ -551,7 +616,7 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("last_name_shipping")}
+                      {...register("last_name_shipping", { required: false })}
                       // onChange={}
                       value={lastName}
                       disabled
@@ -563,11 +628,21 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("last_name_shipping")}
+                      {...register("last_name_shipping", {
+                        required: {
+                          value: true,
+                          message: "Last Name Required",
+                        },
+                      })}
                       // onChange={}
                       placeholder="Last Name *"
                       size="small"
                     />
+                  )}
+                  {errors.last_name_shipping && (
+                    <p style={{ color: "red" }}>
+                      {errors.last_name_shipping?.message}
+                    </p>
                   )}
                 </Stack>
                 {/* <Stack direction={"column"} spacing={2} mt={3}>
@@ -592,7 +667,9 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("street_address_shipping")}
+                      {...register("street_address_shipping", {
+                        required: false,
+                      })}
                       // onChange={}
                       value={streetAddress}
                       disabled
@@ -604,18 +681,30 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("street_address_shipping")}
+                      {...register("street_address_shipping", {
+                        required: {
+                          value: true,
+                          message: "House and Street Address Required",
+                        },
+                      })}
                       // onChange={}
                       placeholder="House Number and street name"
                       size="small"
                     />
+                  )}
+                  {errors.street_address_shipping && (
+                    <p style={{ color: "red" }}>
+                      {errors.street_address_shipping?.message}
+                    </p>
                   )}
                   {isSameAddressChecked === true ? (
                     <TextField
                       // id=""
                       // label=""
                       // value={}
-                      {...register("apartment_address_shipping")}
+                      {...register("apartment_address_shipping", {
+                        required: false,
+                      })}
                       // onChange={}
                       value={apartmentAddress}
                       disabled
@@ -627,11 +716,21 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("apartment_address_shipping")}
+                      {...register("apartment_address_shipping", {
+                        required: {
+                          value: true,
+                          message: "Apartment Address Required",
+                        },
+                      })}
                       // onChange={}
-                      placeholder="Apartment suite, unit, etc (optional)"
+                      placeholder="Apartment suite, unit, etc."
                       size="small"
                     />
+                  )}
+                  {errors.apartment_address_shipping && (
+                    <p style={{ color: "red" }}>
+                      {errors.apartment_address_shipping?.message}
+                    </p>
                   )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
@@ -643,7 +742,7 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("city_shipping")}
+                      {...register("city_shipping", { required: false })}
                       // onChange={}
                       value={cityAddress}
                       disabled
@@ -655,11 +754,21 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("city_shipping")}
+                      {...register("city_shipping", {
+                        required: {
+                          value: true,
+                          message: "Town/City is Required",
+                        },
+                      })}
                       // onChange={}
                       placeholder="Town / City"
                       size="small"
                     />
+                  )}
+                  {errors.city_shipping && (
+                    <p style={{ color: "red" }}>
+                      {errors.city_shipping?.message}
+                    </p>
                   )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
@@ -674,18 +783,51 @@ const checkout = ({ someProp }) => {
                   placeholder="Company Name (Optional)"
                   size="small"
                 /> */}
-                  <Select
-                    {...register("country_shipping")}
-                    id="demo-simple-select"
-                    size="small"
-                    disabled={isSameAddressChecked === true ? true : false}
-                    value={isSameAddressChecked === true ? distict : distict1}
-                    onChange={handleDistict1}
-                  >
-                    <MenuItem value={"Select Country"} disabled>Select Country</MenuItem>
-                    <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
-                    {/* <MenuItem value={"India"}>India</MenuItem> */}
-                  </Select>
+                  {isSameAddressChecked === true ? (
+                    <Select
+                      {...register("country_shipping", {
+                        required: {
+                          value: false,
+                          message: "Country is Required",
+                        },
+                      })}
+                      id="demo-simple-select"
+                      size="small"
+                      disabled={isSameAddressChecked === true ? true : false}
+                      value={distict}
+                      onChange={handleDistict1}
+                    >
+                      <MenuItem value={"Select Country"} disabled>
+                        Select Country
+                      </MenuItem>
+                      <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
+                      {/* <MenuItem value={"India"}>India</MenuItem> */}
+                    </Select>
+                  ) : (
+                    <Select
+                      {...register("country_shipping", {
+                        required: {
+                          value: true,
+                          message: "Country is Required",
+                        },
+                      })}
+                      id="demo-simple-select"
+                      size="small"
+                      value={distict1}
+                      onChange={handleDistict1}
+                    >
+                      <MenuItem value={"Select Country"} disabled>
+                        Select Country
+                      </MenuItem>
+                      <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
+                      {/* <MenuItem value={"India"}>India</MenuItem> */}
+                    </Select>
+                  )}
+                  {errors.country_shipping && (
+                    <p style={{ color: "red" }}>
+                      {errors.country_shipping?.message}
+                    </p>
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -696,7 +838,7 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("post_code_shipping")}
+                      {...register("post_code_shipping", { required: false })}
                       // onChange={}
                       value={postBilling}
                       disabled
@@ -708,11 +850,21 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("post_code_shipping")}
+                      {...register("post_code_shipping", {
+                        required: {
+                          value: false,
+                          message: "Post Code Required",
+                        },
+                      })}
                       // onChange={}
                       placeholder="Postcode / zip (Optional)"
                       size="small"
                     />
+                  )}
+                  {errors.post_code_shipping && (
+                    <p style={{ color: "red" }}>
+                      {errors.post_code_shipping?.message}
+                    </p>
                   )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
@@ -724,7 +876,7 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("phone_shipping")}
+                      {...register("phone_shipping", { required: false })}
                       // onChange={}
                       value={phoneBilling}
                       disabled
@@ -736,11 +888,21 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("phone_shipping")}
+                      {...register("phone_shipping", {
+                        required: {
+                          value: true,
+                          message: "Phone Number is Required",
+                        },
+                      })}
                       // onChange={}
                       placeholder="Phone *"
                       size="small"
                     />
+                  )}
+                  {errors.phone_shipping && (
+                    <p style={{ color: "red" }}>
+                      {errors.phone_shipping?.message}
+                    </p>
                   )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
@@ -752,7 +914,7 @@ const checkout = ({ someProp }) => {
                       // id=""
                       // label=""
                       // value={}
-                      {...register("email_shipping")}
+                      {...register("email_shipping", { required: false })}
                       // onChange={}
                       value={emailBilling}
                       disabled
@@ -765,6 +927,10 @@ const checkout = ({ someProp }) => {
                       // label=""
                       // value={}
                       {...register("email_shipping", {
+                        required: {
+                          value: true,
+                          message: "Email Address is Required",
+                        },
                         pattern: {
                           value:
                             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -775,6 +941,11 @@ const checkout = ({ someProp }) => {
                       placeholder="Email Address *"
                       size="small"
                     />
+                  )}
+                  {errors.email_shipping && (
+                    <p style={{ color: "red" }}>
+                      {errors.email_shipping?.message}
+                    </p>
                   )}
                 </Stack>
               </Grid>

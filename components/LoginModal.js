@@ -22,8 +22,6 @@ import USER_CONTEXT from "./userContext";
 const LoginModal = ({
   open,
   setOpen,
-  // isPlaceOrder,
-  // setIsPlaceOrder,
   isGuestCheckout,
   setIsGuestCheckout,
 }) => {
@@ -60,6 +58,7 @@ const LoginModal = ({
   };
   const handleClose = () => {
     setOpen(false);
+    console.log('sdfsdfsdf')
     setIsPlaceOrder(false);
   };
   const [values, setValues] = useState({
@@ -86,6 +85,8 @@ const LoginModal = ({
       password: "",
     },
   });
+
+  console.log('your log output',isPlaceOrder)
   // const password = useWatch({ control, name: "password" });
   const onSubmit = (data) => {
     instance
@@ -104,7 +105,6 @@ const LoginModal = ({
         setUserData(err);
       });
   };
-  console.log("isPlaceOrder", isPlaceOrder);
   return (
     <>
       <Dialog
