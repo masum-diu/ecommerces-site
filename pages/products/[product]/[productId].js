@@ -947,14 +947,24 @@ const PorductDetails = () => {
                     XXL
                   </Button> */}
                       </Stack>
-                      <Button
-                        variant="text"
-                        color="primary"
-                        size="small"
-                        onClick={() => setSizeGuide(true)}
-                      >
-                        size guide
-                      </Button>
+                      {products?.subcat_id === 13 ||
+                      products?.subcat_id === 15 ||
+                      products?.cat_id === 1 ? (
+                        <Button
+                          variant="text"
+                          color="primary"
+                          onClick={() =>
+                            handleSizeGuide(
+                              products?.subcat_id,
+                              products?.cat_id
+                            )
+                          }
+                        >
+                          size guide
+                        </Button>
+                      ) : (
+                        ""
+                      )}
                     </Stack>
                   </>
                 ) : (
