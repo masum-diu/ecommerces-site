@@ -96,8 +96,18 @@ const checkout = ({ someProp }) => {
           },
         })
         .then(async (result) => {
-          const response = JSON.parse(result?.data?.payment);
-          await window.location.replace(response?.data);
+          if(result?.data?.type=="online"){
+            const response = JSON.parse(result?.data?.payment);
+            await window.location.replace(response?.data);
+          }
+          if(result?.data?.type=="cash"){
+            // const response = JSON.parse(result?.data);
+            // await window.location.replace(response?.data);
+            // console.log(result)
+            // router.push("/payment")
+            router.push({pathname:"/payment",query:{payment:"success",orderid:result?.data?.order_id,type:'cash'}})
+          }
+         
         })
         .catch((err) => {});
       setIsGuestCheckout(false);
@@ -187,7 +197,7 @@ const checkout = ({ someProp }) => {
       setError(false);
     }
   }, [error, errors]); */
-
+  console.log("inside xcvxct payment", hasToken, isGuestCheckout, payment);
   const onSubmit = async (data) => {
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
@@ -200,7 +210,7 @@ const checkout = ({ someProp }) => {
       isGuestCheckout: true,
     });
     console.log("for log payment", hasToken, payment, error);
-    if (hasToken === true && payment === "online" && error === false) {
+    if (hasToken === true && error === false) {
       console.log("inside LOG payment");
       instance
         .post(
@@ -223,8 +233,19 @@ const checkout = ({ someProp }) => {
         )
         .then(async (result) => {
           setIsPlaceOrder(false);
-          const response = JSON.parse(result?.data?.payment);
-          await window.location.replace(response?.data);
+          if(result?.data?.type=="online"){
+            const response = JSON.parse(result?.data?.payment);
+            await window.location.replace(response?.data);
+          }
+          if(result?.data?.type=="cash"){
+            //  const response = JSON.parse(result?.data);
+            //  await window.location.replace(response?.data);
+            // console.log(result)
+            
+            router.push({pathname:"/payment",query:{payment:"success",orderid:result?.data?.order_id,type:'cash'}})
+           }
+          // const response = JSON.parse(result?.data?.payment);
+          // await window.location.replace(response?.data);
         })
         .catch((err) => {});
     }

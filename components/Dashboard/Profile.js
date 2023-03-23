@@ -16,16 +16,16 @@ const Profile = () => {
   const userjsondata = JSON.parse(userdata);
   return (
     <>
-      <Box>
+      <Box >
         <Stack
           direction={"column"}
           spacing={1}
-           sx={{ justifyContent: "center", alignItems: "center", mt: 3 }}
+           sx={{ justifyContent: "center", alignItems: "center", mt: 3 ,}}
         >
-          <Typography variant="cardHeader1" color="initial">
+          <Typography variant="cardHeader1" color="initial" className="SemiBold">
             ACCOUNT INFORMATION
           </Typography>
-          <Typography variant="cardLocation1" color="initial">
+          <Typography variant="cardLocation1" color="initial" className="light">
             This section contains your address information
           </Typography>
           <br />
@@ -34,7 +34,7 @@ const Profile = () => {
             elevation={2}
           >
             <Stack direction={"row"} sx={{justifyContent:"space-between",alignItems:"center",mb:2}}>
-            <Typography variant="cardHeader12" color="initial">
+            <Typography variant="cardHeader12" color="initial" className="SemiBold">
               Personal Information
             </Typography>
             <Button variant="contained" color="background2" size="small">
@@ -50,18 +50,18 @@ const Profile = () => {
               mt={2}
             >
               <Stack direction={"column"} spacing={1}>
-                <Typography variant="cardLocation1" color="#807f83">
+                <Typography variant="cardLocation1" color="#807f83"className="bold">
                   User Name
                 </Typography>
-                <Typography variant="cardLocation1" color="initial">
+                <Typography variant="cardLocation1" color="initial"className="SemiBold">
                   {userjsondata.name}
                 </Typography>
               </Stack>
               <Stack direction={"column"} spacing={1}>
-                <Typography variant="cardLocation1" color="#807f83">
+                <Typography variant="cardLocation1" color="#807f83"className="bold">
                   Email Address
                 </Typography>
-                <Typography variant="cardLocation1" color="initial">
+                <Typography variant="cardLocation1" color="initial"className="SemiBold">
                   {userjsondata.email}
                 </Typography>
               </Stack>

@@ -75,8 +75,8 @@ const userDashboard = () => {
        
         <Grid
           container
-          spacing={2}
-          sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto", mt: 2 }}
+          // spacing={2}
+          sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto", mt: 2,}}
         >
             <Hidden only={["sm","xs","xms"]}>
           <Grid item lg={3} sx={{height:"600px"}}>
@@ -88,7 +88,7 @@ const userDashboard = () => {
                     {/* <ListItemIcon>
                       {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                     </ListItemIcon> */}
-                    <ListItemText primary={text} />
+                    <ListItemText  primary={<><Typography variant="cardHeader1" className="bold" color="initial">{text}</Typography></>} />
                   </ListItemButton>
                 </ListItem>
               ))}
@@ -123,7 +123,7 @@ const userDashboard = () => {
                     {/* <ListItemIcon>
                       {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                     </ListItemIcon> */}
-                    <ListItemText primary={text} />
+                    <ListItemText primary={<><Typography variant="cardHeader1" className="bold" color="initial">{text}</Typography></>} />
                   </ListItemButton>
                 </ListItem>
               ))}

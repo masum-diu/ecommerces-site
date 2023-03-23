@@ -721,7 +721,7 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
+              <Stack direction={"column"} spacing={5} sx={{justifyContent:"flex-end" ,height:"95%",px:2}}>
                 <Stack direction={"column"}>
                   <Typography
                     variant="login2"
@@ -767,7 +767,7 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
+              <Stack direction={"column"} spacing={5} sx={{justifyContent:"flex-end" ,height:"95%",px:2}}>
                 <Stack direction={"column"}>
                   <Typography
                     variant="login2"
@@ -813,7 +813,7 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
+              <Stack direction={"column"} spacing={5} sx={{justifyContent:"flex-end" ,height:"95%",px:2}}>
                 <Stack direction={"column"}>
                   <Typography
                     variant="login2"
@@ -859,7 +859,7 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={5} sx={{ pt: 90, px: 4 }}>
+              <Stack direction={"column"} spacing={5} sx={{justifyContent:"flex-end" ,height:"95%",px:2}}>
                 <Stack direction={"column"}>
                   <Typography
                     variant="login2"

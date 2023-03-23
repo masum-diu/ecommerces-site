@@ -132,7 +132,8 @@ const SiderBar = ({ open, setOpen }) => {
     setUser("");
     setAnchorEl(null);
     handleMobileMenuClose();
-    setModalOpen(false)
+    setModalOpen(false);
+    setHasToken(false);
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -216,7 +217,11 @@ const SiderBar = ({ open, setOpen }) => {
             <IconButton aria-label="" onClick={() => setOpen(false)}>
               <MdClose />
             </IconButton>
-            <img src="/assets/headerLogo.png" alt="" />
+            <img
+              src="/assets/headerLogo.png"
+              alt=""
+              style={{ width: "90vw", maxWidth: "96px" }}
+            />
           </Stack>
 
           <ClickAwayListener

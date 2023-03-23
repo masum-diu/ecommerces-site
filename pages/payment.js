@@ -11,7 +11,7 @@ const payment = () => {
   // const container =
   // window !== undefined ? () => window().document.body : undefined;
   // console.log(router.query?.payment)
-  const { payment,orderid } = router.query
+  const { payment,orderid,type } = router.query
    console.log(router)
    const handleClearButtonClick = () => {
     dispatch(clearCart('cart'));
@@ -27,7 +27,7 @@ const payment = () => {
             <Stack direction={"column"} sx={{ justifyContent: "center", alignItems: "center", }} spacing={2}>
               <Typography variant="login1" color="initial" className='bold'>Your order has been received</Typography>
               <BsFillCheckCircleFill style={{ fontSize: '50px', color: "green" }} />
-              <Typography variant="header1" color="initial">Thank you for your purchase !</Typography>
+              {type=="cash"?"":<Typography variant="header1" color="initial">Thank you for your purchase !</Typography>}
               <Typography variant="legend" color="initial" className='SemiBold'>Your order ID is : {orderid}</Typography>
               <Button variant="contained" color="bandColor" onClick={()=>handleClearButtonClick()} size="small" >
                 continue shopping
@@ -52,7 +52,7 @@ const payment = () => {
           </Paper>
         </Box></>
       }
-
+     
     </>
   )
 }
