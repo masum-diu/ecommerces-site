@@ -49,7 +49,7 @@ const PorductDetails = () => {
   const [activesize, setActiveSize] = useState(null);
   const [activecolor, setActiveColor] = useState(null);
   const [open, setOpen] = useState(false);
-  const [sizeGuide, setSizeGuide]=useState(false)
+  const [sizeGuide, setSizeGuide] = useState(false);
   const [noteTextForStock, setNoteTextForStock] = useState(
     " Please select a color and size in order to check stock availability."
   );
@@ -332,6 +332,8 @@ const PorductDetails = () => {
         <meta property="og:price:currency" content="BDT" />
       </Head>
       <HomePageIntro title={"Saree "} />
+
+      {/* Product Details for pc */}
       <Hidden only={["xms", "xs"]}>
         <Box
           mt={10}
@@ -425,7 +427,7 @@ const PorductDetails = () => {
               />
             </Grid>
 
-            {/* Details Section */}
+            {/* Description Section */}
             <Grid item xl={5} lg={5} md={6}>
               <div style={{ position: "sticky", top: 100 }}>
                 <Stack direction={"column"} mx={5} width={"100%"}>
@@ -534,7 +536,11 @@ const PorductDetails = () => {
                     XXL
                   </Button> */}
                         </Stack>
-                        <Button variant="text" color="primary" onClick={()=>setSizeGuide(true)}>
+                        <Button
+                          variant="text"
+                          color="primary"
+                          onClick={() => setSizeGuide(true)}
+                        >
                           size guide
                         </Button>
                       </Stack>
@@ -708,6 +714,8 @@ const PorductDetails = () => {
 
         <Footer />
       </Hidden>
+
+      {/* Product Details for tab amd mobile */}
       <Hidden only={["md", "lg", "xl", "sm"]}>
         <Box mt={10} sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}>
           <Swiper
@@ -909,7 +917,8 @@ const PorductDetails = () => {
                 spacing={2}
                 sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
               >
-                <Stack direction={"row"} spacing={1} alignItems="center">
+                {products?.p_sizes?.length > 0 ?<>
+                  <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="#959595">
                     Sizes
                   </Typography>
@@ -958,10 +967,15 @@ const PorductDetails = () => {
                     XXL
                   </Button> */}
                   </Stack>
-                  <Button variant="text" color="primary" size="small"  onClick={()=>setSizeGuide(true)}>
+                  <Button
+                    variant="text"
+                    color="primary"
+                    size="small"
+                    onClick={() => setSizeGuide(true)}
+                  >
                     size guide
                   </Button>
-                </Stack>
+                </Stack></>:""}
                 <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="#959595">
                     Quantity
