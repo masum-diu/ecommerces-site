@@ -30,15 +30,15 @@ const OrderDetails = () => {
   return (
     <>
     <Stack direction={"column"} spacing={2} mt={4} sx={{height:"fit-content"}}>
-    <Typography variant="cardHeader1" color="initial" textAlign={"center"}>Order History</Typography>
+    <Typography variant="cardHeader1" color="initial" className="exterBold" textAlign={"center"}>Order History</Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>Order Id</TableCell>
-              <TableCell>Order Date</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Status</TableCell>
+            <TableRow >
+              <TableCell className="bold">Order Id</TableCell>
+              <TableCell className="bold">Order Date</TableCell>
+              <TableCell className="bold">Price</TableCell>
+              <TableCell className="bold">Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -46,11 +46,11 @@ const OrderDetails = () => {
             {
 
               info?.map((orderInfo) => <>
-                <TableRow> 
-                  <TableCell>{orderInfo?.order_id}</TableCell>
-                  <TableCell>{orderInfo?.order_date}</TableCell>
-                  <TableCell>{orderInfo?.total_price}</TableCell>
-                  <TableCell>{(orderInfo?.payment_status?"Paid":"Unpaid")}</TableCell>
+                <TableRow key={orderInfo}> 
+                  <TableCell className="SemiBold">{orderInfo?.order_id}</TableCell>
+                  <TableCell className="SemiBold">{orderInfo?.order_date}</TableCell>
+                  <TableCell className="SemiBold">{orderInfo?.total_price}</TableCell>
+                  <TableCell className="SemiBold">{(orderInfo?.payment_status?"Paid":"Unpaid")}</TableCell>
                   </TableRow>
               </>)
 

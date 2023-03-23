@@ -116,7 +116,7 @@ const shop = () => {
               .slice(-3)
               .join("/")}`}
             alt=""
-            style={{ width: "100%", height: "fit-content" }}
+            style={{ width: "100%", height: "fit-content", }}
           />
           <Stack
             direction={"row"}
@@ -144,11 +144,12 @@ const shop = () => {
               }
               sx={{
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "Center",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
                 width: "100%",
                 pb: 4,
                 cursor: "pointer",
+                px:4
               }}
             >
               <li>Latest Collection</li>
@@ -213,11 +214,12 @@ const shop = () => {
               }
               sx={{
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "Center",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
                 width: "100%",
                 pb: 4,
                 cursor: "pointer",
+                px:4
               }}
             >
               <li>{homedata?.back_url_three}</li>
@@ -236,11 +238,12 @@ const shop = () => {
               }
               sx={{
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "Center",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
                 width: "100%",
                 pb: 4,
                 cursor: "pointer",
+                px:4
               }}
             >
               <li>{homedata?.back_url_two}</li>
@@ -248,22 +251,22 @@ const shop = () => {
           </Stack>
         </Stack>
         <Box mt={4}>
-         
-            <Stack direction={"row"} justifyContent="space-between" sx={{ width: "95%", margin: "0 auto", maxWidth:{lg:"1500px"} }}  >
-              <Typography variant="tabText" color="initial" px={{xs:2.5}}>
-                YOU MAY ALSO LIKE
+          
+            <Stack direction={"row"}  justifyContent="space-between" sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px"}}>
+              <Typography variant="tabText" color="initial" px={1}>
+                WHAT'S NEW
               </Typography>
-              <Typography variant="tabText" color="initial"pr={{xs:2.5,xl:0,md:0,sm:0}}>
+              <Typography variant="tabText" color="initial"pr={1}>
                 VIEW ALL
               </Typography>
             </Stack>
-
-            <Grid container spacing={3} sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px"}}>
+            <Grid container sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px",}}>
               {products?.slice(0, 4).map((data) => (
                 <>
-                  <Grid item xl={3} lg={3} md={3} sm={6} >
-                    <Stack direction={"column"} spacing={2}>
+                  <Grid item xl={3} lg={3} md={3} sm={6} mt={1}  >
+                    <Stack direction={"column"} spacing={2} ml={1} mr={1}>
                       <HovarImage
+                      
                         url={`/products/${
                           data?.p_subcategory?.slug === "unknown"
                             ? data?.p_category?.slug
@@ -274,8 +277,8 @@ const shop = () => {
                           ?.split("/")
                           .slice(-3)
                           .join("/")}`}
-                        width={350}
-                        height={827}
+                        width={"fit-content"}
+                        height={"fit-content"}
                       ></HovarImage>
                       {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
@@ -310,7 +313,6 @@ const shop = () => {
                 </>
               ))}
             </Grid>
-          
         </Box>
 
         {/* <Image
@@ -357,11 +359,13 @@ const shop = () => {
               }
               sx={{
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "Center",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
                 width: "100%",
                 pb: 4,
                 cursor: "pointer",
+                px:4,
+                
               }}
             >
               <li>Kurti & Fatua</li>
@@ -370,20 +374,21 @@ const shop = () => {
         </Stack>
         <Box mt={4}>
           
-            <Stack direction={"row"} justifyContent="space-between" sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px"}}>
-              <Typography variant="tabText" color="initial"px={{xs:2.5}}>
+            <Stack direction={"row"}  justifyContent="space-between" sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px"}}>
+              <Typography variant="tabText" color="initial" px={1}>
                 WHAT'S NEW
               </Typography>
-              <Typography variant="tabText" color="initial"pr={{xs:2.5,xl:0,md:0,sm:0}}>
+              <Typography variant="tabText" color="initial"pr={1}>
                 VIEW ALL
               </Typography>
             </Stack>
-            <Grid container spacing={3} sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px"}}>
+            <Grid container sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px",}}>
               {products?.slice(0, 4).map((data) => (
                 <>
-                  <Grid item xl={3} lg={3} md={3} sm={6} >
-                    <Stack direction={"column"} spacing={2}>
+                  <Grid item xl={3} lg={3} md={3} sm={6} mt={1}  >
+                    <Stack direction={"column"} spacing={2} ml={1} mr={1}>
                       <HovarImage
+                      
                         url={`/products/${
                           data?.p_subcategory?.slug === "unknown"
                             ? data?.p_category?.slug
@@ -394,8 +399,8 @@ const shop = () => {
                           ?.split("/")
                           .slice(-3)
                           .join("/")}`}
-                        width={350}
-                        height={827}
+                        width={"fit-content"}
+                        height={"fit-content"}
                       ></HovarImage>
                       {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
