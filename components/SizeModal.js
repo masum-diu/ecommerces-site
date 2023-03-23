@@ -136,7 +136,9 @@ const SizeModal = ({ open, setOpen, subCat, cat }) => {
                 <TableRow>
                   <TableCell align="left">Size</TableCell>
                   <TableCell align="center">Chest</TableCell>
-                  <TableCell align="right">Waist</TableCell>
+                  <TableCell align="right">
+                    {cat === 1 ? "Waist" : "Length"}
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
