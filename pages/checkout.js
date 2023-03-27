@@ -811,6 +811,7 @@ const checkout = ({ someProp }) => {
                       direction={"row"}
                       spacing={2}
                       justifyContent="space-between"
+                      width="100%"
                     >
                       <Typography
                         variant="cardHeader"
@@ -828,7 +829,7 @@ const checkout = ({ someProp }) => {
                       </Typography>
                     </Stack>
                     <Divider />
-                    <Stack direction={"row"} spacing={2} mb={5}>
+                    <Stack direction={"row"} spacing={2} mb={5} width="100%">
                       <Typography
                         variant="cardHeader"
                         color="initial"
@@ -902,7 +903,7 @@ const checkout = ({ someProp }) => {
                     </Stack> */}
 
                     <Divider />
-                    <Stack direction={"row"} spacing={7}>
+                    <Stack direction={"row"} spacing={7} width="100%">
                       <Typography
                         variant="cardHeader"
                         color="initial"
@@ -919,7 +920,7 @@ const checkout = ({ someProp }) => {
                       </Typography>
                     </Stack>
                     <Divider />
-                    <Stack direction={"column"} spacing={9}>
+                    <Stack direction={"column"} spacing={9}width="100%">
                       {/* <Typography variant="cardHeader" color="initial">
                       TOTAL :
                     </Typography>
@@ -962,15 +963,17 @@ const checkout = ({ someProp }) => {
                           </RadioGroup>
                         )}
                       />
+                      
                     </Stack>
-                    <Stack direction={"row"} width="100%" alignItems={"center"}>
+                    <Stack direction={"row"} width="100%" alignItems={"center"} >
+                      
                       <Controller
                         name="termsAndConditions"
                         control={control}
                         rules={{ required: true }}
                         render={({ field }) => <Checkbox {...field} />}
                       />
-                      <Typography variant="cardLocation1" color="initial">
+                      <Typography variant="cardLocation123" >
                         I have read and agree to the terms and conditions *
                       </Typography>
                     </Stack>
