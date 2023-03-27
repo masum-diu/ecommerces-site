@@ -259,9 +259,9 @@ const shop = () => {
             </Stack>
 
             <Grid container spacing={3} sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px"}}>
-              {products?.slice(0, 4).map((data) => (
+              {products?.slice(0, 4).map((data,index) => (
                 <>
-                  <Grid item xl={3} lg={3} md={3} sm={6} >
+                  <Grid item xl={3} lg={3} md={3} sm={6} key={index}>
                     <Stack direction={"column"} spacing={2}>
                       <HovarImage
                         url={`/products/${
@@ -379,9 +379,9 @@ const shop = () => {
               </Typography>
             </Stack>
             <Grid container spacing={3} sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px"}}>
-              {products?.slice(0, 4).map((data) => (
+              {products?.slice(0, 4).map((data,index) => (
                 <>
-                  <Grid item xl={3} lg={3} md={3} sm={6} >
+                  <Grid item xl={3} lg={3} md={3} sm={6} key={index}>
                     <Stack direction={"column"} spacing={2}>
                       <HovarImage
                         url={`/products/${

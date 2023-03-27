@@ -25,9 +25,10 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               ?.split("/")
               .slice(-4)
               .join("/")}`} */
-            imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${productsDataChunk[0]?.feature_image?.split("/")
-            .slice(-3)
-            .join("/")}`}
+            imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${productsDataChunk[0]?.feature_image
+              ?.split("/")
+              .slice(-3)
+              .join("/")}`}
             width={550}
             height={850}
           />
@@ -41,11 +42,15 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               mt: 2,
             }}
           >
-            <Typography variant="cardHeader3" color="initial" className="SemiBold">
+            <Typography
+              variant="cardHeader3"
+              color="initial"
+              className="SemiBold"
+            >
               {productsDataChunk[0]?.p_name}
             </Typography>
-            <Typography variant="cardHeader3" color="initial"  className="bold">
-              BDT {productsDataChunk[0]?.p_sale_price} 
+            <Typography variant="cardHeader3" color="initial" className="bold">
+              BDT {productsDataChunk[0]?.p_sale_price}
             </Typography>
           </Stack>
         </Stack>
@@ -61,33 +66,32 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           marginTop: "1rem",
         }}
       >
-        {productsDataChunk?.slice(1, 4).map((product) => (
-          <>
-            <Grid item lg={4} sm={6} key={product?.id}>
-              <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
-                data={product}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image?.split("/")
+        {productsDataChunk?.slice(1, 4).map((product, index) => (
+          <Grid item lg={4} sm={6} key={product?.id}>
+            <HovarImage
+              url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+              data={product}
+              imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image
+                ?.split("/")
                 .slice(-3)
                 .join("/")}`}
-                width={568}
-                height={827}
-              />
-              <Stack
-                direction={"row"}
-                spacing={2}
-                justifyContent={"space-between"}
-                mt={2}
-              >
-                <Typography variant="cardHeader3" color="initial">
-                  {product?.p_name}
-                </Typography>
-                <Typography variant="cardHeader3" color="initial">
-                  BDT {product?.p_sale_price} 
-                </Typography>
-              </Stack>
-            </Grid>
-          </>
+              width={568}
+              height={827}
+            />
+            <Stack
+              direction={"row"}
+              spacing={2}
+              justifyContent={"space-between"}
+              mt={2}
+            >
+              <Typography variant="cardHeader3" color="initial">
+                {product?.p_name}
+              </Typography>
+              <Typography variant="cardHeader3" color="initial">
+                BDT {product?.p_sale_price}
+              </Typography>
+            </Stack>
+          </Grid>
         ))}
       </Grid>
       <Grid
@@ -102,32 +106,31 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
         }}
       >
         {productsDataChunk?.slice(4, 6).map((product) => (
-          <>
-            <Grid item lg={4} sm={6} key={product?.id}>
-              <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
-                data={product}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image?.split("/")
+          <Grid item lg={4} sm={6} key={product?.id}>
+            <HovarImage
+              url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+              data={product}
+              imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image
+                ?.split("/")
                 .slice(-3)
                 .join("/")}`}
-                width={568}
-                height={827}
-              />
-              <Stack
-                direction={"row"}
-                spacing={2}
-                justifyContent={"space-between"}
-                mt={2}
-              >
-                <Typography variant="cardHeader3" color="initial">
-                  {product?.p_name}
-                </Typography>
-                <Typography variant="cardHeader3" color="initial">
-                  BDT {product?.p_sale_price} 
-                </Typography>
-              </Stack>
-            </Grid>
-          </>
+              width={568}
+              height={827}
+            />
+            <Stack
+              direction={"row"}
+              spacing={2}
+              justifyContent={"space-between"}
+              mt={2}
+            >
+              <Typography variant="cardHeader3" color="initial">
+                {product?.p_name}
+              </Typography>
+              <Typography variant="cardHeader3" color="initial">
+                BDT {product?.p_sale_price}
+              </Typography>
+            </Stack>
+          </Grid>
         ))}
       </Grid>
       <Grid
@@ -142,32 +145,31 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
         }}
       >
         {productsDataChunk?.slice(6, 9).map((product) => (
-          <>
-            <Grid item lg={4} sm={6} key={product?.id}>
-              <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
-                data={product}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image?.split("/")
+          <Grid item lg={4} sm={6} key={product?.id}>
+            <HovarImage
+              url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+              data={product}
+              imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image
+                ?.split("/")
                 .slice(-3)
                 .join("/")}`}
-                width={568}
-                height={827}
-              />
-              <Stack
-                direction={"row"}
-                spacing={2}
-                justifyContent={"space-between"}
-                mt={2}
-              >
-                <Typography variant="cardHeader3" color="initial">
-                  {product?.p_name}
-                </Typography>
-                <Typography variant="cardHeader3" color="initial">
-                  BDT {product?.p_sale_price} 
-                </Typography>
-              </Stack>
-            </Grid>
-          </>
+              width={568}
+              height={827}
+            />
+            <Stack
+              direction={"row"}
+              spacing={2}
+              justifyContent={"space-between"}
+              mt={2}
+            >
+              <Typography variant="cardHeader3" color="initial">
+                {product?.p_name}
+              </Typography>
+              <Typography variant="cardHeader3" color="initial">
+                BDT {product?.p_sale_price}
+              </Typography>
+            </Stack>
+          </Grid>
         ))}
       </Grid>
     </>

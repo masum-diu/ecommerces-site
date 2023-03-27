@@ -32,7 +32,6 @@ const SearchModal = ({ open, setOpen }) => {
     skip: !filterVal,
   });
 
-
   /*   const fetchData = async () => {
     return await instance
       .get(`/product?no_paginate=yes&keyword`)
@@ -123,42 +122,41 @@ const SearchModal = ({ open, setOpen }) => {
             // alignItems={"center"}
             alignItems={"center"}
           >
-            {searchText?.slice(0, 4).map((data) => (
-              <>
-                <Link
-                  style={{ textDecoration: "none" }}
-                  href={`/products/${
-                    data?.p_subcategory?.slug === "unknown"
-                      ? data?.p_category?.slug
-                      : data?.p_subcategory?.slug
-                  }/${data?.id}`}
-                >
-                  <Stack direction={"column"} mt={4} spacing={1}>
-                    {/* <img src={data?.feature_image} alt="" width={100} /> */}
-                    <img
-                      style={{ cursor: "pointer" }}
-                      src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto:face,h_180,w_180/${data?.feature_image
-                        ?.split("/")
-                        .slice(-3)
-                        .join("/")}`}
-                    />
-                    <Typography
-                      variant="cardHeader2"
-                      color="initial"
-                      textAlign={"center"}
-                    >
-                      {data?.p_name}
-                    </Typography>
-                    {/* <Typography
+            {searchText?.slice(0, 4).map((data, index) => (
+              <Link
+                key={index}
+                style={{ textDecoration: "none" }}
+                href={`/products/${
+                  data?.p_subcategory?.slug === "unknown"
+                    ? data?.p_category?.slug
+                    : data?.p_subcategory?.slug
+                }/${data?.id}`}
+              >
+                <Stack direction={"column"} mt={4} spacing={1}>
+                  {/* <img src={data?.feature_image} alt="" width={100} /> */}
+                  <img
+                    style={{ cursor: "pointer" }}
+                    src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto:face,h_180,w_180/${data?.feature_image
+                      ?.split("/")
+                      .slice(-3)
+                      .join("/")}`}
+                  />
+                  <Typography
+                    variant="cardHeader2"
+                    color="initial"
+                    textAlign={"center"}
+                  >
+                    {data?.p_name}
+                  </Typography>
+                  {/* <Typography
                       variant="cardHeader2"
                       fontWeight={"bold"}
                       color="initial"
                     >
                       BDT {data?.p_sale_price} BDT
                     </Typography> */}
-                  </Stack>
-                </Link>
-              </>
+                </Stack>
+              </Link>
             ))}
           </Stack>
         </Box>

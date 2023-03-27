@@ -46,11 +46,15 @@ const ProductsLayoutWithStaticImage = ({
               mt: 2,
             }}
           >
-            <Typography variant="cardHeader3" color="initial" className="SemiBold">
+            <Typography
+              variant="cardHeader3"
+              color="initial"
+              className="SemiBold"
+            >
               {productsDataChunk[0]?.p_name}
             </Typography>
             <Typography variant="cardHeader3" color="initial" className="bold">
-              BDT {productsDataChunk[0]?.p_sale_price} 
+              BDT {productsDataChunk[0]?.p_sale_price}
             </Typography>
           </Stack>
         </Stack>
@@ -67,33 +71,39 @@ const ProductsLayoutWithStaticImage = ({
         }}
       >
         {productsDataChunk?.slice(1, 4).map((product) => (
-          <>
-            <Grid item lg={4} sm={6} key={product?.id}>
-              <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
-                data={product}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image
-                  ?.split("/")
-                  .slice(-3)
-                  .join("/")}`}
-                width={568}
-                height={827}
-              />
-              <Stack
-                direction={"row"}
-                spacing={2}
-                justifyContent={"space-between"}
-                mt={2}
+          <Grid item lg={4} sm={6} key={product?.id}>
+            <HovarImage
+              url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+              data={product}
+              imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image
+                ?.split("/")
+                .slice(-3)
+                .join("/")}`}
+              width={568}
+              height={827}
+            />
+            <Stack
+              direction={"row"}
+              spacing={2}
+              justifyContent={"space-between"}
+              mt={2}
+            >
+              <Typography
+                variant="cardHeader3"
+                color="initial"
+                className="SemiBold"
               >
-                <Typography variant="cardHeader3" color="initial" className="SemiBold">
-                  {product?.p_name}
-                </Typography>
-                <Typography variant="cardHeader3" color="initial"className="bold">
-                  BDT {product?.p_sale_price} 
-                </Typography>
-              </Stack>
-            </Grid>
-          </>
+                {product?.p_name}
+              </Typography>
+              <Typography
+                variant="cardHeader3"
+                color="initial"
+                className="bold"
+              >
+                BDT {product?.p_sale_price}
+              </Typography>
+            </Stack>
+          </Grid>
         ))}
       </Grid>
       <Stack direction={"row"} sx={{ width: "100%" }} mt={4}>
@@ -126,33 +136,39 @@ const ProductsLayoutWithStaticImage = ({
         }}
       >
         {productsDataChunk?.slice(4, 7).map((product) => (
-          <>
-            <Grid item lg={4} sm={6} key={product?.id}>
-              <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
-                data={product}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image
-                  ?.split("/")
-                  .slice(-3)
-                  .join("/")}`}
-                width={568}
-                height={827}
-              />
-              <Stack
-                direction={"row"}
-                spacing={2}
-                justifyContent={"space-between"}
-                mt={2}
+          <Grid item lg={4} sm={6} key={product?.id}>
+            <HovarImage
+              url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+              data={product}
+              imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image
+                ?.split("/")
+                .slice(-3)
+                .join("/")}`}
+              width={568}
+              height={827}
+            />
+            <Stack
+              direction={"row"}
+              spacing={2}
+              justifyContent={"space-between"}
+              mt={2}
+            >
+              <Typography
+                variant="cardHeader3"
+                color="initial"
+                className="SemiBold"
               >
-                <Typography variant="cardHeader3" color="initial" className="SemiBold">
-                  {product?.p_name}
-                </Typography>
-                <Typography variant="cardHeader3" color="initial" className="bold">
-                  BDT {product?.p_sale_price} 
-                </Typography>
-              </Stack>
-            </Grid>
-          </>
+                {product?.p_name}
+              </Typography>
+              <Typography
+                variant="cardHeader3"
+                color="initial"
+                className="bold"
+              >
+                BDT {product?.p_sale_price}
+              </Typography>
+            </Stack>
+          </Grid>
         ))}
       </Grid>
     </>

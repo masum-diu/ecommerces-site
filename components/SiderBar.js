@@ -623,30 +623,7 @@ const SiderBar = ({ open, setOpen }) => {
                 </Button>
                 {openList2 ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
-                    {/* <Stack direction={"row"} mt={2} spacing={19} >
-                <Typography variant="body" color="initial">Saree</Typography>
-                <Typography variant="body" color="initial">What’s New</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={10.5}>
-                <Typography variant="body" color="initial">Salwar Kameez</Typography>
-                <Typography variant="body" color="initial">Limited Edition</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={12.5}>
-                <Typography variant="body" color="initial">Kurti & Fatua</Typography>
-                <Typography variant="body" color="initial">Special Edition</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={12}>
-                <Typography variant="body" color="initial">Tops & Shirts</Typography>
-                <Typography variant="body" color="initial">Discount</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={17}>
-                <Typography variant="body" color="initial">Kimono</Typography>
-                <Typography variant="body" color="initial">Offer</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={15}>
-                <Typography variant="body" color="initial">Kaftan</Typography>
-               
-              </Stack> */}
+                    
                   </Box>
                 ) : null}
                 <Button
@@ -1146,25 +1123,23 @@ const SiderBar = ({ open, setOpen }) => {
                 <Box sx={{ width: "80%", margin: "0 auto" }}>
                   <Stack direction={"column"} mt={2} spacing={1.5}>
                     {lists?.map((list) => (
-                      <>
-                        <Typography
-                          key={list.id}
-                          variant="cardHeader3"
-                          color="initial"
-                          sx={{ cursor: "pointer" }}
-                          onClick={() =>
-                            router.push({
-                              pathname: "/campaign",
-                              query: {
-                                cat_id: `${list?.id}`,
-                                cat_name: `${list?.camp_name}`,
-                              },
-                            })
-                          }
-                        >
-                          {list.camp_name}
-                        </Typography>
-                      </>
+                      <Typography
+                        key={list.id}
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/campaign",
+                            query: {
+                              cat_id: `${list?.id}`,
+                              cat_name: `${list?.camp_name}`,
+                            },
+                          })
+                        }
+                      >
+                        {list.camp_name}
+                      </Typography>
                     ))}
                   </Stack>
                 </Box>

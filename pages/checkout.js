@@ -87,7 +87,6 @@ const checkout = ({ someProp }) => {
 
   useEffect(() => {
     if (hasToken === false && isGuestCheckout === true) {
-      console.log("inside guest payment", hasToken, isGuestCheckout, payment);
       instance
         .post("/guest-order", orderInfo, {
           headers: {
@@ -96,18 +95,24 @@ const checkout = ({ someProp }) => {
           },
         })
         .then(async (result) => {
-          if(result?.data?.type=="online"){
+          if (result?.data?.type == "online") {
             const response = JSON.parse(result?.data?.payment);
             await window.location.replace(response?.data);
           }
-          if(result?.data?.type=="cash"){
+          if (result?.data?.type == "cash") {
             // const response = JSON.parse(result?.data);
             // await window.location.replace(response?.data);
             // console.log(result)
             // router.push("/payment")
-            router.push({pathname:"/payment",query:{payment:"success",orderid:result?.data?.order_id,type:'cash'}})
+            router.push({
+              pathname: "/payment",
+              query: {
+                payment: "success",
+                orderid: result?.data?.order_id,
+                type: "cash",
+              },
+            });
           }
-         
         })
         .catch((err) => {});
       setIsGuestCheckout(false);
@@ -165,7 +170,7 @@ const checkout = ({ someProp }) => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors },watch
   } = useForm({
     defaultValues: {
       first_name_billing: "",
@@ -197,7 +202,6 @@ const checkout = ({ someProp }) => {
       setError(false);
     }
   }, [error, errors]); */
-  console.log("inside xcvxct payment", hasToken, isGuestCheckout, payment);
   const onSubmit = async (data) => {
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
@@ -209,9 +213,7 @@ const checkout = ({ someProp }) => {
       isSameAddress: isSameAddressChecked,
       isGuestCheckout: true,
     });
-    console.log("for log payment", hasToken, payment, error);
     if (hasToken === true && error === false) {
-      console.log("inside LOG payment");
       instance
         .post(
           "/order",
@@ -233,17 +235,24 @@ const checkout = ({ someProp }) => {
         )
         .then(async (result) => {
           setIsPlaceOrder(false);
-          if(result?.data?.type=="online"){
+          if (result?.data?.type == "online") {
             const response = JSON.parse(result?.data?.payment);
             await window.location.replace(response?.data);
           }
-          if(result?.data?.type=="cash"){
+          if (result?.data?.type == "cash") {
             //  const response = JSON.parse(result?.data);
             //  await window.location.replace(response?.data);
             // console.log(result)
-            
-            router.push({pathname:"/payment",query:{payment:"success",orderid:result?.data?.order_id,type:'cash'}})
-           }
+
+            router.push({
+              pathname: "/payment",
+              query: {
+                payment: "success",
+                orderid: result?.data?.order_id,
+                type: "cash",
+              },
+            });
+          }
           // const response = JSON.parse(result?.data?.payment);
           // await window.location.replace(response?.data);
         })
@@ -254,6 +263,7 @@ const checkout = ({ someProp }) => {
   };
 
   // Getting Billing Realtime Data
+  const watchSelectInput = watch("country_shipping");
   const firstName = useWatch({ control, name: "first_name_billing" });
   const lastName = useWatch({ control, name: "last_name_billing" });
   const streetAddress = useWatch({ control, name: "street_address_billing" });
@@ -271,7 +281,10 @@ const checkout = ({ someProp }) => {
     setPayment(method);
   }, [payment, method]);
 
+  console.log("your log output", errors);
+
   const errorObject = Object.keys(errors).length;
+  console.log("your log output", errorObject);
   useEffect(() => {
     if (errorObject === 0) {
       setError(false);
@@ -463,7 +476,8 @@ const checkout = ({ someProp }) => {
                   size="small"
                 /> */}
                   <Select
-                    id="demo-simple-select"
+                    id="country_billing"
+                    name="country_billing"
                     {...register("country_billing", {
                       required: {
                         value: true,
@@ -602,8 +616,9 @@ const checkout = ({ someProp }) => {
                       // value={}
                       {...register("first_name_shipping", { required: false })}
                       // onChange={}
-                      value={firstName}
+                      // value={firstName}
                       disabled
+                      placeholder={firstName}
                       size="small"
                     />
                   ) : (
@@ -618,15 +633,17 @@ const checkout = ({ someProp }) => {
                         },
                       })}
                       // onChange={}
+                      defaultValue=""
                       placeholder="First Name *"
                       size="small"
                     />
                   )}
-                  {errors.first_name_shipping && isSameAddressChecked===false&& (
-                    <p style={{ color: "red" }}>
-                      {errors.first_name_shipping?.message}
-                    </p>
-                  )}
+                  {errors.first_name_shipping &&
+                    isSameAddressChecked === false && (
+                      <p style={{ color: "red" }}>
+                        {errors.first_name_shipping?.message}
+                      </p>
+                    )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -639,7 +656,7 @@ const checkout = ({ someProp }) => {
                       // value={}
                       {...register("last_name_shipping", { required: false })}
                       // onChange={}
-                      value={lastName}
+                      placeholder={lastName}
                       disabled
                       readOnly
                       size="small"
@@ -660,11 +677,12 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.last_name_shipping && isSameAddressChecked===false&& (
-                    <p style={{ color: "red" }}>
-                      {errors.last_name_shipping?.message}
-                    </p>
-                  )}
+                  {errors.last_name_shipping &&
+                    isSameAddressChecked === false && (
+                      <p style={{ color: "red" }}>
+                        {errors.last_name_shipping?.message}
+                      </p>
+                    )}
                 </Stack>
                 {/* <Stack direction={"column"} spacing={2} mt={3}>
                 <Typography variant="cardHeader1" color="initial">
@@ -692,7 +710,7 @@ const checkout = ({ someProp }) => {
                         required: false,
                       })}
                       // onChange={}
-                      value={streetAddress}
+                      placeholder={streetAddress}
                       disabled
                       readOnly
                       size="small"
@@ -713,11 +731,12 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.street_address_shipping && isSameAddressChecked===false&&(
-                    <p style={{ color: "red" }}>
-                      {errors.street_address_shipping?.message}
-                    </p>
-                  )}
+                  {errors.street_address_shipping &&
+                    isSameAddressChecked === false && (
+                      <p style={{ color: "red" }}>
+                        {errors.street_address_shipping?.message}
+                      </p>
+                    )}
                   {isSameAddressChecked === true ? (
                     <TextField
                       // id=""
@@ -727,7 +746,7 @@ const checkout = ({ someProp }) => {
                         required: false,
                       })}
                       // onChange={}
-                      value={apartmentAddress}
+                      placeholder={apartmentAddress}
                       disabled
                       readOnly
                       size="small"
@@ -748,11 +767,12 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.apartment_address_shipping && isSameAddressChecked===false&&(
-                    <p style={{ color: "red" }}>
-                      {errors.apartment_address_shipping?.message}
-                    </p>
-                  )}
+                  {errors.apartment_address_shipping &&
+                    isSameAddressChecked === false && (
+                      <p style={{ color: "red" }}>
+                        {errors.apartment_address_shipping?.message}
+                      </p>
+                    )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -765,7 +785,7 @@ const checkout = ({ someProp }) => {
                       // value={}
                       {...register("city_shipping", { required: false })}
                       // onChange={}
-                      value={cityAddress}
+                      placeholder={cityAddress}
                       disabled
                       readOnly
                       size="small"
@@ -786,7 +806,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.city_shipping && isSameAddressChecked===false&&(
+                  {errors.city_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
                       {errors.city_shipping?.message}
                     </p>
@@ -812,7 +832,8 @@ const checkout = ({ someProp }) => {
                           message: "Country is Required",
                         },
                       })}
-                      id="demo-simple-select"
+                      id="country_shipping"
+                      name="country_shipping"
                       size="small"
                       disabled={isSameAddressChecked === true ? true : false}
                       value={distict}
@@ -844,11 +865,12 @@ const checkout = ({ someProp }) => {
                       {/* <MenuItem value={"India"}>India</MenuItem> */}
                     </Select>
                   )}
-                  {errors.country_shipping && isSameAddressChecked===false&&(
-                    <p style={{ color: "red" }}>
-                      {errors.country_shipping?.message}
-                    </p>
-                  )}
+                  {errors.country_shipping &&
+                    isSameAddressChecked === false && (
+                      <p style={{ color: "red" }}>
+                        {errors.country_shipping?.message}
+                      </p>
+                    )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -861,7 +883,7 @@ const checkout = ({ someProp }) => {
                       // value={}
                       {...register("post_code_shipping", { required: false })}
                       // onChange={}
-                      value={postBilling}
+                      placeholder={postBilling}
                       disabled
                       readOnly
                       size="small"
@@ -882,11 +904,12 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.post_code_shipping && isSameAddressChecked===false&&(
-                    <p style={{ color: "red" }}>
-                      {errors.post_code_shipping?.message}
-                    </p>
-                  )}
+                  {errors.post_code_shipping &&
+                    isSameAddressChecked === false && (
+                      <p style={{ color: "red" }}>
+                        {errors.post_code_shipping?.message}
+                      </p>
+                    )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -899,7 +922,7 @@ const checkout = ({ someProp }) => {
                       // value={}
                       {...register("phone_shipping", { required: false })}
                       // onChange={}
-                      value={phoneBilling}
+                      placeholder={phoneBilling}
                       disabled
                       readOnly
                       size="small"
@@ -920,7 +943,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.phone_shipping && isSameAddressChecked===false &&(
+                  {errors.phone_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
                       {errors.phone_shipping?.message}
                     </p>
@@ -937,7 +960,7 @@ const checkout = ({ someProp }) => {
                       // value={}
                       {...register("email_shipping", { required: false })}
                       // onChange={}
-                      value={emailBilling}
+                      placeholder={emailBilling}
                       disabled
                       readOnly
                       size="small"
@@ -963,7 +986,7 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.email_shipping && isSameAddressChecked===false&&(
+                  {errors.email_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
                       {errors.email_shipping?.message}
                     </p>

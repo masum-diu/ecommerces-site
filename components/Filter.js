@@ -134,19 +134,17 @@ const Filter = ({
                   All Product
                 </Typography>
                 {fabrics?.map((fabric, index) => (
-                  <>
-                    <Typography
-                      onClick={() =>
-                        handleFabric(fabric?.fabric_name, fabric?.fabric_id)
-                      }
-                      variant="cardHeader3"
-                      color="initial"
-                      key={index}
-                      sx={{ cursor: "pointer" }}
-                    >
-                      {fabric?.fabric_name}
-                    </Typography>
-                  </>
+                  <Typography
+                    onClick={() =>
+                      handleFabric(fabric?.fabric_name, fabric?.fabric_id)
+                    }
+                    variant="cardHeader3"
+                    color="initial"
+                    key={index}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    {fabric?.fabric_name}
+                  </Typography>
                 ))}
               </Stack>
             </Box>
