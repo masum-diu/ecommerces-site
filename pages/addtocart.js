@@ -103,11 +103,12 @@ const addtocart = () => {
                         <Stack
                           key={data.id}
                           spacing={1}
-                          direction={{ lg: "row", xs: "column" }}
+                          direction={{ lg: "row", xs: "column", md: "row", xl: "row" }}
                           sx={{
                             width: "100%",
                             justifyContent: "space-between",
                             alignItems: "center",
+
                           }}
                         >
                           <IconButton onClick={() => removeItemFromCart(data)}>
@@ -115,7 +116,7 @@ const addtocart = () => {
                           </IconButton>
                           <img src={data.image} alt="" width={100} />
                           <Typography variant="subtitle1" color="initial">
-                            {data.name}
+                            {data?.name}
                           </Typography>
                           <Stack direction={"row"} spacing={2}>
                             <Box
@@ -152,11 +153,7 @@ const addtocart = () => {
                             >
                               <RemoveIcon fontSize="small" />
                             </IconButton>
-                            {/* <TextField
-                size="small"
-                id="outlined-helperText"
-                placeholder={count}
-              /> */}
+
                             <Typography variant="subtitle1" color="initial">
                               {data.amount}
                             </Typography>

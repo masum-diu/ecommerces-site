@@ -228,6 +228,13 @@ theme.typography.cardLocation1 = {
     fontSize: "10px",
   },
 };
+theme.typography.cardLocation123 = {
+  fontSize: "10px",
+  // color: ,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "10px",
+  },
+};
 
 theme.typography.tabText = {
   fontSize: "18px",

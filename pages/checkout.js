@@ -170,7 +170,8 @@ const checkout = ({ someProp }) => {
     register,
     handleSubmit,
     control,
-    formState: { errors },watch
+    formState: { errors },
+    watch,
   } = useForm({
     defaultValues: {
       first_name_billing: "",
@@ -335,7 +336,7 @@ const checkout = ({ someProp }) => {
                 <Typography variant="header1" color="initial">
                   BILLING DETAILS
                 </Typography>
-                <Stack direction={"column"} spacing={2} mt={{ lg: 10.3 }}>
+                <Stack direction={"column"} spacing={2} mt={{ lg: 7 }}>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
@@ -591,8 +592,16 @@ const checkout = ({ someProp }) => {
                     justifyContent="left"
                     alignItems="center"
                     mt={1}
+                    spacing={1}
                   >
-                    <Controller
+                    <input
+                      type="checkbox"
+                      name="isSameAddress"
+                      control={control}
+                      id=""
+                      onClick={() => handleSameAddressSelected()}
+                    />
+                    {/* <Controller
                       name="isSameAddress"
                       control={control}
                       render={({ field }) => (
@@ -601,7 +610,7 @@ const checkout = ({ someProp }) => {
                           {...field}
                         />
                       )}
-                    />
+                    /> */}
                     <Typography variant="cardLocation1" color="initial">
                       Same As Billing Address.
                     </Typography>
@@ -997,7 +1006,7 @@ const checkout = ({ someProp }) => {
               <Grid item lg={3} mt={4} xs={12}>
                 <Paper elevation={3} mb={1} sx={{ width: "100%" }}>
                   <Stack
-                    sx={{ width: "100%", mx: "auto", py: 2, px: 1.2 }}
+                    sx={{ width: "100%", mx: "auto", p: 2 }}
                     direction={"column"}
                     spacing={2}
                   >
@@ -1005,6 +1014,7 @@ const checkout = ({ someProp }) => {
                       direction={"row"}
                       spacing={2}
                       justifyContent="space-between"
+                      width="100%"
                     >
                       <Typography
                         variant="cardHeader"
@@ -1022,7 +1032,7 @@ const checkout = ({ someProp }) => {
                       </Typography>
                     </Stack>
                     <Divider />
-                    <Stack direction={"row"} spacing={2} mb={5}>
+                    <Stack direction={"row"} spacing={2} mb={5} width="100%">
                       <Typography
                         variant="cardHeader"
                         color="initial"
@@ -1096,7 +1106,7 @@ const checkout = ({ someProp }) => {
                     </Stack> */}
 
                     <Divider />
-                    <Stack direction={"row"} spacing={7}>
+                    <Stack direction={"row"} spacing={7} width="100%">
                       <Typography
                         variant="cardHeader"
                         color="initial"
@@ -1113,7 +1123,7 @@ const checkout = ({ someProp }) => {
                       </Typography>
                     </Stack>
                     <Divider />
-                    <Stack direction={"column"} spacing={9}>
+                    <Stack direction={"column"} spacing={9} width="100%">
                       {/* <Typography variant="cardHeader" color="initial">
                       TOTAL :
                     </Typography>
@@ -1157,14 +1167,25 @@ const checkout = ({ someProp }) => {
                         )}
                       />
                     </Stack>
-                    <Stack direction={"row"} width="100%" alignItems={"center"}>
-                      <Controller
+                    <Stack
+                      direction={"row"}
+                      width="100%"
+                      alignItems={"center"}
+                      spacing={1}
+                    >
+                      <input
+                        type="checkbox"
+                        id=""
+                        name="termsAndConditions"
+                        control={control}
+                      />
+                      {/* <Controller
                         name="termsAndConditions"
                         control={control}
                         rules={{ required: true }}
                         render={({ field }) => <Checkbox {...field} />}
-                      />
-                      <Typography variant="cardLocation1" color="initial">
+                      /> */}
+                      <Typography variant="cardLocation123">
                         I have read and agree to the terms and conditions *
                       </Typography>
                     </Stack>
