@@ -172,6 +172,7 @@ const checkout = ({ someProp }) => {
     control,
     formState: { errors },
     watch,
+    setValue,
   } = useForm({
     defaultValues: {
       first_name_billing: "",
@@ -204,6 +205,7 @@ const checkout = ({ someProp }) => {
     }
   }, [error, errors]); */
   const onSubmit = async (data) => {
+    console.log('my form',data)
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
     setOrderInfo({
@@ -262,7 +264,14 @@ const checkout = ({ someProp }) => {
 
     // console.log("geust checkout output", isGuestCheckout);
   };
-
+  const handleSelectChange = (event) => {
+    setValue("country_billing", event.target.value, { shouldValidate: true });
+    setDistict(event.target.value);
+  };
+  const handleSelectChangeShipping = (event) => {
+    setValue("country_shipping", event.target.value, { shouldValidate: true });
+    setDistict1(event.target.value);
+  };
   // Getting Billing Realtime Data
   const watchSelectInput = watch("country_shipping");
   const firstName = useWatch({ control, name: "first_name_billing" });
@@ -350,6 +359,7 @@ const checkout = ({ someProp }) => {
                         message: "First Name Required",
                       },
                     })}
+                    error={Boolean(errors.first_name_billing)}
                     // onChange={}
                     placeholder="First Name *"
                     size="small"
@@ -375,6 +385,7 @@ const checkout = ({ someProp }) => {
                         message: "Last Name Required",
                       },
                     })}
+                    error={Boolean(errors.last_name_billing)}
                     placeholder="Last Name *"
                     size="small"
                   />
@@ -412,6 +423,7 @@ const checkout = ({ someProp }) => {
                         message: "House and Street Address Required",
                       },
                     })}
+                    error={Boolean(errors.street_address_billing)}
                     placeholder="House Number and street name"
                     size="small"
                   />
@@ -431,6 +443,7 @@ const checkout = ({ someProp }) => {
                         message: "Apartment Address Required",
                       },
                     })}
+                    error={Boolean(errors.apartment_address_billing)}
                     placeholder="Apartment suite, unit, etc."
                     size="small"
                   />
@@ -455,6 +468,7 @@ const checkout = ({ someProp }) => {
                         message: "Town/City is Required",
                       },
                     })}
+                    error={Boolean(errors.city_billing)}
                     placeholder="Town / City"
                     size="small"
                   />
@@ -476,18 +490,19 @@ const checkout = ({ someProp }) => {
                   placeholder="Company Name (Optional)"
                   size="small"
                 /> */}
+
                   <Select
                     id="country_billing"
-                    name="country_billing"
                     {...register("country_billing", {
                       required: {
                         value: true,
                         message: "Country is Required",
                       },
                     })}
+                    error={Boolean(errors.country_billing)}
                     size="small"
                     value={distict}
-                    onChange={handleDistict}
+                    onChange={handleSelectChange}
                   >
                     <MenuItem value={"Select Country"} disabled>
                       Select Country
@@ -517,6 +532,7 @@ const checkout = ({ someProp }) => {
                         message: "Country is Required",
                       },
                     })}
+                    error={Boolean(errors.post_code_billing)}
                     placeholder="Postcode / zip (Optional)"
                     size="small"
                   />
@@ -541,6 +557,7 @@ const checkout = ({ someProp }) => {
                         message: "Phone Number is Required",
                       },
                     })}
+                    error={Boolean(errors.phone_billing)}
                     placeholder="Phone *"
                     size="small"
                   />
@@ -570,6 +587,7 @@ const checkout = ({ someProp }) => {
                         message: "This is not a valid email",
                       },
                     })}
+                    error={Boolean(errors.email_billing)}
                     placeholder="Email Address *"
                     size="small"
                   />
@@ -641,6 +659,7 @@ const checkout = ({ someProp }) => {
                           message: "First Name Required",
                         },
                       })}
+                      error={Boolean(errors.first_name_shipping)}
                       // onChange={}
                       defaultValue=""
                       placeholder="First Name *"
@@ -681,6 +700,7 @@ const checkout = ({ someProp }) => {
                           message: "Last Name Required",
                         },
                       })}
+                      error={Boolean(errors.last_name_shipping)}
                       // onChange={}
                       placeholder="Last Name *"
                       size="small"
@@ -735,6 +755,7 @@ const checkout = ({ someProp }) => {
                           message: "House and Street Address Required",
                         },
                       })}
+                      error={Boolean(errors.street_address_shipping)}
                       // onChange={}
                       placeholder="House Number and street name"
                       size="small"
@@ -771,6 +792,7 @@ const checkout = ({ someProp }) => {
                           message: "Apartment Address Required",
                         },
                       })}
+                      error={Boolean(errors.apartment_address_shipping)}
                       // onChange={}
                       placeholder="Apartment suite, unit, etc."
                       size="small"
@@ -810,6 +832,7 @@ const checkout = ({ someProp }) => {
                           message: "Town/City is Required",
                         },
                       })}
+                      error={Boolean(errors.city_shipping)}
                       // onChange={}
                       placeholder="Town / City"
                       size="small"
@@ -862,10 +885,11 @@ const checkout = ({ someProp }) => {
                           message: "Country is Required",
                         },
                       })}
+                      error={Boolean(errors.country_shipping)}
                       id="demo-simple-select"
                       size="small"
                       value={distict1}
-                      onChange={handleDistict1}
+                      onChange={handleSelectChangeShipping}
                     >
                       <MenuItem value={"Select Country"} disabled>
                         Select Country
@@ -908,6 +932,7 @@ const checkout = ({ someProp }) => {
                           message: "Post Code Required",
                         },
                       })}
+                      error={Boolean(errors.post_code_shipping)}
                       // onChange={}
                       placeholder="Postcode / zip (Optional)"
                       size="small"
@@ -947,6 +972,7 @@ const checkout = ({ someProp }) => {
                           message: "Phone Number is Required",
                         },
                       })}
+                      error={Boolean(errors.phone_shipping)}
                       // onChange={}
                       placeholder="Phone *"
                       size="small"
@@ -990,6 +1016,7 @@ const checkout = ({ someProp }) => {
                           message: "This is not a valid email",
                         },
                       })}
+                      error={Boolean(errors.email_shipping)}
                       // onChange={}
                       placeholder="Email Address *"
                       size="small"
