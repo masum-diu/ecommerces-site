@@ -30,6 +30,7 @@ import ThumbsGallery1 from "../../../components/thumble/ThumbsGallery1";
 import Head from "next/head";
 import ThumbsGallery2 from "../../../components/thumble/ThumbsGallery2";
 import SizeModal from "../../../components/SizeModal";
+import { FiHeart } from "react-icons/fi";
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
@@ -476,10 +477,11 @@ const PorductDetails = () => {
                   >
                     {description}
                   </Typography>
-                  <Button
-                    variant="text"
+                  <Stack direction={"row"} spacing={1}> <Button
+                    variant="outlined"
                     color="inherit"
                     onClick={handleClick}
+                    size="small"
 
                     className="SemiBold"
                     sx={{
@@ -500,6 +502,14 @@ const PorductDetails = () => {
                   >
                     Additional information
                   </Button>
+                   <Button variant="outlined"   color="inherit"
+                // style={{ display: `${showHeart}` }}
+                aria-label=""
+                // onClick={() => handleAddToWishList(dataForWishList)}
+              >
+                <FiHeart style={{ color: "#000",fontSize:"18px" }} />
+              </Button></Stack>
+
                   {openList ? (
                     <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
 
@@ -511,18 +521,18 @@ const PorductDetails = () => {
                           {
                             products?.p_fabric?.map((name) => <>
 
-                                <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{name?.fabric_name}</Typography>
+                              <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{name?.fabric_name}</Typography>
 
-                              </>)}
+                            </>)}
 
                         </Stack>}</Typography>} />
                         <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Color</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{<Stack direction={"row"} spacing={1}>
                           {
                             products?.p_colours?.map((color) => <>
 
-                                <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{color?.color_name}</Typography>
+                              <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{color?.color_name}</Typography>
 
-                              </>)}
+                            </>)}
 
                         </Stack>}</Typography>} />
 
@@ -1141,10 +1151,11 @@ const PorductDetails = () => {
                 <Typography variant="cardHeader3" color="initial">
                   {description}
                 </Typography>
-                <Button
-                    variant="text"
+                <Stack direction={"row"} spacing={1}> <Button
+                    variant="outlined"
                     color="inherit"
                     onClick={handleClick}
+                    size="small"
 
                     className="SemiBold"
                     sx={{
@@ -1165,53 +1176,60 @@ const PorductDetails = () => {
                   >
                     Additional information
                   </Button>
-                  {openList ? (
-                    <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
+                   <Button variant="outlined"   color="inherit"
+                // style={{ display: `${showHeart}` }}
+                aria-label=""
+                // onClick={() => handleAddToWishList(dataForWishList)}
+              >
+                <FiHeart style={{ color: "#000",fontSize:"18px" }} />
+              </Button></Stack>
+                {openList ? (
+                  <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
 
-                      <Stack direction={"column"} spacing={1.5}>
+                    <Stack direction={"column"} spacing={1.5}>
 
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Weight</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_weight}</Typography>} />
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Dimensions</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_dimension}</Typography>} />
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Fabric</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{<Stack direction={"row"} spacing={1}>
+                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Weight</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_weight}</Typography>} />
+                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Dimensions</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_dimension}</Typography>} />
+                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Fabric</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{<Stack direction={"row"} spacing={1}>
+                        {
+                          products?.p_fabric?.map((name) => <>
+
+                            <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{name?.fabric_name}</Typography>
+
+                          </>)}
+
+                      </Stack>}</Typography>} />
+                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Color</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{<Stack direction={"row"} spacing={1}>
+                        {
+                          products?.p_colours?.map((color) => <>
+
+                            <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{color?.color_name}</Typography>
+
+                          </>)}
+
+                      </Stack>}</Typography>} />
+
+                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Design Code</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_design_code}</Typography>} />
+
+                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Size</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{
+                        <Stack direction={"row"} spacing={1}>
                           {
-                            products?.p_fabric?.map((name) => <>
+                            products?.p_sizes?.map((size) => <>
 
-                                <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{name?.fabric_name}</Typography>
+                              <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{size?.size_name}</Typography>
 
-                              </>)}
+                            </>)}
 
-                        </Stack>}</Typography>} />
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Color</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{<Stack direction={"row"} spacing={1}>
-                          {
-                            products?.p_colours?.map((color) => <>
+                        </Stack>
+                      }</Typography>} />
 
-                                <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{color?.color_name}</Typography>
-
-                              </>)}
-
-                        </Stack>}</Typography>} />
-
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Design Code</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_design_code}</Typography>} />
-
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Size</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{
-                          <Stack direction={"row"} spacing={1}>
-                            {
-                              products?.p_sizes?.map((size) => <>
-
-                                <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{size?.size_name}</Typography>
-
-                              </>)}
-
-                          </Stack>
-                        }</Typography>} />
-
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Country of origin</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.country_of_origin}</Typography>} />
+                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Country of origin</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.country_of_origin}</Typography>} />
 
 
 
-                      </Stack>
-                    </Box>
-                  ) : null}
+                    </Stack>
+                  </Box>
+                ) : null}
                 <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="#959595" width="25%">
                     Avalability & Spces
