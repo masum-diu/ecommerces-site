@@ -13,6 +13,7 @@ import { MdClose } from "react-icons/md";
 import Menu1 from "./Menu1";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useRouter } from "next/router";
 
 const MenuDawer = ({
   open,
@@ -32,6 +33,10 @@ const MenuDawer = ({
 }) => {
   const [openList, setOpenList] = useState(false);
   const [arrow, setArrow] = useState(false);
+  const router = useRouter()
+  const currentPath =
+    router?.query?.product?.charAt(0).toUpperCase() +
+    router?.query?.product?.slice(1);
   const handleClick = () => {
     setOpenList((prev) => !prev);
     setArrow(!arrow);
@@ -131,7 +136,7 @@ const MenuDawer = ({
                   color="initial"
                   sx={{ cursor: "pointer" }}
                 >
-                  All Product
+                  All {currentPath}
                 </Typography>
                 {fabrics?.map((fabric, index) => (
                   <Typography
