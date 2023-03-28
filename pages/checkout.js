@@ -224,7 +224,7 @@ const checkout = ({ someProp }) => {
       isSameAddress: isSameAddressChecked,
       isGuestCheckout: true,
     });
-    console.log("token", hasToken);
+    console.log(data);
     if (hasToken === true ) {
       instance
         .post(
@@ -522,8 +522,11 @@ const checkout = ({ someProp }) => {
                     justifyContent="left"
                     alignItems="center"
                     mt={1}
+                    spacing={1}
                   >
-                    <Controller
+                    <input type="checkbox" name="isSameAddress"
+                      control={control} id=""  onClick={() => handleSameAddressSelected()}  />
+                    {/* <Controller
                       name="isSameAddress"
                       control={control}
                       render={({ field }) => (
@@ -532,7 +535,7 @@ const checkout = ({ someProp }) => {
                           {...field}
                         />
                       )}
-                    />
+                    /> */}
                     <Typography variant="cardLocation1" color="initial">
                       Same As Billing Address.
                     </Typography>
@@ -803,7 +806,7 @@ const checkout = ({ someProp }) => {
               <Grid item lg={3} mt={4} xs={12}>
                 <Paper elevation={3} mb={1} sx={{ width: "100%" }}>
                   <Stack
-                    sx={{ width: "100%", mx: "auto", py: 2, px: 1.2 }}
+                    sx={{ width: "100%", mx: "auto",p:2 }}
                     direction={"column"}
                     spacing={2}
                   >
@@ -965,14 +968,15 @@ const checkout = ({ someProp }) => {
                       />
                       
                     </Stack>
-                    <Stack direction={"row"} width="100%" alignItems={"center"} >
-                      
-                      <Controller
+                    <Stack direction={"row"} width="100%" alignItems={"center"} spacing={1} >
+                      <input type="checkbox"  id="" name="termsAndConditions"
+                        control={control}  />
+                      {/* <Controller
                         name="termsAndConditions"
                         control={control}
                         rules={{ required: true }}
                         render={({ field }) => <Checkbox {...field} />}
-                      />
+                      /> */}
                       <Typography variant="cardLocation123" >
                         I have read and agree to the terms and conditions *
                       </Typography>
