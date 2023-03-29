@@ -198,6 +198,7 @@ const checkout = ({ someProp }) => {
       deliveryMethod: "",
     },
   });
+  console.log("your errors", errors);
   /* useEffect(() => {
     console.log("no errors", errors);
     if (errors.length < 0) {
@@ -205,7 +206,7 @@ const checkout = ({ someProp }) => {
     }
   }, [error, errors]); */
   const onSubmit = async (data) => {
-    console.log('my form',data)
+    console.log('submitted data',data)
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
     setOrderInfo({
@@ -290,8 +291,6 @@ const checkout = ({ someProp }) => {
   useEffect(() => {
     setPayment(method);
   }, [payment, method]);
-
-  console.log("your log output", errors);
 
   const errorObject = Object.keys(errors).length;
   console.log("your log output", errorObject);
@@ -646,6 +645,7 @@ const checkout = ({ someProp }) => {
                       // value={firstName}
                       disabled
                       placeholder={firstName}
+                      value={firstName}
                       size="small"
                     />
                   ) : (
@@ -666,12 +666,12 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
-                  {errors.first_name_shipping &&
-                    isSameAddressChecked === false && (
-                      <p style={{ color: "red" }}>
-                        {errors.first_name_shipping?.message}
-                      </p>
-                    )}
+
+                  {errors.first_name_shipping && (
+                    <p style={{ color: "red" }}>
+                      {errors.first_name_shipping?.message}
+                    </p>
+                  )}
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
@@ -859,10 +859,7 @@ const checkout = ({ someProp }) => {
                   {isSameAddressChecked === true ? (
                     <Select
                       {...register("country_shipping", {
-                        required: {
-                          value: false,
-                          message: "Country is Required",
-                        },
+                        required: false,
                       })}
                       id="country_shipping"
                       name="country_shipping"
@@ -1069,7 +1066,12 @@ const checkout = ({ someProp }) => {
                         SHIPPING
                       </Typography>
                       <Controller
-                        rules={{ required: true }}
+                        rules={{
+                          required: {
+                            value: true,
+                            message: "Please Select a Shipping Location",
+                          },
+                        }}
                         control={control}
                         name="deliveryMethod"
                         render={({ field }) => (
@@ -1123,6 +1125,11 @@ const checkout = ({ someProp }) => {
                     </Stack>
                     <br />
                     <br />
+                    {errors.deliveryMethod && (
+                      <p style={{ color: "red" }}>
+                        {errors.deliveryMethod?.message}
+                      </p>
+                    )}
                     {/* <Stack direction={"row"} spacing={9}>
                       <Typography variant="cardHeader" color="initial">
                         TAX :
@@ -1159,7 +1166,12 @@ const checkout = ({ someProp }) => {
                     </Typography> */}
 
                       <Controller
-                        rules={{ required: true }}
+                        rules={{
+                          required: {
+                            value: true,
+                            message: "Please Select a Payment Method",
+                          },
+                        }}
                         control={control}
                         name="paymentMethod"
                         render={({ field }) => (
@@ -1194,18 +1206,41 @@ const checkout = ({ someProp }) => {
                         )}
                       />
                     </Stack>
+                    {errors.paymentMethod && (
+                      <p style={{ color: "red" }}>
+                        {errors.paymentMethod?.message}
+                      </p>
+                    )}
                     <Stack
                       direction={"row"}
                       width="100%"
                       alignItems={"center"}
                       spacing={1}
                     >
-                      <input
-                        type="checkbox"
-                        id=""
+                      <Controller
                         name="termsAndConditions"
                         control={control}
+                        defaultValue=""
+                        rules={{ required: "Please select an option" }}
+                        render={({ field }) => (
+                          <>
+                            <input
+                              type="checkbox"
+                              id=""
+                              size="small"
+                              {...field}
+                              error={Boolean(errors.mySelect)}
+                            />
+                            {/* <Select >
+                              <MenuItem value="">Select an option</MenuItem>
+                              <MenuItem value="option1">Option 1</MenuItem>
+                              <MenuItem value="option2">Option 2</MenuItem>
+                              <MenuItem value="option3">Option 3</MenuItem>
+                            </Select> */}
+                          </>
+                        )}
                       />
+
                       {/* <Controller
                         name="termsAndConditions"
                         control={control}
@@ -1216,8 +1251,20 @@ const checkout = ({ someProp }) => {
                         I have read and agree to the terms and conditions *
                       </Typography>
                     </Stack>
-
+                    {errors.termsAndConditions && (
+                      <small
+                        style={{
+                          fontSize: "10px",
+                          color: "red",
+                          marginLeft: "2px",
+                        }}
+                        error
+                      >
+                        {errors.termsAndConditions.message}
+                      </small>
+                    )}
                     <Button
+                      // disabled={Object.keys(errors).length > 0}
                       variant="contained"
                       color="background2"
                       type="submit"
