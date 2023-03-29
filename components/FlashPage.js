@@ -44,7 +44,7 @@ const FlashPage = ({ title }) => {
 
         }}
       >
-        <AppBar
+        {/* <AppBar
           position="fixed"
           sx={{ boxShadow: "none", backgroundColor: "#fff" }}
         >
@@ -69,7 +69,7 @@ const FlashPage = ({ title }) => {
               </Typography>
             </Stack>
           </Toolbar>
-        </AppBar>
+        </AppBar> */}
         <Box>
           <Stack
             direction={"column"}
