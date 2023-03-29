@@ -206,7 +206,7 @@ const checkout = ({ someProp }) => {
     }
   }, [error, errors]); */
   const onSubmit = async (data) => {
-    console.log('submitted data',data)
+    console.log("submitted data", data);
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
     setOrderInfo({
@@ -645,7 +645,6 @@ const checkout = ({ someProp }) => {
                       // value={firstName}
                       disabled
                       placeholder={firstName}
-                      value={firstName}
                       size="small"
                     />
                   ) : (
