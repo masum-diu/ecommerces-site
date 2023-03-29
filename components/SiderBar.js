@@ -39,6 +39,7 @@ import { useGetCampignListsQuery } from "../src/features/api/apiSlice";
 import Link from "next/link";
 
 const SiderBar = ({ open, setOpen }) => {
+  const router = useRouter();
   const { data, isLoading, isSuccess, isError, error } =
     useGetCampignListsQuery();
   const lists = data?.data;
@@ -49,6 +50,19 @@ const SiderBar = ({ open, setOpen }) => {
   const [openList4, setOpenList4] = React.useState(false);
   const [openList5, setOpenList5] = React.useState(false);
   const [openList6, setOpenList6] = React.useState(false);
+  const [openListJewelry, setOpenListJewelry] = React.useState(false);
+  const [openListKids, setOpenListKids] = React.useState(false);
+  const [arrow, setArrow] = useState(false);
+  const [arrow1, setArrow1] = useState(false);
+  const [arrow2, setArrow2] = useState(false);
+  const [arrow3, setArrow3] = useState(false);
+  const [arrow4, setArrow4] = useState(false);
+  const [arrow5, setArrow5] = useState(false);
+  const [arrow6, setArrow6] = useState(false);
+  const [arrowJewelry, setArrowJewelry] = useState(false);
+  const [arrowKids, setArrowKids] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const { isGuestCheckout, setIsGuestCheckout, hasToken, setHasToken } =
     useContext(USER_CONTEXT);
   let usera = true;
@@ -88,17 +102,14 @@ const SiderBar = ({ open, setOpen }) => {
     setOpenList6((prev) => !prev);
     setArrow6(!arrow6);
   };
-
-  const router = useRouter();
-
-  const [arrow, setArrow] = useState(false);
-  const [arrow1, setArrow1] = useState(false);
-  const [arrow2, setArrow2] = useState(false);
-  const [arrow3, setArrow3] = useState(false);
-  const [arrow4, setArrow4] = useState(false);
-  const [arrow5, setArrow5] = useState(false);
-  const [arrow6, setArrow6] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const handleClickJewelry = () => {
+    setOpenListJewelry((prev) => !prev);
+    setArrowJewelry(!arrowJewelry);
+  };
+  const handleClickKids = () => {
+    setOpenListKids((prev) => !prev);
+    setArrowKids(!arrowKids);
+  };
 
   const { user, setUser } = useContext(USER_CONTEXT);
   const handleChange = (event, newValue) => {
@@ -231,6 +242,7 @@ const SiderBar = ({ open, setOpen }) => {
           >
             <Box mt={2}>
               <Stack direction={"column"}>
+                {/* Women Starts Here */}
                 <Button
                   className="SemiBold"
                   variant="text"
@@ -453,6 +465,8 @@ const SiderBar = ({ open, setOpen }) => {
                     </Stack>
                   </Box>
                 ) : null}
+
+                {/* Men Starts Here */}
                 <Button
                   className="SemiBold"
                   variant="text"
@@ -598,6 +612,8 @@ const SiderBar = ({ open, setOpen }) => {
                   </Box>
                 ) : null}
 
+                {/* Kids Starts Here */}
+
                 <Button
                   className="SemiBold"
                   variant="text"
@@ -626,6 +642,115 @@ const SiderBar = ({ open, setOpen }) => {
                     
                   </Box>
                 ) : null}
+                  {/* Updated Kids Section Don't #####********Delete */}
+                {/* <Button
+                  className="SemiBold"
+                  variant="text"
+                  color="inherit"
+                  fullWidth
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    textTransform: "capitalize",
+                  }}
+                  endIcon={
+                    arrowKids ? (
+                      <MdOutlineKeyboardArrowUp
+                        onClick={() => setArrow1(!arrowKids)}
+                      />
+                    ) : (
+                      <MdOutlineKeyboardArrowDown
+                        onClick={() => setArrow1(!arrowKids)}
+                      />
+                    )
+                  }
+                  onClick={handleClickKids}
+                >
+                  Kids
+                </Button>
+                {openListKids ? (
+                  <Box sx={{ width: "80%", margin: "0 auto" }}>
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/babies",
+                              query: { cat: 3, sub_cat: 40 },
+                            },
+                            "/products/babies?cat=3&sub_cat=30"
+                          )
+                        }
+                      >
+                        Babies
+                      </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer", mx: { xs: 6, lg: 8 } }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/boys",
+                              query: { cat: 3, sub_cat: 39 },
+                            },
+                            "/products/boys?cat=3&sub_cat=39"
+                          )
+                        }
+                      >
+                        Boys
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/girls",
+                              query: { cat: 3, sub_cat: 38 },
+                            },
+                            "/products/girls?cat=3&sub_cat=38"
+                          )
+                        }
+                      >
+                        Girls
+                      </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer", mx: { xs: 4, lg: 5 } }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/toddlers",
+                              query: { cat: 3, sub_cat: 41 },
+                            },
+                            "/products/toddlers?cat=3&sub_cat=41"
+                          )
+                        }
+                      >
+                        Toddlers
+                      </Typography>
+                    </Stack>
+                  </Box>
+                ) : null} */}
+
+                {/* Home Stars Here */}
                 <Button
                   className="SemiBold"
                   variant="text"
@@ -650,7 +775,7 @@ const SiderBar = ({ open, setOpen }) => {
                     )
                   }
                 >
-                  Home Furnishings
+                  Home
                 </Button>
                 {openList3 ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
@@ -808,6 +933,8 @@ const SiderBar = ({ open, setOpen }) => {
                     </Stack>
                   </Box>
                 ) : null}
+
+                {/* Beauty Starts Here */}
                 <Button
                   className="SemiBold"
                   variant="text"
@@ -829,49 +956,161 @@ const SiderBar = ({ open, setOpen }) => {
                     )
                   }
                 >
-                  Beauty Collection
+                  Beauty
                 </Button>
-                {/* <Typography
-                  variant="cardHeader3"
-                  color="initial"
-                  sx={{ cursor: "pointer", mx: 1 }}
-                  onClick={() =>
-                    router.push({
-                      pathname: "/beauty-collection",
-                      query: { cat: 5 },
-                    })
-                  }
-                >
-                  Beauty Colection
-                </Typography> */}
+
                 {openList4 ? (
-                  <Box sx={{ width: "80%", margin: "0 auto" }}>
-                    {/* <Stack direction={"row"} mt={2} spacing={19} >
-                <Typography variant="body" color="initial">Saree</Typography>
-                <Typography variant="body" color="initial">What’s New</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={10.5}>
-                <Typography variant="body" color="initial">Salwar Kameez</Typography>
-                <Typography variant="body" color="initial">Limited Edition</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={12.5}>
-                <Typography variant="body" color="initial">Kurti & Fatua</Typography>
-                <Typography variant="body" color="initial">Special Edition</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={12}>
-                <Typography variant="body" color="initial">Tops & Shirts</Typography>
-                <Typography variant="body" color="initial">Discount</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={17}>
-                <Typography variant="body" color="initial">Kimono</Typography>
-                <Typography variant="body" color="initial">Offer</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={15}>
-                <Typography variant="body" color="initial">Kaftan</Typography>
-               
-              </Stack> */}
-                  </Box>
+                  <Box sx={{ width: "80%", margin: "0 auto" }}></Box>
                 ) : null}
+
+                {/* Jewelry Starts Here */}
+                <Button
+                  className="SemiBold"
+                  variant="text"
+                  color="inherit"
+                  onClick={handleClickJewelry}
+                  fullWidth
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    textTransform: "capitalize",
+                  }}
+                  /* endIcon={
+                    arrowJewelry ? (
+                      <MdOutlineKeyboardArrowUp
+                        onClick={() => setArrowJewelry(!arrowJewelry)}
+                      />
+                    ) : (
+                      <MdOutlineKeyboardArrowDown
+                        onClick={() => setArrowJewelry(!arrowJewelry)}
+                      />
+                    )
+                  } */
+                >
+                  Jewelry
+                </Button>
+                {/* {openListJewelry ? (
+                  <Box sx={{ width: "80%", margin: "0 auto" }}>
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/metal-jewellery",
+                              query: { cat: 37, sub_cat: 31 },
+                            },
+                            "/products/metal-jewellery?cat=6&sub_cat=31"
+                          )
+                        }
+                      >
+                        Aatong
+                      </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/other-jewellery",
+                              query: { cat: 6, sub_cat: 32 },
+                            },
+                            "/products/other-jewellery?cat=6&sub_cat=32"
+                          )
+                        }
+                      >
+                        Silver Jewellery
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/ashtodhatu-jewellery",
+                              query: { cat: 6, sub_cat: 29 },
+                            },
+                            "/products/ashtodhatu-jewellery?cat=6&sub_cat=29"
+                          )
+                        }
+                      >
+                        Cangbuk
+                      </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/silver-jewellery",
+                              query: { cat: 6, sub_cat: 30 },
+                            },
+                            "/products/silver-jewellery?cat=6&sub_cat=30"
+                          )
+                        }
+                      >
+                        Metal Jewellery
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/metal-jewellery",
+                              query: { cat: 6, sub_cat: 31 },
+                            },
+                            "/products/metal-jewellery?cat=6&sub_cat=31"
+                          )
+                        }
+                      >
+                        Ashtodhatu Jewellery
+                      </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/other-jewellery",
+                              query: { cat: 6, sub_cat: 32 },
+                            },
+                            "/products/other-jewellery?cat=6&sub_cat=32"
+                          )
+                        }
+                      >
+                        Other Jewellery
+                      </Typography>
+                    </Stack>
+                  </Box>
+                ) : null} */}
+
+
+                {/* Accessories Starts Here */}
                 <Button
                   className="SemiBold"
                   variant="text"

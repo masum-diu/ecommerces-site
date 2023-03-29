@@ -950,50 +950,57 @@ const PorductDetails = () => {
                       <AddIcon fontSize="small" />
                     </IconButton>
                   </Stack>
-                  <Stack direction={"row"} spacing={1} alignItems="center">
-                    <Typography
-                      variant="cardHeader3"
-                      color="#959595"
-                      className="SemiBold"
-                    >
-                      Colors
-                    </Typography>
-                    <hr
-                      style={{
-                        textAlign: "left",
-                        width: "100%",
-                        height: "1px",
-                        backgroundColor: "black",
-                        // maxWidth: "350px",
-                      }}
-                    />
-                  </Stack>
-                  <Stack direction={"row"} spacing={1} height={40}>
-                    {products?.p_colours?.map((color, index) => (
-                      <Box
-                        size="small"
-                        key={index}
-                        style={{
-                          backgroundColor: `${color?.color_code}`,
-                          width: "40px",
-                          height: "40px",
-                          cursor: "pointer",
-                          border: `${
-                            activecolor === color?.id
-                              ? "4px solid #2d323f"
-                              : "1px solid black"
-                          }`,
-                        }}
-                        onClick={() =>
-                          handleSelectColor(
-                            color?.color_name,
-                            color?.color_code,
-                            color?.id
-                          )
-                        }
-                      ></Box>
-                    ))}
-                  </Stack>
+                  {products?.p_colours?.length > 0 ? (
+                    <>
+                      <Stack direction={"row"} spacing={1} alignItems="center">
+                        <Typography
+                          variant="cardHeader3"
+                          color="#959595"
+                          className="SemiBold"
+                        >
+                          Colors
+                        </Typography>
+                        <hr
+                          style={{
+                            textAlign: "left",
+                            width: "100%",
+                            height: "1px",
+                            backgroundColor: "black",
+                            // maxWidth: "350px",
+                          }}
+                        />
+                      </Stack>
+                      <Stack direction={"row"} spacing={1} height={40}>
+                        {products?.p_colours?.map((color, index) => (
+                          <Box
+                            size="small"
+                            key={index}
+                            style={{
+                              backgroundColor: `${color?.color_code}`,
+                              width: "40px",
+                              height: "40px",
+                              cursor: "pointer",
+                              border: `${
+                                activecolor === color?.id
+                                  ? "4px solid #2d323f"
+                                  : "1px solid black"
+                              }`,
+                            }}
+                            onClick={() =>
+                              handleSelectColor(
+                                color?.color_name,
+                                color?.color_code,
+                                color?.id
+                              )
+                            }
+                          ></Box>
+                        ))}
+                      </Stack>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
                   <Stack direction={"row"} spacing={1} alignItems="center">
                     <Typography
                       variant="cardHeader3"
@@ -1407,47 +1414,54 @@ const PorductDetails = () => {
                     <AddIcon fontSize="small" />
                   </IconButton>
                 </Stack>
-                <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595">
-                    Colors
-                  </Typography>
-                  <hr
-                    style={{
-                      textAlign: "left",
-                      width: "100%",
-                      height: "1px",
-                      backgroundColor: "black",
-                      // maxWidth: "350px",
-                    }}
-                  />
-                </Stack>
+                {products?.p_colours?.length > 0 ? (
+                  <>
+                    <Stack direction={"row"} spacing={1} alignItems="center">
+                      <Typography variant="cardHeader3" color="#959595">
+                        Colors
+                      </Typography>
+                      <hr
+                        style={{
+                          textAlign: "left",
+                          width: "100%",
+                          height: "1px",
+                          backgroundColor: "black",
+                          // maxWidth: "350px",
+                        }}
+                      />
+                    </Stack>
 
-                <Stack direction={"row"} spacing={1} height={40}>
-                  {products?.p_colours?.map((color, index) => (
-                    <Box
-                      size="small"
-                      key={index}
-                      style={{
-                        backgroundColor: `${color?.color_code}`,
-                        width: "40px",
-                        height: "40px",
-                        cursor: "pointer",
-                        border: `${
-                          activecolor === color?.id
-                            ? "4px solid #2d323f"
-                            : "1px solid black"
-                        }`,
-                      }}
-                      onClick={() =>
-                        handleSelectColor(
-                          color?.color_name,
-                          color?.color_code,
-                          color?.id
-                        )
-                      }
-                    ></Box>
-                  ))}
-                </Stack>
+                    <Stack direction={"row"} spacing={1} height={40}>
+                      {products?.p_colours?.map((color, index) => (
+                        <Box
+                          size="small"
+                          key={index}
+                          style={{
+                            backgroundColor: `${color?.color_code}`,
+                            width: "40px",
+                            height: "40px",
+                            cursor: "pointer",
+                            border: `${
+                              activecolor === color?.id
+                                ? "4px solid #2d323f"
+                                : "1px solid black"
+                            }`,
+                          }}
+                          onClick={() =>
+                            handleSelectColor(
+                              color?.color_name,
+                              color?.color_code,
+                              color?.id
+                            )
+                          }
+                        ></Box>
+                      ))}
+                    </Stack>
+                  </>
+                ) : (
+                  ""
+                )}
+
                 <Typography variant="cardHeader3" color="initial">
                   {description}
                 </Typography>
