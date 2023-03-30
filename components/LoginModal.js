@@ -19,12 +19,7 @@ import instance from "../pages/api/api_instance";
 import GuestCheckout from "./GuestCheckout";
 import USER_CONTEXT from "./userContext";
 
-const LoginModal = ({
-  open,
-  setOpen,
-  isGuestCheckout,
-  setIsGuestCheckout,
-}) => {
+const LoginModal = ({ open, setOpen, isGuestCheckout, setIsGuestCheckout }) => {
   const {
     userdata,
     setUserData,
@@ -58,7 +53,11 @@ const LoginModal = ({
   };
   const handleClose = () => {
     setOpen(false);
-    console.log('sdfsdfsdf')
+    console.log("sdfsdfsdf");
+    setIsPlaceOrder(false);
+  };
+  const handleDialogClose = () => {
+    setOpen(false);
     setIsPlaceOrder(false);
   };
   const [values, setValues] = useState({
@@ -86,7 +85,7 @@ const LoginModal = ({
     },
   });
 
-  console.log('your log output',isPlaceOrder)
+  console.log("your log output", isPlaceOrder);
   // const password = useWatch({ control, name: "password" });
   const onSubmit = (data) => {
     instance
@@ -109,7 +108,7 @@ const LoginModal = ({
     <>
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => handleDialogClose()}
         PaperProps={{
           sx: { width: { lg: "30%", xs: "100vw" }, height: "fit-content" },
         }}

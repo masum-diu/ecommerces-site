@@ -666,7 +666,7 @@ const checkout = ({ someProp }) => {
                     />
                   )}
 
-                  {errors.first_name_shipping && (
+                  {errors.first_name_shipping && isSameAddressChecked === false &&(
                     <p style={{ color: "red" }}>
                       {errors.first_name_shipping?.message}
                     </p>
