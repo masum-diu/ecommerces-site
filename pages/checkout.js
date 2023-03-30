@@ -86,7 +86,7 @@ const checkout = ({ someProp }) => {
   }, [isPlaceOrder, hasToken, error]);
 
   useEffect(() => {
-    if (hasToken === false && isGuestCheckout === true) {
+    if (hasToken === false && isGuestCheckout === true && cart?.length > 0) {
       instance
         .post("/guest-order", orderInfo, {
           headers: {
@@ -153,8 +153,28 @@ const checkout = ({ someProp }) => {
     setIsDhakaChecked(false);
     setIsOutSideChecked(false);
   };
+
   const handleSameAddressSelected = () => {
     setIsSameAddressChecked(!isSameAddressChecked);
+    /* if (isSameAddressChecked === true) {
+      setValue(
+        "first_name_shipping",
+        "",
+        {
+          required: {
+            value: false,
+          },
+        }
+      );
+    } else {
+      setValue(
+        "first_name_shipping",
+        "",
+        {
+          required: true,
+        }
+      );
+    } */
   };
   const token = localStorage.getItem("acesstoken");
   const handlePlaceOrder = () => {
@@ -173,6 +193,7 @@ const checkout = ({ someProp }) => {
     formState: { errors },
     watch,
     setValue,
+    trigger,
   } = useForm({
     defaultValues: {
       first_name_billing: "",
@@ -206,7 +227,6 @@ const checkout = ({ someProp }) => {
     }
   }, [error, errors]); */
   const onSubmit = async (data) => {
-    console.log("submitted data", data);
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
     setOrderInfo({
@@ -217,7 +237,7 @@ const checkout = ({ someProp }) => {
       isSameAddress: isSameAddressChecked,
       isGuestCheckout: true,
     });
-    if (hasToken === true && error === false) {
+    if (hasToken === true && error === false && cart?.length > 0) {
       instance
         .post(
           "/order",
@@ -293,12 +313,36 @@ const checkout = ({ someProp }) => {
   }, [payment, method]);
 
   const errorObject = Object.keys(errors).length;
-  console.log("your log output", errorObject);
   useEffect(() => {
     if (errorObject === 0) {
       setError(false);
     }
   }, [error, errorObject]);
+
+  /* useEffect(() => {
+    if (isSameAddressChecked === true) {
+      setValue("first_name_shipping", firstName, {
+        shouldValidate: false,
+      });
+    } else {
+      setValue("first_name_shipping", {
+        shouldValidate: true,
+      });
+    }
+  }, [isSameAddressChecked]); */
+
+  /*   const handleSameAddressSelected = (event) => {
+    setIsSameAddressChecked(!isSameAddressChecked);
+    if (isSameAddressChecked === true) {
+      setValue("first_name_shipping", "firstName", {
+        shouldValidate: false,
+      });
+    } else {
+      setValue("first_name_shipping", {
+        shouldValidate: true,
+      });
+    }
+  }; */
 
   return (
     <>
@@ -358,6 +402,7 @@ const checkout = ({ someProp }) => {
                         message: "First Name Required",
                       },
                     })}
+                    onBlur={() => trigger("first_name_billing")}
                     error={Boolean(errors.first_name_billing)}
                     // onChange={}
                     placeholder="First Name *"
@@ -384,6 +429,7 @@ const checkout = ({ someProp }) => {
                         message: "Last Name Required",
                       },
                     })}
+                    onBlur={() => trigger("last_name_billing")}
                     error={Boolean(errors.last_name_billing)}
                     placeholder="Last Name *"
                     size="small"
@@ -422,6 +468,7 @@ const checkout = ({ someProp }) => {
                         message: "House and Street Address Required",
                       },
                     })}
+                    onBlur={() => trigger("street_address_billing")}
                     error={Boolean(errors.street_address_billing)}
                     placeholder="House Number and street name"
                     size="small"
@@ -442,6 +489,7 @@ const checkout = ({ someProp }) => {
                         message: "Apartment Address Required",
                       },
                     })}
+                    onBlur={() => trigger("apartment_address_billing")}
                     error={Boolean(errors.apartment_address_billing)}
                     placeholder="Apartment suite, unit, etc."
                     size="small"
@@ -467,6 +515,7 @@ const checkout = ({ someProp }) => {
                         message: "Town/City is Required",
                       },
                     })}
+                    onBlur={() => trigger("city_billing")}
                     error={Boolean(errors.city_billing)}
                     placeholder="Town / City"
                     size="small"
@@ -498,6 +547,7 @@ const checkout = ({ someProp }) => {
                         message: "Country is Required",
                       },
                     })}
+                    onMouseLeave={() => trigger("country_billing")}
                     error={Boolean(errors.country_billing)}
                     size="small"
                     value={distict}
@@ -556,6 +606,7 @@ const checkout = ({ someProp }) => {
                         message: "Phone Number is Required",
                       },
                     })}
+                    onBlur={() => trigger("phone_billing")}
                     error={Boolean(errors.phone_billing)}
                     placeholder="Phone *"
                     size="small"
@@ -586,6 +637,7 @@ const checkout = ({ someProp }) => {
                         message: "This is not a valid email",
                       },
                     })}
+                    onBlur={() => trigger("email_billing")}
                     error={Boolean(errors.email_billing)}
                     placeholder="Email Address *"
                     size="small"
@@ -658,6 +710,7 @@ const checkout = ({ someProp }) => {
                           message: "First Name Required",
                         },
                       })}
+                      onBlur={() => trigger("first_name_shipping")}
                       error={Boolean(errors.first_name_shipping)}
                       // onChange={}
                       defaultValue=""
@@ -665,8 +718,24 @@ const checkout = ({ someProp }) => {
                       size="small"
                     />
                   )}
+                  {/* <TextField
+                    // id=""
+                    // label=""
+                    // value={}
+                    {...register("first_name_shipping", {
+                      required: {
+                        value: isSameAddressChecked===true?false:true,
+                        message: "First Name Required",
+                      },
+                    })}
+                    error={Boolean(errors.first_name_shipping)}
+                    // onChange={}
+                    defaultValue=""
+                    placeholder="First Name *"
+                    size="small"
+                  /> */}
 
-                  {errors.first_name_shipping && isSameAddressChecked === false &&(
+                  {errors.first_name_shipping && (
                     <p style={{ color: "red" }}>
                       {errors.first_name_shipping?.message}
                     </p>
@@ -699,6 +768,7 @@ const checkout = ({ someProp }) => {
                           message: "Last Name Required",
                         },
                       })}
+                      onBlur={() => trigger("last_name_shipping")}
                       error={Boolean(errors.last_name_shipping)}
                       // onChange={}
                       placeholder="Last Name *"
@@ -754,6 +824,7 @@ const checkout = ({ someProp }) => {
                           message: "House and Street Address Required",
                         },
                       })}
+                      onBlur={() => trigger("street_address_shipping")}
                       error={Boolean(errors.street_address_shipping)}
                       // onChange={}
                       placeholder="House Number and street name"
@@ -791,6 +862,7 @@ const checkout = ({ someProp }) => {
                           message: "Apartment Address Required",
                         },
                       })}
+                      onBlur={() => trigger("apartment_address_shipping")}
                       error={Boolean(errors.apartment_address_shipping)}
                       // onChange={}
                       placeholder="Apartment suite, unit, etc."
@@ -831,6 +903,7 @@ const checkout = ({ someProp }) => {
                           message: "Town/City is Required",
                         },
                       })}
+                      onBlur={() => trigger("city_shipping")}
                       error={Boolean(errors.city_shipping)}
                       // onChange={}
                       placeholder="Town / City"
@@ -881,6 +954,7 @@ const checkout = ({ someProp }) => {
                           message: "Country is Required",
                         },
                       })}
+                      onMouseLeave={() => trigger("country_shipping")}
                       error={Boolean(errors.country_shipping)}
                       id="demo-simple-select"
                       size="small"
@@ -968,6 +1042,7 @@ const checkout = ({ someProp }) => {
                           message: "Phone Number is Required",
                         },
                       })}
+                      onBlur={() => trigger("phone_shipping")}
                       error={Boolean(errors.phone_shipping)}
                       // onChange={}
                       placeholder="Phone *"
@@ -1012,6 +1087,7 @@ const checkout = ({ someProp }) => {
                           message: "This is not a valid email",
                         },
                       })}
+                      onBlur={() => trigger("email_shipping")}
                       error={Boolean(errors.email_shipping)}
                       // onChange={}
                       placeholder="Email Address *"
@@ -1073,6 +1149,7 @@ const checkout = ({ someProp }) => {
                         }}
                         control={control}
                         name="deliveryMethod"
+                        onBlur={() => trigger("deliveryMethod")}
                         render={({ field }) => (
                           <RadioGroup {...field}>
                             <FormControlLabel
@@ -1173,6 +1250,7 @@ const checkout = ({ someProp }) => {
                         }}
                         control={control}
                         name="paymentMethod"
+                        onBlur={() => trigger("paymentMethod")}
                         render={({ field }) => (
                           <RadioGroup {...field}>
                             <FormControlLabel
@@ -1224,11 +1302,13 @@ const checkout = ({ someProp }) => {
                         render={({ field }) => (
                           <>
                             <input
+                              name="termsAndConditions"
                               type="checkbox"
                               id=""
                               size="small"
                               {...field}
                               error={Boolean(errors.mySelect)}
+                              onBlur={() => trigger("termsAndConditions")}
                             />
                             {/* <Select >
                               <MenuItem value="">Select an option</MenuItem>
@@ -1263,7 +1343,7 @@ const checkout = ({ someProp }) => {
                       </small>
                     )}
                     <Button
-                      // disabled={Object.keys(errors).length > 0}
+                      disabled={Object.keys(errors).length > 0 ? false : true}
                       variant="contained"
                       color="background2"
                       type="submit"

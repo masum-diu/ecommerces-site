@@ -830,7 +830,7 @@ const PorductDetails = () => {
                         >
                           Sizes
                         </Typography>
-                        <hr
+                        {/* <hr
                           style={{
                             textAlign: "left",
                             width: "100%",
@@ -838,7 +838,7 @@ const PorductDetails = () => {
                             backgroundColor: "black",
                             // maxWidth: "350px",
                           }}
-                        />
+                        /> */}
                       </Stack>
                       <Stack
                         direction={"row"}
@@ -911,7 +911,7 @@ const PorductDetails = () => {
                     >
                       Quantity
                     </Typography>
-                    <hr
+                    {/* <hr
                       style={{
                         textAlign: "left",
                         width: "100%",
@@ -919,7 +919,7 @@ const PorductDetails = () => {
                         backgroundColor: "black",
                         // maxWidth: "340px",
                       }}
-                    />
+                    /> */}
                   </Stack>
                   <Stack
                     direction={"row"}
@@ -960,7 +960,7 @@ const PorductDetails = () => {
                         >
                           Colors
                         </Typography>
-                        <hr
+                        {/* <hr
                           style={{
                             textAlign: "left",
                             width: "100%",
@@ -968,7 +968,7 @@ const PorductDetails = () => {
                             backgroundColor: "black",
                             // maxWidth: "350px",
                           }}
-                        />
+                        /> */}
                       </Stack>
                       <Stack direction={"row"} spacing={1} height={40}>
                         {products?.p_colours?.map((color, index) => (
@@ -1010,7 +1010,7 @@ const PorductDetails = () => {
                     >
                       Avalability & Specs
                     </Typography>
-                    <hr
+                    {/* <hr
                       style={{
                         textAlign: "left",
                         width: "100%",
@@ -1018,7 +1018,7 @@ const PorductDetails = () => {
                         backgroundColor: "black",
                         // maxWidth: "340px",
                       }}
-                    />
+                    /> */}
                   </Stack>
                   <Stack direction={"column"} spacing={1}>
                     {/* <Typography
@@ -1303,7 +1303,7 @@ const PorductDetails = () => {
                       <Typography variant="cardHeader3" color="#959595">
                         Sizes
                       </Typography>
-                      <hr
+                      {/* <hr
                         style={{
                           textAlign: "left",
                           width: "100%",
@@ -1311,7 +1311,7 @@ const PorductDetails = () => {
                           backgroundColor: "black",
                           // maxWidth: "350px",
                         }}
-                      />
+                      /> */}
                     </Stack>
                     <Stack
                       direction={"column"}
@@ -1375,7 +1375,7 @@ const PorductDetails = () => {
                   <Typography variant="cardHeader3" color="#959595">
                     Quantity
                   </Typography>
-                  <hr
+                  {/* <hr
                     style={{
                       textAlign: "left",
                       width: "100%",
@@ -1383,7 +1383,7 @@ const PorductDetails = () => {
                       backgroundColor: "black",
                       // maxWidth: "340px",
                     }}
-                  />
+                  /> */}
                 </Stack>
                 <Stack
                   direction={"row"}
@@ -1420,7 +1420,7 @@ const PorductDetails = () => {
                       <Typography variant="cardHeader3" color="#959595">
                         Colors
                       </Typography>
-                      <hr
+                      {/* <hr
                         style={{
                           textAlign: "left",
                           width: "100%",
@@ -1428,7 +1428,7 @@ const PorductDetails = () => {
                           backgroundColor: "black",
                           // maxWidth: "350px",
                         }}
-                      />
+                      /> */}
                     </Stack>
 
                     <Stack direction={"row"} spacing={1} height={40}>
@@ -1789,7 +1789,7 @@ const PorductDetails = () => {
                   <Typography variant="cardHeader3" color="#959595" width="25%">
                     Avalability & Spces
                   </Typography>
-                  <hr
+                  {/* <hr
                     style={{
                       textAlign: "left",
                       width: "100%",
@@ -1797,7 +1797,7 @@ const PorductDetails = () => {
                       backgroundColor: "black",
                       // maxWidth: "340px",
                     }}
-                  />
+                  /> */}
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
