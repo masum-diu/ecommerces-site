@@ -224,15 +224,11 @@ const SiderBar = ({ open, setOpen }) => {
         }}
       >
         <Box p={2}>
-          <Stack direction={"row"} alignItems="center" spacing={2}>
+          <Stack direction={"row"} alignItems="center" spacing={2} >
             <IconButton aria-label="" onClick={() => setOpen(false)}>
               <MdClose />
             </IconButton>
-            <img
-              src="/assets/headerLogo.png"
-              alt=""
-              style={{ width: "90vw", maxWidth: "96px" }}
-            />
+            <img src="/assets/headerLogo.png" alt="" style={{width:"90vw",maxWidth:"80px",marginTop:"-.5rem"}} />
           </Stack>
 
           <ClickAwayListener

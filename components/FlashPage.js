@@ -57,7 +57,7 @@ const FlashPage = ({ title }) => {
             }}
           >
             <Stack direction={"row"} alignItems="center">
-              <img src="/assets/headerLogo.png" alt="" />
+              <img src="/assets/headerLogo.png" alt="" style={{width:"90vw",maxWidth:"80px"}} />
             </Stack>
 
             <Stack direction={"row"} alignItems="center">
