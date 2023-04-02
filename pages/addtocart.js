@@ -31,6 +31,7 @@ import {
 
 import toast from "react-hot-toast";
 import LoginModal from "../components/LoginModal";
+import { FiHeart } from "react-icons/fi";
 
 const addtocart = () => {
   const router = useRouter();
@@ -396,20 +397,21 @@ const addtocart = () => {
 
           ) : (
             <Stack
-              direction={"column"}
-              spacing={2}
-              sx={{
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                mt: 10,
-              }}
-            >
-              <FiHeart style={{ color: "#0A0A0A", fontSize: "128px" }} />
-              <Typography variant="header1">
-                No products added to the wishlist
-              </Typography>
-            </Stack>
+            direction={"column"}
+            spacing={2}
+            sx={{
+              justifyContent: "center",
+              alignItems: "center",
+              mt: 10,
+            }}
+          >
+            <ProductionQuantityLimitsIcon
+              style={{ color: "#0A0A0A", fontSize: "128px" }}
+            ></ProductionQuantityLimitsIcon>
+            <Typography variant="header1">
+              Your cart is currently empty.
+            </Typography>
+          </Stack>
           )}
         </Hidden>
       </Box>
