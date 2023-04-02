@@ -26,7 +26,6 @@ const OrderDetails = () => {
     return <Loader></Loader>
   }
   
-  console.log("your log output", info);
   return (
     <>
     <Stack direction={"column"} spacing={2} mt={4} sx={{height:"fit-content"}}>

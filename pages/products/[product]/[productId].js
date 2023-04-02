@@ -329,7 +329,6 @@ const PorductDetails = () => {
     showHeart: "none",
     showBrokenHeart: "block",
   };
-  console.log("your log output", products);
   return (
     <>
       <Head>

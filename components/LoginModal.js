@@ -53,7 +53,6 @@ const LoginModal = ({ open, setOpen, isGuestCheckout, setIsGuestCheckout }) => {
   };
   const handleClose = () => {
     setOpen(false);
-    console.log("sdfsdfsdf");
     setIsPlaceOrder(false);
   };
   const handleDialogClose = () => {
@@ -85,7 +84,6 @@ const LoginModal = ({ open, setOpen, isGuestCheckout, setIsGuestCheckout }) => {
     },
   });
 
-  console.log("your log output", isPlaceOrder);
   // const password = useWatch({ control, name: "password" });
   const onSubmit = (data) => {
     instance

@@ -27,7 +27,6 @@ const ForgotPass = ({ open, setOpen }) => {
   } = useForm();
   const handleClose = () => {
     setOpen(false);
-    console.log("sdfsdfsdf");
     setIsPlaceOrder(false);
   };
   const handleDialogClose = () => {
