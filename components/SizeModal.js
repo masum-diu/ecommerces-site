@@ -25,7 +25,6 @@ const SizeModal = ({ open, setOpen, subCat, cat }) => {
   const productName =
     router?.query?.product?.charAt(0).toUpperCase() +
     router?.query?.product?.slice(1);
-  console.log("selected subCat", router);
   function createDataW(name, chest, length) {
     return { name, chest, length };
   }
@@ -72,7 +71,6 @@ const SizeModal = ({ open, setOpen, subCat, cat }) => {
     }
   }, [cat, subCat]);
 
-  console.log("your row", row);
 
   const handleclearuser = () => {
     setUserData("");

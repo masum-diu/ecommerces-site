@@ -103,6 +103,7 @@ const PorductDetails = () => {
 
   useEffect(() => {
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
+      setProductPrice(products?.p_stocks?.[0]?.mrp);
       if (colorSelected === false && sizeSelected === false) {
         setNoteTextForStock(
           " Please select a color and size in order to check stock availability"
@@ -132,7 +133,7 @@ const PorductDetails = () => {
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
         );
-
+        setProductPrice(selectedProduct?.mrp);
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         if (stockAmount > 0) {
@@ -182,11 +183,13 @@ const PorductDetails = () => {
       (products?.p_colours?.length == 0 || products?.p_sizes?.length == 0) &&
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
     ) {
+      setProductPrice(products?.p_stocks?.[0]?.mrp);
       if (sizeSelected == true || colorSelected == true) {
         if (colorSelected == true) {
           const selectedProduct = products?.p_stocks?.find(
             (stock) => stock?.colour_id === colorId
           );
+          setProductPrice(selectedProduct?.mrp);
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
@@ -202,7 +205,7 @@ const PorductDetails = () => {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
         }
-        if (stockAmount === undefined) {
+        if (stockAmount === undefined || stockAmount === 0) {
           setDisableBtn(true);
           setNoteTextForStock("Out of Stock");
         }
@@ -245,6 +248,7 @@ const PorductDetails = () => {
     stockAmount,
     products?.p_colours?.length,
     products?.p_sizes?.length,
+    productPrice,
   ]);
 
   if (isLoading) {
@@ -291,7 +295,6 @@ const PorductDetails = () => {
     setShowHeart("block");
     await toast.error("Removed From Wishlist!");
   };
-  console.log("your cat", cat);
   const description = products?.p_description;
   const finalData = {
     id: products.id,
@@ -303,16 +306,21 @@ const PorductDetails = () => {
     color: color,
     color_id: colorId,
     colorCode: colorCode,
-    price: products?.p_sale_price,
+    // price: products?.p_sale_price,
+    price: productPrice,
     amount: count,
     stock: stockAmount,
     totalAmount: count,
-    totalPrice: count * parseFloat(products?.p_sale_price),
+    // totalPrice: count * parseFloat(products?.p_sale_price),
+    totalPrice: count * parseFloat(productPrice),
     taxAmount: products?.p_tax?.tax_percentage,
     priceWithTax:
+      productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice,
+    /* priceWithTax:
       products?.p_sale_price * (products?.p_tax?.tax_percentage / 100) +
-      products?.p_sale_price,
+      products?.p_sale_price, */
   };
+
   const dataForWishList = {
     id: products.id,
     image: products.feature_image,
@@ -320,7 +328,8 @@ const PorductDetails = () => {
     size: products?.p_sizes,
     text: products?.p_description,
     color: products?.p_colours,
-    price: products?.p_sale_price,
+    // price: products?.p_sale_price,
+    price: productPrice,
     amount: 1,
     stock: products?.p_stocks,
     totalAmount: 1,
@@ -817,7 +826,7 @@ const PorductDetails = () => {
                     letterSpacing={0.3}
                     fontWeight={700}
                   >
-                    Price : BDT {products?.p_sale_price}
+                    Price : BDT {productPrice}
                   </Typography>
                   {products?.p_sizes?.length > 0 ? (
                     <>

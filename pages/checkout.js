@@ -71,7 +71,7 @@ const checkout = ({ someProp }) => {
       const securePage = async () => {
         const token = localStorage.getItem("acesstoken");
         console.log("error status", error);
-        if (!token && error === false) {
+        if (!token) {
           setLoginModal(true);
         }
         if (token) {
@@ -309,10 +309,8 @@ const checkout = ({ someProp }) => {
       setError(errors);
     }
   }, [error, errorObject]);
-  console.log("same address", isSameAddressChecked);
   useEffect(() => {
     if (isSameAddressChecked === false) {
-      console.log("inside false", isSameAddressChecked);
       setEnable(true);
       if (
         firstName &&
@@ -331,14 +329,14 @@ const checkout = ({ someProp }) => {
         cityAddressSh &&
         countrySh &&
         phoneBillingSh &&
-        emailBillingSh
+        emailBillingSh &&
+        Object.keys(errors).length === 0
       ) {
         setEnable(false);
       }
     }
     if (isSameAddressChecked === true) {
       setEnable(true);
-      console.log("inside true", isSameAddressChecked);
       if (
         firstName &&
         lastName &&
@@ -348,13 +346,15 @@ const checkout = ({ someProp }) => {
         country &&
         postBilling &&
         phoneBilling &&
-        emailBilling
+        emailBilling &&
+        Object.keys(errors).length === 0
       ) {
         setEnable(false);
-        console.log("enable stat", enable);
       }
     }
-  }, [isSameAddressChecked,firstName,
+  }, [
+    isSameAddressChecked,
+    firstName,
     lastName,
     streetAddress,
     apartmentAddress,
@@ -370,7 +370,10 @@ const checkout = ({ someProp }) => {
     cityAddressSh,
     countrySh,
     phoneBillingSh,
-    emailBillingSh]);
+    emailBillingSh,
+    errors,
+    isPlaceOrder,
+  ]);
   return (
     <>
       <HomePageIntro title={"Checkout "} />
