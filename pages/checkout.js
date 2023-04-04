@@ -42,10 +42,10 @@ const checkout = ({ someProp }) => {
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [total, setTotal] = useState(subTotal);
-  const [error, setError] = useState(true);
+  const [error, setError] = useState({ initialState: true });
   const [openLoginModal, setLoginModal] = useState(false);
   const [payment, setPayment] = useState("");
-  const [isFormValid, setIsFormValid] = useState(true);
+  const [enable, setEnable] = useState(true);
   // const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   const [isGuestCheckout, setIsGuestCheckout] = useState(false);
   const [orderInfo, setOrderInfo] = useState({});
@@ -73,14 +73,9 @@ const checkout = ({ someProp }) => {
         console.log("error status", error);
         if (!token && error === false) {
           setLoginModal(true);
-          // setIsGuestCheckout(true);
-          // await toast.error("Please Login First");
-
-          // await router.push("/addtocart");
         }
         if (token) {
           setHasToken(true);
-          // router.push("/checkout");
         }
       };
       securePage();
@@ -126,11 +121,6 @@ const checkout = ({ someProp }) => {
     hasToken,
     isSameAddressChecked,
   ]);
-  /* useEffect(() => {
-    if (hasToken === false && isPlaceOrder === true) {
-      setIsGuestCheckout(true);
-    }
-  }, [hasToken, isPlaceOrder, isGuestCheckout]); */
 
   // handling Different Form Events
   const handleDistict = (event) => {
@@ -202,7 +192,7 @@ const checkout = ({ someProp }) => {
       deliveryMethod: "",
     },
   });
-  console.log("your errors", errors);
+  const allFieldsFilled = watch();
   /* useEffect(() => {
     console.log("no errors", errors);
     if (errors.length < 0) {
@@ -290,27 +280,97 @@ const checkout = ({ someProp }) => {
   const postBilling = useWatch({ control, name: "post_code_billing" });
   const phoneBilling = useWatch({ control, name: "phone_billing" });
   const emailBilling = useWatch({ control, name: "email_billing" });
+
+  const firstNameSh = useWatch({ control, name: "first_name_shipping" });
+  const lastNameSh = useWatch({ control, name: "last_name_shipping" });
+  const streetAddressSh = useWatch({
+    control,
+    name: "street_address_shipping",
+  });
+  const apartmentAddressSh = useWatch({
+    control,
+    name: "apartment_address_shipping",
+  });
+  const cityAddressSh = useWatch({ control, name: "city_shipping" });
+  const countrySh = useWatch({ control, name: "country_shipping" });
+  const postBillingSh = useWatch({ control, name: "post_code_shipping" });
+  const phoneBillingSh = useWatch({ control, name: "phone_shipping" });
+  const emailBillingSh = useWatch({ control, name: "email_shipping" });
   const method = useWatch({ control, name: "paymentMethod" });
   const showInputField = watch("isSameAddress");
-  console.log("checkbox", showInputField);
   useEffect(() => {
     setPayment(method);
   }, [payment, method]);
 
   const errorObject = Object.keys(errors).length;
-  console.log("error length", errorObject);
 
   useEffect(() => {
-    setIsFormValid(Object.keys(errors).length === 0 && isPlaceOrder);
-  }, [errors, isPlaceOrder]);
-
-  useEffect(() => {
-    if (errorObject === 0) {
-      setError(false);
-      console.log("error stat in effect", error);
+    if (errorObject > 0) {
+      setError(errors);
     }
-  }, [errors, error, errorObject]);
-
+  }, [error, errorObject]);
+  console.log("same address", isSameAddressChecked);
+  useEffect(() => {
+    if (isSameAddressChecked === false) {
+      console.log("inside false", isSameAddressChecked);
+      setEnable(true);
+      if (
+        firstName &&
+        lastName &&
+        streetAddress &&
+        apartmentAddress &&
+        cityAddress &&
+        country &&
+        postBilling &&
+        phoneBilling &&
+        emailBilling &&
+        firstNameSh &&
+        lastNameSh &&
+        streetAddressSh &&
+        apartmentAddressSh &&
+        cityAddressSh &&
+        countrySh &&
+        phoneBillingSh &&
+        emailBillingSh
+      ) {
+        setEnable(false);
+      }
+    }
+    if (isSameAddressChecked === true) {
+      setEnable(true);
+      console.log("inside true", isSameAddressChecked);
+      if (
+        firstName &&
+        lastName &&
+        streetAddress &&
+        apartmentAddress &&
+        cityAddress &&
+        country &&
+        postBilling &&
+        phoneBilling &&
+        emailBilling
+      ) {
+        setEnable(false);
+        console.log("enable stat", enable);
+      }
+    }
+  }, [isSameAddressChecked,firstName,
+    lastName,
+    streetAddress,
+    apartmentAddress,
+    cityAddress,
+    country,
+    postBilling,
+    phoneBilling,
+    emailBilling,
+    firstNameSh,
+    lastNameSh,
+    streetAddressSh,
+    apartmentAddressSh,
+    cityAddressSh,
+    countrySh,
+    phoneBillingSh,
+    emailBillingSh]);
   return (
     <>
       <HomePageIntro title={"Checkout "} />
@@ -407,19 +467,6 @@ const checkout = ({ someProp }) => {
                     </p>
                   )}
                 </Stack>
-                {/* <Stack direction={"column"} spacing={2} mt={3}>
-                <Typography variant="cardHeader1" color="initial">
-                  COMPANY NAME (OPTIONAL)
-                </Typography>
-                <TextField
-                  // id=""
-                  // label=""
-                  // value={}
-                  // onChange={}
-                  placeholder="Company Name (Optional)"
-                  size="small"
-                />
-              </Stack> */}
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
                     STREET ADDRESS *
@@ -638,16 +685,6 @@ const checkout = ({ someProp }) => {
                       id=""
                       onClick={() => handleSameAddressSelected()}
                     />
-                    {/* <Controller
-                      name="isSameAddress"
-                      control={control}
-                      render={({ field }) => (
-                        <Checkbox
-                          onClick={() => handleSameAddressSelected()}
-                          {...field}
-                        />
-                      )}
-                    /> */}
                     <Typography variant="cardLocation1" color="initial">
                       Same As Billing Address.
                     </Typography>
@@ -655,37 +692,6 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
-                  {/* {isSameAddressChecked === true ? (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("first_name_shipping", { required: false })}
-                      // onChange={}
-                      // value={firstName}
-                      disabled
-                      placeholder={firstName}
-                      size="small"
-                    />
-                  ) : (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("first_name_shipping", {
-                        required: {
-                          value: true,
-                          message: "First Name Required",
-                        },
-                      })}
-                      onKeyUp={() => trigger("first_name_shipping")}
-                      error={Boolean(errors.first_name_shipping)}
-                      // onChange={}
-                      defaultValue=""
-                      placeholder="First Name *"
-                      size="small"
-                    />
-                  )} */}
                   <TextField
                     // id=""
                     // label=""
@@ -699,7 +705,11 @@ const checkout = ({ someProp }) => {
                     onKeyUp={() => trigger("first_name_shipping")}
                     error={Boolean(errors.first_name_shipping)}
                     disabled={isSameAddressChecked === false ? false : true}
-                    placeholder="First Name *"
+                    placeholder={
+                      isSameAddressChecked === false
+                        ? "First Name *"
+                        : firstName
+                    }
                     size="small"
                   />
 
@@ -714,36 +724,6 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     LAST NAME *
                   </Typography>
-                  {/* {isSameAddressChecked === true ? (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("last_name_shipping", { required: false })}
-                      // onChange={}
-                      placeholder={lastName}
-                      disabled
-                      readOnly
-                      size="small"
-                    />
-                  ) : (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("last_name_shipping", {
-                        required: {
-                          value: true,
-                          message: "Last Name Required",
-                        },
-                      })}
-                      onKeyUp={() => trigger("last_name_shipping")}
-                      error={Boolean(errors.last_name_shipping)}
-                      // onChange={}
-                      placeholder="Last Name *"
-                      size="small"
-                    />
-                  )} */}
                   <TextField
                     // id=""
                     // label=""
@@ -757,7 +737,9 @@ const checkout = ({ someProp }) => {
                     onKeyUp={() => trigger("last_name_shipping")}
                     error={Boolean(errors.last_name_shipping)}
                     disabled={isSameAddressChecked === false ? false : true}
-                    placeholder="Last Name *"
+                    placeholder={
+                      isSameAddressChecked === false ? "Last Name *" : lastName
+                    }
                     size="small"
                   />
                   {errors.last_name_shipping &&
@@ -767,55 +749,10 @@ const checkout = ({ someProp }) => {
                       </p>
                     )}
                 </Stack>
-                {/* <Stack direction={"column"} spacing={2} mt={3}>
-                <Typography variant="cardHeader1" color="initial">
-                  COMPANY NAME (OPTIONAL)
-                </Typography>
-                <TextField
-                  // id=""
-                  // label=""
-                  // value={}
-                  // onChange={}
-                  placeholder="Company Name (Optional)"
-                  size="small"
-                />
-              </Stack> */}
                 <Stack direction={"column"} spacing={2} mt={3}>
                   <Typography variant="cardHeader1" color="initial">
                     STREET ADDRESS *
                   </Typography>
-                  {/* {isSameAddressChecked === true ? (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("street_address_shipping", {
-                        required: false,
-                      })}
-                      // onChange={}
-                      placeholder={streetAddress}
-                      disabled
-                      readOnly
-                      size="small"
-                    />
-                  ) : (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("street_address_shipping", {
-                        required: {
-                          value: true,
-                          message: "House and Street Address Required",
-                        },
-                      })}
-                      onKeyUp={() => trigger("street_address_shipping")}
-                      error={Boolean(errors.street_address_shipping)}
-                      // onChange={}
-                      placeholder="House Number and street name"
-                      size="small"
-                    />
-                  )} */}
                   <TextField
                     // id=""
                     // label=""
@@ -830,7 +767,12 @@ const checkout = ({ someProp }) => {
                     error={Boolean(errors.street_address_shipping)}
                     // onChange={}
                     disabled={isSameAddressChecked === false ? false : true}
-                    placeholder="House Number and street name"
+                    placeholder={
+                      isSameAddressChecked === false
+                        ? "House Number and street name"
+                        : streetAddress
+                    }
+                    // placeholder="House Number and street name"
                     size="small"
                   />
                   {errors.street_address_shipping &&
@@ -839,38 +781,6 @@ const checkout = ({ someProp }) => {
                         {errors.street_address_shipping?.message}
                       </p>
                     )}
-                  {/* {isSameAddressChecked === true ? (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("apartment_address_shipping", {
-                        required: false,
-                      })}
-                      // onChange={}
-                      placeholder={apartmentAddress}
-                      disabled
-                      readOnly
-                      size="small"
-                    />
-                  ) : (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("apartment_address_shipping", {
-                        required: {
-                          value: true,
-                          message: "Apartment Address Required",
-                        },
-                      })}
-                      onKeyUp={() => trigger("apartment_address_shipping")}
-                      error={Boolean(errors.apartment_address_shipping)}
-                      // onChange={}
-                      placeholder="Apartment suite, unit, etc."
-                      size="small"
-                    />
-                  )} */}
                   <TextField
                     // id=""
                     // label=""
@@ -885,7 +795,12 @@ const checkout = ({ someProp }) => {
                     error={Boolean(errors.apartment_address_shipping)}
                     // onChange={}
                     disabled={isSameAddressChecked === false ? false : true}
-                    placeholder="Apartment suite, unit, etc."
+                    placeholder={
+                      isSameAddressChecked === false
+                        ? "Apartment suite, unit, etc."
+                        : apartmentAddress
+                    }
+                    // placeholder="Apartment suite, unit, etc."
                     size="small"
                   />
                   {errors.apartment_address_shipping &&
@@ -899,36 +814,6 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
-                  {/* {isSameAddressChecked === true ? (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("city_shipping", { required: false })}
-                      // onChange={}
-                      placeholder={cityAddress}
-                      disabled
-                      readOnly
-                      size="small"
-                    />
-                  ) : (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("city_shipping", {
-                        required: {
-                          value: true,
-                          message: "Town/City is Required",
-                        },
-                      })}
-                      onKeyUp={() => trigger("city_shipping")}
-                      error={Boolean(errors.city_shipping)}
-                      // onChange={}
-                      placeholder="Town / City"
-                      size="small"
-                    />
-                  )} */}
                   <TextField
                     // id=""
                     // label=""
@@ -943,7 +828,12 @@ const checkout = ({ someProp }) => {
                     error={Boolean(errors.city_shipping)}
                     // onChange={}
                     disabled={isSameAddressChecked === false ? false : true}
-                    placeholder="Town / City"
+                    placeholder={
+                      isSameAddressChecked === false
+                        ? "Town / City"
+                        : cityAddress
+                    }
+                    // placeholder="Town / City"
                     size="small"
                   />
                   {errors.city_shipping && isSameAddressChecked === false && (
@@ -956,52 +846,7 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     COUNTRY *
                   </Typography>
-                  {/* <TextField
-                  // id=""
-                  // label=""
-                  // value={}
-                  // onChange={}
-                  placeholder="Company Name (Optional)"
-                  size="small"
-                /> */}
-                  {/* {isSameAddressChecked === true ? (
-                    <Select
-                      {...register("country_shipping", {
-                        required: false,
-                      })}
-                      id="country_shipping"
-                      name="country_shipping"
-                      size="small"
-                      disabled={isSameAddressChecked === true ? true : false}
-                      value={distict}
-                      onChange={handleDistict1}
-                    >
-                      <MenuItem value={"Select Country"} disabled>
-                        Select Country
-                      </MenuItem>
-                      <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
-                    </Select>
-                  ) : (
-                    <Select
-                      {...register("country_shipping", {
-                        required: {
-                          value: true,
-                          message: "Country is Required",
-                        },
-                      })}
-                      onMouseLeave={() => trigger("country_shipping")}
-                      error={Boolean(errors.country_shipping)}
-                      id="demo-simple-select"
-                      size="small"
-                      value={distict1}
-                      onChange={handleSelectChangeShipping}
-                    >
-                      <MenuItem value={"Select Country"} disabled>
-                        Select Country
-                      </MenuItem>
-                      <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
-                    </Select>
-                  )} */}
+
                   <Select
                     {...register("country_shipping", {
                       required: {
@@ -1033,35 +878,7 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     POSTCODE / ZIP (OPTIONAL)
                   </Typography>
-                  {/* {isSameAddressChecked === true ? (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("post_code_shipping", { required: false })}
-                      // onChange={}
-                      placeholder={postBilling}
-                      disabled
-                      readOnly
-                      size="small"
-                    />
-                  ) : (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("post_code_shipping", {
-                        required: {
-                          value: false,
-                          message: "Post Code Required",
-                        },
-                      })}
-                      error={Boolean(errors.post_code_shipping)}
-                      // onChange={}
-                      placeholder="Postcode / zip (Optional)"
-                      size="small"
-                    />
-                  )} */}
+
                   <TextField
                     // id=""
                     // label=""
@@ -1075,7 +892,12 @@ const checkout = ({ someProp }) => {
                     error={Boolean(errors.post_code_shipping)}
                     // onChange={}
                     disabled={isSameAddressChecked === false ? false : true}
-                    placeholder="Postcode / zip (Optional)"
+                    placeholder={
+                      isSameAddressChecked === false
+                        ? "Postcode / zip (Optional)"
+                        : postBilling
+                    }
+                    // placeholder="Postcode / zip (Optional)"
                     size="small"
                   />
                   {errors.post_code_shipping &&
@@ -1089,36 +911,7 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     PHONE *
                   </Typography>
-                  {/* {isSameAddressChecked === true ? (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("phone_shipping", { required: false })}
-                      // onChange={}
-                      placeholder={phoneBilling}
-                      disabled
-                      readOnly
-                      size="small"
-                    />
-                  ) : (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("phone_shipping", {
-                        required: {
-                          value: true,
-                          message: "Phone Number is Required",
-                        },
-                      })}
-                      onKeyUp={() => trigger("phone_shipping")}
-                      error={Boolean(errors.phone_shipping)}
-                      // onChange={}
-                      placeholder="Phone *"
-                      size="small"
-                    />
-                  )} */}
+
                   <TextField
                     // id=""
                     // label=""
@@ -1133,7 +926,10 @@ const checkout = ({ someProp }) => {
                     error={Boolean(errors.phone_shipping)}
                     // onChange={}
                     disabled={isSameAddressChecked === false ? false : true}
-                    placeholder="Phone *"
+                    placeholder={
+                      isSameAddressChecked === false ? "Phone *" : phoneBilling
+                    }
+                    // placeholder="Phone *"
                     size="small"
                   />
                   {errors.phone_shipping && isSameAddressChecked === false && (
@@ -1146,41 +942,7 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     EMAIL ADDRESS *
                   </Typography>
-                  {/* {isSameAddressChecked === true ? (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("email_shipping", { required: false })}
-                      // onChange={}
-                      placeholder={emailBilling}
-                      disabled
-                      readOnly
-                      size="small"
-                    />
-                  ) : (
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      {...register("email_shipping", {
-                        required: {
-                          value: true,
-                          message: "Email Address is Required",
-                        },
-                        pattern: {
-                          value:
-                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                          message: "This is not a valid email",
-                        },
-                      })}
-                      onKeyUp={() => trigger("email_shipping")}
-                      error={Boolean(errors.email_shipping)}
-                      // onChange={}
-                      placeholder="Email Address *"
-                      size="small"
-                    />
-                  )} */}
+
                   <TextField
                     // id=""
                     // label=""
@@ -1200,7 +962,12 @@ const checkout = ({ someProp }) => {
                     error={Boolean(errors.email_shipping)}
                     // onChange={}
                     disabled={isSameAddressChecked === false ? false : true}
-                    placeholder="Email Address *"
+                    placeholder={
+                      isSameAddressChecked === false
+                        ? "Email Address *"
+                        : emailBilling
+                    }
+                    // placeholder="Email Address *"
                     size="small"
                   />
                   {errors.email_shipping && isSameAddressChecked === false && (
@@ -1315,14 +1082,6 @@ const checkout = ({ someProp }) => {
                         {errors.deliveryMethod?.message}
                       </p>
                     )}
-                    {/* <Stack direction={"row"} spacing={9}>
-                      <Typography variant="cardHeader" color="initial">
-                        TAX :
-                      </Typography>
-                      <Typography variant="cardHeader" color="initial">
-                        BDT 12
-                      </Typography>
-                    </Stack> */}
 
                     <Divider />
                     <Stack direction={"row"} spacing={7} width="100%">
@@ -1343,13 +1102,6 @@ const checkout = ({ someProp }) => {
                     </Stack>
                     <Divider />
                     <Stack direction={"column"} spacing={9} width="100%">
-                      {/* <Typography variant="cardHeader" color="initial">
-                      TOTAL :
-                    </Typography>
-                    <Typography variant="cardHeader" color="initial">
-                      BDT 12,160
-                    </Typography> */}
-
                       <Controller
                         rules={{
                           required: {
@@ -1419,22 +1171,10 @@ const checkout = ({ someProp }) => {
                               error={Boolean(errors.mySelect)}
                               // onKeyUp={() => trigger("termsAndConditions")}
                             />
-                            {/* <Select >
-                              <MenuItem value="">Select an option</MenuItem>
-                              <MenuItem value="option1">Option 1</MenuItem>
-                              <MenuItem value="option2">Option 2</MenuItem>
-                              <MenuItem value="option3">Option 3</MenuItem>
-                            </Select> */}
                           </>
                         )}
                       />
 
-                      {/* <Controller
-                        name="termsAndConditions"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => <Checkbox {...field} />}
-                      /> */}
                       <Typography variant="cardLocation123">
                         I have read and agree to the terms and conditions *
                       </Typography>
@@ -1452,7 +1192,7 @@ const checkout = ({ someProp }) => {
                       </small>
                     )}
                     <Button
-                      disabled={!isFormValid}
+                      disabled={enable}
                       variant="contained"
                       color="background2"
                       type="submit"
