@@ -103,12 +103,16 @@ const addtocart = () => {
                         <Stack
                           key={data.id}
                           spacing={1}
-                          direction={{ lg: "row", xs: "column", md: "row", xl: "row" }}
+                          direction={{
+                            lg: "row",
+                            xs: "column",
+                            md: "row",
+                            xl: "row",
+                          }}
                           sx={{
                             width: "100%",
                             justifyContent: "space-between",
                             alignItems: "center",
-
                           }}
                         >
                           <IconButton onClick={() => removeItemFromCart(data)}>
@@ -172,11 +176,15 @@ const addtocart = () => {
                                     color_id: data.color_id,
                                     colorCode: data.colorCode,
                                     price: data.price,
+                                    priceWithTax: data.priceWithTax,
                                     amount: data.amount + 1,
                                     stock: data.stock,
                                     totalAmount: 1,
                                     totalPrice:
                                       data.totalPrice + parseFloat(data.price),
+                                    totalPriceWithTax:
+                                      data.totalPriceWithTax +
+                                      parseFloat(data.priceWithTax),
                                   })
                                 )
                               }

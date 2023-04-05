@@ -58,7 +58,7 @@ const userDashboard = () => {
             textTransform={"uppercase"}
             fontWeight="500"
           >
-            welcome, {userjsondata.name}
+            welcome, {userjsondata?.name}
           </Typography>
         </Stack>
         <Stack direction={"row"} sx={{justifyContent:"flex-end",width:"100%",alignItems:"flex-end"}}>

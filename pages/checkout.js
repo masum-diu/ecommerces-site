@@ -36,12 +36,13 @@ const checkout = ({ someProp }) => {
   const isInitialMount = useRef(true);
   const subTotal = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const totalPriceWithTax = useSelector((state) => state.cart.totalPriceWithTax);
   const [totalPrice, setSubtotal] = useState(subTotal);
   const [isDhakaChecked, setIsDhakaChecked] = useState(false);
   const [isOutSideChecked, setIsOutSideChecked] = useState(false);
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
-  const [total, setTotal] = useState(subTotal);
+  const [total, setTotal] = useState(totalPriceWithTax);
   const [error, setError] = useState({ initialState: true });
   const [openLoginModal, setLoginModal] = useState(false);
   const [payment, setPayment] = useState("");
@@ -53,16 +54,15 @@ const checkout = ({ someProp }) => {
   const { hasToken, setHasToken, isPlaceOrder, setIsPlaceOrder } =
     useContext(USER_CONTEXT);
   const router = useRouter();
-
   useEffect(() => {
     if (isDhakaChecked === true) {
-      setTotal(subTotal + 100);
+      setTotal(totalPriceWithTax + 100);
     }
     if (isOutSideChecked === true) {
-      setTotal(subTotal + 250);
+      setTotal(totalPriceWithTax + 250);
     }
     if (isFromShowRoomChecked === true) {
-      setTotal(subTotal + 0);
+      setTotal(totalPriceWithTax + 0);
     }
   }, [isDhakaChecked, isOutSideChecked, isFromShowRoomChecked]);
 
@@ -210,7 +210,7 @@ const checkout = ({ someProp }) => {
       isSameAddress: isSameAddressChecked,
       isGuestCheckout: true,
     });
-    if (hasToken === true && error === false && cart?.length > 0) {
+    if (hasToken === true && cart?.length > 0) {
       instance
         .post(
           "/order",
@@ -1093,6 +1093,23 @@ const checkout = ({ someProp }) => {
                         color="initial"
                         className="bold"
                       >
+                        TAX :
+                      </Typography>
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                      >
+                        BDT {Math.ceil(totalPriceWithTax-subTotal)}
+                      </Typography>
+                    </Stack>
+                    <Divider />
+                    <Stack direction={"row"} spacing={7} width="100%">
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                      >
                         TOTAL :
                       </Typography>
                       <Typography
@@ -1100,7 +1117,7 @@ const checkout = ({ someProp }) => {
                         color="initial"
                         className="bold"
                       >
-                        BDT {total}
+                        BDT {Math.ceil(total)}
                       </Typography>
                     </Stack>
                     <Divider />

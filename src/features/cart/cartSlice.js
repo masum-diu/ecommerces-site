@@ -5,6 +5,7 @@ const initialState = {
   amount: 0,
   totalAmount: 0,
   totalPrice: 0,
+  totalPriceWithTax:0,
 };
 
 export const cartSlice = createSlice({
@@ -26,8 +27,10 @@ export const cartSlice = createSlice({
         if (exist) {
           exist.amount += productID.totalAmount;
           exist.totalPrice += productID.totalPrice;
+          exist.totalPriceWithTax += productID.totalPriceWithTax;
           state.totalAmount += productID.totalAmount;
           state.totalPrice += productID.totalPrice;
+          state.totalPriceWithTax += productID.totalPriceWithTax;
         } else {
           state.cart.push({
             id: productID.id,
@@ -40,13 +43,16 @@ export const cartSlice = createSlice({
             color_id: productID.color_id,
             colorCode: productID.colorCode,
             price: productID.price,
+            priceWithTax: productID.priceWithTax,
             amount: productID.amount,
             stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
+            totalPriceWithTax: productID.totalPriceWithTax,
             taxAmount: productID.taxAmount,
           });
           state.totalAmount += productID.amount;
           state.totalPrice += productID.totalPrice;
+          state.totalPriceWithTax += productID.totalPriceWithTax;
         }
       } catch (e) {
         return e;
@@ -66,8 +72,10 @@ export const cartSlice = createSlice({
         if (exist) {
           exist.amount += productID.totalAmount;
           exist.totalPrice = productID.totalPrice;
+          exist.totalPriceWithTax = productID.totalPriceWithTax;
           state.totalAmount += 1;
           state.totalPrice += productID.price;
+          state.totalPriceWithTax += productID.priceWithTax;
         } else {
           state.cart.push({
             id: productID.id,
@@ -80,13 +88,16 @@ export const cartSlice = createSlice({
             color_id: productID.color_id,
             colorCode: productID.colorCode,
             price: productID.price,
+            priceWithTax: productID.priceWithTax,
             amount: productID.amount,
             stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
+            totalPriceWithTax: productID.totalPriceWithTax,
             taxAmount: productID.taxAmount,
           });
           state.totalAmount += productID.amount;
           state.totalPrice += productID.price;
+          state.totalPriceWithTax += productID.priceWithTax;
         }
       } catch (e) {
         return e;
@@ -114,11 +125,14 @@ export const cartSlice = createSlice({
           );
           state.totalAmount--;
           state.totalPrice -= productID.price;
+          state.totalPriceWithTax -= productID.priceWithTax;
         } else {
           exist.amount--;
           exist.totalPrice -= productID.price;
+          exist.totalPriceWithTax -= productID.priceWithTax;
           state.totalAmount--;
           state.totalPrice -= productID.price;
+          state.totalPriceWithTax -= productID.priceWithTax;
         }
       } catch (e) {}
     },
@@ -144,6 +158,7 @@ export const cartSlice = createSlice({
           );
           state.totalAmount -= productID.amount;
           state.totalPrice -= productID.totalPrice;
+          state.totalPriceWithTax -= productID.totalPriceWithTax;
         }
       } catch (e) {}
     },
