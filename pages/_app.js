@@ -24,7 +24,23 @@ export default function MyApp(props) {
   return (
     <CacheProvider value={emotionCache}>
       <div>
-        <Pixel name='FACEBOOK_PIXEL_1' />
+        <React.Fragment>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      
+        gtag('config', 'UA-105579019-2')`,
+            }}
+          />
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-105579019-2"
+          />
+        </React.Fragment>
+
+        <Pixel name="FACEBOOK_PIXEL_1" />
       </div>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
