@@ -36,7 +36,9 @@ const checkout = ({ someProp }) => {
   const isInitialMount = useRef(true);
   const subTotal = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const totalPriceWithTax = useSelector((state) => state.cart.totalPriceWithTax);
+  const totalPriceWithTax = useSelector(
+    (state) => state.cart.totalPriceWithTax
+  );
   const [totalPrice, setSubtotal] = useState(subTotal);
   const [isDhakaChecked, setIsDhakaChecked] = useState(false);
   const [isOutSideChecked, setIsOutSideChecked] = useState(false);
@@ -206,6 +208,8 @@ const checkout = ({ someProp }) => {
       data: data,
       cart: cart,
       totalPrice: subTotal,
+      totalPriceWithTax: totalPriceWithTax,
+      finalPrice: total,
       totalAmount: totalAmount,
       isSameAddress: isSameAddressChecked,
       isGuestCheckout: true,
@@ -218,6 +222,8 @@ const checkout = ({ someProp }) => {
             data: data,
             cart: cart,
             totalPrice: subTotal,
+            totalPriceWithTax: totalPriceWithTax,
+            finalPrice: total,
             totalAmount: totalAmount,
             isSameAddress: isSameAddressChecked,
             isGuestCheckout: isGuestCheckout,
@@ -296,11 +302,13 @@ const checkout = ({ someProp }) => {
   const postBillingSh = useWatch({ control, name: "post_code_shipping" });
   const phoneBillingSh = useWatch({ control, name: "phone_shipping" });
   const emailBillingSh = useWatch({ control, name: "email_shipping" });
-  const method = useWatch({ control, name: "paymentMethod" });
+  const paymentMethod = useWatch({ control, name: "paymentMethod" });
+  const deliveryMethod = useWatch({ control, name: "deliveryMethod" });
+  const termsAndCondition = useWatch({ control, name: "termsAndConditions" });
   const showInputField = watch("isSameAddress");
   useEffect(() => {
-    setPayment(method);
-  }, [payment, method]);
+    setPayment(paymentMethod);
+  }, [payment, paymentMethod]);
 
   const errorObject = Object.keys(errors).length;
 
@@ -1100,7 +1108,7 @@ const checkout = ({ someProp }) => {
                         color="initial"
                         className="bold"
                       >
-                        BDT {Math.ceil(totalPriceWithTax-subTotal)}
+                        BDT {Math.ceil(totalPriceWithTax - subTotal)}
                       </Typography>
                     </Stack>
                     <Divider />

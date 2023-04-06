@@ -26,6 +26,7 @@ const shop = () => {
     isError: isLandingError,
     error: landingError,
   } = useGetHomePageProductsQuery();
+  console.log('your log output',data)
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
@@ -314,7 +315,7 @@ const shop = () => {
                       className="bold"
                       color="initial"
                     >
-                      BDT {data?.p_sale_price}
+                      BDT {data?.p_stocks[0]?.mrp}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -443,7 +444,7 @@ const shop = () => {
                       className="bold"
                       color="initial"
                     >
-                      BDT {data?.p_sale_price}
+                      BDT {data?.p_stocks[0]?.mrp}
                     </Typography>
                   </Stack>
                 </Stack>

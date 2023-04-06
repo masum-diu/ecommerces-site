@@ -22,7 +22,6 @@ const OrderDetails = () => {
     useGetOrderDetailsQuery(token, {
       refetchOnMountOrArgChange: true,
     });
-  console.log("order data", data);
   useEffect(() => {
     const token = localStorage.getItem("acesstoken");
     setToken(token);
@@ -118,6 +117,7 @@ const OrderDetails = () => {
                             : true
                         }
                         variant="outlined"
+                        size="small"
                       >
                         Cancel
                       </Button>

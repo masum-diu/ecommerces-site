@@ -50,7 +50,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               {productsDataChunk[0]?.p_name}
             </Typography>
             <Typography variant="cardHeader3" color="initial" className="bold">
-              BDT {productsDataChunk[0]?.p_sale_price}
+              BDT {productsDataChunk[0]?.p_stocks[0]?.mrp}
             </Typography>
           </Stack>
         </Stack>
@@ -87,8 +87,8 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               <Typography variant="cardHeader3" color="initial">
                 {product?.p_name}
               </Typography>
-              <Typography variant="cardHeader3" color="initial">
-                BDT {product?.p_sale_price}
+              <Typography variant="cardHeader3" color="initial" className="bold">
+                BDT {product?.p_stocks[0]?.mrp}
               </Typography>
             </Stack>
           </Grid>
@@ -126,8 +126,8 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               <Typography variant="cardHeader3" color="initial">
                 {product?.p_name}
               </Typography>
-              <Typography variant="cardHeader3" color="initial">
-                BDT {product?.p_sale_price}
+              <Typography variant="cardHeader3" color="initial" className="bold">
+                BDT {product?.p_stocks[0]?.mrp}
               </Typography>
             </Stack>
           </Grid>
@@ -165,8 +165,8 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               <Typography variant="cardHeader3" color="initial">
                 {product?.p_name}
               </Typography>
-              <Typography variant="cardHeader3" color="initial">
-                BDT {product?.p_sale_price}
+              <Typography variant="cardHeader3" color="initial" className="bold">
+                BDT {product?.p_stocks[0]?.mrp}
               </Typography>
             </Stack>
           </Grid>

@@ -46,7 +46,7 @@ const FlashPage = ({ title }) => {
       >
         <AppBar
           position="fixed"
-          sx={{ boxShadow: "none", backgroundColor: "#fff" }}
+          sx={{ boxShadow: "none", backgroundColor: "#fff",height:"85px" }}
         >
           <Toolbar
             sx={{
@@ -56,11 +56,11 @@ const FlashPage = ({ title }) => {
               py: 1,
             }}
           >
-            <Stack direction={"row"} alignItems="center">
+            <Stack direction={"row"} alignItems="center" mt="10px">
               <img src="/assets/headerLogo.png" alt="" style={{width:"90vw",maxWidth:"80px"}} />
             </Stack>
 
-            <Stack direction={"row"} alignItems="center">
+            <Stack direction={"row"} alignItems="center"mt="10px">
               <IconButton aria-label="">
                 <BiMap style={{ color: "#0A0A0A" }} />
               </IconButton>

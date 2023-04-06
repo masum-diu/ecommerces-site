@@ -54,7 +54,7 @@ const ProductsLayoutWithStaticImage = ({
               {productsDataChunk[0]?.p_name}
             </Typography>
             <Typography variant="cardHeader3" color="initial" className="bold">
-              BDT {productsDataChunk[0]?.p_sale_price}
+              BDT {productsDataChunk[0]?.p_stocks[0]?.mrp}
             </Typography>
           </Stack>
         </Stack>
@@ -100,7 +100,7 @@ const ProductsLayoutWithStaticImage = ({
                 color="initial"
                 className="bold"
               >
-                BDT {product?.p_sale_price}
+                BDT {product?.p_stocks[0]?.mrp}
               </Typography>
             </Stack>
           </Grid>
@@ -165,7 +165,7 @@ const ProductsLayoutWithStaticImage = ({
                 color="initial"
                 className="bold"
               >
-                BDT {product?.p_sale_price}
+                BDT {product?.p_stocks[0]?.mrp}
               </Typography>
             </Stack>
           </Grid>

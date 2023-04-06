@@ -176,6 +176,10 @@ const addtocart = () => {
                                     color_id: data.color_id,
                                     colorCode: data.colorCode,
                                     price: data.price,
+                                    vatAmountParticularProduct:
+                                      data.vatAmountParticularProduct +
+                                      data.vatAmountParticularProduct /
+                                        data.amount,
                                     priceWithTax: data.priceWithTax,
                                     amount: data.amount + 1,
                                     stock: data.stock,

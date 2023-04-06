@@ -5,7 +5,7 @@ const initialState = {
   amount: 0,
   totalAmount: 0,
   totalPrice: 0,
-  totalPriceWithTax:0,
+  totalPriceWithTax: 0,
 };
 
 export const cartSlice = createSlice({
@@ -28,6 +28,8 @@ export const cartSlice = createSlice({
           exist.amount += productID.totalAmount;
           exist.totalPrice += productID.totalPrice;
           exist.totalPriceWithTax += productID.totalPriceWithTax;
+          exist.vatAmountParticularProduct +=
+            productID.vatAmountParticularProduct;
           state.totalAmount += productID.totalAmount;
           state.totalPrice += productID.totalPrice;
           state.totalPriceWithTax += productID.totalPriceWithTax;
@@ -44,6 +46,7 @@ export const cartSlice = createSlice({
             colorCode: productID.colorCode,
             price: productID.price,
             priceWithTax: productID.priceWithTax,
+            vatAmountParticularProduct: productID.vatAmountParticularProduct,
             amount: productID.amount,
             stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
@@ -73,6 +76,7 @@ export const cartSlice = createSlice({
           exist.amount += productID.totalAmount;
           exist.totalPrice = productID.totalPrice;
           exist.totalPriceWithTax = productID.totalPriceWithTax;
+          exist.vatAmountParticularProduct= productID.vatAmountParticularProduct,
           state.totalAmount += 1;
           state.totalPrice += productID.price;
           state.totalPriceWithTax += productID.priceWithTax;
@@ -89,6 +93,7 @@ export const cartSlice = createSlice({
             colorCode: productID.colorCode,
             price: productID.price,
             priceWithTax: productID.priceWithTax,
+            vatAmountParticularProduct: productID.vatAmountParticularProduct,
             amount: productID.amount,
             stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
@@ -129,6 +134,7 @@ export const cartSlice = createSlice({
         } else {
           exist.amount--;
           exist.totalPrice -= productID.price;
+          exist.vatAmountParticularProduct -= productID.vatAmountParticularProduct/productID.amount;
           exist.totalPriceWithTax -= productID.priceWithTax;
           state.totalAmount--;
           state.totalPrice -= productID.price;

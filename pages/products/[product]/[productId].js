@@ -310,6 +310,8 @@ const PorductDetails = () => {
     price: productPrice,
     priceWithTax:
       productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice,
+    vatAmountParticularProduct:
+      count * productPrice * (products?.p_tax?.tax_percentage / 100),
     amount: count,
     stock: stockAmount,
     totalAmount: count,
