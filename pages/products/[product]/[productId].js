@@ -17,7 +17,7 @@ import Footer from "../../../components/Footer";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { useGetParticularProductsQuery } from "../../../src/features/api/apiSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../components/Loader/Loader";
 import toast from "react-hot-toast";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -31,6 +31,11 @@ import Head from "next/head";
 import ThumbsGallery2 from "../../../components/thumble/ThumbsGallery2";
 import SizeModal from "../../../components/SizeModal";
 import { FiHeart } from "react-icons/fi";
+import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
+import {
+  addToWishList,
+  removeFromWishList,
+} from "../../../src/features/wishlist/wishListSlice";
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
@@ -39,6 +44,10 @@ const PorductDetails = () => {
     setOpenList((prev) => !prev);
     setArrow(!arrow);
   };
+  const wishListArray = useSelector((state) => state.wishList.wishList);
+  const myProduct = wishListArray.find(
+    (product) => product.id === products?.id
+  );
   const router = useRouter();
   const path = router.asPath;
   const productId = router?.query?.productId;
@@ -67,7 +76,16 @@ const PorductDetails = () => {
     " Please select a color and size in order to enable Add To Cart."
   );
   const [imageData, setImageData] = useState([]);
+  const [subCat, setSubCat] = useState(0);
+  const [cat, setCat] = useState(0);
   const dispatch = useDispatch();
+
+  const [showHeart, setShowHeart] = useState(
+    myProduct?.showHeart ? myProduct?.showHeart : "block"
+  );
+  const [showBrokenHeart, setShowBrokenHeart] = useState(
+    myProduct?.showBrokenHeart ? myProduct?.showBrokenHeart : "none"
+  );
 
   const { data, isLoading, isSuccess, isError, error } =
     useGetParticularProductsQuery(productId);
@@ -85,6 +103,7 @@ const PorductDetails = () => {
 
   useEffect(() => {
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
+      setProductPrice(products?.p_stocks?.[0]?.mrp);
       if (colorSelected === false && sizeSelected === false) {
         setNoteTextForStock(
           " Please select a color and size in order to check stock availability"
@@ -114,7 +133,7 @@ const PorductDetails = () => {
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
         );
-
+        setProductPrice(selectedProduct?.mrp);
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         if (stockAmount > 0) {
@@ -164,11 +183,13 @@ const PorductDetails = () => {
       (products?.p_colours?.length == 0 || products?.p_sizes?.length == 0) &&
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
     ) {
+      setProductPrice(products?.p_stocks?.[0]?.mrp);
       if (sizeSelected == true || colorSelected == true) {
         if (colorSelected == true) {
           const selectedProduct = products?.p_stocks?.find(
             (stock) => stock?.colour_id === colorId
           );
+          setProductPrice(selectedProduct?.mrp);
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
@@ -184,7 +205,7 @@ const PorductDetails = () => {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
         }
-        if (stockAmount === undefined) {
+        if (stockAmount === undefined || stockAmount === 0) {
           setDisableBtn(true);
           setNoteTextForStock("Out of Stock");
         }
@@ -227,46 +248,8 @@ const PorductDetails = () => {
     stockAmount,
     products?.p_colours?.length,
     products?.p_sizes?.length,
+    productPrice,
   ]);
-  /*   useEffect(() => {
-    if (
-      products?.p_sizes?.length > 0 &&
-      products?.p_colours?.length > 0 &&
-      sizeSelected === false &&
-      colorSelected === false
-    ) {
-      setNoteTextForCart(
-        " Please select a color and size in order to enable Add To Cart."
-      );
-      setNoteTextForStock(
-        " Please select a color and size in order to check stock availability."
-      );
-    }
-    if (
-      products?.p_sizes?.length > 0 &&
-      products?.p_colours?.length < 0 &&
-      sizeSelected === false
-    ) {
-      setNoteTextForCart(
-        " Please select a size in order to enable Add To Cart."
-      );
-      setNoteTextForStock(
-        " Please select a size in order to check stock availability."
-      );
-    }
-    if (
-      products?.p_colours?.length > 0 &&
-      products?.p_sizes?.length < 0 &&
-      colorSelected === false
-    ) {
-      setNoteTextForCart(
-        " Please select a color in order to enable Add To Cart"
-      );
-      setNoteTextForStock(
-        " Please select a color in order to check stock availability"
-      );
-    }
-  }, [sizeSelected, colorSelected]); */
 
   if (isLoading) {
     return <Loader></Loader>;
@@ -295,7 +278,23 @@ const PorductDetails = () => {
     setOpen(data);
     setImageData(images);
   };
-
+  const handleSizeGuide = (subcat_id, cat_id) => {
+    setSizeGuide(true);
+    setSubCat(subcat_id);
+    setCat(cat_id);
+  };
+  const handleAddToWishList = async (data) => {
+    dispatch(addToWishList(data));
+    setShowBrokenHeart("block");
+    setShowHeart("none");
+    await toast.success("Added To WishList!");
+  };
+  const handleRemoveFromList = async (data) => {
+    dispatch(removeFromWishList(data));
+    setShowBrokenHeart("none");
+    setShowHeart("block");
+    await toast.error("Removed From Wishlist!");
+  };
   const description = products?.p_description;
   const finalData = {
     id: products.id,
@@ -307,17 +306,44 @@ const PorductDetails = () => {
     color: color,
     color_id: colorId,
     colorCode: colorCode,
-    price: products?.p_sale_price,
+    // price: products?.p_sale_price,
+    price: productPrice,
+    priceWithTax:
+      productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice,
+    vatAmountParticularProduct:
+      count * productPrice * (products?.p_tax?.tax_percentage / 100),
     amount: count,
     stock: stockAmount,
     totalAmount: count,
-    totalPrice: count * parseFloat(products?.p_sale_price),
+    // totalPrice: count * parseFloat(products?.p_sale_price),
+    totalPrice: count * parseFloat(productPrice),
+    totalPriceWithTax:
+      count *
+      (productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice),
     taxAmount: products?.p_tax?.tax_percentage,
-    priceWithTax:
+
+    /* priceWithTax:
       products?.p_sale_price * (products?.p_tax?.tax_percentage / 100) +
-      products?.p_sale_price,
+      products?.p_sale_price, */
   };
-  console.log(products)
+
+  const dataForWishList = {
+    id: products.id,
+    image: products.feature_image,
+    name: products?.p_name,
+    size: products?.p_sizes,
+    text: products?.p_description,
+    color: products?.p_colours,
+    // price: products?.p_sale_price,
+    price: productPrice,
+    amount: 1,
+    stock: products?.p_stocks,
+    totalAmount: 1,
+    category: products?.p_category,
+    sub_category: products?.p_subcategory,
+    showHeart: "none",
+    showBrokenHeart: "block",
+  };
   return (
     <>
       <Head>
@@ -348,7 +374,7 @@ const PorductDetails = () => {
         <Box
           mt={10}
           mb={4}
-        //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
+          //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
             <Grid item xl={6} lg={7} md={6} sm={12}>
@@ -477,87 +503,327 @@ const PorductDetails = () => {
                   >
                     {description}
                   </Typography>
-                  <Stack direction={"row"} spacing={1}> <Button
-                    variant="outlined"
-                    color="inherit"
-                    onClick={handleClick}
-                    size="small"
-
-                    className="SemiBold"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      textTransform: "capitalize",
-                      width: "90vw",
-                      maxWidth: "300px",
-                    }}
-                    endIcon={
-                      arrow ? (
-                        <RemoveIcon onClick={() => setArrow(!arrow)} />
-                      ) : (
-                        <AddIcon onClick={() => setArrow(!arrow)} />
-                      )
-                    }
-                  >
-                    Additional information
-                  </Button>
-                   <Button variant="outlined"   color="inherit"
-                // style={{ display: `${showHeart}` }}
-                aria-label=""
-                // onClick={() => handleAddToWishList(dataForWishList)}
-              >
-                <FiHeart style={{ color: "#000",fontSize:"18px" }} />
-              </Button></Stack>
+                  <Stack direction={"row"} spacing={1}>
+                    {" "}
+                    <Button
+                      variant="outlined"
+                      color="inherit"
+                      onClick={handleClick}
+                      size="small"
+                      className="SemiBold"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        textTransform: "capitalize",
+                        width: "90vw",
+                        maxWidth: "300px",
+                      }}
+                      endIcon={
+                        arrow ? (
+                          <RemoveIcon onClick={() => setArrow(!arrow)} />
+                        ) : (
+                          <AddIcon onClick={() => setArrow(!arrow)} />
+                        )
+                      }
+                    >
+                      Additional information
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="inherit"
+                      aria-label=""
+                      style={{ display: `${showHeart}` }}
+                      onClick={() => handleAddToWishList(dataForWishList)}
+                    >
+                      <FiHeart
+                        style={{
+                          color: "#000",
+                          fontSize: "18px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          width: "100%",
+                        }}
+                      />
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="inherit"
+                      style={{ display: `${showBrokenHeart}` }}
+                      aria-label=""
+                      onClick={() =>
+                        handleRemoveFromList({
+                          id: products?.id,
+                          amount: 1,
+                          showHeart: "block",
+                          showBrokenHeart: "none",
+                        })
+                      }
+                    >
+                      <HeartBrokenOutlinedIcon
+                        style={{
+                          color: "#000",
+                          fontSize: "18px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          width: "100%",
+                        }}
+                      />
+                    </Button>
+                  </Stack>
 
                   {openList ? (
                     <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
-
                       <Stack direction={"column"} spacing={1.5}>
+                        <ListItemText
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "90vw",
+                            maxWidth: "250px",
+                          }}
+                          primary={
+                            <Typography
+                              variant="cardHeader12"
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              Weight
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              variant="cardLocation1"
+                              sx={{ width: "50%" }}
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              {products?.p_weight}
+                            </Typography>
+                          }
+                        />
+                        <ListItemText
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "90vw",
+                            maxWidth: "250px",
+                          }}
+                          primary={
+                            <Typography
+                              variant="cardHeader12"
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              Dimensions
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              variant="cardLocation1"
+                              sx={{ width: "50%" }}
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              {products?.p_dimension}
+                            </Typography>
+                          }
+                        />
+                        <ListItemText
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "90vw",
+                            maxWidth: "250px",
+                          }}
+                          primary={
+                            <Typography
+                              variant="cardHeader12"
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              Fabric
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              variant="cardLocation1"
+                              sx={{ width: "50%" }}
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              {
+                                <Stack direction={"row"} spacing={1}>
+                                  {products?.p_fabric?.map((name) => (
+                                    <>
+                                      <Typography
+                                        variant="cardLocation1"
+                                        sx={{ width: "50%" }}
+                                        className="SemiBold"
+                                        color="initial"
+                                      >
+                                        {name?.fabric_name}
+                                      </Typography>
+                                    </>
+                                  ))}
+                                </Stack>
+                              }
+                            </Typography>
+                          }
+                        />
+                        <ListItemText
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "90vw",
+                            maxWidth: "250px",
+                          }}
+                          primary={
+                            <Typography
+                              variant="cardHeader12"
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              Color
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              variant="cardLocation1"
+                              sx={{ width: "50%" }}
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              {
+                                <Stack direction={"row"} spacing={1}>
+                                  {products?.p_colours?.map((color) => (
+                                    <>
+                                      <Typography
+                                        variant="cardLocation1"
+                                        sx={{ width: "50%" }}
+                                        className="SemiBold"
+                                        color="initial"
+                                      >
+                                        {color?.color_name}
+                                      </Typography>
+                                    </>
+                                  ))}
+                                </Stack>
+                              }
+                            </Typography>
+                          }
+                        />
 
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Weight</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_weight}</Typography>} />
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Dimensions</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_dimension}</Typography>} />
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Fabric</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{<Stack direction={"row"} spacing={1}>
-                          {
-                            products?.p_fabric?.map((name) => <>
+                        <ListItemText
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "90vw",
+                            maxWidth: "250px",
+                          }}
+                          primary={
+                            <Typography
+                              variant="cardHeader12"
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              Design Code
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              variant="cardLocation1"
+                              sx={{ width: "50%" }}
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              {products?.p_design_code}
+                            </Typography>
+                          }
+                        />
 
-                              <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{name?.fabric_name}</Typography>
+                        <ListItemText
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "90vw",
+                            maxWidth: "250px",
+                          }}
+                          primary={
+                            <Typography
+                              variant="cardHeader12"
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              Size
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              variant="cardLocation1"
+                              sx={{ width: "50%" }}
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              {
+                                <Stack direction={"row"} spacing={1}>
+                                  {products?.p_sizes?.map((size) => (
+                                    <>
+                                      <Typography
+                                        variant="cardLocation1"
+                                        sx={{ width: "50%" }}
+                                        className="SemiBold"
+                                        color="initial"
+                                      >
+                                        {size?.size_name}
+                                      </Typography>
+                                    </>
+                                  ))}
+                                </Stack>
+                              }
+                            </Typography>
+                          }
+                        />
 
-                            </>)}
-
-                        </Stack>}</Typography>} />
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Color</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{<Stack direction={"row"} spacing={1}>
-                          {
-                            products?.p_colours?.map((color) => <>
-
-                              <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{color?.color_name}</Typography>
-
-                            </>)}
-
-                        </Stack>}</Typography>} />
-
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Design Code</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_design_code}</Typography>} />
-
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Size</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{
-                          <Stack direction={"row"} spacing={1}>
-                            {
-                              products?.p_sizes?.map((size) => <>
-
-                                <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{size?.size_name}</Typography>
-
-                              </>)}
-
-                          </Stack>
-                        }</Typography>} />
-
-                        <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Country of origin</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.country_of_origin}</Typography>} />
-
-
-
+                        <ListItemText
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "90vw",
+                            maxWidth: "250px",
+                          }}
+                          primary={
+                            <Typography
+                              variant="cardHeader12"
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              Country of origin
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              variant="cardLocation1"
+                              sx={{ width: "50%" }}
+                              className="SemiBold"
+                              color="initial"
+                            >
+                              {products?.country_of_origin}
+                            </Typography>
+                          }
+                        />
                       </Stack>
                     </Box>
                   ) : null}
-
 
                   <Typography
                     variant="header1"
@@ -566,7 +832,7 @@ const PorductDetails = () => {
                     letterSpacing={0.3}
                     fontWeight={700}
                   >
-                    Price : BDT {products?.p_sale_price}
+                    Price : BDT {productPrice}
                   </Typography>
                   {products?.p_sizes?.length > 0 ? (
                     <>
@@ -578,7 +844,7 @@ const PorductDetails = () => {
                         >
                           Sizes
                         </Typography>
-                        <hr
+                        {/* <hr
                           style={{
                             textAlign: "left",
                             width: "100%",
@@ -586,7 +852,7 @@ const PorductDetails = () => {
                             backgroundColor: "black",
                             // maxWidth: "350px",
                           }}
-                        />
+                        /> */}
                       </Stack>
                       <Stack
                         direction={"row"}
@@ -597,14 +863,15 @@ const PorductDetails = () => {
                         <Stack
                           direction={"row"}
                           spacing={2}
-                          width={"20%"}
+                          // width={"20%"}
                           justifyContent="space-between"
                         >
                           {products?.p_sizes?.map((size, index) => (
                             <Button
                               key={index}
-                              variant={`${activesize === size?.id ? "outlined" : "primary"
-                                }`}
+                              variant={`${
+                                activesize === size?.id ? "outlined" : "primary"
+                              }`}
                               color="primary"
                               onClick={() =>
                                 handleSelectSize(size?.size_name, size?.id)
@@ -627,13 +894,24 @@ const PorductDetails = () => {
                     XXL
                   </Button> */}
                         </Stack>
-                        <Button
-                          variant="text"
-                          color="primary"
-                          onClick={() => setSizeGuide(true)}
-                        >
-                          size guide
-                        </Button>
+                        {products?.subcat_id === 13 ||
+                        products?.subcat_id === 15 ||
+                        products?.cat_id === 1 ? (
+                          <Button
+                            variant="text"
+                            color="primary"
+                            onClick={() =>
+                              handleSizeGuide(
+                                products?.subcat_id,
+                                products?.cat_id
+                              )
+                            }
+                          >
+                            size guide
+                          </Button>
+                        ) : (
+                          ""
+                        )}
                       </Stack>
                     </>
                   ) : (
@@ -647,7 +925,7 @@ const PorductDetails = () => {
                     >
                       Quantity
                     </Typography>
-                    <hr
+                    {/* <hr
                       style={{
                         textAlign: "left",
                         width: "100%",
@@ -655,7 +933,7 @@ const PorductDetails = () => {
                         backgroundColor: "black",
                         // maxWidth: "340px",
                       }}
-                    />
+                    /> */}
                   </Stack>
                   <Stack
                     direction={"row"}
@@ -686,49 +964,57 @@ const PorductDetails = () => {
                       <AddIcon fontSize="small" />
                     </IconButton>
                   </Stack>
-                  <Stack direction={"row"} spacing={1} alignItems="center">
-                    <Typography
-                      variant="cardHeader3"
-                      color="#959595"
-                      className="SemiBold"
-                    >
-                      Colors
-                    </Typography>
-                    <hr
-                      style={{
-                        textAlign: "left",
-                        width: "100%",
-                        height: "1px",
-                        backgroundColor: "black",
-                        // maxWidth: "350px",
-                      }}
-                    />
-                  </Stack>
-                  <Stack direction={"row"} spacing={1} height={40}>
-                    {products?.p_colours?.map((color, index) => (
-                      <Box
-                        size="small"
-                        key={index}
-                        style={{
-                          backgroundColor: `${color?.color_code}`,
-                          width: "40px",
-                          height: "40px",
-                          cursor: "pointer",
-                          border: `${activecolor === color?.id
-                            ? "4px solid #2d323f"
-                            : "1px solid black"
-                            }`,
-                        }}
-                        onClick={() =>
-                          handleSelectColor(
-                            color?.color_name,
-                            color?.color_code,
-                            color?.id
-                          )
-                        }
-                      ></Box>
-                    ))}
-                  </Stack>
+                  {products?.p_colours?.length > 0 ? (
+                    <>
+                      <Stack direction={"row"} spacing={1} alignItems="center">
+                        <Typography
+                          variant="cardHeader3"
+                          color="#959595"
+                          className="SemiBold"
+                        >
+                          Colors
+                        </Typography>
+                        {/* <hr
+                          style={{
+                            textAlign: "left",
+                            width: "100%",
+                            height: "1px",
+                            backgroundColor: "black",
+                            // maxWidth: "350px",
+                          }}
+                        /> */}
+                      </Stack>
+                      <Stack direction={"row"} spacing={1} height={40}>
+                        {products?.p_colours?.map((color, index) => (
+                          <Box
+                            size="small"
+                            key={index}
+                            style={{
+                              backgroundColor: `${color?.color_code}`,
+                              width: "40px",
+                              height: "40px",
+                              cursor: "pointer",
+                              border: `${
+                                activecolor === color?.id
+                                  ? "4px solid #2d323f"
+                                  : "1px solid black"
+                              }`,
+                            }}
+                            onClick={() =>
+                              handleSelectColor(
+                                color?.color_name,
+                                color?.color_code,
+                                color?.id
+                              )
+                            }
+                          ></Box>
+                        ))}
+                      </Stack>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
                   <Stack direction={"row"} spacing={1} alignItems="center">
                     <Typography
                       variant="cardHeader3"
@@ -738,7 +1024,7 @@ const PorductDetails = () => {
                     >
                       Avalability & Specs
                     </Typography>
-                    <hr
+                    {/* <hr
                       style={{
                         textAlign: "left",
                         width: "100%",
@@ -746,7 +1032,7 @@ const PorductDetails = () => {
                         backgroundColor: "black",
                         // maxWidth: "340px",
                       }}
-                    />
+                    /> */}
                   </Stack>
                   <Stack direction={"column"} spacing={1}>
                     {/* <Typography
@@ -790,9 +1076,11 @@ const PorductDetails = () => {
                     ADD TO CART
                   </Button>
                   {noteTextForCart && (
-                    <Alert severity="warning" >
+                    <Alert severity="warning">
                       <AlertTitle>
-                        <Typography variant="cardHeader" color="initial">{noteTextForCart}</Typography>
+                        <Typography variant="cardHeader" color="initial">
+                          {noteTextForCart}
+                        </Typography>
                       </AlertTitle>
                     </Alert>
                   )}
@@ -832,7 +1120,11 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={5} sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}>
+              <Stack
+                direction={"column"}
+                spacing={5}
+                sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
+              >
                 <Stack direction={"column"}>
                   <Typography
                     variant="login2"
@@ -878,7 +1170,11 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={5} sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}>
+              <Stack
+                direction={"column"}
+                spacing={5}
+                sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
+              >
                 <Stack direction={"column"}>
                   <Typography
                     variant="login2"
@@ -924,7 +1220,11 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={5} sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}>
+              <Stack
+                direction={"column"}
+                spacing={5}
+                sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
+              >
                 <Stack direction={"column"}>
                   <Typography
                     variant="login2"
@@ -970,7 +1270,11 @@ const PorductDetails = () => {
                 width: "100%",
               }}
             >
-              <Stack direction={"column"} spacing={5} sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}>
+              <Stack
+                direction={"column"}
+                spacing={5}
+                sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
+              >
                 <Stack direction={"column"}>
                   <Typography
                     variant="login2"
@@ -1007,43 +1311,45 @@ const PorductDetails = () => {
                 spacing={2}
                 sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
               >
-                {products?.p_sizes?.length > 0 ? <>
-                  <Stack direction={"row"} spacing={1} alignItems="center">
-                    <Typography variant="cardHeader3" color="#959595">
-                      Sizes
-                    </Typography>
-                    <hr
-                      style={{
-                        textAlign: "left",
-                        width: "100%",
-                        height: "1px",
-                        backgroundColor: "black",
-                        // maxWidth: "350px",
-                      }}
-                    />
-                  </Stack>
-                  <Stack
-                    direction={"column"}
-                    spacing={1}
-                    alignItems="start"
-                    justifyContent={"space-between"}
-                  >
-                    <Stack direction={"row"}>
-                      {products?.p_sizes?.map((size, index) => (
-                        <Button
-                          key={index}
-                          variant={`${activesize === size?.id ? "outlined" : "primary"
+                {products?.p_sizes?.length > 0 ? (
+                  <>
+                    <Stack direction={"row"} spacing={1} alignItems="center">
+                      <Typography variant="cardHeader3" color="#959595">
+                        Sizes
+                      </Typography>
+                      {/* <hr
+                        style={{
+                          textAlign: "left",
+                          width: "100%",
+                          height: "1px",
+                          backgroundColor: "black",
+                          // maxWidth: "350px",
+                        }}
+                      /> */}
+                    </Stack>
+                    <Stack
+                      direction={"column"}
+                      spacing={1}
+                      alignItems="start"
+                      justifyContent={"space-between"}
+                    >
+                      <Stack direction={"row"}>
+                        {products?.p_sizes?.map((size, index) => (
+                          <Button
+                            key={index}
+                            variant={`${
+                              activesize === size?.id ? "outlined" : "primary"
                             }`}
-                          color="primary"
-                          onClick={() =>
-                            handleSelectSize(size?.size_name, size?.id)
-                          }
-                        >
-                          {size?.size_name}
-                        </Button>
-                      ))}
+                            color="primary"
+                            onClick={() =>
+                              handleSelectSize(size?.size_name, size?.id)
+                            }
+                          >
+                            {size?.size_name}
+                          </Button>
+                        ))}
 
-                      {/* <Button variant="text" color="primary">
+                        {/* <Button variant="text" color="primary">
                     M
                   </Button>
                   <Button variant="text" color="primary">
@@ -1055,21 +1361,35 @@ const PorductDetails = () => {
                   <Button variant="text" color="primary">
                     XXL
                   </Button> */}
+                      </Stack>
+                      {products?.subcat_id === 13 ||
+                      products?.subcat_id === 15 ||
+                      products?.cat_id === 1 ? (
+                        <Button
+                          variant="text"
+                          color="primary"
+                          onClick={() =>
+                            handleSizeGuide(
+                              products?.subcat_id,
+                              products?.cat_id
+                            )
+                          }
+                        >
+                          size guide
+                        </Button>
+                      ) : (
+                        ""
+                      )}
                     </Stack>
-                    <Button
-                      variant="text"
-                      color="primary"
-                      size="small"
-                      onClick={() => setSizeGuide(true)}
-                    >
-                      size guide
-                    </Button>
-                  </Stack></> : ""}
+                  </>
+                ) : (
+                  ""
+                )}
                 <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="#959595">
                     Quantity
                   </Typography>
-                  <hr
+                  {/* <hr
                     style={{
                       textAlign: "left",
                       width: "100%",
@@ -1077,7 +1397,7 @@ const PorductDetails = () => {
                       backgroundColor: "black",
                       // maxWidth: "340px",
                     }}
-                  />
+                  /> */}
                 </Stack>
                 <Stack
                   direction={"row"}
@@ -1108,55 +1428,64 @@ const PorductDetails = () => {
                     <AddIcon fontSize="small" />
                   </IconButton>
                 </Stack>
-                <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595">
-                    Colors
-                  </Typography>
-                  <hr
-                    style={{
-                      textAlign: "left",
-                      width: "100%",
-                      height: "1px",
-                      backgroundColor: "black",
-                      // maxWidth: "350px",
-                    }}
-                  />
-                </Stack>
+                {products?.p_colours?.length > 0 ? (
+                  <>
+                    <Stack direction={"row"} spacing={1} alignItems="center">
+                      <Typography variant="cardHeader3" color="#959595">
+                        Colors
+                      </Typography>
+                      {/* <hr
+                        style={{
+                          textAlign: "left",
+                          width: "100%",
+                          height: "1px",
+                          backgroundColor: "black",
+                          // maxWidth: "350px",
+                        }}
+                      /> */}
+                    </Stack>
 
-                <Stack direction={"row"} spacing={1} height={40}>
-                  {products?.p_colours?.map((color, index) => (
-                    <Box
-                      size="small"
-                      key={index}
-                      style={{
-                        backgroundColor: `${color?.color_code}`,
-                        width: "40px",
-                        height: "40px",
-                        cursor: "pointer",
-                        border: `${activecolor === color?.id
-                          ? "4px solid #2d323f"
-                          : "1px solid black"
-                          }`,
-                      }}
-                      onClick={() =>
-                        handleSelectColor(
-                          color?.color_name,
-                          color?.color_code,
-                          color?.id
-                        )
-                      }
-                    ></Box>
-                  ))}
-                </Stack>
+                    <Stack direction={"row"} spacing={1} height={40}>
+                      {products?.p_colours?.map((color, index) => (
+                        <Box
+                          size="small"
+                          key={index}
+                          style={{
+                            backgroundColor: `${color?.color_code}`,
+                            width: "40px",
+                            height: "40px",
+                            cursor: "pointer",
+                            border: `${
+                              activecolor === color?.id
+                                ? "4px solid #2d323f"
+                                : "1px solid black"
+                            }`,
+                          }}
+                          onClick={() =>
+                            handleSelectColor(
+                              color?.color_name,
+                              color?.color_code,
+                              color?.id
+                            )
+                          }
+                        ></Box>
+                      ))}
+                    </Stack>
+                  </>
+                ) : (
+                  ""
+                )}
+
                 <Typography variant="cardHeader3" color="initial">
                   {description}
                 </Typography>
-                <Stack direction={"row"} spacing={1}> <Button
+                <Stack direction={"row"} spacing={1}>
+                  {" "}
+                  <Button
                     variant="outlined"
                     color="inherit"
                     onClick={handleClick}
                     size="small"
-
                     className="SemiBold"
                     sx={{
                       display: "flex",
@@ -1176,57 +1505,297 @@ const PorductDetails = () => {
                   >
                     Additional information
                   </Button>
-                   <Button variant="outlined"   color="inherit"
-                // style={{ display: `${showHeart}` }}
-                aria-label=""
-                // onClick={() => handleAddToWishList(dataForWishList)}
-              >
-                <FiHeart style={{ color: "#000",fontSize:"18px" }} />
-              </Button></Stack>
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    aria-label=""
+                    style={{ display: `${showHeart}` }}
+                    onClick={() => handleAddToWishList(dataForWishList)}
+                  >
+                    <FiHeart
+                      style={{
+                        color: "#000",
+                        fontSize: "18px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                      }}
+                    />
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    style={{ display: `${showBrokenHeart}` }}
+                    aria-label=""
+                    onClick={() =>
+                      handleRemoveFromList({
+                        id: products?.id,
+                        amount: 1,
+                        showHeart: "block",
+                        showBrokenHeart: "none",
+                      })
+                    }
+                  >
+                    <HeartBrokenOutlinedIcon
+                      style={{
+                        color: "#000",
+                        fontSize: "18px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                      }}
+                    />
+                  </Button>
+                </Stack>
                 {openList ? (
                   <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
-
                     <Stack direction={"column"} spacing={1.5}>
+                      <ListItemText
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "90vw",
+                          maxWidth: "250px",
+                        }}
+                        primary={
+                          <Typography
+                            variant="cardHeader12"
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            Weight
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography
+                            variant="cardLocation1"
+                            sx={{ width: "50%" }}
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            {products?.p_weight}
+                          </Typography>
+                        }
+                      />
+                      <ListItemText
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "90vw",
+                          maxWidth: "250px",
+                        }}
+                        primary={
+                          <Typography
+                            variant="cardHeader12"
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            Dimensions
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography
+                            variant="cardLocation1"
+                            sx={{ width: "50%" }}
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            {products?.p_dimension}
+                          </Typography>
+                        }
+                      />
+                      <ListItemText
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "90vw",
+                          maxWidth: "250px",
+                        }}
+                        primary={
+                          <Typography
+                            variant="cardHeader12"
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            Fabric
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography
+                            variant="cardLocation1"
+                            sx={{ width: "50%" }}
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            {
+                              <Stack direction={"row"} spacing={1}>
+                                {products?.p_fabric?.map((name) => (
+                                  <>
+                                    <Typography
+                                      variant="cardLocation1"
+                                      sx={{ width: "50%" }}
+                                      className="SemiBold"
+                                      color="initial"
+                                    >
+                                      {name?.fabric_name}
+                                    </Typography>
+                                  </>
+                                ))}
+                              </Stack>
+                            }
+                          </Typography>
+                        }
+                      />
+                      <ListItemText
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "90vw",
+                          maxWidth: "250px",
+                        }}
+                        primary={
+                          <Typography
+                            variant="cardHeader12"
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            Color
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography
+                            variant="cardLocation1"
+                            sx={{ width: "50%" }}
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            {
+                              <Stack direction={"row"} spacing={1}>
+                                {products?.p_colours?.map((color) => (
+                                  <>
+                                    <Typography
+                                      variant="cardLocation1"
+                                      sx={{ width: "50%" }}
+                                      className="SemiBold"
+                                      color="initial"
+                                    >
+                                      {color?.color_name}
+                                    </Typography>
+                                  </>
+                                ))}
+                              </Stack>
+                            }
+                          </Typography>
+                        }
+                      />
 
-                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Weight</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_weight}</Typography>} />
-                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Dimensions</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_dimension}</Typography>} />
-                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Fabric</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{<Stack direction={"row"} spacing={1}>
-                        {
-                          products?.p_fabric?.map((name) => <>
+                      <ListItemText
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "90vw",
+                          maxWidth: "250px",
+                        }}
+                        primary={
+                          <Typography
+                            variant="cardHeader12"
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            Design Code
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography
+                            variant="cardLocation1"
+                            sx={{ width: "50%" }}
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            {products?.p_design_code}
+                          </Typography>
+                        }
+                      />
 
-                            <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{name?.fabric_name}</Typography>
+                      <ListItemText
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "90vw",
+                          maxWidth: "250px",
+                        }}
+                        primary={
+                          <Typography
+                            variant="cardHeader12"
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            Size
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography
+                            variant="cardLocation1"
+                            sx={{ width: "50%" }}
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            {
+                              <Stack direction={"row"} spacing={1}>
+                                {products?.p_sizes?.map((size) => (
+                                  <>
+                                    <Typography
+                                      variant="cardLocation1"
+                                      sx={{ width: "50%" }}
+                                      className="SemiBold"
+                                      color="initial"
+                                    >
+                                      {size?.size_name}
+                                    </Typography>
+                                  </>
+                                ))}
+                              </Stack>
+                            }
+                          </Typography>
+                        }
+                      />
 
-                          </>)}
-
-                      </Stack>}</Typography>} />
-                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Color</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{<Stack direction={"row"} spacing={1}>
-                        {
-                          products?.p_colours?.map((color) => <>
-
-                            <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{color?.color_name}</Typography>
-
-                          </>)}
-
-                      </Stack>}</Typography>} />
-
-                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Design Code</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.p_design_code}</Typography>} />
-
-                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Size</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{
-                        <Stack direction={"row"} spacing={1}>
-                          {
-                            products?.p_sizes?.map((size) => <>
-
-                              <Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{size?.size_name}</Typography>
-
-                            </>)}
-
-                        </Stack>
-                      }</Typography>} />
-
-                      <ListItemText sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "90vw", maxWidth: "250px" }} primary={<Typography variant="cardHeader12" className="SemiBold" color="initial">Country of origin</Typography>} secondary={<Typography variant="cardLocation1" sx={{ width: "50%" }} className="SemiBold" color="initial">{products?.country_of_origin}</Typography>} />
-
-
-
+                      <ListItemText
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "90vw",
+                          maxWidth: "250px",
+                        }}
+                        primary={
+                          <Typography
+                            variant="cardHeader12"
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            Country of origin
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography
+                            variant="cardLocation1"
+                            sx={{ width: "50%" }}
+                            className="SemiBold"
+                            color="initial"
+                          >
+                            {products?.country_of_origin}
+                          </Typography>
+                        }
+                      />
                     </Stack>
                   </Box>
                 ) : null}
@@ -1234,7 +1803,7 @@ const PorductDetails = () => {
                   <Typography variant="cardHeader3" color="#959595" width="25%">
                     Avalability & Spces
                   </Typography>
-                  <hr
+                  {/* <hr
                     style={{
                       textAlign: "left",
                       width: "100%",
@@ -1242,7 +1811,7 @@ const PorductDetails = () => {
                       backgroundColor: "black",
                       // maxWidth: "340px",
                     }}
-                  />
+                  /> */}
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
@@ -1269,7 +1838,9 @@ const PorductDetails = () => {
                 {noteTextForCart && (
                   <Alert severity="warning">
                     <AlertTitle>
-                      <Typography variant="cardLocation1" color="initial">{noteTextForCart}</Typography>
+                      <Typography variant="cardLocation1" color="initial">
+                        {noteTextForCart}
+                      </Typography>
                     </AlertTitle>
                   </Alert>
                 )}
@@ -1312,7 +1883,12 @@ const PorductDetails = () => {
       <Hidden only={["xs", "xms", "xl", "lg", "md"]}>
         <ThumbsGallery2 open={open} setOpen={setOpen} imageData={imageData} />
       </Hidden>
-      <SizeModal open={sizeGuide} setOpen={setSizeGuide}></SizeModal>
+      <SizeModal
+        open={sizeGuide}
+        setOpen={setSizeGuide}
+        subCat={subCat}
+        cat={cat}
+      ></SizeModal>
     </>
   );
 };

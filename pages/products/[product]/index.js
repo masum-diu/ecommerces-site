@@ -509,7 +509,6 @@ const masterCollectionLayout = () => {
   const productsForStatic = filteredData.slice(0, 7);
   const productsForDynamic = chunkArray(filteredData.slice(9));
 
-
   return (
     <>
       <Head>
@@ -646,10 +645,11 @@ const masterCollectionLayout = () => {
                   }}
                   onClick={() => handleFabricChange("all")}
                 >
-                  All Product
+                  All {currentPath}
                 </Typography>
-                {fabrics?.slice(0, 4).map((fabric) => (
+                {fabrics?.slice(0, 4).map((fabric, index) => (
                   <Typography
+                    key={index}
                     className="SemiBold"
                     variant="homeFlash"
                     style={

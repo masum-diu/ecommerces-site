@@ -20,7 +20,7 @@ const campaign = () => {
     if (isSuccess) {
       setCampData(data?.data);
     }
-  }, [data,isSuccess]);
+  }, [data, isSuccess]);
 
   if (isLoading) {
     return <Loader></Loader>;
@@ -56,42 +56,40 @@ const campaign = () => {
           rowGap={3}
         >
           {campData?.map((data) => (
-            <>
-              <Stack direction={"column"} spacing={2} key={data?.id}>
-                <HovarImage
-                  url={`/products/${
-                    data?.p_subcategory?.slug === "unknown"
-                      ? data?.p_category?.slug
-                      : data?.p_subcategory?.slug
-                  }/${data?.id}`}
-                  data={data}
-                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
-                    data?.feature_image?.lastIndexOf("/") + 1
-                  )}`}
-                  width={350}
-                  height={350}
-                ></HovarImage>
+            <Stack direction={"column"} spacing={2} key={data?.id}>
+              <HovarImage
+                url={`/products/${
+                  data?.p_subcategory?.slug === "unknown"
+                    ? data?.p_category?.slug
+                    : data?.p_subcategory?.slug
+                }/${data?.id}`}
+                data={data}
+                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
+                  data?.feature_image?.lastIndexOf("/") + 1
+                )}`}
+                width={350}
+                height={350}
+              ></HovarImage>
 
-                {/* <img src={data?.feature_image} alt="" width={350} height={350} /> */}
+              {/* <img src={data?.feature_image} alt="" width={350} height={350} /> */}
 
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  justifyContent={"space-between"}
+              <Stack
+                direction={"row"}
+                spacing={2}
+                justifyContent={"space-between"}
+              >
+                <Typography variant="cardHeader2" color="initial">
+                  {data?.p_name}
+                </Typography>
+                <Typography
+                  variant="cardHeader2"
+                  fontWeight={"bold"}
+                  color="initial"
                 >
-                  <Typography variant="cardHeader2" color="initial">
-                    {data?.p_name}
-                  </Typography>
-                  <Typography
-                    variant="cardHeader2"
-                    fontWeight={"bold"}
-                    color="initial"
-                  >
-                    BDT {data?.p_sale_price} 
-                  </Typography>
-                </Stack>
+                  BDT {data?.p_sale_price}
+                </Typography>
               </Stack>
-            </>
+            </Stack>
           ))}
         </Stack>
       </Box>

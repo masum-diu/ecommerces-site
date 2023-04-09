@@ -13,7 +13,8 @@ import { store } from "../src/app/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "react-hot-toast";
-import "../styles/globals.css"
+import "../styles/globals.css";
+import Pixel from "../components/Pixel";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 let persistor = persistStore(store);
@@ -22,6 +23,25 @@ export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <CacheProvider value={emotionCache}>
+      <div>
+        <React.Fragment>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      
+        gtag('config', 'UA-105579019-2')`,
+            }}
+          />
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-105579019-2"
+          />
+        </React.Fragment>
+
+        <Pixel name="FACEBOOK_PIXEL_1" />
+      </div>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>

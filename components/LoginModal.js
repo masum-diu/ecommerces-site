@@ -19,16 +19,15 @@ import instance from "../pages/api/api_instance";
 import GuestCheckout from "./GuestCheckout";
 import USER_CONTEXT from "./userContext";
 
-const LoginModal = ({
-  open,
-  setOpen,
-  // isPlaceOrder,
-  // setIsPlaceOrder,
-  isGuestCheckout,
-  setIsGuestCheckout,
-}) => {
-  const { userdata, setUserData, hasToken, setHasToken,isPlaceOrder, setIsPlaceOrder } =
-    useContext(USER_CONTEXT);
+const LoginModal = ({ open, setOpen, isGuestCheckout, setIsGuestCheckout }) => {
+  const {
+    userdata,
+    setUserData,
+    hasToken,
+    setHasToken,
+    isPlaceOrder,
+    setIsPlaceOrder,
+  } = useContext(USER_CONTEXT);
   const { errormessage, setErrormessage } = useState("");
   const [signModal, setSignModal] = useState(false);
   const [forgotModal, setForgotModal] = useState(false);
@@ -56,6 +55,10 @@ const LoginModal = ({
     setOpen(false);
     setIsPlaceOrder(false);
   };
+  const handleDialogClose = () => {
+    setOpen(false);
+    setIsPlaceOrder(false);
+  };
   const [values, setValues] = useState({
     pass: "",
     // email:"",
@@ -80,6 +83,7 @@ const LoginModal = ({
       password: "",
     },
   });
+
   // const password = useWatch({ control, name: "password" });
   const onSubmit = (data) => {
     instance
@@ -98,12 +102,11 @@ const LoginModal = ({
         setUserData(err);
       });
   };
-  console.log("isPlaceOrder", isPlaceOrder);
   return (
     <>
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => handleDialogClose()}
         PaperProps={{
           sx: { width: { lg: "30%", xs: "100vw" }, height: "fit-content" },
         }}
@@ -129,7 +132,7 @@ const LoginModal = ({
               <Stack direction={"column"} spacing={3} mt={2} mb={2}>
                 <Stack direction={"column"} spacing={1}>
                   <Typography variant="cardHeader12" color="initial">
-                    USERNAME OR EMAIL ADDRESS
+                    EMAIL ADDRESS
                   </Typography>
                   <TextField
                     {...register("email", {

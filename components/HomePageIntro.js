@@ -36,7 +36,7 @@ const HomePageIntro = ({ title }) => {
   const [searchModal, setSearchModal] = useState(false);
   const router = useRouter();
   const [value, setValue] = React.useState("0");
-  const { user, setUser } = useContext(USER_CONTEXT);
+  const { user, setUser,setHasToken } = useContext(USER_CONTEXT);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -78,6 +78,7 @@ const HomePageIntro = ({ title }) => {
     setUser("");
     setAnchorEl(null);
     handleMobileMenuClose();
+    setHasToken(false)
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -149,7 +150,7 @@ const HomePageIntro = ({ title }) => {
       </Head>
       <AppBar
         position="fixed"
-        sx={{ boxShadow: "none", backgroundColor: "#fff" }}
+        sx={{ boxShadow: "none", backgroundColor: "#fff",height:"85px" }}
       >
         <Toolbar
           sx={{

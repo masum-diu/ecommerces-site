@@ -75,10 +75,10 @@ import { removeFromWishList } from "../../src/features/wishlist/wishListSlice";
               {wishlist?.length > 0 ? (
                 <Stack direction={"column"} spacing={2} pt={5}>
                   {wishlist?.map((wishlistData) => (
-                    <>
+                    <div key={wishlistData?.id}>
                       <Stack
                         spacing={2}
-                        key={wishlistData?.id}
+                        
                         direction={{ lg: "row", xs: "column" }}
                         sx={{
                           width: "100%",
@@ -125,7 +125,7 @@ import { removeFromWishList } from "../../src/features/wishlist/wishListSlice";
                       </Stack>
                       <br />
                       <Divider />
-                    </> 
+                    </div> 
                   ))}
                 </Stack>
               ) : (
@@ -153,10 +153,10 @@ import { removeFromWishList } from "../../src/features/wishlist/wishListSlice";
                   <Table>
                     <TableBody sx={{ width: "100%" }}>
                       {wishlist?.map((wishlistData) => (
-                        <>
+                        <div key={wishlistData?.id}>
                           <TableRow
                             // sx={{background:"#fdc",px:40}}
-                            key={wishlistData?.id}
+                            
                             // sx={{ display: "flex", justifyContent: "space-between",alignItems:"center",textDecoration:"none",border:"none" }}
                           >
                             <TableCell sx={{ border: "none" }}>
@@ -208,7 +208,7 @@ import { removeFromWishList } from "../../src/features/wishlist/wishListSlice";
                               </Button>
                             </TableCell>
                           </TableRow>
-                        </>
+                        </div>
                       ))}
                     </TableBody>
                   </Table>

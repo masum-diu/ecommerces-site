@@ -4,7 +4,9 @@ export const productApi = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://backend.aranya.com.bd/api",
+    // baseUrl: "https://apiaranya.jumriz.com/public/api",
   }),
+  tagTypes: ["Orders"],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "/product",
@@ -81,6 +83,34 @@ export const productApi = createApi({
           Authorization: "Bearer " + token,
         },
       }),
+      providesTags: ["Orders"],
+    }),
+    cancelOrder: builder.mutation({
+      query: ({ order_id, token }) => ({
+        url: `order/cancel`,
+        method: "POST",
+        body: {
+          order_id: order_id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+          "Access-Control-Allow-Origin": "*",
+        },
+      }),
+      invalidatesTags: ["Orders"],
+    }),
+    getRefundOrder: builder.mutation({
+      query: ({ order_id, token }) => ({
+        url: `order-cliam-refund/${order_id}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+          "Access-Control-Allow-Origin": "*",
+        },
+      }),
+      invalidatesTags: ["Orders"],
     }),
   }),
 });
@@ -105,4 +135,6 @@ export const {
   useGetFabricWiseFilteredProductsWithOutSubQuery,
   useLazyGetCategoryAndSubWiseProductsQuery,
   useGetOrderDetailsQuery,
+  useCancelOrderMutation,
+  useGetRefundOrderMutation,
 } = productApi;

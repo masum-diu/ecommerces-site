@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { MdClose, AiOutlinePlus } from "react-icons/md";
 import { useDebouncedCallback, useDebounce } from "use-debounce";
+import { useRouter } from "next/router";
 
 const Filter = ({
   open,
@@ -35,6 +36,10 @@ const Filter = ({
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
   const [value] = useDebounce(rangeValue, 1000, { trailing: true });
+  const router = useRouter()
+  const currentPath =
+    router?.query?.product?.charAt(0).toUpperCase() +
+    router?.query?.product?.slice(1);
   const dataFetchedRef = useRef(false);
 
   // console.log("your log output", value);
@@ -131,22 +136,20 @@ const Filter = ({
                   color="initial"
                   sx={{ cursor: "pointer" }}
                 >
-                  All Product
+                  All {currentPath}
                 </Typography>
                 {fabrics?.map((fabric, index) => (
-                  <>
-                    <Typography
-                      onClick={() =>
-                        handleFabric(fabric?.fabric_name, fabric?.fabric_id)
-                      }
-                      variant="cardHeader3"
-                      color="initial"
-                      key={index}
-                      sx={{ cursor: "pointer" }}
-                    >
-                      {fabric?.fabric_name}
-                    </Typography>
-                  </>
+                  <Typography
+                    onClick={() =>
+                      handleFabric(fabric?.fabric_name, fabric?.fabric_id)
+                    }
+                    variant="cardHeader3"
+                    color="initial"
+                    key={index}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    {fabric?.fabric_name}
+                  </Typography>
                 ))}
               </Stack>
             </Box>

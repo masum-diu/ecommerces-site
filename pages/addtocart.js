@@ -163,86 +163,92 @@ const addtocart = () => {
                                 <RemoveIcon fontSize="small" />
                               </IconButton>
 
-                              <Typography variant="subtitle1" color="initial">
-                                {data.amount}
-                              </Typography>
-                              <IconButton
-                                aria-label="increase"
-                                onClick={() =>
-                                  dispatch(
-                                    increaseCart({
-                                      id: data.id,
-                                      image: data.image,
-                                      name: data.name,
-                                      size: data.size,
-                                      size_id: data.size_id,
-                                      text: data.text,
-                                      color: data.color,
-                                      color_id: data.color_id,
-                                      colorCode: data.colorCode,
-                                      price: data.price,
-                                      amount: data.amount + 1,
-                                      stock: data.stock,
-                                      totalAmount: 1,
-                                      totalPrice:
-                                        data.totalPrice + parseFloat(data.price),
-                                    })
-                                  )
-                                }
-                              >
-                                <AddIcon fontSize="small" />
-                              </IconButton>
-                            </Stack>
+                            <Typography variant="subtitle1" color="initial">
+                              {data.amount}
+                            </Typography>
+                            <IconButton
+                              aria-label="increase"
+                              onClick={() =>
+                                dispatch(
+                                  increaseCart({
+                                    id: data.id,
+                                    image: data.image,
+                                    name: data.name,
+                                    size: data.size,
+                                    size_id: data.size_id,
+                                    text: data.text,
+                                    color: data.color,
+                                    color_id: data.color_id,
+                                    colorCode: data.colorCode,
+                                    price: data.price,
+                                    vatAmountParticularProduct:
+                                      data.vatAmountParticularProduct +
+                                      data.vatAmountParticularProduct /
+                                        data.amount,
+                                    priceWithTax: data.priceWithTax,
+                                    amount: data.amount + 1,
+                                    stock: data.stock,
+                                    totalAmount: 1,
+                                    totalPrice:
+                                      data.totalPrice + parseFloat(data.price),
+                                    totalPriceWithTax:
+                                      data.totalPriceWithTax +
+                                      parseFloat(data.priceWithTax),
+                                  })
+                                )
+                              }
+                            >
+                              <AddIcon fontSize="small" />
+                            </IconButton>
                           </Stack>
-                          <Divider />
-                        </>
-                      ))}
-
-                      <br />
-                      <Stack
-                        direction={{ lg: "row", xs: "column" }}
-                        spacing={2}
-                        justifyContent={"flex-end"}
-                      >
-                        {" "}
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => router.push("/shop")}
-                        >
-                          CONTINUE SHOPPING
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="background2"
-                          onClick={() => router.push("/checkout")}
-                        >
-                          proceed to checkout
-                        </Button>
-                      </Stack>
-                    </Stack>
-                  </>
-                ) : (
-                  <>
+                        </Stack>
+                        <Divider />
+                      </>
+                    ))}
+                    <br />
                     <Stack
-                      direction={"column"}
+                      direction={{ lg: "row", xs: "column" }}
                       spacing={2}
-                      sx={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        mt: 10,
-                      }}
+                      justifyContent={"flex-end"}
                     >
-                      <ProductionQuantityLimitsIcon
-                        style={{ color: "#0A0A0A", fontSize: "128px" }}
-                      ></ProductionQuantityLimitsIcon>
-                      <Typography variant="header1">
-                        Your cart is currently empty.
-                      </Typography>
+                      {" "}
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => router.push("/shop")}
+                      >
+                        CONTINUE SHOPPING
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="background2"
+                        onClick={() => router.push("/checkout")}
+                      >
+                        proceed to checkout
+                      </Button>
                     </Stack>
-                  </>
-                )}
-              </Hidden>
+                  </Stack>
+                </>
+              ) : (
+                <>
+                  <Stack
+                    direction={"column"}
+                    spacing={2}
+                    sx={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      mt: 10,
+                    }}
+                  >
+                    <ProductionQuantityLimitsIcon
+                      style={{ color: "#0A0A0A", fontSize: "128px" }}
+                    ></ProductionQuantityLimitsIcon>
+                    <Typography variant="header1">
+                      Your cart is currently empty.
+                    </Typography>
+                  </Stack>
+                </>
+              )}
             </Grid>
           </Grid>
         </Stack>

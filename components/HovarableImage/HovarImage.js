@@ -101,14 +101,15 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     dispatch(addToWishList(data));
     setShowBrokenHeart("block");
     setShowHeart("none");
-    await toast.success("Added To WishList!")
+    await toast.success("Added To WishList!");
   };
   const handleRemoveFromList = async (data) => {
     dispatch(removeFromWishList(data));
     setShowBrokenHeart("none");
     setShowHeart("block");
-    await toast.error("Removed From Wishlist!")
+    await toast.error("Removed From Wishlist!");
   };
+  const firstCombinationPrice = data?.p_stocks?.[0]?.mrp;
   const finalData = {
     id: data.id,
     image: data.feature_image,
@@ -132,7 +133,8 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     size: data?.p_sizes,
     text: data?.p_description,
     color: data?.p_colours,
-    price: data?.p_sale_price,
+    // price: data?.p_sale_price,
+    price: firstCombinationPrice,
     amount: 1,
     stock: data?.p_stocks,
     totalAmount: 1,

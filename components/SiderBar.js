@@ -39,6 +39,7 @@ import { useGetCampignListsQuery } from "../src/features/api/apiSlice";
 import Link from "next/link";
 
 const SiderBar = ({ open, setOpen }) => {
+  const router = useRouter();
   const { data, isLoading, isSuccess, isError, error } =
     useGetCampignListsQuery();
   const lists = data?.data;
@@ -49,6 +50,19 @@ const SiderBar = ({ open, setOpen }) => {
   const [openList4, setOpenList4] = React.useState(false);
   const [openList5, setOpenList5] = React.useState(false);
   const [openList6, setOpenList6] = React.useState(false);
+  const [openListJewelry, setOpenListJewelry] = React.useState(false);
+  const [openListKids, setOpenListKids] = React.useState(false);
+  const [arrow, setArrow] = useState(false);
+  const [arrow1, setArrow1] = useState(false);
+  const [arrow2, setArrow2] = useState(false);
+  const [arrow3, setArrow3] = useState(false);
+  const [arrow4, setArrow4] = useState(false);
+  const [arrow5, setArrow5] = useState(false);
+  const [arrow6, setArrow6] = useState(false);
+  const [arrowJewelry, setArrowJewelry] = useState(false);
+  const [arrowKids, setArrowKids] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const { isGuestCheckout, setIsGuestCheckout, hasToken, setHasToken } =
     useContext(USER_CONTEXT);
   let usera = true;
@@ -88,17 +102,14 @@ const SiderBar = ({ open, setOpen }) => {
     setOpenList6((prev) => !prev);
     setArrow6(!arrow6);
   };
-
-  const router = useRouter();
-
-  const [arrow, setArrow] = useState(false);
-  const [arrow1, setArrow1] = useState(false);
-  const [arrow2, setArrow2] = useState(false);
-  const [arrow3, setArrow3] = useState(false);
-  const [arrow4, setArrow4] = useState(false);
-  const [arrow5, setArrow5] = useState(false);
-  const [arrow6, setArrow6] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const handleClickJewelry = () => {
+    setOpenListJewelry((prev) => !prev);
+    setArrowJewelry(!arrowJewelry);
+  };
+  const handleClickKids = () => {
+    setOpenListKids((prev) => !prev);
+    setArrowKids(!arrowKids);
+  };
 
   const { user, setUser } = useContext(USER_CONTEXT);
   const handleChange = (event, newValue) => {
@@ -132,7 +143,8 @@ const SiderBar = ({ open, setOpen }) => {
     setUser("");
     setAnchorEl(null);
     handleMobileMenuClose();
-    setModalOpen(false)
+    setModalOpen(false);
+    setHasToken(false);
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -212,11 +224,15 @@ const SiderBar = ({ open, setOpen }) => {
         }}
       >
         <Box p={2}>
-          <Stack direction={"row"} alignItems="center" spacing={2} >
+          <Stack direction={"row"} alignItems="center" spacing={2}>
             <IconButton aria-label="" onClick={() => setOpen(false)}>
               <MdClose />
             </IconButton>
-            <img src="/assets/headerLogo.png" alt="" style={{width:"90vw",maxWidth:"80px",marginTop:"-.5rem"}} />
+            <img
+              src="/assets/headerLogo.png"
+              alt=""
+              style={{ width: "90vw", maxWidth: "80px", marginTop: "-.5rem" }}
+            />
           </Stack>
 
           <ClickAwayListener
@@ -226,6 +242,7 @@ const SiderBar = ({ open, setOpen }) => {
           >
             <Box mt={2}>
               <Stack direction={"column"}>
+                {/* Women Starts Here */}
                 <Button
                   className="SemiBold"
                   variant="text"
@@ -268,6 +285,7 @@ const SiderBar = ({ open, setOpen }) => {
                             {
                               pathname: "/products/saree",
                               query: {
+                                data: JSON.stringify({ cat: 1, sub_cat: 7 }),
                                 cat: 1,
                                 sub_cat: 7,
                               },
@@ -287,35 +305,6 @@ const SiderBar = ({ open, setOpen }) => {
                       </Typography>
                     </Stack>
 
-                    {/* demo rout  starts */}
-                    {/* <Stack
-                      direction={"row"}
-                      mt={2}
-                      justifyContent="space-between"
-                    >
-                      <Typography
-                        variant="cardHeader3"
-                        color="initial"
-                        sx={{ cursor: "pointer" }}
-                        onClick={() =>
-                          router.push({
-                            pathname: "/products/saree",
-                            query: { cat: 1, sub_cat: 7 },
-                          },'/products/saree')
-                        }
-                      >
-                        SareeOfProduct
-                      </Typography>
-                      <Typography
-                        variant="cardHeader3"
-                        color="initial"
-                        sx={{ mx: 2 }}
-                      >
-                        What’s New
-                      </Typography>
-                    </Stack> */}
-
-                    {/* demo rout  ends */}
                     <Stack
                       direction={"row"}
                       mt={2}
@@ -329,7 +318,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/salwar-kameez",
-                              query: { cat: 1, sub_cat: 8 },
+                              query: {
+                                data: JSON.stringify({ cat: 1, sub_cat: 8 }),
+                                cat: 1,
+                                sub_cat: 8,
+                              },
                             },
                             "/products/salwar-kameez?cat=1&sub_cat=8"
                           )
@@ -354,7 +347,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/kurti-fatua",
-                              query: { cat: 1, sub_cat: 9 },
+                              query: {
+                                data: JSON.stringify({ cat: 1, sub_cat: 9 }),
+                                cat: 1,
+                                sub_cat: 9,
+                              },
                             },
                             "/products/kurti-fatua?cat=1&sub_cat=9"
                           )
@@ -379,7 +376,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/tops-shirts",
-                              query: { cat: 1, sub_cat: 10 },
+                              query: {
+                                data: JSON.stringify({ cat: 1, sub_cat: 10 }),
+                                cat: 1,
+                                sub_cat: 10,
+                              },
                             },
                             "/products/tops-shirts?cat=1&sub_cat=10"
                           )
@@ -408,7 +409,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/kimono",
-                              query: { cat: 1, sub_cat: 11 },
+                              query: {
+                                data: JSON.stringify({ cat: 1, sub_cat: 11 }),
+                                cat: 1,
+                                sub_cat: 11,
+                              },
                             },
                             "/products/kimono?cat=1&sub_cat=11"
                           )
@@ -437,7 +442,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/kaftan",
-                              query: { cat: 1, sub_cat: 12 },
+                              query: {
+                                data: JSON.stringify({ cat: 1, sub_cat: 12 }),
+                                cat: 1,
+                                sub_cat: 12,
+                              },
                             },
                             "/products/kaftan?cat=1&sub_cat=12"
                           )
@@ -448,6 +457,8 @@ const SiderBar = ({ open, setOpen }) => {
                     </Stack>
                   </Box>
                 ) : null}
+
+                {/* Men Starts Here */}
                 <Button
                   className="SemiBold"
                   variant="text"
@@ -489,7 +500,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/panjabi",
-                              query: { cat: 2, sub_cat: 13 },
+                              query: {
+                                data: JSON.stringify({ cat: 2, sub_cat: 13 }),
+                                cat: 2,
+                                sub_cat: 13,
+                              },
                             },
                             "/products/panjabi?cat=2&sub_cat=13"
                           )
@@ -505,7 +520,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/fatua",
-                              query: { cat: 2, sub_cat: 16 },
+                              query: {
+                                data: JSON.stringify({ cat: 2, sub_cat: 16 }),
+                                cat: 2,
+                                sub_cat: 16,
+                              },
                             },
                             "/products/fatua?cat=2&sub_cat=16"
                           )
@@ -527,7 +546,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/vest",
-                              query: { cat: 2, sub_cat: 14 },
+                              query: {
+                                data: JSON.stringify({ cat: 2, sub_cat: 14 }),
+                                cat: 2,
+                                sub_cat: 14,
+                              },
                             },
                             "/products/vest?cat=2&sub_cat=14"
                           )
@@ -543,7 +566,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/shirts",
-                              query: { cat: 2, sub_cat: 17 },
+                              query: {
+                                data: JSON.stringify({ cat: 2, sub_cat: 17 }),
+                                cat: 2,
+                                sub_cat: 17,
+                              },
                             },
                             "/products/shirts?cat=2&sub_cat=17"
                           )
@@ -565,7 +592,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/t-shirt",
-                              query: { cat: 2, sub_cat: 15 },
+                              query: {
+                                data: JSON.stringify({ cat: 2, sub_cat: 15 }),
+                                cat: 2,
+                                sub_cat: 15,
+                              },
                             },
                             "/products/t-shirt?cat=2&sub_cat=15"
                           )
@@ -581,7 +612,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/jackets",
-                              query: { cat: 2, sub_cat: 18 },
+                              query: {
+                                data: JSON.stringify({ cat: 2, sub_cat: 18 }),
+                                cat: 2,
+                                sub_cat: 18,
+                              },
                             },
                             "/products/jackets?cat=2&sub_cat=18"
                           )
@@ -592,6 +627,8 @@ const SiderBar = ({ open, setOpen }) => {
                     </Stack>
                   </Box>
                 ) : null}
+
+                {/* Kids Starts Here */}
 
                 <Button
                   className="SemiBold"
@@ -608,7 +645,7 @@ const SiderBar = ({ open, setOpen }) => {
                     router.push(
                       {
                         pathname: "/products/kids",
-                        query: { cat: 3 },
+                        query: { data: JSON.stringify({ cat: 3 }), cat: 3 },
                       },
                       "/products/kids?cat=3"
                     )
@@ -617,33 +654,117 @@ const SiderBar = ({ open, setOpen }) => {
                   Kids
                 </Button>
                 {openList2 ? (
-                  <Box sx={{ width: "80%", margin: "0 auto" }}>
-                    {/* <Stack direction={"row"} mt={2} spacing={19} >
-                <Typography variant="body" color="initial">Saree</Typography>
-                <Typography variant="body" color="initial">What’s New</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={10.5}>
-                <Typography variant="body" color="initial">Salwar Kameez</Typography>
-                <Typography variant="body" color="initial">Limited Edition</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={12.5}>
-                <Typography variant="body" color="initial">Kurti & Fatua</Typography>
-                <Typography variant="body" color="initial">Special Edition</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={12}>
-                <Typography variant="body" color="initial">Tops & Shirts</Typography>
-                <Typography variant="body" color="initial">Discount</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={17}>
-                <Typography variant="body" color="initial">Kimono</Typography>
-                <Typography variant="body" color="initial">Offer</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={15}>
-                <Typography variant="body" color="initial">Kaftan</Typography>
-               
-              </Stack> */}
-                  </Box>
+                  <Box sx={{ width: "80%", margin: "0 auto" }}></Box>
                 ) : null}
+                {/* Updated Kids Section Don't #####********Delete */}
+                {/* <Button
+                  className="SemiBold"
+                  variant="text"
+                  color="inherit"
+                  fullWidth
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    textTransform: "capitalize",
+                  }}
+                  endIcon={
+                    arrowKids ? (
+                      <MdOutlineKeyboardArrowUp
+                        onClick={() => setArrow1(!arrowKids)}
+                      />
+                    ) : (
+                      <MdOutlineKeyboardArrowDown
+                        onClick={() => setArrow1(!arrowKids)}
+                      />
+                    )
+                  }
+                  onClick={handleClickKids}
+                >
+                  Kids
+                </Button>
+                {openListKids ? (
+                  <Box sx={{ width: "80%", margin: "0 auto" }}>
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/babies",
+                              query: { cat: 3, sub_cat: 40 },
+                            },
+                            "/products/babies?cat=3&sub_cat=30"
+                          )
+                        }
+                      >
+                        Babies
+                      </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer", mx: { xs: 6, lg: 8 } }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/boys",
+                              query: { cat: 3, sub_cat: 39 },
+                            },
+                            "/products/boys?cat=3&sub_cat=39"
+                          )
+                        }
+                      >
+                        Boys
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/girls",
+                              query: { cat: 3, sub_cat: 38 },
+                            },
+                            "/products/girls?cat=3&sub_cat=38"
+                          )
+                        }
+                      >
+                        Girls
+                      </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer", mx: { xs: 4, lg: 5 } }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/toddlers",
+                              query: { cat: 3, sub_cat: 41 },
+                            },
+                            "/products/toddlers?cat=3&sub_cat=41"
+                          )
+                        }
+                      >
+                        Toddlers
+                      </Typography>
+                    </Stack>
+                  </Box>
+                ) : null} */}
+
+                {/* Home Stars Here */}
                 <Button
                   className="SemiBold"
                   variant="text"
@@ -668,7 +789,7 @@ const SiderBar = ({ open, setOpen }) => {
                     )
                   }
                 >
-                  Home Furnishings
+                  Home
                 </Button>
                 {openList3 ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
@@ -685,7 +806,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/baby-kantha",
-                              query: { cat: 4, sub_cat: 19 },
+                              query: {
+                                data: JSON.stringify({ cat: 4, sub_cat: 19 }),
+                                cat: 4,
+                                sub_cat: 19,
+                              },
                             },
                             "/products/baby-kantha?cat=4&sub_cat=19"
                           )
@@ -701,7 +826,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/bed-cover",
-                              query: { cat: 4, sub_cat: 20 },
+                              query: {
+                                data: JSON.stringify({ cat: 4, sub_cat: 20 }),
+                                cat: 4,
+                                sub_cat: 20,
+                              },
                             },
                             "/products/bed-cover?cat=4&sub_cat=20"
                           )
@@ -723,7 +852,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/cushion-cover",
-                              query: { cat: 4, sub_cat: 21 },
+                              query: {
+                                data: JSON.stringify({ cat: 4, sub_cat: 21 }),
+                                cat: 4,
+                                sub_cat: 21,
+                              },
                             },
                             "/products/cushion-cover?cat=4&sub_cat=21"
                           )
@@ -739,7 +872,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/basket",
-                              query: { cat: 4, sub_cat: 22 },
+                              query: {
+                                data: JSON.stringify({ cat: 4, sub_cat: 22 }),
+                                cat: 4,
+                                sub_cat: 22,
+                              },
                             },
                             "/products/basket?cat=4&sub_cat=22"
                           )
@@ -761,7 +898,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/ceramic",
-                              query: { cat: 4, sub_cat: 23 },
+                              query: {
+                                data: JSON.stringify({ cat: 4, sub_cat: 23 }),
+                                cat: 4,
+                                sub_cat: 23,
+                              },
                             },
                             "/products/ceramic?cat=4&sub_cat=23"
                           )
@@ -777,7 +918,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/napkin",
-                              query: { cat: 4, sub_cat: 24 },
+                              query: {
+                                data: JSON.stringify({ cat: 4, sub_cat: 24 }),
+                                cat: 4,
+                                sub_cat: 24,
+                              },
                             },
                             "/products/napkin?cat=4&sub_cat=24"
                           )
@@ -799,7 +944,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/table-cloth",
-                              query: { cat: 4, sub_cat: 25 },
+                              query: {
+                                data: JSON.stringify({ cat: 4, sub_cat: 25 }),
+                                cat: 4,
+                                sub_cat: 25,
+                              },
                             },
                             "/products/table-cloth?cat=4&sub_cat=25"
                           )
@@ -815,7 +964,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/table-runner",
-                              query: { cat: 4, sub_cat: 26 },
+                              query: {
+                                data: JSON.stringify({ cat: 4, sub_cat: 26 }),
+                                cat: 4,
+                                sub_cat: 26,
+                              },
                             },
                             "/products/table-runner?cat=4&sub_cat=26"
                           )
@@ -826,6 +979,8 @@ const SiderBar = ({ open, setOpen }) => {
                     </Stack>
                   </Box>
                 ) : null}
+
+                {/* Beauty Starts Here */}
                 <Button
                   className="SemiBold"
                   variant="text"
@@ -847,49 +1002,160 @@ const SiderBar = ({ open, setOpen }) => {
                     )
                   }
                 >
-                  Beauty Collection
+                  Beauty
                 </Button>
-                {/* <Typography
-                  variant="cardHeader3"
-                  color="initial"
-                  sx={{ cursor: "pointer", mx: 1 }}
-                  onClick={() =>
-                    router.push({
-                      pathname: "/beauty-collection",
-                      query: { cat: 5 },
-                    })
-                  }
-                >
-                  Beauty Colection
-                </Typography> */}
+
                 {openList4 ? (
-                  <Box sx={{ width: "80%", margin: "0 auto" }}>
-                    {/* <Stack direction={"row"} mt={2} spacing={19} >
-                <Typography variant="body" color="initial">Saree</Typography>
-                <Typography variant="body" color="initial">What’s New</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={10.5}>
-                <Typography variant="body" color="initial">Salwar Kameez</Typography>
-                <Typography variant="body" color="initial">Limited Edition</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={12.5}>
-                <Typography variant="body" color="initial">Kurti & Fatua</Typography>
-                <Typography variant="body" color="initial">Special Edition</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={12}>
-                <Typography variant="body" color="initial">Tops & Shirts</Typography>
-                <Typography variant="body" color="initial">Discount</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={17}>
-                <Typography variant="body" color="initial">Kimono</Typography>
-                <Typography variant="body" color="initial">Offer</Typography> 
-              </Stack>
-              <Stack direction={"row"} mt={2} spacing={15}>
-                <Typography variant="body" color="initial">Kaftan</Typography>
-               
-              </Stack> */}
-                  </Box>
+                  <Box sx={{ width: "80%", margin: "0 auto" }}></Box>
                 ) : null}
+
+                {/* Jewelry Starts Here */}
+                <Button
+                  className="SemiBold"
+                  variant="text"
+                  color="inherit"
+                  onClick={handleClickJewelry}
+                  fullWidth
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    textTransform: "capitalize",
+                  }}
+                  /* endIcon={
+                    arrowJewelry ? (
+                      <MdOutlineKeyboardArrowUp
+                        onClick={() => setArrowJewelry(!arrowJewelry)}
+                      />
+                    ) : (
+                      <MdOutlineKeyboardArrowDown
+                        onClick={() => setArrowJewelry(!arrowJewelry)}
+                      />
+                    )
+                  } */
+                >
+                  Jewelry
+                </Button>
+                {/* {openListJewelry ? (
+                  <Box sx={{ width: "80%", margin: "0 auto" }}>
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/metal-jewellery",
+                              query: { cat: 37, sub_cat: 31 },
+                            },
+                            "/products/metal-jewellery?cat=6&sub_cat=31"
+                          )
+                        }
+                      >
+                        Aatong
+                      </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/other-jewellery",
+                              query: { cat: 6, sub_cat: 32 },
+                            },
+                            "/products/other-jewellery?cat=6&sub_cat=32"
+                          )
+                        }
+                      >
+                        Silver Jewellery
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/ashtodhatu-jewellery",
+                              query: { cat: 6, sub_cat: 29 },
+                            },
+                            "/products/ashtodhatu-jewellery?cat=6&sub_cat=29"
+                          )
+                        }
+                      >
+                        Cangbuk
+                      </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/silver-jewellery",
+                              query: { cat: 6, sub_cat: 30 },
+                            },
+                            "/products/silver-jewellery?cat=6&sub_cat=30"
+                          )
+                        }
+                      >
+                        Metal Jewellery
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      mt={2}
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/metal-jewellery",
+                              query: { cat: 6, sub_cat: 31 },
+                            },
+                            "/products/metal-jewellery?cat=6&sub_cat=31"
+                          )
+                        }
+                      >
+                        Ashtodhatu Jewellery
+                      </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push(
+                            {
+                              pathname: "/products/other-jewellery",
+                              query: { cat: 6, sub_cat: 32 },
+                            },
+                            "/products/other-jewellery?cat=6&sub_cat=32"
+                          )
+                        }
+                      >
+                        Other Jewellery
+                      </Typography>
+                    </Stack>
+                  </Box>
+                ) : null} */}
+
+                {/* Accessories Starts Here */}
                 <Button
                   className="SemiBold"
                   variant="text"
@@ -931,7 +1197,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/aatong",
-                              query: { cat: 6, sub_cat: 27 },
+                              query: {
+                                data: JSON.stringify({ cat: 6, sub_cat: 27 }),
+                                cat: 6,
+                                sub_cat: 27,
+                              },
                             },
                             "/products/aatong?cat=6&sub_cat=27"
                           )
@@ -947,7 +1217,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/cangbuk",
-                              query: { cat: 6, sub_cat: 28 },
+                              query: {
+                                data: JSON.stringify({ cat: 6, sub_cat: 28 }),
+                                cat: 6,
+                                sub_cat: 28,
+                              },
                             },
                             "/products/cangbuk?cat=6&sub_cat=28"
                           )
@@ -969,7 +1243,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/ashtodhatu-jewellery",
-                              query: { cat: 6, sub_cat: 29 },
+                              query: {
+                                data: JSON.stringify({ cat: 6, sub_cat: 29 }),
+                                cat: 6,
+                                sub_cat: 29,
+                              },
                             },
                             "/products/ashtodhatu-jewellery?cat=6&sub_cat=29"
                           )
@@ -985,7 +1263,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/silver-jewellery",
-                              query: { cat: 6, sub_cat: 30 },
+                              query: {
+                                data: JSON.stringify({ cat: 6, sub_cat: 30 }),
+                                cat: 6,
+                                sub_cat: 30,
+                              },
                             },
                             "/products/silver-jewellery?cat=6&sub_cat=30"
                           )
@@ -1007,7 +1289,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/metal-jewellery",
-                              query: { cat: 6, sub_cat: 31 },
+                              query: {
+                                data: JSON.stringify({ cat: 6, sub_cat: 31 }),
+                                cat: 6,
+                                sub_cat: 31,
+                              },
                             },
                             "/products/metal-jewellery?cat=6&sub_cat=31"
                           )
@@ -1023,7 +1309,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/other-jewellery",
-                              query: { cat: 6, sub_cat: 32 },
+                              query: {
+                                data: JSON.stringify({ cat: 6, sub_cat: 32 }),
+                                cat: 6,
+                                sub_cat: 32,
+                              },
                             },
                             "/products/other-jewellery?cat=6&sub_cat=32"
                           )
@@ -1045,7 +1335,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/scarves",
-                              query: { cat: 6, sub_cat: 33 },
+                              query: {
+                                data: JSON.stringify({ cat: 6, sub_cat: 33 }),
+                                cat: 6,
+                                sub_cat: 33,
+                              },
                             },
                             "/products/scarves?cat=6&sub_cat=33"
                           )
@@ -1061,7 +1355,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/stoles",
-                              query: { cat: 6, sub_cat: 34 },
+                              query: {
+                                data: JSON.stringify({ cat: 6, sub_cat: 34 }),
+                                cat: 6,
+                                sub_cat: 34,
+                              },
                             },
                             "/products/stoles?cat=6&sub_cat=34"
                           )
@@ -1083,7 +1381,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/orna",
-                              query: { cat: 6, sub_cat: 35 },
+                              query: {
+                                data: JSON.stringify({ cat: 6, sub_cat: 35 }),
+                                cat: 6,
+                                sub_cat: 35,
+                              },
                             },
                             "/products/orna?cat=6&sub_cat=35"
                           )
@@ -1099,7 +1401,11 @@ const SiderBar = ({ open, setOpen }) => {
                           router.push(
                             {
                               pathname: "/products/shawls",
-                              query: { cat: 6, sub_cat: 36 },
+                              query: {
+                                data: JSON.stringify({ cat: 6, sub_cat: 36 }),
+                                cat: 6,
+                                sub_cat: 36,
+                              },
                             },
                             "/products/shawls?cat=6&sub_cat=36"
                           )
@@ -1141,25 +1447,23 @@ const SiderBar = ({ open, setOpen }) => {
                 <Box sx={{ width: "80%", margin: "0 auto" }}>
                   <Stack direction={"column"} mt={2} spacing={1.5}>
                     {lists?.map((list) => (
-                      <>
-                        <Typography
-                          key={list.id}
-                          variant="cardHeader3"
-                          color="initial"
-                          sx={{ cursor: "pointer" }}
-                          onClick={() =>
-                            router.push({
-                              pathname: "/campaign",
-                              query: {
-                                cat_id: `${list?.id}`,
-                                cat_name: `${list?.camp_name}`,
-                              },
-                            })
-                          }
-                        >
-                          {list.camp_name}
-                        </Typography>
-                      </>
+                      <Typography
+                        key={list.id}
+                        variant="cardHeader3"
+                        color="initial"
+                        sx={{ cursor: "pointer" }}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/campaign",
+                            query: {
+                              cat_id: `${list?.id}`,
+                              cat_name: `${list?.camp_name}`,
+                            },
+                          })
+                        }
+                      >
+                        {list.camp_name}
+                      </Typography>
                     ))}
                   </Stack>
                 </Box>

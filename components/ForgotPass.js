@@ -10,19 +10,29 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { MdClose } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import instance from "../pages/api/api_instance";
+import USER_CONTEXT from "./userContext";
 
 const ForgotPass = ({ open, setOpen }) => {
+  const { isPlaceOrder, setIsPlaceOrder } = useContext(USER_CONTEXT);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
+  const handleClose = () => {
+    setOpen(false);
+    setIsPlaceOrder(false);
+  };
+  const handleDialogClose = () => {
+    setOpen(false);
+    setIsPlaceOrder(false);
+  };
   const onSubmit = (data) => {
     instance
       .post("/user-password-email-reset-link", data, {
@@ -38,13 +48,13 @@ const ForgotPass = ({ open, setOpen }) => {
     <>
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => handleDialogClose()}
         PaperProps={{
           sx: { width: { lg: "30%", xs: "100vw" }, height: "fit-content" },
         }}
       >
         <Stack justifyContent={"flex-end"} alignItems={"flex-end"} p={1}>
-          <IconButton aria-label="" onClick={() => setOpen(false)}>
+          <IconButton aria-label="" onClick={() => handleClose()}>
             <MdClose />
           </IconButton>
         </Stack>
