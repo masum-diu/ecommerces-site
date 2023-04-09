@@ -1022,7 +1022,7 @@ const PorductDetails = () => {
                       width="25%"
                       className="SemiBold"
                     >
-                      Avalability & Specs
+                      Availability & Specs
                     </Typography>
                     {/* <hr
                       style={{
@@ -1801,7 +1801,7 @@ const PorductDetails = () => {
                 ) : null}
                 <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="#959595" width="25%">
-                    Avalability & Spces
+                    Availability & Spces
                   </Typography>
                   {/* <hr
                     style={{

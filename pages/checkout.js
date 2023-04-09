@@ -680,7 +680,7 @@ const checkout = ({ someProp }) => {
                 <Typography variant="header1" color="initial">
                   SHIPPING DETAILS
                 </Typography>
-                <Stack direction={"column"} spacing={2} mt={2}>
+                <Stack direction={"column"} spacing={2} sx={{marginTop:"17px"}}>
                   <Stack
                     direction={"row"}
                     justifyContent="left"
@@ -1107,6 +1107,7 @@ const checkout = ({ someProp }) => {
                         variant="cardHeader"
                         color="initial"
                         className="bold"
+                        sx={{marginLeft:"72px!important"}}
                       >
                         BDT {Math.ceil(totalPriceWithTax - subTotal)}
                       </Typography>

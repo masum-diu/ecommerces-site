@@ -103,7 +103,7 @@ const addtocart = () => {
           </Typography>
           <Grid container spacing={5} pt={5} xs={12}>
             <Grid item lg={12} sx={{ width: "100%" }}>
-              <Hidden only={["md", "lg", "xl",]}>
+              <Hidden only={["md", "lg", "xl"]}>
                 {cart?.length > 0 ? (
                   <>
                     <Stack direction={"column"} spacing={2}>
@@ -112,15 +112,21 @@ const addtocart = () => {
                           <Stack
                             key={data.id}
                             spacing={1}
-                            direction={{ lg: "row", xs: "column", md: "row", xl: "row" }}
+                            direction={{
+                              lg: "row",
+                              xs: "column",
+                              md: "row",
+                              xl: "row",
+                            }}
                             sx={{
                               width: "100%",
                               justifyContent: "space-between",
                               alignItems: "center",
-
                             }}
                           >
-                            <IconButton onClick={() => removeItemFromCart(data)}>
+                            <IconButton
+                              onClick={() => removeItemFromCart(data)}
+                            >
                               <MdClose />
                             </IconButton>
                             <img src={data.image} alt="" width={100} />
@@ -163,92 +169,93 @@ const addtocart = () => {
                                 <RemoveIcon fontSize="small" />
                               </IconButton>
 
-                            <Typography variant="subtitle1" color="initial">
-                              {data.amount}
-                            </Typography>
-                            <IconButton
-                              aria-label="increase"
-                              onClick={() =>
-                                dispatch(
-                                  increaseCart({
-                                    id: data.id,
-                                    image: data.image,
-                                    name: data.name,
-                                    size: data.size,
-                                    size_id: data.size_id,
-                                    text: data.text,
-                                    color: data.color,
-                                    color_id: data.color_id,
-                                    colorCode: data.colorCode,
-                                    price: data.price,
-                                    vatAmountParticularProduct:
-                                      data.vatAmountParticularProduct +
-                                      data.vatAmountParticularProduct /
-                                        data.amount,
-                                    priceWithTax: data.priceWithTax,
-                                    amount: data.amount + 1,
-                                    stock: data.stock,
-                                    totalAmount: 1,
-                                    totalPrice:
-                                      data.totalPrice + parseFloat(data.price),
-                                    totalPriceWithTax:
-                                      data.totalPriceWithTax +
-                                      parseFloat(data.priceWithTax),
-                                  })
-                                )
-                              }
-                            >
-                              <AddIcon fontSize="small" />
-                            </IconButton>
+                              <Typography variant="subtitle1" color="initial">
+                                {data.amount}
+                              </Typography>
+                              <IconButton
+                                aria-label="increase"
+                                onClick={() =>
+                                  dispatch(
+                                    increaseCart({
+                                      id: data.id,
+                                      image: data.image,
+                                      name: data.name,
+                                      size: data.size,
+                                      size_id: data.size_id,
+                                      text: data.text,
+                                      color: data.color,
+                                      color_id: data.color_id,
+                                      colorCode: data.colorCode,
+                                      price: data.price,
+                                      vatAmountParticularProduct:
+                                        data.vatAmountParticularProduct +
+                                        data.vatAmountParticularProduct /
+                                          data.amount,
+                                      priceWithTax: data.priceWithTax,
+                                      amount: data.amount + 1,
+                                      stock: data.stock,
+                                      totalAmount: 1,
+                                      totalPrice:
+                                        data.totalPrice +
+                                        parseFloat(data.price),
+                                      totalPriceWithTax:
+                                        data.totalPriceWithTax +
+                                        parseFloat(data.priceWithTax),
+                                    })
+                                  )
+                                }
+                              >
+                                <AddIcon fontSize="small" />
+                              </IconButton>
+                            </Stack>
                           </Stack>
-                        </Stack>
-                        <Divider />
-                      </>
-                    ))}
-                    <br />
-                    <Stack
-                      direction={{ lg: "row", xs: "column" }}
-                      spacing={2}
-                      justifyContent={"flex-end"}
-                    >
-                      {" "}
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => router.push("/shop")}
+                          <Divider />
+                        </>
+                      ))}
+                      <br />
+                      <Stack
+                        direction={{ lg: "row", xs: "column" }}
+                        spacing={2}
+                        justifyContent={"flex-end"}
                       >
-                        CONTINUE SHOPPING
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="background2"
-                        onClick={() => router.push("/checkout")}
-                      >
-                        proceed to checkout
-                      </Button>
+                        {" "}
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={() => router.push("/shop")}
+                        >
+                          CONTINUE SHOPPING
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="background2"
+                          onClick={() => router.push("/checkout")}
+                        >
+                          proceed to checkout
+                        </Button>
+                      </Stack>
                     </Stack>
-                  </Stack>
-                </>
-              ) : (
-                <>
-                  <Stack
-                    direction={"column"}
-                    spacing={2}
-                    sx={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      mt: 10,
-                    }}
-                  >
-                    <ProductionQuantityLimitsIcon
-                      style={{ color: "#0A0A0A", fontSize: "128px" }}
-                    ></ProductionQuantityLimitsIcon>
-                    <Typography variant="header1">
-                      Your cart is currently empty.
-                    </Typography>
-                  </Stack>
-                </>
-              )}
+                  </>
+                ) : (
+                  <>
+                    <Stack
+                      direction={"column"}
+                      spacing={2}
+                      sx={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        mt: 10,
+                      }}
+                    >
+                      <ProductionQuantityLimitsIcon
+                        style={{ color: "#0A0A0A", fontSize: "128px" }}
+                      ></ProductionQuantityLimitsIcon>
+                      <Typography variant="header1">
+                        Your cart is currently empty.
+                      </Typography>
+                    </Stack>
+                  </>
+                )}
               </Hidden>
             </Grid>
           </Grid>
@@ -256,21 +263,27 @@ const addtocart = () => {
         <Hidden only={["xms", "xs", "sm"]}>
           {cart?.length > 0 ? (
             <>
-              <Stack sx={{
-                // backgroundColor: "red",
-              }}>
+              <Stack
+                sx={
+                  {
+                    // backgroundColor: "red",
+                  }
+                }
+              >
                 <TableContainer>
                   <Table>
-                    <TableBody >
+                    <TableBody>
                       {cart?.map((data) => (
                         <>
                           <TableRow
                             // sx={{background:"#fdc",px:40}}
                             key={data?.id}
-                          // sx={{ display: "flex", justifyContent: "space-between",alignItems:"center",textDecoration:"none",border:"none" }}
+                            // sx={{ display: "flex", justifyContent: "space-between",alignItems:"center",textDecoration:"none",border:"none" }}
                           >
                             <TableCell sx={{ border: "none" }}>
-                              <IconButton onClick={() => removeItemFromCart(data)}>
+                              <IconButton
+                                onClick={() => removeItemFromCart(data)}
+                              >
                                 <MdClose />
                               </IconButton>
                             </TableCell>
@@ -278,7 +291,9 @@ const addtocart = () => {
                               <img src={data?.image} alt="" width={100} />
                             </TableCell>
 
-                            <TableCell sx={{ border: "none", textAlign: "left", }}>
+                            <TableCell
+                              sx={{ border: "none", textAlign: "left" }}
+                            >
                               <Stack direction={"row"} spacing={1}>
                                 <Box
                                   size="small"
@@ -295,17 +310,18 @@ const addtocart = () => {
                                   {data.color}
                                 </Typography>
                               </Stack>
-
-
                             </TableCell>
-                            <TableCell sx={{ border: "none", textAlign: "left", }}>
+                            <TableCell
+                              sx={{ border: "none", textAlign: "left" }}
+                            >
                               <Typography variant="subtitle1" color="initial">
                                 SIZE {data.size}
                               </Typography>
-
                             </TableCell>
 
-                            <TableCell sx={{ border: "none", textAlign: "left", }}>
+                            <TableCell
+                              sx={{ border: "none", textAlign: "left" }}
+                            >
                               <Typography variant="subtitle1" color="initial">
                                 BDT {data.totalPrice}
                               </Typography>
@@ -314,21 +330,25 @@ const addtocart = () => {
                         {wishlistData.stock[0]?.stock}
                       </TableCell> */}
                             <TableCell
-                              sx={{ border: "none", textAlign: "center", }}
-                            ><IconButton
-                              size="small"
-                              aria-label="reduce"
-                              onClick={() => dispatch(decreaseFromCart(data))}
+                              sx={{ border: "none", textAlign: "center" }}
                             >
+                              <IconButton
+                                size="small"
+                                aria-label="reduce"
+                                onClick={() => dispatch(decreaseFromCart(data))}
+                              >
                                 <RemoveIcon fontSize="small" />
-                              </IconButton></TableCell>
+                              </IconButton>
+                            </TableCell>
                             <TableCell
-                              sx={{ border: "none", textAlign: "center", }}
-                            ><Typography variant="subtitle1" color="initial">
+                              sx={{ border: "none", textAlign: "center" }}
+                            >
+                              <Typography variant="subtitle1" color="initial">
                                 {data.amount}
-                              </Typography></TableCell>
+                              </Typography>
+                            </TableCell>
                             <TableCell
-                              sx={{ border: "none", textAlign: "center", }}
+                              sx={{ border: "none", textAlign: "center" }}
                             >
                               <IconButton
                                 aria-label="increase"
@@ -354,7 +374,8 @@ const addtocart = () => {
                                       stock: data.stock,
                                       totalAmount: 1,
                                       totalPrice:
-                                        data.totalPrice + parseFloat(data.price),
+                                        data.totalPrice +
+                                        parseFloat(data.price),
                                       totalPriceWithTax:
                                         data.totalPriceWithTax +
                                         parseFloat(data.priceWithTax),
@@ -379,7 +400,6 @@ const addtocart = () => {
                           </TableRow>
                         </>
                       ))}
-
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -409,24 +429,23 @@ const addtocart = () => {
                 </Stack>
               </Stack>
             </>
-
           ) : (
             <Stack
-            direction={"column"}
-            spacing={2}
-            sx={{
-              justifyContent: "center",
-              alignItems: "center",
-              mt: 10,
-            }}
-          >
-            <ProductionQuantityLimitsIcon
-              style={{ color: "#0A0A0A", fontSize: "128px" }}
-            ></ProductionQuantityLimitsIcon>
-            <Typography variant="header1">
-              Your cart is currently empty.
-            </Typography>
-          </Stack>
+              direction={"column"}
+              spacing={2}
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                mt: 10,
+              }}
+            >
+              <ProductionQuantityLimitsIcon
+                style={{ color: "#0A0A0A", fontSize: "128px" }}
+              ></ProductionQuantityLimitsIcon>
+              <Typography variant="header1">
+                Your cart is currently empty.
+              </Typography>
+            </Stack>
           )}
         </Hidden>
       </Box>
