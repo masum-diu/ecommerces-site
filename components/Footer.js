@@ -1,4 +1,5 @@
 import { Box, Input, Stack, Typography, IconButton } from '@mui/material'
+import Link from 'next/link';
 import React from 'react'
 import { VscArrowRight } from 'react-icons/vsc';
 const Footer = () => {
@@ -28,6 +29,21 @@ const Footer = () => {
           <Typography variant="cardHeader2" color="#787878">B2B Export</Typography>
           <Typography variant="cardHeader2" color="#787878">Career</Typography>
           <Typography variant="cardHeader2" color="#787878">Contact</Typography>
+        </Stack>
+        <Typography variant="normal" color="#F2F2F2 ">SOCIAL LINKS</Typography>
+        <Stack direction={"row"} spacing={3} >
+         <a href={"https://www.facebook.com/aranyacrafts"} target="_blank" style={{textDecoration:"none"}}>
+         <Typography variant="cardHeader2" color="#787878">Facebook</Typography>
+         </a> 
+         <a href={" https://www.instagram.com/aranya_crafts/"} target="_blank" style={{textDecoration:"none"}}>
+         <Typography variant="cardHeader2" color="#787878">Instagram</Typography>
+         </a> 
+         <a href={"https://www.youtube.com/@aranyacraftslimited7427"} target="_blank" style={{textDecoration:"none"}}>
+         <Typography variant="cardHeader2" color="#787878">Youtube</Typography>
+         </a> 
+         <a href={"https://www.linkedin.com/company/aranyacrafts/mycompany/"} target="_blank" style={{textDecoration:"none"}}>
+         <Typography variant="cardHeader2" color="#787878">LinkedIn</Typography>
+         </a> 
         </Stack>
         </Stack>
         <Stack flexWrap={"wrap"} columnGap={1} alignItems="center" rowGap={2} sx={{pb:5,justifyContent:"space-between",width:"95%",margin:"0 auto",maxWidth:"1500px"}} direction={"row"} >
