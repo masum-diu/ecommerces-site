@@ -308,10 +308,12 @@ const PorductDetails = () => {
     colorCode: colorCode,
     // price: products?.p_sale_price,
     price: productPrice,
-    priceWithTax:
-      parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice),
+    priceWithTax: parseFloat(
+      productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
+    ),
     vatAmountParticularProduct:
-      count * parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
+      count *
+      parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
     amount: count,
     stock: stockAmount,
     totalAmount: count,
