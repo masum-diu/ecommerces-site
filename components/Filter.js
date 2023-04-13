@@ -25,18 +25,25 @@ const Filter = ({
   setValue,
   rangeValue,
   setSelectedColor,
+  selectedColor,
   fabrics,
   products,
-  setFilteredData,
   setFabricName,
   setFabricID,
   setDebounced,
   setPriceSelected,
+  setMakeFabricTrue,
+  setMakeColorTrue,
+  setMakePriceTrue,
+  setPage,
+  setHasMore,
+  setFilteredData,
+  setProducts,
 }) => {
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
   const [value] = useDebounce(rangeValue, 1000, { trailing: true });
-  const router = useRouter()
+  const router = useRouter();
   const currentPath =
     router?.query?.product?.charAt(0).toUpperCase() +
     router?.query?.product?.slice(1);
@@ -63,6 +70,7 @@ const Filter = ({
     setOpenList1((prev) => !prev);
     setArrow1(!arrow1);
   };
+
   const [openList2, setOpenList2] = React.useState(false);
   const [arrow2, setArrow2] = useState(false);
   const handleClick2 = () => {
@@ -72,13 +80,41 @@ const Filter = ({
   //price range state
   // const [value, setValue] = useState([min, max]);
 
+  const handleAllProduct = (name) => {
+    setFabricName(name);
+    setMakeFabricTrue(false);
+    setMakeColorTrue(false);
+    setMakePriceTrue(false);
+    setPage(1);
+    setHasMore(true);
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
     setPriceSelected(true);
+    setMakeFabricTrue(false);
+    setMakeColorTrue(false);
+    setMakePriceTrue(true);
+    setPage(1);
+    setHasMore(true);
+    setFilteredData([]);
+    setProducts([]);
   };
   const handleFabric = (name, id) => {
     setFabricName(name);
     setFabricID(id);
+    setMakeFabricTrue(true);
+    setMakeColorTrue(false);
+    setMakePriceTrue(false);
+    setPage(1);
+    setHasMore(true);
+    setFilteredData([]);
+    setProducts([]);
+  };
+  const handleColor = ([colorName, colorId]) => {
+    setSelectedColor([colorName, colorId]);
+    setMakeFabricTrue(false);
+    setMakeColorTrue(true);
+    setMakePriceTrue(false);
   };
   return (
     <React.Fragment>
@@ -131,7 +167,7 @@ const Filter = ({
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
               <Stack direction={"column"} spacing={1.5}>
                 <Typography
-                  onClick={() => handleFabric("all")}
+                  onClick={() => handleAllProduct("all")}
                   variant="cardHeader3"
                   color="initial"
                   sx={{ cursor: "pointer" }}
@@ -183,7 +219,7 @@ const Filter = ({
                 {uniqueColors?.map((color, index) => (
                   <>
                     <Typography
-                      onClick={() => setSelectedColor([color.name, color.id])}
+                      onClick={() => handleColor([color.name, color.id])}
                       variant="cardHeader3"
                       color="initial"
                       key={index}

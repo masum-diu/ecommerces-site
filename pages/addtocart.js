@@ -188,10 +188,10 @@ const addtocart = () => {
                                       colorCode: data.colorCode,
                                       price: data.price,
                                       vatAmountParticularProduct:
-                                        data.vatAmountParticularProduct +
-                                        data.vatAmountParticularProduct /
+                                        parseFloat(data.vatAmountParticularProduct) +
+                                        parseFloat(data.vatAmountParticularProduct) /
                                           data.amount,
-                                      priceWithTax: data.priceWithTax,
+                                      priceWithTax: parseFloat(data.priceWithTax),
                                       amount: data.amount + 1,
                                       stock: data.stock,
                                       totalAmount: 1,
@@ -366,10 +366,10 @@ const addtocart = () => {
                                       colorCode: data.colorCode,
                                       price: data.price,
                                       vatAmountParticularProduct:
-                                        data.vatAmountParticularProduct +
-                                        data.vatAmountParticularProduct /
+                                        parseFloat(data.vatAmountParticularProduct) +
+                                        parseFloat(data.vatAmountParticularProduct) /
                                           data.amount,
-                                      priceWithTax: data.priceWithTax,
+                                      priceWithTax: parseFloat(data.priceWithTax),
                                       amount: data.amount + 1,
                                       stock: data.stock,
                                       totalAmount: 1,

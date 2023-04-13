@@ -40,24 +40,24 @@ export const productApi = createApi({
       query: (sub_cat) => `category-fabric/${sub_cat}`,
     }),
     getColorWiseFilteredProducts: builder.query({
-      query: ({ cat, sub_cat, colorSelected }) =>
-        `product/${cat}/${sub_cat}?attrname=colour&attrid=${colorSelected}`,
+      query: ({ cat, sub_cat, colorSelected, page }) =>
+        `product/${cat}/${sub_cat}?attrname=colour&attrid=${colorSelected}&page=${page}&per_page=16`,
     }),
     getColorWiseFilteredProductsWithOutSub: builder.query({
-      query: ({ cat, colorSelected }) =>
-        `product/${cat}?attrname=colour&attrid=${colorSelected}`,
+      query: ({ cat, colorSelected, page }) =>
+        `product/${cat}?attrname=colour&attrid=${colorSelected}&page=${page}&per_page=16`,
     }),
     getFabricWiseFilteredProducts: builder.query({
-      query: ({ cat, sub_cat, fabricID }) =>
-        `product/${cat}/${sub_cat}?attrname=fabric&attrid=${fabricID}`,
+      query: ({ cat, sub_cat, fabricID, page }) =>
+        `product/${cat}/${sub_cat}?attrname=fabric&attrid=${fabricID}&page=${page}&per_page=16`,
     }),
     getFabricWiseFilteredProductsWithOutSub: builder.query({
-      query: ({ cat, fabricID }) =>
-        `product/${cat}?attrname=fabric&attrid=${fabricID}`,
+      query: ({ cat, fabricID, page }) =>
+        `product/${cat}?attrname=fabric&attrid=${fabricID}&page=${page}&per_page=16`,
     }),
     getPriceWiseFilteredProducts: builder.query({
-      query: ({ cat, sub_cat, up, low }) =>
-        `/product/${cat}/${sub_cat}?range=${low}-${up}`,
+      query: ({ cat, sub_cat, up, low, page }) =>
+        `/product/${cat}/${sub_cat}?range=${low}-${up}&page=${page}&per_page=16`,
       debounce: {
         // Use throttle to limit the rate at which the query function is called
         wait: 60000,
@@ -66,7 +66,8 @@ export const productApi = createApi({
       },
     }),
     getPriceWiseFilteredProductsWithOutSub: builder.query({
-      query: ({ cat, up, low }) => `/product/${cat}?range=${low}-${up}`,
+      query: ({ cat, up, low, page }) =>
+        `/product/${cat}?range=${low}-${up}&page=${page}&per_page=16`,
       throttle: {
         // Use throttle to limit the rate at which the query function is called
         wait: 500,

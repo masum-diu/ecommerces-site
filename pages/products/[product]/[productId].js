@@ -309,9 +309,9 @@ const PorductDetails = () => {
     // price: products?.p_sale_price,
     price: productPrice,
     priceWithTax:
-      productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice,
+      parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice),
     vatAmountParticularProduct:
-      count * productPrice * (products?.p_tax?.tax_percentage / 100),
+      count * parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
     amount: count,
     stock: stockAmount,
     totalAmount: count,
@@ -319,7 +319,9 @@ const PorductDetails = () => {
     totalPrice: count * parseFloat(productPrice),
     totalPriceWithTax:
       count *
-      (productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice),
+      parseFloat(
+        productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
+      ),
     taxAmount: products?.p_tax?.tax_percentage,
 
     /* priceWithTax:

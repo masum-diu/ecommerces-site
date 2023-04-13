@@ -93,6 +93,10 @@ const masterCollectionLayout = () => {
   const [uniqueColors, setUniqueColors] = useState([]);
   const [page, setPage] = useState(1);
   const [debounced, setDebounced] = useState([]);
+  const [makeFabricTrue, setMakeFabricTrue] = useState(false);
+  const [makeColorTrue, setMakeColorTrue] = useState(false);
+  const [makePriceTrue, setMakePriceTrue] = useState(false);
+
   const divRef = useRef(null);
   const cat = router.query?.cat;
   const sub_cat = router.query?.sub_cat;
@@ -109,10 +113,18 @@ const masterCollectionLayout = () => {
     // error,
     // isFetching: isFetchingSubCat,
   } = useGetCategoryAndSubWiseProductsQuery(
-    { cat, sub_cat, page },
+    { cat, sub_cat, page, makeFabricTrue, makeColorTrue, makePriceTrue },
     {
       refetchOnMountOrArgChange: true,
-      skip: cat == 5 || cat == 3 || !sub_cat || page < 1 || !hasMore,
+      skip:
+        cat == 5 ||
+        cat == 3 ||
+        !sub_cat ||
+        page < 1 ||
+        !hasMore ||
+        makeFabricTrue === true ||
+        makeColorTrue === true ||
+        makePriceTrue === true,
     }
   );
   /* const [lazyLoadData, { data, isLoading, isSuccess, isError, error }] =
@@ -190,10 +202,16 @@ const masterCollectionLayout = () => {
     isSuccess: filterSuccess,
     isFetching: isColorFetchingSub,
   } = useGetColorWiseFilteredProductsQuery(
-    { cat, sub_cat, colorSelected },
+    { cat, sub_cat, colorSelected, page },
     {
       refetchOnMountOrArgChange: true,
-      skip: cat == 5 || cat == 3 || !colorSelected,
+      skip:
+        cat == 5 ||
+        cat == 3 ||
+        !colorSelected ||
+        makeColorTrue === false ||
+        page < 1 ||
+        !hasMore,
     }
   );
   const {
@@ -202,10 +220,15 @@ const masterCollectionLayout = () => {
     isSuccess: filterSuccessCat,
     isFetching: isColorFetchingCat,
   } = useGetColorWiseFilteredProductsWithOutSubQuery(
-    { cat, colorSelected },
+    { cat, colorSelected, page },
     {
       refetchOnMountOrArgChange: true,
-      skip: sub_cat || !colorSelected,
+      skip:
+        sub_cat ||
+        !colorSelected ||
+        makeColorTrue === false ||
+        page < 1 ||
+        !hasMore,
     }
   );
 
@@ -220,10 +243,16 @@ const masterCollectionLayout = () => {
     isFetching: isPriceSubFetching,
     queryFulfilled: isPriceFulfilledSub,
   } = useGetPriceWiseFilteredProductsQuery(
-    { cat, sub_cat, up, low },
+    { cat, sub_cat, up, low, page },
     {
       refetchOnMountOrArgChange: true,
-      skip: cat == 5 || cat == 3 || priceSelected === false,
+      skip:
+        cat == 5 ||
+        cat == 3 ||
+        priceSelected === false ||
+        makePriceTrue === false ||
+        page < 1 ||
+        !hasMore,
     }
   );
 
@@ -234,10 +263,15 @@ const masterCollectionLayout = () => {
     isFetching: isPriceCatFetching,
     queryFulfilled: isPriceFulfilledCat,
   } = useGetPriceWiseFilteredProductsWithOutSubQuery(
-    { cat, up, low },
+    { cat, up, low, page },
     {
       refetchOnMountOrArgChange: true,
-      skip: sub_cat || priceSelected === false,
+      skip:
+        sub_cat ||
+        priceSelected === false ||
+        makePriceTrue === false ||
+        page < 1 ||
+        !hasMore,
     }
   );
 
@@ -246,19 +280,35 @@ const masterCollectionLayout = () => {
     data: filterDataSubFab,
     isLoading: filterLoadingFab,
     isSuccess: filterSuccessFab,
+    isFetching: isFabricFetchingSubCat,
   } = useGetFabricWiseFilteredProductsQuery(
-    { cat, sub_cat, fabricID },
-    { refetchOnMountOrArgChange: true, skip: cat == 5 || cat == 3 || !fabricID }
+    { cat, sub_cat, fabricID, page },
+    {
+      refetchOnMountOrArgChange: true,
+      skip:
+        cat == 5 ||
+        cat == 3 ||
+        !fabricID ||
+        makeFabricTrue === false ||
+        page < 1 ||
+        !hasMore,
+    }
   );
   const {
     data: filterDataCatFab,
     isLoading: filterLoadingCatFab,
     isSuccess: filterSuccessCatFab,
+    isFetching: isFabricFetchingCat,
   } = useGetFabricWiseFilteredProductsWithOutSubQuery(
-    { cat, fabricID },
+    { cat, fabricID, page },
     {
       refetchOnMountOrArgChange: true,
-      skip: sub_cat || !fabricID,
+      skip:
+        sub_cat ||
+        !fabricID ||
+        makeFabricTrue === false ||
+        page < 1 ||
+        !hasMore,
     }
   );
 
@@ -276,18 +326,35 @@ const masterCollectionLayout = () => {
   // Setting product in a state
 
   useEffect(() => {
-    if (hasMore && (data?.data || catetoryData?.data)) {
+    if (
+      hasMore &&
+      (data?.data || catetoryData?.data) &&
+      makeFabricTrue === false &&
+      makeColorTrue === false &&
+      makePriceTrue === false
+    ) {
       if (isLoading || categoryLoading || isFetching || isCategoryFetching) {
         return;
       }
+      console.log("jinsisdfsffasf");
       const handleSuccess = async () => {
         if (sub_cat && (cat !== 3 || cat !== 5) && data?.data) {
           if (page === 1) {
-            setProducts((prev) => [...data.data]);
-            setFilteredData((prev) => [...data.data]);
+            if (fabricName === "all") {
+              setProducts((prev) => [...data.data]);
+              setFilteredData((prev) => [...data.data]);
+            } else {
+              setProducts((prev) => [...data.data]);
+              setFilteredData((prev) => [...data.data]);
+            }
           } else {
-            setProducts((prev) => [...prev, ...data.data]);
-            setFilteredData((prev) => [...prev, ...data.data]);
+            if (fabricName === "all") {
+              setProducts((prev) => [...prev, ...data.data]);
+              setFilteredData((prev) => [...prev, ...data.data]);
+            } else {
+              setProducts((prev) => [...prev, ...data.data]);
+              setFilteredData((prev) => [...prev, ...data.data]);
+            }
           }
 
           setTotalProducts((prev) => prev + data.meta?.total);
@@ -348,6 +415,10 @@ const masterCollectionLayout = () => {
     cat,
     sub_cat,
     page,
+    makeFabricTrue,
+    makeColorTrue,
+    makePriceTrue,
+    fabricName,
   ]);
 
   // Setting static data of products in a state
@@ -393,24 +464,53 @@ const masterCollectionLayout = () => {
   useEffect(() => {
     if (filterLoadingCatFab || filterLoadingFab) {
     }
-    const handleSuccess = () => {
-      if ((filterSuccessFab || filterSuccessCatFab) && fabricID) {
-        if (sub_cat) {
-          setFilteredData(filterDataSubFab?.data);
-        } else {
-          setFilteredData(filterDataCatFab?.data);
-        }
+    if (
+      hasMore &&
+      (filterDataSubFab?.data || filterDataCatFab?.data) &&
+      (makeFabricTrue === true ||
+        makeColorTrue === true ||
+        makePriceTrue === true)
+    ) {
+      if (
+        filterLoadingFab ||
+        isFabricFetchingSubCat ||
+        filterLoadingCatFab ||
+        isFabricFetchingCat
+      ) {
+        return;
       }
-      if (fabricName === "all") {
-        if (sub_cat) {
-          setFilteredData(products);
-        } else {
-          setFilteredData(products);
+      const handleSuccess = () => {
+        if ((filterSuccessFab || filterSuccessCatFab) && fabricID) {
+          if (sub_cat && (cat !== 3 || cat !== 5) && filterDataSubFab?.data) {
+            if (page === 1) {
+              // setProducts((prev) => [...filterDataSubFab?.data]);
+              setFilteredData((prev) => [...filterDataSubFab?.data]);
+            } else {
+              // setProducts((prev) => [...prev, ...filterDataSubFab?.data]);
+              setFilteredData((prev) => [...prev, ...filterDataSubFab?.data]);
+            }
+            setTotalProducts((prev) => prev + filterDataSubFab.meta?.total);
+            if (!filterDataSubFab?.data?.length) {
+              setHasMore(false);
+            }
+          }
+          if ((cat == 3 || cat == 5) && !sub_cat && filterDataCatFab?.data) {
+            if (page === 1) {
+              // setProducts((prev) => [...filterDataCatFab?.data]);
+              setFilteredData((prev) => [...filterDataCatFab?.data]);
+            } else {
+              // setProducts((prev) => [...prev, ...filterDataCatFab?.data]);
+              setFilteredData((prev) => [...prev, ...filterDataCatFab?.data]);
+            }
+            setTotalProducts((prev) => prev + filterDataCatFab.meta?.total);
+            if (!filterDataCatFab.data?.length) {
+              setHasMore(false);
+            }
+          }
         }
-        // setFilteredData(products);
-      }
-    };
-    handleSuccess();
+      };
+      handleSuccess();
+    }
   }, [
     filterDataSubFab,
     filterLoadingFab,
@@ -420,18 +520,62 @@ const masterCollectionLayout = () => {
     filterSuccessCatFab,
     fabricID,
     fabricName,
+    hasMore,
+    cat,
+    sub_cat,
+    page,
+    makeFabricTrue,
+    makeColorTrue,
+    makePriceTrue,
   ]);
-
   // Filtering data by colors
   useEffect(() => {
-    if ((filterSuccess || filterSuccessCat) && selectedColor) {
-      if (sub_cat) {
-        setFilteredData(filterDataSub?.data);
-      } else {
-        setFilteredData(filterDataCat?.data);
+    if (
+      hasMore &&
+      (filterDataSub?.data || filterDataCat?.data) &&
+      (makeFabricTrue === true ||
+        makeColorTrue === true ||
+        makePriceTrue === true)
+    ) {
+      if (
+        filterLoading ||
+        isColorFetchingSub ||
+        filterLoadingCat ||
+        isColorFetchingCat
+      ) {
+        return;
       }
-    }
-    if (filterLoading || filterLoadingCat) {
+      const handleSuccess = () => {
+        if ((filterSuccess || filterSuccessCat) && selectedColor) {
+          if (sub_cat && (cat !== 3 || cat !== 5) && filterDataSub?.data) {
+            if (page === 1) {
+              // setProducts((prev) => [...filterDataSub?.data]);
+              setFilteredData((prev) => [...filterDataSub?.data]);
+            } else {
+              // setProducts((prev) => [...prev, ...filterDataSub?.data]);
+              setFilteredData((prev) => [...prev, ...filterDataSub?.data]);
+            }
+            setTotalProducts((prev) => prev + filterDataSub.meta?.total);
+            if (!filterDataSub?.data?.length) {
+              setHasMore(false);
+            }
+          }
+          if ((cat == 3 || cat == 5) && !sub_cat && filterDataCat?.data) {
+            if (page === 1) {
+              // setProducts((prev) => [...filterDataCat?.data]);
+              setFilteredData((prev) => [...filterDataCat?.data]);
+            } else {
+              // setProducts((prev) => [...prev, ...filterDataCat?.data]);
+              setFilteredData((prev) => [...prev, ...filterDataCat?.data]);
+            }
+            setTotalProducts((prev) => prev + filterDataCat.meta?.total);
+            if (!filterDataCat.data?.length) {
+              setHasMore(false);
+            }
+          }
+        }
+      };
+      handleSuccess();
     }
   }, [
     filterDataSub,
@@ -443,18 +587,63 @@ const masterCollectionLayout = () => {
     filterSuccessCat,
     isColorFetchingCat,
     selectedColor,
+    hasMore,
+    cat,
+    sub_cat,
+    page,
+    makeFabricTrue,
+    makeColorTrue,
+    makePriceTrue,
   ]);
 
   // Filtering the products using price
   useEffect(() => {
-    if (filterSuccessp || filterSuccessCatp) {
-      if (sub_cat) {
-        // console.log("inside filter");
-        setFilteredData(filterDataSubp?.data);
-        // console.log('inside Setting',filteredData)
-      } else {
-        setFilteredData(filterDataCatp?.data);
+    if (
+      hasMore &&
+      (filterDataCatp?.data || filterDataSubp?.data) &&
+      (makeFabricTrue === true ||
+        makeColorTrue === true ||
+        makePriceTrue === true)
+    ) {
+      if (
+        filterLoadingp ||
+        filterLoadingCatp ||
+        isPriceSubFetching ||
+        isPriceCatFetching
+      ) {
+        return;
       }
+      const handleSuccess = () => {
+        if ((filterSuccessp || filterSuccessCatp) && debounced) {
+          if (sub_cat && (cat !== 3 || cat !== 5) && filterDataSubp?.data) {
+            if (page === 1) {
+              // setProducts((prev) => [...filterDataSub?.data]);
+              setFilteredData((prev) => [...filterDataSubp?.data]);
+            } else {
+              // setProducts((prev) => [...prev, ...filterDataSub?.data]);
+              setFilteredData((prev) => [...prev, ...filterDataSubp?.data]);
+            }
+            setTotalProducts((prev) => prev + filterDataSubp.meta?.total);
+            if (!filterDataSubp?.data?.length) {
+              setHasMore(false);
+            }
+          }
+          if ((cat == 3 || cat == 5) && !sub_cat && filterDataCatp?.data) {
+            if (page === 1) {
+              // setProducts((prev) => [...filterDataCat?.data]);
+              setFilteredData((prev) => [...filterDataCatp?.data]);
+            } else {
+              // setProducts((prev) => [...prev, ...filterDataCat?.data]);
+              setFilteredData((prev) => [...prev, ...filterDataCatp?.data]);
+            }
+            setTotalProducts((prev) => prev + filterDataCatp.meta?.total);
+            if (!filterDataCatp.data?.length) {
+              setHasMore(false);
+            }
+          }
+        }
+      };
+      handleSuccess();
     }
   }, [
     filterDataCatp,
@@ -463,9 +652,17 @@ const masterCollectionLayout = () => {
     filterSuccessp,
     filterLoadingCatp,
     filterSuccessCatp,
+    isPriceSubFetching,
+    isPriceCatFetching,
+    debounced,
+    hasMore,
+    cat,
+    sub_cat,
+    page,
+    makeFabricTrue,
+    makeColorTrue,
+    makePriceTrue,
   ]);
-
-  // console.log('your log output',filteredData)
 
   //handling unique colors
   useEffect(() => {
@@ -496,6 +693,22 @@ const masterCollectionLayout = () => {
     setFabricName(data);
     setFabricSelect(data);
     setFabricID(id);
+    setPage(1);
+    setMakeFabricTrue(true);
+    setMakeColorTrue(false);
+    setMakePriceTrue(false);
+    setHasMore(true);
+    setFilteredData([]);
+    setProducts([]);
+  };
+  const handleAllProduct = (data) => {
+    setFabricName(data);
+    setFabricSelect(data);
+    setMakeFabricTrue(false);
+    setMakeColorTrue(false);
+    setMakePriceTrue(false);
+    setPage(1);
+    setHasMore(true);
   };
 
   // Getting product data with subCategory
@@ -643,7 +856,7 @@ const masterCollectionLayout = () => {
                     padding: "5px",
                     letterSpacing: 1.5,
                   }}
-                  onClick={() => handleFabricChange("all")}
+                  onClick={() => handleAllProduct("all")}
                 >
                   All {currentPath}
                 </Typography>
@@ -730,7 +943,6 @@ const masterCollectionLayout = () => {
         fabrics={fabrics}
         open={lists}
         setOpen={setLists}
-        setFilteredData={setFilteredData}
         setFabricName={setFabricName}
         setFabricID={setFabricID}
         uniqueColors={uniqueColors}
@@ -740,6 +952,16 @@ const masterCollectionLayout = () => {
         rangeValue={rangeValue}
         setSelectedColor={setSelectedColor}
         setPriceSelected={setPriceSelected}
+        makeFabricTrue={makeFabricTrue}
+        makeColorTrue={makeColorTrue}
+        makePriceTrue={makePriceTrue}
+        setMakeFabricTrue={setMakeFabricTrue}
+        setMakeColorTrue={setMakeColorTrue}
+        setMakePriceTrue={setMakePriceTrue}
+        setPage={setPage}
+        setHasMore={setHasMore}
+        setFilteredData={setFilteredData}
+        setProducts={setProducts}
       />
       {/* <Menu1Dawer open={lists1} setOpen={setLists1} /> */}
       <Filter
@@ -751,11 +973,22 @@ const masterCollectionLayout = () => {
         setValue={setValue}
         rangeValue={rangeValue}
         setSelectedColor={setSelectedColor}
+        selectedColor={selectedColor}
         fabrics={fabrics}
         setFabricName={setFabricName}
         setFabricID={setFabricID}
         setDebounced={setDebounced}
         setPriceSelected={setPriceSelected}
+        makeFabricTrue={makeFabricTrue}
+        makeColorTrue={makeColorTrue}
+        makePriceTrue={makePriceTrue}
+        setMakeFabricTrue={setMakeFabricTrue}
+        setMakeColorTrue={setMakeColorTrue}
+        setMakePriceTrue={setMakePriceTrue}
+        setPage={setPage}
+        setHasMore={setHasMore}
+        setFilteredData={setFilteredData}
+        setProducts={setProducts}
       />
     </>
   );
