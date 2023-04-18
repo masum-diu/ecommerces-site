@@ -67,7 +67,7 @@ const PorductDetails = () => {
   const [activesize, setActiveSize] = useState(null);
   const [activecolor, setActiveColor] = useState(null);
   const [open, setOpen] = useState(false);
-
+  console.log("your log output", products);
   const [sizeGuide, setSizeGuide] = useState(false);
   const [noteTextForStock, setNoteTextForStock] = useState(
     " Please select a color and size in order to check stock availability."
@@ -86,10 +86,10 @@ const PorductDetails = () => {
   const [showBrokenHeart, setShowBrokenHeart] = useState(
     myProduct?.showBrokenHeart ? myProduct?.showBrokenHeart : "none"
   );
-
   const { data, isLoading, isSuccess, isError, error } =
     useGetParticularProductsQuery(productId);
 
+  // Fetching the particular Product
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
@@ -101,37 +101,22 @@ const PorductDetails = () => {
     }
   }, [data, isSuccess, isLoading]);
 
+  // Product Selection Section
   useEffect(() => {
-    if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
+    if (products?.p_sizes?.length > 0) {
       setProductPrice(products?.p_stocks?.[0]?.mrp);
-      if (colorSelected === false && sizeSelected === false) {
-        setNoteTextForStock(
-          " Please select a color and size in order to check stock availability"
-        );
-        setNoteTextForCart(
-          " Please select a color and size in order to enable Add To Cart"
-        );
-      }
-      if (colorSelected === false && sizeSelected === true) {
-        setNoteTextForStock(
-          " Please select a color in order to check stock availability"
-        );
-        setNoteTextForCart(
-          " Please select a color in order to enable Add To Cart"
-        );
-      }
-      if (sizeSelected === false && colorSelected === true) {
+      if (sizeSelected === false) {
         setNoteTextForStock(
           " Please select a size in order to check stock availability"
         );
         setNoteTextForCart(
-          " Please select a size in order to enable Add To Cart."
+          " Please select a size in order to enable Add To Cart"
         );
       }
 
-      if (sizeSelected === true && colorSelected === true) {
+      if (sizeSelected === true) {
         const selectedProduct = products?.p_stocks?.find(
-          (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
+          (stock) => stock?.size_id === sizeId
         );
         setProductPrice(selectedProduct?.mrp);
         setStockDetails(selectedProduct);
@@ -146,99 +131,24 @@ const PorductDetails = () => {
         }
         setNoteTextForCart("");
       }
-      /* if (sizeSelected === false || colorSelected === false) {
-        setNoteTextForCart(
-          " Please select a color and size in order to enable Add To Cart."
-        );
-        setNoteTextForStock(
-          " Please select a color and size in order to check stock availability."
-        );
-      } */ if (
-        products?.p_colours?.length > 0 &&
-        colorSelected === false &&
-        sizeSelected === true
-      ) {
-        setNoteTextForStock(
-          " Please select a color in order to check stock availability"
-        );
-        setNoteTextForCart(
-          " Please select a color in order to enable Add To Cart"
-        );
-      }
-      if (
-        products?.p_sizes?.length > 0 &&
-        sizeSelected === false &&
-        colorSelected === true
-      ) {
-        setNoteTextForStock(
-          " Please select a size in order to check stock availability"
-        );
-        setNoteTextForCart(
-          " Please select a size in order to enable Add To Cart."
-        );
-      }
     }
-
-    if (
-      (products?.p_colours?.length == 0 || products?.p_sizes?.length == 0) &&
-      (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
-    ) {
-      setProductPrice(products?.p_stocks?.[0]?.mrp);
-      if (sizeSelected == true || colorSelected == true) {
-        if (colorSelected == true) {
-          const selectedProduct = products?.p_stocks?.find(
-            (stock) => stock?.colour_id === colorId
-          );
-          setProductPrice(selectedProduct?.mrp);
-          setStockDetails(selectedProduct);
-          setStockAmount(selectedProduct?.stock);
-        }
-        if (sizeSelected == true) {
-          const selectedProduct = products?.p_stocks?.find(
-            (stock) => stock?.size_id === sizeId
-          );
-          setStockDetails(selectedProduct);
-          setStockAmount(selectedProduct?.stock);
-        }
-
-        if (stockAmount > 0) {
-          setDisableBtn(false);
-          setNoteTextForStock("In Stock");
-        }
-        if (stockAmount === undefined || stockAmount === 0) {
-          setDisableBtn(true);
-          setNoteTextForStock("Out of Stock");
-        }
-
-        setNoteTextForCart("");
+    if (!products?.p_sizes?.length) {
+      const selectedProduct = products?.p_stocks?.find(
+        (stock) => stock?.size_id === sizeId
+      );
+      console.log("selectedProduct", selectedProduct);
+      setProductPrice(selectedProduct?.mrp);
+      setStockDetails(selectedProduct);
+      setStockAmount(selectedProduct?.stock);
+      if (stockAmount > 0) {
+        setDisableBtn(false);
+        setNoteTextForStock("In Stock");
       }
-
-      if (
-        products?.p_colours?.length > 0 &&
-        (products?.p_sizes?.length === undefined ||
-          products?.p_sizes?.length === 0) &&
-        colorSelected === false
-      ) {
-        setNoteTextForStock(
-          " Please select a color in order to check stock availability"
-        );
-        setNoteTextForCart(
-          " Please select a color in order to enable Add To Cart"
-        );
+      if (stockAmount === undefined || stockAmount === 0) {
+        setDisableBtn(true);
+        setNoteTextForStock("Out of Stock");
       }
-      if (
-        (products?.p_colours?.length === undefined ||
-          products?.p_colours?.length === 0) &&
-        products?.p_sizes?.length > 0 &&
-        sizeSelected === false
-      ) {
-        setNoteTextForStock(
-          " Please select a size in order to check stock availability"
-        );
-        setNoteTextForCart(
-          " Please select a size in order to enable Add To Cart"
-        );
-      }
+      setNoteTextForCart("");
     }
   }, [
     sizeSelected,
@@ -254,7 +164,6 @@ const PorductDetails = () => {
   if (isLoading) {
     return <Loader></Loader>;
   }
-
   const handleSelectSize = (data, id) => {
     setSizeSelected(true);
     setSizeId(id);
@@ -303,10 +212,7 @@ const PorductDetails = () => {
     size: size,
     size_id: sizeId,
     text: products?.p_description,
-    color: color,
-    color_id: colorId,
-    colorCode: colorCode,
-    // price: products?.p_sale_price,
+    colors: products?.p_colours,
     price: productPrice,
     priceWithTax: parseFloat(
       productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
@@ -317,7 +223,6 @@ const PorductDetails = () => {
     amount: count,
     stock: stockAmount,
     totalAmount: count,
-    // totalPrice: count * parseFloat(products?.p_sale_price),
     totalPrice: count * parseFloat(productPrice),
     totalPriceWithTax:
       count *
@@ -325,10 +230,6 @@ const PorductDetails = () => {
         productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
       ),
     taxAmount: products?.p_tax?.tax_percentage,
-
-    /* priceWithTax:
-      products?.p_sale_price * (products?.p_tax?.tax_percentage / 100) +
-      products?.p_sale_price, */
   };
 
   const dataForWishList = {
@@ -337,8 +238,7 @@ const PorductDetails = () => {
     name: products?.p_name,
     size: products?.p_sizes,
     text: products?.p_description,
-    color: products?.p_colours,
-    // price: products?.p_sale_price,
+    colors: products?.p_colours,
     price: productPrice,
     amount: 1,
     stock: products?.p_stocks,
@@ -348,6 +248,7 @@ const PorductDetails = () => {
     showHeart: "none",
     showBrokenHeart: "block",
   };
+  console.log('wishlist',dataForWishList)
   return (
     <>
       <Head>
@@ -488,7 +389,11 @@ const PorductDetails = () => {
                       textTransform={"uppercase"}
                       sx={{ letterSpacing: 0.6 }}
                     >
-                      Home {path ? path.split("/").join(" / ") : ""}
+                      Home{" "}
+                      {path
+                        ? path.split("/").slice(0, 3).join(" / ") +
+                          ` / ${products.p_design_code}`
+                        : ""}
                     </Typography>
                     {/* <Typography variant="cardHeader1" color="initial">
                 WOMEN /
@@ -968,7 +873,7 @@ const PorductDetails = () => {
                       <AddIcon fontSize="small" />
                     </IconButton>
                   </Stack>
-                  {products?.p_colours?.length > 0 ? (
+                  {/* {products?.p_colours?.length > 0 ? (
                     <>
                       <Stack direction={"row"} spacing={1} alignItems="center">
                         <Typography
@@ -978,15 +883,7 @@ const PorductDetails = () => {
                         >
                           Colors
                         </Typography>
-                        {/* <hr
-                          style={{
-                            textAlign: "left",
-                            width: "100%",
-                            height: "1px",
-                            backgroundColor: "black",
-                            // maxWidth: "350px",
-                          }}
-                        /> */}
+                        
                       </Stack>
                       <Stack direction={"row"} spacing={1} height={40}>
                         {products?.p_colours?.map((color, index) => (
@@ -1017,7 +914,7 @@ const PorductDetails = () => {
                     </>
                   ) : (
                     ""
-                  )}
+                  )} */}
 
                   <Stack direction={"row"} spacing={1} alignItems="center">
                     <Typography
@@ -1432,21 +1329,13 @@ const PorductDetails = () => {
                     <AddIcon fontSize="small" />
                   </IconButton>
                 </Stack>
-                {products?.p_colours?.length > 0 ? (
+                {/* {products?.p_colours?.length > 0 ? (
                   <>
                     <Stack direction={"row"} spacing={1} alignItems="center">
                       <Typography variant="cardHeader3" color="#959595">
                         Colors
                       </Typography>
-                      {/* <hr
-                        style={{
-                          textAlign: "left",
-                          width: "100%",
-                          height: "1px",
-                          backgroundColor: "black",
-                          // maxWidth: "350px",
-                        }}
-                      /> */}
+                      
                     </Stack>
 
                     <Stack direction={"row"} spacing={1} height={40}>
@@ -1478,7 +1367,7 @@ const PorductDetails = () => {
                   </>
                 ) : (
                   ""
-                )}
+                )} */}
 
                 <Typography variant="cardHeader3" color="initial">
                   {description}

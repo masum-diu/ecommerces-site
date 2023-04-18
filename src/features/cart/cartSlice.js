@@ -18,10 +18,7 @@ export const cartSlice = createSlice({
       try {
         const exist = state.cart.find(
           (product) =>
-            product.id === productID.id &&
-            product.size === productID.size &&
-            product.color === productID.color &&
-            product.colorCode === productID.colorCode
+            product.id === productID.id && product.size === productID.size
         );
 
         if (exist) {
@@ -41,9 +38,7 @@ export const cartSlice = createSlice({
             text: productID.text,
             size: productID.size,
             size_id: productID.size_id,
-            color: productID.color,
-            color_id: productID.color_id,
-            colorCode: productID.colorCode,
+            colors: productID.colors,
             price: productID.price,
             priceWithTax: productID.priceWithTax,
             vatAmountParticularProduct: productID.vatAmountParticularProduct,
@@ -67,17 +62,16 @@ export const cartSlice = createSlice({
       try {
         const exist = state.cart.find(
           (product) =>
-            product.id === productID.id &&
-            product.size === productID.size &&
-            product.color === productID.color
+            product.id === productID.id && product.size === productID.size
         );
 
         if (exist) {
           exist.amount += productID.totalAmount;
           exist.totalPrice = productID.totalPrice;
           exist.totalPriceWithTax = productID.totalPriceWithTax;
-          exist.vatAmountParticularProduct= productID.vatAmountParticularProduct,
-          state.totalAmount += 1;
+          (exist.vatAmountParticularProduct =
+            productID.vatAmountParticularProduct),
+            (state.totalAmount += 1);
           state.totalPrice += productID.price;
           state.totalPriceWithTax += productID.priceWithTax;
         } else {
@@ -88,9 +82,7 @@ export const cartSlice = createSlice({
             text: productID.text,
             size: productID.size,
             size_id: productID.size_id,
-            color: productID.color,
-            color_id: productID.color_id,
-            colorCode: productID.colorCode,
+            colors: productID.colors,
             price: productID.price,
             priceWithTax: productID.priceWithTax,
             vatAmountParticularProduct: productID.vatAmountParticularProduct,
@@ -114,19 +106,13 @@ export const cartSlice = createSlice({
       try {
         const exist = state.cart.find(
           (product) =>
-            product.id === productID.id &&
-            product.size === productID.size &&
-            product.color === productID.color &&
-            product.colorCode === productID.colorCode
+            product.id === productID.id && product.size === productID.size
         );
 
         if (exist.amount === 1) {
           state.cart = state.cart.filter(
             (product) =>
-              product.id != productID.id ||
-              product.size !== productID.size ||
-              product.color !== productID.color ||
-              product.colorCode !== productID.colorCode
+              product.id != productID.id || product.size !== productID.size
           );
           state.totalAmount--;
           state.totalPrice -= productID.price;
@@ -134,7 +120,8 @@ export const cartSlice = createSlice({
         } else {
           exist.amount--;
           exist.totalPrice -= productID.price;
-          exist.vatAmountParticularProduct -= productID.vatAmountParticularProduct/productID.amount;
+          exist.vatAmountParticularProduct -=
+            productID.vatAmountParticularProduct / productID.amount;
           exist.totalPriceWithTax -= productID.priceWithTax;
           state.totalAmount--;
           state.totalPrice -= productID.price;
@@ -148,19 +135,13 @@ export const cartSlice = createSlice({
       try {
         const exist = state.cart.find(
           (product) =>
-            product.id === productID.id &&
-            product.size === productID.size &&
-            product.color === productID.color &&
-            product.colorCode === productID.colorCode
+            product.id === productID.id && product.size === productID.size
         );
 
         if (exist.amount >= 1) {
           state.cart = state.cart.filter(
             (product) =>
-              product.id != productID.id ||
-              product.size !== productID.size ||
-              product.color !== productID.color ||
-              product.colorCode !== productID.colorCode
+              product.id != productID.id || product.size !== productID.size
           );
           state.totalAmount -= productID.amount;
           state.totalPrice -= productID.totalPrice;

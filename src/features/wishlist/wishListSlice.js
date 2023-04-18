@@ -28,7 +28,7 @@ export const wishListSlice = createSlice({
             name: productID.name,
             text: productID.text,
             size: productID.size,
-            color: productID.color,
+            colors: productID.colors,
             price: productID.price,
             amount: productID.amount,
             stock: productID.stock,

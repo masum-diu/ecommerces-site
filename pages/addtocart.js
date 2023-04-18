@@ -183,9 +183,7 @@ const addtocart = () => {
                                       size: data.size,
                                       size_id: data.size_id,
                                       text: data.text,
-                                      color: data.color,
-                                      color_id: data.color_id,
-                                      colorCode: data.colorCode,
+                                      colors: data.colors,
                                       price: data.price,
                                       vatAmountParticularProduct:
                                         parseFloat(data.vatAmountParticularProduct) +
@@ -361,9 +359,7 @@ const addtocart = () => {
                                       size: data.size,
                                       size_id: data.size_id,
                                       text: data.text,
-                                      color: data.color,
-                                      color_id: data.color_id,
-                                      colorCode: data.colorCode,
+                                      colors: data.colors,
                                       price: data.price,
                                       vatAmountParticularProduct:
                                         parseFloat(data.vatAmountParticularProduct) +

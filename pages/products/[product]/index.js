@@ -102,7 +102,6 @@ const masterCollectionLayout = () => {
   const sub_cat = router.query?.sub_cat;
 
   // console.log('your log output',debounced)
-
   // Getting product data with subCategory
   const {
     data,
@@ -336,7 +335,6 @@ const masterCollectionLayout = () => {
       if (isLoading || categoryLoading || isFetching || isCategoryFetching) {
         return;
       }
-      console.log("jinsisdfsffasf");
       const handleSuccess = async () => {
         if (sub_cat && (cat !== 3 || cat !== 5) && data?.data) {
           if (page === 1) {
@@ -717,7 +715,9 @@ const masterCollectionLayout = () => {
 
     setPage((prev) => prev + 1);
   };
-
+  if (loading || loadingCat) {
+    return <Loader></Loader>;
+  }
   // Slicing data for static products and dynamic products
   const productsForStatic = filteredData.slice(0, 7);
   const productsForDynamic = chunkArray(filteredData.slice(9));
