@@ -311,7 +311,6 @@ const checkout = ({ someProp }) => {
   }, [payment, paymentMethod]);
 
   const errorObject = Object.keys(errors).length;
-
   useEffect(() => {
     if (errorObject > 0) {
       setError(errors);
@@ -338,6 +337,9 @@ const checkout = ({ someProp }) => {
         countrySh &&
         phoneBillingSh &&
         emailBillingSh &&
+        paymentMethod &&
+        deliveryMethod &&
+        termsAndCondition &&
         Object.keys(errors).length === 0
       ) {
         setEnable(false);
@@ -355,6 +357,9 @@ const checkout = ({ someProp }) => {
         postBilling &&
         phoneBilling &&
         emailBilling &&
+        paymentMethod &&
+        deliveryMethod &&
+        termsAndCondition &&
         Object.keys(errors).length === 0
       ) {
         setEnable(false);
@@ -381,7 +386,17 @@ const checkout = ({ someProp }) => {
     emailBillingSh,
     errors,
     isPlaceOrder,
+    paymentMethod,
+    deliveryMethod,
+    termsAndCondition,
   ]);
+  const styles = (theme) => ({
+    textField: {
+      "& .Mui-disabled": {
+        opacity: 1,
+      },
+    },
+  });
   return (
     <>
       <HomePageIntro title={"Checkout "} />
@@ -680,7 +695,11 @@ const checkout = ({ someProp }) => {
                 <Typography variant="header1" color="initial">
                   SHIPPING DETAILS
                 </Typography>
-                <Stack direction={"column"} spacing={2} sx={{marginTop:"17px"}}>
+                <Stack
+                  direction={"column"}
+                  spacing={2}
+                  sx={{ marginTop: "17px" }}
+                >
                   <Stack
                     direction={"row"}
                     justifyContent="left"
@@ -1107,7 +1126,7 @@ const checkout = ({ someProp }) => {
                         variant="cardHeader"
                         color="initial"
                         className="bold"
-                        sx={{marginLeft:"72px!important"}}
+                        sx={{ marginLeft: "72px!important" }}
                       >
                         BDT {Math.ceil(totalPriceWithTax - subTotal)}
                       </Typography>
