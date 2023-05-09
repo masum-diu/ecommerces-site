@@ -49,6 +49,8 @@ const checkout = ({ someProp }) => {
   const [openLoginModal, setLoginModal] = useState(false);
   const [payment, setPayment] = useState("");
   const [enable, setEnable] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [guestCheckoutResponse, setGuestCheckoutResponse] = useState([]);
   // const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   const [isGuestCheckout, setIsGuestCheckout] = useState(false);
   const [orderInfo, setOrderInfo] = useState({});
@@ -72,7 +74,6 @@ const checkout = ({ someProp }) => {
     if (isPlaceOrder === true) {
       const securePage = async () => {
         const token = localStorage.getItem("acesstoken");
-        console.log("error status", error);
         if (!token) {
           setLoginModal(true);
         }
@@ -94,9 +95,11 @@ const checkout = ({ someProp }) => {
           },
         })
         .then(async (result) => {
+          console.log("your log output", result);
           if (result?.data?.type == "online") {
             const response = JSON.parse(result?.data?.payment);
-            await window.location.replace(response?.data);
+            setGuestCheckoutResponse(response);
+            // await window.location.replace(response?.data);
           }
           if (result?.data?.type == "cash") {
             // const response = JSON.parse(result?.data);
@@ -113,7 +116,18 @@ const checkout = ({ someProp }) => {
             });
           }
         })
-        .catch((err) => {});
+        .catch((err) => {
+          console.log("from error", err);
+        })
+        .finally(async (result) => {
+          console.log("inside redirection", result);
+          // await console.log('inside finally',guestCheckoutResponse.data)
+          if (guestCheckoutResponse?.data) {
+            // console.log('inside redirection',guestCheckoutResponse?.data)
+            // await window.location.replace(guestCheckoutResponse.data);
+          }
+          setIsLoading(false);
+        });
       setIsGuestCheckout(false);
     }
   }, [
@@ -122,7 +136,13 @@ const checkout = ({ someProp }) => {
     isGuestCheckout,
     hasToken,
     isSameAddressChecked,
+    isLoading,
+    guestCheckoutResponse,
   ]);
+  console.log("guest checkout", guestCheckoutResponse?.data);
+  if (isLoading) {
+    return <Loader></Loader>;
+  }
 
   // handling Different Form Events
   const handleDistict = (event) => {
@@ -390,13 +410,6 @@ const checkout = ({ someProp }) => {
     deliveryMethod,
     termsAndCondition,
   ]);
-  const styles = (theme) => ({
-    textField: {
-      "& .Mui-disabled": {
-        opacity: 1,
-      },
-    },
-  });
   return (
     <>
       <HomePageIntro title={"Checkout "} />

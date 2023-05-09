@@ -30,7 +30,7 @@ const Footer = () => {
           <Typography variant="cardHeader2" color="#787878">Career</Typography>
           <Typography variant="cardHeader2" color="#787878">Contact</Typography>
         </Stack>
-        <Typography variant="normal" color="#F2F2F2 ">SOCIAL LINKS</Typography>
+        <Typography variant="normal" color="#F2F2F2 ">SOCIAL MEDIA</Typography>
         <Stack direction={"row"} spacing={3} >
          <a href={"https://www.facebook.com/aranyacrafts"} target="_blank" style={{textDecoration:"none"}}>
          <Typography variant="cardHeader2" color="#787878">Facebook</Typography>

@@ -17,6 +17,7 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
 import { GoThreeBars } from "react-icons/go";
+import MenuIcon from '@mui/icons-material/Menu';
 import { FiSearch, FiHeart, FiShoppingCart } from "react-icons/fi";
 import SiderBar from "./SiderBar";
 import { useRouter } from "next/router";
@@ -169,23 +170,24 @@ const HomePageIntro = ({ title }) => {
               width: { xs: "100%", lg: "0%" },
             }}
           >
-            <IconButton onClick={() => setOpen(true)}>
-              <GoThreeBars style={{ color: "#0A0A0A" }} />
+            <IconButton style={{marginTop:".50rem"}} onClick={() => setOpen(true)}>
+              {/* <GoThreeBars style={{ color: "#0A0A0A" }} /> */}
+              <MenuIcon style={{ color: "#0A0A0A"}}/>
             </IconButton>
             <Link href={"/shop"}>
-              <img  style={{cursor:"pointer",width:"90vw",maxWidth:"80px",marginTop:"-.5rem"}} src="/assets/headerLogo.png"  alt="" />
+              <img  style={{cursor:"pointer",width:"90vw",maxWidth:"80px",marginTop:".15rem"}} src="/assets/headerLogo.png"  alt="" />
             </Link>
             <Hidden only={["lg", "xl"]}>
               <IconButton aria-label="">
                 <FiSearch
                   style={{ color: "#0A0A0A" }}
                   onClick={() => setSearchModal(true)}
-                />
+              />
               </IconButton>
             </Hidden>
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
-            <Stack direction={"row"} spacing={5} ml={35}>
+            <Stack direction={"row"} spacing={5} ml={35} mt={1}>
               <Typography
                 className={style.menu3}
                 sx={{ cursor: "pointer" }}
@@ -206,7 +208,7 @@ const HomePageIntro = ({ title }) => {
               </Typography>
             </Stack>
 
-            <Stack direction={"row"} alignItems="center" spacing={2}>
+            <Stack direction={"row"} alignItems="center" spacing={2} mt={1}>
               {userjsondata || user.status == true ? (
                 <>
                   {/* <MenuItem>
@@ -278,7 +280,7 @@ const HomePageIntro = ({ title }) => {
 
               <Stack alignItems="center" direction={"row"}>
                 <IconButton aria-label="">
-                  <BiMap style={{ color: "#0A0A0A" }} />
+                  <BiMap style={{ color: "#0A0A0A",fontWeight:"10px" }} />
                 </IconButton>
                 <Typography
                   variant="cardHeader"
