@@ -120,6 +120,17 @@ theme.typography.login1 = {
     fontSize: "18px",
   },
 };
+theme.typography.productName = {
+  fontSize: "35px",
+  // fontWeight: "bold",
+  color: primary,
+  [theme.breakpoints.down("md")]: {
+    fontSize: "24px",
+  },
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "18px",
+  },
+};
 theme.typography.login2 = {
   fontSize: "48px",
   fontWeight: "500",

@@ -374,7 +374,7 @@ const PorductDetails = () => {
                 <Stack direction={"column"} mx={5} width={"100%"}>
                   <Typography
                     className="exterBold"
-                    variant="login1"
+                    variant="productName"
                     color="initial"
                     sx={{ letterSpacing: 0.6 }}
                   >
@@ -403,7 +403,7 @@ const PorductDetails = () => {
                     </Typography> */}
                   </Stack>
                 </Stack>
-                <Stack direction={"column"} mx={5} mt={3} spacing={3}>
+                <Stack direction={"column"} mx={5} mt={1} spacing={1.5}>
 
                   {/*_______________ This is the product description section which was before on top of price ___________________*/}
                   {/* <Typography
