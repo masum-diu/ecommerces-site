@@ -248,7 +248,7 @@ const PorductDetails = () => {
     showHeart: "none",
     showBrokenHeart: "block",
   };
-  console.log('wishlist',dataForWishList)
+  console.log('wishlist', dataForWishList)
   return (
     <>
       <Head>
@@ -279,7 +279,7 @@ const PorductDetails = () => {
         <Box
           mt={10}
           mb={4}
-          //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
+        //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
             <Grid item xl={6} lg={7} md={6} sm={12}>
@@ -735,7 +735,14 @@ const PorductDetails = () => {
                       </Stack>
                     </Box>
                   ) : null} */}
-
+                  <Typography
+                    className="light"
+                    variant="cardHeader3"
+                    color="initial"
+                    sx={{ letterSpacing: 0.17 }}
+                  >
+                    {description}
+                  </Typography>
                   <Typography
                     variant="header1"
                     className="SemiBold"
@@ -780,9 +787,8 @@ const PorductDetails = () => {
                           {products?.p_sizes?.map((size, index) => (
                             <Button
                               key={index}
-                              variant={`${
-                                activesize === size?.id ? "outlined" : "primary"
-                              }`}
+                              variant={`${activesize === size?.id ? "outlined" : "primary"
+                                }`}
                               color="primary"
                               onClick={() =>
                                 handleSelectSize(size?.size_name, size?.id)
@@ -806,8 +812,8 @@ const PorductDetails = () => {
                   </Button> */}
                         </Stack>
                         {products?.subcat_id === 13 ||
-                        products?.subcat_id === 15 ||
-                        products?.cat_id === 1 ? (
+                          products?.subcat_id === 15 ||
+                          products?.cat_id === 1 ? (
                           <Button
                             variant="text"
                             color="primary"
@@ -851,30 +857,101 @@ const PorductDetails = () => {
                     spacing={2}
                     alignItems="center"
                     justifyContent={"space-between"}
-                    sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                  // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
                   >
-                    <IconButton
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      alignItems="center"
+                      justifyContent={"space-between"}
+                      sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                    ><IconButton
                       size="small"
                       aria-label="reduce"
                       onClick={() => {
                         setCount(Math.max(count - 1, 1));
                       }}
                     >
-                      <RemoveIcon fontSize="small" />
-                    </IconButton>
-                    <Typography variant="cardHeader3" color="#959595">
-                      {" "}
-                      {count}
-                    </Typography>
-                    <IconButton
-                      aria-label="increase"
-                      onClick={() => {
-                        setCount(count + 1);
-                      }}
-                    >
-                      <AddIcon fontSize="small" />
-                    </IconButton>
+                        <RemoveIcon fontSize="small" />
+                      </IconButton>
+                      <Typography variant="cardHeader3" color="#959595">
+                        {" "}
+                        {count}
+                      </Typography>
+                      <IconButton
+                        aria-label="increase"
+                        onClick={() => {
+                          setCount(count + 1);
+                        }}
+                      >
+                        <AddIcon fontSize="small" />
+                      </IconButton></Stack>
+
+                    <Stack>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        aria-label=""
+                        style={{ display: `${showHeart}` }}
+                        onClick={() => handleAddToWishList(dataForWishList)}
+                      >
+                        <FiHeart
+                          style={{
+                            // color: "#000",
+                            fontSize: "18px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                        />
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="inherit"
+                        style={{ display: `${showBrokenHeart}` }}
+                        aria-label=""
+                        onClick={() =>
+                          handleRemoveFromList({
+                            id: products?.id,
+                            amount: 1,
+                            showHeart: "block",
+                            showBrokenHeart: "none",
+                          })
+                        }
+                      >
+                        <HeartBrokenOutlinedIcon
+                          style={{
+                            color: "#000",
+                            fontSize: "18px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                        />
+                      </Button>
+                      </Stack>
                   </Stack>
+                  <Button
+                    variant="contained"
+                    color="background2"
+                    type="submit"
+                    disabled={disableBtn}
+                    onClick={() => handleAddToCart(finalData)}
+                  >
+                    ADD TO CART
+                  </Button>
+                  {noteTextForCart && (
+                    <Alert severity="warning">
+                      <AlertTitle>
+                        <Typography variant="cardHeader" color="initial">
+                          {noteTextForCart}
+                        </Typography>
+                      </AlertTitle>
+                    </Alert>
+                  )}
+
                   {/* {products?.p_colours?.length > 0 ? (
                     <>
                       <Stack direction={"row"} spacing={1} alignItems="center">
@@ -922,7 +999,7 @@ const PorductDetails = () => {
                     <Typography
                       variant="cardHeader3"
                       color="#959595"
-                      width="25%"
+                      // width="25%"
                       className="SemiBold"
                     >
                       Availability & Specs
@@ -961,45 +1038,14 @@ const PorductDetails = () => {
                     >
                       Check In Store Availability
                     </Typography>
-                    <Typography
-                      variant="cardHeader12"
-                      color="initial"
-                      className="SemiBold"
-                    >
-                      Check Specs
-                    </Typography>
+
                   </Stack>
-                  <Button
-                    variant="contained"
-                    color="background2"
-                    type="submit"
-                    disabled={disableBtn}
-                    onClick={() => handleAddToCart(finalData)}
-                  >
-                    ADD TO CART
-                  </Button>
-                  {noteTextForCart && (
-                    <Alert severity="warning">
-                      <AlertTitle>
-                        <Typography variant="cardHeader" color="initial">
-                          {noteTextForCart}
-                        </Typography>
-                      </AlertTitle>
-                    </Alert>
-                  )}
-                  <Typography
-                    className="light"
-                    variant="cardHeader3"
-                    color="initial"
-                    sx={{ letterSpacing: 0.17 }}
-                  >
-                    {description}
-                  </Typography>
+
                   <Stack direction={"row"} spacing={1}>
                     {" "}
                     <Button
                       variant="outlined"
-                      color="inherit"
+                      color="primary"
                       onClick={handleClick}
                       size="small"
                       className="SemiBold"
@@ -1021,7 +1067,7 @@ const PorductDetails = () => {
                     >
                       Additional information
                     </Button>
-                    <Button
+                    {/* <Button
                       variant="outlined"
                       color="inherit"
                       aria-label=""
@@ -1063,7 +1109,7 @@ const PorductDetails = () => {
                           width: "100%",
                         }}
                       />
-                    </Button>
+                    </Button> */}
                   </Stack>
 
                   {openList ? (
@@ -1569,9 +1615,8 @@ const PorductDetails = () => {
                         {products?.p_sizes?.map((size, index) => (
                           <Button
                             key={index}
-                            variant={`${
-                              activesize === size?.id ? "outlined" : "primary"
-                            }`}
+                            variant={`${activesize === size?.id ? "outlined" : "primary"
+                              }`}
                             color="primary"
                             onClick={() =>
                               handleSelectSize(size?.size_name, size?.id)
@@ -1595,8 +1640,8 @@ const PorductDetails = () => {
                   </Button> */}
                       </Stack>
                       {products?.subcat_id === 13 ||
-                      products?.subcat_id === 15 ||
-                      products?.cat_id === 1 ? (
+                        products?.subcat_id === 15 ||
+                        products?.cat_id === 1 ? (
                         <Button
                           variant="text"
                           color="primary"
