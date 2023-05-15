@@ -102,8 +102,8 @@ export const productApi = createApi({
       invalidatesTags: ["Orders"],
     }),
     getRefundOrder: builder.mutation({
-      query: ({ order_id, token }) => ({
-        url: `order-cliam-refund/${order_id}`,
+      query: ({ item_id,order_id, token }) => ({
+        url: `/order-item/${item_id}/cliam-refund/${order_id}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",

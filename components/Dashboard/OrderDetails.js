@@ -19,20 +19,24 @@ import {
 } from "../../src/features/api/apiSlice";
 import Loader from "../Loader/Loader";
 import instance from "../../pages/api/api_instance";
+import OrderDetailsModal from "./OrderDetailsModal";
 
 const OrderDetails = () => {
   const [token, setToken] = useState("");
   const [info, setInfo] = useState([]);
   const [response, setCancelResponse] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState({});
+  const [openDetailsModal, setDetailsModal] = useState(false);
   const { data, isLoading, isFetching, isSuccess, isError, error } =
     useGetOrderDetailsQuery(token, {
       refetchOnMountOrArgChange: true,
     });
-    console.log("your log output", data);
+  // console.log("your log output", data);
   const [
     cancelOrder,
     {
       data: cancelResponse,
+      result:result,
       isLoading: cancelLoading,
       isError: cancelError,
       isSuccess: isCancelSuccess,
@@ -47,7 +51,7 @@ const OrderDetails = () => {
       isSuccess: isRefundSuccess,
     },
   ] = useGetRefundOrderMutation();
-  console.log("your log output", refundResponse);
+  // console.log("your log output", refundResponse);
   useEffect(() => {
     const token = localStorage.getItem("acesstoken");
     setToken(token);
@@ -112,6 +116,11 @@ const OrderDetails = () => {
     refundRequest({ order_id, token });
   };
 
+  const handleViewOrder = (data) => {
+    setSelectedProduct(data);
+    setDetailsModal(true);
+  };
+
   return (
     <>
       <Stack
@@ -136,11 +145,14 @@ const OrderDetails = () => {
                 <TableCell className="bold">Order Date</TableCell>
                 <TableCell className="bold">Price</TableCell>
                 <TableCell className="bold">Status</TableCell>
-                <TableCell className="bold" align="center">
+                {/* <TableCell className="bold" align="center">
                   Cancel
                 </TableCell>
                 <TableCell className="bold" align="center">
                   Refund
+                </TableCell> */}
+                <TableCell className="bold" align="center">
+                  Order Details
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -160,7 +172,7 @@ const OrderDetails = () => {
                     <TableCell className="SemiBold">
                       {orderInfo?.payment_status ? "Paid" : "Unpaid"}
                     </TableCell>
-                    <TableCell className="SemiBold" align="center">
+                    {/* <TableCell className="SemiBold" align="center">
                       <Button
                         onClick={() => handleCancel(orderInfo?.id, token)}
                         disabled={orderInfo?.status === 0 ? true : false}
@@ -185,6 +197,15 @@ const OrderDetails = () => {
                       >
                         Refund
                       </Button>
+                    </TableCell> */}
+                    <TableCell className="SemiBold" align="center">
+                      <Button
+                        onClick={() => handleViewOrder(orderInfo)}
+                        variant="outlined"
+                        size="small"
+                      >
+                        View
+                      </Button>
                     </TableCell>
                   </TableRow>
                 </>
@@ -193,6 +214,12 @@ const OrderDetails = () => {
           </Table>
         </TableContainer>
       </Stack>
+      <OrderDetailsModal
+        open={openDetailsModal}
+        setOpen={setDetailsModal}
+        token={token}
+        data={selectedProduct}
+      ></OrderDetailsModal>
     </>
   );
 };
