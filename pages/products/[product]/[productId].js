@@ -980,7 +980,7 @@ const PorductDetails = () => {
                   </Button>
                   {noteTextForCart && (
                     <Alert severity="warning">
-                      <AlertTitle>
+                      <AlertTitle >
                         <Typography variant="cardHeader" color="initial">
                           {noteTextForCart}
                         </Typography>
