@@ -36,6 +36,7 @@ import {
   addToWishList,
   removeFromWishList,
 } from "../../../src/features/wishlist/wishListSlice";
+import HovarImage from "../../../components/HovarableImage/HovarImage";
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
@@ -1380,20 +1381,34 @@ const PorductDetails = () => {
 
             <Grid container mt={1} spacing={1.5}>
               {
-                RelatedProducts?.map((matchProduct) =>
+                RelatedProducts?.map((data,index) =>
                   <Grid item lg={3}>
-                    <img src={matchProduct?.feature_image} alt="" width={385} />
+                    <HovarImage
+                    url={`/products/${
+                      data?.p_subcategory?.slug === "unknown"
+                        ? data?.p_category?.slug
+                        : data?.p_subcategory?.slug
+                    }/${data?.id}`}
+                    data={data}
+                    imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
+                      ?.split("/")
+                      .slice(-3)
+                      .join("/")}`}
+                    width={"fit-content"}
+                    height={"fit-content"}
+                  ></HovarImage>
+                    {/* <img src={data?.feature_image} alt="" width={385} /> */}
                     <Stack direction={"row"} justifyContent={"space-between"}>
                       <Typography
                         variant="cardHeader3"
                         color="initial"
                         className="SemiBold"
-                      >{matchProduct?.p_name}</Typography>
+                      >{data?.p_name}</Typography>
                       <Typography
                         variant="cardHeader3"
                         color="initial"
                         className="bold"
-                      > BDT {matchProduct?.p_stocks[0]?.mrp}</Typography>
+                      > BDT {data?.p_stocks[0]?.mrp}</Typography>
 
                     </Stack>
                   </Grid>
