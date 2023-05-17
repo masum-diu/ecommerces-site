@@ -117,6 +117,12 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Orders"],
     }),
+    getMatchedWithProduct:builder.query({
+      query:({category,sub_catcategory})=>({
+        url:`/product/${category}/${sub_catcategory}?no_paginate=yes&take_some=4`,
+        method:"GET"
+      })
+    })
   }),
 });
 
@@ -142,4 +148,5 @@ export const {
   useGetOrderDetailsQuery,
   useCancelOrderMutation,
   useGetRefundOrderMutation,
+  useGetMatchedWithProductQuery,
 } = productApi;

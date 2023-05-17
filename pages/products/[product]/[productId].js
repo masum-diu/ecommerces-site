@@ -9,14 +9,14 @@ import {
   IconButton,
   ListItemText,
   Stack,
-  Typography,
+  Typography, Box,
 } from "@mui/material";
 import HomePageIntro from "../../../components/HomePageIntro";
-import { Box } from "@mui/system";
+// import { Box } from "@mui/system";
 import Footer from "../../../components/Footer";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import { useGetParticularProductsQuery } from "../../../src/features/api/apiSlice";
+import { useGetMatchedWithProductQuery, useGetParticularProductsQuery } from "../../../src/features/api/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../components/Loader/Loader";
 import toast from "react-hot-toast";
@@ -86,8 +86,13 @@ const PorductDetails = () => {
   const [showBrokenHeart, setShowBrokenHeart] = useState(
     myProduct?.showBrokenHeart ? myProduct?.showBrokenHeart : "none"
   );
+  const category = products?.p_category?.id
+  const sub_catcategory = products?.p_subcategory?.id
   const { data, isLoading, isSuccess, isError, error } =
     useGetParticularProductsQuery(productId);
+  const { data: matchedwithProduct, } = useGetMatchedWithProductQuery({ category, sub_catcategory })
+  const RelatedProducts = matchedwithProduct?.data
+  console.log("lost", RelatedProducts)
 
   // Fetching the particular Product
   useEffect(() => {
@@ -365,6 +370,8 @@ const PorductDetails = () => {
                   // maxWidth: "664px",
                 }}
               />
+
+
             </Grid>
 
             {/* Description Section */}
@@ -1366,6 +1373,35 @@ const PorductDetails = () => {
               </div>
             </Grid>
           </Grid>
+          <Box sx={{ width: "90vw", margin: "0 auto", maxWidth: "fit-content", mt: 3 }}>
+            <Typography variant="cardHeader1" color="initial" className="SemiBold">
+              Matched With
+            </Typography>
+
+            <Grid container mt={1} spacing={1.5}>
+              {
+                RelatedProducts?.map((matchProduct) =>
+                  <Grid item lg={3}>
+                    <img src={matchProduct?.feature_image} alt="" width={385} />
+                    <Stack direction={"row"} justifyContent={"space-between"}>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="SemiBold"
+                      >{matchProduct?.p_name}</Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="bold"
+                      > BDT {matchProduct?.p_stocks[0]?.mrp}</Typography>
+
+                    </Stack>
+                  </Grid>
+                )
+              }
+
+            </Grid>
+          </Box>
         </Box>
 
         <Footer />
