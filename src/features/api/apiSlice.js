@@ -88,7 +88,7 @@ export const productApi = createApi({
     }),
     cancelOrder: builder.mutation({
       query: ({ order_id, token }) => ({
-        url: `order/cancel`,
+        url: `/order/cancel`,
         method: "POST",
         body: {
           order_id: order_id,
@@ -102,9 +102,13 @@ export const productApi = createApi({
       invalidatesTags: ["Orders"],
     }),
     getRefundOrder: builder.mutation({
-      query: ({ item_id,order_id, token }) => ({
-        url: `/order-item/${item_id}/cliam-refund/${order_id}`,
-        method: "GET",
+      query: ({ item_id, order_id, token }) => ({
+        url: `order-item-cliam-refund`,
+        method: "POST",
+        body: {
+          item_id: item_id,
+          order_id: order_id,
+        },
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,

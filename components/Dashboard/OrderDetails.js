@@ -31,7 +31,6 @@ const OrderDetails = () => {
     useGetOrderDetailsQuery(token, {
       refetchOnMountOrArgChange: true,
     });
-  // console.log("your log output", data);
   const [
     cancelOrder,
     {
@@ -51,7 +50,6 @@ const OrderDetails = () => {
       isSuccess: isRefundSuccess,
     },
   ] = useGetRefundOrderMutation();
-  // console.log("your log output", refundResponse);
   useEffect(() => {
     const token = localStorage.getItem("acesstoken");
     setToken(token);

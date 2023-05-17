@@ -19,29 +19,36 @@ import { MdClose } from "react-icons/md";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useGetRefundOrderMutation } from "../../src/features/api/apiSlice";
+import instance from "../../pages/api/api_instance";
 
 const OrderDetailsModal = ({ open, setOpen, data, token }) => {
   // console.log("your log output", data);
   const [row, setRow] = useState([]);
+  const [responseData, setResponseData] = useState({});
   const router = useRouter();
+  console.log("your log output", data);
   const [
     refundRequest,
     {
       data: refundResponse,
-      result:result,
       isLoading: refundLoading,
       isError: isRefundError,
       isSuccess: isRefundSuccess,
+      error: isRefundErrorData,
     },
   ] = useGetRefundOrderMutation();
-  console.log("your log outputsdfsdf", result);
   const handleClose = () => {
     setOpen(false);
   };
-  const handleRefund = (item_id, order_id, token) => {
-    refundRequest({ item_id, order_id, token });
+  const handleRefund = async (item_id, order_id, token) => {
+    try {
+      const response = await refundRequest({ item_id, order_id, token });
+      setResponseData(response.data);
+      console.log("your log output", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
-
   return (
     <>
       <Dialog
@@ -101,11 +108,24 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                     </TableCell>
                     <TableCell align="center">
                       <Button
-                        onClick={() => handleRefund(row.id, row?.order_id)}
+                        onClick={() =>
+                          handleRefund(row.id, row?.order_id, token)
+                        }
                         variant="outlined"
                         size="small"
+                        disabled={
+                          row.is_claim_refund === 0 && row.is_refunded === 0
+                            ? false
+                            : true
+                        }
                       >
-                        Refund
+                        {row.is_claim_refund === 1 && row.is_refunded === 1
+                          ? "Refunded"
+                          : row.is_claim_refund === 1 && row.is_refunded === 0
+                          ? "Panging"
+                          : row.is_claim_refund === 1 && row.is_refunded === 2
+                          ? "Rejected"
+                          : "Refund"}
                       </Button>
                     </TableCell>
                   </TableRow>

@@ -248,7 +248,6 @@ const PorductDetails = () => {
     showHeart: "none",
     showBrokenHeart: "block",
   };
-  console.log('wishlist', dataForWishList)
   return (
     <>
       <Head>
@@ -279,7 +278,7 @@ const PorductDetails = () => {
         <Box
           mt={10}
           mb={4}
-        //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
+          //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
             <Grid item xl={6} lg={7} md={6} sm={12}>
@@ -404,7 +403,6 @@ const PorductDetails = () => {
                   </Stack>
                 </Stack>
                 <Stack direction={"column"} mx={5} mt={1} spacing={1.5}>
-
                   {/*_______________ This is the product description section which was before on top of price ___________________*/}
                   {/* <Typography
                     className="light"
@@ -787,8 +785,9 @@ const PorductDetails = () => {
                           {products?.p_sizes?.map((size, index) => (
                             <Button
                               key={index}
-                              variant={`${activesize === size?.id ? "outlined" : "primary"
-                                }`}
+                              variant={`${
+                                activesize === size?.id ? "outlined" : "primary"
+                              }`}
                               color="primary"
                               onClick={() =>
                                 handleSelectSize(size?.size_name, size?.id)
@@ -812,8 +811,8 @@ const PorductDetails = () => {
                   </Button> */}
                         </Stack>
                         {products?.subcat_id === 13 ||
-                          products?.subcat_id === 15 ||
-                          products?.cat_id === 1 ? (
+                        products?.subcat_id === 15 ||
+                        products?.cat_id === 1 ? (
                           <Button
                             variant="text"
                             color="primary"
@@ -857,7 +856,7 @@ const PorductDetails = () => {
                     spacing={2}
                     alignItems="center"
                     justifyContent={"space-between"}
-                  // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                    // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
                   >
                     <Stack
                       direction={"row"}
@@ -865,13 +864,14 @@ const PorductDetails = () => {
                       alignItems="center"
                       justifyContent={"space-between"}
                       sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
-                    ><IconButton
-                      size="small"
-                      aria-label="reduce"
-                      onClick={() => {
-                        setCount(Math.max(count - 1, 1));
-                      }}
                     >
+                      <IconButton
+                        size="small"
+                        aria-label="reduce"
+                        onClick={() => {
+                          setCount(Math.max(count - 1, 1));
+                        }}
+                      >
                         <RemoveIcon fontSize="small" />
                       </IconButton>
                       <Typography variant="cardHeader3" color="#959595">
@@ -885,7 +885,8 @@ const PorductDetails = () => {
                         }}
                       >
                         <AddIcon fontSize="small" />
-                      </IconButton></Stack>
+                      </IconButton>
+                    </Stack>
 
                     <Stack>
                       <Button
@@ -931,7 +932,7 @@ const PorductDetails = () => {
                           }}
                         />
                       </Button>
-                      </Stack>
+                    </Stack>
                   </Stack>
                   <Button
                     variant="contained"
@@ -1038,7 +1039,6 @@ const PorductDetails = () => {
                     >
                       Check In Store Availability
                     </Typography>
-
                   </Stack>
 
                   <Stack direction={"row"} spacing={1}>
@@ -1615,8 +1615,9 @@ const PorductDetails = () => {
                         {products?.p_sizes?.map((size, index) => (
                           <Button
                             key={index}
-                            variant={`${activesize === size?.id ? "outlined" : "primary"
-                              }`}
+                            variant={`${
+                              activesize === size?.id ? "outlined" : "primary"
+                            }`}
                             color="primary"
                             onClick={() =>
                               handleSelectSize(size?.size_name, size?.id)
@@ -1640,8 +1641,8 @@ const PorductDetails = () => {
                   </Button> */}
                       </Stack>
                       {products?.subcat_id === 13 ||
-                        products?.subcat_id === 15 ||
-                        products?.cat_id === 1 ? (
+                      products?.subcat_id === 15 ||
+                      products?.cat_id === 1 ? (
                         <Button
                           variant="text"
                           color="primary"
