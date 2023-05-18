@@ -89,13 +89,14 @@ const shop = () => {
         />
       </Head>
       <HomePageIntro title={"Shop "} />
-      <Box mt={10} sx={{ width: "100%", mb: 4 }}>
+      <Box mt={9.5} sx={{ width: "100%", mb: 4 }}>
         <Stack sx={{ position: "relative" }}>
           {/* <video
             src="https://static.zara.net/photos///contents/mkt/spots/aw22-north-kids-party/subhome-xmedia-47-2//w/1920/IMAGE-landscape-fill-90388659-c9ad-44c0-8fbc-3e049adef8d9-default_0.jpg?ts=1669457847606"
             alt=""
             width="100%"
           /> */}
+          <Stack height={700}>
           <video
             width={"100%"}
             autoPlay
@@ -104,6 +105,8 @@ const shop = () => {
             muted={true}
             src={homedata?.image_one}
           />
+          </Stack>
+          
           {/* <Image
             src=
             {repo.image_two}
@@ -337,7 +340,7 @@ const shop = () => {
               .slice(-3)
               .join("/")}`}
             alt=""
-            style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
+            style={{ width: "100%", height: "fit-content", marginTop: "25px", }}
           />
           <Stack
             direction={"row"}
