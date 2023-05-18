@@ -96,7 +96,7 @@ const shop = () => {
             alt=""
             width="100%"
           /> */}
-          <Stack height={700}>
+          
           <video
             width={"100%"}
             autoPlay
@@ -105,7 +105,7 @@ const shop = () => {
             muted={true}
             src={homedata?.image_one}
           />
-          </Stack>
+         
           
           {/* <Image
             src=
