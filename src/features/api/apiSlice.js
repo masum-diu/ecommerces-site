@@ -117,12 +117,74 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Orders"],
     }),
-    getMatchedWithProduct:builder.query({
-      query:({category,sub_catcategory})=>({
-        url:`/product/${category}/${sub_catcategory}?no_paginate=yes&take_some=4`,
-        method:"GET"
-      })
-    })
+    getMatchedWithProduct: builder.query({
+      query: ({ category, sub_catcategory }) => ({
+        url: `/product/${category}/${sub_catcategory}?no_paginate=yes&take_some=4`,
+        method: "GET",
+      }),
+    }),
+    postUserOrder: builder.mutation({
+      query: ({
+        data,
+        cart,
+        subTotal,
+        totalPriceWithTax,
+        finalPriceOfOrder,
+        totalAmount,
+        isSameAddressChecked,
+        isGuestCheckout,
+        token,
+      }) => ({
+        url: `/order`,
+        method: "POST",
+        body: {
+          data: data,
+          cart: cart,
+          totalPrice: subTotal,
+          totalPriceWithTax: totalPriceWithTax,
+          finalPrice: finalPriceOfOrder,
+          totalAmount: totalAmount,
+          isSameAddress: isSameAddressChecked,
+          isGuestCheckout: isGuestCheckout,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+          "Access-Control-Allow-Origin": "*",
+        },
+      }),
+    }),
+    postGuestOrder: builder.mutation({
+      query: ({
+        data,
+        cart,
+        subTotal,
+        totalPriceWithTax,
+        finalPriceOfOrder,
+        totalAmount,
+        isSameAddressChecked,
+        isGuestCheckout,
+        token,
+      }) => ({
+        url: `/guest-order`,
+        method: "POST",
+        body: {
+          data: data,
+          cart: cart,
+          totalPrice: subTotal,
+          totalPriceWithTax: totalPriceWithTax,
+          finalPrice: finalPriceOfOrder,
+          totalAmount: totalAmount,
+          isSameAddress: isSameAddressChecked,
+          isGuestCheckout: isGuestCheckout,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+          "Access-Control-Allow-Origin": "*",
+        },
+      }),
+    }),
   }),
 });
 
@@ -149,4 +211,6 @@ export const {
   useCancelOrderMutation,
   useGetRefundOrderMutation,
   useGetMatchedWithProductQuery,
+  usePostUserOrderMutation,
+  usePostGuestOrderMutation,
 } = productApi;
