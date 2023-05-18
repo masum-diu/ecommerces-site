@@ -46,21 +46,21 @@ const FlashPage = ({ title }) => {
       >
         <AppBar
           position="fixed"
-          sx={{ boxShadow: "none", backgroundColor: "#fff",height:"85px" }}
+          sx={{ boxShadow: "none", backgroundColor: "#fff"}}
         >
           <Toolbar
             sx={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              py: 1,
+              p:1
             }}
           >
-            <Stack direction={"row"} alignItems="center" mt="10px">
+            <Stack direction={"row"} alignItems="center" >
               <img src="/assets/headerLogo.png" alt="" style={{width:"90vw",maxWidth:"80px"}} />
             </Stack>
 
-            <Stack direction={"row"} alignItems="center"mt="10px">
+            <Stack direction={"row"} alignItems="center">
               <IconButton aria-label="">
                 {/* <BiMap style={{ color: "#0A0A0A" }} /> */}
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">

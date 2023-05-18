@@ -31,6 +31,7 @@ import Head from "next/head";
 import ThumbsGallery2 from "../../../components/thumble/ThumbsGallery2";
 import SizeModal from "../../../components/SizeModal";
 import { FiHeart } from "react-icons/fi";
+import { AiOutlineWarning } from "react-icons/ai";
 import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
 import {
   addToWishList,
@@ -282,9 +283,9 @@ const PorductDetails = () => {
       {/* Product Details for pc */}
       <Hidden only={["xms", "xs"]}>
         <Box
-          mt={10}
+          mt={9.5}
           mb={4}
-          //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
+        //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
             <Grid item xl={6} lg={7} md={6} sm={12}>
@@ -793,9 +794,8 @@ const PorductDetails = () => {
                           {products?.p_sizes?.map((size, index) => (
                             <Button
                               key={index}
-                              variant={`${
-                                activesize === size?.id ? "outlined" : "primary"
-                              }`}
+                              variant={`${activesize === size?.id ? "outlined" : "primary"
+                                }`}
                               color="primary"
                               onClick={() =>
                                 handleSelectSize(size?.size_name, size?.id)
@@ -819,8 +819,8 @@ const PorductDetails = () => {
                   </Button> */}
                         </Stack>
                         {products?.subcat_id === 13 ||
-                        products?.subcat_id === 15 ||
-                        products?.cat_id === 1 ? (
+                          products?.subcat_id === 15 ||
+                          products?.cat_id === 1 ? (
                           <Button
                             variant="text"
                             color="primary"
@@ -864,7 +864,7 @@ const PorductDetails = () => {
                     spacing={2}
                     alignItems="center"
                     justifyContent={"space-between"}
-                    // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                  // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
                   >
                     <Stack
                       direction={"row"}
@@ -942,6 +942,15 @@ const PorductDetails = () => {
                       </Button>
                     </Stack>
                   </Stack>
+                  {noteTextForCart && (<>
+                    <Stack direction={"row"} spacing={1} alignItems={"center"}>
+                      <AiOutlineWarning style={{ color: "#ed6c02" }} />
+                      <Typography variant="cardHeader" color="#ed6c02">
+                        {noteTextForCart}
+                      </Typography>
+                    </Stack>
+                  </>
+                  )}
                   <Button
                     variant="contained"
                     color="background2"
@@ -951,15 +960,7 @@ const PorductDetails = () => {
                   >
                     ADD TO CART
                   </Button>
-                  {noteTextForCart && (
-                    <Alert severity="warning">
-                      <AlertTitle>
-                        <Typography variant="cardHeader" color="initial">
-                          {noteTextForCart}
-                        </Typography>
-                      </AlertTitle>
-                    </Alert>
-                  )}
+
 
                   {/* {products?.p_colours?.length > 0 ? (
                     <>
@@ -1376,29 +1377,28 @@ const PorductDetails = () => {
           </Grid>
           <Box sx={{ width: "90vw", margin: "0 auto", maxWidth: "fit-content", mt: 3 }}>
             <Typography variant="cardHeader1" color="initial" className="SemiBold">
-              Matched With
+              Similar Products
             </Typography>
 
             <Grid container mt={1} spacing={1.5}>
               {
-                RelatedProducts?.map((data,index) =>
+                RelatedProducts?.map((data, index) =>
                   <Grid item lg={3}>
                     <HovarImage
-                    url={`/products/${
-                      data?.p_subcategory?.slug === "unknown"
+                      url={`/products/${data?.p_subcategory?.slug === "unknown"
                         ? data?.p_category?.slug
                         : data?.p_subcategory?.slug
-                    }/${data?.id}`}
-                    data={data}
-                    imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
-                      ?.split("/")
-                      .slice(-3)
-                      .join("/")}`}
-                    width={"fit-content"}
-                    height={"fit-content"}
-                  ></HovarImage>
+                        }/${data?.id}`}
+                      data={data}
+                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
+                        ?.split("/")
+                        .slice(-3)
+                        .join("/")}`}
+                      width={"fit-content"}
+                      height={"fit-content"}
+                    ></HovarImage>
                     {/* <img src={data?.feature_image} alt="" width={385} /> */}
-                    <Stack direction={"row"} justifyContent={"space-between"}>
+                    <Stack direction={"row"} justifyContent={"space-between"} mt={1}>
                       <Typography
                         variant="cardHeader3"
                         color="initial"
@@ -1637,9 +1637,12 @@ const PorductDetails = () => {
               <Stack
                 direction={"column"}
                 mt={3}
-                spacing={2}
+                spacing={1}
                 sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
               >
+                <Typography variant="cardHeader3" color="initial">
+                  {description}
+                </Typography>
                 {products?.p_sizes?.length > 0 ? (
                   <>
                     <Stack direction={"row"} spacing={1} alignItems="center">
@@ -1658,7 +1661,7 @@ const PorductDetails = () => {
                     </Stack>
                     <Stack
                       direction={"column"}
-                      spacing={1}
+                      spacing={2}
                       alignItems="start"
                       justifyContent={"space-between"}
                     >
@@ -1666,9 +1669,8 @@ const PorductDetails = () => {
                         {products?.p_sizes?.map((size, index) => (
                           <Button
                             key={index}
-                            variant={`${
-                              activesize === size?.id ? "outlined" : "primary"
-                            }`}
+                            variant={`${activesize === size?.id ? "outlined" : "primary"
+                              }`}
                             color="primary"
                             onClick={() =>
                               handleSelectSize(size?.size_name, size?.id)
@@ -1692,8 +1694,8 @@ const PorductDetails = () => {
                   </Button> */}
                       </Stack>
                       {products?.subcat_id === 13 ||
-                      products?.subcat_id === 15 ||
-                      products?.cat_id === 1 ? (
+                        products?.subcat_id === 15 ||
+                        products?.cat_id === 1 ? (
                         <Button
                           variant="text"
                           color="primary"
@@ -1797,9 +1799,51 @@ const PorductDetails = () => {
                   ""
                 )} */}
 
-                <Typography variant="cardHeader3" color="initial">
-                  {description}
-                </Typography>
+                
+                
+                {noteTextForCart && (<>
+                  <Stack direction={"row"} spacing={1} alignItems={"center"}>
+                    <AiOutlineWarning style={{ color: "#ed6c02" }} />
+                    <Typography variant="cardHeader" color="#ed6c02">
+                      {noteTextForCart}
+                    </Typography>
+                  </Stack>
+                </>
+                )}
+                <Button
+                  variant="contained"
+                  color="background2"
+                  type="submit"
+                  disabled={disableBtn}
+                  onClick={() => handleAddToCart(finalData)}
+                >
+                  ADD TO CART
+                </Button>
+                
+                <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Typography variant="cardHeader3" color="#959595">
+                    Availability & Spces
+                  </Typography>
+                  {/* <hr
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      height: "1px",
+                      backgroundColor: "black",
+                      // maxWidth: "340px",
+                    }}
+                  /> */}
+                </Stack>
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardHeader12" color="initial">
+                    In Availability:{" "}
+                    {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
+                    {noteTextForStock}
+                  </Typography>
+                  <Typography variant="cardHeader12" color="initial">
+                    Check In Store Availability
+                  </Typography>
+                </Stack>
                 <Stack direction={"row"} spacing={1}>
                   {" "}
                   <Button
@@ -2120,54 +2164,62 @@ const PorductDetails = () => {
                     </Stack>
                   </Box>
                 ) : null}
-                <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595" width="25%">
-                    Availability & Spces
-                  </Typography>
-                  {/* <hr
-                    style={{
-                      textAlign: "left",
-                      width: "100%",
-                      height: "1px",
-                      backgroundColor: "black",
-                      // maxWidth: "340px",
-                    }}
-                  /> */}
-                </Stack>
-                <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="initial">
-                    In Availability:{" "}
-                    {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
-                    {noteTextForStock}
-                  </Typography>
-                  <Typography variant="cardHeader12" color="initial">
-                    Check In Store Availability
-                  </Typography>
-                  <Typography variant="cardHeader12" color="initial">
-                    Check Specs
-                  </Typography>
-                </Stack>
-                <Button
-                  variant="contained"
-                  color="background2"
-                  type="submit"
-                  disabled={disableBtn}
-                  onClick={() => handleAddToCart(finalData)}
-                >
-                  ADD TO CART
-                </Button>
-                {noteTextForCart && (
-                  <Alert severity="warning">
-                    <AlertTitle>
-                      <Typography variant="cardLocation1" color="initial">
-                        {noteTextForCart}
-                      </Typography>
-                    </AlertTitle>
-                  </Alert>
-                )}
               </Stack>
+              
             </Grid>
+
           </Grid>
+          <Box sx={{ width: "90vw", mx:3, maxWidth: "fit-content", mt: 3 }}>
+            <Typography variant="cardHeader1" color="initial" className="SemiBold">
+              Similar Products
+            </Typography>
+          </Box>
+          <Swiper
+            style={{ width: "90vw", margin: "0 auto", maxWidth: "fit-content", marginTop: "1rem" }}
+            spaceBetween={10}
+            slidesPerView={2.5}
+            // pagination={{
+            //   clickable: true,
+            // }}
+            modules={[Pagination]}
+            className="mySwiper"
+          >
+
+            {
+              RelatedProducts?.map((data, index) =>
+                <SwiperSlide>
+                  <HovarImage
+                    url={`/products/${data?.p_subcategory?.slug === "unknown"
+                      ? data?.p_category?.slug
+                      : data?.p_subcategory?.slug
+                      }/${data?.id}`}
+                    data={data}
+                    imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
+                      ?.split("/")
+                      .slice(-3)
+                      .join("/")}`}
+                    width={"fit-content"}
+                    height={"fit-content"}
+                  ></HovarImage>
+                  {/* <img src={data?.feature_image} alt="" width={385} /> */}
+                  <Stack direction={"column"} justifyContent={"space-between"} mt={1}>
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="SemiBold"
+                    >{data?.p_name}</Typography>
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    > BDT {data?.p_stocks[0]?.mrp}</Typography>
+
+                  </Stack>
+                </SwiperSlide>
+              )
+            }
+          </Swiper>
+
           <Stack
             direction={"row"}
             sx={{

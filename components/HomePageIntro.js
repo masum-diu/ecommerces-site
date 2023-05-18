@@ -153,14 +153,15 @@ const HomePageIntro = ({ title }) => {
       </Head>
       <AppBar
         position="fixed"
-        sx={{ boxShadow: "none", backgroundColor: "#fff", height: "85px" }}
+        sx={{ boxShadow: "none", backgroundColor: "#fff",  }}
       >
         <Toolbar
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            py: 2,
+            // py: 2,
+            // backgroundColor:"red"
           }}
         >
           <Stack
@@ -194,7 +195,7 @@ const HomePageIntro = ({ title }) => {
               <Typography
                 className={style.menu3}
                 sx={{ cursor: "pointer" }}
-                variant="cardHeader"
+                variant="homeFlash"
                 color="initial"
                 onClick={() => router.push("/shop")}
               >
@@ -203,7 +204,7 @@ const HomePageIntro = ({ title }) => {
               <Typography
                 className={style.menu3}
                 sx={{ cursor: "pointer" }}
-                variant="cardHeader"
+                variant="homeFlash"
                 color="initial"
                 onClick={() => router.push("/story")}
               >
