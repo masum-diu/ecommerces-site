@@ -31,7 +31,6 @@ import {
   usePostUserOrderMutation,
   usePostGuestOrderMutation,
 } from "../src/features/api/apiSlice";
-
 const checkout = ({ someProp }) => {
   const cart = useSelector((state) => state.cart.cart);
   const [distict, setDistict] = useState("Select Country");
@@ -61,6 +60,12 @@ const checkout = ({ someProp }) => {
   const [orderResponseUser, setOrderResponseUser] = useState({});
   const [orderResponseGuest, setOrderResponseGuest] = useState({});
   // const [hasToken, setHasToken] = useState(false);
+  const customStyle = {
+    ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
+      {
+        "-webkit-text-fill-color": "rgb(0 0 0)",
+      },
+  };
   const { hasToken, setHasToken, isPlaceOrder, setIsPlaceOrder } =
     useContext(USER_CONTEXT);
   const router = useRouter();
@@ -324,7 +329,7 @@ const checkout = ({ someProp }) => {
   }, [userOrderSuccess, isPlaceOrder, orderResponseUser]);
   useEffect(() => {
     if (guestOrderSuccess) {
-      setLoginModal(false)
+      setLoginModal(false);
       setIsPlaceOrder(false);
       console.log("inside success", orderResponseGuest);
       if (orderResponseGuest.data?.type == "online") {
@@ -435,7 +440,7 @@ const checkout = ({ someProp }) => {
     deliveryMethod,
     termsAndCondition,
   ]);
-  if (userOrderLoading||guestOrderLoading) {
+  if (userOrderLoading || guestOrderLoading) {
     return <Loader></Loader>;
   }
   return (
@@ -782,6 +787,7 @@ const checkout = ({ someProp }) => {
                         : firstName
                     }
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.first_name_shipping &&
                     isSameAddressChecked === false && (
@@ -811,6 +817,7 @@ const checkout = ({ someProp }) => {
                       isSameAddressChecked === false ? "Last Name *" : lastName
                     }
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.last_name_shipping &&
                     isSameAddressChecked === false && (
@@ -844,6 +851,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="House Number and street name"
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.street_address_shipping &&
                     isSameAddressChecked === false && (
@@ -872,6 +880,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="Apartment suite, unit, etc."
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.apartment_address_shipping &&
                     isSameAddressChecked === false && (
@@ -905,6 +914,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="Town / City"
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.city_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
@@ -969,6 +979,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="Postcode / zip (Optional)"
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.post_code_shipping &&
                     isSameAddressChecked === false && (
@@ -1001,6 +1012,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="Phone *"
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.phone_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
@@ -1039,6 +1051,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="Email Address *"
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.email_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
