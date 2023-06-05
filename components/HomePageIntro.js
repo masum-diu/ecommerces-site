@@ -153,7 +153,7 @@ const HomePageIntro = ({ title }) => {
       </Head>
       <AppBar
         position="fixed"
-        sx={{ boxShadow: "none", backgroundColor: "#fff",  }}
+        sx={{ boxShadow: "none",borderBottom:"none",backgroundColor:"#fff"  }}
       >
         <Toolbar
           sx={{

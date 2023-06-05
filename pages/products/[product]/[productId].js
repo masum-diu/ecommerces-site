@@ -283,7 +283,7 @@ const PorductDetails = () => {
       {/* Product Details for pc */}
       <Hidden only={["xms", "xs"]}>
         <Box
-          mt={9.5}
+          sx={{pt:{lg:8,xs:7}}}
           mb={4}
         //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
@@ -1424,7 +1424,7 @@ const PorductDetails = () => {
 
       {/* Product Details for tab amd mobile */}
       <Hidden only={["md", "lg", "xl", "sm"]}>
-        <Box mt={10} sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}>
+        <Box pt={7} sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}>
           <Swiper
             spaceBetween={50}
             slidesPerView={1}
@@ -1477,7 +1477,7 @@ const PorductDetails = () => {
                   color="initial"
                   className="exterBold"
                 >
-                  Price : {products?.p_sale_price} BDT
+                  Price : {productPrice} BDT
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -1527,7 +1527,7 @@ const PorductDetails = () => {
                   color="initial"
                   className="exterBold"
                 >
-                  Price : {products?.p_sale_price} BDT
+                  Price : {productPrice} BDT
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -1577,7 +1577,7 @@ const PorductDetails = () => {
                   color="initial"
                   className="exterBold"
                 >
-                  Price : {products?.p_sale_price} BDT
+                  Price : {productPrice} BDT
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -1627,7 +1627,7 @@ const PorductDetails = () => {
                   color="initial"
                   className="exterBold"
                 >
-                  Price : {products?.p_sale_price} BDT
+                  Price : {productPrice} BDT
                 </Typography>
               </Stack>
             </SwiperSlide>

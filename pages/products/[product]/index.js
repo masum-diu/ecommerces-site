@@ -749,7 +749,7 @@ const masterCollectionLayout = () => {
         />
       </Head>
       <HomePageIntro title={"Saree "} />
-      <Box mt={9.5} mb={4}>
+      <Box  mb={4} sx={{pt:{lg:8,xs:7}}}>
         <Stack direction={"row"} alignItems="center">
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${staticData?.cat_img_one
@@ -824,7 +824,7 @@ const masterCollectionLayout = () => {
           sx={{
             backgroundColor: "#FAFAFA",
             position: "sticky",
-            top: 76,
+            top: 64,
             zIndex: 1,
           }}
         >
