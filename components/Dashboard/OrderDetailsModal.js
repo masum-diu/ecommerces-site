@@ -26,7 +26,7 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
   const [row, setRow] = useState([]);
   const [responseData, setResponseData] = useState({});
   const router = useRouter();
-  console.log("your log output", data);
+  // console.log("your log output", data);
   const [
     refundRequest,
     {
@@ -44,7 +44,7 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
     try {
       const response = await refundRequest({ item_id, order_id, token });
       setResponseData(response.data);
-      console.log("your log output", response);
+      // console.log("your log output", response);
     } catch (error) {
       console.log("Error:", error);
     }
@@ -99,7 +99,7 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                   >
                     <TableCell align="left">{index + 1}</TableCell>
                     <TableCell align="left">
-                      {row.product.product_name}
+                      {row?.product?.product_name}
                     </TableCell>
                     <TableCell align="center">{row.buying_price}</TableCell>
                     <TableCell align="center">{row.quantity}</TableCell>

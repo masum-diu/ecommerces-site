@@ -824,7 +824,7 @@ const masterCollectionLayout = () => {
           sx={{
             backgroundColor: "#FAFAFA",
             position: "sticky",
-            top: 76,
+            top: 64,
             zIndex: 1,
           }}
         >

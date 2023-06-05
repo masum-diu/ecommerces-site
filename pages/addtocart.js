@@ -133,21 +133,20 @@ const addtocart = () => {
                             <Typography variant="subtitle1" color="initial">
                               {data?.name}
                             </Typography>
+                            <Typography variant="subtitle1" color="initial">
+                              {data?.design_code}
+                            </Typography>
                             <Stack direction={"row"} spacing={2}>
-                              <Box
-                                size="small"
-                                variant="primary"
-                                color="primary"
-                                disabled={true}
-                                style={{
-                                  backgroundColor: `${data?.colorCode}`,
-                                  width: "25px",
-                                  height: "25px",
-                                }}
-                              ></Box>
-                              <Typography variant="subtitle1" color="initial">
-                                {data.color}
-                              </Typography>
+                              {console.log("your log output", data)}
+                              {data?.colors?.map((data, index) => (
+                                <Typography
+                                  key={index}
+                                  variant="subtitle1"
+                                  color="initial"
+                                >
+                                  {data?.color_name}
+                                </Typography>
+                              ))}
                             </Stack>
                             <Typography variant="subtitle1" color="initial">
                               SIZE {data.size}
@@ -180,16 +179,23 @@ const addtocart = () => {
                                       id: data.id,
                                       image: data.image,
                                       name: data.name,
+                                      design_code: data.design_code,
                                       size: data.size,
                                       size_id: data.size_id,
                                       text: data.text,
                                       colors: data.colors,
                                       price: data.price,
                                       vatAmountParticularProduct:
-                                        parseFloat(data.vatAmountParticularProduct) +
-                                        parseFloat(data.vatAmountParticularProduct) /
+                                        parseFloat(
+                                          data.vatAmountParticularProduct
+                                        ) +
+                                        parseFloat(
+                                          data.vatAmountParticularProduct
+                                        ) /
                                           data.amount,
-                                      priceWithTax: parseFloat(data.priceWithTax),
+                                      priceWithTax: parseFloat(
+                                        data.priceWithTax
+                                      ),
                                       amount: data.amount + 1,
                                       stock: data.stock,
                                       totalAmount: 1,
@@ -288,12 +294,21 @@ const addtocart = () => {
                             <TableCell sx={{ border: "none" }}>
                               <img src={data?.image} alt="" width={100} />
                             </TableCell>
-
+                            <TableCell sx={{ border: "none" }}>
+                              <Typography variant="subtitle1" color="initial">
+                                {data?.name}
+                              </Typography>
+                            </TableCell>
+                            <TableCell sx={{ border: "none" }}>
+                              <Typography variant="subtitle1" color="initial">
+                                {data?.design_code}
+                              </Typography>
+                            </TableCell>
                             <TableCell
                               sx={{ border: "none", textAlign: "left" }}
                             >
                               <Stack direction={"row"} spacing={1}>
-                                <Box
+                                {/* <Box
                                   size="small"
                                   variant="primary"
                                   color="primary"
@@ -303,10 +318,20 @@ const addtocart = () => {
                                     width: "25px",
                                     height: "25px",
                                   }}
-                                ></Box>
-                                <Typography variant="subtitle1" color="initial">
-                                  {data.color}
-                                </Typography>
+                                ></Box> */}
+                                {data?.colors?.map((singleColor, index) => (
+                                  <Typography
+                                    key={index}
+                                    variant="subtitle1"
+                                    color="initial"
+                                  >
+                                    {singleColor?.color_name}
+                                    {index !== data?.colors?.length - 1 &&
+                                    data?.colors?.length > 1
+                                      ? ", "
+                                      : ""}
+                                  </Typography>
+                                ))}
                               </Stack>
                             </TableCell>
                             <TableCell
@@ -356,16 +381,23 @@ const addtocart = () => {
                                       id: data.id,
                                       image: data.image,
                                       name: data.name,
+                                      design_code: data.design_code,
                                       size: data.size,
                                       size_id: data.size_id,
                                       text: data.text,
                                       colors: data.colors,
                                       price: data.price,
                                       vatAmountParticularProduct:
-                                        parseFloat(data.vatAmountParticularProduct) +
-                                        parseFloat(data.vatAmountParticularProduct) /
+                                        parseFloat(
+                                          data.vatAmountParticularProduct
+                                        ) +
+                                        parseFloat(
+                                          data.vatAmountParticularProduct
+                                        ) /
                                           data.amount,
-                                      priceWithTax: parseFloat(data.priceWithTax),
+                                      priceWithTax: parseFloat(
+                                        data.priceWithTax
+                                      ),
                                       amount: data.amount + 1,
                                       stock: data.stock,
                                       totalAmount: 1,
