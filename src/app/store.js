@@ -13,17 +13,19 @@ import {
 import { combineReducers } from "redux";
 import storage from "./persistStore";
 import wishListSlice from "../features/wishlist/wishListSlice";
+import checkoutSlice from "../features/checkout/checkoutSlice";
 
 const reducers = combineReducers({
   [productApi.reducerPath]: productApi.reducer,
   cart: cartSlice,
   wishList: wishListSlice,
+  checkoutSlice: checkoutSlice,
 });
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  blacklist: ['productApi']
+  blacklist: ["productApi"],
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 export const store = configureStore({

@@ -14,7 +14,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
@@ -32,6 +32,7 @@ import {
 import toast from "react-hot-toast";
 import LoginModal from "../components/LoginModal";
 import { FiHeart } from "react-icons/fi";
+import USER_CONTEXT from "../components/userContext";
 
 const addtocart = () => {
   const router = useRouter();
@@ -44,13 +45,14 @@ const addtocart = () => {
   const [isProceedClicked, setIsProceedClicked] = useState(false);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const { isProceedCheckout, setIsProceedCheckout } = useContext(USER_CONTEXT);
 
   const removeItemFromCart = async (data) => {
     dispatch(removeFromCart(data));
     await toast.error("Removed From Cart!");
   };
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (isProceedClicked === true) {
       const securePage = async () => {
         const token = await localStorage.getItem("acesstoken");
@@ -66,12 +68,12 @@ const addtocart = () => {
       };
       securePage();
     }
-  }, [isProceedClicked]); */
+  }, [isProceedClicked]);
 
-  /* useEffect(() => {
-    const handleProceedToCheckout = () => {};
-    handleProceedToCheckout();
-  }, []); */
+  const handleProceedToCheckout = () => {
+    setIsProceedClicked(true);
+    setIsProceedCheckout(true);
+  };
 
   return (
     <>
@@ -137,7 +139,6 @@ const addtocart = () => {
                               {data?.design_code}
                             </Typography>
                             <Stack direction={"row"} spacing={2}>
-                              {console.log("your log output", data)}
                               {data?.colors?.map((data, index) => (
                                 <Typography
                                   key={index}
@@ -233,7 +234,7 @@ const addtocart = () => {
                         <Button
                           variant="contained"
                           color="background2"
-                          onClick={() => router.push("/checkout")}
+                          onClick={() => handleProceedToCheckout()}
                         >
                           proceed to checkout
                         </Button>
@@ -450,7 +451,7 @@ const addtocart = () => {
                   <Button
                     variant="contained"
                     color="background2"
-                    onClick={() => router.push("/checkout")}
+                    onClick={() => handleProceedToCheckout()}
                   >
                     proceed to checkout
                   </Button>
@@ -479,7 +480,12 @@ const addtocart = () => {
       </Box>
 
       <Footer />
-      <LoginModal open={openLoginModal} setOpen={setLoginModal}></LoginModal>
+      <LoginModal
+        open={openLoginModal}
+        setOpen={setLoginModal}
+        isProceedCheckout={isProceedCheckout}
+        setIsProceedCheckout={setIsProceedCheckout}
+      ></LoginModal>
     </>
   );
 };

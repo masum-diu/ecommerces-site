@@ -149,7 +149,6 @@ const PorductDetails = () => {
       const selectedProduct = products?.p_stocks?.find(
         (stock) => stock?.size_id === sizeId
       );
-      console.log("selectedProduct", selectedProduct);
       setProductPrice(selectedProduct?.mrp);
       setStockDetails(selectedProduct);
       setStockAmount(selectedProduct?.stock);
@@ -218,7 +217,6 @@ const PorductDetails = () => {
     await toast.error("Removed From Wishlist!");
   };
   const description = products?.p_description;
-  console.log("your log output", products);
   const finalData = {
     id: products.id,
     image: products.feature_image,

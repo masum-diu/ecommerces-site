@@ -18,8 +18,10 @@ import Cookies from "js-cookie";
 import instance from "../pages/api/api_instance";
 import GuestCheckout from "./GuestCheckout";
 import USER_CONTEXT from "./userContext";
+import { useDispatch } from "react-redux";
+import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
 
-const LoginModal = ({ open, setOpen, isGuestCheckout, setIsGuestCheckout }) => {
+const LoginModal = ({ open, setOpen }) => {
   const {
     userdata,
     setUserData,
@@ -27,14 +29,18 @@ const LoginModal = ({ open, setOpen, isGuestCheckout, setIsGuestCheckout }) => {
     setHasToken,
     isPlaceOrder,
     setIsPlaceOrder,
+    isProceedCheckout,
+    setIsProceedCheckout,
+    isGuestCheckout,
+    setIsGuestCheckout,
   } = useContext(USER_CONTEXT);
   const { errormessage, setErrormessage } = useState("");
   const [signModal, setSignModal] = useState(false);
   const [forgotModal, setForgotModal] = useState(false);
-
   const [openGuestCheckoutModalOpen, setGuestCheckoutModalOpen] =
     useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleclearuser = () => {
     setUserData("");
@@ -54,10 +60,12 @@ const LoginModal = ({ open, setOpen, isGuestCheckout, setIsGuestCheckout }) => {
   const handleClose = () => {
     setOpen(false);
     setIsPlaceOrder(false);
+    setIsProceedCheckout(false);
   };
   const handleDialogClose = () => {
     setOpen(false);
     setIsPlaceOrder(false);
+    setIsProceedCheckout(false);
   };
   const [values, setValues] = useState({
     pass: "",
@@ -69,6 +77,17 @@ const LoginModal = ({ open, setOpen, isGuestCheckout, setIsGuestCheckout }) => {
       ...values,
       showPass: !values.showPass,
     });
+  };
+  const handleGuestCheckoutClick = () => {
+    // setIsGuestCheckout(true);
+    if (!hasToken) {
+      dispatch(changeIsCheckout(true));
+    } else {
+      dispatch(changeIsCheckout(false));
+    }
+    setOpen(false);
+    setIsProceedCheckout(false);
+    router.push("/checkout");
   };
   const {
     register,
@@ -94,6 +113,7 @@ const LoginModal = ({ open, setOpen, isGuestCheckout, setIsGuestCheckout }) => {
         Cookies.set("acesstoken", result.data.token);
         Cookies.set("user", JSON.stringify(result.data.user));
         setUserData(result.data);
+        dispatch(changeIsCheckout(false));
         reset();
         setOpen(false);
         setHasToken(true);
@@ -232,11 +252,11 @@ const LoginModal = ({ open, setOpen, isGuestCheckout, setIsGuestCheckout }) => {
             </form>
           </DialogContentText>
 
-          {isPlaceOrder === true ? (
+          {isProceedCheckout === true ? (
             <>
               <hr style={{ width: "50%" }} />
               <Stack>
-                <Button onClick={() => setIsGuestCheckout(true)}>
+                <Button onClick={() => handleGuestCheckoutClick()}>
                   Checkout as Guest?
                 </Button>
               </Stack>

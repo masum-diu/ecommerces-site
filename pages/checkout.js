@@ -17,7 +17,7 @@ import {
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -31,16 +31,21 @@ import {
   usePostUserOrderMutation,
   usePostGuestOrderMutation,
 } from "../src/features/api/apiSlice";
+import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
 const checkout = ({ someProp }) => {
   const cart = useSelector((state) => state.cart.cart);
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
   const [isSameAddress, setIsSameAddress] = useState(false);
   const isInitialMount = useRef(true);
+  const dispatch = useDispatch();
   const subTotal = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const totalPriceWithTax = useSelector(
     (state) => state.cart.totalPriceWithTax
+  );
+  const isGuestCheckout = useSelector(
+    (state) => state.checkoutSlice.isGuestCheckout
   );
   const [totalPrice, setSubtotal] = useState(subTotal);
   const [isDhakaChecked, setIsDhakaChecked] = useState(false);
@@ -55,7 +60,8 @@ const checkout = ({ someProp }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [guestCheckoutResponse, setGuestCheckoutResponse] = useState([]);
   // const [isPlaceOrder, setIsPlaceOrder] = useState(false);
-  const [isGuestCheckout, setIsGuestCheckout] = useState(false);
+  // const { isGuestCheckout, setIsGuestCheckout } = useContext(USER_CONTEXT);
+  // const [isGuestCheckout, setIsGuestCheckout] = useState(false);
   const [orderInfo, setOrderInfo] = useState({});
   const [orderResponseUser, setOrderResponseUser] = useState({});
   const [orderResponseGuest, setOrderResponseGuest] = useState({});
@@ -115,7 +121,6 @@ const checkout = ({ someProp }) => {
       securePage();
     }
   }, [isPlaceOrder, hasToken, error]);
-
   useEffect(() => {
     if (hasToken === false && isGuestCheckout === true && cart?.length > 0) {
       const handleGuestOrder = async () => {
@@ -137,18 +142,16 @@ const checkout = ({ someProp }) => {
         }
       };
       handleGuestOrder();
-      setIsGuestCheckout(false);
+      // dispatch(changeIsCheckout(false));
     }
   }, [
     isPlaceOrder,
     orderInfo,
     isGuestCheckout,
     hasToken,
-    isSameAddressChecked,
     isLoading,
     guestCheckoutResponse,
   ]);
-  // console.log("guest checkout", guestCheckoutResponse?.data);
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -310,7 +313,6 @@ const checkout = ({ someProp }) => {
   useEffect(() => {
     if (userOrderSuccess) {
       setIsPlaceOrder(false);
-      console.log("inside success", orderResponseUser);
       if (orderResponseUser.data?.type == "online") {
         const response = JSON.parse(orderResponseUser?.data?.payment);
         window.location.replace(response?.data);
@@ -331,7 +333,9 @@ const checkout = ({ someProp }) => {
     if (guestOrderSuccess) {
       setLoginModal(false);
       setIsPlaceOrder(false);
-      console.log("inside success", orderResponseGuest);
+      if(orderResponseGuest?.data?.status==="success"){
+        dispatch(changeIsCheckout(false));
+      }
       if (orderResponseGuest.data?.type == "online") {
         const response = JSON.parse(orderResponseGuest?.data?.payment);
         window.location.replace(response?.data);
@@ -1313,16 +1317,10 @@ const checkout = ({ someProp }) => {
       <LoginModal
         open={openLoginModal}
         setOpen={setLoginModal}
-        isGuestCheckout={isGuestCheckout}
-        setIsGuestCheckout={setIsGuestCheckout}
+        // isGuestCheckout={isGuestCheckout}
+        // setIsGuestCheckout={setIsGuestCheckout}
         setHasToken={setHasToken}
-        // isPlaceOrder={isPlaceOrder}
-        // setIsPlaceOrder={setIsPlaceOrder}
       ></LoginModal>
-      {/* <GuestCheckout
-        isGuestCheckout={isGuestCheckout}
-        setIsGuestCheckout={setIsGuestCheckout}
-      ></GuestCheckout> */}
     </>
   );
 };

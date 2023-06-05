@@ -146,7 +146,6 @@ const masterCollectionLayout = () => {
   );
 
   // Getting static data with subCategory
-  console.log('your log output',cat==3)
   const {
     data: staticDatas,
     isLoading: loading,

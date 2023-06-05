@@ -26,7 +26,6 @@ const shop = () => {
     isError: isLandingError,
     error: landingError,
   } = useGetHomePageProductsQuery();
-  console.log('your log output',data)
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
