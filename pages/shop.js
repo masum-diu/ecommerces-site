@@ -96,7 +96,7 @@ const shop = () => {
             alt=""
             width="100%"
           /> */}
-          <Stack>
+          
           <video
             width={"100%"}
             autoPlay
