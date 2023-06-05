@@ -235,7 +235,7 @@ const HomePageIntro = ({ title }) => {
                     </IconButton>
                     <p>{userjsondata?.name}</p>
                   </MenuItem> */}
-                  <Box sx={{ flexGrow: 1 }} />
+                  {/* <Box sx={{ flexGrow: 1 }} /> */}
                   <Box sx={{ display: { xs: "none", md: "flex" } }}>
                     <MenuItem onClick={handleProfileMenuOpen}>
                       <IconButton

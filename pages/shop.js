@@ -105,7 +105,7 @@ const shop = () => {
             muted={true}
             src={homedata?.image_one}
           />
-          </Stack>
+         
           
           {/* <Image
             src=

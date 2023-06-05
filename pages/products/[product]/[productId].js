@@ -9,14 +9,18 @@ import {
   IconButton,
   ListItemText,
   Stack,
-  Typography, Box,
+  Typography,
+  Box,
 } from "@mui/material";
 import HomePageIntro from "../../../components/HomePageIntro";
 // import { Box } from "@mui/system";
 import Footer from "../../../components/Footer";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import { useGetMatchedWithProductQuery, useGetParticularProductsQuery } from "../../../src/features/api/apiSlice";
+import {
+  useGetMatchedWithProductQuery,
+  useGetParticularProductsQuery,
+} from "../../../src/features/api/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../components/Loader/Loader";
 import toast from "react-hot-toast";
@@ -69,7 +73,6 @@ const PorductDetails = () => {
   const [activesize, setActiveSize] = useState(null);
   const [activecolor, setActiveColor] = useState(null);
   const [open, setOpen] = useState(false);
-  console.log("your log output", products);
   const [sizeGuide, setSizeGuide] = useState(false);
   const [noteTextForStock, setNoteTextForStock] = useState(
     " Please select a color and size in order to check stock availability."
@@ -88,13 +91,16 @@ const PorductDetails = () => {
   const [showBrokenHeart, setShowBrokenHeart] = useState(
     myProduct?.showBrokenHeart ? myProduct?.showBrokenHeart : "none"
   );
-  const category = products?.p_category?.id
-  const sub_catcategory = products?.p_subcategory?.id
+  const category = products?.p_category?.id;
+  const sub_catcategory = products?.p_subcategory?.id;
   const { data, isLoading, isSuccess, isError, error } =
     useGetParticularProductsQuery(productId);
-  const { data: matchedwithProduct, } = useGetMatchedWithProductQuery({ category, sub_catcategory })
-  const RelatedProducts = matchedwithProduct?.data
-  console.log("lost", RelatedProducts)
+  const { data: matchedwithProduct } = useGetMatchedWithProductQuery({
+    category,
+    sub_catcategory,
+  });
+  const RelatedProducts = matchedwithProduct?.data;
+  // console.log("lost", RelatedProducts);
 
   // Fetching the particular Product
   useEffect(() => {
@@ -212,10 +218,12 @@ const PorductDetails = () => {
     await toast.error("Removed From Wishlist!");
   };
   const description = products?.p_description;
+  console.log("your log output", products);
   const finalData = {
     id: products.id,
     image: products.feature_image,
     name: products?.p_name,
+    design_code: products?.p_design_code,
     size: size,
     size_id: sizeId,
     text: products?.p_description,
@@ -285,7 +293,7 @@ const PorductDetails = () => {
         <Box
           sx={{pt:{lg:8,xs:7}}}
           mb={4}
-        //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
+          //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
         >
           <Grid container>
             <Grid item xl={6} lg={7} md={6} sm={12}>
@@ -299,7 +307,7 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.feature_image}
-                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_830,w_664/${products?.feature_image
+                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${products?.feature_image
                   ?.split("/")
                   .slice(-3)
                   .join("/")}`}
@@ -362,7 +370,7 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.p_image_three}
-                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_830,w_664/${products?.p_image_three
+                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${products?.p_image_three
                   ?.split("/")
                   .slice(-3)
                   .join("/")}`}
@@ -372,8 +380,6 @@ const PorductDetails = () => {
                   // maxWidth: "664px",
                 }}
               />
-
-
             </Grid>
 
             {/* Description Section */}
@@ -794,8 +800,9 @@ const PorductDetails = () => {
                           {products?.p_sizes?.map((size, index) => (
                             <Button
                               key={index}
-                              variant={`${activesize === size?.id ? "outlined" : "primary"
-                                }`}
+                              variant={`${
+                                activesize === size?.id ? "outlined" : "primary"
+                              }`}
                               color="primary"
                               onClick={() =>
                                 handleSelectSize(size?.size_name, size?.id)
@@ -819,8 +826,8 @@ const PorductDetails = () => {
                   </Button> */}
                         </Stack>
                         {products?.subcat_id === 13 ||
-                          products?.subcat_id === 15 ||
-                          products?.cat_id === 1 ? (
+                        products?.subcat_id === 15 ||
+                        products?.cat_id === 1 ? (
                           <Button
                             variant="text"
                             color="primary"
@@ -864,7 +871,7 @@ const PorductDetails = () => {
                     spacing={2}
                     alignItems="center"
                     justifyContent={"space-between"}
-                  // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                    // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
                   >
                     <Stack
                       direction={"row"}
@@ -942,14 +949,19 @@ const PorductDetails = () => {
                       </Button>
                     </Stack>
                   </Stack>
-                  {noteTextForCart && (<>
-                    <Stack direction={"row"} spacing={1} alignItems={"center"}>
-                      <AiOutlineWarning style={{ color: "#ed6c02" }} />
-                      <Typography variant="cardHeader" color="#ed6c02">
-                        {noteTextForCart}
-                      </Typography>
-                    </Stack>
-                  </>
+                  {noteTextForCart && (
+                    <>
+                      <Stack
+                        direction={"row"}
+                        spacing={1}
+                        alignItems={"center"}
+                      >
+                        <AiOutlineWarning style={{ color: "#ed6c02" }} />
+                        <Typography variant="cardHeader" color="#ed6c02">
+                          {noteTextForCart}
+                        </Typography>
+                      </Stack>
+                    </>
                   )}
                   <Button
                     variant="contained"
@@ -960,7 +972,6 @@ const PorductDetails = () => {
                   >
                     ADD TO CART
                   </Button>
-
 
                   {/* {products?.p_colours?.length > 0 ? (
                     <>
@@ -1375,46 +1386,63 @@ const PorductDetails = () => {
               </div>
             </Grid>
           </Grid>
-          <Box sx={{ width: "90vw", margin: "0 auto", maxWidth: "fit-content", mt: 3 }}>
-            <Typography variant="cardHeader1" color="initial" className="SemiBold">
+          <Box
+            sx={{
+              width: "90vw",
+              margin: "0 auto",
+              maxWidth: "fit-content",
+              mt: 3,
+            }}
+          >
+            <Typography
+              variant="cardHeader1"
+              color="initial"
+              className="SemiBold"
+            >
               Similar Products
             </Typography>
 
             <Grid container mt={1} spacing={1.5}>
-              {
-                RelatedProducts?.map((data, index) =>
-                  <Grid item lg={3}>
-                    <HovarImage
-                      url={`/products/${data?.p_subcategory?.slug === "unknown"
+              {RelatedProducts?.map((data, index) => (
+                <Grid item lg={3}>
+                  <HovarImage
+                    url={`/products/${
+                      data?.p_subcategory?.slug === "unknown"
                         ? data?.p_category?.slug
                         : data?.p_subcategory?.slug
-                        }/${data?.id}`}
-                      data={data}
-                      imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
-                        ?.split("/")
-                        .slice(-3)
-                        .join("/")}`}
-                      width={"fit-content"}
-                      height={"fit-content"}
-                    ></HovarImage>
-                    {/* <img src={data?.feature_image} alt="" width={385} /> */}
-                    <Stack direction={"row"} justifyContent={"space-between"} mt={1}>
-                      <Typography
-                        variant="cardHeader3"
-                        color="initial"
-                        className="SemiBold"
-                      >{data?.p_name}</Typography>
-                      <Typography
-                        variant="cardHeader3"
-                        color="initial"
-                        className="bold"
-                      > BDT {data?.p_stocks[0]?.mrp}</Typography>
-
-                    </Stack>
-                  </Grid>
-                )
-              }
-
+                    }/${data?.id}`}
+                    data={data}
+                    imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
+                      ?.split("/")
+                      .slice(-3)
+                      .join("/")}`}
+                    width={"fit-content"}
+                    height={"fit-content"}
+                  ></HovarImage>
+                  {/* <img src={data?.feature_image} alt="" width={385} /> */}
+                  <Stack
+                    direction={"row"}
+                    justifyContent={"space-between"}
+                    mt={1}
+                  >
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="SemiBold"
+                    >
+                      {data?.p_name}
+                    </Typography>
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      {" "}
+                      BDT {data?.p_stocks[0]?.mrp}
+                    </Typography>
+                  </Stack>
+                </Grid>
+              ))}
             </Grid>
           </Box>
         </Box>
@@ -1669,8 +1697,9 @@ const PorductDetails = () => {
                         {products?.p_sizes?.map((size, index) => (
                           <Button
                             key={index}
-                            variant={`${activesize === size?.id ? "outlined" : "primary"
-                              }`}
+                            variant={`${
+                              activesize === size?.id ? "outlined" : "primary"
+                            }`}
                             color="primary"
                             onClick={() =>
                               handleSelectSize(size?.size_name, size?.id)
@@ -1694,8 +1723,8 @@ const PorductDetails = () => {
                   </Button> */}
                       </Stack>
                       {products?.subcat_id === 13 ||
-                        products?.subcat_id === 15 ||
-                        products?.cat_id === 1 ? (
+                      products?.subcat_id === 15 ||
+                      products?.cat_id === 1 ? (
                         <Button
                           variant="text"
                           color="primary"
@@ -1799,16 +1828,15 @@ const PorductDetails = () => {
                   ""
                 )} */}
 
-                
-                
-                {noteTextForCart && (<>
-                  <Stack direction={"row"} spacing={1} alignItems={"center"}>
-                    <AiOutlineWarning style={{ color: "#ed6c02" }} />
-                    <Typography variant="cardHeader" color="#ed6c02">
-                      {noteTextForCart}
-                    </Typography>
-                  </Stack>
-                </>
+                {noteTextForCart && (
+                  <>
+                    <Stack direction={"row"} spacing={1} alignItems={"center"}>
+                      <AiOutlineWarning style={{ color: "#ed6c02" }} />
+                      <Typography variant="cardHeader" color="#ed6c02">
+                        {noteTextForCart}
+                      </Typography>
+                    </Stack>
+                  </>
                 )}
                 <Button
                   variant="contained"
@@ -1819,7 +1847,7 @@ const PorductDetails = () => {
                 >
                   ADD TO CART
                 </Button>
-                
+
                 <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="#959595">
                     Availability & Spces
@@ -2165,17 +2193,24 @@ const PorductDetails = () => {
                   </Box>
                 ) : null}
               </Stack>
-              
             </Grid>
-
           </Grid>
-          <Box sx={{ width: "90vw", mx:3, maxWidth: "fit-content", mt: 3 }}>
-            <Typography variant="cardHeader1" color="initial" className="SemiBold">
+          <Box sx={{ width: "90vw", mx: 3, maxWidth: "fit-content", mt: 3 }}>
+            <Typography
+              variant="cardHeader1"
+              color="initial"
+              className="SemiBold"
+            >
               Similar Products
             </Typography>
           </Box>
           <Swiper
-            style={{ width: "90vw", margin: "0 auto", maxWidth: "fit-content", marginTop: "1rem" }}
+            style={{
+              width: "90vw",
+              margin: "0 auto",
+              maxWidth: "fit-content",
+              marginTop: "1rem",
+            }}
             spaceBetween={10}
             slidesPerView={2.5}
             // pagination={{
@@ -2184,40 +2219,46 @@ const PorductDetails = () => {
             modules={[Pagination]}
             className="mySwiper"
           >
-
-            {
-              RelatedProducts?.map((data, index) =>
-                <SwiperSlide>
-                  <HovarImage
-                    url={`/products/${data?.p_subcategory?.slug === "unknown"
+            {RelatedProducts?.map((data, index) => (
+              <SwiperSlide>
+                <HovarImage
+                  url={`/products/${
+                    data?.p_subcategory?.slug === "unknown"
                       ? data?.p_category?.slug
                       : data?.p_subcategory?.slug
-                      }/${data?.id}`}
-                    data={data}
-                    imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
-                      ?.split("/")
-                      .slice(-3)
-                      .join("/")}`}
-                    width={"fit-content"}
-                    height={"fit-content"}
-                  ></HovarImage>
-                  {/* <img src={data?.feature_image} alt="" width={385} /> */}
-                  <Stack direction={"column"} justifyContent={"space-between"} mt={1}>
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                      className="SemiBold"
-                    >{data?.p_name}</Typography>
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                      className="bold"
-                    > BDT {data?.p_stocks[0]?.mrp}</Typography>
-
-                  </Stack>
-                </SwiperSlide>
-              )
-            }
+                  }/${data?.id}`}
+                  data={data}
+                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
+                    ?.split("/")
+                    .slice(-3)
+                    .join("/")}`}
+                  width={"fit-content"}
+                  height={"fit-content"}
+                ></HovarImage>
+                {/* <img src={data?.feature_image} alt="" width={385} /> */}
+                <Stack
+                  direction={"column"}
+                  justifyContent={"space-between"}
+                  mt={1}
+                >
+                  <Typography
+                    variant="cardHeader3"
+                    color="initial"
+                    className="SemiBold"
+                  >
+                    {data?.p_name}
+                  </Typography>
+                  <Typography
+                    variant="cardHeader3"
+                    color="initial"
+                    className="bold"
+                  >
+                    {" "}
+                    BDT {data?.p_stocks[0]?.mrp}
+                  </Typography>
+                </Stack>
+              </SwiperSlide>
+            ))}
           </Swiper>
 
           <Stack

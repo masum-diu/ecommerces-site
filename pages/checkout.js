@@ -27,7 +27,10 @@ import instance from "./api/api_instance";
 import LoginModal from "../components/LoginModal";
 import GuestCheckout from "../components/GuestCheckout";
 import USER_CONTEXT from "../components/userContext";
-
+import {
+  usePostUserOrderMutation,
+  usePostGuestOrderMutation,
+} from "../src/features/api/apiSlice";
 const checkout = ({ someProp }) => {
   const cart = useSelector((state) => state.cart.cart);
   const [distict, setDistict] = useState("Select Country");
@@ -54,10 +57,38 @@ const checkout = ({ someProp }) => {
   // const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   const [isGuestCheckout, setIsGuestCheckout] = useState(false);
   const [orderInfo, setOrderInfo] = useState({});
+  const [orderResponseUser, setOrderResponseUser] = useState({});
+  const [orderResponseGuest, setOrderResponseGuest] = useState({});
   // const [hasToken, setHasToken] = useState(false);
+  const customStyle = {
+    ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
+      {
+        "-webkit-text-fill-color": "rgb(0 0 0)",
+      },
+  };
   const { hasToken, setHasToken, isPlaceOrder, setIsPlaceOrder } =
     useContext(USER_CONTEXT);
   const router = useRouter();
+  const [
+    userOrder,
+    {
+      data: userOrderData,
+      isLoading: userOrderLoading,
+      isError: userOrderError,
+      isSuccess: userOrderSuccess,
+      error: userOrderErrorData,
+    },
+  ] = usePostUserOrderMutation();
+  const [
+    guestOrder,
+    {
+      data: guestOrderData,
+      isLoading: guestOrderLoading,
+      isError: guestOrderError,
+      isSuccess: guestOrderSuccess,
+      error: guestOrderErrorData,
+    },
+  ] = usePostGuestOrderMutation();
   useEffect(() => {
     if (isDhakaChecked === true) {
       setTotal(totalPriceWithTax + 100);
@@ -87,47 +118,25 @@ const checkout = ({ someProp }) => {
 
   useEffect(() => {
     if (hasToken === false && isGuestCheckout === true && cart?.length > 0) {
-      instance
-        .post("/guest-order", orderInfo, {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        })
-        .then(async (result) => {
-          console.log("your log output", result);
-          if (result?.data?.type == "online") {
-            const response = JSON.parse(result?.data?.payment);
-            setGuestCheckoutResponse(response);
-            // await window.location.replace(response?.data);
-          }
-          if (result?.data?.type == "cash") {
-            // const response = JSON.parse(result?.data);
-            // await window.location.replace(response?.data);
-            // console.log(result)
-            // router.push("/payment")
-            router.push({
-              pathname: "/payment",
-              query: {
-                payment: "success",
-                orderid: result?.data?.order_id,
-                type: "cash",
-              },
-            });
-          }
-        })
-        .catch((err) => {
-          console.log("from error", err);
-        })
-        .finally(async (result) => {
-          console.log("inside redirection", result);
-          // await console.log('inside finally',guestCheckoutResponse.data)
-          if (guestCheckoutResponse?.data) {
-            // console.log('inside redirection',guestCheckoutResponse?.data)
-            // await window.location.replace(guestCheckoutResponse.data);
-          }
-          setIsLoading(false);
-        });
+      const handleGuestOrder = async () => {
+        try {
+          const postResponse = await guestOrder({
+            data: orderInfo?.data,
+            cart: orderInfo?.cart,
+            subTotal: orderInfo?.totalPrice,
+            totalPriceWithTax: orderInfo?.totalPriceWithTax,
+            finalPriceOfOrder: orderInfo?.finalPrice,
+            totalAmount: orderInfo?.totalAmount,
+            isSameAddressChecked: orderInfo?.isSameAddress,
+            isGuestCheckout: orderInfo?.isGuestCheckout,
+            token,
+          });
+          setOrderResponseGuest(postResponse);
+        } catch (e) {
+          console.log("your log output", e);
+        }
+      };
+      handleGuestOrder();
       setIsGuestCheckout(false);
     }
   }, [
@@ -139,7 +148,7 @@ const checkout = ({ someProp }) => {
     isLoading,
     guestCheckoutResponse,
   ]);
-  console.log("guest checkout", guestCheckoutResponse?.data);
+  // console.log("guest checkout", guestCheckoutResponse?.data);
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -215,12 +224,6 @@ const checkout = ({ someProp }) => {
     },
   });
   const allFieldsFilled = watch();
-  /* useEffect(() => {
-    console.log("no errors", errors);
-    if (errors.length < 0) {
-      setError(false);
-    }
-  }, [error, errors]); */
   const onSubmit = async (data) => {
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
@@ -235,54 +238,27 @@ const checkout = ({ someProp }) => {
       isGuestCheckout: true,
     });
     if (hasToken === true && cart?.length > 0) {
-      instance
-        .post(
-          "/order",
-          {
-            data: data,
-            cart: cart,
-            totalPrice: subTotal,
-            totalPriceWithTax: totalPriceWithTax,
-            finalPrice: Math.ceil(total),
-            totalAmount: totalAmount,
-            isSameAddress: isSameAddressChecked,
-            isGuestCheckout: isGuestCheckout,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("acesstoken"),
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
-        )
-        .then(async (result) => {
-          setIsPlaceOrder(false);
-          if (result?.data?.type == "online") {
-            const response = JSON.parse(result?.data?.payment);
-            await window.location.replace(response?.data);
-          }
-          if (result?.data?.type == "cash") {
-            //  const response = JSON.parse(result?.data);
-            //  await window.location.replace(response?.data);
-            // console.log(result)
-
-            router.push({
-              pathname: "/payment",
-              query: {
-                payment: "success",
-                orderid: result?.data?.order_id,
-                type: "cash",
-              },
-            });
-          }
-          // const response = JSON.parse(result?.data?.payment);
-          // await window.location.replace(response?.data);
-        })
-        .catch((err) => {});
+      const finalPriceOfOrder = Math.ceil(total);
+      const handleUserOrder = async () => {
+        try {
+          const postResponse = await userOrder({
+            data,
+            cart,
+            subTotal,
+            totalPriceWithTax,
+            finalPriceOfOrder,
+            totalAmount,
+            isSameAddressChecked,
+            isGuestCheckout,
+            token,
+          });
+          setOrderResponseUser(postResponse);
+        } catch (e) {
+          console.log("your log output", e);
+        }
+      };
+      handleUserOrder();
     }
-
-    // console.log("geust checkout output", isGuestCheckout);
   };
   const handleSelectChange = (event) => {
     setValue("country_billing", event.target.value, { shouldValidate: true });
@@ -326,9 +302,64 @@ const checkout = ({ someProp }) => {
   const deliveryMethod = useWatch({ control, name: "deliveryMethod" });
   const termsAndCondition = useWatch({ control, name: "termsAndConditions" });
   const showInputField = watch("isSameAddress");
+  // console.log('your log outsdfsfput',showInputField)
   useEffect(() => {
     setPayment(paymentMethod);
   }, [payment, paymentMethod]);
+
+  useEffect(() => {
+    if (userOrderSuccess) {
+      setIsPlaceOrder(false);
+      console.log("inside success", orderResponseUser);
+      if (orderResponseUser.data?.type == "online") {
+        const response = JSON.parse(orderResponseUser?.data?.payment);
+        window.location.replace(response?.data);
+      }
+      if (orderResponseUser?.data?.type == "cash") {
+        router.push({
+          pathname: "/payment",
+          query: {
+            payment: "success",
+            orderid: orderResponseUser?.data?.order_id,
+            type: "cash",
+          },
+        });
+      }
+    }
+  }, [userOrderSuccess, isPlaceOrder, orderResponseUser]);
+  useEffect(() => {
+    if (guestOrderSuccess) {
+      setLoginModal(false);
+      setIsPlaceOrder(false);
+      console.log("inside success", orderResponseGuest);
+      if (orderResponseGuest.data?.type == "online") {
+        const response = JSON.parse(orderResponseGuest?.data?.payment);
+        window.location.replace(response?.data);
+      }
+      if (orderResponseGuest?.data?.type == "cash") {
+        router.push({
+          pathname: "/payment",
+          query: {
+            payment: "success",
+            orderid: orderResponseGuest?.data?.order_id,
+            type: "cash",
+          },
+        });
+      }
+    }
+  }, [guestOrderSuccess, isGuestCheckout, orderResponseGuest]);
+  useEffect(() => {
+    if (showInputField === false) {
+      setValue("first_name_shipping", "");
+      setValue("last_name_shipping", "");
+      setValue("street_address_shipping", "");
+      setValue("apartment_address_shipping", "");
+      setValue("city_shipping", "");
+      setValue("post_code_shipping", "");
+      setValue("phone_shipping", "");
+      setValue("email_shipping", "");
+    }
+  }, [showInputField]);
 
   const errorObject = Object.keys(errors).length;
   useEffect(() => {
@@ -379,8 +410,7 @@ const checkout = ({ someProp }) => {
         emailBilling &&
         paymentMethod &&
         deliveryMethod &&
-        termsAndCondition &&
-        Object.keys(errors).length === 0
+        termsAndCondition
       ) {
         setEnable(false);
       }
@@ -410,6 +440,9 @@ const checkout = ({ someProp }) => {
     deliveryMethod,
     termsAndCondition,
   ]);
+  if (userOrderLoading || guestOrderLoading) {
+    return <Loader></Loader>;
+  }
   return (
     <>
       <HomePageIntro title={"Checkout "} />
@@ -754,8 +787,8 @@ const checkout = ({ someProp }) => {
                         : firstName
                     }
                     size="small"
+                    sx={customStyle}
                   />
-
                   {errors.first_name_shipping &&
                     isSameAddressChecked === false && (
                       <p style={{ color: "red" }}>
@@ -784,6 +817,7 @@ const checkout = ({ someProp }) => {
                       isSameAddressChecked === false ? "Last Name *" : lastName
                     }
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.last_name_shipping &&
                     isSameAddressChecked === false && (
@@ -817,6 +851,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="House Number and street name"
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.street_address_shipping &&
                     isSameAddressChecked === false && (
@@ -845,6 +880,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="Apartment suite, unit, etc."
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.apartment_address_shipping &&
                     isSameAddressChecked === false && (
@@ -878,6 +914,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="Town / City"
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.city_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
@@ -942,6 +979,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="Postcode / zip (Optional)"
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.post_code_shipping &&
                     isSameAddressChecked === false && (
@@ -974,6 +1012,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="Phone *"
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.phone_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
@@ -1012,6 +1051,7 @@ const checkout = ({ someProp }) => {
                     }
                     // placeholder="Email Address *"
                     size="small"
+                    sx={customStyle}
                   />
                   {errors.email_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
