@@ -7,20 +7,29 @@ import {
   ListItemText,
   Paper,
   Stack,
-  Typography, Button,
+  Typography, Button, TextField, RadioGroup, FormControlLabel, Radio,
 } from "@mui/material";
-
+import { useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 const Profile = () => {
+  const [openList, setOpenList] = React.useState(false);
+  const [arrow, setArrow] = useState(false);
+  const handleClick = () => {
+    setOpenList((prev) => !prev);
+    setArrow(!arrow);
+  };
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
+  const [open, setOpen] = useState(false)
   return (
     <>
       <Box >
         <Stack
           direction={"column"}
           spacing={1}
-           sx={{ justifyContent: "center", alignItems: "center", mt: 3 ,}}
+          sx={{ justifyContent: "center", alignItems: "center", mt: 3, }}
         >
           <Typography variant="cardHeader1" color="initial" className="SemiBold">
             ACCOUNT INFORMATION
@@ -33,43 +42,173 @@ const Profile = () => {
             sx={{ p: 2, width: "90%", maxWidth: "800px", marginTop: "30px" }}
             elevation={2}
           >
-            <Stack direction={"row"} sx={{justifyContent:"space-between",alignItems:"center",mb:2}}>
-            <Typography variant="cardHeader12" color="initial" className="SemiBold">
-              Personal Information
-            </Typography>
-            <Button variant="contained" color="background2" size="small">
-              edit
-            </Button>
+            <Stack direction={"row"} sx={{ justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+              <Typography variant="cardHeader12" color="initial" className="SemiBold">
+                Personal Information
+              </Typography>
+
             </Stack>
-           
+
 
             <Divider />
             <Stack
-              direction={"row"}
-              sx={{ justifyContent: "space-between" }}
+              direction={"column"}
               mt={2}
+              spacing={2}
             >
               <Stack direction={"column"} spacing={1}>
-                <Typography variant="cardLocation1" color="#807f83"className="bold">
+                <Typography variant="cardLocation1" color="#807f83" className="bold">
                   User Name
                 </Typography>
-                <Typography variant="cardLocation1" color="initial"className="SemiBold">
-                  {userjsondata.name}
+                <Typography variant="cardLocation1" color="initial" className="SemiBold">
+                  {userjsondata?.name}
                 </Typography>
               </Stack>
+              <Divider />
               <Stack direction={"column"} spacing={1}>
-                <Typography variant="cardLocation1" color="#807f83"className="bold">
+                <Typography variant="cardLocation1" color="#807f83" className="bold">
                   Email Address
                 </Typography>
-                <Typography variant="cardLocation1" color="initial"className="SemiBold">
-                  {userjsondata.email}
+                <Typography variant="cardLocation1" color="initial" className="SemiBold">
+                  {userjsondata?.email}
                 </Typography>
               </Stack>
-              
+              <Divider />
+              <Stack direction={"column"} spacing={1}>
+                <Typography variant="cardLocation1" color="#807f83" className="bold">
+                  Address
+                </Typography>
+                <Typography variant="cardLocation1" color="initial" className="SemiBold">
+                  {/* {userjsondata?.name} */}
+                </Typography>
+              </Stack>
+              <Divider />
+              <Stack direction={"column"} spacing={1} >
+                <Typography variant="cardLocation1" color="#807f83" className="bold">
+                  Phone Number
+                </Typography>
+                <Typography variant="cardLocation1" color="initial" className="SemiBold">
+                  {/* {userjsondata?.email} */}
+                </Typography>
+              </Stack>
+              <Divider />
+              <Stack direction={"column"} spacing={1}>
+                <Typography variant="cardLocation1" color="#807f83" className="bold">
+                  Date of Birth
+                </Typography>
+                <Typography variant="cardLocation1" color="initial" className="SemiBold">
+                  {/* {userjsondata?.name} */}
+                </Typography>
+              </Stack>
+              <Divider />
+              <Stack direction={"column"} spacing={1} >
+                <Typography variant="cardLocation1" color="#807f83" className="bold">
+                  Gender
+                </Typography>
+                <Typography variant="cardLocation1" color="initial" className="SemiBold">
+                  {/* {userjsondata?.email} */}
+                </Typography>
+              </Stack>
+              <Divider />
+              <Stack direction={"column"} spacing={1}>
+                <Typography variant="cardLocation1" color="#807f83" className="bold">
+                  Occupation
+                </Typography>
+                <Typography variant="cardLocation1" color="initial" className="SemiBold">
+                  {/* {userjsondata?.name} */}
+                </Typography>
+              </Stack>
             </Stack>
+
+
           </Paper>
+          <Button
+            variant="contained"
+            color="background2"
+            onClick={handleClick}
+            // className="bold"
+            fullWidth
+
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              textTransform: "capitalize",
+              width: "90%", maxWidth: "800px",
+
+            }}
+            endIcon={
+              arrow ? (
+                <RemoveIcon onClick={() => setArrow(!arrow)} />
+              ) : (
+                <AddIcon onClick={() => setArrow(!arrow)} />
+              )
+            }
+          >
+            Additional Information
+          </Button>
+          {openList ? (
+
+            <Paper
+              sx={{ p: 2, width: "90%", maxWidth: "800px", }}
+              elevation={2}
+            >
+              <Stack
+                direction={"column"}
+                spacing={2}
+              >
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardLocation1" color="#807f83" className="bold">
+                    Full Name
+                  </Typography>
+                  <TextField size="small" />
+                </Stack>
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardLocation1" color="#807f83" className="bold">
+                    Address
+                  </Typography>
+                  <TextField size="small" />
+                </Stack>
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardLocation1" color="#807f83" className="bold">
+                    Phone Number
+                  </Typography>
+                  <TextField size="small" />
+                </Stack>
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardLocation1" color="#807f83" className="bold">
+                    Date of Birth
+                  </Typography>
+                  <TextField size="small" type="date" />
+                </Stack>
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardLocation1" color="#807f83" className="bold">
+                   Gender
+                  </Typography>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="female"
+                    name="radio-buttons-group"
+                    sx={{display:"flex",flexDirection:"row"}}
+                  >
+                    <FormControlLabel value="female" control={<Radio />} label="Female" />
+                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                    <FormControlLabel value="other" control={<Radio />} label="Other" />
+                  </RadioGroup>
+                </Stack>
+                <Stack direction={"column"} spacing={1}>
+                  <Typography variant="cardLocation1" color="#807f83" className="bold">
+                  Occupation
+                  </Typography>
+                  <TextField size="small" />
+                </Stack>
+              </Stack>
+            </Paper>
+
+          ) : null}
         </Stack>
       </Box>
+
     </>
   );
 };
