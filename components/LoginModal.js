@@ -109,6 +109,7 @@ const LoginModal = ({ open, setOpen }) => {
       .post("/auth/login", data, {})
       .then((result) => {
         localStorage.setItem("acesstoken", result.data.token);
+        console.log('your log output',result.data.user)
         localStorage.setItem("user", JSON.stringify(result.data.user));
         Cookies.set("acesstoken", result.data.token);
         Cookies.set("user", JSON.stringify(result.data.user));

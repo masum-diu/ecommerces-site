@@ -13,6 +13,7 @@ import {
   Select,
   MenuItem,
   Checkbox,
+  Autocomplete,
 } from "@mui/material";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Footer from "../components/Footer";
@@ -59,6 +60,19 @@ const checkout = ({ someProp }) => {
   const [enable, setEnable] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [guestCheckoutResponse, setGuestCheckoutResponse] = useState([]);
+  const [billingTown, setBillingTown] = useState("");
+  const [shippingTown, setShippingTown] = useState("");
+  const [shippingCost, setShippingCost] = useState(100);
+  const data = [
+    { label: "Barishal", year: 1994, value: "Barishal" },
+    { label: "Chittagong", year: 1972, value: "Chittagong" },
+    { label: "Dhaka", year: 1974, value: "Dhaka" },
+    { label: "Khulna", year: 2008, value: "Khulna" },
+    { label: "Mymensingh", year: 1957, value: "Mymensingh" },
+    { label: "Rajshahi", year: 1993, value: "Rajshahi" },
+    { label: "Sylhet", year: 1994, value: "Sylhet" },
+    { label: "Rangpur", year: 1994, value: "Rangpur" },
+  ];
   // const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   // const { isGuestCheckout, setIsGuestCheckout } = useContext(USER_CONTEXT);
   // const [isGuestCheckout, setIsGuestCheckout] = useState(false);
@@ -96,17 +110,41 @@ const checkout = ({ someProp }) => {
     },
   ] = usePostGuestOrderMutation();
   useEffect(() => {
-    if (isDhakaChecked === true) {
-      setTotal(totalPriceWithTax + 100);
+    if (shippingTown && !isSameAddressChecked) {
+      if (isFromShowRoomChecked === true) {
+        setTotal(totalPriceWithTax + 0);
+        setShippingCost(0);
+      }
+      if (shippingTown === "Dhaka" && isFromShowRoomChecked === false) {
+        setTotal(totalPriceWithTax + 100);
+        setShippingCost(100);
+      }
+      if (shippingTown !== "Dhaka" && isFromShowRoomChecked === false) {
+        setTotal(totalPriceWithTax + 250);
+        setShippingCost(250);
+      }
     }
-    if (isOutSideChecked === true) {
-      setTotal(totalPriceWithTax + 250);
+    if (billingTown && isSameAddressChecked) {
+      if (isFromShowRoomChecked === true) {
+        setTotal(totalPriceWithTax + 0);
+        setShippingCost(0);
+      }
+      if (billingTown === "Dhaka" && isFromShowRoomChecked === false) {
+        setTotal(totalPriceWithTax + 100);
+        setShippingCost(100);
+      }
+      if (billingTown !== "Dhaka" && isFromShowRoomChecked === false) {
+        setTotal(totalPriceWithTax + 250);
+        setShippingCost(250);
+      }
     }
-    if (isFromShowRoomChecked === true) {
-      setTotal(totalPriceWithTax + 0);
-    }
-  }, [isDhakaChecked, isOutSideChecked, isFromShowRoomChecked]);
-
+  }, [
+    billingTown,
+    shippingTown,
+    shippingCost,
+    isSameAddressChecked,
+    isFromShowRoomChecked,
+  ]);
   useEffect(() => {
     if (isPlaceOrder === true) {
       const securePage = async () => {
@@ -152,6 +190,7 @@ const checkout = ({ someProp }) => {
     isLoading,
     guestCheckoutResponse,
   ]);
+  useEffect(() => {}, []);
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -226,8 +265,18 @@ const checkout = ({ someProp }) => {
       deliveryMethod: "",
     },
   });
+  /* useEffect(() => {
+    const token = localStorage.getItem("acesstoken");
+    const user = JSON.parse(localStorage.getItem("user"));
+    // console.log("local user", user);
+    // console.log("local user", isGuestCheckout);
+    if (token && !isGuestCheckout) {
+      setValue("email_billing",user?.name);
+    }
+  }, [isGuestCheckout,token]); */
   const allFieldsFilled = watch();
   const onSubmit = async (data) => {
+    // console.log("your log output", data);
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
     setOrderInfo({
@@ -333,7 +382,7 @@ const checkout = ({ someProp }) => {
     if (guestOrderSuccess) {
       setLoginModal(false);
       setIsPlaceOrder(false);
-      if(orderResponseGuest?.data?.status==="success"){
+      if (orderResponseGuest?.data?.status === "success") {
         dispatch(changeIsCheckout(false));
       }
       if (orderResponseGuest.data?.type == "online") {
@@ -393,7 +442,6 @@ const checkout = ({ someProp }) => {
         phoneBillingSh &&
         emailBillingSh &&
         paymentMethod &&
-        deliveryMethod &&
         termsAndCondition &&
         Object.keys(errors).length === 0
       ) {
@@ -413,7 +461,6 @@ const checkout = ({ someProp }) => {
         phoneBilling &&
         emailBilling &&
         paymentMethod &&
-        deliveryMethod &&
         termsAndCondition
       ) {
         setEnable(false);
@@ -594,21 +641,30 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("city_billing", {
-                      required: {
-                        value: true,
-                        message: "Town/City is Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("city_billing")}
-                    error={Boolean(errors.city_billing)}
-                    placeholder="Town / City"
-                    size="small"
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={data}
+                    renderInput={(params) => (
+                      <TextField
+                        // id=""
+                        // label=""
+                        // value={}
+                        // onChange={}
+                        {...params}
+                        {...register("city_billing", {
+                          required: {
+                            value: true,
+                            message: "Town/City is Required",
+                          },
+                        })}
+                        onSelect={(e) => setBillingTown(e.target.value)}
+                        onKeyUp={() => trigger("city_billing")}
+                        error={Boolean(errors.city_billing)}
+                        placeholder="Town / City"
+                        size="small"
+                      />
+                    )}
                   />
                   {errors.city_billing && (
                     <p style={{ color: "red" }}>
@@ -897,7 +953,37 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
-                  <TextField
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={data}
+                    disabled={isSameAddressChecked === false ? false : true}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        {...register("city_shipping", {
+                          required: {
+                            value:
+                              isSameAddressChecked === false ? true : false,
+                            message: "Town/City is Required",
+                          },
+                        })}
+                        onSelect={(e) => setShippingTown(e.target.value)}
+                        onKeyUp={() => trigger("city_shipping")}
+                        error={Boolean(errors.city_shipping)}
+                        // onChange={}
+                        placeholder={
+                          isSameAddressChecked === false
+                            ? "Town / City"
+                            : billingTown
+                        }
+                        // placeholder="Town / City"
+                        size="small"
+                        sx={customStyle}
+                      />
+                    )}
+                  />
+                  {/* <TextField
                     // id=""
                     // label=""
                     // value={}
@@ -919,7 +1005,7 @@ const checkout = ({ someProp }) => {
                     // placeholder="Town / City"
                     size="small"
                     sx={customStyle}
-                  />
+                  /> */}
                   {errors.city_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
                       {errors.city_shipping?.message}
@@ -1094,15 +1180,25 @@ const checkout = ({ someProp }) => {
                       </Typography>
                     </Stack>
                     <Divider />
-                    <Stack direction={"row"} spacing={2} mb={5} width="100%">
-                      <Typography
-                        variant="cardHeader"
-                        color="initial"
-                        mt={1}
-                        className="bold"
-                      >
-                        SHIPPING
-                      </Typography>
+                    <Stack direction={"column"} spacing={2} mb={5} width="100%">
+                      <Stack direction={"row"} spacing={2} width="100%">
+                        <Typography
+                          variant="cardHeader"
+                          color="initial"
+                          className="bold"
+                        >
+                          SHIPPING:
+                        </Typography>
+                        <Typography
+                          variant="cardHeader"
+                          color="initial"
+                          className="bold"
+                          sx={{ marginLeft: "72px!important" }}
+                        >
+                          BDT {shippingCost}
+                        </Typography>
+                      </Stack>
+
                       <Controller
                         rules={{
                           required: {
@@ -1115,7 +1211,7 @@ const checkout = ({ someProp }) => {
                         // onKeyUp={() => trigger("deliveryMethod")}
                         render={({ field }) => (
                           <RadioGroup {...field}>
-                            <FormControlLabel
+                            {/* <FormControlLabel
                               value="insideDhaka"
                               control={<Radio onClick={handleDhakaSelected} />}
                               label={
@@ -1142,11 +1238,14 @@ const checkout = ({ someProp }) => {
                                   OUTSIDE DHAKA : BDT 250
                                 </Typography>
                               }
-                            />
+                            /> */}
                             <FormControlLabel
                               value="pickFromShowroom"
                               control={
-                                <Radio onClick={handleShowRoomSelected} />
+                                <Radio
+                                  checked={isFromShowRoomChecked}
+                                  onClick={handleShowRoomSelected}
+                                />
                               }
                               label={
                                 <Typography
