@@ -11,6 +11,7 @@ import {
   Stack,
   Typography,
   Box,
+  ButtonGroup,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import HomePageIntro from "../../../components/HomePageIntro";
@@ -135,6 +136,7 @@ const PorductDetails = () => {
         setProductPrice(selectedProduct?.mrp);
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
+        console.log('stock amount',stockAmount)
         if (stockAmount > 0) {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
@@ -190,7 +192,16 @@ const PorductDetails = () => {
     setColorCode(code);
     setActiveColor(id);
   };
+  const handleStockAvailability = (id) => {
+    const element = products?.p_stocks.find((item) => item.size_id === id);
 
+    console.log("inside handle stock", element);
+    if (element && element.stock > 0) {
+      return "inStock";
+    } else {
+      return "outOfStock";
+    }
+  };
   const handleAddToCart = async (finalData) => {
     dispatch(addToCart(finalData));
     await toast.success("Added To Cart!");
@@ -445,12 +456,18 @@ const PorductDetails = () => {
                           // width={"20%"}
                           justifyContent="space-between"
                         >
-                          {/* {console.log("your log output", products)} */}
+                          {console.log("your log output", products)}
                           {products?.p_sizes?.map((size, index) => (
                             <Button
-                              // startIcon={<CloseIcon />}
-                              // startIcon={console.log(products?.p_stocks.find((element)=>element.size_id===size.id?console.log('your log output',element.size_id,size.id):""))}
-                              // startIcon={products?.p_stocks.some((element)=>element.sizeId===size.id?<CloseIcon />:"sdf")}
+                              startIcon={
+                                handleStockAvailability(size.id) ===
+                                "outOfStock" ? (
+                                  <CloseIcon color="action" />
+                                ) : (
+                                  ""
+                                )
+                              }
+                              style={{boxShadow:"0px 1px 4px 2px rgba(131 131 133 / 20%)"}}
                               key={index}
                               variant={`${
                                 activesize === size?.id ? "outlined" : "primary"
@@ -464,9 +481,6 @@ const PorductDetails = () => {
                               {size?.size_name}
                             </Button>
                           ))}
-
-                          {/* {products?.p_sizes?.map((size,index)=>(
-                          <h1>{products?.p_stocks.some((element)=>element.size_id===size.id&&element.stock>1?console.log('yes'):console.log('No'))}</h1>))} */}
                         </Stack>
                         {products?.subcat_id === 13 ||
                         products?.subcat_id === 15 ||
@@ -1296,6 +1310,15 @@ const PorductDetails = () => {
                       <Stack direction={"row"}>
                         {products?.p_sizes?.map((size, index) => (
                           <Button
+                          startIcon={
+                            handleStockAvailability(size.id) ===
+                            "outOfStock" ? (
+                              <CloseIcon color="action" />
+                            ) : (
+                              ""
+                            )
+                          }
+                          style={{boxShadow:"0px 1px 4px 2px rgba(131 131 133 / 20%)"}}
                             key={index}
                             variant={`${
                               activesize === size?.id ? "outlined" : "primary"

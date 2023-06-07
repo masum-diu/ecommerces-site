@@ -43,72 +43,294 @@ const SiderBar = ({ open, setOpen }) => {
   const { data, isLoading, isSuccess, isError, error } =
     useGetCampignListsQuery();
   const lists = data?.data;
-  const [openList, setOpenList] = React.useState(false);
-  const [openList1, setOpenList1] = React.useState(false);
-  const [openList2, setOpenList2] = React.useState(false);
-  const [openList3, setOpenList3] = React.useState(false);
-  const [openList4, setOpenList4] = React.useState(false);
-  const [openList5, setOpenList5] = React.useState(false);
-  const [openList6, setOpenList6] = React.useState(false);
-  const [openListJewelry, setOpenListJewelry] = React.useState(false);
-  const [openListKids, setOpenListKids] = React.useState(false);
-  const [arrow, setArrow] = useState(false);
-  const [arrow1, setArrow1] = useState(false);
-  const [arrow2, setArrow2] = useState(false);
-  const [arrow3, setArrow3] = useState(false);
-  const [arrow4, setArrow4] = useState(false);
-  const [arrow5, setArrow5] = useState(false);
-  const [arrow6, setArrow6] = useState(false);
-  const [arrowJewelry, setArrowJewelry] = useState(false);
-  const [arrowKids, setArrowKids] = useState(false);
+  const [list, setList] = useState({
+    openList: false,
+    openList1: false,
+    openList2: false,
+    openList3: false,
+    openList4: false,
+    openList5: false,
+    openList6: false,
+    openListJewelry: false,
+    openListKids: false,
+  });
+
+  const [arrowList, setArrowList] = useState({
+    arrow: false,
+    arrow1: false,
+    arrow2: false,
+    arrow3: false,
+    arrow4: false,
+    arrow5: false,
+    arrow6: false,
+    arrowJewelry: false,
+    arrowKids: false,
+  });
   const [modalOpen, setModalOpen] = useState(false);
 
   const { isGuestCheckout, setIsGuestCheckout, hasToken, setHasToken } =
     useContext(USER_CONTEXT);
   let usera = true;
+  const handleClickAway = () => {
+    setList({
+      ...list,
+      openList: false,
+      openList1: false,
+      openList2: false,
+      openList3: false,
+      openList4: false,
+      openList5: false,
+      openList6: false,
+      openListJewelry: false,
+      openListKids: false,
+    });
+  };
   const handleClick = () => {
-    setOpenList((prev) => !prev);
-    setArrow(!arrow);
+    setList({
+      ...list,
+      openList: !list.openList,
+      openList1: false,
+      openList2: false,
+      openList3: false,
+      openList4: false,
+      openList5: false,
+      openList6: false,
+      openListJewelry: false,
+      openListKids: false,
+    });
+    setArrowList({
+      ...arrowList,
+      arrow: !arrowList.arrow,
+      arrow1: false,
+      arrow2: false,
+      arrow3: false,
+      arrow4: false,
+      arrow5: false,
+      arrow6: false,
+      arrowJewelry: false,
+      arrowKids: false,
+    });
+    // setArrow(!arrow);
   };
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const totalWishedProduct = useSelector(
     (state) => state?.wishList?.wishList?.length
   );
-
-  const handleClickAway = () => {
-    setOpenList(false);
-  };
   const handleClick1 = () => {
-    setOpenList1((prev) => !prev);
-    setArrow1(!arrow1);
+    setList({
+      ...list,
+      openList1: !list.openList1,
+      openList: false,
+      openList2: false,
+      openList3: false,
+      openList4: false,
+      openList5: false,
+      openList6: false,
+      openListJewelry: false,
+      openListKids: false,
+    });
+    setArrowList({
+      ...arrowList,
+      arrow1: !arrowList.arrow1,
+      arrow: false,
+      arrow2: false,
+      arrow3: false,
+      arrow4: false,
+      arrow5: false,
+      arrow6: false,
+      arrowJewelry: false,
+      arrowKids: false,
+    });
+    // setArrow1(!arrow1);
   };
   const handleClick2 = () => {
-    setOpenList2((prev) => !prev);
-    setArrow2(!arrow2);
+    setList({
+      ...list,
+      openList2: !list.openList2,
+      openList1: false,
+      openList: false,
+      openList3: false,
+      openList4: false,
+      openList5: false,
+      openList6: false,
+      openListJewelry: false,
+      openListKids: false,
+    });
+    setArrowList({
+      ...arrowList,
+      arrow2: !arrowList.arrow2,
+      arrow1: false,
+      arrow: false,
+      arrow3: false,
+      arrow4: false,
+      arrow5: false,
+      arrow6: false,
+      arrowJewelry: false,
+      arrowKids: false,
+    });
+    // setArrow2(!arrow2);
   };
   const handleClick3 = () => {
-    setOpenList3((prev) => !prev);
-    setArrow3(!arrow3);
+    setList({
+      ...list,
+      openList3: !list.openList3,
+      openList1: false,
+      openList2: false,
+      openList: false,
+      openList4: false,
+      openList5: false,
+      openList6: false,
+      openListJewelry: false,
+      openListKids: false,
+    });
+    setArrowList({
+      ...arrowList,
+      arrow3: !arrowList.arrow3,
+      arrow1: false,
+      arrow2: false,
+      arrow: false,
+      arrow4: false,
+      arrow5: false,
+      arrow6: false,
+      arrowJewelry: false,
+      arrowKids: false,
+    });
+    // setArrow3(!arrow3);
   };
   const handleClick4 = () => {
-    setOpenList4((prev) => !prev);
-    setArrow4(!arrow4);
+    setList({
+      ...list,
+      openList4: !list.openList4,
+      openList1: false,
+      openList2: false,
+      openList3: false,
+      openList: false,
+      openList5: false,
+      openList6: false,
+      openListJewelry: false,
+      openListKids: false,
+    });
+    setArrowList({
+      ...arrowList,
+      arrow4: !arrowList.arrow4,
+      arrow1: false,
+      arrow2: false,
+      arrow3: false,
+      arrow: false,
+      arrow5: false,
+      arrow6: false,
+      arrowJewelry: false,
+      arrowKids: false,
+    });
+    // setArrow4(!arrow4);
   };
   const handleClick5 = () => {
-    setOpenList5((prev) => !prev);
-    setArrow5(!arrow5);
+    setList({
+      ...list,
+      openList5: !list.openList5,
+      openList1: false,
+      openList2: false,
+      openList3: false,
+      openList4: false,
+      openList: false,
+      openList6: false,
+      openListJewelry: false,
+      openListKids: false,
+    });
+    setArrowList({
+      ...arrowList,
+      arrow5: !arrowList.arrow5,
+      arrow1: false,
+      arrow2: false,
+      arrow3: false,
+      arrow4: false,
+      arrow: false,
+      arrow6: false,
+      arrowJewelry: false,
+      arrowKids: false,
+    });
+    // setArrow5(!arrow5);
   };
   const handleClick6 = () => {
-    setOpenList6((prev) => !prev);
-    setArrow6(!arrow6);
+    setList({
+      ...list,
+      openList6: !list.openList6,
+      openList1: false,
+      openList2: false,
+      openList3: false,
+      openList4: false,
+      openList5: false,
+      openList: false,
+      openListJewelry: false,
+      openListKids: false,
+    });
+    setArrowList({
+      ...arrowList,
+      arrow6: !arrowList.arrow6,
+      arrow1: false,
+      arrow2: false,
+      arrow3: false,
+      arrow4: false,
+      arrow5: false,
+      arrow: false,
+      arrowJewelry: false,
+      arrowKids: false,
+    });
+    // setArrow6(!arrow6);
   };
   const handleClickJewelry = () => {
-    setOpenListJewelry((prev) => !prev);
-    setArrowJewelry(!arrowJewelry);
+    setList({
+      ...list,
+      openListJewelry: !list.openListJewelry,
+      openList1: false,
+      openList2: false,
+      openList3: false,
+      openList4: false,
+      openList5: false,
+      openList6: false,
+      openList: false,
+      openListKids: false,
+    });
+    setArrowList({
+      ...arrowList,
+      arrowJewelry: !arrowList.arrowJewelry,
+      arrow1: false,
+      arrow2: false,
+      arrow3: false,
+      arrow4: false,
+      arrow5: false,
+      arrow6: false,
+      arrow: false,
+      arrowKids: false,
+    });
+    // setArrowJewelry(!arrowJewelry);
   };
   const handleClickKids = () => {
-    setOpenListKids((prev) => !prev);
-    setArrowKids(!arrowKids);
+    setList({
+      ...list,
+      openListKids: !list.openListKids,
+      openList1: false,
+      openList2: false,
+      openList3: false,
+      openList4: false,
+      openList5: false,
+      openList6: false,
+      openListJewelry: false,
+      openList: false,
+    });
+    setArrowList({
+      ...arrowList,
+      arrowKids: !arrowList.arrowKids,
+      arrow1: false,
+      arrow2: false,
+      arrow3: false,
+      arrow4: false,
+      arrow5: false,
+      arrow6: false,
+      arrowJewelry: false,
+      arrow: false,
+    });
+    // setArrowKids(!arrowKids);
   };
 
   const { user, setUser } = useContext(USER_CONTEXT);
@@ -256,20 +478,46 @@ const SiderBar = ({ open, setOpen }) => {
                     textTransform: "capitalize",
                   }}
                   endIcon={
-                    arrow ? (
+                    arrowList.arrow ? (
                       <MdOutlineKeyboardArrowUp
-                        onClick={() => setArrow(!arrow)}
+                        onClick={() =>
+                          setArrowList({
+                            ...arrowList,
+                            arrow: !arrowList.arrow,
+                            arrow1: false,
+                            arrow2: false,
+                            arrow3: false,
+                            arrow4: false,
+                            arrow5: false,
+                            arrow6: false,
+                            arrowJewelry: false,
+                            arrowKids: false,
+                          })
+                        }
                       />
                     ) : (
                       <MdOutlineKeyboardArrowDown
-                        onClick={() => setArrow(!arrow)}
+                        onClick={() =>
+                          setArrowList({
+                            ...arrowList,
+                            arrow: !arrowList.arrow,
+                            arrow1: false,
+                            arrow2: false,
+                            arrow3: false,
+                            arrow4: false,
+                            arrow5: false,
+                            arrow6: false,
+                            arrowJewelry: false,
+                            arrowKids: false,
+                          })
+                        }
                       />
                     )
                   }
                 >
                   Women
                 </Button>
-                {openList ? (
+                {list.openList ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
                     <Stack
                       direction={"row"}
@@ -472,20 +720,46 @@ const SiderBar = ({ open, setOpen }) => {
                     textTransform: "capitalize",
                   }}
                   endIcon={
-                    arrow1 ? (
+                    arrowList.arrow1 ? (
                       <MdOutlineKeyboardArrowUp
-                        onClick={() => setArrow1(!arrow1)}
+                        onClick={() =>
+                          setArrowList({
+                            ...arrowList,
+                            arrow1: !arrowList.arrow1,
+                            arrow: false,
+                            arrow2: false,
+                            arrow3: false,
+                            arrow4: false,
+                            arrow5: false,
+                            arrow6: false,
+                            arrowJewelry: false,
+                            arrowKids: false,
+                          })
+                        }
                       />
                     ) : (
                       <MdOutlineKeyboardArrowDown
-                        onClick={() => setArrow1(!arrow1)}
+                        onClick={() =>
+                          setArrowList({
+                            ...arrowList,
+                            arrow1: !arrowList.arrow1,
+                            arrow: false,
+                            arrow2: false,
+                            arrow3: false,
+                            arrow4: false,
+                            arrow5: false,
+                            arrow6: false,
+                            arrowJewelry: false,
+                            arrowKids: false,
+                          })
+                        }
                       />
                     )
                   }
                 >
                   men
                 </Button>
-                {openList1 ? (
+                {list.openList1 ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
                     <Stack
                       direction={"row"}
@@ -653,7 +927,7 @@ const SiderBar = ({ open, setOpen }) => {
                 >
                   Kids
                 </Button>
-                {openList2 ? (
+                {list.openList2 ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}></Box>
                 ) : null}
                 {/* Updated Kids Section Don't #####********Delete */}
@@ -669,13 +943,31 @@ const SiderBar = ({ open, setOpen }) => {
                     textTransform: "capitalize",
                   }}
                   endIcon={
-                    arrowKids ? (
+                    arrowList.arrowKids ? (
                       <MdOutlineKeyboardArrowUp
-                        onClick={() => setArrow1(!arrowKids)}
+                        onClick={() => setArrowList({ ...arrowList, 
+                          arrowKids: !arrowList.arrowKids,
+                          arrow1: false,
+                          arrow2: false,
+                          arrow3: false,
+                          arrow4: false,
+                          arrow5: false,
+                          arrow6: false,
+                          arrowJewelry: false,
+                          arrow: false, })}
                       />
                     ) : (
                       <MdOutlineKeyboardArrowDown
-                        onClick={() => setArrow1(!arrowKids)}
+                        onClick={() => setArrowList({ ...arrowList, 
+                          arrowKids: !arrowList.arrowKids,
+                          arrow1: false,
+                          arrow2: false,
+                          arrow3: false,
+                          arrow4: false,
+                          arrow5: false,
+                          arrow6: false,
+                          arrowJewelry: false,
+                          arrow: false, })}
                       />
                     )
                   }
@@ -683,7 +975,7 @@ const SiderBar = ({ open, setOpen }) => {
                 >
                   Kids
                 </Button>
-                {openListKids ? (
+                {list.openListKids ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
                     <Stack
                       direction={"row"}
@@ -778,20 +1070,46 @@ const SiderBar = ({ open, setOpen }) => {
                     textTransform: "capitalize",
                   }}
                   endIcon={
-                    arrow3 ? (
+                    arrowList.arrow3 ? (
                       <MdOutlineKeyboardArrowUp
-                        onClick={() => setArrow3(!arrow3)}
+                        onClick={() =>
+                          setArrowList({
+                            ...arrowList,
+                            arrow3: !arrowList.arrow3,
+                            arrow1: false,
+                            arrow2: false,
+                            arrow: false,
+                            arrow4: false,
+                            arrow5: false,
+                            arrow6: false,
+                            arrowJewelry: false,
+                            arrowKids: false,
+                          })
+                        }
                       />
                     ) : (
                       <MdOutlineKeyboardArrowDown
-                        onClick={() => setArrow3(!arrow3)}
+                        onClick={() =>
+                          setArrowList({
+                            ...arrowList,
+                            arrow3: !arrowList.arrow3,
+                            arrow1: false,
+                            arrow2: false,
+                            arrow: false,
+                            arrow4: false,
+                            arrow5: false,
+                            arrow6: false,
+                            arrowJewelry: false,
+                            arrowKids: false,
+                          })
+                        }
                       />
                     )
                   }
                 >
                   Home
                 </Button>
-                {openList3 ? (
+                {list.openList3 ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
                     <Stack
                       direction={"row"}
@@ -1005,7 +1323,7 @@ const SiderBar = ({ open, setOpen }) => {
                   Beauty
                 </Button>
 
-                {openList4 ? (
+                {list.openList4 ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}></Box>
                 ) : null}
 
@@ -1023,20 +1341,38 @@ const SiderBar = ({ open, setOpen }) => {
                     textTransform: "capitalize",
                   }}
                   /* endIcon={
-                    arrowJewelry ? (
+                    arrowList.arrowJewelry ? (
                       <MdOutlineKeyboardArrowUp
-                        onClick={() => setArrowJewelry(!arrowJewelry)}
+                        onClick={() => setArrowList({ ...arrowList, 
+                          arrowJewelry: !arrowList.arrowJewelry,
+                          arrow1: false,
+                          arrow2: false,
+                          arrow3: false,
+                          arrow4: false,
+                          arrow5: false,
+                          arrow6: false,
+                          arrow: false,
+                          arrowKids: false, })}
                       />
                     ) : (
                       <MdOutlineKeyboardArrowDown
-                        onClick={() => setArrowJewelry(!arrowJewelry)}
+                        onClick={() => setArrowList({ ...arrowList, 
+                          arrowJewelry: !arrowList.arrowJewelry,
+                          arrow1: false,
+                          arrow2: false,
+                          arrow3: false,
+                          arrow4: false,
+                          arrow5: false,
+                          arrow6: false,
+                          arrow: false,
+                          arrowKids: false, })}
                       />
                     )
                   } */
                 >
                   Jewelry
                 </Button>
-                {/* {openListJewelry ? (
+                {/* {list.openListJewelry ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
                     <Stack
                       direction={"row"}
@@ -1169,20 +1505,46 @@ const SiderBar = ({ open, setOpen }) => {
                     textTransform: "capitalize",
                   }}
                   endIcon={
-                    arrow5 ? (
+                    arrowList.arrow5 ? (
                       <MdOutlineKeyboardArrowUp
-                        onClick={() => setArrow5(!arrow5)}
+                        onClick={() =>
+                          setArrowList({
+                            ...arrowList,
+                            arrow5: !arrowList.arrow5,
+                            arrow1: false,
+                            arrow2: false,
+                            arrow: false,
+                            arrow4: false,
+                            arrow: false,
+                            arrow6: false,
+                            arrowJewelry: false,
+                            arrowKids: false,
+                          })
+                        }
                       />
                     ) : (
                       <MdOutlineKeyboardArrowDown
-                        onClick={() => setArrow5(!arrow5)}
+                        onClick={() =>
+                          setArrowList({
+                            ...arrowList,
+                            arrow5: !arrowList.arrow5,
+                            arrow1: false,
+                            arrow2: false,
+                            arrow: false,
+                            arrow4: false,
+                            arrow: false,
+                            arrow6: false,
+                            arrowJewelry: false,
+                            arrowKids: false,
+                          })
+                        }
                       />
                     )
                   }
                 >
                   Accessories
                 </Button>
-                {openList5 ? (
+                {list.openList5 ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
                     <Stack
                       direction={"row"}
@@ -1430,20 +1792,46 @@ const SiderBar = ({ open, setOpen }) => {
                   textTransform: "capitalize",
                 }}
                 endIcon={
-                  arrow6 ? (
+                  arrowList.arrow6 ? (
                     <MdOutlineKeyboardArrowUp
-                      onClick={() => setArrow6(!arrow6)}
+                      onClick={() =>
+                        setArrowList({
+                          ...arrowList,
+                          arrow6: !arrowList.arrow6,
+                          arrow1: false,
+                          arrow2: false,
+                          arrow: false,
+                          arrow4: false,
+                          arrow5: false,
+                          arrow: false,
+                          arrowJewelry: false,
+                          arrowKids: false,
+                        })
+                      }
                     />
                   ) : (
                     <MdOutlineKeyboardArrowDown
-                      onClick={() => setArrow6(!arrow6)}
+                      onClick={() =>
+                        setArrowList({
+                          ...arrowList,
+                          arrow6: !arrowList.arrow6,
+                          arrow1: false,
+                          arrow2: false,
+                          arrow: false,
+                          arrow4: false,
+                          arrow5: false,
+                          arrow: false,
+                          arrowJewelry: false,
+                          arrowKids: false,
+                        })
+                      }
                     />
                   )
                 }
               >
                 Occassions
               </Button>
-              {openList6 ? (
+              {list.openList6 ? (
                 <Box sx={{ width: "80%", margin: "0 auto" }}>
                   <Stack direction={"column"} mt={2} spacing={1.5}>
                     {lists?.map((list) => (
@@ -1566,7 +1954,14 @@ const SiderBar = ({ open, setOpen }) => {
               <Stack alignItems="center" direction={"row"}>
                 <IconButton aria-label="">
                   {/* <BiMap style={{ color: "#0A0A0A" }} /> */}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-geo-alt"
+                    viewBox="0 0 16 16"
+                  >
                     <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z" />
                     <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                   </svg>
@@ -1590,27 +1985,48 @@ const SiderBar = ({ open, setOpen }) => {
                 }}
                 spacing={1}
               >
-                <IconButton aria-label=""   onClick={() => router.push("/wishlists")}>
+                <IconButton
+                  aria-label=""
+                  onClick={() => router.push("/wishlists")}
+                >
                   <Badge badgeContent={totalWishedProduct} color="background2">
                     {" "}
                     {/* <FiHeart
                       style={{ color: "#0A0A0A" }}
                     
                     /> */}
-                    <svg style={{ color: "#0A0A0A" }} xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                  </svg>
+                    <svg
+                      style={{ color: "#0A0A0A" }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      fill="currentColor"
+                      class="bi bi-heart"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                    </svg>
                   </Badge>
                 </IconButton>
-                <IconButton aria-label=""  onClick={() => router.push("/addtocart")}>
+                <IconButton
+                  aria-label=""
+                  onClick={() => router.push("/addtocart")}
+                >
                   <Badge badgeContent={totalAmount} color="background2">
                     {/* <FiShoppingCart
                       style={{ color: "#0A0A0A" }}
                       
                     /> */}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
-                    <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      fill="currentColor"
+                      class="bi bi-cart2"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                    </svg>
                   </Badge>
                 </IconButton>
               </Stack>
