@@ -67,7 +67,7 @@ const SiderBar = ({ open, setOpen }) => {
     arrowKids: false,
   });
   const [modalOpen, setModalOpen] = useState(false);
-   
+
   const { isGuestCheckout, setIsGuestCheckout, hasToken, setHasToken } =
     useContext(USER_CONTEXT);
   let usera = true;
@@ -83,6 +83,18 @@ const SiderBar = ({ open, setOpen }) => {
       openList6: false,
       openListJewelry: false,
       openListKids: false,
+    });
+    setArrowList({
+      ...list,
+      arrow: false,
+      arrow1: false,
+      arrow2: false,
+      arrow3: false,
+      arrow4: false,
+      arrow5: false,
+      arrow6: false,
+      arrowJewelry: false,
+      arrowKids: false,
     });
   };
   const handleClick = () => {
@@ -1865,7 +1877,6 @@ const SiderBar = ({ open, setOpen }) => {
               spacing={1}
               justifyContent="flex-start"
               alignItems={"flex-start"}
-              
             >
               <Button
                 variant="text"
@@ -1978,7 +1989,6 @@ const SiderBar = ({ open, setOpen }) => {
               {/* <IconButton aria-label="">
                 <FiSearch style={{ color: "#0A0A0A" }} />
               </IconButton> */}
-              
             </Stack>
           </Hidden>
         </Box>

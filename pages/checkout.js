@@ -37,6 +37,8 @@ const checkout = ({ someProp }) => {
   const cart = useSelector((state) => state.cart.cart);
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
+  const [townBilling, setTownBilling] = useState("Select Town/City");
+  const [townBillingSh, setTownBillingSh] = useState("Select Town/City");
   const [isSameAddress, setIsSameAddress] = useState(false);
   const isInitialMount = useRef(true);
   const dispatch = useDispatch();
@@ -109,45 +111,7 @@ const checkout = ({ someProp }) => {
       error: guestOrderErrorData,
     },
   ] = usePostGuestOrderMutation();
-  console.log("demo", shippingTown, billingTown,cityAddress,cityAddressSh);
-  useEffect(() => {
-    if (shippingTown && !isSameAddressChecked) {
-      console.log("inside false");
-      if (isFromShowRoomChecked === true) {
-        setTotal(totalPriceWithTax + 0);
-        setShippingCost(0);
-      }
-      if (shippingTown === "Dhaka" && isFromShowRoomChecked === false) {
-        setTotal(totalPriceWithTax + 100);
-        setShippingCost(100);
-      }
-      if (shippingTown !== "Dhaka" && isFromShowRoomChecked === false) {
-        setTotal(totalPriceWithTax + 250);
-        setShippingCost(250);
-      }
-    }
-    if (billingTown && isSameAddressChecked) {
-      console.log("indside treu");
-      if (isFromShowRoomChecked === true) {
-        setTotal(totalPriceWithTax + 0);
-        setShippingCost(0);
-      }
-      if (billingTown === "Dhaka" && isFromShowRoomChecked === false) {
-        setTotal(totalPriceWithTax + 100);
-        setShippingCost(100);
-      }
-      if (billingTown !== "Dhaka" && isFromShowRoomChecked === false) {
-        setTotal(totalPriceWithTax + 250);
-        setShippingCost(250);
-      }
-    }
-  }, [
-    billingTown,
-    shippingTown,
-    shippingCost,
-    isSameAddressChecked,
-    isFromShowRoomChecked,
-  ]);
+
   useEffect(() => {
     if (isPlaceOrder === true) {
       const securePage = async () => {
@@ -314,6 +278,78 @@ const checkout = ({ someProp }) => {
     setValue("country_shipping", event.target.value, { shouldValidate: true });
     setDistict1(event.target.value);
   };
+  const handleSelectChangeTownBilling = (event) => {
+    setValue("city_billing", event.target.value, { shouldValidate: true });
+    setTownBilling(event.target.value);
+  };
+  const handleSelectChangeTownShipping = (event) => {
+    // console.log('your log output',event.target.value)
+    setValue("city_shipping", event.target.value, { shouldValidate: true });
+    if (!isSameAddressChecked) {
+      setTownBillingSh(event.target.value);
+    }
+  };
+  useEffect(() => {
+    if (isSameAddressChecked) {
+      setTownBillingSh(townBilling);
+    }
+    if (!isSameAddressChecked) {
+      setTownBillingSh("Select Town/City");
+    }
+  }, [isSameAddressChecked]);
+  useEffect(() => {
+    console.log("your log output", townBilling, townBillingSh);
+    if (townBillingSh && !isSameAddressChecked) {
+      console.log("inside false");
+      if (isFromShowRoomChecked === true) {
+        setTotal(totalPriceWithTax + 0);
+        setShippingCost(0);
+      }
+      if (townBillingSh === "Dhaka" && isFromShowRoomChecked === false) {
+        setTotal(totalPriceWithTax + 100);
+        setShippingCost(100);
+      }
+      if (
+        townBillingSh !== "Dhaka" &&
+        townBillingSh !== "Select Town/City" &&
+        isFromShowRoomChecked === false
+      ) {
+        setTotal(totalPriceWithTax + 250);
+        setShippingCost(250);
+      }
+    }
+    if (townBilling && isSameAddressChecked) {
+      console.log("isndie true");
+      if (isFromShowRoomChecked === true) {
+        setTotal(totalPriceWithTax + 0);
+        setShippingCost(0);
+      }
+      if (
+        townBilling === "Dhaka" &&
+        townBilling !== "Select Town/City" &&
+        isFromShowRoomChecked === false
+      ) {
+        setTotal(totalPriceWithTax + 100);
+        setShippingCost(100);
+      }
+      if (
+        townBilling !== "Dhaka" &&
+        townBilling !== "Select Town/City" &&
+        isFromShowRoomChecked === false
+      ) {
+        setTotal(totalPriceWithTax + 250);
+        setShippingCost(250);
+      }
+    }
+  }, [
+    townBilling,
+    townBillingSh,
+    cityAddressSh,
+    cityAddress,
+    shippingCost,
+    isSameAddressChecked,
+    isFromShowRoomChecked,
+  ]);
   // Getting Billing Realtime Data
   const watchSelectInput = watch("country_shipping");
   const firstName = useWatch({ control, name: "first_name_billing" });
@@ -417,13 +453,12 @@ const checkout = ({ someProp }) => {
   useEffect(() => {
     if (isSameAddressChecked === false) {
       setEnable(true);
-      console.log("your log output", billingTown);
       if (
         firstName &&
         lastName &&
         streetAddress &&
         apartmentAddress &&
-        (cityAddress || billingTown) &&
+        cityAddress &&
         country &&
         phoneBilling &&
         emailBilling &&
@@ -431,7 +466,7 @@ const checkout = ({ someProp }) => {
         lastNameSh &&
         streetAddressSh &&
         apartmentAddressSh &&
-        (cityAddressSh || shippingTown) &&
+        cityAddressSh &&
         countrySh &&
         phoneBillingSh &&
         emailBillingSh &&
@@ -449,7 +484,7 @@ const checkout = ({ someProp }) => {
         lastName &&
         streetAddress &&
         apartmentAddress &&
-        (cityAddress || shippingTown) &&
+        cityAddress &&
         country &&
         phoneBilling &&
         emailBilling &&
@@ -469,8 +504,6 @@ const checkout = ({ someProp }) => {
     country,
     postBilling,
     phoneBilling,
-    billingTown,
-    shippingTown,
     emailBilling,
     firstNameSh,
     lastNameSh,
@@ -635,7 +668,7 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
-                  <Autocomplete
+                  {/* <Autocomplete
                     disablePortal
                     id="combo-box-demo"
                     options={data}
@@ -662,7 +695,29 @@ const checkout = ({ someProp }) => {
                         size="small"
                       />
                     )}
-                  />
+                  /> */}
+                  <Select
+                    id="city_billing"
+                    {...register("city_billing", {
+                      required: {
+                        value: true,
+                        message: "Town/City is Required",
+                      },
+                    })}
+                    onMouseLeave={() => trigger("city_billing")}
+                    error={Boolean(errors.city_billing)}
+                    size="small"
+                    value={townBilling}
+                    onChange={handleSelectChangeTownBilling}
+                  >
+                    <MenuItem value={"Select Town/City"} disabled>
+                      Select Town/City
+                    </MenuItem>
+                    {data.map((towns) => (
+                      <MenuItem value={towns.value}>{towns.label}</MenuItem>
+                    ))}
+                    {/* <MenuItem value={"India"}>India</MenuItem> */}
+                  </Select>
                   {errors.city_billing && (
                     <p style={{ color: "red" }}>
                       {errors.city_billing?.message}
@@ -950,7 +1005,7 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
-                  <Autocomplete
+                  {/* <Autocomplete
                     disablePortal
                     id="combo-box-demo"
                     options={data}
@@ -979,7 +1034,29 @@ const checkout = ({ someProp }) => {
                         sx={customStyle}
                       />
                     )}
-                  />
+                  /> */}
+                  <Select
+                    {...register("city_shipping", {
+                      required: {
+                        value: isSameAddressChecked === false ? true : false,
+                        message: "Town/City is Required",
+                      },
+                    })}
+                    disabled={isSameAddressChecked === false ? false : true}
+                    onMouseLeave={() => trigger("city_shipping")}
+                    error={Boolean(errors.city_shipping)}
+                    id="demo-simple-select"
+                    size="small"
+                    value={townBillingSh}
+                    onChange={handleSelectChangeTownShipping}
+                  >
+                    <MenuItem value={"Select Town/City"} disabled>
+                      Select Town/City
+                    </MenuItem>
+                    {data.map((towns) => (
+                      <MenuItem value={towns.value}>{towns.label}</MenuItem>
+                    ))}
+                  </Select>
                   {/* <TextField
                     // id=""
                     // label=""
