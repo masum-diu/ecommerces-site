@@ -35,7 +35,7 @@ const userProfile = () => {
   return (
     <>
       <HomePageIntro title={"UserProfile "} />
-      <Box mt={10} mb={4}>
+      <Box sx={{pt:{lg:8,xs:7}}} mb={4}>
         <Stack>
           <Typography
             variant="header1"

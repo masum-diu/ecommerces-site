@@ -798,7 +798,7 @@ const masterCollectionLayout = () => {
           </Typography>
         </Stack>
 
-        <Stack
+        {/* <Stack
           direction={"row"}
           sx={{
             width: "95%",
@@ -816,18 +816,18 @@ const masterCollectionLayout = () => {
             <Hidden only={["xl", "lg"]}>
               <SegmentIcon />
             </Hidden>
-          </IconButton> */}
-        </Stack>
+          </IconButton> 
+        </Stack> */}
 
         <Box
           sx={{
             backgroundColor: "#FAFAFA",
             position: "sticky",
-            top: 64,
+            top: {lg:64,xs:55},
             zIndex: 1,
           }}
         >
-          <Hidden only={["xs", "xms", "sm"]}>
+          <Hidden >
             <Stack
               direction={"row"}
               spacing={2}
@@ -861,7 +861,7 @@ const masterCollectionLayout = () => {
                 >
                   All {currentPath}
                 </Typography>
-                {fabrics?.slice(0, 4).map((fabric, index) => (
+                {fabrics?.slice(0, 1).map((fabric, index) => (
                   <Typography
                     key={index}
                     className="SemiBold"

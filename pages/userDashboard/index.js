@@ -48,7 +48,7 @@ const userDashboard = () => {
   return (
     <>
       <HomePageIntro title={"UserProfile "} />
-      <Box mt={10} mb={4} height={"fit-content"}>
+      <Box sx={{pt:{lg:8,xs:7}}} mb={4} height={"fit-content"}>
         <Stack>
           <Typography
             variant="header1"
