@@ -13,6 +13,7 @@ import {
   Box,
   ButtonGroup,
 } from "@mui/material";
+import { pink,red } from '@mui/material/colors';
 import CloseIcon from "@mui/icons-material/Close";
 import HomePageIntro from "../../../components/HomePageIntro";
 // import { Box } from "@mui/system";
@@ -136,7 +137,7 @@ const PorductDetails = () => {
         setProductPrice(selectedProduct?.mrp);
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
-        console.log('stock amount',stockAmount)
+        // console.log('stock amount',stockAmount)
         if (stockAmount > 0) {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
@@ -195,7 +196,7 @@ const PorductDetails = () => {
   const handleStockAvailability = (id) => {
     const element = products?.p_stocks.find((item) => item.size_id === id);
 
-    console.log("inside handle stock", element);
+    // console.log("inside handle stock", element);
     if (element && element.stock > 0) {
       return "inStock";
     } else {
@@ -456,13 +457,13 @@ const PorductDetails = () => {
                           // width={"20%"}
                           justifyContent="space-between"
                         >
-                          {console.log("your log output", products)}
+                          {/* {console.log("your log output", products)} */}
                           {products?.p_sizes?.map((size, index) => (
                             <Button
                               startIcon={
                                 handleStockAvailability(size.id) ===
                                 "outOfStock" ? (
-                                  <CloseIcon color="action" />
+                                  <CloseIcon color="action" sx={{ color: red[500] }} />
                                 ) : (
                                   ""
                                 )
@@ -1313,7 +1314,7 @@ const PorductDetails = () => {
                           startIcon={
                             handleStockAvailability(size.id) ===
                             "outOfStock" ? (
-                              <CloseIcon color="action" />
+                              <CloseIcon color="action" sx={{ color: red[500] }} />
                             ) : (
                               ""
                             )

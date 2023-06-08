@@ -430,7 +430,7 @@ const checkout = ({ someProp }) => {
         apartmentAddress &&
         cityAddress &&
         country &&
-        postBilling &&
+        (postBilling || billingTown) &&
         phoneBilling &&
         emailBilling &&
         firstNameSh &&
@@ -457,7 +457,7 @@ const checkout = ({ someProp }) => {
         apartmentAddress &&
         cityAddress &&
         country &&
-        postBilling &&
+        (postBilling || shippingTown) &&
         phoneBilling &&
         emailBilling &&
         paymentMethod &&
@@ -476,6 +476,8 @@ const checkout = ({ someProp }) => {
     country,
     postBilling,
     phoneBilling,
+    billingTown,
+    shippingTown,
     emailBilling,
     firstNameSh,
     lastNameSh,
@@ -486,9 +488,7 @@ const checkout = ({ someProp }) => {
     phoneBillingSh,
     emailBillingSh,
     errors,
-    isPlaceOrder,
     paymentMethod,
-    deliveryMethod,
     termsAndCondition,
   ]);
   if (userOrderLoading || guestOrderLoading) {
@@ -1202,7 +1202,7 @@ const checkout = ({ someProp }) => {
                       <Controller
                         rules={{
                           required: {
-                            value: true,
+                            value: false,
                             message: "Please Select a Shipping Location",
                           },
                         }}
