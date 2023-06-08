@@ -43,11 +43,9 @@ const HomePageIntro = ({ title }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
-  //
 
   const totalAmount = useSelector((state) => state.cart?.totalAmount);
   const totalAmountWishList = useSelector(
@@ -80,6 +78,7 @@ const HomePageIntro = ({ title }) => {
     localStorage.clear();
     setUser("");
     setAnchorEl(null);
+    router.push("/shop")
     handleMobileMenuClose();
     setHasToken(false)
   };

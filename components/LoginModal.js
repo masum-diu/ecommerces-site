@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -37,11 +37,12 @@ const LoginModal = ({ open, setOpen }) => {
   const { errormessage, setErrormessage } = useState("");
   const [signModal, setSignModal] = useState(false);
   const [forgotModal, setForgotModal] = useState(false);
+  const [userFetchedData, setUserFetchedData] = useState({});
   const [openGuestCheckoutModalOpen, setGuestCheckoutModalOpen] =
     useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-
+  
   const handleclearuser = () => {
     setUserData("");
   };
@@ -109,7 +110,6 @@ const LoginModal = ({ open, setOpen }) => {
       .post("/auth/login", data, {})
       .then((result) => {
         localStorage.setItem("acesstoken", result.data.token);
-        console.log('your log output',result.data.user)
         localStorage.setItem("user", JSON.stringify(result.data.user));
         Cookies.set("acesstoken", result.data.token);
         Cookies.set("user", JSON.stringify(result.data.user));

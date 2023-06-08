@@ -6,7 +6,7 @@ export const productApi = createApi({
     baseUrl: "https://backend.aranya.com.bd/api",
     // baseUrl: "https://apiaranya.jumriz.com/public/api",
   }),
-  tagTypes: ["Orders"],
+  tagTypes: ["Orders", "Users"],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "/product",
@@ -186,10 +186,7 @@ export const productApi = createApi({
       }),
     }),
     postAdditionalInfo: builder.mutation({
-      query: ({
-        data,
-        token,
-      }) => ({
+      query: ({ data, token }) => ({
         url: `/profile-update`,
         method: "POST",
         body: {
@@ -235,5 +232,5 @@ export const {
   useGetMatchedWithProductQuery,
   usePostUserOrderMutation,
   usePostGuestOrderMutation,
-  usePostAdditionalInfoMutation
+  usePostAdditionalInfoMutation,
 } = productApi;
