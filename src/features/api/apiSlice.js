@@ -185,6 +185,28 @@ export const productApi = createApi({
         },
       }),
     }),
+    postAdditionalInfo: builder.mutation({
+      query: ({
+        data,
+        token,
+      }) => ({
+        url: `/profile-update`,
+        method: "POST",
+        body: {
+          full_name: data.full_name,
+          address: data.address,
+          phone: data.phone,
+          date_of_birth: data.date_of_birth,
+          gender: data.gender,
+          occupation: data.occupation,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+          "Access-Control-Allow-Origin": "*",
+        },
+      }),
+    }),
   }),
 });
 
@@ -213,4 +235,5 @@ export const {
   useGetMatchedWithProductQuery,
   usePostUserOrderMutation,
   usePostGuestOrderMutation,
+  usePostAdditionalInfoMutation
 } = productApi;

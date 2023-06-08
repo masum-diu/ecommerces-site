@@ -12,9 +12,15 @@ import {
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useForm } from "react-hook-form";
+import { usePostAdditionalInfoMutation } from "../../src/features/api/apiSlice";
+import { useEffect } from "react";
+import Loader from "../Loader/Loader";
 const Profile = () => {
+  const [useUpdateProfile,{ data, isLoading, isError, isSuccess, error }] = usePostAdditionalInfoMutation()
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
+  const [token, setToken]=useState('')
   const handleClick = () => {
     setOpenList((prev) => !prev);
     setArrow(!arrow);
@@ -22,7 +28,40 @@ const Profile = () => {
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const userjsondata = JSON.parse(userdata);
-  const [open, setOpen] = useState(false)
+  // useForm using
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      full_name: "",
+      address: "",
+      phone: "",
+      date_of_birth: "",
+      gender: "",
+      occupation: ""
+
+    }
+  })
+
+  useEffect(()=>{
+    const token = localStorage.getItem("acesstoken");
+    setToken(token)
+  },[token])
+if(isLoading){
+  return <Loader></Loader>
+}
+if(isSuccess){
+  console.log("my data",data.user.name)
+}
+  const onSubmit = async(data) => {
+    console.log(data)
+    try{
+      const response = await useUpdateProfile({data,token})
+     console.log(response)
+    }
+    catch(error){
+      console.log('post request failed',error)
+    }
+    
+  }
   return (
     <>
       <Box >
@@ -67,6 +106,15 @@ const Profile = () => {
               <Divider />
               <Stack direction={"column"} spacing={1}>
                 <Typography variant="cardLocation1" color="#807f83" className="bold">
+                  Full Name
+                </Typography>
+                <Typography variant="cardLocation1" color="initial" className="SemiBold">
+                  {data?.user?.name}
+                </Typography>
+              </Stack>
+              <Divider />
+              <Stack direction={"column"} spacing={1}>
+                <Typography variant="cardLocation1" color="#807f83" className="bold">
                   Email Address
                 </Typography>
                 <Typography variant="cardLocation1" color="initial" className="SemiBold">
@@ -79,7 +127,8 @@ const Profile = () => {
                   Address
                 </Typography>
                 <Typography variant="cardLocation1" color="initial" className="SemiBold">
-                  {/* {userjsondata?.name} */}
+                  {data?.user?.address}
+                  
                 </Typography>
               </Stack>
               <Divider />
@@ -88,7 +137,7 @@ const Profile = () => {
                   Phone Number
                 </Typography>
                 <Typography variant="cardLocation1" color="initial" className="SemiBold">
-                  {/* {userjsondata?.email} */}
+                  {data?.user?.phone}
                 </Typography>
               </Stack>
               <Divider />
@@ -97,7 +146,7 @@ const Profile = () => {
                   Date of Birth
                 </Typography>
                 <Typography variant="cardLocation1" color="initial" className="SemiBold">
-                  {/* {userjsondata?.name} */}
+                  {data?.user?.date_of_birth}
                 </Typography>
               </Stack>
               <Divider />
@@ -106,7 +155,7 @@ const Profile = () => {
                   Gender
                 </Typography>
                 <Typography variant="cardLocation1" color="initial" className="SemiBold">
-                  {/* {userjsondata?.email} */}
+                  {data?.user?.gender}
                 </Typography>
               </Stack>
               <Divider />
@@ -115,7 +164,7 @@ const Profile = () => {
                   Occupation
                 </Typography>
                 <Typography variant="cardLocation1" color="initial" className="SemiBold">
-                  {/* {userjsondata?.name} */}
+                  {data?.user?.occupation}
                 </Typography>
               </Stack>
             </Stack>
@@ -153,56 +202,63 @@ const Profile = () => {
               sx={{ p: 2, width: "90%", maxWidth: "800px", }}
               elevation={2}
             >
-              <Stack
-                direction={"column"}
-                spacing={2}
-              >
-                <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardLocation1" color="#807f83" className="bold">
-                    Full Name
-                  </Typography>
-                  <TextField size="small" />
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack
+                  direction={"column"}
+                  spacing={2}
+                >
+                  <Stack direction={"column"} spacing={1}>
+                    <Typography variant="cardLocation1" color="#807f83" className="bold">
+                      Full Name
+                    </Typography>
+                    <TextField size="small" placeholder="Full Name" {...register("full_name")} />
+                  </Stack>
+                  <Stack direction={"column"} spacing={1}>
+                    <Typography variant="cardLocation1" color="#807f83" className="bold">
+                      Address
+                    </Typography>
+                    <TextField size="small" placeholder="Address" {...register("address")} />
+                  </Stack>
+                  <Stack direction={"column"} spacing={1}>
+                    <Typography variant="cardLocation1" color="#807f83" className="bold">
+                      Phone Number
+                    </Typography>
+                    <TextField size="small" placeholder="Phone Number" type="number" {...register("phone")} />
+                  </Stack>
+                  <Stack direction={"column"} spacing={1}>
+                    <Typography variant="cardLocation1" color="#807f83" className="bold">
+                      Date of Birth
+                    </Typography>
+                    <TextField size="small" type="date" {...register("date_of_birth")} />
+                  </Stack>
+                  <Stack direction={"column"} spacing={1}>
+                    <Typography variant="cardLocation1" color="#807f83" className="bold">
+                      Gender
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      defaultValue="female"
+                      name="radio-buttons-group"
+                      sx={{ display: "flex", flexDirection: "row" }}
+                    >
+                      <FormControlLabel value="female" control={<Radio {...register("gender")} />} label="Female" />
+                      <FormControlLabel value="male" control={<Radio {...register("gender")} />} label="Male" />
+                      <FormControlLabel value="other" control={<Radio {...register("gender")} />} label="Other" />
+                    </RadioGroup>
+                  </Stack>
+                  <Stack direction={"column"} spacing={1}>
+                    <Typography variant="cardLocation1" color="#807f83" className="bold">
+                      Occupation
+                    </Typography>
+                    <TextField size="small" placeholder="Occupation" {...register("occupation", {
+                      required: "Occupation is required"
+                    })} />
+                    <Button variant="contained" type="submit" color="background2">
+                      Update
+                    </Button>
+                  </Stack>
                 </Stack>
-                <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardLocation1" color="#807f83" className="bold">
-                    Address
-                  </Typography>
-                  <TextField size="small" />
-                </Stack>
-                <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardLocation1" color="#807f83" className="bold">
-                    Phone Number
-                  </Typography>
-                  <TextField size="small" />
-                </Stack>
-                <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardLocation1" color="#807f83" className="bold">
-                    Date of Birth
-                  </Typography>
-                  <TextField size="small" type="date" />
-                </Stack>
-                <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardLocation1" color="#807f83" className="bold">
-                   Gender
-                  </Typography>
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                    sx={{display:"flex",flexDirection:"row"}}
-                  >
-                    <FormControlLabel value="female" control={<Radio />} label="Female" />
-                    <FormControlLabel value="male" control={<Radio />} label="Male" />
-                    <FormControlLabel value="other" control={<Radio />} label="Other" />
-                  </RadioGroup>
-                </Stack>
-                <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardLocation1" color="#807f83" className="bold">
-                  Occupation
-                  </Typography>
-                  <TextField size="small" />
-                </Stack>
-              </Stack>
+              </form>
             </Paper>
 
           ) : null}

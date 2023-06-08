@@ -115,7 +115,7 @@ const shop = () => {
             height={700}
           /> */}
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,h_900,w_1920/${homedata?.image_two
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_two
               ?.split("/")
               .slice(-3)
               .join("/")}`}
@@ -335,7 +335,7 @@ const shop = () => {
         /> */}
         <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,h_900,w_1920/${homedata?.image_five
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_five
               ?.split("/")
               .slice(-3)
               .join("/")}`}
