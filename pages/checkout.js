@@ -62,7 +62,7 @@ const checkout = ({ someProp }) => {
   const [guestCheckoutResponse, setGuestCheckoutResponse] = useState([]);
   const [billingTown, setBillingTown] = useState("");
   const [shippingTown, setShippingTown] = useState("");
-  const [shippingCost, setShippingCost] = useState(100);
+  const [shippingCost, setShippingCost] = useState();
   const data = [
     { label: "Barishal", year: 1994, value: "Barishal" },
     { label: "Chittagong", year: 1972, value: "Chittagong" },
@@ -109,8 +109,10 @@ const checkout = ({ someProp }) => {
       error: guestOrderErrorData,
     },
   ] = usePostGuestOrderMutation();
+  console.log("demo", shippingTown, billingTown,cityAddress,cityAddressSh);
   useEffect(() => {
     if (shippingTown && !isSameAddressChecked) {
+      console.log("inside false");
       if (isFromShowRoomChecked === true) {
         setTotal(totalPriceWithTax + 0);
         setShippingCost(0);
@@ -125,6 +127,7 @@ const checkout = ({ someProp }) => {
       }
     }
     if (billingTown && isSameAddressChecked) {
+      console.log("indside treu");
       if (isFromShowRoomChecked === true) {
         setTotal(totalPriceWithTax + 0);
         setShippingCost(0);
@@ -265,15 +268,6 @@ const checkout = ({ someProp }) => {
       deliveryMethod: "",
     },
   });
-  /* useEffect(() => {
-    const token = localStorage.getItem("acesstoken");
-    const user = JSON.parse(localStorage.getItem("user"));
-    // console.log("local user", user);
-    // console.log("local user", isGuestCheckout);
-    if (token && !isGuestCheckout) {
-      setValue("email_billing",user?.name);
-    }
-  }, [isGuestCheckout,token]); */
   const allFieldsFilled = watch();
   const onSubmit = async (data) => {
     // console.log("your log output", data);
@@ -423,21 +417,21 @@ const checkout = ({ someProp }) => {
   useEffect(() => {
     if (isSameAddressChecked === false) {
       setEnable(true);
+      console.log("your log output", billingTown);
       if (
         firstName &&
         lastName &&
         streetAddress &&
         apartmentAddress &&
-        cityAddress &&
+        (cityAddress || billingTown) &&
         country &&
-        (postBilling || billingTown) &&
         phoneBilling &&
         emailBilling &&
         firstNameSh &&
         lastNameSh &&
         streetAddressSh &&
         apartmentAddressSh &&
-        cityAddressSh &&
+        (cityAddressSh || shippingTown) &&
         countrySh &&
         phoneBillingSh &&
         emailBillingSh &&
@@ -455,9 +449,8 @@ const checkout = ({ someProp }) => {
         lastName &&
         streetAddress &&
         apartmentAddress &&
-        cityAddress &&
+        (cityAddress || shippingTown) &&
         country &&
-        (postBilling || shippingTown) &&
         phoneBilling &&
         emailBilling &&
         paymentMethod &&
@@ -626,6 +619,7 @@ const checkout = ({ someProp }) => {
                         message: "Apartment Address Required",
                       },
                     })}
+                    // onSelect={(e) => setBillingTown(e.target.value)}
                     onKeyUp={() => trigger("apartment_address_billing")}
                     error={Boolean(errors.apartment_address_billing)}
                     placeholder="Apartment suite, unit, etc."
@@ -659,6 +653,9 @@ const checkout = ({ someProp }) => {
                           },
                         })}
                         onSelect={(e) => setBillingTown(e.target.value)}
+                        onChange={(e) =>
+                          setValue("city_billing", e.target.value)
+                        }
                         onKeyUp={() => trigger("city_billing")}
                         error={Boolean(errors.city_billing)}
                         placeholder="Town / City"
@@ -1158,11 +1155,7 @@ const checkout = ({ someProp }) => {
                     direction={"column"}
                     spacing={2}
                   >
-                    <Stack
-                      direction={"row"}
-                      spacing={4}
-                      width="100%"
-                    >
+                    <Stack direction={"row"} spacing={4} width="100%">
                       <Typography
                         variant="cardHeader"
                         color="initial"
@@ -1192,7 +1185,6 @@ const checkout = ({ someProp }) => {
                           variant="cardHeader"
                           color="initial"
                           className="bold"
-                          
                         >
                           BDT {shippingCost}
                         </Typography>
@@ -1260,7 +1252,7 @@ const checkout = ({ someProp }) => {
                         )}
                       />
                     </Stack>
-                   
+
                     {errors.deliveryMethod && (
                       <p style={{ color: "red" }}>
                         {errors.deliveryMethod?.message}
