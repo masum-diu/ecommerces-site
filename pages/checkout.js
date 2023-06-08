@@ -1160,8 +1160,7 @@ const checkout = ({ someProp }) => {
                   >
                     <Stack
                       direction={"row"}
-                      spacing={2}
-                      justifyContent="space-between"
+                      spacing={4}
                       width="100%"
                     >
                       <Typography
@@ -1181,7 +1180,7 @@ const checkout = ({ someProp }) => {
                     </Stack>
                     <Divider />
                     <Stack direction={"column"} spacing={2} mb={5} width="100%">
-                      <Stack direction={"row"} spacing={2} width="100%">
+                      <Stack direction={"row"} spacing={5} width="100%">
                         <Typography
                           variant="cardHeader"
                           color="initial"
@@ -1193,7 +1192,7 @@ const checkout = ({ someProp }) => {
                           variant="cardHeader"
                           color="initial"
                           className="bold"
-                          sx={{ marginLeft: "72px!important" }}
+                          
                         >
                           BDT {shippingCost}
                         </Typography>
@@ -1261,8 +1260,7 @@ const checkout = ({ someProp }) => {
                         )}
                       />
                     </Stack>
-                    <br />
-                    <br />
+                   
                     {errors.deliveryMethod && (
                       <p style={{ color: "red" }}>
                         {errors.deliveryMethod?.message}
@@ -1288,18 +1286,18 @@ const checkout = ({ someProp }) => {
                       </Typography>
                     </Stack>
                     <Divider />
-                    <Stack direction={"row"} spacing={7} width="100%">
+                    <Stack direction={"row"} spacing={5} width="100%">
                       <Typography
-                        variant="cardHeader"
+                        variant="tabText1"
                         color="initial"
-                        className="bold"
+                        className="exterBold"
                       >
                         TOTAL :
                       </Typography>
                       <Typography
-                        variant="cardHeader"
+                        variant="tabText1"
                         color="initial"
-                        className="bold"
+                        className="exterBold"
                       >
                         BDT {Math.ceil(total)}
                       </Typography>
