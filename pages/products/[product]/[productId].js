@@ -471,7 +471,7 @@ const PorductDetails = () => {
                               startIcon={
                                 handleStockAvailability(size.id) ===
                                 "outOfStock" ? (
-                                  <CloseIcon color="action" sx={{ color: red[500] }} />
+                                  <CloseIcon color="action" sx={{ color: red[300] }} />
                                 ) : (
                                   ""
                                 )
@@ -487,7 +487,11 @@ const PorductDetails = () => {
                               }
                             >
                               {/* {console.log(products?.p_stocks.find((element)=>element.size_id===size.id))} */}
+                              <Typography variant="cardHeader"  color={handleStockAvailability(size?.id) ===
+                                "outOfStock"?"#bbb6b6;":""}>
                               {size?.size_name}
+                              </Typography>
+                              
                             </Button>
                           ))}
                         </Stack>
@@ -569,7 +573,37 @@ const PorductDetails = () => {
                       </IconButton>
                     </Stack>
 
-                    <Stack>
+                  
+                  </Stack>
+                  {noteTextForCart && (
+                    <>
+                      <Stack
+                        direction={"row"}
+                        spacing={1}
+                        alignItems={"center"}
+                      >
+                        <AiOutlineWarning style={{ color: "#ed6c02" }} />
+                        <Typography variant="cardHeader" color="#ed6c02">
+                          {noteTextForCart}
+                        </Typography>
+                      </Stack>
+                    </>
+                  )}
+                  <Stack direction={"row"} alignItems={"center"} width={"100%"} spacing={1}>
+                    <Stack width={"100%"}>
+                    <Button
+                    size="small"
+                    fullWidth
+                    variant="contained"
+                    color="background2"
+                    type="submit"
+                    disabled={disableBtn}
+                    onClick={() => handleAddToCart(finalData)}
+                  >
+                    ADD TO CART
+                  </Button>
+                    </Stack>
+                  
                       <Button
                         variant="outlined"
                         color="primary"
@@ -613,31 +647,9 @@ const PorductDetails = () => {
                           }}
                         />
                       </Button>
-                    </Stack>
+                    
                   </Stack>
-                  {noteTextForCart && (
-                    <>
-                      <Stack
-                        direction={"row"}
-                        spacing={1}
-                        alignItems={"center"}
-                      >
-                        <AiOutlineWarning style={{ color: "#ed6c02" }} />
-                        <Typography variant="cardHeader" color="#ed6c02">
-                          {noteTextForCart}
-                        </Typography>
-                      </Stack>
-                    </>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="background2"
-                    type="submit"
-                    disabled={disableBtn}
-                    onClick={() => handleAddToCart(finalData)}
-                  >
-                    ADD TO CART
-                  </Button>
+                  
 
                   <Stack direction={"row"} spacing={1} alignItems="center">
                     <Typography
