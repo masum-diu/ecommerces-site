@@ -328,9 +328,10 @@ const PorductDetails = () => {
                   maxWidth: "auto",
                 }}
               />
-              <Stack direction={"row"} spacing={0.5} mb={0.5}>
+              <Stack direction={"row"} spacing={0.5} mb={0.5} width={"99%"}>
+                <Stack width={"50%"}>
                 <img 
-                 className={style.images}
+                //  className={style.images}
                   onClick={() =>
                     handleImageForThumble(true, {
                       img1: products?.p_image_two,
@@ -350,8 +351,10 @@ const PorductDetails = () => {
                   //   maxWidth: "240px",
                   // }}
                 />
+                </Stack>
+                <Stack width={"50%"}>
                 <img
-               className={style.images}
+              //  className={style.images}
                   onClick={() =>
                     handleImageForThumble(true, {
                       img1: products?.p_image_three,
@@ -371,6 +374,8 @@ const PorductDetails = () => {
                     // maxWidth: "240px",
                   }}
                 />
+                </Stack>
+               
               </Stack>
 
               <img
