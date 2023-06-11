@@ -226,7 +226,7 @@ const HomePageIntro = ({ title }) => {
             </Hidden>
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
-            <Stack direction={"row"} spacing={5} ml={userjsondata?.name ? 55 : 35} mt={1}>
+            <Stack direction={"row"} spacing={5} ml={userjsondata?.name ? {xl:55,lg:50}: 35} mt={1}>
               <Typography
                 className={style.menu3}
                 sx={{ cursor: "pointer" }}

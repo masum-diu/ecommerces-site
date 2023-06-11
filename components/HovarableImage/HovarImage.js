@@ -148,7 +148,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
         <Link href={url}>
           <img
             src={imageURL}
-            style={{ maxWidth: "100%", height: "fit-content" }}
+            style={{ maxWidth: "100%", height: "auto" }}
             width={width}
             height={height}
           />
