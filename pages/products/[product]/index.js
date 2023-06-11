@@ -756,7 +756,7 @@ const masterCollectionLayout = () => {
               .slice(-3)
               .join("/")}`}
             width={1900}
-            style={{ width: "100%", height: "fit-content" }}
+            style={{ width: "100%", height: "auto" }}
             height={700}
           />
           {/* <img

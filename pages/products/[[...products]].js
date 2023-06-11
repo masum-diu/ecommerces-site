@@ -116,7 +116,7 @@ const shop = () => {
               .slice(-3)
               .join("/")}`}
             alt=""
-            style={{ width: "100%", height: "fit-content" }}
+            style={{ width: "100%", height: "auto" }}
           />
           <Stack
             direction={"row"}
@@ -281,8 +281,7 @@ const shop = () => {
                       ?.split("/")
                       .slice(-3)
                       .join("/")}`}
-                    width={"fit-content"}
-                    height={"fit-content"}
+                   
                   ></HovarImage>
                   {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
@@ -336,7 +335,7 @@ const shop = () => {
               .slice(-3)
               .join("/")}`}
             alt=""
-            style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
+            style={{ width: "100%", height: "auto", marginTop: "25px" }}
           />
           <Stack
             direction={"row"}
@@ -410,8 +409,7 @@ const shop = () => {
                       ?.split("/")
                       .slice(-3)
                       .join("/")}`}
-                    width={"fit-content"}
-                    height={"fit-content"}
+                   
                   ></HovarImage>
                   {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(

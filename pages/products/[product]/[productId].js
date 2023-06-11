@@ -37,7 +37,7 @@ import ThumbsGallery1 from "../../../components/thumble/ThumbsGallery1";
 import Head from "next/head";
 import ThumbsGallery2 from "../../../components/thumble/ThumbsGallery2";
 import SizeModal from "../../../components/SizeModal";
-import { FiHeart } from "react-icons/fi";
+import { FiArrowRight, FiHeart } from "react-icons/fi";
 import { AiOutlineWarning } from "react-icons/ai";
 import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
 import {
@@ -45,6 +45,7 @@ import {
   removeFromWishList,
 } from "../../../src/features/wishlist/wishListSlice";
 import HovarImage from "../../../components/HovarableImage/HovarImage";
+import style from "../../../public/assets/css/innerpage.module.css"
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
@@ -302,12 +303,12 @@ const PorductDetails = () => {
       {/* Product Details for pc */}
       <Hidden only={["xms", "xs"]}>
         <Box
-          sx={{ pt: { lg: 8, xs: 7 } }}
+          sx={{ pt: { lg: 8, xs: 7 },width: "90%", maxWidth: "1500px", mx: "auto"  }}
           mb={4}
-          //  sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
+            // sx={{ }}
         >
-          <Grid container>
-            <Grid item xl={6} lg={7} md={6} sm={12}>
+          <Grid container justifyContent={"center"}>
+            <Grid item xl={4} lg={5} md={6} sm={12}>
               <img
                 onClick={() =>
                   handleImageForThumble(true, {
@@ -318,18 +319,19 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.feature_image}
-                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${products?.p_image_one
+                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto/${products?.p_image_one
                   ?.split("/")
                   .slice(-3)
                   .join("/")}`}
                 alt=""
                 style={{
                   width: "100%",
-                  // maxWidth: "664px",
+                  maxWidth: "auto",
                 }}
               />
               <Stack direction={"row"} spacing={0.5} mb={0.5}>
-                <img
+                <img 
+                 className={style.images}
                   onClick={() =>
                     handleImageForThumble(true, {
                       img1: products?.p_image_two,
@@ -339,17 +341,18 @@ const PorductDetails = () => {
                     })
                   }
                   // src={products?.p_image_one}
-                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_750,w_332/${products?.p_image_two
+                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto/${products?.p_image_two
                     ?.split("/")
                     .slice(-3)
                     .join("/")}`}
                   alt=""
-                  style={{
-                    width: "100%",
-                    // maxWidth: "330px",
-                  }}
+                  // style={{
+                  //    width: "100%",
+                  //   maxWidth: "240px",
+                  // }}
                 />
                 <img
+               className={style.images}
                   onClick={() =>
                     handleImageForThumble(true, {
                       img1: products?.p_image_three,
@@ -359,14 +362,14 @@ const PorductDetails = () => {
                     })
                   }
                   // src={products?.p_image_two}
-                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_750,w_332/${products?.p_image_three
+                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto/${products?.p_image_three
                     ?.split("/")
                     .slice(-3)
                     .join("/")}`}
                   alt=""
                   style={{
-                    width: "100%",
-                    // maxWidth: "330px",
+                    //  width: "100%",
+                    // maxWidth: "240px",
                   }}
                 />
               </Stack>
@@ -381,20 +384,20 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.p_image_three}
-                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${products?.p_image_four
+                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto/${products?.p_image_four
                   ?.split("/")
                   .slice(-3)
                   .join("/")}`}
                 alt=""
                 style={{
                   width: "100%",
-                  // maxWidth: "664px",
+                  maxWidth: "auto",
                 }}
               />
             </Grid>
 
             {/* Description Section */}
-            <Grid item xl={5} lg={5} md={6}>
+            <Grid item xl={8} lg={7} md={6}>
               <div style={{ position: "sticky", top: 100 }}>
                 <Stack direction={"column"} mx={5} width={"100%"}>
                   <Typography
@@ -1019,7 +1022,7 @@ const PorductDetails = () => {
 
             <Grid container mt={1} spacing={1.5}>
               {RelatedProducts?.map((data, index) => (
-                <Grid item lg={3}>
+                <Grid item lg={3} sm={6}>
                   <HovarImage
                     url={`/products/${
                       data?.p_subcategory?.slug === "unknown"
@@ -1031,8 +1034,7 @@ const PorductDetails = () => {
                       ?.split("/")
                       .slice(-3)
                       .join("/")}`}
-                    width={"fit-content"}
-                    height={"fit-content"}
+                   
                   ></HovarImage>
                   {/* <img src={data?.feature_image} alt="" width={385} /> */}
                   <Stack
@@ -1819,7 +1821,7 @@ const PorductDetails = () => {
               </Stack>
             </Grid>
           </Grid>
-          <Box sx={{ width: "90vw", mx: 3, maxWidth: "fit-content", mt: 3 }}>
+          <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} sx={{ width: "90vw",margin:"0 auto", mt: 3, }}>
             <Typography
               variant="cardHeader1"
               color="initial"
@@ -1827,7 +1829,8 @@ const PorductDetails = () => {
             >
               Similar Products
             </Typography>
-          </Box>
+            <FiArrowRight/>
+          </Stack>
           <Swiper
             style={{
               width: "90vw",
@@ -1856,8 +1859,7 @@ const PorductDetails = () => {
                     ?.split("/")
                     .slice(-3)
                     .join("/")}`}
-                  width={"fit-content"}
-                  height={"fit-content"}
+                 
                 ></HovarImage>
                 {/* <img src={data?.feature_image} alt="" width={385} /> */}
                 <Stack
