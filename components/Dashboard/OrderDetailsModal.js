@@ -101,10 +101,10 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                     <TableCell align="left">
                       {row?.product?.product_name}
                     </TableCell>
-                    <TableCell align="center">{row.buying_price}</TableCell>
-                    <TableCell align="center">{row.quantity}</TableCell>
+                    <TableCell align="center">{row?.buying_price}</TableCell>
+                    <TableCell align="center">{row?.quantity}</TableCell>
                     <TableCell align="center">
-                      {row.total_buying_price}
+                      {row?.total_buying_price}
                     </TableCell>
                     <TableCell align="center">
                       <Button

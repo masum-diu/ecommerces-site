@@ -924,7 +924,7 @@ const masterCollectionLayout = () => {
               loader={<Loader></Loader>}
               endMessage={
                 <p style={{ textAlign: "center" }}>
-                  <b>NO MORE ITEMS AVAILABLE...</b>
+                  <b>NO MORE ITEMS AVAILABLE.</b>
                 </p>
               }
             >

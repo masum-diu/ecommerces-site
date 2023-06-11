@@ -45,7 +45,12 @@ const addtocart = () => {
   const [isProceedClicked, setIsProceedClicked] = useState(false);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const { isProceedCheckout, setIsProceedCheckout } = useContext(USER_CONTEXT);
+  const {
+    isProceedCheckout,
+    setIsProceedCheckout,
+    keepShowing,
+    setKeepShowing,
+  } = useContext(USER_CONTEXT);
 
   const removeItemFromCart = async (data) => {
     dispatch(removeFromCart(data));
@@ -73,6 +78,7 @@ const addtocart = () => {
   const handleProceedToCheckout = () => {
     setIsProceedClicked(true);
     setIsProceedCheckout(true);
+    setKeepShowing(true);
   };
 
   return (
@@ -138,19 +144,34 @@ const addtocart = () => {
                             <Typography variant="subtitle1" color="initial">
                               {data?.design_code}
                             </Typography>
-                            <Stack direction={"row"} spacing={2}>
-                              {data?.colors?.map((data, index) => (
-                                <Typography
-                                  key={index}
-                                  variant="subtitle1"
-                                  color="initial"
-                                >
-                                  {data?.color_name}
-                                </Typography>
-                              ))}
+                            <Stack
+                              direction={"row"}
+                              spacing={2}
+                              alignItems={"center"}
+                            >
+                              <Typography>Colors: </Typography>
+                              {data.colors.length > 0 ? (
+                                <>
+                                  {data?.colors?.map((singleColor, index) => (
+                                    <Typography
+                                      key={index}
+                                      variant="subtitle1"
+                                      color="initial"
+                                    >
+                                      {singleColor?.color_name}
+                                      {index !== data?.colors?.length - 1 &&
+                                      data?.colors?.length > 1
+                                        ? ", "
+                                        : ""}
+                                    </Typography>
+                                  ))}
+                                </>
+                              ) : (
+                                <Typography>N/A</Typography>
+                              )}
                             </Stack>
                             <Typography variant="subtitle1" color="initial">
-                              SIZE {data.size}
+                              SIZE: {data.size ? data.size : "N/A"}
                             </Typography>
                             <Typography variant="subtitle1" color="initial">
                               BDT {data.totalPrice}
@@ -308,7 +329,11 @@ const addtocart = () => {
                             <TableCell
                               sx={{ border: "none", textAlign: "left" }}
                             >
-                              <Stack direction={"row"} spacing={1}>
+                              <Stack
+                                direction={"row"}
+                                spacing={1}
+                                alignItems={"center"}
+                              >
                                 {/* <Box
                                   size="small"
                                   variant="primary"
@@ -320,26 +345,33 @@ const addtocart = () => {
                                     height: "25px",
                                   }}
                                 ></Box> */}
-                                {data?.colors?.map((singleColor, index) => (
-                                  <Typography
-                                    key={index}
-                                    variant="subtitle1"
-                                    color="initial"
-                                  >
-                                    {singleColor?.color_name}
-                                    {index !== data?.colors?.length - 1 &&
-                                    data?.colors?.length > 1
-                                      ? ", "
-                                      : ""}
-                                  </Typography>
-                                ))}
+                                <Typography>Colors: </Typography>
+                                {data.colors.length > 0 ? (
+                                  <>
+                                    {data?.colors?.map((singleColor, index) => (
+                                      <Typography
+                                        key={index}
+                                        variant="subtitle1"
+                                        color="initial"
+                                      >
+                                        {singleColor?.color_name}
+                                        {index !== data?.colors?.length - 1 &&
+                                        data?.colors?.length > 1
+                                          ? ", "
+                                          : ""}
+                                      </Typography>
+                                    ))}
+                                  </>
+                                ) : (
+                                  <Typography>N/A</Typography>
+                                )}
                               </Stack>
                             </TableCell>
                             <TableCell
                               sx={{ border: "none", textAlign: "left" }}
                             >
                               <Typography variant="subtitle1" color="initial">
-                                SIZE {data.size}
+                                SIZE: {data.size ? data.size : "N/A"}
                               </Typography>
                             </TableCell>
 
