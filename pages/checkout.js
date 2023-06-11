@@ -126,8 +126,14 @@ const checkout = ({ someProp }) => {
       securePage();
     }
   }, [isPlaceOrder, hasToken, error]);
+  console.log("your log output", isPlaceOrder);
   useEffect(() => {
-    if (hasToken === false && isGuestCheckout === true && cart?.length > 0) {
+    if (
+      hasToken === false &&
+      isGuestCheckout === true &&
+      isPlaceOrder === true &&
+      cart?.length > 0
+    ) {
       const handleGuestOrder = async () => {
         try {
           const postResponse = await guestOrder({
@@ -409,13 +415,15 @@ const checkout = ({ someProp }) => {
     }
   }, [userOrderSuccess, isPlaceOrder, orderResponseUser]);
   useEffect(() => {
-    if (guestOrderSuccess) {
+    let host = location.host;
+
+    if (guestOrderSuccess === true) {
       setLoginModal(false);
       setIsPlaceOrder(false);
       if (orderResponseGuest?.data?.status === "success") {
         dispatch(changeIsCheckout(false));
       }
-      if (orderResponseGuest.data?.type == "online") {
+      if (orderResponseGuest?.data?.type == "online") {
         const response = JSON.parse(orderResponseGuest?.data?.payment);
         window.location.replace(response?.data);
       }
@@ -430,7 +438,12 @@ const checkout = ({ someProp }) => {
         });
       }
     }
-  }, [guestOrderSuccess, isGuestCheckout, orderResponseGuest]);
+  }, [
+    guestOrderSuccess,
+    isGuestCheckout,
+    orderResponseGuest,
+    guestOrderLoading,
+  ]);
   useEffect(() => {
     if (showInputField === false) {
       setValue("first_name_shipping", "");
@@ -457,7 +470,6 @@ const checkout = ({ someProp }) => {
         firstName &&
         lastName &&
         streetAddress &&
-        apartmentAddress &&
         cityAddress &&
         country &&
         phoneBilling &&
@@ -465,7 +477,6 @@ const checkout = ({ someProp }) => {
         firstNameSh &&
         lastNameSh &&
         streetAddressSh &&
-        apartmentAddressSh &&
         cityAddressSh &&
         countrySh &&
         phoneBillingSh &&
@@ -483,7 +494,6 @@ const checkout = ({ someProp }) => {
         firstName &&
         lastName &&
         streetAddress &&
-        apartmentAddress &&
         cityAddress &&
         country &&
         phoneBilling &&
@@ -517,7 +527,12 @@ const checkout = ({ someProp }) => {
     paymentMethod,
     termsAndCondition,
   ]);
-  if (userOrderLoading || guestOrderLoading) {
+  if (
+    userOrderLoading ||
+    guestOrderLoading ||
+    userOrderSuccess ||
+    guestOrderSuccess
+  ) {
     return <Loader></Loader>;
   }
   return (
@@ -641,6 +656,11 @@ const checkout = ({ someProp }) => {
                       {errors.street_address_billing?.message}
                     </p>
                   )}
+                </Stack>
+                <Stack direction={"column"} spacing={2} mt={3}>
+                  <Typography variant="cardHeader1" color="initial">
+                    APARTMENT ADDRESS (OPTIONAL)
+                  </Typography>
                   <TextField
                     // id=""
                     // label=""
@@ -648,7 +668,7 @@ const checkout = ({ someProp }) => {
                     // onChange={}
                     {...register("apartment_address_billing", {
                       required: {
-                        value: true,
+                        value: false,
                         message: "Apartment Address Required",
                       },
                     })}
@@ -776,7 +796,7 @@ const checkout = ({ someProp }) => {
                     {...register("post_code_billing", {
                       required: {
                         value: false,
-                        message: "Country is Required",
+                        message: "Enter Post Code",
                       },
                     })}
                     error={Boolean(errors.post_code_billing)}
@@ -866,6 +886,7 @@ const checkout = ({ someProp }) => {
                     spacing={1}
                   >
                     <input
+                      autoComplete="off"
                       type="checkbox"
                       {...register("isSameAddress")}
                       // name="isSameAddress"
@@ -884,6 +905,7 @@ const checkout = ({ someProp }) => {
                     // id=""
                     // label=""
                     // value={}
+                    autoComplete="off"
                     {...register("first_name_shipping", {
                       required: {
                         value: isSameAddressChecked === false ? true : false,
@@ -916,6 +938,7 @@ const checkout = ({ someProp }) => {
                     // id=""
                     // label=""
                     // value={}
+                    autoComplete="off"
                     {...register("last_name_shipping", {
                       required: {
                         value: isSameAddressChecked === false ? true : false,
@@ -946,6 +969,7 @@ const checkout = ({ someProp }) => {
                     // id=""
                     // label=""
                     // value={}
+                    autoComplete="off"
                     {...register("street_address_shipping", {
                       required: {
                         value: isSameAddressChecked === false ? true : false,
@@ -971,13 +995,19 @@ const checkout = ({ someProp }) => {
                         {errors.street_address_shipping?.message}
                       </p>
                     )}
+                </Stack>
+                <Stack direction={"column"} spacing={2} mt={3}>
+                  <Typography variant="cardHeader1" color="initial">
+                    APARTMENT ADDRESS (OPTIONAL)
+                  </Typography>
                   <TextField
                     // id=""
                     // label=""
                     // value={}
+                    autoComplete="off"
                     {...register("apartment_address_shipping", {
                       required: {
-                        value: isSameAddressChecked === false ? true : false,
+                        value: false,
                         message: "Apartment Address Required",
                       },
                     })}
@@ -1005,37 +1035,9 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
-                  {/* <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={data}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        {...register("city_shipping", {
-                          required: {
-                            value:
-                              isSameAddressChecked === false ? true : false,
-                            message: "Town/City is Required",
-                          },
-                        })}
-                        onSelect={(e) => setShippingTown(e.target.value)}
-                        onKeyUp={() => trigger("city_shipping")}
-                        error={Boolean(errors.city_shipping)}
-                        // onChange={}
-                        placeholder={
-                          isSameAddressChecked === false
-                            ? "Town / City"
-                            : billingTown
-                        }
-                        // placeholder="Town / City"
-                        size="small"
-                        sx={customStyle}
-                      />
-                    )}
-                  /> */}
+
                   <Select
+                    autoComplete="off"
                     {...register("city_shipping", {
                       required: {
                         value: isSameAddressChecked === false ? true : false,
@@ -1057,29 +1059,6 @@ const checkout = ({ someProp }) => {
                       <MenuItem value={towns.value}>{towns.label}</MenuItem>
                     ))}
                   </Select>
-                  {/* <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    {...register("city_shipping", {
-                      required: {
-                        value: isSameAddressChecked === false ? true : false,
-                        message: "Town/City is Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("city_shipping")}
-                    error={Boolean(errors.city_shipping)}
-                    // onChange={}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    placeholder={
-                      isSameAddressChecked === false
-                        ? "Town / City"
-                        : cityAddress
-                    }
-                    // placeholder="Town / City"
-                    size="small"
-                    sx={customStyle}
-                  /> */}
                   {errors.city_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
                       {errors.city_shipping?.message}
@@ -1092,6 +1071,7 @@ const checkout = ({ someProp }) => {
                   </Typography>
 
                   <Select
+                    autoComplete="off"
                     {...register("country_shipping", {
                       required: {
                         value: isSameAddressChecked === false ? true : false,
@@ -1127,6 +1107,7 @@ const checkout = ({ someProp }) => {
                     // id=""
                     // label=""
                     // value={}
+                    autoComplete="off"
                     {...register("post_code_shipping", {
                       required: {
                         value: false,
@@ -1161,6 +1142,7 @@ const checkout = ({ someProp }) => {
                     // id=""
                     // label=""
                     // value={}
+                    autoComplete="off"
                     {...register("phone_shipping", {
                       required: {
                         value: isSameAddressChecked === false ? true : false,
@@ -1193,6 +1175,7 @@ const checkout = ({ someProp }) => {
                     // id=""
                     // label=""
                     // value={}
+                    autoComplete="off"
                     {...register("email_shipping", {
                       required: {
                         value: isSameAddressChecked === false ? true : false,
@@ -1481,11 +1464,11 @@ const checkout = ({ someProp }) => {
 
       <Footer />
       <LoginModal
-        open={openLoginModal}
-        setOpen={setLoginModal}
-        // isGuestCheckout={isGuestCheckout}
-        // setIsGuestCheckout={setIsGuestCheckout}
-        setHasToken={setHasToken}
+      // open={openLoginModal}
+      // setOpen={setLoginModal}
+      // isGuestCheckout={isGuestCheckout}
+      // setIsGuestCheckout={setIsGuestCheckout}
+      // setHasToken={setHasToken}
       ></LoginModal>
     </>
   );

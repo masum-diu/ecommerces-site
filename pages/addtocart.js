@@ -45,7 +45,12 @@ const addtocart = () => {
   const [isProceedClicked, setIsProceedClicked] = useState(false);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const { isProceedCheckout, setIsProceedCheckout } = useContext(USER_CONTEXT);
+  const {
+    isProceedCheckout,
+    setIsProceedCheckout,
+    keepShowing,
+    setKeepShowing,
+  } = useContext(USER_CONTEXT);
 
   const removeItemFromCart = async (data) => {
     dispatch(removeFromCart(data));
@@ -73,6 +78,7 @@ const addtocart = () => {
   const handleProceedToCheckout = () => {
     setIsProceedClicked(true);
     setIsProceedCheckout(true);
+    setKeepShowing(true);
   };
 
   return (
