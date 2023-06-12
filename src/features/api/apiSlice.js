@@ -204,6 +204,16 @@ export const productApi = createApi({
         },
       }),
     }),
+    passwordResetRequest: builder.mutation({
+      query: ({ password, token }) => ({
+        url: `/user-reset-password`,
+        method: "POST",
+        body: {
+          password: password,
+          token:token
+        },
+      }),
+    }),
   }),
 });
 
@@ -233,4 +243,5 @@ export const {
   usePostUserOrderMutation,
   usePostGuestOrderMutation,
   usePostAdditionalInfoMutation,
+  usePasswordResetRequestMutation,
 } = productApi;

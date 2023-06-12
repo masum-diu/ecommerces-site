@@ -16,9 +16,23 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import instance from "../pages/api/api_instance";
 import USER_CONTEXT from "./userContext";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const ForgotPass = ({ open, setOpen }) => {
   const { isPlaceOrder, setIsPlaceOrder } = useContext(USER_CONTEXT);
+  const [host, setHost] = useState("");
+
+  useEffect(() => {
+    const host = location.host;
+    console.log("sdsdf", host);
+    if (host === "localhost:3000") {
+      setHost("http://localhost:3000");
+    }
+    if (host === "staging.aranya.com.bd") {
+      setHost("https://staging.aranya.com.bd");
+    }
+  }, [host]);
   const {
     register,
     handleSubmit,
@@ -34,12 +48,17 @@ const ForgotPass = ({ open, setOpen }) => {
     setIsPlaceOrder(false);
   };
   const onSubmit = (data) => {
+    const email = data.email;
     instance
-      .post("/user-password-email-reset-link", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .post(
+        "/user-password-email-reset-link",
+        { email: email, backUri: host },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then(async (result) => {})
       .catch((err) => {});
     setOpen(false);

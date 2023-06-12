@@ -22,5 +22,10 @@ const nextConfig = {
       },
     ],
   },
+  env:{
+    NEXTAUTH_SECRET:"",
+    GOOGLE_UID: "162472437137-a6lmosggct31h1dud6anq74kd5qlq2hd.apps.googleusercontent.com",
+    GOOGLE_SECRET:"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"
+  }
 };
 module.exports = nextConfig;
