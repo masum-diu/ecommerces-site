@@ -133,6 +133,7 @@ export const productApi = createApi({
         totalAmount,
         isSameAddressChecked,
         isGuestCheckout,
+        backUri,
         token,
       }) => ({
         url: `/order`,
@@ -140,6 +141,7 @@ export const productApi = createApi({
         body: {
           data: data,
           cart: cart,
+          backUri,
           totalPrice: subTotal,
           totalPriceWithTax: totalPriceWithTax,
           finalPrice: finalPriceOfOrder,
@@ -164,6 +166,7 @@ export const productApi = createApi({
         totalAmount,
         isSameAddressChecked,
         isGuestCheckout,
+        backUri,
         token,
       }) => ({
         url: `/guest-order`,
@@ -171,6 +174,7 @@ export const productApi = createApi({
         body: {
           data: data,
           cart: cart,
+          backUri:backUri,
           totalPrice: subTotal,
           totalPriceWithTax: totalPriceWithTax,
           finalPrice: finalPriceOfOrder,
@@ -210,7 +214,7 @@ export const productApi = createApi({
         method: "POST",
         body: {
           password: password,
-          token:token
+          token: token,
         },
       }),
     }),

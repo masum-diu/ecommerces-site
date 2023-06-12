@@ -1,4 +1,4 @@
-import React, { useContext,useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -20,6 +20,7 @@ import GuestCheckout from "./GuestCheckout";
 import USER_CONTEXT from "./userContext";
 import { useDispatch } from "react-redux";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
+// import { signIn, useSession } from "next-auth/react";
 
 const LoginModal = ({ open, setOpen }) => {
   const {
@@ -41,8 +42,9 @@ const LoginModal = ({ open, setOpen }) => {
   const [openGuestCheckoutModalOpen, setGuestCheckoutModalOpen] =
     useState(false);
   const router = useRouter();
+  // const { data: session } = useSession();
   const dispatch = useDispatch();
-  
+
   const handleclearuser = () => {
     setUserData("");
   };
@@ -239,6 +241,7 @@ const LoginModal = ({ open, setOpen }) => {
                 <Button variant="contained" color="background2" type="submit">
                   Login
                 </Button>
+                {/* <button onClick={() => signIn('google')}>Sign in with Google</button> */}
                 <Typography
                   variant="cardHeader12"
                   textAlign={"center"}

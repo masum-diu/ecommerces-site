@@ -40,6 +40,7 @@ const checkout = ({ someProp }) => {
   const [townBilling, setTownBilling] = useState("Select Town/City");
   const [townBillingSh, setTownBillingSh] = useState("Select Town/City");
   const [isSameAddress, setIsSameAddress] = useState(false);
+  const [host, setHost] = useState("");
   const isInitialMount = useRef(true);
   const dispatch = useDispatch();
   const subTotal = useSelector((state) => state.cart.totalPrice);
@@ -111,7 +112,15 @@ const checkout = ({ someProp }) => {
       error: guestOrderErrorData,
     },
   ] = usePostGuestOrderMutation();
-
+  useEffect(() => {
+    const host = location.host;
+    if (host === "localhost:3000") {
+      setHost("http://localhost:3000");
+    }
+    if (host === "staging.aranya.com.bd") {
+      setHost("https://staging.aranya.com.bd");
+    }
+  }, [host]);
   useEffect(() => {
     if (isPlaceOrder === true) {
       const securePage = async () => {
@@ -145,6 +154,7 @@ const checkout = ({ someProp }) => {
             totalAmount: orderInfo?.totalAmount,
             isSameAddressChecked: orderInfo?.isSameAddress,
             isGuestCheckout: orderInfo?.isGuestCheckout,
+            backUri: host,
             token,
           });
           setOrderResponseGuest(postResponse);
@@ -260,6 +270,7 @@ const checkout = ({ someProp }) => {
           const postResponse = await userOrder({
             data,
             cart,
+            backUri: host,
             subTotal,
             totalPriceWithTax,
             finalPriceOfOrder,
