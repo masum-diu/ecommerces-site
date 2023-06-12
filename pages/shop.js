@@ -90,22 +90,32 @@ const shop = () => {
       </Head>
       <HomePageIntro title={"Shop "} />
       <Box  sx={{ width: "100%", mb: 4,pt:{lg:8,xs:7} }}>
-        <Stack sx={{ position: "relative" }}>
+        <Stack sx={{ position: "relative" }} >
           {/* <video
             src="https://static.zara.net/photos///contents/mkt/spots/aw22-north-kids-party/subhome-xmedia-47-2//w/1920/IMAGE-landscape-fill-90388659-c9ad-44c0-8fbc-3e049adef8d9-default_0.jpg?ts=1669457847606"
             alt=""
             width="100%"
           /> */}
           
-          <video
+          {/* <video
             width={"100%"}
             autoPlay
             // playsinline
+            type="video/mp4"
             loop
             muted={true}
             src={homedata?.image_one}
-          />
+          /> */}
          
+         {/* <div
+          
+        /> */}
+        <Stack dangerouslySetInnerHTML={{
+            __html: `<video className="app__backgroundVideo" autoplay loop muted playsinline>
+      <source src=${homedata?.image_one} type="video/mp4" />
+      Your browser does not support the video tag.
+</video>`,
+          }}/>
           
           {/* <Image
             src=

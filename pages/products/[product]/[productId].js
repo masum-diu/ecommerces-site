@@ -319,7 +319,7 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.feature_image}
-                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto/${products?.p_image_one
+                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,w_500,h_750/${products?.p_image_one
                   ?.split("/")
                   .slice(-3)
                   .join("/")}`}
@@ -329,7 +329,7 @@ const PorductDetails = () => {
                   maxWidth: "auto",
                 }}
               />
-              <Stack direction={"row"} spacing={0.5} mb={0.5} width={"99%"}>
+              <Stack direction={"row"} spacing={0.5} mb={0.5} >
                 <Stack width={"50%"}>
                 <img 
                 //  className={style.images}
@@ -342,15 +342,15 @@ const PorductDetails = () => {
                     })
                   }
                   // src={products?.p_image_one}
-                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto/${products?.p_image_two
+                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,w_250/${products?.p_image_two
                     ?.split("/")
                     .slice(-3)
                     .join("/")}`}
                   alt=""
-                  // style={{
-                  //    width: "100%",
-                  //   maxWidth: "240px",
-                  // }}
+                  style={{
+                    width: "100%",
+                    maxWidth: "auto",
+                  }}
                 />
                 </Stack>
                 <Stack width={"50%"}>
@@ -365,14 +365,14 @@ const PorductDetails = () => {
                     })
                   }
                   // src={products?.p_image_two}
-                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto/${products?.p_image_three
+                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,w_250/${products?.p_image_three
                     ?.split("/")
                     .slice(-3)
                     .join("/")}`}
                   alt=""
                   style={{
-                    //  width: "100%",
-                    // maxWidth: "240px",
+                    width: "100%",
+                    maxWidth: "auto",
                   }}
                 />
                 </Stack>
@@ -389,7 +389,7 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.p_image_three}
-                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto/${products?.p_image_four
+                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,w_500,h_750/${products?.p_image_four
                   ?.split("/")
                   .slice(-3)
                   .join("/")}`}
@@ -1105,8 +1105,8 @@ const PorductDetails = () => {
               style={{
                 backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.feature_image})`,
                 backgroundSize: "cover",
-                height: "100vh",
-                maxHeight: "fit-content",
+                height: "92vh",
+                maxHeight: "auto",
                 backgroundPosition: "center",
                 width: "100%",
               }}
@@ -1155,8 +1155,8 @@ const PorductDetails = () => {
               style={{
                 backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.p_image_one})`,
                 backgroundSize: "cover",
-                height: "100vh",
-                maxHeight: "fit-content",
+                height: "92vh",
+                maxHeight: "auto",
                 backgroundPosition: "center",
                 width: "100%",
               }}
@@ -1205,8 +1205,8 @@ const PorductDetails = () => {
               style={{
                 backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.p_image_two})`,
                 backgroundSize: "cover",
-                height: "100vh",
-                maxHeight: "fit-content",
+                height: "92vh",
+                maxHeight: "auto",
                 backgroundPosition: "center",
                 width: "100%",
               }}
@@ -1255,8 +1255,8 @@ const PorductDetails = () => {
               style={{
                 backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.p_image_three})`,
                 backgroundSize: "cover",
-                height: "100vh",
-                maxHeight: "fit-content",
+                height: "92vh",
+                maxHeight: "auto",
                 backgroundPosition: "center",
                 width: "100%",
               }}
@@ -1328,29 +1328,34 @@ const PorductDetails = () => {
                       justifyContent={"space-between"}
                     >
                       <Stack direction={"row"}>
-                        {products?.p_sizes?.map((size, index) => (
-                          <Button
-                          startIcon={
-                            handleStockAvailability(size.id) ===
-                            "outOfStock" ? (
-                              <CloseIcon color="action" sx={{ color: red[500] }} />
-                            ) : (
-                              ""
-                            )
-                          }
-                          style={{boxShadow:"0px 1px 4px 2px rgba(131 131 133 / 20%)"}}
-                            key={index}
-                            variant={`${
-                              activesize === size?.id ? "outlined" : "primary"
-                            }`}
-                            color="primary"
-                            onClick={() =>
-                              handleSelectSize(size?.size_name, size?.id)
-                            }
-                          >
-                            {size?.size_name}
-                          </Button>
-                        ))}
+                      {products?.p_sizes?.map((size, index) => (
+                            <Button
+                              startIcon={
+                                handleStockAvailability(size.id) ===
+                                "outOfStock" ? (
+                                  <CloseIcon color="action" sx={{ color: red[300] }} />
+                                ) : (
+                                  ""
+                                )
+                              }
+                              style={{boxShadow:"0px 1px 4px 2px rgba(131 131 133 / 20%)"}}
+                              key={index}
+                              variant={`${
+                                activesize === size?.id ? "outlined" : "primary"
+                              }`}
+                              color="primary"
+                              onClick={() =>
+                                handleSelectSize(size?.size_name, size?.id)
+                              }
+                            >
+                              {/* {console.log(products?.p_stocks.find((element)=>element.size_id===size.id))} */}
+                              <Typography variant="cardHeader"  color={handleStockAvailability(size?.id) ===
+                                "outOfStock"?"#bbb6b6;":""}>
+                              {size?.size_name}
+                              </Typography>
+                              
+                            </Button>
+                          ))}
 
                         {/* <Button variant="text" color="primary">
                     M
