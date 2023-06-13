@@ -20,7 +20,7 @@ import GuestCheckout from "./GuestCheckout";
 import USER_CONTEXT from "./userContext";
 import { useDispatch } from "react-redux";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession, signOut } from "next-auth/react";
 import { FcGoogle } from "react-icons/md";
 
 const LoginModal = ({ open, setOpen }) => {
@@ -109,9 +109,10 @@ const LoginModal = ({ open, setOpen }) => {
   });
 
   if (session) {
-    console.log("session user", session.user);
+    console.log("sedssiod yosudr", session);
+    /* console.log("session user", session.user);
     setUserData(session.user);
-    localStorage.setItem("user", JSON.stringify(session.user));
+    localStorage.setItem("user", JSON.stringify(session.user)); */
   } else {
     console.log("session data is cleared");
   }
@@ -255,8 +256,16 @@ const LoginModal = ({ open, setOpen }) => {
                   onClick={() => signIn("google")}
                   variant="contained"
                   color="background2"
-                  type="submit"
-                >signIn with google </Button>
+                >
+                  signIn with google{" "}
+                </Button>
+                <Button
+                  onClick={() => signIn("facebook")}
+                  variant="contained"
+                  color="background2"
+                >
+                  signIn with google{" "}
+                </Button>
                 {/* <button onClick={() => signIn("google")}>Sign in with Google</button> */}
                 <Typography
                   variant="cardHeader12"

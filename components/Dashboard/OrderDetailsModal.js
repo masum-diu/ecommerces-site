@@ -49,6 +49,7 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
       console.log("Error:", error);
     }
   };
+  console.log("your log output", data);
   return (
     <>
       <Dialog
@@ -87,6 +88,7 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                   <TableCell align="left">Products</TableCell>
                   <TableCell align="center">U.Price</TableCell>
                   <TableCell align="center">QTY</TableCell>
+                  <TableCell align="center">Tax</TableCell>
                   <TableCell align="center">T.Price</TableCell>
                   <TableCell align="center">Refund</TableCell>
                 </TableRow>
@@ -101,10 +103,13 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                     <TableCell align="left">
                       {row?.product?.product_name}
                     </TableCell>
-                    <TableCell align="center">{row?.buying_price}</TableCell>
+                    <TableCell align="center">{row?.selling_price}</TableCell>
                     <TableCell align="center">{row?.quantity}</TableCell>
                     <TableCell align="center">
-                      {row?.total_buying_price}
+                      {Math.ceil(row?.vat_amount)}
+                    </TableCell>
+                    <TableCell align="center">
+                      {row?.total_selling_price}
                     </TableCell>
                     <TableCell align="center">
                       <Button

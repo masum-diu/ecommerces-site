@@ -79,7 +79,6 @@ const HomePageIntro = ({ title }) => {
     localStorage.clear();
     setUser("");
     setAnchorEl(null);
-    signOut()
     router.push("/shop");
     handleMobileMenuClose();
     setHasToken(false);
