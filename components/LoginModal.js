@@ -109,8 +109,8 @@ const LoginModal = ({ open, setOpen }) => {
   });
 
   if (session) {
-    console.log("sedssiod yosudr", session);
-    /* console.log("session user", session.user);
+    /* console.log("sedssiod yosudr", session);
+    console.log("session user", session.user);
     setUserData(session.user);
     localStorage.setItem("user", JSON.stringify(session.user)); */
   } else {
