@@ -57,9 +57,8 @@ const Profile = () => {
       localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify(data.user));
       setUser(data.user)
-      console.log("my data", data.user.name);
     }
-  }, [isSuccess,data,user,localStorage]);
+  }, [isSuccess]);
   console.log('your log output',data,user)
   if (isLoading) {
     return <Loader></Loader>;
@@ -146,7 +145,7 @@ const Profile = () => {
                   color="initial"
                   className="SemiBold"
                 >
-                  {userjsondata?userjsondata?.name:user?.name}
+                  {userjsondata?userjsondata?.first_name:user?.first_name}
                 </Typography>
               </Stack>
               <Divider />

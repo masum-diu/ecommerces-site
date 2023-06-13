@@ -154,7 +154,7 @@ const resetPassword = () => {
                   // value={}
                   // onChange={}
                   size="small"
-                  placeholder="Password*"
+                  placeholder="New Password*"
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -208,7 +208,7 @@ const resetPassword = () => {
                   // value={}
                   // onChange={}
                   size="small"
-                  placeholder="Password*"
+                  placeholder="Confirm Password*"
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">

@@ -19,7 +19,7 @@ import { BiMap, BiShoppingBag } from "react-icons/bi";
 import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import { FcMenu } from "react-icons/fc";
 import { HiOutlineShoppingCart } from "react-icons/hi";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 import { FiSearch } from "react-icons/fi";
 import SiderBar from "./SiderBar";
 import { useRouter } from "next/router";
@@ -33,6 +33,7 @@ import Menu from "@mui/material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useSelector } from "react-redux";
 import style from "../public/assets/css/HomePageIntro.module.css";
+import { signOut } from "next-auth/react";
 const HomePageIntro = ({ title }) => {
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -78,9 +79,10 @@ const HomePageIntro = ({ title }) => {
     localStorage.clear();
     setUser("");
     setAnchorEl(null);
-    router.push("/shop")
+    signOut()
+    router.push("/shop");
     handleMobileMenuClose();
-    setHasToken(false)
+    setHasToken(false);
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -104,7 +106,9 @@ const HomePageIntro = ({ title }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link href={"/userDashboard"}><MenuItem onClick={handleMenuClose}>My Account</MenuItem></Link>
+      <Link href={"/userDashboard"}>
+        <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+      </Link>
       <MenuItem onClick={handelogout}>Logout</MenuItem>
     </Menu>
   );
@@ -152,7 +156,11 @@ const HomePageIntro = ({ title }) => {
       </Head>
       <AppBar
         position="fixed"
-        sx={{ boxShadow: "none", borderBottom: "none", backgroundColor: "#fff" }}
+        sx={{
+          boxShadow: "none",
+          borderBottom: "none",
+          backgroundColor: "#fff",
+        }}
       >
         <Toolbar
           sx={{
@@ -172,43 +180,70 @@ const HomePageIntro = ({ title }) => {
               width: { xs: "100%", lg: "0%" },
             }}
           >
-            <Stack direction={"row"} spacing={.5} alignItems={"center"}>
-              <IconButton style={{ marginTop: ".50rem" }} onClick={() => setOpen(true)}>
+            <Stack direction={"row"} spacing={0.5} alignItems={"center"}>
+              <IconButton
+                style={{ marginTop: ".50rem" }}
+                onClick={() => setOpen(true)}
+              >
                 {/* <GoThreeBars style={{ color: "#0A0A0A" }} /> */}
                 <FcMenu style={{ color: "#0A0A0A" }} />
-
               </IconButton>
               <Link href={"/shop"}>
-                <img style={{ cursor: "pointer", width: "90vw", maxWidth: "80px", marginTop: ".15rem" }} src="/assets/headerLogo.png" alt="" />
+                <img
+                  style={{
+                    cursor: "pointer",
+                    width: "90vw",
+                    maxWidth: "80px",
+                    marginTop: ".15rem",
+                  }}
+                  src="/assets/headerLogo.png"
+                  alt=""
+                />
               </Link>
             </Stack>
 
             <Hidden only={["lg", "xl"]}>
-
-              <Stack
-                direction={"row"}
-                alignItems={"center"}
-                spacing={1}
-              >
-                <IconButton aria-label="" onClick={() => router.push("/wishlists")}>
+              <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                <IconButton
+                  aria-label=""
+                  onClick={() => router.push("/wishlists")}
+                >
                   <Badge badgeContent={totalWishedProduct} color="background2">
                     {" "}
                     {/* <FiHeart
                       style={{ color: "#0A0A0A" }}
                     
                     /> */}
-                    <svg style={{ color: "#0A0A0A" }} xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                    <svg
+                      style={{ color: "#0A0A0A" }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      fill="currentColor"
+                      class="bi bi-heart"
+                      viewBox="0 0 16 16"
+                    >
                       <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
                     </svg>
                   </Badge>
                 </IconButton>
-                <IconButton aria-label="" onClick={() => router.push("/addtocart")}>
+                <IconButton
+                  aria-label=""
+                  onClick={() => router.push("/addtocart")}
+                >
                   <Badge badgeContent={totalAmount} color="background2">
                     {/* <FiShoppingCart
                       style={{ color: "#0A0A0A" }}
                       
                     /> */}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      fill="currentColor"
+                      class="bi bi-cart2"
+                      viewBox="0 0 16 16"
+                    >
                       <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
                     </svg>
                   </Badge>
@@ -221,11 +256,15 @@ const HomePageIntro = ({ title }) => {
                   />
                 </IconButton>
               </Stack>
-
             </Hidden>
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
-            <Stack direction={"row"} spacing={5} ml={userjsondata?.name ? {xl:55,lg:50}: 35} mt={1}>
+            <Stack
+              direction={"row"}
+              spacing={5}
+              ml={userjsondata?.name ? { xl: 55, lg: 50 } : 35}
+              mt={1}
+            >
               <Typography
                 className={style.menu3}
                 sx={{ cursor: "pointer" }}
@@ -248,10 +287,7 @@ const HomePageIntro = ({ title }) => {
 
             <Stack direction={"row"} alignItems="center" spacing={2} mt={1}>
               <IconButton aria-label="" onClick={() => setSearchModal(true)}>
-                <CiSearch
-                  style={{ color: "#0A0A0A" }}
-
-                />
+                <CiSearch style={{ color: "#0A0A0A" }} />
               </IconButton>
               {userjsondata || user.status == true ? (
                 <>
@@ -270,10 +306,14 @@ const HomePageIntro = ({ title }) => {
                     <p>{userjsondata?.name}</p>
                   </MenuItem> */}
                   {/* <Box sx={{ flexGrow: 1 }} /> */}
-                  <Box sx={{ display: { xs: "none", md: "flex" },alignItems:"center" }} onClick={handleProfileMenuOpen}>
-
+                  <Box
+                    sx={{
+                      display: { xs: "none", md: "flex" },
+                      alignItems: "center",
+                    }}
+                    onClick={handleProfileMenuOpen}
+                  >
                     <IconButton
-
                       sx={{
                         cursor: "pointer",
                         color: "#0A0A0A",
@@ -288,13 +328,11 @@ const HomePageIntro = ({ title }) => {
                     >
                       <AccountCircle />
                     </IconButton>
-                    <p style={{ color: "#0A0A0A",cursor:"pointer" }}>
+                    <p style={{ color: "#0A0A0A", cursor: "pointer" }}>
                       {userjsondata ? userjsondata.name : user.name}
                     </p>
-
                   </Box>
                   <Box sx={{ display: { xs: "flex", md: "none" } }}>
-
                     <IconButton
                       size="large"
                       aria-label="show more"
@@ -313,7 +351,6 @@ const HomePageIntro = ({ title }) => {
                 <>
                   <Typography
                     className={style.menu3}
-
                     sx={{ cursor: "pointer" }}
                     variant="cardHeader"
                     color="initial"
@@ -324,15 +361,21 @@ const HomePageIntro = ({ title }) => {
                 </>
               )}
 
-
-
               <IconButton
                 aria-label=""
                 onClick={() => router.push("/wishlists")}
               >
                 <Badge badgeContent={totalWishedProduct} color="background2">
                   {/* <TfiHeart style={{ color: "#0A0A0A", fontSize: "18px" }} /> */}
-                  <svg style={{ color: "#0A0A0A" }} xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                  <svg
+                    style={{ color: "#0A0A0A" }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    fill="currentColor"
+                    class="bi bi-heart"
+                    viewBox="0 0 16 16"
+                  >
                     <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
                   </svg>
                 </Badge>
@@ -343,7 +386,14 @@ const HomePageIntro = ({ title }) => {
               >
                 <Badge badgeContent={totalAmount} color="background2">
                   {/* <CiShoppingCart style={{ color: "#0A0A0A" }} /> */}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    class="bi bi-cart2"
+                    viewBox="0 0 16 16"
+                  >
                     <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
                   </svg>
                 </Badge>
@@ -351,7 +401,14 @@ const HomePageIntro = ({ title }) => {
               <Stack alignItems="center" direction={"row"}>
                 <IconButton aria-label="">
                   {/* <BiMap style={{ color: "#0A0A0A",fontWeight:"10px" }} /> */}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-geo-alt"
+                    viewBox="0 0 16 16"
+                  >
                     <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z" />
                     <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                   </svg>

@@ -35,7 +35,7 @@ const OrderDetails = () => {
     cancelOrder,
     {
       data: cancelResponse,
-      result:result,
+      result: result,
       isLoading: cancelLoading,
       isError: cancelError,
       isSuccess: isCancelSuccess,
@@ -196,6 +196,7 @@ const OrderDetails = () => {
                         Refund
                       </Button>
                     </TableCell> */}
+                    {console.log("your log output", orderInfo)}
                     <TableCell className="SemiBold" align="center">
                       <Button
                         onClick={() => handleViewOrder(orderInfo)}

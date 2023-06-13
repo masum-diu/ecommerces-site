@@ -122,7 +122,7 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                         {row.is_claim_refund === 1 && row.is_refunded === 1
                           ? "Refunded"
                           : row.is_claim_refund === 1 && row.is_refunded === 0
-                          ? "Panging"
+                          ? "Pending"
                           : row.is_claim_refund === 1 && row.is_refunded === 2
                           ? "Rejected"
                           : "Refund"}

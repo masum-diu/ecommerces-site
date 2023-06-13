@@ -8,5 +8,6 @@ export const authOptions = {
       clientSecret: "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",
     }),
   ],
+  secret: "asdfasdfasfasdfhjskdhfsfjsdjfssidf",
 };
 export default NextAuth(authOptions);

@@ -20,7 +20,8 @@ import GuestCheckout from "./GuestCheckout";
 import USER_CONTEXT from "./userContext";
 import { useDispatch } from "react-redux";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
-// import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { FcGoogle } from "react-icons/md";
 
 const LoginModal = ({ open, setOpen }) => {
   const {
@@ -39,10 +40,11 @@ const LoginModal = ({ open, setOpen }) => {
   const [signModal, setSignModal] = useState(false);
   const [forgotModal, setForgotModal] = useState(false);
   const [userFetchedData, setUserFetchedData] = useState({});
+  const { data: session } = useSession();
   const [openGuestCheckoutModalOpen, setGuestCheckoutModalOpen] =
     useState(false);
   const router = useRouter();
-  // const { data: session } = useSession();
+  console.log("your log session", session);
   const dispatch = useDispatch();
 
   const handleclearuser = () => {
@@ -105,6 +107,14 @@ const LoginModal = ({ open, setOpen }) => {
       password: "",
     },
   });
+
+  if (session) {
+    console.log("session user", session.user);
+    setUserData(session.user);
+    localStorage.setItem("user", JSON.stringify(session.user));
+  } else {
+    console.log("session data is cleared");
+  }
 
   // const password = useWatch({ control, name: "password" });
   const onSubmit = (data) => {
@@ -241,7 +251,13 @@ const LoginModal = ({ open, setOpen }) => {
                 <Button variant="contained" color="background2" type="submit">
                   Login
                 </Button>
-                {/* <button onClick={() => signIn('google')}>Sign in with Google</button> */}
+                <Button
+                  onClick={() => signIn("google")}
+                  variant="contained"
+                  color="background2"
+                  type="submit"
+                >signIn with google </Button>
+                {/* <button onClick={() => signIn("google")}>Sign in with Google</button> */}
                 <Typography
                   variant="cardHeader12"
                   textAlign={"center"}

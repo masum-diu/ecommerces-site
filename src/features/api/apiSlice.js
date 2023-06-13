@@ -6,7 +6,7 @@ export const productApi = createApi({
     baseUrl: "https://backend.aranya.com.bd/api",
     // baseUrl: "https://apiaranya.jumriz.com/public/api",
   }),
-  tagTypes: ["Orders", "Users"],
+  tagTypes: ["Orders"],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "/product",
