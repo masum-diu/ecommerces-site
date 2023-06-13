@@ -12,7 +12,7 @@ import SignInModal from "./SignInModal";
 import { useRouter } from "next/router";
 import ForgotPass from "./ForgotPass";
 import { useForm } from "react-hook-form";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Google, Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 import Cookies from "js-cookie";
 import instance from "../pages/api/api_instance";
@@ -21,7 +21,8 @@ import USER_CONTEXT from "./userContext";
 import { useDispatch } from "react-redux";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
 import { signIn, useSession } from "next-auth/react";
-import { FcGoogle } from "react-icons/md";
+import { FcGoogle } from "react-icons/fc";
+import { BsFacebook } from "react-icons/bs";
 
 const LoginModal = ({ open, setOpen }) => {
   const {
@@ -230,8 +231,8 @@ const LoginModal = ({ open, setOpen }) => {
                     {errors?.password
                       ? errors.password?.message
                       : userdata?.response?.status == 401
-                      ? userdata?.response?.data?.message
-                      : ""}
+                        ? userdata?.response?.data?.message
+                        : ""}
                   </p>
                 </Stack>
 
@@ -251,12 +252,25 @@ const LoginModal = ({ open, setOpen }) => {
                 <Button variant="contained" color="background2" type="submit">
                   Login
                 </Button>
+              
                 <Button
                   onClick={() => signIn("google")}
-                  variant="contained"
+                  variant="outlined"
                   color="background2"
-                  type="submit"
-                >signIn with google </Button>
+                  className="SemiBold"
+
+                  endIcon={<> <FcGoogle /></>}
+
+                >sign-In with google </Button>
+                <Button
+                  onClick={() => signIn("facebook")}
+                  variant="outlined"
+                  color="background2"
+                  className="SemiBold"
+
+                  endIcon={<> <BsFacebook style={{color:"#1877F2"}} /></>}
+
+                >sign-In with facebook </Button>
                 {/* <button onClick={() => signIn("google")}>Sign in with Google</button> */}
                 <Typography
                   variant="cardHeader12"
@@ -295,7 +309,7 @@ const LoginModal = ({ open, setOpen }) => {
       <GuestCheckout
         open={openGuestCheckoutModalOpen}
         setOpen={setGuestCheckoutModalOpen}
-        // setIsGuestCheckout={setIsGuestCheckout}
+      // setIsGuestCheckout={setIsGuestCheckout}
       ></GuestCheckout>
     </>
   );

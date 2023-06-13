@@ -259,10 +259,10 @@ const HomePageIntro = ({ title }) => {
             </Hidden>
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
-            <Stack
+            <Box ml={userjsondata?.name ? { xl: 35, lg: 35 } : 30}>
+              <Stack
               direction={"row"}
               spacing={5}
-              ml={userjsondata?.name ? { xl: 55, lg: 50 } : 35}
               mt={1}
             >
               <Typography
@@ -283,7 +283,9 @@ const HomePageIntro = ({ title }) => {
               >
                 <li>STORY</li>
               </Typography>
-            </Stack>
+            </Stack></Box>
+
+
 
             <Stack direction={"row"} alignItems="center" spacing={2} mt={1}>
               <IconButton aria-label="" onClick={() => setSearchModal(true)}>
@@ -329,7 +331,7 @@ const HomePageIntro = ({ title }) => {
                       <AccountCircle />
                     </IconButton>
                     <p style={{ color: "#0A0A0A", cursor: "pointer" }}>
-                      {userjsondata ? userjsondata.name : user.name}
+                      {userjsondata ? userjsondata?.name.split(" ")[0] : user.name}
                     </p>
                   </Box>
                   <Box sx={{ display: { xs: "flex", md: "none" } }}>
