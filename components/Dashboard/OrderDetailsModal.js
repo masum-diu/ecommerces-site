@@ -49,7 +49,7 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
       console.log("Error:", error);
     }
   };
-  console.log("your log output", data);
+  console.log("modal data", data);
   return (
     <>
       <Dialog
@@ -119,7 +119,7 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                         variant="outlined"
                         size="small"
                         disabled={
-                          row.is_claim_refund === 0 && row.is_refunded === 0
+                          row.is_claim_refund === 0 && row.is_refunded === 0 && data.payment_status===1
                             ? false
                             : true
                         }

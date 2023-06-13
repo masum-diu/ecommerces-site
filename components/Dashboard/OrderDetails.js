@@ -61,6 +61,7 @@ const OrderDetails = () => {
     }
   }, [data, isLoading, isFetching, isSuccess, isError, error]);
 
+  console.log("demo data", response);
   useEffect(() => {
     if (isCancelSuccess) {
       setCancelResponse(cancelResponse?.data);
@@ -74,23 +75,6 @@ const OrderDetails = () => {
     return <Loader></Loader>;
   }
   const handleCancel = (order_id, token) => {
-    /* instance
-      .post(
-        `order/cancel`,
-        { order_id: order_id },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("acesstoken"),
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      )
-      .then((result) => {
-        console.log("your log output", result);
-      })
-      .catch((err) => {}); */
-
     cancelOrder({ order_id, token });
   };
   const handleRefund = (order_id, token) => {
@@ -109,9 +93,9 @@ const OrderDetails = () => {
       .then((result) => {
         console.log("your log output", result);
       })
-      .catch((err) => {}); */
+      .catch((err) => {});
 
-    refundRequest({ order_id, token });
+    refundRequest({ order_id, token }); */
   };
 
   const handleViewOrder = (data) => {
@@ -150,6 +134,9 @@ const OrderDetails = () => {
                   Refund
                 </TableCell> */}
                 <TableCell className="bold" align="center">
+                  Order Cancel
+                </TableCell>
+                <TableCell className="bold" align="center">
                   Order Details
                 </TableCell>
               </TableRow>
@@ -170,7 +157,7 @@ const OrderDetails = () => {
                     <TableCell className="SemiBold">
                       {orderInfo?.payment_status ? "Paid" : "Unpaid"}
                     </TableCell>
-                    {/* <TableCell className="SemiBold" align="center">
+                    <TableCell className="SemiBold" align="center">
                       <Button
                         onClick={() => handleCancel(orderInfo?.id, token)}
                         disabled={orderInfo?.status === 0 ? true : false}
@@ -180,7 +167,7 @@ const OrderDetails = () => {
                         Cancel
                       </Button>
                     </TableCell>
-                    <TableCell className="SemiBold" align="center">
+                    {/* <TableCell className="SemiBold" align="center">
                       <Button
                         onClick={() => handleRefund(orderInfo?.id, token)}
                         disabled={
@@ -196,7 +183,6 @@ const OrderDetails = () => {
                         Refund
                       </Button>
                     </TableCell> */}
-                    {console.log("your log output", orderInfo)}
                     <TableCell className="SemiBold" align="center">
                       <Button
                         onClick={() => handleViewOrder(orderInfo)}

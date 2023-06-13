@@ -174,7 +174,7 @@ export const productApi = createApi({
         body: {
           data: data,
           cart: cart,
-          backUri:backUri,
+          backUri: backUri,
           totalPrice: subTotal,
           totalPriceWithTax: totalPriceWithTax,
           finalPrice: finalPriceOfOrder,
@@ -218,6 +218,20 @@ export const productApi = createApi({
         },
       }),
     }),
+    socialUserCreation: builder.mutation({
+      query: ({ email, name }) => ({
+        url: `/social/login`,
+        method: "POST",
+        body: {
+          email: email,
+          name: name,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      }),
+    }),
   }),
 });
 
@@ -248,4 +262,5 @@ export const {
   usePostGuestOrderMutation,
   usePostAdditionalInfoMutation,
   usePasswordResetRequestMutation,
+  useSocialUserCreationMutation,
 } = productApi;

@@ -23,6 +23,8 @@ import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
 import { signIn, useSession } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
+import { useSocialUserCreationMutation } from "../src/features/api/apiSlice";
+import Loader from "./Loader/Loader";
 
 const LoginModal = ({ open, setOpen }) => {
   const {
@@ -44,10 +46,39 @@ const LoginModal = ({ open, setOpen }) => {
   const { data: session } = useSession();
   const [openGuestCheckoutModalOpen, setGuestCheckoutModalOpen] =
     useState(false);
+  const [socialUserCreation, { data, isLoading, isSuccess, isError, error }] =
+    useSocialUserCreationMutation();
   const router = useRouter();
   console.log("your log session", session);
   const dispatch = useDispatch();
+  useEffect(() => {
+    const isUser = localStorage.getItem("acesstoken");
+    if (session && !isUser) {
+      const email = session.user.email;
+      const name = session.user.name;
+      console.log("user session email", email);
+      try {
+        const userCreationResponse = socialUserCreation({ email, name });
+        if (isSuccess) {
+          console.log("isnide data for you");
+          localStorage.setItem("acesstoken", JSON.stringify(data.token));
+          localStorage.setItem("user", JSON.stringify(data.user));
+          setUserData(data);
+          setHasToken(true);
+        }
+      } catch (e) {}
+      /* console.log("sedssiod yosudr", session);
+    console.log("session user", session.user);
+    setUserData(session.user);
+    localStorage.setItem("user", JSON.stringify(session.user)); */
+    } else {
+      console.log("session data is cleared");
+    }
+  }, [data, isSuccess,isError,isLoading]);
 
+  if (isLoading) {
+    <Loader></Loader>;
+  }
   const handleclearuser = () => {
     setUserData("");
   };
@@ -108,15 +139,6 @@ const LoginModal = ({ open, setOpen }) => {
       password: "",
     },
   });
-
-  if (session) {
-    /* console.log("sedssiod yosudr", session);
-    console.log("session user", session.user);
-    setUserData(session.user);
-    localStorage.setItem("user", JSON.stringify(session.user)); */
-  } else {
-    console.log("session data is cleared");
-  }
 
   // const password = useWatch({ control, name: "password" });
   const onSubmit = (data) => {
@@ -232,8 +254,8 @@ const LoginModal = ({ open, setOpen }) => {
                     {errors?.password
                       ? errors.password?.message
                       : userdata?.response?.status == 401
-                        ? userdata?.response?.data?.message
-                        : ""}
+                      ? userdata?.response?.data?.message
+                      : ""}
                   </p>
                 </Stack>
 
@@ -253,25 +275,35 @@ const LoginModal = ({ open, setOpen }) => {
                 <Button variant="contained" color="background2" type="submit">
                   Login
                 </Button>
-              
+
                 <Button
                   onClick={() => signIn("google")}
                   variant="outlined"
                   color="background2"
                   className="SemiBold"
-
-                  endIcon={<> <FcGoogle /></>}
-
-                >sign-In with google </Button>
+                  endIcon={
+                    <>
+                      {" "}
+                      <FcGoogle />
+                    </>
+                  }
+                >
+                  sign-In with google{" "}
+                </Button>
                 <Button
                   onClick={() => signIn("facebook")}
                   variant="outlined"
                   color="background2"
                   className="SemiBold"
-
-                  endIcon={<> <BsFacebook style={{color:"#1877F2"}} /></>}
-
-                >sign-In with facebook </Button>
+                  endIcon={
+                    <>
+                      {" "}
+                      <BsFacebook style={{ color: "#1877F2" }} />
+                    </>
+                  }
+                >
+                  sign-In with facebook{" "}
+                </Button>
                 {/* <button onClick={() => signIn("google")}>Sign in with Google</button> */}
                 <Typography
                   variant="cardHeader12"
@@ -310,7 +342,7 @@ const LoginModal = ({ open, setOpen }) => {
       <GuestCheckout
         open={openGuestCheckoutModalOpen}
         setOpen={setGuestCheckoutModalOpen}
-      // setIsGuestCheckout={setIsGuestCheckout}
+        // setIsGuestCheckout={setIsGuestCheckout}
       ></GuestCheckout>
     </>
   );

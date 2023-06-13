@@ -75,11 +75,14 @@ const HomePageIntro = ({ title }) => {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-  const handelogout = () => {
+  const handelogout = async () => {
     localStorage.clear();
     setUser("");
     setAnchorEl(null);
     router.push("/shop");
+    await signOut({ callbackUrl: "/shop" });
+    await localStorage.removeItem("user");
+    await localStorage.removeItem("acesstoken");
     handleMobileMenuClose();
     setHasToken(false);
   };
@@ -259,32 +262,27 @@ const HomePageIntro = ({ title }) => {
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
             <Box ml={userjsondata?.name ? { xl: 35, lg: 35 } : 30}>
-              <Stack
-              direction={"row"}
-              spacing={5}
-              mt={1}
-            >
-              <Typography
-                className={style.menu3}
-                sx={{ cursor: "pointer" }}
-                variant="homeFlash"
-                color="initial"
-                onClick={() => router.push("/shop")}
-              >
-                <li>SHOP</li>
-              </Typography>
-              <Typography
-                className={style.menu3}
-                sx={{ cursor: "pointer" }}
-                variant="homeFlash"
-                color="initial"
-                onClick={() => router.push("/story")}
-              >
-                <li>STORY</li>
-              </Typography>
-            </Stack></Box>
-
-
+              <Stack direction={"row"} spacing={5} mt={1}>
+                <Typography
+                  className={style.menu3}
+                  sx={{ cursor: "pointer" }}
+                  variant="homeFlash"
+                  color="initial"
+                  onClick={() => router.push("/shop")}
+                >
+                  <li>SHOP</li>
+                </Typography>
+                <Typography
+                  className={style.menu3}
+                  sx={{ cursor: "pointer" }}
+                  variant="homeFlash"
+                  color="initial"
+                  onClick={() => router.push("/story")}
+                >
+                  <li>STORY</li>
+                </Typography>
+              </Stack>
+            </Box>
 
             <Stack direction={"row"} alignItems="center" spacing={2} mt={1}>
               <IconButton aria-label="" onClick={() => setSearchModal(true)}>
@@ -330,7 +328,9 @@ const HomePageIntro = ({ title }) => {
                       <AccountCircle />
                     </IconButton>
                     <p style={{ color: "#0A0A0A", cursor: "pointer" }}>
-                      {userjsondata ? userjsondata?.name.split(" ")[0] : user.name}
+                      {userjsondata
+                        ? userjsondata?.name.split(" ")[0]
+                        : user.name}
                     </p>
                   </Box>
                   <Box sx={{ display: { xs: "flex", md: "none" } }}>
