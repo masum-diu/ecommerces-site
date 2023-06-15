@@ -75,6 +75,9 @@ export const productApi = createApi({
         trailing: true,
       },
     }),
+    getShippingCharge: builder.query({
+      query: () => `/shipping-charge`,
+    }),
     getOrderDetails: builder.query({
       query: (token) => ({
         url: `/order`,
@@ -101,7 +104,7 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Orders"],
     }),
-    getRefundOrder: builder.mutation({
+    postRefundOrder: builder.mutation({
       query: ({ item_id, order_id, token }) => ({
         url: `order-item-cliam-refund`,
         method: "POST",
@@ -254,9 +257,10 @@ export const {
   useGetFabricWiseFilteredProductsQuery,
   useGetFabricWiseFilteredProductsWithOutSubQuery,
   useLazyGetCategoryAndSubWiseProductsQuery,
+  useGetShippingChargeQuery,
   useGetOrderDetailsQuery,
   useCancelOrderMutation,
-  useGetRefundOrderMutation,
+  usePostRefundOrderMutation,
   useGetMatchedWithProductQuery,
   usePostUserOrderMutation,
   usePostGuestOrderMutation,

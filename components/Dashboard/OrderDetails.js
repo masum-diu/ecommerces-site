@@ -14,8 +14,7 @@ import {
 import {
   useCancelOrderMutation,
   useGetOrderDetailsQuery,
-  useGetRefundOrderMutation,
-  useGetRefundOrderQuery,
+  usePostRefundOrderMutation,
 } from "../../src/features/api/apiSlice";
 import Loader from "../Loader/Loader";
 import instance from "../../pages/api/api_instance";
@@ -49,7 +48,7 @@ const OrderDetails = () => {
       isError: isRefundError,
       isSuccess: isRefundSuccess,
     },
-  ] = useGetRefundOrderMutation();
+  ] = usePostRefundOrderMutation();
   useEffect(() => {
     const token = localStorage.getItem("acesstoken");
     setToken(token);
@@ -61,7 +60,6 @@ const OrderDetails = () => {
     }
   }, [data, isLoading, isFetching, isSuccess, isError, error]);
 
-  console.log("demo data", response);
   useEffect(() => {
     if (isCancelSuccess) {
       setCancelResponse(cancelResponse?.data);

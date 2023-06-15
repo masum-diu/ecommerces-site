@@ -47,21 +47,18 @@ const LoginModal = ({ open, setOpen }) => {
   const [openGuestCheckoutModalOpen, setGuestCheckoutModalOpen] =
     useState(false);
   const [socialUserCreation, { data, isLoading, isSuccess, isError, error }] =
-    useSocialUserCreationMutation();
+    useSocialUserCreationMutation({ skip: session });
   const router = useRouter();
-  console.log("your log session", session);
   const dispatch = useDispatch();
   useEffect(() => {
     const isUser = localStorage.getItem("acesstoken");
-    if (session && !isUser) {
+    if (session && !isUser && !hasToken) {
       const email = session.user.email;
       const name = session.user.name;
-      console.log("user session email", email);
       try {
         const userCreationResponse = socialUserCreation({ email, name });
         if (isSuccess) {
-          console.log("isnide data for you");
-          localStorage.setItem("acesstoken", JSON.stringify(data.token));
+          localStorage.setItem("acesstoken", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
           setUserData(data);
           setHasToken(true);
@@ -72,9 +69,8 @@ const LoginModal = ({ open, setOpen }) => {
     setUserData(session.user);
     localStorage.setItem("user", JSON.stringify(session.user)); */
     } else {
-      console.log("session data is cleared");
     }
-  }, [data, isSuccess,isError,isLoading]);
+  }, [data, isSuccess, isError, isLoading]);
 
   if (isLoading) {
     <Loader></Loader>;

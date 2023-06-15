@@ -22,6 +22,7 @@ import { usePostAdditionalInfoMutation } from "../../src/features/api/apiSlice";
 import { useEffect } from "react";
 import Loader from "../Loader/Loader";
 import USER_CONTEXT from "../userContext";
+import { toast } from "react-hot-toast";
 const Profile = () => {
   const [useUpdateProfile, { data, isLoading, isError, isSuccess, error }] =
     usePostAdditionalInfoMutation();
@@ -56,10 +57,13 @@ const Profile = () => {
     if (isSuccess && data) {
       localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify(data.user));
-      setUser(data.user)
+      setUser(data.user);
+      toast.success("User information updated successfully");
+    }
+    if (isError) {
+      toast.error("Something went wrong!");
     }
   }, [isSuccess]);
-  console.log('your log output',data,user)
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -72,7 +76,7 @@ const Profile = () => {
       console.log("post request failed", error);
     }
   };
-  
+
   return (
     <>
       <Box>
@@ -128,7 +132,7 @@ const Profile = () => {
                   color="initial"
                   className="SemiBold"
                 >
-                  {userjsondata?userjsondata?.name:user?.name}
+                  {userjsondata ? userjsondata?.name : user?.name}
                 </Typography>
               </Stack>
               <Divider />
@@ -145,7 +149,7 @@ const Profile = () => {
                   color="initial"
                   className="SemiBold"
                 >
-                  {userjsondata?userjsondata?.first_name:user?.first_name}
+                  {userjsondata ? userjsondata?.first_name : user?.first_name}
                 </Typography>
               </Stack>
               <Divider />
@@ -163,7 +167,7 @@ const Profile = () => {
                   className="SemiBold"
                 >
                   {/* {userjsondata?.email} */}
-                  {userjsondata?userjsondata?.email:user?.email}
+                  {userjsondata ? userjsondata?.email : user?.email}
                 </Typography>
               </Stack>
               <Divider />
@@ -181,7 +185,7 @@ const Profile = () => {
                   className="SemiBold"
                 >
                   {/* {userjsondata?.address} */}
-                  {userjsondata?userjsondata?.address:user?.address}
+                  {userjsondata ? userjsondata?.address : user?.address}
                 </Typography>
               </Stack>
               <Divider />
@@ -199,7 +203,7 @@ const Profile = () => {
                   className="SemiBold"
                 >
                   {/* {userjsondata?.phone} */}
-                  {userjsondata?userjsondata?.phone:user?.phone}
+                  {userjsondata ? userjsondata?.phone : user?.phone}
                 </Typography>
               </Stack>
               <Divider />
@@ -217,7 +221,9 @@ const Profile = () => {
                   className="SemiBold"
                 >
                   {/* {userjsondata?.date_of_birth} */}
-                  {userjsondata?userjsondata?.date_of_birth:user?.date_of_birth}
+                  {userjsondata
+                    ? userjsondata?.date_of_birth
+                    : user?.date_of_birth}
                 </Typography>
               </Stack>
               <Divider />
@@ -235,7 +241,7 @@ const Profile = () => {
                   className="SemiBold"
                 >
                   {/* {userjsondata?.gender} */}
-                  {userjsondata?userjsondata?.gender:user?.gender}
+                  {userjsondata ? userjsondata?.gender : user?.gender}
                 </Typography>
               </Stack>
               <Divider />
@@ -253,7 +259,7 @@ const Profile = () => {
                   className="SemiBold"
                 >
                   {/* {userjsondata?.occupation} */}
-                  {userjsondata?userjsondata?.occupation:user?.occupation}
+                  {userjsondata ? userjsondata?.occupation : user?.occupation}
                 </Typography>
               </Stack>
             </Stack>

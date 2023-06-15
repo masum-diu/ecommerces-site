@@ -18,15 +18,12 @@ import {
 import { MdClose } from "react-icons/md";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useGetRefundOrderMutation } from "../../src/features/api/apiSlice";
+import { usePostRefundOrderMutation } from "../../src/features/api/apiSlice";
 import instance from "../../pages/api/api_instance";
+import Loader from "../Loader/Loader";
+import { toast } from "react-hot-toast";
 
 const OrderDetailsModal = ({ open, setOpen, data, token }) => {
-  // console.log("your log output", data);
-  const [row, setRow] = useState([]);
-  const [responseData, setResponseData] = useState({});
-  const router = useRouter();
-  // console.log("your log output", data);
   const [
     refundRequest,
     {
@@ -36,25 +33,38 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
       isSuccess: isRefundSuccess,
       error: isRefundErrorData,
     },
-  ] = useGetRefundOrderMutation();
+  ] = usePostRefundOrderMutation({ refetchOnMountOrArgChange: true });
   const handleClose = () => {
     setOpen(false);
   };
   const handleRefund = async (item_id, order_id, token) => {
-    try {
-      const response = await refundRequest({ item_id, order_id, token });
-      setResponseData(response.data);
-      // console.log("your log output", response);
-    } catch (error) {
-      console.log("Error:", error);
+    const selectedProduct = data?.order_detail?.find(
+      (element) => element.id === item_id
+    );
+    const response = await refundRequest({ item_id, order_id, token });
+    if (response?.data?.status === "success") {
+      toast.success("Refund request has been granted!");
+      setOpen(false);
     }
   };
-  console.log("modal data", data);
+  /* useEffect(() => {
+    const selectedProduct = data?.order_detail?.find(
+      (element) => element?.id === selectedProductId
+    );
+    setRefundState(selectedProduct?.is_claim_refund);
+  }, [data, selectedProductId]); */
+
+  const dialogCloseHandler = () => {
+    setOpen(false);
+  };
+  if (refundLoading) {
+    return <Loader></Loader>;
+  }
   return (
     <>
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => dialogCloseHandler()}
         maxWidth="md"
         PaperProps={{
           sx: { width: { lg: "50%", xs: "100vw" }, height: "fit-content" },
@@ -89,7 +99,9 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                   <TableCell align="center">U.Price</TableCell>
                   <TableCell align="center">QTY</TableCell>
                   <TableCell align="center">Tax</TableCell>
-                  <TableCell align="center">T.Price</TableCell>
+                  <TableCell align="center">
+                    T.Price <small>(With tax)</small>
+                  </TableCell>
                   <TableCell align="center">Refund</TableCell>
                 </TableRow>
               </TableHead>
@@ -109,7 +121,7 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                       {Math.ceil(row?.vat_amount)}
                     </TableCell>
                     <TableCell align="center">
-                      {row?.total_selling_price}
+                      {row?.total_selling_price + Math.ceil(row?.vat_amount)}
                     </TableCell>
                     <TableCell align="center">
                       <Button
@@ -119,7 +131,9 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                         variant="outlined"
                         size="small"
                         disabled={
-                          row.is_claim_refund === 0 && row.is_refunded === 0 && data.payment_status===1
+                          row.is_claim_refund === 0 &&
+                          row.is_refunded === 0 &&
+                          data.payment_status === 1
                             ? false
                             : true
                         }

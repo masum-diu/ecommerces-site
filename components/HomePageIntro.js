@@ -81,8 +81,8 @@ const HomePageIntro = ({ title }) => {
     setAnchorEl(null);
     router.push("/shop");
     await signOut({ callbackUrl: "/shop" });
-    await localStorage.removeItem("user");
-    await localStorage.removeItem("acesstoken");
+    localStorage.removeItem("user");
+    localStorage.removeItem("acesstoken");
     handleMobileMenuClose();
     setHasToken(false);
   };

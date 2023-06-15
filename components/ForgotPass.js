@@ -18,14 +18,15 @@ import instance from "../pages/api/api_instance";
 import USER_CONTEXT from "./userContext";
 import { useState } from "react";
 import { useEffect } from "react";
+import Loader from "./Loader/Loader";
+import { toast } from "react-hot-toast";
 
 const ForgotPass = ({ open, setOpen }) => {
   const { isPlaceOrder, setIsPlaceOrder } = useContext(USER_CONTEXT);
   const [host, setHost] = useState("");
-
+  const [mailSendResponse, setMailSendResponse] = useState({});
   useEffect(() => {
     const host = location.host;
-    console.log("sdsdf", host);
     if (host === "localhost:3000") {
       setHost("http://localhost:3000");
     }
@@ -33,6 +34,14 @@ const ForgotPass = ({ open, setOpen }) => {
       setHost("https://staging.aranya.com.bd");
     }
   }, [host]);
+  useEffect(() => {
+    if (mailSendResponse?.data?.status === "success") {
+      toast.success("An email has been sent to you email address.");
+    }
+    if (mailSendResponse?.data?.status === "error") {
+      toast.success("Something went wrong!");
+    }
+  }, [mailSendResponse]);
   const {
     register,
     handleSubmit,
@@ -47,9 +56,9 @@ const ForgotPass = ({ open, setOpen }) => {
     setOpen(false);
     setIsPlaceOrder(false);
   };
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const email = data.email;
-    instance
+    await instance
       .post(
         "/user-password-email-reset-link",
         { email: email, backUri: host },
@@ -59,7 +68,9 @@ const ForgotPass = ({ open, setOpen }) => {
           },
         }
       )
-      .then(async (result) => {})
+      .then((result) => {
+        setMailSendResponse(result);
+      })
       .catch((err) => {});
     setOpen(false);
   };
