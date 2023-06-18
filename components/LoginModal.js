@@ -52,6 +52,7 @@ const LoginModal = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     const isUser = localStorage.getItem("acesstoken");
+    console.log("your session", session);
     if (session && !isUser && !hasToken) {
       const email = session.user.email;
       const name = session.user.name;
@@ -122,6 +123,12 @@ const LoginModal = ({ open, setOpen }) => {
     setIsProceedCheckout(false);
     router.push("/checkout");
   };
+  /* const handleGoogleSignIn = async () => {
+    await signIn("google", {
+      redirect: true,
+      callbackUrl: "http://127.0.0.1:3000/user/dashboard",
+    });
+  }; */
   const {
     register,
     handleSubmit,
@@ -273,7 +280,11 @@ const LoginModal = ({ open, setOpen }) => {
                 </Button>
 
                 <Button
-                  onClick={() => signIn("google")}
+                  onClick={() =>
+                    signIn("google", {
+                      redirect: true,
+                    })
+                  }
                   variant="outlined"
                   color="background2"
                   className="SemiBold"
@@ -287,7 +298,11 @@ const LoginModal = ({ open, setOpen }) => {
                   sign-In with google{" "}
                 </Button>
                 <Button
-                  onClick={() => signIn("facebook")}
+                  onClick={() =>
+                    signIn("facebook", {
+                      redirect: true,
+                    })
+                  }
                   variant="outlined"
                   color="background2"
                   className="SemiBold"

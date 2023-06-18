@@ -25,6 +25,7 @@ const OrderDetails = () => {
   const [info, setInfo] = useState([]);
   const [response, setCancelResponse] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [selectedOrderId, setSelectedOrderId] = useState({});
   const [openDetailsModal, setDetailsModal] = useState(false);
   const { data, isLoading, isFetching, isSuccess, isError, error } =
     useGetOrderDetailsQuery(token, {
@@ -40,20 +41,16 @@ const OrderDetails = () => {
       isSuccess: isCancelSuccess,
     },
   ] = useCancelOrderMutation();
-  const [
-    refundRequest,
-    {
-      data: refundResponse,
-      isLoading: refundLoading,
-      isError: isRefundError,
-      isSuccess: isRefundSuccess,
-    },
-  ] = usePostRefundOrderMutation();
   useEffect(() => {
     const token = localStorage.getItem("acesstoken");
     setToken(token);
   }, [token]);
-
+  useEffect(() => {
+    const selectedOrder = info?.find(
+      (element) => element?.order_id === selectedOrderId
+    );
+    setSelectedProduct(selectedOrder);
+  }, [info, selectedOrderId]);
   useEffect(() => {
     if (isSuccess) {
       setInfo(data?.data);
@@ -75,28 +72,9 @@ const OrderDetails = () => {
   const handleCancel = (order_id, token) => {
     cancelOrder({ order_id, token });
   };
-  const handleRefund = (order_id, token) => {
-    /* instance
-      .post(
-        `order/cancel`,
-        { order_id: order_id },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("acesstoken"),
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      )
-      .then((result) => {
-        console.log("your log output", result);
-      })
-      .catch((err) => {});
 
-    refundRequest({ order_id, token }); */
-  };
-
-  const handleViewOrder = (data) => {
+  const handleViewOrder = (data, order_id) => {
+    setSelectedOrderId(order_id);
     setSelectedProduct(data);
     setDetailsModal(true);
   };
@@ -183,7 +161,9 @@ const OrderDetails = () => {
                     </TableCell> */}
                     <TableCell className="SemiBold" align="center">
                       <Button
-                        onClick={() => handleViewOrder(orderInfo)}
+                        onClick={() =>
+                          handleViewOrder(orderInfo, orderInfo?.order_id)
+                        }
                         variant="outlined"
                         size="small"
                       >
@@ -202,6 +182,7 @@ const OrderDetails = () => {
         setOpen={setDetailsModal}
         token={token}
         data={selectedProduct}
+        setSelectedProduct={setSelectedProduct}
       ></OrderDetailsModal>
     </>
   );

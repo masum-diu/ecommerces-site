@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,14 +16,20 @@ import {
   TableRow,
 } from "@mui/material";
 import { MdClose } from "react-icons/md";
-import { useState } from "react";
-import { useRouter } from "next/router";
 import { usePostRefundOrderMutation } from "../../src/features/api/apiSlice";
-import instance from "../../pages/api/api_instance";
 import Loader from "../Loader/Loader";
 import { toast } from "react-hot-toast";
 
-const OrderDetailsModal = ({ open, setOpen, data, token }) => {
+const OrderDetailsModal = ({
+  open,
+  setOpen,
+  data,
+  token,
+  setSelectedProduct,
+}) => {
+  useEffect(() => {
+    setSelectedProduct(data);
+  }, [data]);
   const [
     refundRequest,
     {
@@ -44,15 +50,11 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
     const response = await refundRequest({ item_id, order_id, token });
     if (response?.data?.status === "success") {
       toast.success("Refund request has been granted!");
-      setOpen(false);
+    }
+    if (response?.error) {
+      toast.error("Something went wrong!");
     }
   };
-  /* useEffect(() => {
-    const selectedProduct = data?.order_detail?.find(
-      (element) => element?.id === selectedProductId
-    );
-    setRefundState(selectedProduct?.is_claim_refund);
-  }, [data, selectedProductId]); */
 
   const dialogCloseHandler = () => {
     setOpen(false);

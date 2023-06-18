@@ -14,5 +14,8 @@ export const authOptions = {
     }),
   ],
   secret: "asdfasdfasfasdfhjskdhfsfjsdjfssidf",
+  session: {
+    strategy: "jwt",
+  },
 };
 export default NextAuth(authOptions);

@@ -499,9 +499,7 @@ const checkout = ({ someProp }) => {
         phoneBillingSh,
         emailBillingSh,
         paymentMethod,
-        termsAndCondition,
-        Object.keys(errors).length,
-        errors
+        termsAndCondition
       );
       if (
         firstName &&
@@ -519,8 +517,7 @@ const checkout = ({ someProp }) => {
         phoneBillingSh &&
         emailBillingSh &&
         paymentMethod &&
-        termsAndCondition &&
-        Object.keys(errors).length === 0
+        termsAndCondition
       ) {
         setEnable(false);
       }
