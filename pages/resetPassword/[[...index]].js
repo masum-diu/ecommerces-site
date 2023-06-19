@@ -74,7 +74,6 @@ const resetPassword = () => {
   };
   const token = router?.query?.token;
   const onSubmit = async (data) => {
-    console.log(data.new_password);
     const password = data.new_password;
     try {
       const response = await passwordResetRequest({

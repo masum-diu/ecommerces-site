@@ -69,7 +69,6 @@ const Profile = () => {
   }
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const response = await useUpdateProfile({ data, token });
     } catch (error) {

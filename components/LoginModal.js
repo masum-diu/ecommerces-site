@@ -49,6 +49,8 @@ const LoginModal = ({ open, setOpen }) => {
   const [signInWithGoogle, googleUser, googleLoading, googleError] =
     useSignInWithGoogle(auth);
   const [signOut] = useSignOut(auth);
+  const [googleUserData, setGoogleUserData] = useState();
+  const [facebookUserData, setFacebookUserData] = useState();
   const { errormessage, setErrormessage } = useState("");
   const [errorState, setErrorState] = useState(false);
   const [signModal, setSignModal] = useState(false);
@@ -57,12 +59,13 @@ const LoginModal = ({ open, setOpen }) => {
   const [openGuestCheckoutModalOpen, setGuestCheckoutModalOpen] =
     useState(false);
   const [socialUserCreation, { data, isLoading, isSuccess, isError, error }] =
-    useSocialUserCreationMutation({ skip: !googleUser || !facebookUser });
+    useSocialUserCreationMutation();
   const router = useRouter();
   const dispatch = useDispatch();
+
   useEffect(() => {
     const isUser = localStorage.getItem("acesstoken");
-    console.log("your session", googleUser);
+
     if (googleUser && !isUser && !hasToken) {
       const email = googleUser.user.email;
       const name = googleUser.user.displayName;
@@ -79,20 +82,12 @@ const LoginModal = ({ open, setOpen }) => {
       } catch (e) {}
     } else {
     }
-  }, [
-    data,
-    isSuccess,
-    isError,
-    isLoading,
-    googleUser,
-    googleLoading,
-    googleError,
-  ]);
+  }, [googleUser, isSuccess]);
   useEffect(() => {
     const isUser = localStorage.getItem("acesstoken");
     if (facebookUser && !isUser && !hasToken) {
       const email = facebookUser.user.email;
-      const name = facebookUser.user.name;
+      const name = facebookUser.user.displayName;
       try {
         const userCreationResponse = socialUserCreation({ email, name });
         if (isSuccess) {
@@ -106,15 +101,7 @@ const LoginModal = ({ open, setOpen }) => {
       } catch (e) {}
     } else {
     }
-  }, [
-    data,
-    isSuccess,
-    isError,
-    isLoading,
-    facebookUser,
-    facebookLoading,
-    facebookError,
-  ]);
+  }, [facebookUser, isSuccess]);
 
   useEffect(() => {
     if (googleError || facebookError) {

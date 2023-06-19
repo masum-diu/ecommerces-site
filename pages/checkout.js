@@ -482,25 +482,6 @@ const checkout = ({ someProp }) => {
   useEffect(() => {
     if (isSameAddressChecked === false) {
       setEnable(true);
-      console.log(
-        "your log output",
-        firstName,
-        lastName,
-        streetAddress,
-        cityAddress,
-        country,
-        phoneBilling,
-        emailBilling,
-        firstNameSh,
-        lastNameSh,
-        streetAddressSh,
-        cityAddressSh,
-        countrySh,
-        phoneBillingSh,
-        emailBillingSh,
-        paymentMethod,
-        termsAndCondition
-      );
       if (
         firstName &&
         lastName &&
