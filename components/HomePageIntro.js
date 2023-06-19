@@ -33,8 +33,11 @@ import Menu from "@mui/material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useSelector } from "react-redux";
 import style from "../public/assets/css/HomePageIntro.module.css";
-import { signOut } from "next-auth/react";
+import { useSignOut } from "react-firebase-hooks/auth";
+import auth from "../src/firebase.init";
+import Loader from "./Loader/Loader";
 const HomePageIntro = ({ title }) => {
+  const [signOut, loading] = useSignOut(auth);
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
@@ -80,7 +83,10 @@ const HomePageIntro = ({ title }) => {
     setUser("");
     setAnchorEl(null);
     router.push("/shop");
-    await signOut({ callbackUrl: "/shop" });
+    const success = await signOut();
+    if (success) {
+      router.push("/shop");
+    }
     localStorage.removeItem("user");
     localStorage.removeItem("acesstoken");
     handleMobileMenuClose();
@@ -90,7 +96,9 @@ const HomePageIntro = ({ title }) => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
+  if (loading) {
+    return <Loader></Loader>;
+  }
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu

@@ -61,10 +61,7 @@ export default function MyApp(props) {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <UserProvider>
-              <SessionProvider session={pageProps.session}>
-                <Component {...pageProps} />
-              </SessionProvider>
-
+              <Component {...pageProps} />
               <Toaster />
             </UserProvider>
           </PersistGate>
