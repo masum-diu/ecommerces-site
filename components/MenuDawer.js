@@ -98,6 +98,7 @@ const MenuDawer = ({
     setMakeFabricTrue(false);
     setMakeColorTrue(true);
     setMakePriceTrue(false);
+    setHasMore(true);
   };
   return (
     <>
@@ -217,13 +218,15 @@ const MenuDawer = ({
                 {uniqueColors?.map((color, index) => (
                   <>
                     <Typography
-                      onClick={() => handleColor([color.name, color.id])}
+                      onClick={() =>
+                        handleColor([color?.color_name, color?.id])
+                      }
                       variant="cardHeader3"
                       color="initial"
                       key={index}
                       sx={{ cursor: "pointer" }}
                     >
-                      {color.name}
+                      {color?.color_name}
                     </Typography>
                   </>
                 ))}

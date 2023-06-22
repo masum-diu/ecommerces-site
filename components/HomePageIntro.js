@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
 import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import { FcMenu } from "react-icons/fc";
@@ -36,6 +36,7 @@ import style from "../public/assets/css/HomePageIntro.module.css";
 import { useSignOut } from "react-firebase-hooks/auth";
 import auth from "../src/firebase.init";
 import Loader from "./Loader/Loader";
+import { useGetCategoryAndSubCatListQuery } from "../src/features/api/apiSlice";
 const HomePageIntro = ({ title }) => {
   const [signOut, loading] = useSignOut(auth);
   const [open, setOpen] = useState(false);
@@ -58,7 +59,6 @@ const HomePageIntro = ({ title }) => {
   const totalWishedProduct = useSelector(
     (state) => state?.wishList?.wishList?.length
   );
-
   // Profile section starts here
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);

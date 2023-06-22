@@ -102,7 +102,6 @@ const LoginModal = ({ open, setOpen }) => {
     } else {
     }
   }, [facebookUser, isSuccess]);
-
   useEffect(() => {
     if (googleError || facebookError) {
       setErrorState(true);

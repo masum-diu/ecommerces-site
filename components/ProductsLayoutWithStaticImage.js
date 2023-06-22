@@ -29,10 +29,8 @@ const ProductsLayoutWithStaticImage = ({
           <HovarImage
             url={`${router?.asPath?.split("?")[0]}/${productsDataChunk[0]?.id}`}
             data={productsDataChunk[0]}
-            imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${productsDataChunk[0]?.feature_image
-              ?.split("/")
-              .slice(-3)
-              .join("/")}`}
+            imageURL={`${productsDataChunk[0]?.feature_image
+              }`}
             width={550}
             height={850}
           />
@@ -75,10 +73,8 @@ const ProductsLayoutWithStaticImage = ({
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
-              imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image
-                ?.split("/")
-                .slice(-3)
-                .join("/")}`}
+              imageURL={`${product?.feature_image
+                }`}
               width={568}
               height={827}
             />
@@ -140,10 +136,8 @@ const ProductsLayoutWithStaticImage = ({
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
-              imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_855,w_586/${product?.feature_image
-                ?.split("/")
-                .slice(-3)
-                .join("/")}`}
+              imageURL={`${product?.feature_image
+                }`}
               width={568}
               height={827}
             />

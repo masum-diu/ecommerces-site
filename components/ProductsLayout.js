@@ -25,12 +25,10 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               ?.split("/")
               .slice(-4)
               .join("/")}`} */
-            imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${productsDataChunk[0]?.feature_image
-              ?.split("/")
-              .slice(-3)
-              .join("/")}`}
-            // width={550}
-            // height={850}
+            imageURL={`${productsDataChunk[0]?.feature_image
+              }`}
+            width={550}
+            height={850}
           />
           <Stack
             direction={"row"}
@@ -71,10 +69,8 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
-              imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${product?.feature_image
-                ?.split("/")
-                .slice(-3)
-                .join("/")}`}
+              imageURL={`${product?.feature_image
+                }`}
               
             />
             <Stack
@@ -109,10 +105,8 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
-              imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${product?.feature_image
-                ?.split("/")
-                .slice(-3)
-                .join("/")}`}
+              imageURL={`${product?.feature_image
+                }`}
              
             />
             <Stack
@@ -147,10 +141,8 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
-              imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${product?.feature_image
-                ?.split("/")
-                .slice(-3)
-                .join("/")}`}
+              imageURL={`${product?.feature_image
+                }`}
             
             />
             <Stack

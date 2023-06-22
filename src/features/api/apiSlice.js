@@ -8,6 +8,9 @@ export const productApi = createApi({
   }),
   tagTypes: ["Orders"],
   endpoints: (builder) => ({
+    getCategoryAndSubCatList: builder.query({
+      query: () => "/category-list",
+    }),
     getProducts: builder.query({
       query: () => "/product",
     }),
@@ -35,6 +38,9 @@ export const productApi = createApi({
     }),
     getSubWiseProducts: builder.query({
       query: (sub_cat) => `/category/${sub_cat}`,
+    }),
+    getAttributesList: builder.query({
+      query: (cat) => `/attribute-list/${cat}`,
     }),
     getAttributesOfProducts: builder.query({
       query: (sub_cat) => `category-fabric/${sub_cat}`,
@@ -239,6 +245,7 @@ export const productApi = createApi({
 });
 
 export const {
+  useGetCategoryAndSubCatListQuery,
   useGetProductsQuery,
   useGetParticularProductsQuery,
   useGetHomePageProductsQuery,
@@ -248,6 +255,7 @@ export const {
   useGetCategoryAndSubWiseProductsQuery,
   useGetCategoryWiseProductsQuery,
   useGetSubWiseProductsQuery,
+  useGetAttributesListQuery,
   useGetAttributesOfProductsQuery,
   useGetColorWiseFilteredProductsQuery,
   useGetColorWiseFilteredProductsWithOutSubQuery,
