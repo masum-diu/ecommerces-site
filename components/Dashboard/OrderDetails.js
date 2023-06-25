@@ -19,10 +19,12 @@ import {
 import Loader from "../Loader/Loader";
 import instance from "../../pages/api/api_instance";
 import OrderDetailsModal from "./OrderDetailsModal";
+import { toast } from "react-hot-toast";
 
 const OrderDetails = () => {
   const [token, setToken] = useState("");
   const [info, setInfo] = useState([]);
+  const [isCanceled, setIsCanceled] = useState(false);
   const [response, setCancelResponse] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [selectedOrderId, setSelectedOrderId] = useState({});
@@ -39,6 +41,7 @@ const OrderDetails = () => {
       isLoading: cancelLoading,
       isError: cancelError,
       isSuccess: isCancelSuccess,
+      error: isCancelError,
     },
   ] = useCancelOrderMutation();
   useEffect(() => {
@@ -56,23 +59,28 @@ const OrderDetails = () => {
       setInfo(data?.data);
     }
   }, [data, isLoading, isFetching, isSuccess, isError, error]);
-
   useEffect(() => {
     if (isCancelSuccess) {
       setCancelResponse(cancelResponse?.data);
     }
   }, [isCancelSuccess]);
-
+  console.log("response", response);
   if (cancelLoading) {
     return <Loader></Loader>;
   }
   if (isLoading || isFetching) {
     return <Loader></Loader>;
   }
-  const handleCancel = (order_id, token) => {
-    cancelOrder({ order_id, token });
+  const handleCancel = async (order_id, token) => {
+    const response = await cancelOrder({ order_id, token });
+    if (response?.data?.status === "success") {
+      toast.success(response?.data?.message);
+      setIsCanceled(true);
+    }
+    if (response?.data?.status === "error") {
+      toast.error(response?.data?.message);
+    }
   };
-
   const handleViewOrder = (data, order_id) => {
     setSelectedOrderId(order_id);
     setSelectedProduct(data);
@@ -183,6 +191,7 @@ const OrderDetails = () => {
         token={token}
         data={selectedProduct}
         setSelectedProduct={setSelectedProduct}
+        isCanceled={isCanceled}
       ></OrderDetailsModal>
     </>
   );

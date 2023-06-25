@@ -1344,6 +1344,24 @@ const checkout = ({ someProp }) => {
                         color="initial"
                         className="bold"
                       >
+                        Fragile Surcharge :
+                      </Typography>
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                        sx={{ marginLeft: "72px!important" }}
+                      >
+                        BDT {Math.ceil(totalPriceWithTax - subTotal)}
+                      </Typography>
+                    </Stack>
+                    <Divider />
+                    <Stack direction={"row"} spacing={7} width="100%">
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                      >
                         TAX :
                       </Typography>
                       <Typography

@@ -262,8 +262,8 @@ const MenuDawer = ({
                 <Slider
                   size="small"
                   min={0}
-                  step={1}
-                  max={10000}
+                  step={50}
+                  max={100000}
                   value={rangeValue}
                   onChange={(event, newValue) => handleChange(event, newValue)}
                   sx={{ color: "#2D323F" }}

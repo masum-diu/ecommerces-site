@@ -319,10 +319,8 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.feature_image}
-                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,w_500,h_750/${products?.p_image_one
-                  ?.split("/")
-                  .slice(-3)
-                  .join("/")}`}
+                src={`${products?.p_image_one
+                  }`}
                 alt=""
                 style={{
                   width: "100%",
@@ -342,10 +340,8 @@ const PorductDetails = () => {
                     })
                   }
                   // src={products?.p_image_one}
-                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,w_250/${products?.p_image_two
-                    ?.split("/")
-                    .slice(-3)
-                    .join("/")}`}
+                  src={`${products?.p_image_two
+                    }`}
                   alt=""
                   style={{
                     width: "100%",
@@ -365,10 +361,8 @@ const PorductDetails = () => {
                     })
                   }
                   // src={products?.p_image_two}
-                  src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,w_250/${products?.p_image_three
-                    ?.split("/")
-                    .slice(-3)
-                    .join("/")}`}
+                  src={`${products?.p_image_three
+                    }`}
                   alt=""
                   style={{
                     width: "100%",
@@ -389,10 +383,8 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.p_image_three}
-                src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,w_500,h_750/${products?.p_image_four
-                  ?.split("/")
-                  .slice(-3)
-                  .join("/")}`}
+                src={`${products?.p_image_four
+                  }`}
                 alt=""
                 style={{
                   width: "100%",
@@ -1047,10 +1039,8 @@ const PorductDetails = () => {
                         : data?.p_subcategory?.slug
                     }/${data?.id}`}
                     data={data}
-                    imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
-                      ?.split("/")
-                      .slice(-3)
-                      .join("/")}`}
+                    imageURL={`${data?.feature_image
+                      }`}
                    
                   ></HovarImage>
                   {/* <img src={data?.feature_image} alt="" width={385} /> */}
@@ -1877,10 +1867,8 @@ const PorductDetails = () => {
                       : data?.p_subcategory?.slug
                   }/${data?.id}`}
                   data={data}
-                  imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
-                    ?.split("/")
-                    .slice(-3)
-                    .join("/")}`}
+                  imageURL={`${data?.feature_image
+                    }`}
                  
                 ></HovarImage>
                 {/* <img src={data?.feature_image} alt="" width={385} /> */}

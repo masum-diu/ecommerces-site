@@ -86,7 +86,7 @@ const masterCollectionLayout = () => {
   const [fabricID, setFabricID] = useState(0);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
-  const [rangeValue, setValue] = useState([0, 10000]);
+  const [rangeValue, setValue] = useState([0, 100000]);
   const dataFetchedRef = useRef(false);
   const [priceSelected, setPriceSelected] = useState(false);
   const [totalProducts, setTotalProducts] = useState(0);

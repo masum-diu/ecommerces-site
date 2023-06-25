@@ -26,6 +26,7 @@ const OrderDetailsModal = ({
   data,
   token,
   setSelectedProduct,
+  isCanceled,
 }) => {
   useEffect(() => {
     setSelectedProduct(data);
@@ -51,11 +52,10 @@ const OrderDetailsModal = ({
     if (response?.data?.status === "success") {
       toast.success("Refund request has been granted!");
     }
-    if (response?.error) {
-      toast.error("Something went wrong!");
+    if (response?.data?.status === "error") {
+      toast.error(response?.data?.message);
     }
   };
-
   const dialogCloseHandler = () => {
     setOpen(false);
   };
@@ -110,7 +110,7 @@ const OrderDetailsModal = ({
               <TableBody>
                 {data?.order_detail?.map((row, index) => (
                   <TableRow
-                    key={row.name}
+                    key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell align="left">{index + 1}</TableCell>
@@ -135,7 +135,8 @@ const OrderDetailsModal = ({
                         disabled={
                           row.is_claim_refund === 0 &&
                           row.is_refunded === 0 &&
-                          data.payment_status === 1
+                          data.payment_status === 1 &&
+                          isCanceled === false
                             ? false
                             : true
                         }

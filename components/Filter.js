@@ -263,7 +263,7 @@ const Filter = ({
                   size="small"
                   min={0}
                   step={50}
-                  max={10000}
+                  max={100000}
                   value={rangeValue}
                   onChange={(event, newValue) => handleChange(event, newValue)}
                   sx={{ color: "#2D323F" }}
