@@ -47,7 +47,6 @@ import auth from "../src/firebase.init";
 
 const SiderBar = ({ open, setOpen }) => {
   const [categoryAndSubCatList, setCatAndSubCatList] = useState([]);
-  console.log("demo data", categoryAndSubCatList);
   const [signOut, loading] = useSignOut(auth);
   const {
     data: catAndSubCatList,
@@ -116,7 +115,7 @@ const SiderBar = ({ open, setOpen }) => {
     setModalOpen(false);
     setHasToken(false);
   };
-  const handleClick = (id) => {
+  const handleClick = (id, hasChild, cat_id, slug) => {
     if (list === id) {
       // If the clicked category is already open, collapse it
       setList(null);
@@ -125,6 +124,20 @@ const SiderBar = ({ open, setOpen }) => {
       // If a different category is clicked, expand it
       setList(id);
       setArrowList(id);
+    }
+    if (hasChild === 0) {
+      router.push(
+        {
+          pathname: `/products/${slug}`,
+          query: {
+            data: JSON.stringify({
+              cat: cat_id,
+            }),
+            cat: cat_id,
+          },
+        },
+        `/products/${slug}?cat=${cat_id}`
+      );
     }
   };
   if (isListLoading) {
@@ -227,7 +240,14 @@ const SiderBar = ({ open, setOpen }) => {
                       className="SemiBold"
                       variant="text"
                       color="inherit"
-                      onClick={() => handleClick(category?.id)}
+                      onClick={() =>
+                        handleClick(
+                          category?.id,
+                          category?.children.length,
+                          category?.id,
+                          category?.slug
+                        )
+                      }
                       fullWidth
                       sx={{
                         display: "flex",
@@ -236,48 +256,64 @@ const SiderBar = ({ open, setOpen }) => {
                         textTransform: "capitalize",
                       }}
                       endIcon={
-                        arrowList === category.id ? (
-                          <MdOutlineKeyboardArrowUp />
+                        category?.children.length > 0 ? (
+                          arrowList === category.id ? (
+                            <MdOutlineKeyboardArrowUp />
+                          ) : (
+                            <MdOutlineKeyboardArrowDown />
+                          )
                         ) : (
-                          <MdOutlineKeyboardArrowDown />
+                          ""
                         )
                       }
                     >
                       {category?.category_name}
                     </Button>
-                    {list === category.id ? (
-                      <Box sx={{ width: "80%", margin: "0 auto" }}>
-                        <Grid container spacing={2}>
-                          {category.children.map((sub_cat, index) => (
-                            <Grid item xs={6} sm={6} key={index}>
-                              <Typography
-                                variant="cardHeader3"
-                                color="initial"
-                                sx={{ cursor: "pointer" }}
-                                onClick={() =>
-                                  router.push(
-                                    {
-                                      pathname: `/products/${sub_cat?.slug}`,
-                                      query: {
-                                        data: JSON.stringify({
-                                          cat: sub_cat?.parent_category,
-                                          sub_cat: sub_cat?.id,
-                                        }),
-                                        cat: sub_cat?.parent_category,
-                                        sub_cat: sub_cat?.id,
-                                      },
-                                    },
-                                    `/products/${sub_cat?.slug}?cat=${sub_cat?.parent_category}&sub_cat=${sub_cat?.id}`
-                                  )
-                                }
-                              >
-                                {sub_cat.category_name}
-                              </Typography>
+                    {category?.children.length > 0 ? (
+                      <>
+                        {list === category.id ? (
+                          <Box sx={{ width: "80%", margin: "0 auto" }}>
+                            <Grid container spacing={2}>
+                              {category.children.map((sub_cat, index) => (
+                                <Grid item xs={6} sm={6} key={index}>
+                                  <Typography
+                                    variant="cardHeader3"
+                                    color="initial"
+                                    sx={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                      router.push(
+                                        {
+                                          pathname: `/products/${sub_cat?.slug}`,
+                                          query: {
+                                            data: JSON.stringify({
+                                              cat: sub_cat?.parent_category,
+                                              sub_cat: sub_cat?.id,
+                                            }),
+                                            cat: sub_cat?.parent_category,
+                                            sub_cat: sub_cat?.id,
+                                          },
+                                        },
+                                        `/products/${sub_cat?.slug}?cat=${
+                                          sub_cat?.parent_category
+                                        }${
+                                          sub_cat?.id
+                                            ? `&sub_cat=${sub_cat?.id}`
+                                            : ""
+                                        }`
+                                      )
+                                    }
+                                  >
+                                    {sub_cat.category_name}
+                                  </Typography>
+                                </Grid>
+                              ))}
                             </Grid>
-                          ))}
-                        </Grid>
-                      </Box>
-                    ) : null}
+                          </Box>
+                        ) : null}
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </>
                 ))}
               </Stack>
