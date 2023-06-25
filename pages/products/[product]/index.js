@@ -117,7 +117,6 @@ const masterCollectionLayout = () => {
     {
       refetchOnMountOrArgChange: true,
       skip:
-        cat == 5 ||
         !sub_cat ||
         page < 1 ||
         !hasMore ||
@@ -126,11 +125,8 @@ const masterCollectionLayout = () => {
         makePriceTrue === true,
     }
   );
-  /* const [lazyLoadData, { data, isLoading, isSuccess, isError, error }] =
-    useLazyGetCategoryAndSubWiseProductsQuery(); */
 
   // Getting product data with only category
-
   const {
     data: catetoryData,
     isLoading: categoryLoading,
@@ -154,7 +150,7 @@ const masterCollectionLayout = () => {
     error: errormessage,
   } = useGetSubWiseProductsQuery(sub_cat, {
     refetchOnMountOrArgChange: true,
-    skip: cat == 5,
+    skip: !sub_cat,
   });
 
   // Getting static data with Category
@@ -165,7 +161,7 @@ const masterCollectionLayout = () => {
     isError: errorstateCat,
     error: errormessageCat,
   } = useGetSubWiseProductsQuery(cat, {
-    skip: cat != 5 || !sub_cat,
+    skip: !cat || sub_cat,
   });
 
   // Getting attributes of Product with subCategory
@@ -178,7 +174,7 @@ const masterCollectionLayout = () => {
     isFetching: isAttributeFetchingSub,
   } = useGetAttributesOfProductsQuery(sub_cat, {
     refetchOnMountOrArgChange: true,
-    skip: cat === 5 || sub_cat === undefined,
+    skip: !sub_cat || sub_cat === undefined,
   });
 
   // Getting attributes of Product with Category
@@ -190,7 +186,7 @@ const masterCollectionLayout = () => {
     error: attirbuteserrormessageCat,
     isFetching: isAttributeFetchingCat,
   } = useGetAttributesOfProductsQuery(cat, {
-    skip: sub_cat,
+    skip: sub_cat || !cat,
   });
   // Getting Attributes List
   const {
@@ -198,8 +194,9 @@ const masterCollectionLayout = () => {
     isSuccess: isAttributesListSuccess,
     isLoading: isAttributesLoading,
     error: attributesListError,
-  } = useGetAttributesListQuery(cat, { skip: !cat });
-  // Getting Filtered data by color
+  } = useGetAttributesListQuery(cat);
+
+  // Getting Filtered data by color with sub category
   const colorSelected = selectedColor[1];
   const {
     data: filterDataSub,
@@ -211,7 +208,8 @@ const masterCollectionLayout = () => {
     {
       refetchOnMountOrArgChange: true,
       skip:
-        cat == 5 ||
+        !sub_cat ||
+        sub_cat === undefined ||
         !colorSelected ||
         makeColorTrue === false ||
         page < 1 ||
@@ -229,6 +227,7 @@ const masterCollectionLayout = () => {
       refetchOnMountOrArgChange: true,
       skip:
         sub_cat ||
+        !cat ||
         !colorSelected ||
         makeColorTrue === false ||
         page < 1 ||
@@ -236,7 +235,7 @@ const masterCollectionLayout = () => {
     }
   );
 
-  // Getting Filtered data by price
+  // Getting Filtered data by price with sub category
   const up = debounced[1];
   const low = debounced[0];
 
@@ -251,7 +250,8 @@ const masterCollectionLayout = () => {
     {
       refetchOnMountOrArgChange: true,
       skip:
-        cat == 5 ||
+        !sub_cat ||
+        sub_cat === undefined ||
         priceSelected === false ||
         makePriceTrue === false ||
         page < 1 ||
@@ -271,6 +271,7 @@ const masterCollectionLayout = () => {
       refetchOnMountOrArgChange: true,
       skip:
         sub_cat ||
+        !cat ||
         priceSelected === false ||
         makePriceTrue === false ||
         page < 1 ||
@@ -289,7 +290,8 @@ const masterCollectionLayout = () => {
     {
       refetchOnMountOrArgChange: true,
       skip:
-        cat == 5 ||
+        !sub_cat ||
+        sub_cat === undefined ||
         !fabricID ||
         makeFabricTrue === false ||
         page < 1 ||
@@ -307,6 +309,7 @@ const masterCollectionLayout = () => {
       refetchOnMountOrArgChange: true,
       skip:
         sub_cat ||
+        !cat ||
         !fabricID ||
         makeFabricTrue === false ||
         page < 1 ||
@@ -346,7 +349,7 @@ const masterCollectionLayout = () => {
         return;
       }
       const handleSuccess = async () => {
-        if (sub_cat && cat !== 5 && data?.data) {
+        if (sub_cat && data?.data) {
           if (page === 1) {
             if (fabricName === "all") {
               setProducts((prev) => [...data.data]);
@@ -382,7 +385,7 @@ const masterCollectionLayout = () => {
           setMax(max);
         }
 
-        if (cat == 5 && !sub_cat && catetoryData?.data) {
+        if (!sub_cat && catetoryData?.data) {
           if (page === 1) {
             setProducts((prev) => [...catetoryData.data]);
             setFilteredData((prev) => [...catetoryData.data]);
@@ -434,10 +437,10 @@ const masterCollectionLayout = () => {
   useEffect(() => {
     if (success || successCat) {
       const handleSuccess = async () => {
-        if (sub_cat && cat !== 5) {
+        if (sub_cat) {
           await setStaticData(staticDatas?.data);
         }
-        if (cat == 5) {
+        if (!sub_cat) {
           setStaticData(staticDatasCat?.data);
         }
       };
@@ -488,7 +491,7 @@ const masterCollectionLayout = () => {
       }
       const handleSuccess = () => {
         if ((filterSuccessFab || filterSuccessCatFab) && fabricID) {
-          if (sub_cat && cat !== 5 && filterDataSubFab?.data) {
+          if (sub_cat && filterDataSubFab?.data) {
             if (page === 1) {
               // setProducts((prev) => [...filterDataSubFab?.data]);
               setFilteredData((prev) => [...filterDataSubFab?.data]);
@@ -501,7 +504,7 @@ const masterCollectionLayout = () => {
               setHasMore(false);
             }
           }
-          if (cat == 5 && !sub_cat && filterDataCatFab?.data) {
+          if (!sub_cat && filterDataCatFab?.data) {
             if (page === 1) {
               // setProducts((prev) => [...filterDataCatFab?.data]);
               setFilteredData((prev) => [...filterDataCatFab?.data]);
@@ -554,7 +557,7 @@ const masterCollectionLayout = () => {
       }
       const handleSuccess = () => {
         if ((filterSuccess || filterSuccessCat) && selectedColor) {
-          if (sub_cat && cat !== 5 && filterDataSub?.data) {
+          if (sub_cat && filterDataSub?.data) {
             if (page === 1) {
               // setProducts((prev) => [...filterDataSub?.data]);
               setFilteredData((prev) => [...filterDataSub?.data]);
@@ -567,7 +570,7 @@ const masterCollectionLayout = () => {
               setHasMore(false);
             }
           }
-          if (cat == 5 && !sub_cat && filterDataCat?.data) {
+          if (!sub_cat && filterDataCat?.data) {
             if (page === 1) {
               // setProducts((prev) => [...filterDataCat?.data]);
               setFilteredData((prev) => [...filterDataCat?.data]);
@@ -622,7 +625,7 @@ const masterCollectionLayout = () => {
       }
       const handleSuccess = () => {
         if ((filterSuccessp || filterSuccessCatp) && debounced) {
-          if (sub_cat && cat !== 5 && filterDataSubp?.data) {
+          if (sub_cat && filterDataSubp?.data) {
             if (page === 1) {
               // setProducts((prev) => [...filterDataSub?.data]);
               setFilteredData((prev) => [...filterDataSubp?.data]);
@@ -635,7 +638,7 @@ const masterCollectionLayout = () => {
               setHasMore(false);
             }
           }
-          if (cat == 5 && !sub_cat && filterDataCatp?.data) {
+          if (!sub_cat && filterDataCatp?.data) {
             if (page === 1) {
               // setProducts((prev) => [...filterDataCat?.data]);
               setFilteredData((prev) => [...filterDataCatp?.data]);
