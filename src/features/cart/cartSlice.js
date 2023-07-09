@@ -35,7 +35,7 @@ export const cartSlice = createSlice({
             id: productID.id,
             image: productID.image,
             name: productID.name,
-            design_code:productID.design_code,
+            design_code: productID.design_code,
             text: productID.text,
             size: productID.size,
             size_id: productID.size_id,
@@ -157,6 +157,7 @@ export const cartSlice = createSlice({
         state.cart = [];
         state.totalAmount = 0;
         state.totalPrice = 0;
+        state.totalPriceWithTax = 0;
       } catch (e) {}
     },
   },

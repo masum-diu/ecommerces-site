@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,17 +16,21 @@ import {
   TableRow,
 } from "@mui/material";
 import { MdClose } from "react-icons/md";
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { useGetRefundOrderMutation } from "../../src/features/api/apiSlice";
-import instance from "../../pages/api/api_instance";
+import { usePostRefundOrderMutation } from "../../src/features/api/apiSlice";
+import Loader from "../Loader/Loader";
+import { toast } from "react-hot-toast";
 
-const OrderDetailsModal = ({ open, setOpen, data, token }) => {
-  // console.log("your log output", data);
-  const [row, setRow] = useState([]);
-  const [responseData, setResponseData] = useState({});
-  const router = useRouter();
-  // console.log("your log output", data);
+const OrderDetailsModal = ({
+  open,
+  setOpen,
+  data,
+  token,
+  setSelectedProduct,
+  isCanceled,
+}) => {
+  useEffect(() => {
+    setSelectedProduct(data);
+  }, [data]);
   const [
     refundRequest,
     {
@@ -36,24 +40,33 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
       isSuccess: isRefundSuccess,
       error: isRefundErrorData,
     },
-  ] = useGetRefundOrderMutation();
+  ] = usePostRefundOrderMutation({ refetchOnMountOrArgChange: true });
   const handleClose = () => {
     setOpen(false);
   };
   const handleRefund = async (item_id, order_id, token) => {
-    try {
-      const response = await refundRequest({ item_id, order_id, token });
-      setResponseData(response.data);
-      // console.log("your log output", response);
-    } catch (error) {
-      console.log("Error:", error);
+    const selectedProduct = data?.order_detail?.find(
+      (element) => element.id === item_id
+    );
+    const response = await refundRequest({ item_id, order_id, token });
+    if (response?.data?.status === "success") {
+      toast.success("Refund request has been granted!");
+    }
+    if (response?.data?.status === "error") {
+      toast.error(response?.data?.message);
     }
   };
+  const dialogCloseHandler = () => {
+    setOpen(false);
+  };
+  if (refundLoading) {
+    return <Loader></Loader>;
+  }
   return (
     <>
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => dialogCloseHandler()}
         maxWidth="md"
         PaperProps={{
           sx: { width: { lg: "50%", xs: "100vw" }, height: "fit-content" },
@@ -87,24 +100,30 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                   <TableCell align="left">Products</TableCell>
                   <TableCell align="center">U.Price</TableCell>
                   <TableCell align="center">QTY</TableCell>
-                  <TableCell align="center">T.Price</TableCell>
+                  <TableCell align="center">Tax</TableCell>
+                  <TableCell align="center">
+                    T.Price <small>(With tax)</small>
+                  </TableCell>
                   <TableCell align="center">Refund</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {data?.order_detail?.map((row, index) => (
                   <TableRow
-                    key={row.name}
+                    key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell align="left">{index + 1}</TableCell>
                     <TableCell align="left">
                       {row?.product?.product_name}
                     </TableCell>
-                    <TableCell align="center">{row?.buying_price}</TableCell>
+                    <TableCell align="center">{row?.selling_price}</TableCell>
                     <TableCell align="center">{row?.quantity}</TableCell>
                     <TableCell align="center">
-                      {row?.total_buying_price}
+                      {Math.ceil(row?.vat_amount)}
+                    </TableCell>
+                    <TableCell align="center">
+                      {row?.total_selling_price + Math.ceil(row?.vat_amount)}
                     </TableCell>
                     <TableCell align="center">
                       <Button
@@ -114,7 +133,10 @@ const OrderDetailsModal = ({ open, setOpen, data, token }) => {
                         variant="outlined"
                         size="small"
                         disabled={
-                          row.is_claim_refund === 0 && row.is_refunded === 0
+                          row.is_claim_refund === 0 &&
+                          row.is_refunded === 0 &&
+                          data.payment_status === 1 &&
+                          isCanceled === false
                             ? false
                             : true
                         }

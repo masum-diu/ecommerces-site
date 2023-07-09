@@ -18,6 +18,7 @@ import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { usePasswordResetRequestMutation } from "../../src/features/api/apiSlice";
 import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 const resetPassword = () => {
   const router = useRouter();
@@ -34,6 +35,16 @@ const resetPassword = () => {
     // email:"",
     showPass: false,
   });
+
+  useEffect(() => {
+    if (data?.status === "error") {
+      toast.error("Something went wrong!");
+    }
+    if (data?.status === "success") {
+      toast.success("Password reset successful!");
+      router.push("/shop");
+    }
+  }, [data]);
   const {
     register,
     handleSubmit,
@@ -62,16 +73,13 @@ const resetPassword = () => {
     });
   };
   const token = router?.query?.token;
-  console.log('our token',token)
   const onSubmit = async (data) => {
-    console.log(data.new_password);
     const password = data.new_password;
     try {
-      const response = passwordResetRequest({
+      const response = await passwordResetRequest({
         password,
         token,
       });
-      console.log("your log output", response);
     } catch (error) {
       console.log("post request failed", error);
     }

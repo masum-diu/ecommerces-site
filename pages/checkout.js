@@ -31,6 +31,7 @@ import USER_CONTEXT from "../components/userContext";
 import {
   usePostUserOrderMutation,
   usePostGuestOrderMutation,
+  useGetShippingChargeQuery,
 } from "../src/features/api/apiSlice";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
 const checkout = ({ someProp }) => {
@@ -56,6 +57,7 @@ const checkout = ({ someProp }) => {
   const [isOutSideChecked, setIsOutSideChecked] = useState(false);
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
+  const [isAgreed, setAgreed] = useState(false);
   const [total, setTotal] = useState(totalPriceWithTax);
   const [error, setError] = useState({ initialState: true });
   const [openLoginModal, setLoginModal] = useState(false);
@@ -76,13 +78,9 @@ const checkout = ({ someProp }) => {
     { label: "Sylhet", year: 1994, value: "Sylhet" },
     { label: "Rangpur", year: 1994, value: "Rangpur" },
   ];
-  // const [isPlaceOrder, setIsPlaceOrder] = useState(false);
-  // const { isGuestCheckout, setIsGuestCheckout } = useContext(USER_CONTEXT);
-  // const [isGuestCheckout, setIsGuestCheckout] = useState(false);
   const [orderInfo, setOrderInfo] = useState({});
   const [orderResponseUser, setOrderResponseUser] = useState({});
   const [orderResponseGuest, setOrderResponseGuest] = useState({});
-  // const [hasToken, setHasToken] = useState(false);
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
       {
@@ -113,6 +111,11 @@ const checkout = ({ someProp }) => {
     },
   ] = usePostGuestOrderMutation();
   useEffect(() => {
+    if (userOrderError || guestOrderError) {
+      toast.error("Oops! Something went wrong. Please try again later.");
+    }
+  }, [userOrderError, guestOrderError]);
+  useEffect(() => {
     const host = location.host;
     if (host === "localhost:3000") {
       setHost("http://localhost:3000");
@@ -135,7 +138,6 @@ const checkout = ({ someProp }) => {
       securePage();
     }
   }, [isPlaceOrder, hasToken, error]);
-  console.log("your log output", isPlaceOrder);
   useEffect(() => {
     if (
       hasToken === false &&
@@ -173,7 +175,6 @@ const checkout = ({ someProp }) => {
     isLoading,
     guestCheckoutResponse,
   ]);
-  useEffect(() => {}, []);
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -204,6 +205,9 @@ const checkout = ({ someProp }) => {
 
   const handleSameAddressSelected = () => {
     setIsSameAddressChecked(!isSameAddressChecked);
+  };
+  const handleAgreed = () => {
+    setAgreed(!isAgreed);
   };
   const token = localStorage.getItem("acesstoken");
   const handlePlaceOrder = () => {
@@ -315,9 +319,7 @@ const checkout = ({ someProp }) => {
     }
   }, [isSameAddressChecked]);
   useEffect(() => {
-    console.log("your log output", townBilling, townBillingSh);
     if (townBillingSh && !isSameAddressChecked) {
-      console.log("inside false");
       if (isFromShowRoomChecked === true) {
         setTotal(totalPriceWithTax + 0);
         setShippingCost(0);
@@ -336,7 +338,6 @@ const checkout = ({ someProp }) => {
       }
     }
     if (townBilling && isSameAddressChecked) {
-      console.log("isndie true");
       if (isFromShowRoomChecked === true) {
         setTotal(totalPriceWithTax + 0);
         setShippingCost(0);
@@ -401,6 +402,10 @@ const checkout = ({ someProp }) => {
   const deliveryMethod = useWatch({ control, name: "deliveryMethod" });
   const termsAndCondition = useWatch({ control, name: "termsAndConditions" });
   const showInputField = watch("isSameAddress");
+  const isSameAddressCheckedWatch = useWatch({
+    control,
+    name: "isSameAddress",
+  });
   // console.log('your log outsdfsfput',showInputField)
   useEffect(() => {
     setPayment(paymentMethod);
@@ -493,8 +498,7 @@ const checkout = ({ someProp }) => {
         phoneBillingSh &&
         emailBillingSh &&
         paymentMethod &&
-        termsAndCondition &&
-        Object.keys(errors).length === 0
+        termsAndCondition
       ) {
         setEnable(false);
       }
@@ -537,6 +541,9 @@ const checkout = ({ someProp }) => {
     errors,
     paymentMethod,
     termsAndCondition,
+    isPlaceOrder,
+    isSameAddressCheckedWatch,
+    isAgreed,
   ]);
   if (
     userOrderLoading ||
@@ -1341,6 +1348,24 @@ const checkout = ({ someProp }) => {
                         color="initial"
                         className="bold"
                       >
+                        Fragile Surcharge :
+                      </Typography>
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                        sx={{ marginLeft: "72px!important" }}
+                      >
+                        BDT {Math.ceil(totalPriceWithTax - subTotal)}
+                      </Typography>
+                    </Stack>
+                    <Divider />
+                    <Stack direction={"row"} spacing={7} width="100%">
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                      >
                         TAX :
                       </Typography>
                       <Typography
@@ -1424,24 +1449,18 @@ const checkout = ({ someProp }) => {
                       alignItems={"center"}
                       spacing={1}
                     >
-                      <Controller
-                        name="termsAndConditions"
+                      <input
+                        autoComplete="off"
+                        {...register("termsAndConditions", {
+                          required: {
+                            value: true,
+                            message: "Please select an option",
+                          },
+                        })}
                         control={control}
-                        defaultValue=""
-                        rules={{ required: "Please select an option" }}
-                        render={({ field }) => (
-                          <>
-                            <input
-                              name="termsAndConditions"
-                              type="checkbox"
-                              id=""
-                              size="small"
-                              {...field}
-                              error={Boolean(errors.mySelect)}
-                              // onKeyUp={() => trigger("termsAndConditions")}
-                            />
-                          </>
-                        )}
+                        type="checkbox"
+                        id=""
+                        size="small"
                       />
 
                       <Typography variant="cardLocation123">
@@ -1455,7 +1474,6 @@ const checkout = ({ someProp }) => {
                           color: "red",
                           marginLeft: "2px",
                         }}
-                        error
                       >
                         {errors.termsAndConditions.message}
                       </small>

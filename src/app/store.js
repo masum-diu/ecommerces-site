@@ -37,4 +37,5 @@ export const store = configureStore({
       },
       immutableCheck: false,
     }).concat(productApi.middleware),
+  // devTools: false,
 });

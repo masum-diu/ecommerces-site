@@ -115,6 +115,7 @@ const Filter = ({
     setMakeFabricTrue(false);
     setMakeColorTrue(true);
     setMakePriceTrue(false);
+    setHasMore(true);
   };
   return (
     <React.Fragment>
@@ -219,13 +220,13 @@ const Filter = ({
                 {uniqueColors?.map((color, index) => (
                   <>
                     <Typography
-                      onClick={() => handleColor([color.name, color.id])}
+                      onClick={() => handleColor([color?.color_name, color.id])}
                       variant="cardHeader3"
                       color="initial"
                       key={index}
                       sx={{ cursor: "pointer" }}
                     >
-                      {color.name}
+                      {color?.color_name}
                     </Typography>
                   </>
                 ))}
@@ -262,7 +263,7 @@ const Filter = ({
                   size="small"
                   min={0}
                   step={50}
-                  max={10000}
+                  max={100000}
                   value={rangeValue}
                   onChange={(event, newValue) => handleChange(event, newValue)}
                   sx={{ color: "#2D323F" }}

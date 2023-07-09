@@ -59,7 +59,6 @@ const SignInModal = ({ open, setOpen, signModal }) => {
     },
   });
   const password = watch("password");
-  
 
   const onSubmit = (data) => {
     instance
@@ -71,8 +70,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
         reset();
         setOpen(false);
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
   };
   return (
     <>

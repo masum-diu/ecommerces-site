@@ -26,11 +26,10 @@ const shop = () => {
     isError: isLandingError,
     error: landingError,
   } = useGetHomePageProductsQuery();
-  console.log('your log output',data)
   useEffect(() => {
     if (isSuccess) {
       const handleSuccess = async () => {
-        await setProducts(data?.data);
+        setProducts(data?.data);
       };
       handleSuccess();
     }
@@ -39,7 +38,7 @@ const shop = () => {
   useEffect(() => {
     if (isLandingSuccess) {
       const handleSuccess = async () => {
-        await setHomeData(landingdata);
+        setHomeData(landingdata);
       };
       handleSuccess();
     }
@@ -89,14 +88,14 @@ const shop = () => {
         />
       </Head>
       <HomePageIntro title={"Shop "} />
-      <Box  sx={{ width: "100%", mb: 4,pt:{lg:8,xs:7} }}>
+      <Box sx={{ width: "100%", mb: 4, pt: { lg: 8, xs: 7 } }}>
         <Stack sx={{ position: "relative" }}>
           {/* <video
             src="https://static.zara.net/photos///contents/mkt/spots/aw22-north-kids-party/subhome-xmedia-47-2//w/1920/IMAGE-landscape-fill-90388659-c9ad-44c0-8fbc-3e049adef8d9-default_0.jpg?ts=1669457847606"
             alt=""
             width="100%"
           /> */}
-          
+
           <video
             width={"100%"}
             autoPlay
@@ -105,8 +104,7 @@ const shop = () => {
             muted={true}
             src={homedata?.image_one}
           />
-         
-          
+
           {/* <Image
             src=
             {repo.image_two}
@@ -285,7 +283,6 @@ const shop = () => {
                       ?.split("/")
                       .slice(-3)
                       .join("/")}`}
-                  
                   ></HovarImage>
                   {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
@@ -339,7 +336,7 @@ const shop = () => {
               .slice(-3)
               .join("/")}`}
             alt=""
-            style={{ width: "100%", height: "auto", marginTop: "25px", }}
+            style={{ width: "100%", height: "auto", marginTop: "25px" }}
           />
           <Stack
             direction={"row"}
@@ -413,7 +410,6 @@ const shop = () => {
                       ?.split("/")
                       .slice(-3)
                       .join("/")}`}
-                    
                   ></HovarImage>
                   {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(

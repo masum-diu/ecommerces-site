@@ -8,6 +8,9 @@ export const productApi = createApi({
   }),
   tagTypes: ["Orders"],
   endpoints: (builder) => ({
+    getCategoryAndSubCatList: builder.query({
+      query: () => "/category-list",
+    }),
     getProducts: builder.query({
       query: () => "/product",
     }),
@@ -35,6 +38,9 @@ export const productApi = createApi({
     }),
     getSubWiseProducts: builder.query({
       query: (sub_cat) => `/category/${sub_cat}`,
+    }),
+    getAttributesList: builder.query({
+      query: (cat) => `/attribute-list/${cat}`,
     }),
     getAttributesOfProducts: builder.query({
       query: (sub_cat) => `category-fabric/${sub_cat}`,
@@ -75,6 +81,9 @@ export const productApi = createApi({
         trailing: true,
       },
     }),
+    getShippingCharge: builder.query({
+      query: () => `/shipping-charge`,
+    }),
     getOrderDetails: builder.query({
       query: (token) => ({
         url: `/order`,
@@ -101,7 +110,7 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Orders"],
     }),
-    getRefundOrder: builder.mutation({
+    postRefundOrder: builder.mutation({
       query: ({ item_id, order_id, token }) => ({
         url: `order-item-cliam-refund`,
         method: "POST",
@@ -174,7 +183,7 @@ export const productApi = createApi({
         body: {
           data: data,
           cart: cart,
-          backUri:backUri,
+          backUri: backUri,
           totalPrice: subTotal,
           totalPriceWithTax: totalPriceWithTax,
           finalPrice: finalPriceOfOrder,
@@ -218,10 +227,25 @@ export const productApi = createApi({
         },
       }),
     }),
+    socialUserCreation: builder.mutation({
+      query: ({ email, name }) => ({
+        url: `/social/login`,
+        method: "POST",
+        body: {
+          email: email,
+          name: name,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      }),
+    }),
   }),
 });
 
 export const {
+  useGetCategoryAndSubCatListQuery,
   useGetProductsQuery,
   useGetParticularProductsQuery,
   useGetHomePageProductsQuery,
@@ -231,6 +255,7 @@ export const {
   useGetCategoryAndSubWiseProductsQuery,
   useGetCategoryWiseProductsQuery,
   useGetSubWiseProductsQuery,
+  useGetAttributesListQuery,
   useGetAttributesOfProductsQuery,
   useGetColorWiseFilteredProductsQuery,
   useGetColorWiseFilteredProductsWithOutSubQuery,
@@ -240,12 +265,14 @@ export const {
   useGetFabricWiseFilteredProductsQuery,
   useGetFabricWiseFilteredProductsWithOutSubQuery,
   useLazyGetCategoryAndSubWiseProductsQuery,
+  useGetShippingChargeQuery,
   useGetOrderDetailsQuery,
   useCancelOrderMutation,
-  useGetRefundOrderMutation,
+  usePostRefundOrderMutation,
   useGetMatchedWithProductQuery,
   usePostUserOrderMutation,
   usePostGuestOrderMutation,
   usePostAdditionalInfoMutation,
   usePasswordResetRequestMutation,
+  useSocialUserCreationMutation,
 } = productApi;

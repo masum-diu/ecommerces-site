@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiMap, BiShoppingBag } from "react-icons/bi";
 import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import { FcMenu } from "react-icons/fc";
@@ -33,8 +33,12 @@ import Menu from "@mui/material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useSelector } from "react-redux";
 import style from "../public/assets/css/HomePageIntro.module.css";
-import { signOut } from "next-auth/react";
+import { useSignOut } from "react-firebase-hooks/auth";
+import auth from "../src/firebase.init";
+import Loader from "./Loader/Loader";
+import { useGetCategoryAndSubCatListQuery } from "../src/features/api/apiSlice";
 const HomePageIntro = ({ title }) => {
+  const [signOut, loading] = useSignOut(auth);
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
@@ -55,7 +59,6 @@ const HomePageIntro = ({ title }) => {
   const totalWishedProduct = useSelector(
     (state) => state?.wishList?.wishList?.length
   );
-
   // Profile section starts here
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -75,12 +78,17 @@ const HomePageIntro = ({ title }) => {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-  const handelogout = () => {
+  const handelogout = async () => {
     localStorage.clear();
     setUser("");
     setAnchorEl(null);
-    signOut()
     router.push("/shop");
+    const success = await signOut();
+    if (success) {
+      router.push("/shop");
+    }
+    localStorage.removeItem("user");
+    localStorage.removeItem("acesstoken");
     handleMobileMenuClose();
     setHasToken(false);
   };
@@ -88,7 +96,9 @@ const HomePageIntro = ({ title }) => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
+  if (loading) {
+    return <Loader></Loader>;
+  }
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -260,32 +270,27 @@ const HomePageIntro = ({ title }) => {
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
             <Box ml={userjsondata?.name ? { xl: 35, lg: 35 } : 30}>
-              <Stack
-              direction={"row"}
-              spacing={5}
-              mt={1}
-            >
-              <Typography
-                className={style.menu3}
-                sx={{ cursor: "pointer" }}
-                variant="homeFlash"
-                color="initial"
-                onClick={() => router.push("/shop")}
-              >
-                <li>SHOP</li>
-              </Typography>
-              <Typography
-                className={style.menu3}
-                sx={{ cursor: "pointer" }}
-                variant="homeFlash"
-                color="initial"
-                onClick={() => router.push("/story")}
-              >
-                <li>STORY</li>
-              </Typography>
-            </Stack></Box>
-
-
+              <Stack direction={"row"} spacing={5} mt={1}>
+                <Typography
+                  className={style.menu3}
+                  sx={{ cursor: "pointer" }}
+                  variant="homeFlash"
+                  color="initial"
+                  onClick={() => router.push("/shop")}
+                >
+                  <li>SHOP</li>
+                </Typography>
+                <Typography
+                  className={style.menu3}
+                  sx={{ cursor: "pointer" }}
+                  variant="homeFlash"
+                  color="initial"
+                  onClick={() => router.push("/story")}
+                >
+                  <li>STORY</li>
+                </Typography>
+              </Stack>
+            </Box>
 
             <Stack direction={"row"} alignItems="center" spacing={2} mt={1}>
               <IconButton aria-label="" onClick={() => setSearchModal(true)}>
@@ -331,7 +336,9 @@ const HomePageIntro = ({ title }) => {
                       <AccountCircle />
                     </IconButton>
                     <p style={{ color: "#0A0A0A", cursor: "pointer" }}>
-                      {userjsondata ? userjsondata?.name.split(" ")[0] : user.name}
+                      {userjsondata
+                        ? userjsondata?.name.split(" ")[0]
+                        : user.name}
                     </p>
                   </Box>
                   <Box sx={{ display: { xs: "flex", md: "none" } }}>

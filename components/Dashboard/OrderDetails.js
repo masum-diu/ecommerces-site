@@ -14,18 +14,20 @@ import {
 import {
   useCancelOrderMutation,
   useGetOrderDetailsQuery,
-  useGetRefundOrderMutation,
-  useGetRefundOrderQuery,
+  usePostRefundOrderMutation,
 } from "../../src/features/api/apiSlice";
 import Loader from "../Loader/Loader";
 import instance from "../../pages/api/api_instance";
 import OrderDetailsModal from "./OrderDetailsModal";
+import { toast } from "react-hot-toast";
 
 const OrderDetails = () => {
   const [token, setToken] = useState("");
   const [info, setInfo] = useState([]);
+  const [isCanceled, setIsCanceled] = useState(false);
   const [response, setCancelResponse] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [selectedOrderId, setSelectedOrderId] = useState({});
   const [openDetailsModal, setDetailsModal] = useState(false);
   const { data, isLoading, isFetching, isSuccess, isError, error } =
     useGetOrderDetailsQuery(token, {
@@ -39,82 +41,48 @@ const OrderDetails = () => {
       isLoading: cancelLoading,
       isError: cancelError,
       isSuccess: isCancelSuccess,
+      error: isCancelError,
     },
   ] = useCancelOrderMutation();
-  const [
-    refundRequest,
-    {
-      data: refundResponse,
-      isLoading: refundLoading,
-      isError: isRefundError,
-      isSuccess: isRefundSuccess,
-    },
-  ] = useGetRefundOrderMutation();
   useEffect(() => {
     const token = localStorage.getItem("acesstoken");
     setToken(token);
   }, [token]);
-
+  useEffect(() => {
+    const selectedOrder = info?.find(
+      (element) => element?.order_id === selectedOrderId
+    );
+    setSelectedProduct(selectedOrder);
+  }, [info, selectedOrderId]);
   useEffect(() => {
     if (isSuccess) {
       setInfo(data?.data);
     }
   }, [data, isLoading, isFetching, isSuccess, isError, error]);
-
   useEffect(() => {
     if (isCancelSuccess) {
       setCancelResponse(cancelResponse?.data);
     }
   }, [isCancelSuccess]);
-
+  console.log("response", response);
   if (cancelLoading) {
     return <Loader></Loader>;
   }
   if (isLoading || isFetching) {
     return <Loader></Loader>;
   }
-  const handleCancel = (order_id, token) => {
-    /* instance
-      .post(
-        `order/cancel`,
-        { order_id: order_id },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("acesstoken"),
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      )
-      .then((result) => {
-        console.log("your log output", result);
-      })
-      .catch((err) => {}); */
-
-    cancelOrder({ order_id, token });
+  const handleCancel = async (order_id, token) => {
+    const response = await cancelOrder({ order_id, token });
+    if (response?.data?.status === "success") {
+      toast.success(response?.data?.message);
+      setIsCanceled(true);
+    }
+    if (response?.data?.status === "error") {
+      toast.error(response?.data?.message);
+    }
   };
-  const handleRefund = (order_id, token) => {
-    /* instance
-      .post(
-        `order/cancel`,
-        { order_id: order_id },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("acesstoken"),
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      )
-      .then((result) => {
-        console.log("your log output", result);
-      })
-      .catch((err) => {}); */
-
-    refundRequest({ order_id, token });
-  };
-
-  const handleViewOrder = (data) => {
+  const handleViewOrder = (data, order_id) => {
+    setSelectedOrderId(order_id);
     setSelectedProduct(data);
     setDetailsModal(true);
   };
@@ -150,6 +118,9 @@ const OrderDetails = () => {
                   Refund
                 </TableCell> */}
                 <TableCell className="bold" align="center">
+                  Order Cancel
+                </TableCell>
+                <TableCell className="bold" align="center">
                   Order Details
                 </TableCell>
               </TableRow>
@@ -170,7 +141,7 @@ const OrderDetails = () => {
                     <TableCell className="SemiBold">
                       {orderInfo?.payment_status ? "Paid" : "Unpaid"}
                     </TableCell>
-                    {/* <TableCell className="SemiBold" align="center">
+                    <TableCell className="SemiBold" align="center">
                       <Button
                         onClick={() => handleCancel(orderInfo?.id, token)}
                         disabled={orderInfo?.status === 0 ? true : false}
@@ -180,7 +151,7 @@ const OrderDetails = () => {
                         Cancel
                       </Button>
                     </TableCell>
-                    <TableCell className="SemiBold" align="center">
+                    {/* <TableCell className="SemiBold" align="center">
                       <Button
                         onClick={() => handleRefund(orderInfo?.id, token)}
                         disabled={
@@ -196,10 +167,11 @@ const OrderDetails = () => {
                         Refund
                       </Button>
                     </TableCell> */}
-                    {console.log("your log output", orderInfo)}
                     <TableCell className="SemiBold" align="center">
                       <Button
-                        onClick={() => handleViewOrder(orderInfo)}
+                        onClick={() =>
+                          handleViewOrder(orderInfo, orderInfo?.order_id)
+                        }
                         variant="outlined"
                         size="small"
                       >
@@ -218,6 +190,8 @@ const OrderDetails = () => {
         setOpen={setDetailsModal}
         token={token}
         data={selectedProduct}
+        setSelectedProduct={setSelectedProduct}
+        isCanceled={isCanceled}
       ></OrderDetailsModal>
     </>
   );

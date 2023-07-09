@@ -20,9 +20,16 @@ import GuestCheckout from "./GuestCheckout";
 import USER_CONTEXT from "./userContext";
 import { useDispatch } from "react-redux";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
-import { signIn, useSession } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
+import { useSocialUserCreationMutation } from "../src/features/api/apiSlice";
+import Loader from "./Loader/Loader";
+import {
+  useSignInWithFacebook,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
+import auth from "../src/firebase.init";
+import { useSignOut } from "react-firebase-hooks/auth";
 
 const LoginModal = ({ open, setOpen }) => {
   const {
@@ -37,17 +44,73 @@ const LoginModal = ({ open, setOpen }) => {
     isGuestCheckout,
     setIsGuestCheckout,
   } = useContext(USER_CONTEXT);
+  const [signInWithFacebook, facebookUser, facebookLoading, facebookError] =
+    useSignInWithFacebook(auth);
+  const [signInWithGoogle, googleUser, googleLoading, googleError] =
+    useSignInWithGoogle(auth);
+  const [signOut] = useSignOut(auth);
+  const [googleUserData, setGoogleUserData] = useState();
+  const [facebookUserData, setFacebookUserData] = useState();
   const { errormessage, setErrormessage } = useState("");
+  const [errorState, setErrorState] = useState(false);
   const [signModal, setSignModal] = useState(false);
   const [forgotModal, setForgotModal] = useState(false);
   const [userFetchedData, setUserFetchedData] = useState({});
-  const { data: session } = useSession();
   const [openGuestCheckoutModalOpen, setGuestCheckoutModalOpen] =
     useState(false);
+  const [socialUserCreation, { data, isLoading, isSuccess, isError, error }] =
+    useSocialUserCreationMutation();
   const router = useRouter();
-  console.log("your log session", session);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const isUser = localStorage.getItem("acesstoken");
+
+    if (googleUser && !isUser && !hasToken) {
+      const email = googleUser.user.email;
+      const name = googleUser.user.displayName;
+      try {
+        const userCreationResponse = socialUserCreation({ email, name });
+        if (isSuccess) {
+          localStorage.setItem("acesstoken", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          setUserData(data);
+          setHasToken(true);
+          setOpen(false);
+          setErrorState(true);
+        }
+      } catch (e) {}
+    } else {
+    }
+  }, [googleUser, isSuccess]);
+  useEffect(() => {
+    const isUser = localStorage.getItem("acesstoken");
+    if (facebookUser && !isUser && !hasToken) {
+      const email = facebookUser.user.email;
+      const name = facebookUser.user.displayName;
+      try {
+        const userCreationResponse = socialUserCreation({ email, name });
+        if (isSuccess) {
+          localStorage.setItem("acesstoken", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          setUserData(data);
+          setHasToken(true);
+          setOpen(false);
+          setErrorState(true);
+        }
+      } catch (e) {}
+    } else {
+    }
+  }, [facebookUser, isSuccess]);
+  useEffect(() => {
+    if (googleError || facebookError) {
+      setErrorState(true);
+    }
+  }, [googleError, facebookError, errorState]);
+
+  if (isLoading || googleLoading || facebookLoading) {
+    <Loader></Loader>;
+  }
   const handleclearuser = () => {
     setUserData("");
   };
@@ -109,14 +172,6 @@ const LoginModal = ({ open, setOpen }) => {
     },
   });
 
-  if (session) {
-    console.log("session user", session.user);
-    setUserData(session.user);
-    localStorage.setItem("user", JSON.stringify(session.user));
-  } else {
-    console.log("session data is cleared");
-  }
-
   // const password = useWatch({ control, name: "password" });
   const onSubmit = (data) => {
     instance
@@ -136,6 +191,7 @@ const LoginModal = ({ open, setOpen }) => {
         setUserData(err);
       });
   };
+
   return (
     <>
       <Dialog
@@ -231,8 +287,8 @@ const LoginModal = ({ open, setOpen }) => {
                     {errors?.password
                       ? errors.password?.message
                       : userdata?.response?.status == 401
-                        ? userdata?.response?.data?.message
-                        : ""}
+                      ? userdata?.response?.data?.message
+                      : ""}
                   </p>
                 </Stack>
 
@@ -252,25 +308,51 @@ const LoginModal = ({ open, setOpen }) => {
                 <Button variant="contained" color="background2" type="submit">
                   Login
                 </Button>
-              
+                {/* <Typography>
+                  {errorState ? "auth/popup-closed-by-user" : ""}
+                </Typography> */}
                 <Button
-                  onClick={() => signIn("google")}
+                  onClick={() => signInWithGoogle()}
                   variant="outlined"
                   color="background2"
                   className="SemiBold"
-
-                  endIcon={<> <FcGoogle /></>}
-
-                >sign-In with google </Button>
+                  endIcon={
+                    <>
+                      {" "}
+                      <FcGoogle />
+                    </>
+                  }
+                >
+                  sign-In with google{" "}
+                </Button>
                 <Button
-                  onClick={() => signIn("facebook")}
+                  onClick={() => signInWithFacebook()}
                   variant="outlined"
                   color="background2"
                   className="SemiBold"
-
-                  endIcon={<> <BsFacebook style={{color:"#1877F2"}} /></>}
-
-                >sign-In with facebook </Button>
+                  endIcon={
+                    <>
+                      {" "}
+                      <BsFacebook style={{ color: "#1877F2" }} />
+                    </>
+                  }
+                >
+                  sign-In with facebook{" "}
+                </Button>
+                {/* <Button
+                  onClick={() => signInWithGoogle()}
+                  variant="outlined"
+                  color="background2"
+                  className="SemiBold"
+                  endIcon={
+                    <>
+                      {" "}
+                      <BsFacebook style={{ color: "#1877F2" }} />
+                    </>
+                  }
+                >
+                  sign-In with facebook{" "}
+                </Button> */}
                 {/* <button onClick={() => signIn("google")}>Sign in with Google</button> */}
                 <Typography
                   variant="cardHeader12"
@@ -309,7 +391,7 @@ const LoginModal = ({ open, setOpen }) => {
       <GuestCheckout
         open={openGuestCheckoutModalOpen}
         setOpen={setGuestCheckoutModalOpen}
-      // setIsGuestCheckout={setIsGuestCheckout}
+        // setIsGuestCheckout={setIsGuestCheckout}
       ></GuestCheckout>
     </>
   );

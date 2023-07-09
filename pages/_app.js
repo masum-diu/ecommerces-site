@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@mui/material/styles";
@@ -16,6 +16,7 @@ import { Toaster } from "react-hot-toast";
 import "../styles/globals.css";
 import Pixel from "../components/Pixel";
 import { SessionProvider } from "next-auth/react";
+import { useRouter } from "next/router";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -60,10 +61,7 @@ export default function MyApp(props) {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <UserProvider>
-              <SessionProvider session={pageProps.session}>
-                <Component {...pageProps} />
-              </SessionProvider>
-              
+              <Component {...pageProps} />
               <Toaster />
             </UserProvider>
           </PersistGate>
