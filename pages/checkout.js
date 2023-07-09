@@ -600,7 +600,7 @@ const checkout = ({ someProp }) => {
                
                 <Stack direction={"column"} spacing={2} mt={{ lg: 3 }}>
                 <Stack>
-                  <Typography variant="cardHeader1" color="initial">Add Address</Typography>
+                   
                 </Stack>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
