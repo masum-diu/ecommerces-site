@@ -590,7 +590,11 @@ const checkout = ({ someProp }) => {
                 <Typography variant="header1" color="initial">
                   BILLING DETAILS
                 </Typography>
-                <Stack direction={"column"} spacing={2} mt={{ lg: 7.5 }}>
+               
+                <Stack direction={"column"} spacing={2} mt={{ lg: 3 }}>
+                <Stack>
+                  <Typography variant="cardHeader1" color="initial">Add Address</Typography>
+                </Stack>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
