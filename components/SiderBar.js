@@ -63,12 +63,15 @@ const SiderBar = ({ open, setOpen }) => {
 
   const [arrowList, setArrowList] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [occasion, setOccasion] = useState(false);
+  const [arrowListOccasion, setArrowListOccasion] = useState(false);
   const { isGuestCheckout, setIsGuestCheckout, hasToken, setHasToken } =
     useContext(USER_CONTEXT);
   const handleClickAway = () => {
     setList(null);
     setArrowList(null);
+    setOccasion(false)
+    setArrowListOccasion(false)
   };
   useEffect(() => {
     if (catAndSubCatList && isCatSuccess) {
@@ -139,6 +142,11 @@ const SiderBar = ({ open, setOpen }) => {
         `/products/${slug}?cat=${cat_id}`
       );
     }
+  };
+  const handleClickOccasion = () => {
+    setOccasion((prev) => !prev);
+    setArrowListOccasion(!arrowListOccasion);
+    // setArrow6(!arrow6);
   };
   if (isListLoading) {
     return <Loader></Loader>;
@@ -317,11 +325,11 @@ const SiderBar = ({ open, setOpen }) => {
                   </>
                 ))}
               </Stack>
-              {/* <Button
+              <Button
                 className="SemiBold"
                 variant="text"
                 color="inherit"
-                onClick={handleClick6}
+                onClick={handleClickOccasion}
                 fullWidth
                 sx={{
                   display: "flex",
@@ -330,38 +338,16 @@ const SiderBar = ({ open, setOpen }) => {
                   textTransform: "capitalize",
                 }}
                 endIcon={
-                  arrowList.arrow6 ? (
+                  arrowListOccasion ? (
                     <MdOutlineKeyboardArrowUp
                       onClick={() =>
-                        setArrowList({
-                          ...arrowList,
-                          arrow6: !arrowList.arrow6,
-                          arrow1: false,
-                          arrow2: false,
-                          arrow: false,
-                          arrow4: false,
-                          arrow5: false,
-                          arrow: false,
-                          arrowJewelry: false,
-                          arrowKids: false,
-                        })
+                        setArrowListOccasion(!arrowListOccasion)
                       }
                     />
                   ) : (
                     <MdOutlineKeyboardArrowDown
                       onClick={() =>
-                        setArrowList({
-                          ...arrowList,
-                          arrow6: !arrowList.arrow6,
-                          arrow1: false,
-                          arrow2: false,
-                          arrow: false,
-                          arrow4: false,
-                          arrow5: false,
-                          arrow: false,
-                          arrowJewelry: false,
-                          arrowKids: false,
-                        })
+                        setArrowListOccasion(!arrowListOccasion)
                       }
                     />
                   )
@@ -369,7 +355,7 @@ const SiderBar = ({ open, setOpen }) => {
               >
                 Occassions
               </Button>
-              {list.openList6 ? (
+              {occasion ? (
                 <Box sx={{ width: "80%", margin: "0 auto" }}>
                   <Stack direction={"column"} mt={2} spacing={1.5}>
                     {lists?.map((list) => (
@@ -393,7 +379,7 @@ const SiderBar = ({ open, setOpen }) => {
                     ))}
                   </Stack>
                 </Box>
-              ) : null} */}
+              ) : null}
             </Box>
           </ClickAwayListener>
           <Hidden only={["md", "lg", "xl"]}>
