@@ -10,7 +10,7 @@ import { useGetParticularCampignListsQuery } from "../src/features/api/apiSlice"
 const campaign = () => {
   const router = useRouter();
   const [campData, setCampData] = useState([]);
-  console.log('your log output',campData)
+  // console.log('your log output',campData)
   const Camp_id = router?.query?.cat_id;
   const Camp_name = router?.query?.cat_name;
 
