@@ -135,11 +135,12 @@ const SearchModal = ({ open, setOpen }) => {
                 <Stack direction={"column"} mt={4} spacing={1}>
                   {/* <img src={data?.feature_image} alt="" width={100} /> */}
                   <img
-                    style={{ cursor: "pointer" }}
-                    src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto:face,h_180,w_180/${data?.feature_image
-                      ?.split("/")
-                      .slice(-3)
-                      .join("/")}`}
+                  // height={"100px"}
+                  // width={"90px"}
+                  // sx={{width:{xs:"90px",sm:"90px",md:"90px",lg:"90px"}}}
+                    style={{ cursor: "pointer",width:"90vw",maxWidth:"90px" }}
+                    src={`${data?.p_image_one
+                      }`}
                   />
                   <Typography
                     variant="cardHeader2"

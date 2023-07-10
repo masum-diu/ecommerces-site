@@ -1337,7 +1337,7 @@ const checkout = ({ someProp }) => {
                       </p>
                     )}
 
-                    <Divider />
+                    {/* <Divider />
                     <Stack direction={"row"} spacing={7} width="100%">
                       <Typography
                         variant="cardHeader"
@@ -1354,7 +1354,7 @@ const checkout = ({ someProp }) => {
                       >
                         BDT {Math.ceil(totalPriceWithTax - subTotal)}
                       </Typography>
-                    </Stack>
+                    </Stack> */}
                     <Divider />
                     <Stack direction={"row"} spacing={7} width="100%">
                       <Typography
