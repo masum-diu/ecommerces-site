@@ -70,8 +70,8 @@ const SiderBar = ({ open, setOpen }) => {
   const handleClickAway = () => {
     setList(null);
     setArrowList(null);
-    setOccasion(false)
-    setArrowListOccasion(false)
+    setOccasion(false);
+    setArrowListOccasion(false);
   };
   useEffect(() => {
     if (catAndSubCatList && isCatSuccess) {
@@ -324,62 +324,58 @@ const SiderBar = ({ open, setOpen }) => {
                     )}
                   </>
                 ))}
+                <Button
+                  className="SemiBold"
+                  variant="text"
+                  color="inherit"
+                  onClick={handleClickOccasion}
+                  fullWidth
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    textTransform: "capitalize",
+                  }}
+                  endIcon={
+                    arrowListOccasion ? (
+                      <MdOutlineKeyboardArrowUp
+                        onClick={() => setArrowListOccasion(!arrowListOccasion)}
+                      />
+                    ) : (
+                      <MdOutlineKeyboardArrowDown
+                        onClick={() => setArrowListOccasion(!arrowListOccasion)}
+                      />
+                    )
+                  }
+                >
+                  Occassions
+                </Button>
+                {occasion ? (
+                  <Box sx={{ width: "80%", margin: "0 auto" }}>
+                    <Stack direction={"column"} mt={2} spacing={1.5}>
+                      {lists?.map((list) => (
+                        <Typography
+                          key={list.id}
+                          variant="cardHeader3"
+                          color="initial"
+                          sx={{ cursor: "pointer" }}
+                          onClick={() =>
+                            router.push({
+                              pathname: "/campaign",
+                              query: {
+                                cat_id: `${list?.id}`,
+                                cat_name: `${list?.camp_name}`,
+                              },
+                            })
+                          }
+                        >
+                          {list.camp_name}
+                        </Typography>
+                      ))}
+                    </Stack>
+                  </Box>
+                ) : null}
               </Stack>
-              <Button
-                className="SemiBold"
-                variant="text"
-                color="inherit"
-                onClick={handleClickOccasion}
-                fullWidth
-                sx={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "space-between",
-                  textTransform: "capitalize",
-                }}
-                endIcon={
-                  arrowListOccasion ? (
-                    <MdOutlineKeyboardArrowUp
-                      onClick={() =>
-                        setArrowListOccasion(!arrowListOccasion)
-                      }
-                    />
-                  ) : (
-                    <MdOutlineKeyboardArrowDown
-                      onClick={() =>
-                        setArrowListOccasion(!arrowListOccasion)
-                      }
-                    />
-                  )
-                }
-              >
-                Occassions
-              </Button>
-              {occasion ? (
-                <Box sx={{ width: "80%", margin: "0 auto" }}>
-                  <Stack direction={"column"} mt={2} spacing={1.5}>
-                    {lists?.map((list) => (
-                      <Typography
-                        key={list.id}
-                        variant="cardHeader3"
-                        color="initial"
-                        sx={{ cursor: "pointer" }}
-                        onClick={() =>
-                          router.push({
-                            pathname: "/campaign",
-                            query: {
-                              cat_id: `${list?.id}`,
-                              cat_name: `${list?.camp_name}`,
-                            },
-                          })
-                        }
-                      >
-                        {list.camp_name}
-                      </Typography>
-                    ))}
-                  </Stack>
-                </Box>
-              ) : null}
             </Box>
           </ClickAwayListener>
           <Hidden only={["md", "lg", "xl"]}>
