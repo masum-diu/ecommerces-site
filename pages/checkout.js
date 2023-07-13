@@ -32,9 +32,16 @@ import {
   usePostUserOrderMutation,
   usePostGuestOrderMutation,
   useGetShippingChargeQuery,
+  useGetUserAddressQuery,
+  
 } from "../src/features/api/apiSlice";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
+import Link from "next/link";
+import AddressLists from "../components/AddressLists";
 const checkout = ({ someProp }) => {
+  // address popup state start
+  const [addressList,setAddressList]=useState(false)
+  // address popup state end
   const cart = useSelector((state) => state.cart.cart);
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
@@ -57,6 +64,7 @@ const checkout = ({ someProp }) => {
   const [isOutSideChecked, setIsOutSideChecked] = useState(false);
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
+  const [isNewAddressChecked, setIsNewAddressChecked] = useState(false);
   const [isAgreed, setAgreed] = useState(false);
   const [total, setTotal] = useState(totalPriceWithTax);
   const [error, setError] = useState({ initialState: true });
@@ -110,6 +118,16 @@ const checkout = ({ someProp }) => {
       error: guestOrderErrorData,
     },
   ] = usePostGuestOrderMutation();
+const tokens=localStorage.getItem("acesstoken")
+  const {data:getUserAddress}=useGetUserAddressQuery(tokens) 
+
+  // if(getUserAddress?.length>0){
+  //   const handleNewAddress = () => {
+  //     setIsNewAddressChecked(!isNewAddressChecked);
+  //   };
+    
+  // }
+  
   useEffect(() => {
     if (userOrderError || guestOrderError) {
       toast.error("Oops! Something went wrong. Please try again later.");
@@ -160,11 +178,14 @@ const checkout = ({ someProp }) => {
             token,
           });
           setOrderResponseGuest(postResponse);
+          
+          
         } catch (e) {
           console.log("your log output", e);
         }
       };
-      handleGuestOrder();
+      
+       handleGuestOrder();
       // dispatch(changeIsCheckout(false));
     }
   }, [
@@ -218,7 +239,7 @@ const checkout = ({ someProp }) => {
     setHasToken(true);
   }
 
-  // Handling React Hook Rorm
+  // Handling React Hook form
   const {
     register,
     handleSubmit,
@@ -250,11 +271,13 @@ const checkout = ({ someProp }) => {
       isSameAddress: false,
       paymentMethod: "",
       deliveryMethod: "",
+
     },
   });
   const allFieldsFilled = watch();
   const onSubmit = async (data) => {
-    // console.log("your log output", data);
+    console.log("your log output", data);
+    
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
     setOrderInfo({
@@ -283,12 +306,14 @@ const checkout = ({ someProp }) => {
             isGuestCheckout,
             token,
           });
-          setOrderResponseUser(postResponse);
+           setOrderResponseUser(postResponse);
+          // console.log(postResponse)
         } catch (e) {
           console.log("your log output", e);
         }
       };
-      handleUserOrder();
+       handleUserOrder();
+      // console.log(handleUserOrder())
     }
   };
   const handleSelectChange = (event) => {
@@ -598,9 +623,15 @@ const checkout = ({ someProp }) => {
                   BILLING DETAILS
                 </Typography>
                
-                <Stack direction={"column"} spacing={2} mt={{ lg: 3 }}>
-                <Stack>
-                   
+                <Stack direction={"column"} spacing={2} mt={{ lg: 2 }}>
+                <Stack direction={"row"} spacing={1}>
+                   {/* <Button variant="outlined" color="primary" size="small" className="SemiBold">
+                    Add address
+                  </Button>
+                  <Button variant="outlined" color="primary" size="small" className="SemiBold">
+                    change address
+                  </Button> */}
+                  <Typography variant="cardLocation1" color="#7E7250" onClick={()=>setAddressList(true)} className="SemiBold" sx={{textDecoration:"underline",textUnderlineOffset:".3rem",color:"blueviolet",cursor:"pointer"}}>Add New Address</Typography>
                 </Stack>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
@@ -916,7 +947,7 @@ const checkout = ({ someProp }) => {
                       id=""
                       onClick={() => handleSameAddressSelected()}
                     />
-                    <Typography variant="cardLocation1" color="initial">
+                    <Typography variant="cardLocation1" className="SemiBold" color="initial">
                       Same As Billing Address.
                     </Typography>
                   </Stack>
@@ -1341,7 +1372,7 @@ const checkout = ({ someProp }) => {
                       </p>
                     )}
 
-                    <Divider />
+                    {/* <Divider />
                     <Stack direction={"row"} spacing={7} width="100%">
                       <Typography
                         variant="cardHeader"
@@ -1358,7 +1389,7 @@ const checkout = ({ someProp }) => {
                       >
                         BDT {Math.ceil(totalPriceWithTax - subTotal)}
                       </Typography>
-                    </Stack>
+                    </Stack> */}
                     <Divider />
                     <Stack direction={"row"} spacing={7} width="100%">
                       <Typography
@@ -1496,6 +1527,7 @@ const checkout = ({ someProp }) => {
       </Box>
 
       <Footer />
+      <AddressLists open={addressList} setOpen={setAddressList} getUserAddress={getUserAddress}/>
       <LoginModal
       // open={openLoginModal}
       // setOpen={setLoginModal}

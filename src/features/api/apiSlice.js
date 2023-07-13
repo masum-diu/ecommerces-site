@@ -84,6 +84,7 @@ export const productApi = createApi({
     getShippingCharge: builder.query({
       query: () => `/shipping-charge`,
     }),
+    
     getOrderDetails: builder.query({
       query: (token) => ({
         url: `/order`,
@@ -94,6 +95,16 @@ export const productApi = createApi({
         },
       }),
       providesTags: ["Orders"],
+    }),
+    getUserAddress: builder.query({
+      query: (token) => ({
+        url: `/get-user-address`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }),
     }),
     cancelOrder: builder.mutation({
       query: ({ order_id, token }) => ({
@@ -132,6 +143,9 @@ export const productApi = createApi({
         method: "GET",
       }),
     }),
+    
+
+    
     postUserOrder: builder.mutation({
       query: ({
         data,
@@ -245,6 +259,7 @@ export const productApi = createApi({
 });
 
 export const {
+  useGetUserAddressQuery,
   useGetCategoryAndSubCatListQuery,
   useGetProductsQuery,
   useGetParticularProductsQuery,
