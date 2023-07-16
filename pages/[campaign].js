@@ -7,9 +7,11 @@ import HomePageIntro from "../components/HomePageIntro";
 import HovarImage from "../components/HovarableImage/HovarImage";
 import Loader from "../components/Loader/Loader";
 import { useGetParticularCampignListsQuery } from "../src/features/api/apiSlice";
+import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 const campaign = () => {
   const router = useRouter();
   const [campData, setCampData] = useState([]);
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
   // console.log('your log output',campData)
   const Camp_id = router?.query?.cat_id;
   const Camp_name = router?.query?.cat_name;
@@ -84,7 +86,8 @@ const campaign = () => {
                   fontWeight={"bold"}
                   color="initial"
                 >
-                  BDT {data?.p_stocks[0]?.mrp}
+                  {/* BDT {data?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
                 </Typography>
               </Stack>
             </Stack>

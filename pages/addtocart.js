@@ -33,11 +33,13 @@ import toast from "react-hot-toast";
 import LoginModal from "../components/LoginModal";
 import { FiHeart } from "react-icons/fi";
 import USER_CONTEXT from "../components/userContext";
+import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 
 const addtocart = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   // const dataFetchedRef = useRef(false);
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const [loading, setLoading] = useState(true);
   const cart = useSelector((state) => state.cart.cart);
   const [openLoginModal, setLoginModal] = useState(false);
@@ -54,7 +56,7 @@ const addtocart = () => {
 
   const removeItemFromCart = async (data) => {
     dispatch(removeFromCart(data));
-    await toast.error("Removed From Cart!");
+     toast.error("Removed From Cart!");
   };
 
   useEffect(() => {
@@ -174,7 +176,7 @@ const addtocart = () => {
                               SIZE: {data.size ? data.size : "N/A"}
                             </Typography>
                             <Typography variant="subtitle1" color="initial">
-                              BDT {data.totalPrice}
+                              {selectedCurrency} {data.totalPrice}
                             </Typography>
                             <Stack
                               direction={"row"}
@@ -207,6 +209,7 @@ const addtocart = () => {
                                       text: data.text,
                                       colors: data.colors,
                                       price: data.price,
+                                      priceOrg: data.priceOrg,
                                       vatAmountParticularProduct:
                                         parseFloat(
                                           data.vatAmountParticularProduct
@@ -218,6 +221,17 @@ const addtocart = () => {
                                       priceWithTax: parseFloat(
                                         data.priceWithTax
                                       ),
+                                      vatAmountParticularProductOrg:
+                                        parseFloat(
+                                          data.vatAmountParticularProductOrg
+                                        ) +
+                                        parseFloat(
+                                          data.vatAmountParticularProductOrg
+                                        ) /
+                                          data.amount,
+                                      priceWithTaxOrg: parseFloat(
+                                        data.priceWithTaxOrg
+                                      ),
                                       amount: data.amount + 1,
                                       stock: data.stock,
                                       totalAmount: 1,
@@ -227,6 +241,12 @@ const addtocart = () => {
                                       totalPriceWithTax:
                                         data.totalPriceWithTax +
                                         parseFloat(data.priceWithTax),
+                                      totalPriceOrg:
+                                        data.totalPriceOrg +
+                                        parseFloat(data.priceOrg),
+                                      totalPriceWithTaxOrg:
+                                        data.totalPriceWithTaxOrg +
+                                        parseFloat(data.priceWithTaxOrg),
                                     })
                                   )
                                 }
@@ -379,7 +399,7 @@ const addtocart = () => {
                               sx={{ border: "none", textAlign: "left" }}
                             >
                               <Typography variant="subtitle1" color="initial">
-                                BDT {data.totalPrice}
+                                {selectedCurrency} {data.totalPrice}
                               </Typography>
                             </TableCell>
                             {/* <TableCell sx={{ border: "none" }}>
@@ -420,6 +440,7 @@ const addtocart = () => {
                                       text: data.text,
                                       colors: data.colors,
                                       price: data.price,
+                                      priceOrg: data.priceOrg,
                                       vatAmountParticularProduct:
                                         parseFloat(
                                           data.vatAmountParticularProduct
@@ -431,6 +452,17 @@ const addtocart = () => {
                                       priceWithTax: parseFloat(
                                         data.priceWithTax
                                       ),
+                                      vatAmountParticularProductOrg:
+                                        parseFloat(
+                                          data.vatAmountParticularProductOrg
+                                        ) +
+                                        parseFloat(
+                                          data.vatAmountParticularProductOrg
+                                        ) /
+                                          data.amount,
+                                      priceWithTaxOrg: parseFloat(
+                                        data.priceWithTaxOrg
+                                      ),
                                       amount: data.amount + 1,
                                       stock: data.stock,
                                       totalAmount: 1,
@@ -440,6 +472,12 @@ const addtocart = () => {
                                       totalPriceWithTax:
                                         data.totalPriceWithTax +
                                         parseFloat(data.priceWithTax),
+                                      totalPriceOrg:
+                                        data.totalPriceOrg +
+                                        parseFloat(data.priceOrg),
+                                      totalPriceWithTaxOrg:
+                                        data.totalPriceWithTaxOrg +
+                                        parseFloat(data.priceWithTaxOrg),
                                     })
                                   )
                                 }

@@ -105,7 +105,7 @@ const SiderBar = ({ open, setOpen }) => {
     handleMobileMenuClose();
   };
   const handelogout = async () => {
-    localStorage.clear("user");
+    // localStorage.clear("user");
     setUser("");
     setAnchorEl(null);
     const success = await signOut();

@@ -34,6 +34,7 @@ import {
   useGetShippingChargeQuery,
 } from "../src/features/api/apiSlice";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
+import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 const checkout = ({ someProp }) => {
   const cart = useSelector((state) => state.cart.cart);
   const [distict, setDistict] = useState("Select Country");
@@ -44,15 +45,18 @@ const checkout = ({ someProp }) => {
   const [host, setHost] = useState("");
   const isInitialMount = useRef(true);
   const dispatch = useDispatch();
-  const subTotal = useSelector((state) => state.cart.totalPrice);
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const totalPriceOrg = useSelector((state) => state.cart.totalPriceOrg);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const totalPriceWithTax = useSelector(
     (state) => state.cart.totalPriceWithTax
   );
+  const totalPriceWithTaxOrg = useSelector(
+    (state) => state.cart.totalPriceWithTaxOrg
+  );
   const isGuestCheckout = useSelector(
     (state) => state.checkoutSlice.isGuestCheckout
   );
-  const [totalPrice, setSubtotal] = useState(subTotal);
   const [isDhakaChecked, setIsDhakaChecked] = useState(false);
   const [isOutSideChecked, setIsOutSideChecked] = useState(false);
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
@@ -81,6 +85,8 @@ const checkout = ({ someProp }) => {
   const [orderInfo, setOrderInfo] = useState({});
   const [orderResponseUser, setOrderResponseUser] = useState({});
   const [orderResponseGuest, setOrderResponseGuest] = useState({});
+  const { selectedCurrency, convertPrice, currentConversionRate } =
+    useCurrencyConversion();
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
       {
@@ -147,12 +153,17 @@ const checkout = ({ someProp }) => {
     ) {
       const handleGuestOrder = async () => {
         try {
+          console.log("your log output", orderInfo?.currentConversionRate);
           const postResponse = await guestOrder({
             data: orderInfo?.data,
             cart: orderInfo?.cart,
-            subTotal: orderInfo?.totalPrice,
+            totalPrice: orderInfo?.totalPrice,
+            totalPriceOrg: orderInfo?.totalPriceOrg,
             totalPriceWithTax: orderInfo?.totalPriceWithTax,
+            totalPriceWithTaxOrg: orderInfo?.totalPriceWithTaxOrg,
             finalPriceOfOrder: orderInfo?.finalPrice,
+            currentConversionRate: orderInfo?.currentConversionRate,
+            selectedCurrency: orderInfo?.selectedCurrency,
             totalAmount: orderInfo?.totalAmount,
             isSameAddressChecked: orderInfo?.isSameAddress,
             isGuestCheckout: orderInfo?.isGuestCheckout,
@@ -260,23 +271,31 @@ const checkout = ({ someProp }) => {
     setOrderInfo({
       data: data,
       cart: cart,
-      totalPrice: subTotal,
+      totalPrice: totalPrice,
       totalPriceWithTax: totalPriceWithTax,
-      finalPrice: Math.ceil(total),
+      totalPriceOrg: totalPriceOrg,
+      totalPriceWithTaxOrg: totalPriceWithTaxOrg,
+      finalPrice: Math.round(total),
+      currentConversionRate: currentConversionRate,
+      selectedCurrency: selectedCurrency,
       totalAmount: totalAmount,
       isSameAddress: isSameAddressChecked,
       isGuestCheckout: true,
     });
     if (hasToken === true && cart?.length > 0) {
-      const finalPriceOfOrder = Math.ceil(total);
+      const finalPriceOfOrder = Math.round(total);
       const handleUserOrder = async () => {
         try {
           const postResponse = await userOrder({
             data,
             cart,
             backUri: host,
-            subTotal,
+            totalPrice,
+            totalPriceOrg,
             totalPriceWithTax,
+            totalPriceWithTaxOrg,
+            currentConversionRate: currentConversionRate,
+            selectedCurrency: selectedCurrency,
             finalPriceOfOrder,
             totalAmount,
             isSameAddressChecked,
@@ -1246,7 +1265,7 @@ const checkout = ({ someProp }) => {
                         color="initial"
                         className="bold"
                       >
-                        BDT {subTotal}
+                        {selectedCurrency} {totalPrice}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -1264,7 +1283,7 @@ const checkout = ({ someProp }) => {
                           color="initial"
                           className="bold"
                         >
-                          BDT {shippingCost}
+                          {selectedCurrency} {shippingCost}
                         </Typography>
                       </Stack>
 
@@ -1370,7 +1389,8 @@ const checkout = ({ someProp }) => {
                         className="bold"
                         sx={{ marginLeft: "72px!important" }}
                       >
-                        BDT {Math.ceil(totalPriceWithTax - subTotal)}
+                        {selectedCurrency}{" "}
+                        {Math.round(totalPriceWithTax - totalPrice)}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -1387,7 +1407,7 @@ const checkout = ({ someProp }) => {
                         color="initial"
                         className="exterBold"
                       >
-                        BDT {Math.ceil(total)}
+                        {selectedCurrency} {Math.round(total)}
                       </Typography>
                     </Stack>
                     <Divider />

@@ -4,6 +4,7 @@ import HovarImage from "./HovarableImage/HovarImage";
 
 import { useRouter } from "next/router";
 import Loader from "./Loader/Loader";
+import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 
 const ProductsLayoutWithStaticImage = ({
   productsDataChunk,
@@ -11,6 +12,7 @@ const ProductsLayoutWithStaticImage = ({
   isLoading,
 }) => {
   const router = useRouter();
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
   /* if (isLoading) {
     return <Loader />;
   } */
@@ -52,7 +54,8 @@ const ProductsLayoutWithStaticImage = ({
               {productsDataChunk[0]?.p_name}
             </Typography>
             <Typography variant="cardHeader3" color="initial" className="bold">
-              BDT {productsDataChunk[0]?.p_stocks[0]?.mrp}
+              {/* BDT {productsDataChunk[0]?.p_stocks[0]?.mrp} */}
+              {selectedCurrency} {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
             </Typography>
           </Stack>
         </Stack>
@@ -96,7 +99,8 @@ const ProductsLayoutWithStaticImage = ({
                 color="initial"
                 className="bold"
               >
-                BDT {product?.p_stocks[0]?.mrp}
+                {/* BDT {product?.p_stocks[0]?.mrp} */}
+                {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
               </Typography>
             </Stack>
           </Grid>
@@ -159,7 +163,8 @@ const ProductsLayoutWithStaticImage = ({
                 color="initial"
                 className="bold"
               >
-                BDT {product?.p_stocks[0]?.mrp}
+                {/* BDT {product?.p_stocks[0]?.mrp} */}
+                {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
               </Typography>
             </Stack>
           </Grid>

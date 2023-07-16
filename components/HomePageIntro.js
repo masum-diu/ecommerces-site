@@ -79,7 +79,7 @@ const HomePageIntro = ({ title }) => {
     handleMobileMenuClose();
   };
   const handelogout = async () => {
-    localStorage.clear();
+    // localStorage.clear();
     setUser("");
     setAnchorEl(null);
     router.push("/shop");
