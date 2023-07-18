@@ -406,7 +406,7 @@ const AddressLists = ({ open, setOpen,getUserAddress }) => {
                       type="submit"
                     //   onClick={() => setIsPlaceOrder(true)}
                     >
-                      place order
+                      save
                     </Button>
                     </Stack>
                       
