@@ -33,16 +33,17 @@ import {
   usePostGuestOrderMutation,
   useGetShippingChargeQuery,
   useGetUserAddressQuery,
-  
+
 } from "../src/features/api/apiSlice";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
 import Link from "next/link";
 import AddressLists from "../components/AddressLists";
 const checkout = ({ someProp }) => {
   // address popup state start
-  const [addressList,setAddressList]=useState(false)
+  const [addressList, setAddressList] = useState(false)
   // address popup state end
   const cart = useSelector((state) => state.cart.cart);
+  const [addAddressValue,setAddAddressValue]=useState(0)
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
   const [townBilling, setTownBilling] = useState("Select Town/City");
@@ -91,9 +92,9 @@ const checkout = ({ someProp }) => {
   const [orderResponseGuest, setOrderResponseGuest] = useState({});
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
-      {
-        "-webkit-text-fill-color": "rgb(0 0 0)",
-      },
+    {
+      "-webkit-text-fill-color": "rgb(0 0 0)",
+    },
   };
   const { hasToken, setHasToken, isPlaceOrder, setIsPlaceOrder } =
     useContext(USER_CONTEXT);
@@ -118,16 +119,16 @@ const checkout = ({ someProp }) => {
       error: guestOrderErrorData,
     },
   ] = usePostGuestOrderMutation();
-const tokens=localStorage.getItem("acesstoken")
-  const {data:getUserAddress}=useGetUserAddressQuery(tokens) 
+  const tokens = localStorage.getItem("acesstoken")
+  const { data: getUserAddress } = useGetUserAddressQuery(tokens)
 
   // if(getUserAddress?.length>0){
   //   const handleNewAddress = () => {
   //     setIsNewAddressChecked(!isNewAddressChecked);
   //   };
-    
+
   // }
-  
+
   useEffect(() => {
     if (userOrderError || guestOrderError) {
       toast.error("Oops! Something went wrong. Please try again later.");
@@ -178,14 +179,14 @@ const tokens=localStorage.getItem("acesstoken")
             token,
           });
           setOrderResponseGuest(postResponse);
-          
-          
+
+
         } catch (e) {
           console.log("your log output", e);
         }
       };
-      
-       handleGuestOrder();
+
+      handleGuestOrder();
       // dispatch(changeIsCheckout(false));
     }
   }, [
@@ -239,6 +240,15 @@ const tokens=localStorage.getItem("acesstoken")
     setHasToken(true);
   }
 
+  const handleAddressStatusBilling = ()=>{
+    setAddressList(true)
+    setAddAddressValue(1)
+  }
+  const handleAddressStatusShipping = ()=>{
+    setAddressList(true)
+    setAddAddressValue(2)
+  }
+
   // Handling React Hook form
   const {
     register,
@@ -277,7 +287,7 @@ const tokens=localStorage.getItem("acesstoken")
   const allFieldsFilled = watch();
   const onSubmit = async (data) => {
     console.log("your log output", data);
-    
+
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
     setOrderInfo({
@@ -306,13 +316,13 @@ const tokens=localStorage.getItem("acesstoken")
             isGuestCheckout,
             token,
           });
-           setOrderResponseUser(postResponse);
+          setOrderResponseUser(postResponse);
           // console.log(postResponse)
         } catch (e) {
           console.log("your log output", e);
         }
       };
-       handleUserOrder();
+      handleUserOrder();
       // console.log(handleUserOrder())
     }
   };
@@ -622,17 +632,12 @@ const tokens=localStorage.getItem("acesstoken")
                 <Typography variant="header1" color="initial">
                   BILLING DETAILS
                 </Typography>
-               
-                <Stack direction={"column"} spacing={2} mt={{ lg: 2 }}>
-                <Stack direction={"row"} spacing={1}>
-                   {/* <Button variant="outlined" color="primary" size="small" className="SemiBold">
-                    Add address
-                  </Button>
-                  <Button variant="outlined" color="primary" size="small" className="SemiBold">
-                    change address
-                  </Button> */}
-                  <Typography variant="cardLocation1" color="#7E7250" onClick={()=>setAddressList(true)} className="SemiBold" sx={{textDecoration:"underline",textUnderlineOffset:".3rem",color:"blueviolet",cursor:"pointer"}}>Add New Address</Typography>
+                <Stack direction={"row"} spacing={1} mt={3.8}>
+                  
+                  <Typography variant="cardLocation1" color="#7E7250" onClick={() => handleAddressStatusBilling()} className="SemiBold" sx={{ textDecoration: "underline", textUnderlineOffset: ".3rem", color: "blueviolet", cursor: "pointer" }}>Add New Billing Address</Typography>
                 </Stack>
+                <Stack direction={"column"} spacing={2} mt={{ lg: 2 }}>
+                 
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
@@ -948,8 +953,10 @@ const tokens=localStorage.getItem("acesstoken")
                       onClick={() => handleSameAddressSelected()}
                     />
                     <Typography variant="cardLocation1" className="SemiBold" color="initial">
-                      Same As Billing Address.
+                      Same As Billing Address. 
                     </Typography>
+                    <b>/</b>
+                    <Typography variant="cardLocation1" color="#7E7250" onClick={() => handleAddressStatusShipping()} className="SemiBold" sx={{ textDecoration: "underline", textUnderlineOffset: ".3rem", color: "blueviolet", cursor: "pointer" }}>Add New Shipping Address</Typography>
                   </Stack>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
@@ -1527,7 +1534,16 @@ const tokens=localStorage.getItem("acesstoken")
       </Box>
 
       <Footer />
-      <AddressLists open={addressList} setOpen={setAddressList} getUserAddress={getUserAddress}/>
+      <AddressLists open={addressList}
+       setOpen={setAddressList}
+       getUserAddress={getUserAddress} 
+       setValue={setValue} 
+       setDistict={setDistict}
+        setDistict1={setDistict1}
+        addAddressValue={addAddressValue}
+        setAddAddressValue={setAddAddressValue}
+        setTownBilling={setTownBilling}
+        setTownBillingSh={setTownBillingSh} />
       <LoginModal
       // open={openLoginModal}
       // setOpen={setLoginModal}

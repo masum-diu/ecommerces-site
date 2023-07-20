@@ -36,7 +36,7 @@ const Profile = () => {
   };
   const userdata =
     typeof window !== "undefined" ? localStorage.getItem("user") : null;
-  const userjsondata = JSON.parse(userdata);
+  const userjsondata = JSON.parse(userdata); 
   // useForm using
   const { register, handleSubmit } = useForm({
     defaultValues: {
