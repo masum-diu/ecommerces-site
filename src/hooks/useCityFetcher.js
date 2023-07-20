@@ -17,12 +17,12 @@ const useCityFetcher = () => {
           url.searchParams.append('featureCode', 'ADM1');
           url.searchParams.append('maxRows', '1000');
           url.searchParams.append('username', USERNAME);
-
+          console.log('final url',url)
           const response = await fetch(url.toString());
           const data = await response.json();
 
           // Assuming the API response data is an array of objects with 'toponymName' property
-          const citiesData = data.geonames.map(city => city.toponymName);
+          const citiesData = data.geonames.map(city => city);
           setCities(citiesData);
         }
       } catch (error) {

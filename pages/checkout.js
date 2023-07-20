@@ -33,11 +33,13 @@ import {
   usePostGuestOrderMutation,
   useGetShippingChargeQuery,
   useGetUserAddressQuery,
+  useGetCountryListWithShippingChargeQuery,
 } from "../src/features/api/apiSlice";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
 import Link from "next/link";
 import AddressLists from "../components/AddressLists";
 import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
+import useCityFetcher from "../src/hooks/useCityFetcher";
 const checkout = ({ someProp }) => {
   // address popup state start
   const [addressList, setAddressList] = useState(false);
@@ -80,6 +82,10 @@ const checkout = ({ someProp }) => {
   const [billingTown, setBillingTown] = useState("");
   const [shippingTown, setShippingTown] = useState("");
   const [shippingCost, setShippingCost] = useState();
+  const [billingCountry, setBillingCountry] = useState("");
+  const [shippingCountry, setShippingCountry] = useState("");
+  const [billingCities, setBillingCities] = useState([]);
+  const [shippingCities, setShippingCities] = useState([]);
   const data = [
     { label: "Barishal", year: 1994, value: "Barishal" },
     { label: "Chittagong", year: 1972, value: "Chittagong" },
@@ -96,6 +102,7 @@ const checkout = ({ someProp }) => {
 
   const { selectedCurrency, convertPrice, currentConversionRate } =
     useCurrencyConversion();
+  const { selectedCountry, setSelectedCountry, cities } = useCityFetcher();
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
       {
@@ -127,7 +134,11 @@ const checkout = ({ someProp }) => {
   ] = usePostGuestOrderMutation();
   const tokens = localStorage.getItem("acesstoken");
   const { data: getUserAddress } = useGetUserAddressQuery(tokens);
-
+  const {
+    data: countryData,
+    isError: countryError,
+    isLoading: countryLoading,
+  } = useGetCountryListWithShippingChargeQuery(tokens);
   // if(getUserAddress?.length>0){
   //   const handleNewAddress = () => {
   //     setIsNewAddressChecked(!isNewAddressChecked);
@@ -172,7 +183,6 @@ const checkout = ({ someProp }) => {
     ) {
       const handleGuestOrder = async () => {
         try {
-          console.log("your log output", orderInfo?.currentConversionRate);
           const postResponse = await guestOrder({
             data: orderInfo?.data,
             cart: orderInfo?.cart,
@@ -295,8 +305,6 @@ const checkout = ({ someProp }) => {
   });
   const allFieldsFilled = watch();
   const onSubmit = async (data) => {
-    console.log("your log output", data);
-
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
     setOrderInfo({
@@ -576,6 +584,7 @@ const checkout = ({ someProp }) => {
       setValue("street_address_shipping", streetAddress);
       setValue("apartment_address_shipping", apartmentAddress);
       setValue("city_shipping", cityAddress);
+      setValue("country_shipping", country);
       setValue("post_code_shipping", postBilling);
       setValue("phone_shipping", phoneBilling);
       setValue("email_shipping", emailBilling);
@@ -585,6 +594,7 @@ const checkout = ({ someProp }) => {
       setValue("street_address_shipping", "");
       setValue("apartment_address_shipping", "");
       setValue("city_shipping", "");
+      setValue("country_shipping", "");
       setValue("post_code_shipping", "");
       setValue("phone_shipping", "");
       setValue("email_shipping", "");
@@ -603,6 +613,23 @@ const checkout = ({ someProp }) => {
     emailBilling,
   ]);
 
+  useEffect(() => {
+    if (country && billingCountry) {
+      setSelectedCountry(billingCountry);
+      if (cities) {
+        setBillingCities(cities);
+      }
+    }
+  }, [country]);
+  useEffect(() => {
+    if (country && shippingCountry) {
+      setSelectedCountry(shippingCountry);
+      if (cities) {
+        setShippingCities(cities);
+      }
+    }
+  }, [countrySh]);
+  console.log("setBillingCities", shippingCities,billingCities);
   const errorObject = Object.keys(errors).length;
   useEffect(() => {
     if (errorObject > 0) {
@@ -680,7 +707,8 @@ const checkout = ({ someProp }) => {
     userOrderLoading ||
     guestOrderLoading ||
     userOrderSuccess ||
-    guestOrderSuccess
+    guestOrderSuccess ||
+    countryLoading
   ) {
     return <Loader></Loader>;
   }
@@ -853,34 +881,6 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
-                  {/* <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={data}
-                    renderInput={(params) => (
-                      <TextField
-                        // id=""
-                        // label=""
-                        // value={}
-                        // onChange={}
-                        {...params}
-                        {...register("city_billing", {
-                          required: {
-                            value: true,
-                            message: "Town/City is Required",
-                          },
-                        })}
-                        onSelect={(e) => setBillingTown(e.target.value)}
-                        onChange={(e) =>
-                          setValue("city_billing", e.target.value)
-                        }
-                        onKeyUp={() => trigger("city_billing")}
-                        error={Boolean(errors.city_billing)}
-                        placeholder="Town / City"
-                        size="small"
-                      />
-                    )}
-                  /> */}
                   <Select
                     id="city_billing"
                     {...register("city_billing", {
@@ -930,8 +930,12 @@ const checkout = ({ someProp }) => {
                     <MenuItem value={"Select Country"} disabled>
                       Select Country
                     </MenuItem>
-                    {countries.map((country, index) => (
-                      <MenuItem key={index} value={country.country_name}>
+                    {countryData?.map((country, index) => (
+                      <MenuItem
+                        key={index}
+                        value={country.country_name}
+                        onClick={() => setBillingCountry(country?.country_code)}
+                      >
                         {country.country_name}
                       </MenuItem>
                     ))}
@@ -1269,8 +1273,14 @@ const checkout = ({ someProp }) => {
                     <MenuItem value={"Select Country"} disabled>
                       Select Country
                     </MenuItem>
-                    {countries.map((country, index) => (
-                      <MenuItem key={index} value={country.country_name}>
+                    {countryData?.map((country, index) => (
+                      <MenuItem
+                        key={index}
+                        value={country.country_name}
+                        onClick={() =>
+                          setShippingCountry(country?.country_code)
+                        }
+                      >
                         {country.country_name}
                       </MenuItem>
                     ))}
