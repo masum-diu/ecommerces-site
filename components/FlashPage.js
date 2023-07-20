@@ -171,7 +171,7 @@ const FlashPage = ({ title }) => {
                     message: "Select currency*",
                   },
                 })}
-                onMouseLeave={() => trigger("currency")}
+                onClick={() => trigger("currency")}
                 error={Boolean(errors.currency)}
                 size="small"
                 value={currency}

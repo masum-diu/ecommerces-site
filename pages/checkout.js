@@ -85,6 +85,7 @@ const checkout = ({ someProp }) => {
   const [orderInfo, setOrderInfo] = useState({});
   const [orderResponseUser, setOrderResponseUser] = useState({});
   const [orderResponseGuest, setOrderResponseGuest] = useState({});
+  
   const { selectedCurrency, convertPrice, currentConversionRate } =
     useCurrencyConversion();
   const customStyle = {
@@ -258,6 +259,7 @@ const checkout = ({ someProp }) => {
       post_code_shipping: "",
       phone_shipping: "",
       email_shipping: "",
+      orderNote: "",
       isSameAddress: false,
       paymentMethod: "",
       deliveryMethod: "",
@@ -310,6 +312,60 @@ const checkout = ({ someProp }) => {
       handleUserOrder();
     }
   };
+  const countries = [
+    {
+      id: 1,
+      country_name: "Bangladesh",
+      shipping_charge:
+        '{"inside_city":{"pathao":655,"e_courier":466},"outside_city":{"pathao":544,"e_courier":353}}',
+      status: 1,
+      created_at: "2023-06-13 12:48:11",
+      updated_at: null,
+    },
+    {
+      id: 2,
+      country_name: "India",
+      shipping_charge: '{"amount":400}',
+      status: 1,
+      created_at: "2023-06-13 13:33:22",
+      updated_at: null,
+    },
+    {
+      id: 3,
+      country_name: "United States",
+      shipping_charge: '{"amount":160}',
+      status: 1,
+      created_at: "2023-07-19 10:31:09",
+      updated_at: "2023-07-19 10:31:09",
+    },
+    {
+      id: 4,
+      country_name: "Sri Lanka",
+      shipping_charge: '{"amount":110}',
+      status: 1,
+      created_at: "2023-07-19 10:31:46",
+      updated_at: "2023-07-19 10:31:46",
+    },
+  ];
+  const radio = [
+    {
+      id: 1,
+      innerText: "Pathao",
+    },
+    {
+      id: 1,
+      innerText: "E-Querier",
+    },
+    {
+      id: 1,
+      innerText: "Pickup from showroom",
+    },
+    {
+      id: 1,
+      innerText: "Dhl",
+    },
+    
+  ];
   const handleSelectChange = (event) => {
     setValue("country_billing", event.target.value, { shouldValidate: true });
     setDistict(event.target.value);
@@ -425,6 +481,10 @@ const checkout = ({ someProp }) => {
     control,
     name: "isSameAddress",
   });
+  const orderNote = useWatch({
+    control,
+    name: "orderNote",
+  });
   // console.log('your log outsdfsfput',showInputField)
   useEffect(() => {
     setPayment(paymentMethod);
@@ -480,7 +540,17 @@ const checkout = ({ someProp }) => {
     guestOrderLoading,
   ]);
   useEffect(() => {
-    if (showInputField === false) {
+    if (showInputField === true) {
+      setValue("first_name_shipping", firstName);
+      setValue("last_name_shipping", lastName);
+      setValue("street_address_shipping", streetAddress);
+      setValue("apartment_address_shipping", apartmentAddress);
+      setValue("city_shipping", cityAddress);
+      setValue("post_code_shipping", postBilling);
+      setValue("phone_shipping", phoneBilling);
+      setValue("email_shipping", emailBilling);
+    }
+    else {
       setValue("first_name_shipping", "");
       setValue("last_name_shipping", "");
       setValue("street_address_shipping", "");
@@ -557,6 +627,7 @@ const checkout = ({ someProp }) => {
     countrySh,
     phoneBillingSh,
     emailBillingSh,
+    orderNote,
     errors,
     paymentMethod,
     termsAndCondition,
@@ -761,7 +832,7 @@ const checkout = ({ someProp }) => {
                         message: "Town/City is Required",
                       },
                     })}
-                    onMouseLeave={() => trigger("city_billing")}
+                    onClick={() => trigger("city_billing")}
                     error={Boolean(errors.city_billing)}
                     size="small"
                     value={townBilling}
@@ -785,15 +856,6 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     COUNTRY *
                   </Typography>
-                  {/* <TextField
-                  // id=""
-                  // label=""
-                  // value={}
-                  // onChange={}
-                  placeholder="Company Name (Optional)"
-                  size="small"
-                /> */}
-
                   <Select
                     id="country_billing"
                     {...register("country_billing", {
@@ -802,7 +864,7 @@ const checkout = ({ someProp }) => {
                         message: "Country is Required",
                       },
                     })}
-                    onMouseLeave={() => trigger("country_billing")}
+                    onClick={() => trigger("country_billing")}
                     error={Boolean(errors.country_billing)}
                     size="small"
                     value={distict}
@@ -811,7 +873,10 @@ const checkout = ({ someProp }) => {
                     <MenuItem value={"Select Country"} disabled>
                       Select Country
                     </MenuItem>
-                    <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
+                    {countries.map((country, index) => (
+                      <MenuItem key={index} value={country.country_name}>{country.country_name}</MenuItem>
+                    ))}
+
                     {/* <MenuItem value={"India"}>India</MenuItem> */}
                   </Select>
                   {errors.country_billing && (
@@ -1082,7 +1147,7 @@ const checkout = ({ someProp }) => {
                       },
                     })}
                     disabled={isSameAddressChecked === false ? false : true}
-                    onMouseLeave={() => trigger("city_shipping")}
+                    onClick={() => trigger("city_shipping")}
                     error={Boolean(errors.city_shipping)}
                     id="demo-simple-select"
                     size="small"
@@ -1116,7 +1181,7 @@ const checkout = ({ someProp }) => {
                       },
                     })}
                     disabled={isSameAddressChecked === false ? false : true}
-                    onMouseLeave={() => trigger("country_shipping")}
+                    onClick={() => trigger("country_shipping")}
                     error={Boolean(errors.country_shipping)}
                     id="demo-simple-select"
                     size="small"
@@ -1126,7 +1191,8 @@ const checkout = ({ someProp }) => {
                     <MenuItem value={"Select Country"} disabled>
                       Select Country
                     </MenuItem>
-                    <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
+                    {countries.map((country,index)=><MenuItem key={index} value={country.country_name}>{country.country_name}</MenuItem>)}
+                    
                   </Select>
                   {errors.country_shipping &&
                     isSameAddressChecked === false && (
@@ -1241,6 +1307,37 @@ const checkout = ({ someProp }) => {
                     <p style={{ color: "red" }}>
                       {errors.email_shipping?.message}
                     </p>
+                  )}
+                </Stack>
+                <Stack
+                  direction={"column"}
+                  spacing={2}
+                  sx={{ display: { xs: "", lg: "none" } }}
+                  mt={3}
+                >
+                  <Typography variant="cardHeader1" color="initial">
+                    ORDER NOTES (OPTIONAL)
+                  </Typography>
+
+                  <TextField
+                    id="standard-multiline-flexible"
+                    multiline
+                    rows={4}
+                    autoComplete="off"
+                    {...register("orderNote", {
+                      required: {
+                        value: false,
+                        message: "Place your order note here.",
+                      },
+                    })}
+                    onKeyUp={() => trigger("orderNote")}
+                    error={Boolean(errors.orderNote)}
+                    placeholder="Place your order note here."
+                    size="small"
+                    sx={customStyle}
+                  />
+                  {errors.orderNote && (
+                    <p style={{ color: "red" }}>{errors.orderNote?.message}</p>
                   )}
                 </Stack>
               </Grid>
@@ -1505,6 +1602,38 @@ const checkout = ({ someProp }) => {
                     </Button>
                   </Stack>
                 </Paper>
+              </Grid>
+              <Grid
+                lg={8.5}
+                xl={8.37}
+                sx={{ display: { xs: "none", lg: "block" } }}
+              >
+                <Stack direction={"column"} spacing={2}>
+                  <Typography variant="cardHeader1" color="initial">
+                    ORDER NOTES (OPTIONAL)
+                  </Typography>
+
+                  <TextField
+                    id="standard-multiline-flexible"
+                    multiline
+                    rows={4}
+                    autoComplete="off"
+                    {...register("orderNote", {
+                      required: {
+                        value: false,
+                        message: "Place your order note here.",
+                      },
+                    })}
+                    onKeyUp={() => trigger("orderNote")}
+                    error={Boolean(errors.orderNote)}
+                    placeholder="Place your order note here."
+                    size="small"
+                    sx={customStyle}
+                  />
+                  {errors.orderNote && (
+                    <p style={{ color: "red" }}>{errors.orderNote?.message}</p>
+                  )}
+                </Stack>
               </Grid>
             </Grid>
           </form>
