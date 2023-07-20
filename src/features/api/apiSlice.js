@@ -6,7 +6,7 @@ export const productApi = createApi({
     baseUrl: "https://backend.aranya.com.bd/api",
     // baseUrl: "https://apiaranya.jumriz.com/public/api",
   }),
-  tagTypes: ["Orders"],
+  tagTypes: ["Orders","UserAddress"],
   endpoints: (builder) => ({
     getCategoryAndSubCatList: builder.query({
       query: () => "/category-list",
@@ -84,6 +84,7 @@ export const productApi = createApi({
     getShippingCharge: builder.query({
       query: () => `/shipping-charge`,
     }),
+    
     getOrderDetails: builder.query({
       query: (token) => ({
         url: `/order`,
@@ -94,6 +95,17 @@ export const productApi = createApi({
         },
       }),
       providesTags: ["Orders"],
+    }),
+    getUserAddress: builder.query({
+      query: (token) => ({
+        url: `/get-user-address`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }),
+      providesTags: ["UserAddress"],
     }),
     cancelOrder: builder.mutation({
       query: ({ order_id, token }) => ({
@@ -132,6 +144,9 @@ export const productApi = createApi({
         method: "GET",
       }),
     }),
+    
+
+    
     postUserOrder: builder.mutation({
       query: ({
         data,
@@ -233,6 +248,31 @@ export const productApi = createApi({
         },
       }),
     }),
+    postEditAddress: builder.mutation({
+      query: ({ data, token,updateId }) => ({
+        url: `/customer-address-add`,
+        method: "POST",
+        body: {
+          id:updateId,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          street_address: data.street_address,
+          date_of_birth: data.date_of_birth,
+          city: data.city,
+          country: data.country,
+          post_code: data.post_code,
+          phone: data.phone,
+          email: data.email,
+          apartment: data.apartment,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+          "Access-Control-Allow-Origin": "*",
+        },
+      }),
+      invalidatesTags: ["UserAddress"]
+    }),
     passwordResetRequest: builder.mutation({
       query: ({ password, token }) => ({
         url: `/user-reset-password`,
@@ -261,6 +301,8 @@ export const productApi = createApi({
 });
 
 export const {
+  usePostEditAddressMutation,
+  useGetUserAddressQuery,
   useGetCategoryAndSubCatListQuery,
   useGetProductsQuery,
   useGetParticularProductsQuery,
