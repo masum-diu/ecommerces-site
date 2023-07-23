@@ -66,8 +66,8 @@ import { removeFromWishList } from "../../src/features/wishlist/wishListSlice";
             <Typography
               variant="cardHeader1"
               color="initial"
+              className="exterBold"
               textAlign={"center"}
-              textTransform={"uppercase"}
             >
               Wishlist
             </Typography>

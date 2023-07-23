@@ -20,6 +20,7 @@ import OrderDetails from "../../components/Dashboard/OrderDetails";
 import Wishlists from "../../components/Dashboard/Wishlists";
 import SortIcon from "@mui/icons-material/Sort";
 import SegmentIcon from "@mui/icons-material/Segment";
+import AddressBooks from "../../components/Dashboard/AddressBooks";
 
 
 const userDashboard = () => {
@@ -41,6 +42,8 @@ const userDashboard = () => {
         return <OrderDetails></OrderDetails>;
       case "Wishlist":
         return <Wishlists/>;
+      case "Address Books":
+        return <AddressBooks/>;
       default:
         return null;
     }
@@ -82,7 +85,7 @@ const userDashboard = () => {
           <Grid item lg={3} sx={{height:"600px"}}>
         
             <List >
-              {["Account Information", "Order History","Wishlist"].map((text, index) => (
+              {["Account Information", "Order History","Wishlist","Address Books"].map((text, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => handleMenuClick(text)}>
                     {/* <ListItemIcon>
@@ -117,7 +120,7 @@ const userDashboard = () => {
         }}
       >
          <List >
-              {["Account Information", "Order History","Wishlist"].map((text, index) => (
+              {["Account Information", "Order History","Wishlist","Address Books"].map((text, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => handleMenuClick(text)}>
                     {/* <ListItemIcon>

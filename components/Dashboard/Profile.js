@@ -85,9 +85,11 @@ const Profile = () => {
           sx={{ justifyContent: "center", alignItems: "center", mt: 3 }}
         >
           <Typography
-            variant="cardHeader1"
-            color="initial"
-            className="SemiBold"
+           variant="cardHeader1"
+           color="initial"
+           className="exterBold"
+           textAlign={"center"}
+           textTransform={"capitalize"}
           >
             ACCOUNT INFORMATION
           </Typography>
