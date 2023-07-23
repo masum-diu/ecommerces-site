@@ -7,10 +7,12 @@ import HomePageIntro from "../components/HomePageIntro";
 import HovarImage from "../components/HovarableImage/HovarImage";
 import Loader from "../components/Loader/Loader";
 import { useGetParticularCampignListsQuery } from "../src/features/api/apiSlice";
+import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 const campaign = () => {
   const router = useRouter();
   const [campData, setCampData] = useState([]);
-
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
+  // console.log('your log output',campData)
   const Camp_id = router?.query?.cat_id;
   const Camp_name = router?.query?.cat_name;
 
@@ -64,9 +66,7 @@ const campaign = () => {
                     : data?.p_subcategory?.slug
                 }/${data?.id}`}
                 data={data}
-                imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_550,w_550/v1676527368/aranya/${data?.feature_image?.substring(
-                  data?.feature_image?.lastIndexOf("/") + 1
-                )}`}
+                imageURL={`${data?.p_image_one}`}
                 width={350}
                 height={350}
               ></HovarImage>
@@ -86,7 +86,8 @@ const campaign = () => {
                   fontWeight={"bold"}
                   color="initial"
                 >
-                  BDT {data?.p_sale_price}
+                  {/* BDT {data?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
                 </Typography>
               </Stack>
             </Stack>

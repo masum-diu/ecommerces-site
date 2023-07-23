@@ -13,11 +13,13 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
 import style from "../public/assets/css/HomePageIntro.module.css";
+import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 
 const shop = () => {
   const [homedata, setHomeData] = useState([]);
   const [products, setProducts] = useState([]);
   const router = useRouter();
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
   const {
     data: landingdata,
@@ -292,8 +294,7 @@ const shop = () => {
                         : data?.p_subcategory?.slug
                     }/${data?.id}`}
                     data={data}
-                    imageURL={`${data?.feature_image
-                      }`}
+                    imageURL={`${data?.p_image_one}`}
                   ></HovarImage>
                   {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
@@ -325,7 +326,8 @@ const shop = () => {
                       className="bold"
                       color="initial"
                     >
-                      BDT {data?.p_stocks[0]?.mrp}
+                      {selectedCurrency}{" "}
+                      {convertPrice(data?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -417,8 +419,7 @@ const shop = () => {
                         : data?.p_subcategory?.slug
                     }/${data?.id}`}
                     data={data}
-                    imageURL={`${data?.feature_image
-                      }`}
+                    imageURL={`${data?.p_image_one}`}
                   ></HovarImage>
                   {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
@@ -450,7 +451,8 @@ const shop = () => {
                       className="bold"
                       color="initial"
                     >
-                      BDT {data?.p_stocks[0]?.mrp}
+                      {selectedCurrency}{" "}
+                      {convertPrice(data?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>

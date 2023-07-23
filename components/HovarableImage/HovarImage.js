@@ -13,9 +13,11 @@ import {
   addToWishList,
   removeFromWishList,
 } from "../../src/features/wishlist/wishListSlice";
+import { useCurrencyConversion } from "../../src/hooks/useCurrencyConversion";
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const cart = useSelector((state) => state.cart.cart);
   const showHeartred = useSelector((state) => state.wishList.toggleShowHeart);
   const showBrokenHeartred = useSelector(
@@ -133,7 +135,8 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     size: data?.p_sizes,
     text: data?.p_description,
     colors: data?.p_colours,
-    price: firstCombinationPrice,
+    price: convertPrice(firstCombinationPrice),
+    priceOrg: firstCombinationPrice,
     amount: 1,
     stock: data?.p_stocks,
     totalAmount: 1,

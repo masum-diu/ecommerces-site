@@ -120,10 +120,10 @@ const OrderDetailsModal = ({
                     <TableCell align="center">{row?.selling_price}</TableCell>
                     <TableCell align="center">{row?.quantity}</TableCell>
                     <TableCell align="center">
-                      {Math.ceil(row?.vat_amount)}
+                      {Math.round(row?.vat_amount)}
                     </TableCell>
                     <TableCell align="center">
-                      {row?.total_selling_price + Math.ceil(row?.vat_amount)}
+                      {row?.total_selling_price + Math.round(row?.vat_amount)}
                     </TableCell>
                     <TableCell align="center">
                       <Button

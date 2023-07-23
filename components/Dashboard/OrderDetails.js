@@ -64,7 +64,7 @@ const OrderDetails = () => {
       setCancelResponse(cancelResponse?.data);
     }
   }, [isCancelSuccess]);
-  console.log("response", response);
+  // console.log("response", response);
   if (cancelLoading) {
     return <Loader></Loader>;
   }

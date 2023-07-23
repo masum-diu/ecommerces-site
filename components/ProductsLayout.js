@@ -2,9 +2,11 @@ import { Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import HovarImage from "./HovarableImage/HovarImage";
 import { useRouter } from "next/router";
+import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 
 const ProductsLayout = ({ productsDataChunk, isLoading }) => {
   const router = useRouter();
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
 
   if (productsDataChunk.length === 0) return <></>;
   return (
@@ -25,8 +27,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               ?.split("/")
               .slice(-4)
               .join("/")}`} */
-            imageURL={`${productsDataChunk[0]?.feature_image
-              }`}
+            imageURL={`${productsDataChunk[0]?.feature_image}`}
             width={550}
             height={850}
           />
@@ -48,7 +49,8 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               {productsDataChunk[0]?.p_name}
             </Typography>
             <Typography variant="cardHeader3" color="initial" className="bold">
-              BDT {productsDataChunk[0]?.p_stocks[0]?.mrp}
+              {/* BDT {productsDataChunk[0]?.p_stocks[0]?.mrp} */}
+              {selectedCurrency} {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
             </Typography>
           </Stack>
         </Stack>
@@ -69,9 +71,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
-              imageURL={`${product?.feature_image
-                }`}
-              
+              imageURL={`${product?.feature_image}`}
             />
             <Stack
               direction={"row"}
@@ -82,8 +82,13 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               <Typography variant="cardHeader3" color="initial">
                 {product?.p_name}
               </Typography>
-              <Typography variant="cardHeader3" color="initial" className="bold">
-                BDT {product?.p_stocks[0]?.mrp}
+              <Typography
+                variant="cardHeader3"
+                color="initial"
+                className="bold"
+              >
+                {/* BDT {product?.p_stocks[0]?.mrp} */}
+                {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
               </Typography>
             </Stack>
           </Grid>
@@ -105,9 +110,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
-              imageURL={`${product?.feature_image
-                }`}
-             
+              imageURL={`${product?.feature_image}`}
             />
             <Stack
               direction={"row"}
@@ -118,8 +121,13 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               <Typography variant="cardHeader3" color="initial">
                 {product?.p_name}
               </Typography>
-              <Typography variant="cardHeader3" color="initial" className="bold">
-                BDT {product?.p_stocks[0]?.mrp}
+              <Typography
+                variant="cardHeader3"
+                color="initial"
+                className="bold"
+              >
+                {/* BDT {product?.p_stocks[0]?.mrp} */}
+                {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
               </Typography>
             </Stack>
           </Grid>
@@ -141,9 +149,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
-              imageURL={`${product?.feature_image
-                }`}
-            
+              imageURL={`${product?.feature_image}`}
             />
             <Stack
               direction={"row"}
@@ -154,8 +160,13 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
               <Typography variant="cardHeader3" color="initial">
                 {product?.p_name}
               </Typography>
-              <Typography variant="cardHeader3" color="initial" className="bold">
-                BDT {product?.p_stocks[0]?.mrp}
+              <Typography
+                variant="cardHeader3"
+                color="initial"
+                className="bold"
+              >
+                {/* BDT {product?.p_stocks[0]?.mrp} */}
+                {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
               </Typography>
             </Stack>
           </Grid>

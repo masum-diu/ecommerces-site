@@ -6,13 +6,13 @@ export const productApi = createApi({
     baseUrl: "https://backend.aranya.com.bd/api",
     // baseUrl: "https://apiaranya.jumriz.com/public/api",
   }),
-  tagTypes: ["Orders","UserAddress"],
+  tagTypes: ["Orders", "UserAddress"],
   endpoints: (builder) => ({
     getCategoryAndSubCatList: builder.query({
       query: () => "/category-list",
     }),
     getProducts: builder.query({
-      query: () => "/product",
+      query: () => `/product`,
     }),
     getParticularProducts: builder.query({
       query: (id) => `/product-by/${id}`,
@@ -84,7 +84,6 @@ export const productApi = createApi({
     getShippingCharge: builder.query({
       query: () => `/shipping-charge`,
     }),
-    
     getOrderDetails: builder.query({
       query: (token) => ({
         url: `/order`,
@@ -144,16 +143,17 @@ export const productApi = createApi({
         method: "GET",
       }),
     }),
-    
-
-    
     postUserOrder: builder.mutation({
       query: ({
         data,
         cart,
-        subTotal,
+        totalPrice,
+        totalPriceOrg,
         totalPriceWithTax,
+        totalPriceWithTaxOrg,
         finalPriceOfOrder,
+        currentConversionRate,
+        selectedCurrency,
         totalAmount,
         isSameAddressChecked,
         isGuestCheckout,
@@ -166,9 +166,13 @@ export const productApi = createApi({
           data: data,
           cart: cart,
           backUri,
-          totalPrice: subTotal,
+          totalPrice: totalPrice,
+          totalPriceOrg: totalPriceOrg,
           totalPriceWithTax: totalPriceWithTax,
+          totalPriceWithTaxOrg: totalPriceWithTaxOrg,
           finalPrice: finalPriceOfOrder,
+          currentConversionRate: currentConversionRate,
+          selectedCurrency: selectedCurrency,
           totalAmount: totalAmount,
           isSameAddress: isSameAddressChecked,
           isGuestCheckout: isGuestCheckout,
@@ -184,9 +188,13 @@ export const productApi = createApi({
       query: ({
         data,
         cart,
-        subTotal,
+        totalPrice,
         totalPriceWithTax,
+        totalPriceOrg,
+        totalPriceWithTaxOrg,
         finalPriceOfOrder,
+        currentConversionRate,
+        selectedCurrency,
         totalAmount,
         isSameAddressChecked,
         isGuestCheckout,
@@ -199,9 +207,13 @@ export const productApi = createApi({
           data: data,
           cart: cart,
           backUri: backUri,
-          totalPrice: subTotal,
+          totalPrice: totalPrice,
           totalPriceWithTax: totalPriceWithTax,
+          totalPriceOrg: totalPriceOrg,
+          totalPriceWithTaxOrg: totalPriceWithTaxOrg,
           finalPrice: finalPriceOfOrder,
+          currentConversionRate: currentConversionRate,
+          selectedCurrency: selectedCurrency,
           totalAmount: totalAmount,
           isSameAddress: isSameAddressChecked,
           isGuestCheckout: isGuestCheckout,
@@ -233,11 +245,11 @@ export const productApi = createApi({
       }),
     }),
     postEditAddress: builder.mutation({
-      query: ({ data, token,updateId }) => ({
+      query: ({ data, token, updateId }) => ({
         url: `/customer-address-add`,
         method: "POST",
         body: {
-          id:updateId,
+          id: updateId,
           first_name: data.first_name,
           last_name: data.last_name,
           street_address: data.street_address,
@@ -255,7 +267,7 @@ export const productApi = createApi({
           "Access-Control-Allow-Origin": "*",
         },
       }),
-      invalidatesTags: ["UserAddress"]
+      invalidatesTags: ["UserAddress"],
     }),
     passwordResetRequest: builder.mutation({
       query: ({ password, token }) => ({
@@ -278,6 +290,16 @@ export const productApi = createApi({
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
+        },
+      }),
+    }),
+    getCountryListWithShippingCharge: builder.query({
+      query: (token) => ({
+        url: `/shipping-charge`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
       }),
     }),
@@ -317,4 +339,5 @@ export const {
   usePostAdditionalInfoMutation,
   usePasswordResetRequestMutation,
   useSocialUserCreationMutation,
+  useGetCountryListWithShippingChargeQuery
 } = productApi;

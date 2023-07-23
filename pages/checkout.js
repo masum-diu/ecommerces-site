@@ -33,17 +33,19 @@ import {
   usePostGuestOrderMutation,
   useGetShippingChargeQuery,
   useGetUserAddressQuery,
-
+  useGetCountryListWithShippingChargeQuery,
 } from "../src/features/api/apiSlice";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
 import Link from "next/link";
 import AddressLists from "../components/AddressLists";
+import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
+import useCityFetcher from "../src/hooks/useCityFetcher";
 const checkout = ({ someProp }) => {
   // address popup state start
-  const [addressList, setAddressList] = useState(false)
+  const [addressList, setAddressList] = useState(false);
   // address popup state end
   const cart = useSelector((state) => state.cart.cart);
-  const [addAddressValue,setAddAddressValue]=useState(0)
+  const [addAddressValue, setAddAddressValue] = useState(0);
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
   const [townBilling, setTownBilling] = useState("Select Town/City");
@@ -52,15 +54,18 @@ const checkout = ({ someProp }) => {
   const [host, setHost] = useState("");
   const isInitialMount = useRef(true);
   const dispatch = useDispatch();
-  const subTotal = useSelector((state) => state.cart.totalPrice);
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const totalPriceOrg = useSelector((state) => state.cart.totalPriceOrg);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const totalPriceWithTax = useSelector(
     (state) => state.cart.totalPriceWithTax
   );
+  const totalPriceWithTaxOrg = useSelector(
+    (state) => state.cart.totalPriceWithTaxOrg
+  );
   const isGuestCheckout = useSelector(
     (state) => state.checkoutSlice.isGuestCheckout
   );
-  const [totalPrice, setSubtotal] = useState(subTotal);
   const [isDhakaChecked, setIsDhakaChecked] = useState(false);
   const [isOutSideChecked, setIsOutSideChecked] = useState(false);
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
@@ -77,6 +82,10 @@ const checkout = ({ someProp }) => {
   const [billingTown, setBillingTown] = useState("");
   const [shippingTown, setShippingTown] = useState("");
   const [shippingCost, setShippingCost] = useState();
+  const [billingCountry, setBillingCountry] = useState("");
+  const [shippingCountry, setShippingCountry] = useState("");
+  const [billingCities, setBillingCities] = useState([]);
+  const [shippingCities, setShippingCities] = useState([]);
   const data = [
     { label: "Barishal", year: 1994, value: "Barishal" },
     { label: "Chittagong", year: 1972, value: "Chittagong" },
@@ -90,11 +99,15 @@ const checkout = ({ someProp }) => {
   const [orderInfo, setOrderInfo] = useState({});
   const [orderResponseUser, setOrderResponseUser] = useState({});
   const [orderResponseGuest, setOrderResponseGuest] = useState({});
+
+  const { selectedCurrency, convertPrice, currentConversionRate } =
+    useCurrencyConversion();
+  const { selectedCountry, setSelectedCountry, cities } = useCityFetcher();
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
-    {
-      "-webkit-text-fill-color": "rgb(0 0 0)",
-    },
+      {
+        "-webkit-text-fill-color": "rgb(0 0 0)",
+      },
   };
   const { hasToken, setHasToken, isPlaceOrder, setIsPlaceOrder } =
     useContext(USER_CONTEXT);
@@ -119,9 +132,13 @@ const checkout = ({ someProp }) => {
       error: guestOrderErrorData,
     },
   ] = usePostGuestOrderMutation();
-  const tokens = localStorage.getItem("acesstoken")
-  const { data: getUserAddress } = useGetUserAddressQuery(tokens)
-
+  const tokens = localStorage.getItem("acesstoken");
+  const { data: getUserAddress } = useGetUserAddressQuery(tokens);
+  const {
+    data: countryData,
+    isError: countryError,
+    isLoading: countryLoading,
+  } = useGetCountryListWithShippingChargeQuery(tokens);
   // if(getUserAddress?.length>0){
   //   const handleNewAddress = () => {
   //     setIsNewAddressChecked(!isNewAddressChecked);
@@ -169,9 +186,13 @@ const checkout = ({ someProp }) => {
           const postResponse = await guestOrder({
             data: orderInfo?.data,
             cart: orderInfo?.cart,
-            subTotal: orderInfo?.totalPrice,
+            totalPrice: orderInfo?.totalPrice,
+            totalPriceOrg: orderInfo?.totalPriceOrg,
             totalPriceWithTax: orderInfo?.totalPriceWithTax,
+            totalPriceWithTaxOrg: orderInfo?.totalPriceWithTaxOrg,
             finalPriceOfOrder: orderInfo?.finalPrice,
+            currentConversionRate: orderInfo?.currentConversionRate,
+            selectedCurrency: orderInfo?.selectedCurrency,
             totalAmount: orderInfo?.totalAmount,
             isSameAddressChecked: orderInfo?.isSameAddress,
             isGuestCheckout: orderInfo?.isGuestCheckout,
@@ -179,8 +200,6 @@ const checkout = ({ someProp }) => {
             token,
           });
           setOrderResponseGuest(postResponse);
-
-
         } catch (e) {
           console.log("your log output", e);
         }
@@ -240,14 +259,14 @@ const checkout = ({ someProp }) => {
     setHasToken(true);
   }
 
-  const handleAddressStatusBilling = ()=>{
-    setAddressList(true)
-    setAddAddressValue(1)
-  }
-  const handleAddressStatusShipping = ()=>{
-    setAddressList(true)
-    setAddAddressValue(2)
-  }
+  const handleAddressStatusBilling = () => {
+    setAddressList(true);
+    setAddAddressValue(1);
+  };
+  const handleAddressStatusShipping = () => {
+    setAddressList(true);
+    setAddAddressValue(2);
+  };
 
   // Handling React Hook form
   const {
@@ -278,38 +297,44 @@ const checkout = ({ someProp }) => {
       post_code_shipping: "",
       phone_shipping: "",
       email_shipping: "",
+      orderNote: "",
       isSameAddress: false,
       paymentMethod: "",
       deliveryMethod: "",
-
     },
   });
   const allFieldsFilled = watch();
   const onSubmit = async (data) => {
-    console.log("your log output", data);
-
     setIsPlaceOrder(true);
     setIsSameAddress(isSameAddressChecked);
     setOrderInfo({
       data: data,
       cart: cart,
-      totalPrice: subTotal,
+      totalPrice: totalPrice,
       totalPriceWithTax: totalPriceWithTax,
-      finalPrice: Math.ceil(total),
+      totalPriceOrg: totalPriceOrg,
+      totalPriceWithTaxOrg: totalPriceWithTaxOrg,
+      finalPrice: Math.round(total),
+      currentConversionRate: currentConversionRate,
+      selectedCurrency: selectedCurrency,
       totalAmount: totalAmount,
       isSameAddress: isSameAddressChecked,
       isGuestCheckout: true,
     });
     if (hasToken === true && cart?.length > 0) {
-      const finalPriceOfOrder = Math.ceil(total);
+      const finalPriceOfOrder = Math.round(total);
       const handleUserOrder = async () => {
         try {
           const postResponse = await userOrder({
             data,
             cart,
             backUri: host,
-            subTotal,
+            totalPrice,
+            totalPriceOrg,
             totalPriceWithTax,
+            totalPriceWithTaxOrg,
+            currentConversionRate: currentConversionRate,
+            selectedCurrency: selectedCurrency,
             finalPriceOfOrder,
             totalAmount,
             isSameAddressChecked,
@@ -326,6 +351,59 @@ const checkout = ({ someProp }) => {
       // console.log(handleUserOrder())
     }
   };
+  const countries = [
+    {
+      id: 1,
+      country_name: "Bangladesh",
+      shipping_charge:
+        '{"inside_city":{"pathao":655,"e_courier":466},"outside_city":{"pathao":544,"e_courier":353}}',
+      status: 1,
+      created_at: "2023-06-13 12:48:11",
+      updated_at: null,
+    },
+    {
+      id: 2,
+      country_name: "India",
+      shipping_charge: '{"amount":400}',
+      status: 1,
+      created_at: "2023-06-13 13:33:22",
+      updated_at: null,
+    },
+    {
+      id: 3,
+      country_name: "United States",
+      shipping_charge: '{"amount":160}',
+      status: 1,
+      created_at: "2023-07-19 10:31:09",
+      updated_at: "2023-07-19 10:31:09",
+    },
+    {
+      id: 4,
+      country_name: "Sri Lanka",
+      shipping_charge: '{"amount":110}',
+      status: 1,
+      created_at: "2023-07-19 10:31:46",
+      updated_at: "2023-07-19 10:31:46",
+    },
+  ];
+  const radio = [
+    {
+      id: 1,
+      innerText: "Pathao",
+    },
+    {
+      id: 1,
+      innerText: "E-Querier",
+    },
+    {
+      id: 1,
+      innerText: "Pickup from showroom",
+    },
+    {
+      id: 1,
+      innerText: "Dhl",
+    },
+  ];
   const handleSelectChange = (event) => {
     setValue("country_billing", event.target.value, { shouldValidate: true });
     setDistict(event.target.value);
@@ -441,6 +519,10 @@ const checkout = ({ someProp }) => {
     control,
     name: "isSameAddress",
   });
+  const orderNote = useWatch({
+    control,
+    name: "orderNote",
+  });
   // console.log('your log outsdfsfput',showInputField)
   useEffect(() => {
     setPayment(paymentMethod);
@@ -496,18 +578,58 @@ const checkout = ({ someProp }) => {
     guestOrderLoading,
   ]);
   useEffect(() => {
-    if (showInputField === false) {
+    if (showInputField === true) {
+      setValue("first_name_shipping", firstName);
+      setValue("last_name_shipping", lastName);
+      setValue("street_address_shipping", streetAddress);
+      setValue("apartment_address_shipping", apartmentAddress);
+      setValue("city_shipping", cityAddress);
+      setValue("country_shipping", country);
+      setValue("post_code_shipping", postBilling);
+      setValue("phone_shipping", phoneBilling);
+      setValue("email_shipping", emailBilling);
+    } else {
       setValue("first_name_shipping", "");
       setValue("last_name_shipping", "");
       setValue("street_address_shipping", "");
       setValue("apartment_address_shipping", "");
       setValue("city_shipping", "");
+      setValue("country_shipping", "");
       setValue("post_code_shipping", "");
       setValue("phone_shipping", "");
       setValue("email_shipping", "");
+      setDistict1("Select Country");
+      setTownBillingSh("Select Town/City");
     }
-  }, [showInputField]);
+  }, [
+    showInputField,
+    firstName,
+    lastName,
+    streetAddress,
+    apartmentAddress,
+    cityAddress,
+    postBilling,
+    phoneBilling,
+    emailBilling,
+  ]);
 
+  useEffect(() => {
+    if (country && billingCountry) {
+      setSelectedCountry(billingCountry);
+      if (cities) {
+        setBillingCities(cities);
+      }
+    }
+  }, [country]);
+  useEffect(() => {
+    if (country && shippingCountry) {
+      setSelectedCountry(shippingCountry);
+      if (cities) {
+        setShippingCities(cities);
+      }
+    }
+  }, [countrySh]);
+  console.log("setBillingCities", shippingCities,billingCities);
   const errorObject = Object.keys(errors).length;
   useEffect(() => {
     if (errorObject > 0) {
@@ -573,6 +695,7 @@ const checkout = ({ someProp }) => {
     countrySh,
     phoneBillingSh,
     emailBillingSh,
+    orderNote,
     errors,
     paymentMethod,
     termsAndCondition,
@@ -584,7 +707,8 @@ const checkout = ({ someProp }) => {
     userOrderLoading ||
     guestOrderLoading ||
     userOrderSuccess ||
-    guestOrderSuccess
+    guestOrderSuccess ||
+    countryLoading
   ) {
     return <Loader></Loader>;
   }
@@ -633,11 +757,22 @@ const checkout = ({ someProp }) => {
                   BILLING DETAILS
                 </Typography>
                 <Stack direction={"row"} spacing={1} mt={3.8}>
-                  
-                  <Typography variant="cardLocation1" color="#7E7250" onClick={() => handleAddressStatusBilling()} className="SemiBold" sx={{ textDecoration: "underline", textUnderlineOffset: ".3rem", color: "blueviolet", cursor: "pointer" }}>Add New Billing Address</Typography>
+                  <Typography
+                    variant="cardLocation1"
+                    color="#7E7250"
+                    onClick={() => handleAddressStatusBilling()}
+                    className="SemiBold"
+                    sx={{
+                      textDecoration: "underline",
+                      textUnderlineOffset: ".3rem",
+                      color: "blueviolet",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Add New Billing Address
+                  </Typography>
                 </Stack>
                 <Stack direction={"column"} spacing={2} mt={{ lg: 2 }}>
-                 
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
@@ -746,34 +881,6 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
-                  {/* <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={data}
-                    renderInput={(params) => (
-                      <TextField
-                        // id=""
-                        // label=""
-                        // value={}
-                        // onChange={}
-                        {...params}
-                        {...register("city_billing", {
-                          required: {
-                            value: true,
-                            message: "Town/City is Required",
-                          },
-                        })}
-                        onSelect={(e) => setBillingTown(e.target.value)}
-                        onChange={(e) =>
-                          setValue("city_billing", e.target.value)
-                        }
-                        onKeyUp={() => trigger("city_billing")}
-                        error={Boolean(errors.city_billing)}
-                        placeholder="Town / City"
-                        size="small"
-                      />
-                    )}
-                  /> */}
                   <Select
                     id="city_billing"
                     {...register("city_billing", {
@@ -782,7 +889,7 @@ const checkout = ({ someProp }) => {
                         message: "Town/City is Required",
                       },
                     })}
-                    onMouseLeave={() => trigger("city_billing")}
+                    onClick={() => trigger("city_billing")}
                     error={Boolean(errors.city_billing)}
                     size="small"
                     value={townBilling}
@@ -806,15 +913,6 @@ const checkout = ({ someProp }) => {
                   <Typography variant="cardHeader1" color="initial">
                     COUNTRY *
                   </Typography>
-                  {/* <TextField
-                  // id=""
-                  // label=""
-                  // value={}
-                  // onChange={}
-                  placeholder="Company Name (Optional)"
-                  size="small"
-                /> */}
-
                   <Select
                     id="country_billing"
                     {...register("country_billing", {
@@ -823,7 +921,7 @@ const checkout = ({ someProp }) => {
                         message: "Country is Required",
                       },
                     })}
-                    onMouseLeave={() => trigger("country_billing")}
+                    onClick={() => trigger("country_billing")}
                     error={Boolean(errors.country_billing)}
                     size="small"
                     value={distict}
@@ -832,7 +930,16 @@ const checkout = ({ someProp }) => {
                     <MenuItem value={"Select Country"} disabled>
                       Select Country
                     </MenuItem>
-                    <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
+                    {countryData?.map((country, index) => (
+                      <MenuItem
+                        key={index}
+                        value={country.country_name}
+                        onClick={() => setBillingCountry(country?.country_code)}
+                      >
+                        {country.country_name}
+                      </MenuItem>
+                    ))}
+
                     {/* <MenuItem value={"India"}>India</MenuItem> */}
                   </Select>
                   {errors.country_billing && (
@@ -952,11 +1059,28 @@ const checkout = ({ someProp }) => {
                       id=""
                       onClick={() => handleSameAddressSelected()}
                     />
-                    <Typography variant="cardLocation1" className="SemiBold" color="initial">
-                      Same As Billing Address. 
+                    <Typography
+                      variant="cardLocation1"
+                      className="SemiBold"
+                      color="initial"
+                    >
+                      Same As Billing Address.
                     </Typography>
                     <b>/</b>
-                    <Typography variant="cardLocation1" color="#7E7250" onClick={() => handleAddressStatusShipping()} className="SemiBold" sx={{ textDecoration: "underline", textUnderlineOffset: ".3rem", color: "blueviolet", cursor: "pointer" }}>Add New Shipping Address</Typography>
+                    <Typography
+                      variant="cardLocation1"
+                      color="#7E7250"
+                      onClick={() => handleAddressStatusShipping()}
+                      className="SemiBold"
+                      sx={{
+                        textDecoration: "underline",
+                        textUnderlineOffset: ".3rem",
+                        color: "blueviolet",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Add New Shipping Address
+                    </Typography>
                   </Stack>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
@@ -1105,7 +1229,7 @@ const checkout = ({ someProp }) => {
                       },
                     })}
                     disabled={isSameAddressChecked === false ? false : true}
-                    onMouseLeave={() => trigger("city_shipping")}
+                    onClick={() => trigger("city_shipping")}
                     error={Boolean(errors.city_shipping)}
                     id="demo-simple-select"
                     size="small"
@@ -1139,7 +1263,7 @@ const checkout = ({ someProp }) => {
                       },
                     })}
                     disabled={isSameAddressChecked === false ? false : true}
-                    onMouseLeave={() => trigger("country_shipping")}
+                    onClick={() => trigger("country_shipping")}
                     error={Boolean(errors.country_shipping)}
                     id="demo-simple-select"
                     size="small"
@@ -1149,7 +1273,17 @@ const checkout = ({ someProp }) => {
                     <MenuItem value={"Select Country"} disabled>
                       Select Country
                     </MenuItem>
-                    <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
+                    {countryData?.map((country, index) => (
+                      <MenuItem
+                        key={index}
+                        value={country.country_name}
+                        onClick={() =>
+                          setShippingCountry(country?.country_code)
+                        }
+                      >
+                        {country.country_name}
+                      </MenuItem>
+                    ))}
                   </Select>
                   {errors.country_shipping &&
                     isSameAddressChecked === false && (
@@ -1266,6 +1400,37 @@ const checkout = ({ someProp }) => {
                     </p>
                   )}
                 </Stack>
+                <Stack
+                  direction={"column"}
+                  spacing={2}
+                  sx={{ display: { xs: "", lg: "none" } }}
+                  mt={3}
+                >
+                  <Typography variant="cardHeader1" color="initial">
+                    ORDER NOTES (OPTIONAL)
+                  </Typography>
+
+                  <TextField
+                    id="standard-multiline-flexible"
+                    multiline
+                    rows={4}
+                    autoComplete="off"
+                    {...register("orderNote", {
+                      required: {
+                        value: false,
+                        message: "Place your order note here.",
+                      },
+                    })}
+                    onKeyUp={() => trigger("orderNote")}
+                    error={Boolean(errors.orderNote)}
+                    placeholder="Place your order note here."
+                    size="small"
+                    sx={customStyle}
+                  />
+                  {errors.orderNote && (
+                    <p style={{ color: "red" }}>{errors.orderNote?.message}</p>
+                  )}
+                </Stack>
               </Grid>
 
               <Grid item lg={3} mt={4} xs={12}>
@@ -1288,7 +1453,7 @@ const checkout = ({ someProp }) => {
                         color="initial"
                         className="bold"
                       >
-                        BDT {subTotal}
+                        {selectedCurrency} {totalPrice}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -1306,7 +1471,7 @@ const checkout = ({ someProp }) => {
                           color="initial"
                           className="bold"
                         >
-                          BDT {shippingCost}
+                          {selectedCurrency} {shippingCost}
                         </Typography>
                       </Stack>
 
@@ -1412,7 +1577,8 @@ const checkout = ({ someProp }) => {
                         className="bold"
                         sx={{ marginLeft: "72px!important" }}
                       >
-                        BDT {Math.ceil(totalPriceWithTax - subTotal)}
+                        {selectedCurrency}{" "}
+                        {Math.round(totalPriceWithTax - totalPrice)}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -1429,7 +1595,7 @@ const checkout = ({ someProp }) => {
                         color="initial"
                         className="exterBold"
                       >
-                        BDT {Math.ceil(total)}
+                        {selectedCurrency} {Math.round(total)}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -1528,22 +1694,56 @@ const checkout = ({ someProp }) => {
                   </Stack>
                 </Paper>
               </Grid>
+              <Grid
+                lg={8.5}
+                xl={8.37}
+                sx={{ display: { xs: "none", lg: "block" } }}
+              >
+                <Stack direction={"column"} spacing={2}>
+                  <Typography variant="cardHeader1" color="initial">
+                    ORDER NOTES (OPTIONAL)
+                  </Typography>
+
+                  <TextField
+                    id="standard-multiline-flexible"
+                    multiline
+                    rows={4}
+                    autoComplete="off"
+                    {...register("orderNote", {
+                      required: {
+                        value: false,
+                        message: "Place your order note here.",
+                      },
+                    })}
+                    onKeyUp={() => trigger("orderNote")}
+                    error={Boolean(errors.orderNote)}
+                    placeholder="Place your order note here."
+                    size="small"
+                    sx={customStyle}
+                  />
+                  {errors.orderNote && (
+                    <p style={{ color: "red" }}>{errors.orderNote?.message}</p>
+                  )}
+                </Stack>
+              </Grid>
             </Grid>
           </form>
         </Stack>
       </Box>
 
       <Footer />
-      <AddressLists open={addressList}
-       setOpen={setAddressList}
-       getUserAddress={getUserAddress} 
-       setValue={setValue} 
-       setDistict={setDistict}
+      <AddressLists
+        open={addressList}
+        setOpen={setAddressList}
+        getUserAddress={getUserAddress}
+        setValue={setValue}
+        setDistict={setDistict}
         setDistict1={setDistict1}
         addAddressValue={addAddressValue}
         setAddAddressValue={setAddAddressValue}
         setTownBilling={setTownBilling}
-        setTownBillingSh={setTownBillingSh} />
+        setTownBillingSh={setTownBillingSh}
+      />
       <LoginModal
       // open={openLoginModal}
       // setOpen={setLoginModal}

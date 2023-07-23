@@ -23,13 +23,14 @@ import { removeFromWishList } from "../src/features/wishlist/wishListSlice";
 import { useRouter } from "next/router";
 import { FiHeart } from "react-icons/fi";
 import toast from "react-hot-toast";
+import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 
 const wishlists = () => {
   const router = useRouter();
   const wishlist = useSelector((state) => state.wishList.wishList);
 
   const dispatch = useDispatch();
-
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const handleRemoveFromList = async (data) => {
     dispatch(removeFromWishList(data));
     await toast.error("Removed From Wishlist!")
@@ -101,7 +102,7 @@ const wishlists = () => {
                         {wishlistData?.name}
                       </Typography>
                       <Typography variant="cardHeader12" color="initial">
-                        BDT {wishlistData?.price}
+                        {selectedCurrency} {wishlistData?.price}
                       </Typography>
                       {/* <Typography variant="cardHeader12" color="initial">
                         {wishlistData?.stock[0]?.stock}
@@ -181,7 +182,7 @@ const wishlists = () => {
                             {wishlistData?.name}
                           </TableCell>
                           <TableCell sx={{ border: "none", textAlign: "left" }}>
-                            BDT {wishlistData?.price}
+                            {selectedCurrency} {wishlistData?.price}
                           </TableCell>
                           {/* <TableCell sx={{ border: "none" }}>
                         {wishlistData.stock[0]?.stock}

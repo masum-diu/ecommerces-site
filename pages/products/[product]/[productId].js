@@ -13,7 +13,7 @@ import {
   Box,
   ButtonGroup,
 } from "@mui/material";
-import { pink,red } from '@mui/material/colors';
+import { pink, red } from "@mui/material/colors";
 import CloseIcon from "@mui/icons-material/Close";
 import HomePageIntro from "../../../components/HomePageIntro";
 // import { Box } from "@mui/system";
@@ -45,7 +45,8 @@ import {
   removeFromWishList,
 } from "../../../src/features/wishlist/wishListSlice";
 import HovarImage from "../../../components/HovarableImage/HovarImage";
-import style from "../../../public/assets/css/innerpage.module.css"
+import style from "../../../public/assets/css/innerpage.module.css";
+import { useCurrencyConversion } from "../../../src/hooks/useCurrencyConversion";
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
@@ -95,6 +96,7 @@ const PorductDetails = () => {
   const [showBrokenHeart, setShowBrokenHeart] = useState(
     myProduct?.showBrokenHeart ? myProduct?.showBrokenHeart : "none"
   );
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const category = products?.p_category?.id;
   const sub_catcategory = products?.p_subcategory?.id;
   const { data, isLoading, isSuccess, isError, error } =
@@ -231,6 +233,31 @@ const PorductDetails = () => {
     await toast.error("Removed From Wishlist!");
   };
   const description = products?.p_description;
+
+  // variable for price priceWithTax
+  const priceWithTax1 = parseFloat(
+    convertPrice(productPrice) * (products?.p_tax?.tax_percentage / 100) +
+      convertPrice(productPrice)
+  );
+  const priceWithTaxRounded = Math.round(priceWithTax1);
+
+  // variable for price vatAmountParticularProduct
+  const vatAmountParticularProduct1 =
+    parseFloat(
+      convertPrice(productPrice) * (products?.p_tax?.tax_percentage / 100)
+    ) * count;
+  const vatAmountParticularProductRounded = Math.round(
+    vatAmountParticularProduct1
+  );
+
+  // variable for price vatAmountParticularProduct
+  const totalPriceWithTax1 =
+    parseFloat(
+      convertPrice(productPrice) * (products?.p_tax?.tax_percentage / 100) +
+        convertPrice(productPrice)
+    ) * count;
+  const totalPriceWithTaxRounded = Math.round(totalPriceWithTax1);
+  // console.log("priceWithTaxRounded", vatAmountParticularProductRounded);
   const finalData = {
     id: products.id,
     image: products.feature_image,
@@ -240,23 +267,28 @@ const PorductDetails = () => {
     size_id: sizeId,
     text: products?.p_description,
     colors: products?.p_colours,
-    price: productPrice,
-    priceWithTax: parseFloat(
-      productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
-    ),
-    vatAmountParticularProduct:
-      count *
-      parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
+    price: convertPrice(productPrice),
+    priceWithTax: priceWithTaxRounded,
+    vatAmountParticularProduct: vatAmountParticularProductRounded,
     amount: count,
     stock: stockAmount,
     totalAmount: count,
-    totalPrice: count * parseFloat(productPrice),
-    totalPriceWithTax:
+    totalPrice: parseFloat(convertPrice(productPrice)) * count,
+    totalPriceWithTax: totalPriceWithTaxRounded,
+    taxAmount: products?.p_tax?.tax_percentage,
+    priceOrg: productPrice,
+    priceWithTaxOrg: parseFloat(
+      productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
+    ),
+    vatAmountParticularProductOrg:
+      count *
+      parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
+    totalPriceOrg: count * parseFloat(productPrice),
+    totalPriceWithTaxOrg:
       count *
       parseFloat(
         productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
       ),
-    taxAmount: products?.p_tax?.tax_percentage,
   };
 
   const dataForWishList = {
@@ -266,7 +298,8 @@ const PorductDetails = () => {
     size: products?.p_sizes,
     text: products?.p_description,
     colors: products?.p_colours,
-    price: productPrice,
+    price: convertPrice(productPrice),
+    priceOrg: productPrice,
     amount: 1,
     stock: products?.p_stocks,
     totalAmount: 1,
@@ -303,9 +336,14 @@ const PorductDetails = () => {
       {/* Product Details for pc */}
       <Hidden only={["xms", "xs"]}>
         <Box
-          sx={{ pt: { lg: 8, xs: 7 },width: "90%", maxWidth: "1500px", mx: "auto"  }}
+          sx={{
+            pt: { lg: 8, xs: 7 },
+            width: "90%",
+            maxWidth: "1500px",
+            mx: "auto",
+          }}
           mb={4}
-            // sx={{ }}
+          // sx={{ }}
         >
           <Grid container justifyContent={"center"}>
             <Grid item xl={4} lg={5} md={6} sm={12}>
@@ -319,58 +357,54 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.feature_image}
-                src={`${products?.p_image_one
-                  }`}
+                src={`${products?.p_image_one}`}
                 alt=""
                 style={{
                   width: "100%",
                   maxWidth: "auto",
                 }}
               />
-              <Stack direction={"row"} spacing={0.5} mb={0.5} >
+              <Stack direction={"row"} spacing={0.5} mb={0.5}>
                 <Stack width={"50%"}>
-                <img 
-                //  className={style.images}
-                  onClick={() =>
-                    handleImageForThumble(true, {
-                      img1: products?.p_image_two,
-                      img2: products?.p_image_one,
-                      img3: products?.p_image_three,
-                      img4: products?.p_image_four,
-                    })
-                  }
-                  // src={products?.p_image_one}
-                  src={`${products?.p_image_two
-                    }`}
-                  alt=""
-                  style={{
-                    width: "100%",
-                    maxWidth: "auto",
-                  }}
-                />
+                  <img
+                    //  className={style.images}
+                    onClick={() =>
+                      handleImageForThumble(true, {
+                        img1: products?.p_image_two,
+                        img2: products?.p_image_one,
+                        img3: products?.p_image_three,
+                        img4: products?.p_image_four,
+                      })
+                    }
+                    // src={products?.p_image_one}
+                    src={`${products?.p_image_two}`}
+                    alt=""
+                    style={{
+                      width: "100%",
+                      maxWidth: "auto",
+                    }}
+                  />
                 </Stack>
                 <Stack width={"50%"}>
-                <img
-              //  className={style.images}
-                  onClick={() =>
-                    handleImageForThumble(true, {
-                      img1: products?.p_image_three,
-                      img2: products?.p_image_one,
-                      img3: products?.p_image_two,
-                      img4: products?.p_image_four,
-                    })
-                  }
-                  // src={products?.p_image_two}
-                  src={`${products?.p_image_three
-                    }`}
-                  alt=""
-                  style={{
-                    width: "100%",
-                    maxWidth: "auto",
-                  }}
-                />
+                  <img
+                    //  className={style.images}
+                    onClick={() =>
+                      handleImageForThumble(true, {
+                        img1: products?.p_image_three,
+                        img2: products?.p_image_one,
+                        img3: products?.p_image_two,
+                        img4: products?.p_image_four,
+                      })
+                    }
+                    // src={products?.p_image_two}
+                    src={`${products?.p_image_three}`}
+                    alt=""
+                    style={{
+                      width: "100%",
+                      maxWidth: "auto",
+                    }}
+                  />
                 </Stack>
-               
               </Stack>
 
               <img
@@ -383,8 +417,7 @@ const PorductDetails = () => {
                   })
                 }
                 // src={products?.p_image_three}
-                src={`${products?.p_image_four
-                  }`}
+                src={`${products?.p_image_four}`}
                 alt=""
                 style={{
                   width: "100%",
@@ -423,7 +456,8 @@ const PorductDetails = () => {
                     letterSpacing={0.3}
                     fontWeight={700}
                   >
-                    Price : BDT {productPrice}
+                    {/* Price : BDT {productPrice} */}
+                    {selectedCurrency} {convertPrice(productPrice)}
                   </Typography>
                   {products?.p_sizes?.length > 0 ? (
                     <>
@@ -463,12 +497,18 @@ const PorductDetails = () => {
                               startIcon={
                                 handleStockAvailability(size.id) ===
                                 "outOfStock" ? (
-                                  <CloseIcon color="action" sx={{ color: red[300] }} />
+                                  <CloseIcon
+                                    color="action"
+                                    sx={{ color: red[300] }}
+                                  />
                                 ) : (
                                   ""
                                 )
                               }
-                              style={{boxShadow:"0px 1px 4px 2px rgba(131 131 133 / 20%)"}}
+                              style={{
+                                boxShadow:
+                                  "0px 1px 4px 2px rgba(131 131 133 / 20%)",
+                              }}
                               key={index}
                               variant={`${
                                 activesize === size?.id ? "outlined" : "primary"
@@ -479,11 +519,17 @@ const PorductDetails = () => {
                               }
                             >
                               {/* {console.log(products?.p_stocks.find((element)=>element.size_id===size.id))} */}
-                              <Typography variant="cardHeader"  color={handleStockAvailability(size?.id) ===
-                                "outOfStock"?"#bbb6b6;":""}>
-                              {size?.size_name}
+                              <Typography
+                                variant="cardHeader"
+                                color={
+                                  handleStockAvailability(size?.id) ===
+                                  "outOfStock"
+                                    ? "#bbb6b6;"
+                                    : ""
+                                }
+                              >
+                                {size?.size_name}
                               </Typography>
-                              
                             </Button>
                           ))}
                         </Stack>
@@ -564,8 +610,6 @@ const PorductDetails = () => {
                         <AddIcon fontSize="small" />
                       </IconButton>
                     </Stack>
-
-                  
                   </Stack>
                   {noteTextForCart && (
                     <>
@@ -581,67 +625,70 @@ const PorductDetails = () => {
                       </Stack>
                     </>
                   )}
-                  <Stack direction={"row"} alignItems={"center"} width={"100%"} spacing={1}>
-                    <Stack width={"100%"}>
-                    <Button
-                    size="small"
-                    fullWidth
-                    variant="contained"
-                    color="background2"
-                    type="submit"
-                    disabled={disableBtn}
-                    onClick={() => handleAddToCart(finalData)}
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    width={"100%"}
+                    spacing={1}
                   >
-                    ADD TO CART
-                  </Button>
+                    <Stack width={"100%"}>
+                      <Button
+                        size="small"
+                        fullWidth
+                        variant="contained"
+                        color="background2"
+                        type="submit"
+                        disabled={disableBtn}
+                        onClick={() => handleAddToCart(finalData)}
+                      >
+                        ADD TO CART
+                      </Button>
                     </Stack>
-                  
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        aria-label=""
-                        style={{ display: `${showHeart}` }}
-                        onClick={() => handleAddToWishList(dataForWishList)}
-                      >
-                        <FiHeart
-                          style={{
-                            // color: "#000",
-                            fontSize: "18px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "100%",
-                          }}
-                        />
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="inherit"
-                        style={{ display: `${showBrokenHeart}` }}
-                        aria-label=""
-                        onClick={() =>
-                          handleRemoveFromList({
-                            id: products?.id,
-                            amount: 1,
-                            showHeart: "block",
-                            showBrokenHeart: "none",
-                          })
-                        }
-                      >
-                        <HeartBrokenOutlinedIcon
-                          style={{
-                            color: "#000",
-                            fontSize: "18px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "100%",
-                          }}
-                        />
-                      </Button>
-                    
+
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      aria-label=""
+                      style={{ display: `${showHeart}` }}
+                      onClick={() => handleAddToWishList(dataForWishList)}
+                    >
+                      <FiHeart
+                        style={{
+                          // color: "#000",
+                          fontSize: "18px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          width: "100%",
+                        }}
+                      />
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="inherit"
+                      style={{ display: `${showBrokenHeart}` }}
+                      aria-label=""
+                      onClick={() =>
+                        handleRemoveFromList({
+                          id: products?.id,
+                          amount: 1,
+                          showHeart: "block",
+                          showBrokenHeart: "none",
+                        })
+                      }
+                    >
+                      <HeartBrokenOutlinedIcon
+                        style={{
+                          color: "#000",
+                          fontSize: "18px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          width: "100%",
+                        }}
+                      />
+                    </Button>
                   </Stack>
-                  
 
                   <Stack direction={"row"} spacing={1} alignItems="center">
                     <Typography
@@ -1039,9 +1086,7 @@ const PorductDetails = () => {
                         : data?.p_subcategory?.slug
                     }/${data?.id}`}
                     data={data}
-                    imageURL={`${data?.feature_image
-                      }`}
-                   
+                    imageURL={`${data?.feature_image}`}
                   ></HovarImage>
                   {/* <img src={data?.feature_image} alt="" width={385} /> */}
                   <Stack
@@ -1062,7 +1107,8 @@ const PorductDetails = () => {
                       className="bold"
                     >
                       {" "}
-                      BDT {data?.p_stocks[0]?.mrp}
+                      {/* BDT {data?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -1129,7 +1175,8 @@ const PorductDetails = () => {
                   color="initial"
                   className="exterBold"
                 >
-                  Price : {productPrice} BDT
+                  {/* Price : {productPrice} BDT */}
+                  {selectedCurrency} {convertPrice(productPrice)}
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -1179,7 +1226,8 @@ const PorductDetails = () => {
                   color="initial"
                   className="exterBold"
                 >
-                  Price : {productPrice} BDT
+                  {/* Price : {productPrice} BDT */}
+                  {selectedCurrency} {convertPrice(productPrice)}
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -1229,7 +1277,8 @@ const PorductDetails = () => {
                   color="initial"
                   className="exterBold"
                 >
-                  Price : {productPrice} BDT
+                  {/* Price : {productPrice} BDT */}
+                  {selectedCurrency} {convertPrice(productPrice)}
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -1279,7 +1328,8 @@ const PorductDetails = () => {
                   color="initial"
                   className="exterBold"
                 >
-                  Price : {productPrice} BDT
+                  {/* Price : {productPrice} BDT */}
+                  {selectedCurrency} {convertPrice(productPrice)}
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -1318,34 +1368,46 @@ const PorductDetails = () => {
                       justifyContent={"space-between"}
                     >
                       <Stack direction={"row"}>
-                      {products?.p_sizes?.map((size, index) => (
-                            <Button
-                              startIcon={
-                                handleStockAvailability(size.id) ===
-                                "outOfStock" ? (
-                                  <CloseIcon color="action" sx={{ color: red[300] }} />
-                                ) : (
-                                  ""
-                                )
-                              }
-                              style={{boxShadow:"0px 1px 4px 2px rgba(131 131 133 / 20%)"}}
-                              key={index}
-                              variant={`${
-                                activesize === size?.id ? "outlined" : "primary"
-                              }`}
-                              color="primary"
-                              onClick={() =>
-                                handleSelectSize(size?.size_name, size?.id)
+                        {products?.p_sizes?.map((size, index) => (
+                          <Button
+                            startIcon={
+                              handleStockAvailability(size.id) ===
+                              "outOfStock" ? (
+                                <CloseIcon
+                                  color="action"
+                                  sx={{ color: red[300] }}
+                                />
+                              ) : (
+                                ""
+                              )
+                            }
+                            style={{
+                              boxShadow:
+                                "0px 1px 4px 2px rgba(131 131 133 / 20%)",
+                            }}
+                            key={index}
+                            variant={`${
+                              activesize === size?.id ? "outlined" : "primary"
+                            }`}
+                            color="primary"
+                            onClick={() =>
+                              handleSelectSize(size?.size_name, size?.id)
+                            }
+                          >
+                            {/* {console.log(products?.p_stocks.find((element)=>element.size_id===size.id))} */}
+                            <Typography
+                              variant="cardHeader"
+                              color={
+                                handleStockAvailability(size?.id) ===
+                                "outOfStock"
+                                  ? "#bbb6b6;"
+                                  : ""
                               }
                             >
-                              {/* {console.log(products?.p_stocks.find((element)=>element.size_id===size.id))} */}
-                              <Typography variant="cardHeader"  color={handleStockAvailability(size?.id) ===
-                                "outOfStock"?"#bbb6b6;":""}>
                               {size?.size_name}
-                              </Typography>
-                              
-                            </Button>
-                          ))}
+                            </Typography>
+                          </Button>
+                        ))}
 
                         {/* <Button variant="text" color="primary">
                     M
@@ -1833,7 +1895,12 @@ const PorductDetails = () => {
               </Stack>
             </Grid>
           </Grid>
-          <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} sx={{ width: "90vw",margin:"0 auto", mt: 3, }}>
+          <Stack
+            direction={"row"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            sx={{ width: "90vw", margin: "0 auto", mt: 3 }}
+          >
             <Typography
               variant="cardHeader1"
               color="initial"
@@ -1841,7 +1908,7 @@ const PorductDetails = () => {
             >
               Similar Products
             </Typography>
-            <FiArrowRight/>
+            <FiArrowRight />
           </Stack>
           <Swiper
             style={{
@@ -1867,9 +1934,7 @@ const PorductDetails = () => {
                       : data?.p_subcategory?.slug
                   }/${data?.id}`}
                   data={data}
-                  imageURL={`${data?.feature_image
-                    }`}
-                 
+                  imageURL={`${data?.feature_image}`}
                 ></HovarImage>
                 {/* <img src={data?.feature_image} alt="" width={385} /> */}
                 <Stack
@@ -1890,7 +1955,8 @@ const PorductDetails = () => {
                     className="bold"
                   >
                     {" "}
-                    BDT {data?.p_stocks[0]?.mrp}
+                    {/* BDT {data?.p_stocks[0]?.mrp} */}
+                    {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
                   </Typography>
                 </Stack>
               </SwiperSlide>

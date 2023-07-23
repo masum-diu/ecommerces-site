@@ -6,6 +6,8 @@ const initialState = {
   totalAmount: 0,
   totalPrice: 0,
   totalPriceWithTax: 0,
+  totalPriceOrg: 0,
+  totalPriceWithTaxOrg: 0,
 };
 
 export const cartSlice = createSlice({
@@ -27,9 +29,15 @@ export const cartSlice = createSlice({
           exist.totalPriceWithTax += productID.totalPriceWithTax;
           exist.vatAmountParticularProduct +=
             productID.vatAmountParticularProduct;
+          exist.totalPriceOrg += productID.totalPriceOrg;
+          exist.totalPriceWithTaxOrg += productID.totalPriceWithTaxOrg;
+          exist.vatAmountParticularProductOrg +=
+            productID.vatAmountParticularProductOrg;
           state.totalAmount += productID.totalAmount;
           state.totalPrice += productID.totalPrice;
           state.totalPriceWithTax += productID.totalPriceWithTax;
+          state.totalPriceOrg += productID.totalPriceOrg;
+          state.totalPriceWithTaxOrg += productID.totalPriceWithTaxOrg;
         } else {
           state.cart.push({
             id: productID.id,
@@ -43,15 +51,23 @@ export const cartSlice = createSlice({
             price: productID.price,
             priceWithTax: productID.priceWithTax,
             vatAmountParticularProduct: productID.vatAmountParticularProduct,
+            priceOrg: productID.priceOrg,
+            priceWithTaxOrg: productID.priceWithTaxOrg,
+            vatAmountParticularProductOrg:
+              productID.vatAmountParticularProductOrg,
             amount: productID.amount,
             stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
             totalPriceWithTax: productID.totalPriceWithTax,
+            totalPriceOrg: productID.totalPriceOrg,
+            totalPriceWithTaxOrg: productID.totalPriceWithTaxOrg,
             taxAmount: productID.taxAmount,
           });
           state.totalAmount += productID.amount;
           state.totalPrice += productID.totalPrice;
           state.totalPriceWithTax += productID.totalPriceWithTax;
+          state.totalPriceOrg += productID.totalPriceOrg;
+          state.totalPriceWithTaxOrg += productID.totalPriceWithTaxOrg;
         }
       } catch (e) {
         return e;
@@ -75,6 +91,13 @@ export const cartSlice = createSlice({
             (state.totalAmount += 1);
           state.totalPrice += productID.price;
           state.totalPriceWithTax += productID.priceWithTax;
+          exist.totalPriceOrg = productID.totalPriceOrg;
+          exist.totalPriceWithTaxOrg = productID.totalPriceWithTaxOrg;
+          (exist.vatAmountParticularProductOrg =
+            productID.vatAmountParticularProductOrg),
+            (state.totalAmount += 1);
+          state.totalPriceOrg += productID.priceOrg;
+          state.totalPriceWithTaxOrg += productID.priceWithTaxOrg;
         } else {
           state.cart.push({
             id: productID.id,
@@ -87,15 +110,23 @@ export const cartSlice = createSlice({
             price: productID.price,
             priceWithTax: productID.priceWithTax,
             vatAmountParticularProduct: productID.vatAmountParticularProduct,
+            priceOrg: productID.priceOrg,
+            priceWithTaxOrg: productID.priceWithTaxOrg,
+            vatAmountParticularProductOrg:
+              productID.vatAmountParticularProductOrg,
             amount: productID.amount,
             stock: productID.stockAmount,
             totalPrice: productID.totalPrice,
             totalPriceWithTax: productID.totalPriceWithTax,
+            totalPriceOrg: productID.totalPriceOrg,
+            totalPriceWithTaxOrg: productID.totalPriceWithTaxOrg,
             taxAmount: productID.taxAmount,
           });
           state.totalAmount += productID.amount;
           state.totalPrice += productID.price;
           state.totalPriceWithTax += productID.priceWithTax;
+          state.totalPriceOrg += productID.priceOrg;
+          state.totalPriceWithTaxOrg += productID.priceWithTaxOrg;
         }
       } catch (e) {
         return e;
@@ -118,15 +149,23 @@ export const cartSlice = createSlice({
           state.totalAmount--;
           state.totalPrice -= productID.price;
           state.totalPriceWithTax -= productID.priceWithTax;
+          state.totalPriceOrg -= productID.priceOrg;
+          state.totalPriceWithTaxOrg -= productID.priceWithTaxOrg;
         } else {
           exist.amount--;
           exist.totalPrice -= productID.price;
           exist.vatAmountParticularProduct -=
             productID.vatAmountParticularProduct / productID.amount;
           exist.totalPriceWithTax -= productID.priceWithTax;
+          exist.totalPriceOrg -= productID.priceOrg;
+          exist.vatAmountParticularProductOrg -=
+            productID.vatAmountParticularProductOrg / productID.amount;
+          exist.totalPriceWithTaxOrg -= productID.priceWithTaxOrg;
           state.totalAmount--;
           state.totalPrice -= productID.price;
           state.totalPriceWithTax -= productID.priceWithTax;
+          state.totalPriceOrg -= productID.priceOrg;
+          state.totalPriceWithTaxOrg -= productID.priceWithTaxOrg;
         }
       } catch (e) {}
     },
@@ -147,6 +186,8 @@ export const cartSlice = createSlice({
           state.totalAmount -= productID.amount;
           state.totalPrice -= productID.totalPrice;
           state.totalPriceWithTax -= productID.totalPriceWithTax;
+          state.totalPriceOrg -= productID.totalPriceOrg;
+          state.totalPriceWithTaxOrg -= productID.totalPriceWithTaxOrg;
         }
       } catch (e) {}
     },
@@ -158,6 +199,8 @@ export const cartSlice = createSlice({
         state.totalAmount = 0;
         state.totalPrice = 0;
         state.totalPriceWithTax = 0;
+        state.totalPriceOrg = 0;
+        state.totalPriceWithTaxOrg = 0;
       } catch (e) {}
     },
   },
