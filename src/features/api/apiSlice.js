@@ -95,6 +95,16 @@ export const productApi = createApi({
       }),
       providesTags: ["Orders"],
     }),
+    getInformation: builder.query({
+      query: () => ({
+        url: `/information`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          
+        },
+      }),
+    }),
     getUserAddress: builder.query({
       query: (token) => ({
         url: `/get-user-address`,
@@ -307,6 +317,7 @@ export const productApi = createApi({
 });
 
 export const {
+  useGetInformationQuery,
   usePostEditAddressMutation,
   useGetUserAddressQuery,
   useGetCategoryAndSubCatListQuery,

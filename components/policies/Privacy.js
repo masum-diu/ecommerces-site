@@ -1,10 +1,13 @@
 import React from 'react'
 
-const Privacy = () => {
+const Privacy = ({data}) => {
+  // console.log(data)
   return (
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis repellat minima similique magni alias voluptates quas voluptate, nesciunt delectus sint! Voluptas natus consequatur ratione alias praesentium sunt voluptatem amet ut!
-    </div>
+    <>
+  {data?.slice(0)?.map((info)=><>
+  <div dangerouslySetInnerHTML={{__html:info?.content}}/>
+  </>)}
+    </>
   )
 }
 

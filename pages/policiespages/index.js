@@ -1,28 +1,37 @@
 import React from 'react'
 import HomePageIntro from '../../components/HomePageIntro'
-import { Box, Grid, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from '@mui/material'
+import { Box, Drawer, Grid, Hidden, IconButton, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import Footer from '../../components/Footer'
 import Terms from '../../components/policies/Terms'
 import Privacy from '../../components/policies/Privacy'
+import { useGetInformationQuery } from '../../src/features/api/apiSlice'
+import Loader from '../../components/Loader/Loader'
+import SegmentIcon from "@mui/icons-material/Segment";
 
 const policiespages = () => {
     
     const [selectItem,setSelectItem]=useState("Terms & Conditions")
+    const [open,setOpen]=useState(false)
+    const {data,isLoading,isError,isSuccess}=useGetInformationQuery()
+
     const handleMenuClick = (menu) => {
         setSelectItem(menu);
       };
     const renderMenuContent = () => {
         switch (selectItem) {
           case "Terms & Conditions":
-            return <Terms/>;
+            return <Terms data={data}/>;
           case "Privacy Policies":
-            return <Privacy/>;
+            return <Privacy data={data}/>;
          
           default:
             return null;
         }
       };
+      if(isLoading){
+        <Loader></Loader>
+      }
   return (
     <>
         <HomePageIntro title={"PoliciesPages "} />
@@ -39,12 +48,22 @@ const policiespages = () => {
             {selectItem}
           </Typography>
         </Stack>
+        <Stack direction={"row"} sx={{justifyContent:"flex-end",width:"100%",alignItems:"flex-end"}}>
+        <IconButton onClick={()=>setOpen(true)}>
+            <Hidden only={["xl","lg","md"]}>
+             
+                 <SegmentIcon />
+             
+             
+            </Hidden>
+          </IconButton>
+          </Stack>
         <Grid
           container
           // spacing={2}
           sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto", mt: 2,}}
         >
-            
+             <Hidden only={["sm","xs","xms"]}>
           <Grid item lg={3} sx={{height:"600px"}}>
         
             <List >
@@ -58,13 +77,40 @@ const policiespages = () => {
             </List>
            
           </Grid>
-         
+          </Hidden>
           <Grid item lg={6} sm={12} xs={12} >
             <Typography paragraph>{renderMenuContent()}</Typography>
           </Grid>
+       
         </Grid>
         </Box>  
         <Footer/>
+          {/* mobile views */}
+        <Drawer
+        transitionDuration={{ enter: 500, exit: 500 }}
+        anchor="right"
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            width: "90vw",
+            maxWidth: { lg: "433px", xs: "300px" },
+          },
+        }}
+      >
+         <List >
+              {["Terms & Conditions", "Privacy Policies"].map((text, index) => (
+                <ListItem key={index} disablePadding>
+                  <ListItemButton onClick={() => handleMenuClick(text)}>
+                    {/* <ListItemIcon>
+                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon> */}
+                    <ListItemText primary={<><Typography variant="cardHeader1" className="bold" color="initial">{text}</Typography></>} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+      </Drawer>
     </>
   )
 }
