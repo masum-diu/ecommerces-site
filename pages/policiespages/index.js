@@ -1,58 +1,42 @@
-import {
-  Box,
-  Divider,
-  Drawer,
-  Grid,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-  Stack,
-  Typography, Button, Hidden, IconButton,
-} from "@mui/material";
-import React, { useState } from "react";
-import HomePageIntro from "../../components/HomePageIntro";
-import Footer from "../../components/Footer";
-import Profile from "../../components/Dashboard/Profile";
-import OrderDetails from "../../components/Dashboard/OrderDetails";
-import Wishlists from "../../components/Dashboard/Wishlists";
-import SortIcon from "@mui/icons-material/Sort";
+import React from 'react'
+import HomePageIntro from '../../components/HomePageIntro'
+import { Box, Drawer, Grid, Hidden, IconButton, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from '@mui/material'
+import { useState } from 'react'
+import Footer from '../../components/Footer'
+import Terms from '../../components/policies/Terms'
+import Privacy from '../../components/policies/Privacy'
+import { useGetInformationQuery } from '../../src/features/api/apiSlice'
+import Loader from '../../components/Loader/Loader'
 import SegmentIcon from "@mui/icons-material/Segment";
-import AddressBooks from "../../components/Dashboard/AddressBooks";
 
+const policiespages = () => {
+    
+    const [selectItem,setSelectItem]=useState("Terms & Conditions")
+    const [open,setOpen]=useState(false)
+    const {data,isLoading,isError,isSuccess}=useGetInformationQuery()
 
-const userDashboard = () => {
-  const userdata =
-    typeof window !== "undefined" ? localStorage.getItem("user") : null;
-  const userjsondata = JSON.parse(userdata);
-  const [selectedMenu, setSelectedMenu] = React.useState("Account Information");
-  const [open,setOpen]=useState(false)
-
-  const handleMenuClick = (menu) => {
-    setSelectedMenu(menu);
-  };
-
-  const renderMenuContent = () => {
-    switch (selectedMenu) {
-      case "Account Information":
-        return <Profile></Profile>;
-      case "Order History":
-        return <OrderDetails></OrderDetails>;
-      case "Wishlist":
-        return <Wishlists/>;
-      case "Address Books":
-        return <AddressBooks/>;
-      default:
-        return null;
-    }
-  };
+    const handleMenuClick = (menu) => {
+        setSelectItem(menu);
+      };
+    const renderMenuContent = () => {
+        switch (selectItem) {
+          case "Terms & Conditions":
+            return <Terms data={data}/>;
+          case "Privacy Policies":
+            return <Privacy data={data}/>;
+         
+          default:
+            return null;
+        }
+      };
+      if(isLoading){
+        <Loader></Loader>
+      }
   return (
     <>
-      <HomePageIntro title={"UserProfile "} />
+        <HomePageIntro title={"PoliciesPages "} />
       <Box sx={{pt:{lg:8,xs:7}}} mb={4} height={"fit-content"}>
-        <Stack>
+      <Stack>
           <Typography
             variant="header1"
             color="#7E7250"
@@ -61,7 +45,7 @@ const userDashboard = () => {
             textTransform={"uppercase"}
             fontWeight="500"
           >
-            welcome, {userjsondata?.name}
+            {selectItem}
           </Typography>
         </Stack>
         <Stack direction={"row"} sx={{justifyContent:"flex-end",width:"100%",alignItems:"flex-end"}}>
@@ -74,23 +58,18 @@ const userDashboard = () => {
             </Hidden>
           </IconButton>
           </Stack>
-        
-       
         <Grid
           container
           // spacing={2}
           sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto", mt: 2,}}
         >
-            <Hidden only={["sm","xs","xms"]}>
+             <Hidden only={["sm","xs","xms"]}>
           <Grid item lg={3} sx={{height:"600px"}}>
         
             <List >
-              {["Account Information", "Order History","Wishlist","Address Books"].map((text, index) => (
+              {["Terms & Conditions", "Privacy Policies"].map((text, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => handleMenuClick(text)}>
-                    {/* <ListItemIcon>
-                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon> */}
                     <ListItemText  primary={<><Typography variant="cardHeader1" className="bold" color="initial">{text}</Typography></>} />
                   </ListItemButton>
                 </ListItem>
@@ -102,12 +81,12 @@ const userDashboard = () => {
           <Grid item lg={6} sm={12} xs={12} >
             <Typography paragraph>{renderMenuContent()}</Typography>
           </Grid>
+       
         </Grid>
-      </Box>
-      <Footer />
-       {/* mobile views */}
-
-       <Drawer
+        </Box>  
+        <Footer/>
+          {/* mobile views */}
+        <Drawer
         transitionDuration={{ enter: 500, exit: 500 }}
         anchor="right"
         open={open}
@@ -120,7 +99,7 @@ const userDashboard = () => {
         }}
       >
          <List >
-              {["Account Information", "Order History","Wishlist","Address Books"].map((text, index) => (
+              {["Terms & Conditions", "Privacy Policies"].map((text, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => handleMenuClick(text)}>
                     {/* <ListItemIcon>
@@ -132,9 +111,8 @@ const userDashboard = () => {
               ))}
             </List>
       </Drawer>
-
     </>
-  );
-};
+  )
+}
 
-export default userDashboard;
+export default policiespages

@@ -1,8 +1,10 @@
 import { Box, Input, Stack, Typography, IconButton } from '@mui/material'
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react'
 import { VscArrowRight } from 'react-icons/vsc';
 const Footer = () => {
+  const router = useRouter();
   return (
     <>
     <Box bgcolor={"#1F1F1F"}>
@@ -49,8 +51,8 @@ const Footer = () => {
         <Stack flexWrap={"wrap"} columnGap={1} alignItems="center" rowGap={2} sx={{pb:5,justifyContent:"space-between",width:"95%",margin:"0 auto",maxWidth:"1500px"}} direction={"row"} >
           <Typography variant="cardLocation1" color="#E3E3E3" px={2}>© Aranya Crafts Limited  2022</Typography>
           <Stack direction={"row"} columnGap={3} rowGap={2} px={2} alignItems="center">
-          <Typography variant="cardLocation1" color="#E3E3E3">Term & Conditions</Typography>
-          <Typography variant="cardLocation1" color="#E3E3E3">Privacy Policies</Typography>
+          <Typography sx={{cursor:"pointer"}} onClick={()=>router.push("/policiespages")} variant="cardLocation1" color="#E3E3E3">Terms & Conditions</Typography>
+          <Typography sx={{cursor:"pointer"}} onClick={()=>router.push("/policiespages")}variant="cardLocation1" color="#E3E3E3">Privacy Policies</Typography>
           <Typography variant="cardLocation1" color="#E3E3E3">Return</Typography>
           <Typography variant="cardLocation1" color="#E3E3E3">International</Typography>
           </Stack>
