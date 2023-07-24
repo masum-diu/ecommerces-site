@@ -22,7 +22,7 @@ const useCityFetcher = () => {
           const data = await response.json();
 
           // Assuming the API response data is an array of objects with 'toponymName' property
-          const citiesData = data.geonames.map(city => city);
+          const citiesData = data.geonames.map(city => city.toponymName);
           setCities(citiesData);
         }
       } catch (error) {
