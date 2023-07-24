@@ -19,7 +19,7 @@ const AddressBooks = () => {
                     className="exterBold"
                     textAlign={"center"}
                 >
-                    Address books
+                    Address book
                 </Typography>
                 {
                     data?.map((data) => <>

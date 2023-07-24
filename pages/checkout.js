@@ -148,7 +148,7 @@ const checkout = () => {
     },
     {
       id: 1,
-      innerText: "E-Querier",
+      innerText: "E-Courier",
       shippingCost: eQuerierShippingCost,
     },
     {
@@ -158,7 +158,7 @@ const checkout = () => {
     },
     {
       id: 1,
-      innerText: "Dhl",
+      innerText: "DHL",
       shippingCost: dhlShippingCost,
     },
   ];
@@ -409,22 +409,22 @@ const checkout = () => {
   const getShippingOptions = () => {
     if (showInputField) {
       if (country === "Bangladesh" || distict === "Bangladesh") {
-        return shippingOptions.filter((option) => option.innerText !== "Dhl");
+        return shippingOptions.filter((option) => option.innerText !== "DHL");
       } else if (country === "Select Country" || distict === "Select Country") {
         return;
       } else {
-        return shippingOptions.filter((option) => option.innerText === "Dhl");
+        return shippingOptions.filter((option) => option.innerText === "DHL");
       }
     } else {
       if (countrySh === "Bangladesh" || distict1 === "Bangladesh") {
-        return shippingOptions.filter((option) => option.innerText !== "Dhl");
+        return shippingOptions.filter((option) => option.innerText !== "DHL");
       } else if (
         countrySh === "Select Country" ||
         distict1 === "Select Country"
       ) {
         return;
       } else {
-        return shippingOptions.filter((option) => option.innerText === "Dhl");
+        return shippingOptions.filter((option) => option.innerText === "DHL");
       }
     }
   };
@@ -555,7 +555,7 @@ const checkout = () => {
             }
           }
           setDhlShippingCost(shippingChargeForSelectedCountry);
-          if (deliveryMethod === "Dhl") {
+          if (deliveryMethod === "DHL") {
             setTotal(totalPriceWithTax + dhlShippingCost);
             setShippingCost(dhlShippingCost);
           }
@@ -631,7 +631,7 @@ const checkout = () => {
             }
           }
           setDhlShippingCost(shippingChargeForSelectedCountry);
-          if (deliveryMethod === "Dhl") {
+          if (deliveryMethod === "DHL") {
             setTotal(totalPriceWithTax + dhlShippingCost);
             setShippingCost(dhlShippingCost);
           }
@@ -650,16 +650,6 @@ const checkout = () => {
     countrySh,
     deliveryMethod,
   ]);
-  console.log(
-    "pathao",
-    pathaoShippingCost,
-    "\n",
-    "EQurier",
-    eQuerierShippingCost,
-    "\n",
-    "dhl",
-    dhlShippingCost
-  );
   useEffect(() => {
     setPayment(paymentMethod);
   }, [payment, paymentMethod]);
@@ -895,7 +885,7 @@ const checkout = () => {
                     sx={{
                       textDecoration: "underline",
                       textUnderlineOffset: ".3rem",
-                      color: "blueviolet",
+                      color: "initial",
                       cursor: "pointer",
                     }}
                   >
@@ -1220,7 +1210,7 @@ const checkout = () => {
                       sx={{
                         textDecoration: "underline",
                         textUnderlineOffset: ".3rem",
-                        color: "blueviolet",
+                        color: "initial",
                         cursor: "pointer",
                       }}
                     >

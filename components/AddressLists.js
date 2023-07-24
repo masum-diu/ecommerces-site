@@ -16,8 +16,12 @@ import {
 import { MdClose } from "react-icons/md";
 import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
-import { usePostEditAddressMutation } from "../src/features/api/apiSlice";
+import {
+  useGetCountryListWithShippingChargeQuery,
+  usePostEditAddressMutation,
+} from "../src/features/api/apiSlice";
 import Loader from "./Loader/Loader";
+import useCityFetcher from "../src/hooks/useCityFetcher";
 
 const AddressLists = ({
   open,
@@ -40,23 +44,18 @@ const AddressLists = ({
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
   const [openList1, setOpenList1] = React.useState(false);
+  const [country, setCountry] = useState("Select Country");
+  const [town, setTown] = useState("Select Town/City");
   const [arrow1, setArrow1] = useState(false);
   const [address, setAddrss] = useState({});
+  const { selectedCountry, setSelectedCountry, cities } = useCityFetcher();
+  const tokens = localStorage.getItem("acesstoken");
+  const {
+    data: countryData,
+    isError: countryError,
+    isLoading: countryLoading,
+  } = useGetCountryListWithShippingChargeQuery(tokens);
 
-  const datalists = [
-    { label: "Barishal", year: 1994, value: "Barishal" },
-    { label: "Chittagong", year: 1972, value: "Chittagong" },
-    { label: "Dhaka", year: 1974, value: "Dhaka" },
-    { label: "Khulna", year: 2008, value: "Khulna" },
-    { label: "Mymensingh", year: 1957, value: "Mymensingh" },
-    { label: "Rajshahi", year: 1993, value: "Rajshahi" },
-    { label: "Sylhet", year: 1994, value: "Sylhet" },
-    { label: "Rangpur", year: 1994, value: "Rangpur" },
-  ];
-  // console.log(getUserAddress)
-
-  // console.log(address)
-  // console.log("state data",updateId)
   const handleDataSet = (id) => {
     setUpdateId(id);
   };
@@ -107,7 +106,19 @@ const AddressLists = ({
     setOpen(false);
     setAddAddressValue(0);
   };
-
+  const handleCountryChange = (event) => {
+    setValueNewAddress("country", event.target.value, { shouldValidate: true });
+    setCountry(event.target.value);
+  };
+  const handleTownChange = (event) => {
+    setValueNewAddress("town", event.target.value, { shouldValidate: true });
+    setTown(event.target.value);
+  };
+  const handleSelectedCountry = (country_code) => {
+    setSelectedCountry(country_code);
+    setTown("Select Town/City");
+  };
+  console.log("cities", cities);
   const {
     register,
     handleSubmit,
@@ -115,13 +126,15 @@ const AddressLists = ({
     formState: { errors },
     watch,
     trigger,
+    reset,
+    setValue: setValueNewAddress,
   } = useForm({
     defaultValues: {
       id: updateId,
       first_name: "",
       last_name: "",
       street_address: "",
-      city: "",
+      town: "",
       country: "",
       post_code: "",
       phone: "",
@@ -134,13 +147,14 @@ const AddressLists = ({
     try {
       const response = await editAddress({ data, updateId, token });
       setAddrss(response?.data);
+      reset();
       // console.log(response)
     } catch (error) {
       console.log("post request failed", error);
     }
   };
 
-  if (isLoading) {
+  if (isLoading || countryLoading) {
     return <Loader></Loader>;
   }
 
@@ -370,6 +384,80 @@ const AddressLists = ({
                   </p>
                 )}
               </Stack>
+
+              <Stack direction={"column"} spacing={1}>
+                <Typography variant="cardHeader1" color="initial">
+                  COUNTRY *
+                </Typography>
+
+                <Select
+                  id="country"
+                  {...register("country", {
+                    required: {
+                      value: true,
+                      message: "Country is Required",
+                    },
+                  })}
+                  onClick={() => trigger("country")}
+                  error={Boolean(errors.country)}
+                  size="small"
+                  value={country}
+                  onChange={handleCountryChange}
+                >
+                  <MenuItem value={"Select Country"} disabled>
+                    Select Country
+                  </MenuItem>
+                  {countryData?.map((country, index) => (
+                    <MenuItem
+                      key={index}
+                      value={country.country_name}
+                      onClick={() =>
+                        handleSelectedCountry(country?.country_code)
+                      }
+                    >
+                      {country.country_name}
+                    </MenuItem>
+                  ))}
+                  {/* <MenuItem value={"India"}>India</MenuItem> */}
+                </Select>
+                {errors.country && (
+                  <p style={{ color: "red" }}>{errors.country?.message}</p>
+                )}
+                {/* <Select label="Age"  /> */}
+              </Stack>
+
+              <Stack direction={"column"} spacing={1}>
+                <Typography variant="cardHeader1" color="initial">
+                  TOWN / CITY *
+                </Typography>
+
+                <Select
+                  id="town"
+                  {...register("town", {
+                    required: {
+                      value: true,
+                      message: "Town/City is Required",
+                    },
+                  })}
+                  onClick={() => trigger("town")}
+                  error={Boolean(errors.city_billing)}
+                  size="small"
+                  value={town}
+                  onChange={handleTownChange}
+                >
+                  <MenuItem value={"Select Town/City"} disabled>
+                    Select Town/City
+                  </MenuItem>
+                  {cities?.map((towns) => (
+                    <MenuItem value={towns}>{towns}</MenuItem>
+                  ))}
+                  {/* <MenuItem value={"India"}>India</MenuItem> */}
+                </Select>
+                {errors.town && (
+                  <p style={{ color: "red" }}>{errors.town?.message}</p>
+                )}
+              </Stack>
+
               <Stack direction={"column"} spacing={1}>
                 <Typography variant="cardHeader1" color="initial">
                   STREET ADDRESS *
@@ -396,6 +484,7 @@ const AddressLists = ({
                   </p>
                 )}
               </Stack>
+
               <Stack direction={"column"} spacing={1}>
                 <Typography variant="cardHeader1" color="initial">
                   APARTMENT ADDRESS (OPTIONAL)
@@ -423,69 +512,7 @@ const AddressLists = ({
                   </p>
                 )}
               </Stack>
-              <Stack direction={"column"} spacing={1}>
-                <Typography variant="cardHeader1" color="initial">
-                  TOWN / CITY *
-                </Typography>
 
-                <Select
-                  id="city_billing"
-                  {...register("city", {
-                    required: {
-                      value: true,
-                      message: "Town/City is Required",
-                    },
-                  })}
-                  onClick={() => trigger("city_billing")}
-                  error={Boolean(errors.city_billing)}
-                  size="small"
-                  // value={townBilling}
-                  // onChange={handleSelectChangeTownBilling}
-                >
-                  <MenuItem value={"Select Town/City"} disabled>
-                    Select Town/City
-                  </MenuItem>
-                  {datalists?.map((towns) => (
-                    <MenuItem value={towns.value}>{towns.label}</MenuItem>
-                  ))}
-                  {/* <MenuItem value={"India"}>India</MenuItem> */}
-                </Select>
-                {errors.city_billing && (
-                  <p style={{ color: "red" }}>{errors.city_billing?.message}</p>
-                )}
-              </Stack>
-              <Stack direction={"column"} spacing={1}>
-                <Typography variant="cardHeader1" color="initial">
-                  COUNTRY *
-                </Typography>
-
-                <Select
-                  id="country_billing"
-                  {...register("country", {
-                    required: {
-                      value: true,
-                      message: "Country is Required",
-                    },
-                  })}
-                  onClick={() => trigger("country_billing")}
-                  error={Boolean(errors.country_billing)}
-                  size="small"
-                  // value={distict}
-                  // onChange={handleSelectChange}
-                >
-                  <MenuItem value={"Select Country"} disabled>
-                    Select Country
-                  </MenuItem>
-                  <MenuItem value={"Bangladesh"}>Bangladesh</MenuItem>
-                  {/* <MenuItem value={"India"}>India</MenuItem> */}
-                </Select>
-                {errors.country_billing && (
-                  <p style={{ color: "red" }}>
-                    {errors.country_billing?.message}
-                  </p>
-                )}
-                {/* <Select label="Age"  /> */}
-              </Stack>
               <Stack direction={"column"} spacing={1}>
                 <Typography variant="cardHeader1" color="initial">
                   POSTCODE / ZIP (OPTIONAL)

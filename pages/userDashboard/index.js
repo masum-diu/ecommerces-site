@@ -42,7 +42,7 @@ const userDashboard = () => {
         return <OrderDetails></OrderDetails>;
       case "Wishlist":
         return <Wishlists/>;
-      case "Address Books":
+      case "Address Book":
         return <AddressBooks/>;
       default:
         return null;
@@ -85,7 +85,7 @@ const userDashboard = () => {
           <Grid item lg={3} sx={{height:"600px"}}>
         
             <List >
-              {["Account Information", "Order History","Wishlist","Address Books"].map((text, index) => (
+              {["Account Information", "Order History","Wishlist","Address Book"].map((text, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => handleMenuClick(text)}>
                     {/* <ListItemIcon>
@@ -120,7 +120,7 @@ const userDashboard = () => {
         }}
       >
          <List >
-              {["Account Information", "Order History","Wishlist","Address Books"].map((text, index) => (
+              {["Account Information", "Order History","Wishlist","Address Book"].map((text, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => handleMenuClick(text)}>
                     {/* <ListItemIcon>
