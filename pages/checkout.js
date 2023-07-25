@@ -500,7 +500,7 @@ const checkout = () => {
               if (deliveryMethod === "Pathao") {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
-              } else if (deliveryMethod === "E-Querier") {
+              } else if (deliveryMethod === "E-Courier") {
                 setTotal(totalPriceWithTax + eQuerierShippingCost);
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
@@ -524,7 +524,7 @@ const checkout = () => {
               if (deliveryMethod === "Pathao") {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
-              } else if (deliveryMethod === "E-Querier") {
+              } else if (deliveryMethod === "E-Courier") {
                 setTotal(totalPriceWithTax + eQuerierShippingCost);
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
@@ -535,12 +535,12 @@ const checkout = () => {
           }
         }
       } else {
-        setShippingCost(0);
+        /* setShippingCost(0);
         setPathaoShippingCost(0);
         setEQuerierShippingCost(0);
         setDhlShippingCost(0);
         setShowRoomShippingCost(0);
-        setTotal(totalPriceWithTax);
+        setTotal(totalPriceWithTax); */
         if (countryData) {
           let shippingChargeForSelectedCountry;
           for (const item of countryData) {
@@ -562,6 +562,12 @@ const checkout = () => {
         }
       }
     } else {
+      setShippingCost(0);
+      setPathaoShippingCost(0);
+      setEQuerierShippingCost(0);
+      setDhlShippingCost(0);
+      setShowRoomShippingCost(0);
+      setTotal(totalPriceWithTax);
       if (country === "Bangladesh" || distict === "Bangladesh") {
         if (cityAddress) {
           const refinedCity = cityAddress.split(" ")[0];
@@ -581,7 +587,7 @@ const checkout = () => {
               if (deliveryMethod === "Pathao") {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
-              } else if (deliveryMethod === "E-Querier") {
+              } else if (deliveryMethod === "E-Courier") {
                 setTotal(totalPriceWithTax + eQuerierShippingCost);
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
@@ -605,7 +611,7 @@ const checkout = () => {
               if (deliveryMethod === "Pathao") {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
-              } else if (deliveryMethod === "E-Querier") {
+              } else if (deliveryMethod === "E-Courier") {
                 setTotal(totalPriceWithTax + eQuerierShippingCost);
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
@@ -647,6 +653,7 @@ const checkout = () => {
     billingCities,
     country,
     countrySh,
+    distict1,
     deliveryMethod,
   ]);
   useEffect(() => {
