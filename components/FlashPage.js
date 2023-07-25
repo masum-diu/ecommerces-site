@@ -67,7 +67,6 @@ const FlashPage = ({ title }) => {
     setCurrency(event.target.value);
   };
   const onSubmit = async (data) => {
-    console.log("your log output", data);
     localStorage.setItem('currency',data.currency)
     router.push("/shop");
   };

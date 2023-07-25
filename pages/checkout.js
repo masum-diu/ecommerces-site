@@ -617,7 +617,6 @@ const checkout = () => {
         }
       } else {
         if (countryData) {
-          console.log("billingCountry", billingCountry);
           let shippingChargeForSelectedCountry;
           for (const item of countryData) {
             if (
@@ -1350,11 +1349,6 @@ const checkout = () => {
                     <MenuItem value={"Select Town/City"} disabled>
                       Select Town/City
                     </MenuItem>
-                    {console.log(
-                      "our data",
-                      isSameAddressChecked,
-                      isAddressListDataShipping
-                    )}
                     {isSameAddressChecked === true ? (
                       <MenuItem value={townBillingSh}>{townBillingSh}</MenuItem>
                     ) : isAddressListDataShipping === true ? (

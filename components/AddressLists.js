@@ -118,7 +118,6 @@ const AddressLists = ({
     setSelectedCountry(country_code);
     setTown("Select Town/City");
   };
-  console.log("cities", cities);
   const {
     register,
     handleSubmit,
