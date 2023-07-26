@@ -109,7 +109,6 @@ const checkout = () => {
         "-webkit-text-fill-color": "rgb(0 0 0)",
       },
   };
-  // console.log('your log output',billingCountry)
   const { hasToken, setHasToken, isPlaceOrder, setIsPlaceOrder } =
     useContext(USER_CONTEXT);
   const router = useRouter();
@@ -1786,7 +1785,18 @@ const checkout = () => {
                       />
 
                       <Typography variant="cardLocation123">
-                        I have read and agree to the terms and conditions *
+                        I have read and agree to the{" "}
+                        <Typography
+                          sx={{
+                            textDecoration: "underline",
+                            color: "gray",
+                            cursor: "pointer",
+                          }}
+                          onClick={()=>router.push({ pathname: "/policiespages" })}
+                          variant="cardLocation123"
+                        >
+                          terms and conditions *
+                        </Typography>
                       </Typography>
                     </Stack>
                     {errors.termsAndConditions && (

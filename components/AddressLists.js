@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
@@ -22,6 +22,7 @@ import {
 } from "../src/features/api/apiSlice";
 import Loader from "./Loader/Loader";
 import useCityFetcher from "../src/hooks/useCityFetcher";
+import { toast } from "react-hot-toast";
 
 const AddressLists = ({
   open,
@@ -48,6 +49,8 @@ const AddressLists = ({
   const [town, setTown] = useState("Select Town/City");
   const [arrow1, setArrow1] = useState(false);
   const [address, setAddrss] = useState({});
+  const [enable, setEnable] = useState(true);
+  const [countryCode, setCountryCode] = useState("");
   const { selectedCountry, setSelectedCountry, cities } = useCityFetcher();
   const tokens = localStorage.getItem("acesstoken");
   const {
@@ -115,7 +118,7 @@ const AddressLists = ({
     setTown(event.target.value);
   };
   const handleSelectedCountry = (country_code) => {
-    setSelectedCountry(country_code);
+    setCountryCode(country_code);
     setTown("Select Town/City");
   };
   const {
@@ -141,12 +144,92 @@ const AddressLists = ({
       apartment: "",
     },
   });
+
+  const firstName = useWatch({ control, name: "first_name" });
+  const lastName = useWatch({ control, name: "last_name" });
+  const streetAddress = useWatch({ control, name: "street_address" });
+  const townName = useWatch({ control, name: "town" });
+  const countryName = useWatch({ control, name: "country" });
+  const postCode = useWatch({ control, name: "post_code" });
+  const phoneNo = useWatch({ control, name: "phone" });
+  const emailId = useWatch({ control, name: "email" });
+  const apartmentNo = useWatch({ control, name: "apartment" });
+
+  useEffect(() => {
+    if (
+      firstName &&
+      lastName &&
+      streetAddress &&
+      townName &&
+      countryName &&
+      phoneNo &&
+      emailId
+    ) {
+      setEnable(false);
+    }
+  }, [
+    firstName,
+    lastName,
+    streetAddress,
+    townName,
+    countryName,
+    postCode,
+    phoneNo,
+    emailId,
+    apartmentNo,
+    country,
+    town,
+  ]);
+
+  useEffect(() => {
+    if (countryData && countryName) {
+      const selectedCountryObject = countryData.find(
+        (country) => country.country_name === countryName
+      );
+      if (selectedCountryObject) {
+        setCountryCode(selectedCountryObject?.country_code);
+      } else {
+        setCountryCode("");
+      }
+    }
+  }, [countryName, countryData]);
+  console.log("countryCode", countryCode);
+
+  useEffect(() => {
+    setSelectedCountry(countryCode);
+  }, [countryCode, countryName]);
+  useEffect(() => {
+    if (countryName) {
+      setCountry(countryName);
+    } else {
+      setCountry("Select Country");
+    }
+    if (townName) {
+      setTown(townName);
+    } else {
+      setTown("Select Town/City");
+    }
+  }, [countryName, townName]);
   const token = localStorage.getItem("acesstoken");
   const onSubmit = async (data) => {
     try {
       const response = await editAddress({ data, updateId, token });
-      setAddrss(response?.data);
-      reset();
+      console.log("response", response);
+      if (response?.data?.status === "success") {
+        if (updateId) {
+          toast.success("Address is updated successfully!");
+        } else {
+          toast.success("Address is added successfully!");
+        }
+        setUpdateId("");
+        setAddrss(response?.data);
+        reset();
+        setCountry("Select Country");
+        setTown("Select Town/City");
+      } else {
+        toast.error("Something went wrong");
+      }
+
       // console.log(response)
     } catch (error) {
       console.log("post request failed", error);
@@ -372,15 +455,13 @@ const AddressLists = ({
                       message: "Last Name Required",
                     },
                   })}
-                  onKeyUp={() => trigger("last_name_billing")}
+                  onKeyUp={() => trigger("last_name")}
                   error={Boolean(errors.last_name_billing)}
                   placeholder="Last Name *"
                   size="small"
                 />
-                {errors.last_name_billing && (
-                  <p style={{ color: "red" }}>
-                    {errors.last_name_billing?.message}
-                  </p>
+                {errors.last_name && (
+                  <p style={{ color: "red" }}>{errors.last_name?.message}</p>
                 )}
               </Stack>
 
@@ -397,6 +478,7 @@ const AddressLists = ({
                       message: "Country is Required",
                     },
                   })}
+                  autoComplete="off"
                   onClick={() => trigger("country")}
                   error={Boolean(errors.country)}
                   size="small"
@@ -438,8 +520,9 @@ const AddressLists = ({
                       message: "Town/City is Required",
                     },
                   })}
+                  autoComplete="off"
                   onClick={() => trigger("town")}
-                  error={Boolean(errors.city_billing)}
+                  error={Boolean(errors.town)}
                   size="small"
                   value={town}
                   onChange={handleTownChange}
@@ -462,24 +545,20 @@ const AddressLists = ({
                   STREET ADDRESS *
                 </Typography>
                 <TextField
-                  // id=""
-                  // label=""
-                  // value={}
-                  // onChange={}
                   {...register("street_address", {
                     required: {
                       value: true,
                       message: "House and Street Address Required",
                     },
                   })}
-                  onKeyUp={() => trigger("street_address_billing")}
-                  error={Boolean(errors.street_address_billing)}
+                  onKeyUp={() => trigger("street_address")}
+                  error={Boolean(errors.street_address)}
                   placeholder="House Number and street name"
                   size="small"
                 />
-                {errors.street_address_billing && (
+                {errors.street_address && (
                   <p style={{ color: "red" }}>
-                    {errors.street_address_billing?.message}
+                    {errors.street_address?.message}
                   </p>
                 )}
               </Stack>
@@ -489,26 +568,18 @@ const AddressLists = ({
                   APARTMENT ADDRESS (OPTIONAL)
                 </Typography>
                 <TextField
-                  // id=""
-                  // label=""
-                  // value={}
-                  // onChange={}
                   {...register("apartment", {
                     required: {
                       value: false,
                       message: "Apartment Address Required",
                     },
                   })}
-                  // onSelect={(e) => setBillingTown(e.target.value)}
-                  onKeyUp={() => trigger("apartment_address_billing")}
-                  error={Boolean(errors.apartment_address_billing)}
+                  error={Boolean(errors.apartment)}
                   placeholder="Apartment suite, unit, etc."
                   size="small"
                 />
-                {errors.apartment_address_billing && (
-                  <p style={{ color: "red" }}>
-                    {errors.apartment_address_billing?.message}
-                  </p>
+                {errors.apartment && (
+                  <p style={{ color: "red" }}>{errors.apartment?.message}</p>
                 )}
               </Stack>
 
@@ -517,24 +588,18 @@ const AddressLists = ({
                   POSTCODE / ZIP (OPTIONAL)
                 </Typography>
                 <TextField
-                  // id=""
-                  // label=""
-                  // value={}
-                  // onChange={}
                   {...register("post_code", {
                     required: {
                       value: false,
                       message: "Enter Post Code",
                     },
                   })}
-                  error={Boolean(errors.post_code_billing)}
+                  error={Boolean(errors.post_code)}
                   placeholder="Postcode / zip (Optional)"
                   size="small"
                 />
-                {errors.post_code_billing && (
-                  <p style={{ color: "red" }}>
-                    {errors.post_code_billing?.message}
-                  </p>
+                {errors.post_code && (
+                  <p style={{ color: "red" }}>{errors.post_code?.message}</p>
                 )}
               </Stack>
               <Stack direction={"column"} spacing={1}>
@@ -542,10 +607,6 @@ const AddressLists = ({
                   PHONE *
                 </Typography>
                 <TextField
-                  // id=""
-                  // label=""
-                  // value={}
-                  // onChange={}
                   {...register("phone", {
                     required: {
                       value: true,
@@ -553,14 +614,12 @@ const AddressLists = ({
                     },
                   })}
                   onKeyUp={() => trigger("phone")}
-                  error={Boolean(errors.phone_billing)}
+                  error={Boolean(errors.phone)}
                   placeholder="Phone *"
                   size="small"
                 />
-                {errors.phone_billing && (
-                  <p style={{ color: "red" }}>
-                    {errors.phone_billing?.message}
-                  </p>
+                {errors.phone && (
+                  <p style={{ color: "red" }}>{errors.phone?.message}</p>
                 )}
               </Stack>
               <Stack direction={"column"} spacing={1}>
@@ -568,10 +627,6 @@ const AddressLists = ({
                   EMAIL ADDRESS *
                 </Typography>
                 <TextField
-                  // id=""
-                  // label=""
-                  // value={}
-                  // onChange={}
                   {...register("email", {
                     required: {
                       value: true,
@@ -583,26 +638,21 @@ const AddressLists = ({
                       message: "This is not a valid email",
                     },
                   })}
-                  onKeyUp={() => trigger("email_billing")}
-                  error={Boolean(errors.email_billing)}
+                  onKeyUp={() => trigger("email")}
+                  error={Boolean(errors.email)}
                   placeholder="Email Address *"
                   size="small"
                 />
-                {errors.email_billing && (
-                  <p style={{ color: "red" }}>
-                    {errors.email_billing?.message}
-                  </p>
+                {errors.email && (
+                  <p style={{ color: "red" }}>{errors.email?.message}</p>
                 )}
               </Stack>
 
-              {/* Shipping Form */}
-
               <Button
-                //   disabled={enable}
+                disabled={enable}
                 variant="contained"
                 color="background2"
                 type="submit"
-                //   onClick={() => setIsPlaceOrder(true)}
               >
                 {updateId ? "Update" : "save"}
               </Button>
