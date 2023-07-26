@@ -116,6 +116,16 @@ export const productApi = createApi({
       }),
       providesTags: ["UserAddress"],
     }),
+    getCountryListWithShippingCharge: builder.query({
+      query: (token) => ({
+        url: `/shipping-charge`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }),
+    }),
     cancelOrder: builder.mutation({
       query: ({ order_id, token }) => ({
         url: `/order/cancel`,
@@ -300,16 +310,6 @@ export const productApi = createApi({
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
-        },
-      }),
-    }),
-    getCountryListWithShippingCharge: builder.query({
-      query: (token) => ({
-        url: `/shipping-charge`,
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
         },
       }),
     }),

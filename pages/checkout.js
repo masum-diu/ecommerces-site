@@ -108,6 +108,10 @@ const checkout = () => {
       {
         "-webkit-text-fill-color": "rgb(0 0 0)",
       },
+    ".mui-style-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
+      {
+        "-webkit-text-fill-color": "rgb(0 0 0)",
+      },
   };
   const { hasToken, setHasToken, isPlaceOrder, setIsPlaceOrder } =
     useContext(USER_CONTEXT);
@@ -737,7 +741,22 @@ const checkout = () => {
       setDistict1("Select Country");
       setTownBillingSh("Select Town/City");
     }
-  }, [showInputField, country, distict, townBilling, cityAddress]);
+  }, [
+    showInputField,
+    country,
+    distict,
+    townBilling,
+    cityAddress,
+    firstName,
+    lastName,
+    streetAddress,
+    apartmentAddress,
+    cityAddress,
+    country,
+    postBilling,
+    phoneBilling,
+    emailBilling,
+  ]);
 
   useEffect(() => {
     setSelectedCountryBilling(billingCountry);
@@ -1300,6 +1319,7 @@ const checkout = () => {
                         message: "Country is Required",
                       },
                     })}
+                    sx={customStyle}
                     disabled={isSameAddressChecked === false ? false : true}
                     onClick={() => trigger("country_shipping")}
                     error={Boolean(errors.country_shipping)}
@@ -1344,6 +1364,7 @@ const checkout = () => {
                         message: "Town/City is Required",
                       },
                     })}
+                    sx={customStyle}
                     disabled={isSameAddressChecked === false ? false : true}
                     onClick={() => trigger("city_shipping")}
                     error={Boolean(errors.city_shipping)}
@@ -1792,7 +1813,9 @@ const checkout = () => {
                             color: "gray",
                             cursor: "pointer",
                           }}
-                          onClick={()=>router.push({ pathname: "/policiespages" })}
+                          onClick={() =>
+                            router.push({ pathname: "/policiespages" })
+                          }
                           variant="cardLocation123"
                         >
                           terms and conditions *
