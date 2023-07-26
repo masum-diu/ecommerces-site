@@ -193,7 +193,6 @@ const AddressLists = ({
       }
     }
   }, [countryName, countryData]);
-  console.log("countryCode", countryCode);
 
   useEffect(() => {
     setSelectedCountry(countryCode);
@@ -214,7 +213,6 @@ const AddressLists = ({
   const onSubmit = async (data) => {
     try {
       const response = await editAddress({ data, updateId, token });
-      console.log("response", response);
       if (response?.data?.status === "success") {
         if (updateId) {
           toast.success("Address is updated successfully!");
