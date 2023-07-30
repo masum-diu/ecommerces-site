@@ -87,14 +87,13 @@ export const cartSlice = createSlice({
           exist.totalPriceWithTax = productID.totalPriceWithTax;
           exist.vatAmountParticularProduct =
             productID.vatAmountParticularProduct;
-          state.totalAmount += 1;
-          state.totalPrice += productID.price;
-          state.totalPriceWithTax += productID.priceWithTax;
           exist.totalPriceOrg = productID.totalPriceOrg;
           exist.totalPriceWithTaxOrg = productID.totalPriceWithTaxOrg;
           exist.vatAmountParticularProductOrg =
             productID.vatAmountParticularProductOrg;
-          // state.totalAmount += 1;
+          state.totalAmount += 1;
+          state.totalPrice += productID.price;
+          state.totalPriceWithTax += productID.priceWithTax;
           state.totalPriceOrg += productID.priceOrg;
           state.totalPriceWithTaxOrg += productID.priceWithTaxOrg;
         } else {
