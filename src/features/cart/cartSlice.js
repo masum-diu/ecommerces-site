@@ -15,7 +15,6 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      // state.cart.push(action.payload);
       const productID = action.payload;
       try {
         const exist = state.cart.find(
@@ -86,16 +85,16 @@ export const cartSlice = createSlice({
           exist.amount += productID.totalAmount;
           exist.totalPrice = productID.totalPrice;
           exist.totalPriceWithTax = productID.totalPriceWithTax;
-          (exist.vatAmountParticularProduct =
-            productID.vatAmountParticularProduct),
-            (state.totalAmount += 1);
+          exist.vatAmountParticularProduct =
+            productID.vatAmountParticularProduct;
+          state.totalAmount += 1;
           state.totalPrice += productID.price;
           state.totalPriceWithTax += productID.priceWithTax;
           exist.totalPriceOrg = productID.totalPriceOrg;
           exist.totalPriceWithTaxOrg = productID.totalPriceWithTaxOrg;
-          (exist.vatAmountParticularProductOrg =
-            productID.vatAmountParticularProductOrg),
-            (state.totalAmount += 1);
+          exist.vatAmountParticularProductOrg =
+            productID.vatAmountParticularProductOrg;
+          // state.totalAmount += 1;
           state.totalPriceOrg += productID.priceOrg;
           state.totalPriceWithTaxOrg += productID.priceWithTaxOrg;
         } else {
