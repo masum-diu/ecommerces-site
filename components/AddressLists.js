@@ -12,6 +12,7 @@ import {
   TextField,
   Select,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import { useState } from "react";
@@ -51,7 +52,8 @@ const AddressLists = ({
   const [address, setAddrss] = useState({});
   const [enable, setEnable] = useState(true);
   const [countryCode, setCountryCode] = useState("");
-  const { selectedCountry, setSelectedCountry, cities } = useCityFetcher();
+  const { selectedCountry, setSelectedCountry, cities, loading } =
+    useCityFetcher();
   const tokens = localStorage.getItem("acesstoken");
   const {
     data: countryData,
@@ -509,30 +511,47 @@ const AddressLists = ({
                 <Typography variant="cardHeader1" color="initial">
                   TOWN / CITY *
                 </Typography>
+                {loading ? (
+                  <Stack
+                    border={"1px solid gray"}
+                    borderRadius={"5px"}
+                    direction={"rwo"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                  >
+                    <Typography sx={{ marginLeft: "10px" }}>
+                      Collecting Cities
+                    </Typography>
+                    <CircularProgress
+                      sx={{ color: "#3C5676", marginRight: "10px" }}
+                    />
+                  </Stack>
+                ) : (
+                  <Select
+                    id="town"
+                    {...register("town", {
+                      required: {
+                        value: true,
+                        message: "Town/City is Required",
+                      },
+                    })}
+                    autoComplete="off"
+                    onClick={() => trigger("town")}
+                    error={Boolean(errors.town)}
+                    size="small"
+                    value={town}
+                    onChange={handleTownChange}
+                  >
+                    <MenuItem value={"Select Town/City"} disabled>
+                      Select Town/City
+                    </MenuItem>
+                    {cities?.map((towns) => (
+                      <MenuItem value={towns}>{towns}</MenuItem>
+                    ))}
+                    {/* <MenuItem value={"India"}>India</MenuItem> */}
+                  </Select>
+                )}
 
-                <Select
-                  id="town"
-                  {...register("town", {
-                    required: {
-                      value: true,
-                      message: "Town/City is Required",
-                    },
-                  })}
-                  autoComplete="off"
-                  onClick={() => trigger("town")}
-                  error={Boolean(errors.town)}
-                  size="small"
-                  value={town}
-                  onChange={handleTownChange}
-                >
-                  <MenuItem value={"Select Town/City"} disabled>
-                    Select Town/City
-                  </MenuItem>
-                  {cities?.map((towns) => (
-                    <MenuItem value={towns}>{towns}</MenuItem>
-                  ))}
-                  {/* <MenuItem value={"India"}>India</MenuItem> */}
-                </Select>
                 {errors.town && (
                   <p style={{ color: "red" }}>{errors.town?.message}</p>
                 )}

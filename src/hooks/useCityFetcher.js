@@ -8,11 +8,13 @@ const USERNAME = "shamimulhaque"; // Replace with your actual Geonames username
 const useCityFetcher = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [cities, setCities] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCities = async () => {
       try {
         if (selectedCountry) {
+          setLoading(true);
           const url = new URL(`${API_URL}`);
           url.searchParams.append("country", selectedCountry);
           url.searchParams.append("featureCode", "ADM1");
@@ -27,6 +29,8 @@ const useCityFetcher = () => {
         }
       } catch (error) {
         console.error("Error fetching cities:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -37,6 +41,7 @@ const useCityFetcher = () => {
     selectedCountry,
     setSelectedCountry,
     cities,
+    loading,
   };
 };
 

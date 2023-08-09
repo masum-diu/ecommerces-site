@@ -14,6 +14,7 @@ import {
   MenuItem,
   Checkbox,
   Autocomplete,
+  CircularProgress,
 } from "@mui/material";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Footer from "../components/Footer";
@@ -97,11 +98,13 @@ const checkout = () => {
     selectedCountry: selectedCountryBilling,
     setSelectedCountry: setSelectedCountryBilling,
     cities: billingCities,
+    loading: billingCityLoading,
   } = useCityFetcher();
   const {
     selectedCountry: selectedCountryShipping,
     setSelectedCountry: setSelectedCountryShipping,
     cities: shippingCities,
+    loading: shippingCityLoading,
   } = useCityFetcher();
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
@@ -1018,32 +1021,52 @@ const checkout = () => {
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
-                  <Select
-                    id="city_billing"
-                    {...register("city_billing", {
-                      required: {
-                        value: true,
-                        message: "Town/City is Required",
-                      },
-                    })}
-                    onClick={() => trigger("city_billing")}
-                    error={Boolean(errors.city_billing)}
-                    size="small"
-                    value={townBilling}
-                    onChange={handleSelectChangeTownBilling}
-                  >
-                    <MenuItem value={"Select Town/City"} disabled>
-                      Select Town/City
-                    </MenuItem>
-                    {isAddressListDataBilling ? (
-                      <MenuItem value={townBilling}>{townBilling}</MenuItem>
-                    ) : (
-                      billingCities?.map((towns) => (
-                        <MenuItem value={towns}>{towns}</MenuItem>
-                      ))
-                    )}
-                    {/* <MenuItem value={"India"}>India</MenuItem> */}
-                  </Select>
+
+                  {billingCityLoading ? (
+                    <Stack
+                      border={"1px solid gray"}
+                      borderRadius={"5px"}
+                      direction={"rwo"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Typography sx={{ marginLeft: "10px" }}>
+                        Collecting Cities
+                      </Typography>
+                      <CircularProgress
+                        sx={{ color: "#3C5676", marginRight: "10px" }}
+                      />
+                    </Stack>
+                  ) : (
+                    <Select
+                      id="city_billing"
+                      {...register("city_billing", {
+                        required: {
+                          value: true,
+                          message: "Town/City is Required",
+                        },
+                      })}
+                      onClick={() => trigger("city_billing")}
+                      error={Boolean(errors.city_billing)}
+                      size="small"
+                      value={townBilling}
+                      onChange={handleSelectChangeTownBilling}
+                    >
+                      <MenuItem value={"Select Town/City"} disabled>
+                        Select Town/City
+                      </MenuItem>
+                      {isAddressListDataBilling ? (
+                        <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                      ) : (
+                        billingCities?.map((towns) => (
+                          <MenuItem value={towns}>{towns}</MenuItem>
+                        ))
+                      )}
+
+                      {/* <MenuItem value={"India"}>India</MenuItem> */}
+                    </Select>
+                  )}
+
                   {errors.city_billing && (
                     <p style={{ color: "red" }}>
                       {errors.city_billing?.message}
@@ -1355,37 +1378,58 @@ const checkout = () => {
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
+                  {shippingCityLoading ? (
+                    <Stack
+                      border={"1px solid gray"}
+                      borderRadius={"5px"}
+                      direction={"rwo"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Typography sx={{ marginLeft: "10px" }}>
+                        Collecting Cities
+                      </Typography>
+                      <CircularProgress
+                        sx={{ color: "#3C5676", marginRight: "10px" }}
+                      />
+                    </Stack>
+                  ) : (
+                    <Select
+                      autoComplete="off"
+                      {...register("city_shipping", {
+                        required: {
+                          value: isSameAddressChecked === false ? true : false,
+                          message: "Town/City is Required",
+                        },
+                      })}
+                      sx={customStyle}
+                      disabled={isSameAddressChecked === false ? false : true}
+                      onClick={() => trigger("city_shipping")}
+                      error={Boolean(errors.city_shipping)}
+                      id="demo-simple-select"
+                      size="small"
+                      value={townBillingSh}
+                      onChange={handleSelectChangeTownShipping}
+                    >
+                      <MenuItem value={"Select Town/City"} disabled>
+                        Select Town/City
+                      </MenuItem>
+                      {isSameAddressChecked === true ? (
+                        <MenuItem value={townBillingSh}>
+                          {townBillingSh}
+                        </MenuItem>
+                      ) : isAddressListDataShipping === true ? (
+                        <MenuItem value={townBillingSh}>
+                          {townBillingSh}
+                        </MenuItem>
+                      ) : (
+                        shippingCities?.map((towns) => (
+                          <MenuItem value={towns}>{towns}</MenuItem>
+                        ))
+                      )}
+                    </Select>
+                  )}
 
-                  <Select
-                    autoComplete="off"
-                    {...register("city_shipping", {
-                      required: {
-                        value: isSameAddressChecked === false ? true : false,
-                        message: "Town/City is Required",
-                      },
-                    })}
-                    sx={customStyle}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    onClick={() => trigger("city_shipping")}
-                    error={Boolean(errors.city_shipping)}
-                    id="demo-simple-select"
-                    size="small"
-                    value={townBillingSh}
-                    onChange={handleSelectChangeTownShipping}
-                  >
-                    <MenuItem value={"Select Town/City"} disabled>
-                      Select Town/City
-                    </MenuItem>
-                    {isSameAddressChecked === true ? (
-                      <MenuItem value={townBillingSh}>{townBillingSh}</MenuItem>
-                    ) : isAddressListDataShipping === true ? (
-                      <MenuItem value={townBillingSh}>{townBillingSh}</MenuItem>
-                    ) : (
-                      shippingCities?.map((towns) => (
-                        <MenuItem value={towns}>{towns}</MenuItem>
-                      ))
-                    )}
-                  </Select>
                   {errors.city_shipping && isSameAddressChecked === false && (
                     <p style={{ color: "red" }}>
                       {errors.city_shipping?.message}
