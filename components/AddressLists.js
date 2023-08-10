@@ -7,7 +7,6 @@ import {
   IconButton,
   Stack,
   Drawer,
-  Grid,
   Typography,
   TextField,
   Select,
@@ -114,6 +113,8 @@ const AddressLists = ({
   const handleCountryChange = (event) => {
     setValueNewAddress("country", event.target.value, { shouldValidate: true });
     setCountry(event.target.value);
+    setValueNewAddress("town", "Select Town/City", { shouldValidate: true });
+    setTown("Select Town/City");
   };
   const handleTownChange = (event) => {
     setValueNewAddress("town", event.target.value, { shouldValidate: true });

@@ -76,7 +76,6 @@ const checkout = () => {
   const [openLoginModal, setLoginModal] = useState(false);
   const [payment, setPayment] = useState("");
   const [enable, setEnable] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
   const [guestCheckoutResponse, setGuestCheckoutResponse] = useState([]);
   const [shippingCost, setShippingCost] = useState(0);
   const [billingCountry, setBillingCountry] = useState("");
@@ -228,19 +227,14 @@ const checkout = () => {
       };
 
       handleGuestOrder();
-      // dispatch(changeIsCheckout(false));
     }
   }, [
     isPlaceOrder,
     orderInfo,
     isGuestCheckout,
     hasToken,
-    isLoading,
     guestCheckoutResponse,
   ]);
-  if (isLoading) {
-    return <Loader></Loader>;
-  }
 
   // handling Different Form Events
   const handleDistict = (event) => {
@@ -541,12 +535,6 @@ const checkout = () => {
           }
         }
       } else {
-        /* setShippingCost(0);
-        setPathaoShippingCost(0);
-        setEQuerierShippingCost(0);
-        setDhlShippingCost(0);
-        setShowRoomShippingCost(0);
-        setTotal(totalPriceWithTax); */
         if (countryData) {
           let shippingChargeForSelectedCountry;
           for (const item of countryData) {
