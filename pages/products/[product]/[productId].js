@@ -123,7 +123,14 @@ const PorductDetails = () => {
   // Product Selection Section
   useEffect(() => {
     if (products?.p_sizes?.length > 0) {
-      setProductPrice(products?.p_stocks?.[0]?.mrp);
+      if (products?.fragile === "Yes" && products?.fragile_charge) {
+        setProductPrice(
+          products?.p_stocks?.[0]?.mrp + products?.fragile_charge
+        );
+      } else {
+        setProductPrice(products?.p_stocks?.[0]?.mrp);
+      }
+
       if (sizeSelected === false) {
         setNoteTextForStock(
           " Please select a size in order to check stock availability"
@@ -137,7 +144,14 @@ const PorductDetails = () => {
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId
         );
-        setProductPrice(selectedProduct?.mrp);
+        if (products?.fragile === "Yes" && products?.fragile_charge) {
+          setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
+          // setProductPrice(selectedProduct?.mrp);
+        } else {
+          setProductPrice(selectedProduct?.mrp);
+          // setProductPrice(selectedProduct?.mrp);
+        }
+        // setProductPrice(selectedProduct?.mrp);
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         // console.log('stock amount',stockAmount)
@@ -156,7 +170,15 @@ const PorductDetails = () => {
       const selectedProduct = products?.p_stocks?.find(
         (stock) => stock?.size_id === sizeId
       );
-      setProductPrice(selectedProduct?.mrp);
+      if (products?.fragile === "Yes" && products?.fragile_charge) {
+        setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
+        // setProductPrice(selectedProduct?.mrp);
+      } else {
+        
+        setProductPrice(selectedProduct?.mrp);
+        // setProductPrice(selectedProduct?.mrp);
+      }
+      // setProductPrice(selectedProduct?.mrp);
       setStockDetails(selectedProduct);
       setStockAmount(selectedProduct?.stock);
       if (stockAmount > 0) {
@@ -257,6 +279,7 @@ const PorductDetails = () => {
         convertPrice(productPrice)
     ) * count;
   const totalPriceWithTaxRounded = Math.round(totalPriceWithTax1);
+  console.log("checking product", products);
   // console.log("priceWithTaxRounded", vatAmountParticularProductRounded);
   const finalData = {
     id: products.id,
