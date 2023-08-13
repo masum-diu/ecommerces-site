@@ -171,6 +171,7 @@ const PorductDetails = () => {
         (stock) => stock?.size_id === sizeId
       );
       if (products?.fragile === "Yes" && products?.fragile_charge) {
+        // console.log('inside no size')
         setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
         // setProductPrice(selectedProduct?.mrp);
       } else {
@@ -199,8 +200,9 @@ const PorductDetails = () => {
     products?.p_colours?.length,
     products?.p_sizes?.length,
     productPrice,
+    products?.fragile,
+    products?.fragile_charge,
   ]);
-
   if (isLoading) {
     return <Loader></Loader>;
   }
