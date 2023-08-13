@@ -174,7 +174,6 @@ const PorductDetails = () => {
         setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
         // setProductPrice(selectedProduct?.mrp);
       } else {
-        
         setProductPrice(selectedProduct?.mrp);
         // setProductPrice(selectedProduct?.mrp);
       }
@@ -279,7 +278,6 @@ const PorductDetails = () => {
         convertPrice(productPrice)
     ) * count;
   const totalPriceWithTaxRounded = Math.round(totalPriceWithTax1);
-  console.log("checking product", products);
   // console.log("priceWithTaxRounded", vatAmountParticularProductRounded);
   const finalData = {
     id: products.id,
