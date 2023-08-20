@@ -326,8 +326,7 @@ const shop = () => {
                       className="bold"
                       color="initial"
                     >
-                      {selectedCurrency}{" "}
-                      {convertPrice(data?.p_stocks[0]?.mrp)}
+                      {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -451,8 +450,7 @@ const shop = () => {
                       className="bold"
                       color="initial"
                     >
-                      {selectedCurrency}{" "}
-                      {convertPrice(data?.p_stocks[0]?.mrp)}
+                      {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>

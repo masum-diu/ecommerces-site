@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCtDnktynwgvzgpP2Q1mMpc54G6bs-i0vg",
-  authDomain: "next-auth-aranya.firebaseapp.com",
-  projectId: "next-auth-aranya",
-  storageBucket: "next-auth-aranya.appspot.com",
-  messagingSenderId: "162472437137",
-  appId: "1:162472437137:web:7564cbe2d494aa19c66630",
+  apiKey: "AIzaSyAGuxpcxfOQRPoQQY4n0Z3P9b6N8CcWvyM",
+  authDomain: "aranyaauth.firebaseapp.com",
+  projectId: "aranyaauth",
+  storageBucket: "aranyaauth.appspot.com",
+  messagingSenderId: "145327754488",
+  appId: "1:145327754488:web:fe4fec7291fb24c45eff0d"
 };
 
 // Initialize Firebase

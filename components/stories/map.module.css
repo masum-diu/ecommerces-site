@@ -1,0 +1,27 @@
+/* styles.css */
+.map_container {
+  position: relative;
+}
+
+.division_button {
+  position: absolute;
+  color: rgb(255, 145, 0);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+/* Adjust the positions for each division button */
+.division_button[data-division="division1"] {
+  top: 54%;
+  left: 32%;
+}
+
+.division_button[data-division="division2"] {
+  top: 25%;
+  left: 36%;
+}
+
+/* Add more styles for other divisions */

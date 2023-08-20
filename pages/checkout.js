@@ -115,8 +115,14 @@ const checkout = () => {
         "-webkit-text-fill-color": "rgb(0 0 0)",
       },
   };
-  const { hasToken, setHasToken, isPlaceOrder, setIsPlaceOrder } =
-    useContext(USER_CONTEXT);
+  const {
+    hasToken,
+    setHasToken,
+    isPlaceOrder,
+    setIsPlaceOrder,
+    isProceedCheckout,
+    setIsProceedCheckout,
+  } = useContext(USER_CONTEXT);
   const router = useRouter();
   const [
     userOrder,
@@ -167,6 +173,14 @@ const checkout = () => {
       shippingCost: dhlShippingCost,
     },
   ];
+  // code for if user is not logged in and not guest then open the login popup.
+  /* useEffect(() => {
+    if (isGuestCheckout === false && hasToken === false) {
+      setIsProceedCheckout(true);
+      setLoginModal(true);
+    }
+  }, [isGuestCheckout, hasToken, isProceedCheckout]);
+  console.log("your log output", isGuestCheckout, hasToken); */
   useEffect(() => {
     if (userOrderError || guestOrderError) {
       toast.error("Oops! Something went wrong. Please try again later.");
@@ -377,7 +391,8 @@ const checkout = () => {
       handleUserOrder();
     }
   };
-
+  // console.log("isGuestCheckout", isGuestCheckout);
+  // console.log("hasToken", hasToken);
   const handleSelectChange = (event) => {
     setValue("country_billing", event.target.value, { shouldValidate: true });
     setDistict(event.target.value);
@@ -904,7 +919,7 @@ const checkout = () => {
                       cursor: "pointer",
                     }}
                   >
-                    Add New Billing Address
+                    Add New or Existing Billing Address
                   </Typography>
                 </Stack>
 
@@ -1249,7 +1264,7 @@ const checkout = () => {
                         cursor: "pointer",
                       }}
                     >
-                      Add New Shipping Address
+                      Add New or Existing Shipping Address
                     </Typography>
                   </Stack>
                   <Typography variant="cardHeader1" color="initial">
@@ -1933,11 +1948,11 @@ const checkout = () => {
         showInputField={showInputField}
       />
       <LoginModal
-      // open={openLoginModal}
-      // setOpen={setLoginModal}
-      // isGuestCheckout={isGuestCheckout}
-      // setIsGuestCheckout={setIsGuestCheckout}
-      // setHasToken={setHasToken}
+        open={openLoginModal}
+        setOpen={setLoginModal}
+        // isGuestCheckout={isGuestCheckout}
+        // setIsGuestCheckout={setIsGuestCheckout}
+        // setHasToken={setHasToken}
       ></LoginModal>
     </>
   );

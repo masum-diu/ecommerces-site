@@ -62,13 +62,13 @@ const LoginModal = ({ open, setOpen }) => {
     useSocialUserCreationMutation();
   const router = useRouter();
   const dispatch = useDispatch();
-
+  console.log("your log output", googleUser);
   useEffect(() => {
     const isUser = localStorage.getItem("acesstoken");
 
     if (googleUser && !isUser && !hasToken) {
-      const email = googleUser.user.email;
-      const name = googleUser.user.displayName;
+      const email = googleUser?.user?.email;
+      const name = googleUser?.user?.displayName;
       try {
         const userCreationResponse = socialUserCreation({ email, name });
         if (isSuccess) {
