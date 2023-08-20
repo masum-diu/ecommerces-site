@@ -908,7 +908,7 @@ const checkout = () => {
                 </Typography>
                 <Stack direction={"row"} spacing={1} mt={3.8}>
                   <Typography
-                    variant="cardLocation1"
+                    variant="cardLocation123"
                     color="#7E7250"
                     onClick={() => handleAddressStatusBilling()}
                     className="SemiBold"
@@ -1245,7 +1245,7 @@ const checkout = () => {
                       onClick={() => handleSameAddressSelected()}
                     />
                     <Typography
-                      variant="cardLocation1"
+                      variant="cardLocation123"
                       className="SemiBold"
                       color="initial"
                     >
@@ -1253,7 +1253,7 @@ const checkout = () => {
                     </Typography>
                     <b>/</b>
                     <Typography
-                      variant="cardLocation1"
+                      variant="cardLocation123"
                       color="#7E7250"
                       onClick={() => handleAddressStatusShipping()}
                       className="SemiBold"

@@ -62,7 +62,6 @@ const LoginModal = ({ open, setOpen }) => {
     useSocialUserCreationMutation();
   const router = useRouter();
   const dispatch = useDispatch();
-  console.log("your log output", googleUser);
   useEffect(() => {
     const isUser = localStorage.getItem("acesstoken");
 
