@@ -923,7 +923,7 @@ const checkout = () => {
                   </Typography>
                 </Stack>
 
-                <Stack direction={"column"} spacing={2} mt={{ lg: 2 }}>
+                <Stack direction={"column"} spacing={2} mt={{ lg: 2.5 }}>
                   <Typography variant="cardHeader1" color="initial">
                     FIRST NAME *
                   </Typography>
@@ -1637,12 +1637,7 @@ const checkout = () => {
                     multiline
                     rows={4}
                     autoComplete="off"
-                    {...register("orderNote", {
-                      required: {
-                        value: false,
-                        message: "Place your order note here.",
-                      },
-                    })}
+                    onChange={(e) => setValue("orderNote", e.target.value)}
                     onKeyUp={() => trigger("orderNote")}
                     error={Boolean(errors.orderNote)}
                     placeholder="Place your order note here."
