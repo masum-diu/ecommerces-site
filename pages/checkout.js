@@ -91,6 +91,8 @@ const checkout = () => {
   const [eQuerierShippingCost, setEQuerierShippingCost] = useState(0);
   const [dhlShippingCost, setDhlShippingCost] = useState(0);
   const [showRoomShippingCost, setShowRoomShippingCost] = useState(0);
+  const [countryBillingCode, setBillingCountryCode] = useState("");
+  const [countryShippingCode, setShippingCountryCode] = useState("");
   const { selectedCurrency, convertPrice, currentConversionRate } =
     useCurrencyConversion();
   const {
@@ -180,7 +182,7 @@ const checkout = () => {
       setLoginModal(true);
     }
   }, [isGuestCheckout, hasToken, isProceedCheckout]);
-  console.log("your log output", isGuestCheckout, hasToken); */
+  */
   useEffect(() => {
     if (userOrderError || guestOrderError) {
       toast.error("Oops! Something went wrong. Please try again later.");
@@ -391,8 +393,7 @@ const checkout = () => {
       handleUserOrder();
     }
   };
-  // console.log("isGuestCheckout", isGuestCheckout);
-  // console.log("hasToken", hasToken);
+
   const handleSelectChange = (event) => {
     setValue("country_billing", event.target.value, { shouldValidate: true });
     setDistict(event.target.value);
@@ -483,6 +484,7 @@ const checkout = () => {
     control,
     name: "orderNote",
   });
+
   useEffect(() => {
     setValue("deliveryMethod", "");
     setIsAddressListDataShipping(false);
@@ -669,6 +671,51 @@ const checkout = () => {
     setPayment(paymentMethod);
   }, [payment, paymentMethod]);
 
+  // fetching billing cities whenever the country name changes
+  useEffect(() => {
+    if (isAddressListDataBilling === false) {
+      if (countryData && country) {
+        const selectedCountryObject = countryData.find(
+          (countryData) => countryData.country_name === country
+        );
+        if (selectedCountryObject) {
+          setBillingCountryCode(selectedCountryObject?.country_code);
+        } else {
+          setBillingCountryCode("");
+        }
+      }
+    }
+  }, [country, countryData, isAddressListDataBilling]);
+
+  useEffect(() => {
+    if (isAddressListDataBilling === false) {
+      setSelectedCountryBilling(countryBillingCode);
+    }
+  }, [countryBillingCode, country, isAddressListDataBilling]);
+
+  // fetching shipping cities whenever the country name changes
+  useEffect(() => {
+    if (isAddressListDataShipping === false) {
+      if (countryData && countrySh) {
+        const selectedCountryObject = countryData.find(
+          (countryData) => countryData.country_name === countrySh
+        );
+        if (selectedCountryObject) {
+          setShippingCountryCode(selectedCountryObject?.country_code);
+        } else {
+          setShippingCountryCode("");
+        }
+      }
+    }
+  }, [countrySh, countryData, isAddressListDataShipping]);
+
+  useEffect(() => {
+    if (isAddressListDataShipping === false) {
+      setSelectedCountryShipping(countryShippingCode);
+    }
+  }, [countryShippingCode, countrySh, isAddressListDataShipping]);
+
+  // setting whether user wants to pay online or cash
   useEffect(() => {
     if (userOrderSuccess) {
       setIsPlaceOrder(false);
@@ -688,6 +735,8 @@ const checkout = () => {
       }
     }
   }, [userOrderSuccess, isPlaceOrder, orderResponseUser]);
+
+  // redirecting users to where they came from
   useEffect(() => {
     let host = location.host;
 
