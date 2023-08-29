@@ -2113,14 +2113,10 @@ const PorductDetails = () => {
             style={{
               width: "90vw",
               margin: "0 auto",
-              maxWidth: "fit-content",
               marginTop: "1rem",
             }}
             spaceBetween={10}
             slidesPerView={2.5}
-            // pagination={{
-            //   clickable: true,
-            // }}
             modules={[Pagination]}
             className="mySwiper"
           >
