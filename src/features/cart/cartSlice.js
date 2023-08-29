@@ -18,7 +18,7 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const productID = action.payload;
-      console.log("my", productID);
+      
       try {
         const exist = state.cart.find(
           (product) =>
@@ -94,7 +94,7 @@ export const cartSlice = createSlice({
     increaseCart: (state, action) => {
       // state.cart.push(action.payload);
       const productID = action.payload;
-      console.log("your log output", productID);
+      
       try {
         const exist = state.cart.find(
           (product) =>

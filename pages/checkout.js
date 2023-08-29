@@ -137,7 +137,6 @@ const checkout = () => {
     isError: eCourierError,
     error: eCourierErrorData,
   } = useGetECourierShippingChargeQuery();
-  console.log("eCourierData", eCourierData);
   const [
     userOrder,
     {

@@ -53,7 +53,6 @@ const addtocart = () => {
     keepShowing,
     setKeepShowing,
   } = useContext(USER_CONTEXT);
-  console.log("my", cart);
   const removeItemFromCart = async (data) => {
     dispatch(removeFromCart(data));
     toast.error("Removed From Cart!");

@@ -109,7 +109,7 @@ const PorductDetails = () => {
     sub_catcategory,
   });
   const RelatedProducts = matchedwithProduct?.data;
-  console.log("lost", products);
+  
 
   // Fetching the particular Product
   useEffect(() => {
@@ -122,7 +122,7 @@ const PorductDetails = () => {
       handleSuccess();
     }
   }, [data, isSuccess, isLoading]);
-  console.log("your log output", fragileCharge);
+  
   // Product Selection Section
   useEffect(() => {
     if (products?.p_stocks) {
@@ -166,7 +166,7 @@ const PorductDetails = () => {
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
         );
-        console.log("bro", colorId, sizeId, selectedProduct);
+       
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         setPriceWithoutFragileCharge(selectedProduct?.mrp);
