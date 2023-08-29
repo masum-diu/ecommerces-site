@@ -101,7 +101,6 @@ export const productApi = createApi({
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          
         },
       }),
     }),
@@ -123,6 +122,15 @@ export const productApi = createApi({
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
+        },
+      }),
+    }),
+    getECourierShippingCharge: builder.query({
+      query: () => ({
+        url: `/e-courier-package`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         },
       }),
     }),
@@ -171,6 +179,7 @@ export const productApi = createApi({
         totalPriceOrg,
         totalPriceWithTax,
         totalPriceWithTaxOrg,
+        totalFragileCharge,
         finalPriceOfOrder,
         currentConversionRate,
         selectedCurrency,
@@ -190,6 +199,7 @@ export const productApi = createApi({
           totalPriceOrg: totalPriceOrg,
           totalPriceWithTax: totalPriceWithTax,
           totalPriceWithTaxOrg: totalPriceWithTaxOrg,
+          totalFragileCharge: totalFragileCharge,
           finalPrice: finalPriceOfOrder,
           currentConversionRate: currentConversionRate,
           selectedCurrency: selectedCurrency,
@@ -213,6 +223,7 @@ export const productApi = createApi({
         totalPriceOrg,
         totalPriceWithTaxOrg,
         finalPriceOfOrder,
+        totalFragileCharge,
         currentConversionRate,
         selectedCurrency,
         totalAmount,
@@ -230,6 +241,7 @@ export const productApi = createApi({
           totalPrice: totalPrice,
           totalPriceWithTax: totalPriceWithTax,
           totalPriceOrg: totalPriceOrg,
+          totalFragileCharge: totalFragileCharge,
           totalPriceWithTaxOrg: totalPriceWithTaxOrg,
           finalPrice: finalPriceOfOrder,
           currentConversionRate: currentConversionRate,
@@ -342,6 +354,7 @@ export const {
   useLazyGetCategoryAndSubWiseProductsQuery,
   useGetShippingChargeQuery,
   useGetOrderDetailsQuery,
+  useGetECourierShippingChargeQuery,
   useCancelOrderMutation,
   usePostRefundOrderMutation,
   useGetMatchedWithProductQuery,
@@ -350,5 +363,5 @@ export const {
   usePostAdditionalInfoMutation,
   usePasswordResetRequestMutation,
   useSocialUserCreationMutation,
-  useGetCountryListWithShippingChargeQuery
+  useGetCountryListWithShippingChargeQuery,
 } = productApi;

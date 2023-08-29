@@ -67,13 +67,16 @@ const PorductDetails = () => {
   const [disableBtn, setDisableBtn] = useState(true);
   const [count, setCount] = useState(1);
   const [size, setSize] = useState("");
-  const [color, setColorName] = useState("");
+  const [colorName, setColorName] = useState("");
   const [colorCode, setColorCode] = useState("");
   const [sizeId, setSizeId] = useState(0);
   const [colorId, setColorId] = useState(0);
   const [stockDetails, setStockDetails] = useState([]);
   const [stockAmount, setStockAmount] = useState(0);
   const [productPrice, setProductPrice] = useState(0);
+  const [priceWithoutFragileCharge, setPriceWithoutFragileCharge] = useState(0);
+  const [fragileCharge, setFragileCharge] = useState(0);
+  const [productWeight, setProductWeight] = useState(0);
   const [products, setProducts] = useState([]);
   const [activesize, setActiveSize] = useState(null);
   const [activecolor, setActiveColor] = useState(null);
@@ -106,7 +109,7 @@ const PorductDetails = () => {
     sub_catcategory,
   });
   const RelatedProducts = matchedwithProduct?.data;
-  // console.log("lost", RelatedProducts);
+  console.log("lost", products);
 
   // Fetching the particular Product
   useEffect(() => {
@@ -119,42 +122,61 @@ const PorductDetails = () => {
       handleSuccess();
     }
   }, [data, isSuccess, isLoading]);
-
+  console.log("your log output", fragileCharge);
   // Product Selection Section
   useEffect(() => {
-    if (products?.p_sizes?.length > 0) {
-      if (products?.fragile === "Yes" && products?.fragile_charge) {
-        setProductPrice(
-          products?.p_stocks?.[0]?.mrp + products?.fragile_charge
+    if (products?.p_stocks) {
+      setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
+      setProductPrice(products?.p_stocks[0]?.mrp);
+    }
+    setProductWeight(products?.p_weight);
+    if (products?.fragile === "Yes") {
+      setFragileCharge(products?.fragile_charge);
+    }
+    if (products?.fragile === "No") {
+      setFragileCharge(products?.fragile_charge);
+    }
+    if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
+      if (colorSelected === false && sizeSelected === false) {
+        setNoteTextForStock(
+          " Please select a color and size in order to check stock availability"
         );
-      } else {
-        setProductPrice(products?.p_stocks?.[0]?.mrp);
+        setNoteTextForCart(
+          " Please select a color and size in order to enable Add To Cart"
+        );
       }
-
-      if (sizeSelected === false) {
+      if (colorSelected === false && sizeSelected === true) {
+        setNoteTextForStock(
+          " Please select a color in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a color in order to enable Add To Cart"
+        );
+      }
+      if (sizeSelected === false && colorSelected === true) {
         setNoteTextForStock(
           " Please select a size in order to check stock availability"
         );
         setNoteTextForCart(
-          " Please select a size in order to enable Add To Cart"
+          " Please select a size in order to enable Add To Cart."
         );
       }
 
-      if (sizeSelected === true) {
+      if (sizeSelected === true && colorSelected === true) {
         const selectedProduct = products?.p_stocks?.find(
-          (stock) => stock?.size_id === sizeId
+          (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
         );
-        if (products?.fragile === "Yes" && products?.fragile_charge) {
-          setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
-          // setProductPrice(selectedProduct?.mrp);
-        } else {
-          setProductPrice(selectedProduct?.mrp);
-          // setProductPrice(selectedProduct?.mrp);
-        }
-        // setProductPrice(selectedProduct?.mrp);
+        console.log("bro", colorId, sizeId, selectedProduct);
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
-        // console.log('stock amount',stockAmount)
+        setPriceWithoutFragileCharge(selectedProduct?.mrp);
+        if (products?.fragile === "Yes" && products?.fragile_charge) {
+          setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
+          setPriceWithoutFragileCharge(selectedProduct?.mrp);
+        } else {
+          setProductPrice(selectedProduct?.mrp);
+          setPriceWithoutFragileCharge(selectedProduct?.mrp);
+        }
         if (stockAmount > 0) {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
@@ -165,29 +187,131 @@ const PorductDetails = () => {
         }
         setNoteTextForCart("");
       }
+      if (
+        products?.p_colours?.length > 0 &&
+        colorSelected === false &&
+        sizeSelected === true
+      ) {
+        setNoteTextForStock(
+          " Please select a color in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a color in order to enable Add To Cart"
+        );
+      }
+      if (
+        products?.p_sizes?.length > 0 &&
+        sizeSelected === false &&
+        colorSelected === true
+      ) {
+        setNoteTextForStock(
+          " Please select a size in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a size in order to enable Add To Cart."
+        );
+      }
     }
-    if (!products?.p_sizes?.length) {
-      const selectedProduct = products?.p_stocks?.find(
-        (stock) => stock?.size_id === sizeId
-      );
-      if (products?.fragile === "Yes" && products?.fragile_charge) {
-        // console.log('inside no size')
-        setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
-        // setProductPrice(selectedProduct?.mrp);
-      } else {
-        setProductPrice(selectedProduct?.mrp);
-        // setProductPrice(selectedProduct?.mrp);
+
+    if (
+      (products?.p_colours?.length == 0 || products?.p_sizes?.length == 0) &&
+      (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
+    ) {
+      if (sizeSelected == true || colorSelected == true) {
+        if (colorSelected == true) {
+          const selectedProduct = products?.p_stocks?.find(
+            (stock) => stock?.colour_id === colorId
+          );
+          setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          if (products?.fragile === "Yes" && products?.fragile_charge) {
+            setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
+            setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          } else {
+            setProductPrice(selectedProduct?.mrp);
+            setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          }
+          setStockDetails(selectedProduct);
+          setStockAmount(selectedProduct?.stock);
+        }
+        if (sizeSelected == true) {
+          const selectedProduct = products?.p_stocks?.find(
+            (stock) => stock?.size_id === sizeId
+          );
+          setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          if (products?.fragile === "Yes" && products?.fragile_charge) {
+            setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
+            setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          } else {
+            setProductPrice(selectedProduct?.mrp);
+            setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          }
+          setStockDetails(selectedProduct);
+          setStockAmount(selectedProduct?.stock);
+        }
+
+        if (stockAmount > 0) {
+          setDisableBtn(false);
+          setNoteTextForStock("In Stock");
+        }
+        if (stockAmount === undefined) {
+          setDisableBtn(true);
+          setNoteTextForStock("Out of Stock");
+        }
+
+        setNoteTextForCart("");
       }
-      // setProductPrice(selectedProduct?.mrp);
-      setStockDetails(selectedProduct);
-      setStockAmount(selectedProduct?.stock);
-      if (stockAmount > 0) {
-        setDisableBtn(false);
-        setNoteTextForStock("In Stock");
+
+      if (
+        products?.p_colours?.length > 0 &&
+        (products?.p_sizes?.length === undefined ||
+          products?.p_sizes?.length === 0) &&
+        colorSelected === false
+      ) {
+        setNoteTextForStock(
+          " Please select a color in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a color in order to enable Add To Cart"
+        );
       }
-      if (stockAmount === undefined || stockAmount === 0) {
-        setDisableBtn(true);
-        setNoteTextForStock("Out of Stock");
+      if (
+        (products?.p_colours?.length === undefined ||
+          products?.p_colours?.length === 0) &&
+        products?.p_sizes?.length > 0 &&
+        sizeSelected === false
+      ) {
+        setNoteTextForStock(
+          " Please select a size in order to check stock availability"
+        );
+        setNoteTextForCart(
+          " Please select a size in order to enable Add To Cart"
+        );
+      }
+    }
+
+    if (!products?.p_colours?.length && !products?.p_sizes?.length) {
+      if (products?.p_stocks) {
+        // setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
+        // setProductPrice(products?.p_stocks[0]?.mrp + products?.fragile_charge);
+        if (products?.fragile === "Yes" && products?.fragile_charge) {
+          setProductPrice(
+            products?.p_stocks[0]?.mrp + products?.fragile_charge
+          );
+          setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
+        } else {
+          setProductPrice(products?.p_stocks[0]?.mrp);
+          setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
+        }
+        if (products?.p_stocks[0]?.stock > 0) {
+          setNoteTextForStock("In Stock");
+          setDisableBtn(false);
+        }
+        if (
+          products?.p_stocks[0]?.stock === undefined ||
+          products?.p_stocks[0]?.stock === 0
+        ) {
+          setNoteTextForStock("Out of Stock");
+        }
       }
       setNoteTextForCart("");
     }
@@ -231,7 +355,7 @@ const PorductDetails = () => {
   };
   const handleAddToCart = async (finalData) => {
     dispatch(addToCart(finalData));
-    await toast.success("Added To Cart!");
+    toast.success("Added To Cart!");
   };
 
   const handleImageForThumble = (data, images) => {
@@ -247,13 +371,13 @@ const PorductDetails = () => {
     dispatch(addToWishList(data));
     setShowBrokenHeart("block");
     setShowHeart("none");
-    await toast.success("Added To WishList!");
+    toast.success("Added To WishList!");
   };
   const handleRemoveFromList = async (data) => {
     dispatch(removeFromWishList(data));
     setShowBrokenHeart("none");
     setShowHeart("block");
-    await toast.error("Removed From Wishlist!");
+    toast.error("Removed From Wishlist!");
   };
   const description = products?.p_description;
 
@@ -290,12 +414,17 @@ const PorductDetails = () => {
     size_id: sizeId,
     text: products?.p_description,
     colors: products?.p_colours,
+    color_id: colorId,
     price: convertPrice(productPrice),
     priceWithTax: priceWithTaxRounded,
     vatAmountParticularProduct: vatAmountParticularProductRounded,
     amount: count,
     stock: stockAmount,
     totalAmount: count,
+    fragileCharge: fragileCharge,
+    totalFragileCharge: count * fragileCharge,
+    productWeight: productWeight,
+    totalProductWeight: count * productWeight,
     totalPrice: parseFloat(convertPrice(productPrice)) * count,
     totalPriceWithTax: totalPriceWithTaxRounded,
     taxAmount: products?.p_tax?.tax_percentage,
@@ -303,6 +432,7 @@ const PorductDetails = () => {
     priceWithTaxOrg: parseFloat(
       productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
     ),
+
     vatAmountParticularProductOrg:
       count *
       parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
@@ -321,6 +451,9 @@ const PorductDetails = () => {
     size: products?.p_sizes,
     text: products?.p_description,
     colors: products?.p_colours,
+    color_id: colorId,
+    color_name: colorName,
+    color_code: colorCode,
     price: convertPrice(productPrice),
     priceOrg: productPrice,
     amount: 1,
@@ -480,7 +613,7 @@ const PorductDetails = () => {
                     fontWeight={700}
                   >
                     {/* Price : BDT {productPrice} */}
-                    {selectedCurrency} {convertPrice(productPrice)}
+                    {selectedCurrency} {convertPrice(priceWithoutFragileCharge)}
                   </Typography>
                   {products?.p_sizes?.length > 0 ? (
                     <>
@@ -492,15 +625,6 @@ const PorductDetails = () => {
                         >
                           Sizes
                         </Typography>
-                        {/* <hr
-                          style={{
-                            textAlign: "left",
-                            width: "100%",
-                            height: "1px",
-                            backgroundColor: "black",
-                            // maxWidth: "350px",
-                          }}
-                        /> */}
                       </Stack>
                       <Stack
                         direction={"row"}
@@ -574,6 +698,60 @@ const PorductDetails = () => {
                         ) : (
                           ""
                         )}
+                      </Stack>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  {products?.p_colours?.length > 0 ? (
+                    <>
+                      <Stack direction={"row"} spacing={1} alignItems="center">
+                        <Typography
+                          variant="cardHeader3"
+                          color="#959595"
+                          className="SemiBold"
+                        >
+                          Colors
+                        </Typography>
+                      </Stack>
+                      <Stack
+                        direction={"row"}
+                        spacing={1}
+                        alignItems="center"
+                        justifyContent={"space-between"}
+                      >
+                        <Stack
+                          direction={"row"}
+                          spacing={2}
+                          // width={"20%"}
+                          justifyContent="space-between"
+                          alignItems={"center"}
+                        >
+                          {/* {console.log("your log output", products)} */}
+                          {products?.p_colours?.map((color) => (
+                            <Box
+                              key={color.id}
+                              onClick={() =>
+                                handleSelectColor(
+                                  color.color_name,
+                                  color.color_code,
+                                  color.id
+                                )
+                              }
+                              sx={{
+                                width: "35px",
+                                height: "35px",
+                                backgroundColor: color.color_code,
+                                borderRadius: "10px",
+                                cursor: "pointer",
+                                border:
+                                  activecolor === color.id
+                                    ? "2px solid #3c5676"
+                                    : "none",
+                              }}
+                            />
+                          ))}
+                        </Stack>
                       </Stack>
                     </>
                   ) : (
@@ -784,49 +962,6 @@ const PorductDetails = () => {
                     >
                       Additional information
                     </Button>
-                    {/* <Button
-                      variant="outlined"
-                      color="inherit"
-                      aria-label=""
-                      style={{ display: `${showHeart}` }}
-                      onClick={() => handleAddToWishList(dataForWishList)}
-                    >
-                      <FiHeart
-                        style={{
-                          color: "#000",
-                          fontSize: "18px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          width: "100%",
-                        }}
-                      />
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="inherit"
-                      style={{ display: `${showBrokenHeart}` }}
-                      aria-label=""
-                      onClick={() =>
-                        handleRemoveFromList({
-                          id: products?.id,
-                          amount: 1,
-                          showHeart: "block",
-                          showBrokenHeart: "none",
-                        })
-                      }
-                    >
-                      <HeartBrokenOutlinedIcon
-                        style={{
-                          color: "#000",
-                          fontSize: "18px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          width: "100%",
-                        }}
-                      />
-                    </Button> */}
                   </Stack>
 
                   {openList ? (
@@ -1427,23 +1562,10 @@ const PorductDetails = () => {
                                   : ""
                               }
                             >
-                              {size?.size_name}
+                              {size?.size_name} demo
                             </Typography>
                           </Button>
                         ))}
-
-                        {/* <Button variant="text" color="primary">
-                    M
-                  </Button>
-                  <Button variant="text" color="primary">
-                    L
-                  </Button>
-                  <Button variant="text" color="primary">
-                    XL
-                  </Button>
-                  <Button variant="text" color="primary">
-                    XXL
-                  </Button> */}
                       </Stack>
                       {products?.subcat_id === 13 ||
                       products?.subcat_id === 15 ||
@@ -1463,6 +1585,60 @@ const PorductDetails = () => {
                       ) : (
                         ""
                       )}
+                    </Stack>
+                  </>
+                ) : (
+                  ""
+                )}
+                {products?.p_colours?.length > 0 ? (
+                  <>
+                    <Stack direction={"row"} spacing={1} alignItems="center">
+                      <Typography
+                        variant="cardHeader3"
+                        color="#959595"
+                        className="SemiBold"
+                      >
+                        Colors
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={1}
+                      alignItems="center"
+                      justifyContent={"space-between"}
+                    >
+                      <Stack
+                        direction={"row"}
+                        spacing={2}
+                        // width={"20%"}
+                        justifyContent="space-between"
+                        alignItems={"center"}
+                      >
+                        {/* {console.log("your log output", products)} */}
+                        {products?.p_colours?.map((color) => (
+                          <Box
+                            key={color.id}
+                            onClick={() =>
+                              handleSelectColor(
+                                color.color_name,
+                                color.color_code,
+                                color.id
+                              )
+                            }
+                            sx={{
+                              width: "35px",
+                              height: "35px",
+                              backgroundColor: color.color_code,
+                              borderRadius: "10px",
+                              cursor: "pointer",
+                              border:
+                                activecolor === color.id
+                                  ? "2px solid #3c5676"
+                                  : "none",
+                            }}
+                          />
+                        ))}
+                      </Stack>
                     </Stack>
                   </>
                 ) : (

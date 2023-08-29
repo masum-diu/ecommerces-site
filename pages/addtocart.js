@@ -53,10 +53,10 @@ const addtocart = () => {
     keepShowing,
     setKeepShowing,
   } = useContext(USER_CONTEXT);
-
+  console.log("my", cart);
   const removeItemFromCart = async (data) => {
     dispatch(removeFromCart(data));
-     toast.error("Removed From Cart!");
+    toast.error("Removed From Cart!");
   };
 
   useEffect(() => {
@@ -208,8 +208,13 @@ const addtocart = () => {
                                       size_id: data.size_id,
                                       text: data.text,
                                       colors: data.colors,
+                                      color_id: data.color_id,
                                       price: data.price,
                                       priceOrg: data.priceOrg,
+                                      totalFragileCharge: data.fragileCharge,
+                                      fragileCharge: data.fragileCharge,
+                                      totalProductWeight: data.productWeight,
+                                      productWeight: data.productWeight,
                                       vatAmountParticularProduct:
                                         parseFloat(
                                           data.vatAmountParticularProduct
@@ -439,8 +444,13 @@ const addtocart = () => {
                                       size_id: data.size_id,
                                       text: data.text,
                                       colors: data.colors,
+                                      color_id: data.color_id,
                                       price: data.price,
                                       priceOrg: data.priceOrg,
+                                      totalFragileCharge: data.fragileCharge,
+                                      fragileCharge: data.fragileCharge,
+                                      totalProductWeight: data.productWeight,
+                                      productWeight: data.productWeight,
                                       vatAmountParticularProduct:
                                         parseFloat(
                                           data.vatAmountParticularProduct

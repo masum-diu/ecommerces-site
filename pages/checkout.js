@@ -35,6 +35,7 @@ import {
   useGetShippingChargeQuery,
   useGetUserAddressQuery,
   useGetCountryListWithShippingChargeQuery,
+  useGetECourierShippingChargeQuery,
 } from "../src/features/api/apiSlice";
 import { changeIsCheckout } from "../src/features/checkout/checkoutSlice";
 import Link from "next/link";
@@ -56,6 +57,9 @@ const checkout = () => {
   const dispatch = useDispatch();
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalPriceOrg = useSelector((state) => state.cart.totalPriceOrg);
+  const totalFragileCharge = useSelector(
+    (state) => state.cart.totalFragileCharge
+  );
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const totalPriceWithTax = useSelector(
     (state) => state.cart.totalPriceWithTax
@@ -81,6 +85,7 @@ const checkout = () => {
   const [billingCountry, setBillingCountry] = useState("");
   const [shippingCountry, setShippingCountry] = useState("");
   const [orderInfo, setOrderInfo] = useState({});
+  const [eCourierResponse, setECourierResponse] = useState([]);
   const [orderResponseUser, setOrderResponseUser] = useState({});
   const [orderResponseGuest, setOrderResponseGuest] = useState({});
   const [isAddressListDataBilling, setIsAddressListDataBilling] =
@@ -126,6 +131,13 @@ const checkout = () => {
     setIsProceedCheckout,
   } = useContext(USER_CONTEXT);
   const router = useRouter();
+  const {
+    data: eCourierData,
+    isLoading: eCourierLoading,
+    isError: eCourierError,
+    error: eCourierErrorData,
+  } = useGetECourierShippingChargeQuery();
+  console.log("eCourierData", eCourierData);
   const [
     userOrder,
     {
@@ -175,6 +187,7 @@ const checkout = () => {
       shippingCost: dhlShippingCost,
     },
   ];
+  console.log('your log output',countryData)
   // code for if user is not logged in and not guest then open the login popup.
   /* useEffect(() => {
     if (isGuestCheckout === false && hasToken === false) {
@@ -188,6 +201,15 @@ const checkout = () => {
       toast.error("Oops! Something went wrong. Please try again later.");
     }
   }, [userOrderError, guestOrderError]);
+
+  useEffect(() => {
+    if (eCourierData) {
+      const eCourierJsonData = JSON.parse(eCourierData?.response)
+      // console.log('eC',eCourierJsonData)
+      setECourierResponse(eCourierJsonData);
+    }
+  }, [eCourierData]);
+console.log('eC',eCourierResponse)
   useEffect(() => {
     const host = location.host;
     if (host === "localhost:3000") {
@@ -227,6 +249,7 @@ const checkout = () => {
             totalPriceOrg: orderInfo?.totalPriceOrg,
             totalPriceWithTax: orderInfo?.totalPriceWithTax,
             totalPriceWithTaxOrg: orderInfo?.totalPriceWithTaxOrg,
+            totalFragileCharge: orderInfo?.totalFragileCharge,
             finalPriceOfOrder: orderInfo?.finalPrice,
             currentConversionRate: orderInfo?.currentConversionRate,
             selectedCurrency: orderInfo?.selectedCurrency,
@@ -251,7 +274,6 @@ const checkout = () => {
     hasToken,
     guestCheckoutResponse,
   ]);
-
   // handling Different Form Events
   const handleDistict = (event) => {
     setDistict(event.target.value);
@@ -358,6 +380,7 @@ const checkout = () => {
       totalPriceWithTax: totalPriceWithTax,
       totalPriceOrg: totalPriceOrg,
       totalPriceWithTaxOrg: totalPriceWithTaxOrg,
+      totalFragileCharge: totalFragileCharge,
       finalPrice: Math.round(total),
       currentConversionRate: currentConversionRate,
       selectedCurrency: selectedCurrency,
@@ -377,6 +400,7 @@ const checkout = () => {
             totalPriceOrg,
             totalPriceWithTax,
             totalPriceWithTaxOrg,
+            totalFragileCharge,
             currentConversionRate: currentConversionRate,
             selectedCurrency: selectedCurrency,
             finalPriceOfOrder,
@@ -907,7 +931,8 @@ const checkout = () => {
     guestOrderLoading ||
     userOrderSuccess ||
     guestOrderSuccess ||
-    countryLoading
+    countryLoading ||
+    eCourierLoading
   ) {
     return <Loader></Loader>;
   }
@@ -1686,7 +1711,6 @@ const checkout = () => {
                     multiline
                     rows={4}
                     autoComplete="off"
-                    onChange={(e) => setValue("orderNote", e.target.value)}
                     onKeyUp={() => trigger("orderNote")}
                     error={Boolean(errors.orderNote)}
                     placeholder="Place your order note here."
