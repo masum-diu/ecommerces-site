@@ -173,11 +173,11 @@ const checkout = () => {
     isLoading: countryLoading,
   } = useGetCountryListWithShippingChargeQuery(tokens);
   const shippingOptions = [
-    {
+    /* {
       id: 1,
       innerText: "Pathao",
       shippingCost: pathaoShippingCost,
-    },
+    }, */
     {
       id: 1,
       innerText: "E-Courier",
@@ -255,6 +255,7 @@ const checkout = () => {
             totalPriceWithTax: orderInfo?.totalPriceWithTax,
             totalPriceWithTaxOrg: orderInfo?.totalPriceWithTaxOrg,
             totalFragileCharge: orderInfo?.totalFragileCharge,
+            shippingCost: orderInfo.shippingCost,
             finalPriceOfOrder: orderInfo?.finalPrice,
             currentConversionRate: orderInfo?.currentConversionRate,
             selectedCurrency: orderInfo?.selectedCurrency,
@@ -386,6 +387,7 @@ const checkout = () => {
       totalPriceOrg: totalPriceOrg,
       totalPriceWithTaxOrg: totalPriceWithTaxOrg,
       totalFragileCharge: totalFragileCharge,
+      shippingCost: shippingCost,
       finalPrice: Math.round(total),
       currentConversionRate: currentConversionRate,
       selectedCurrency: selectedCurrency,
@@ -406,6 +408,7 @@ const checkout = () => {
             totalPriceWithTax,
             totalPriceWithTaxOrg,
             totalFragileCharge,
+            shippingCost,
             currentConversionRate: currentConversionRate,
             selectedCurrency: selectedCurrency,
             finalPriceOfOrder,
@@ -513,7 +516,7 @@ const checkout = () => {
     control,
     name: "orderNote",
   });
-
+  console.log("your log output", deliveryMethod);
   useEffect(() => {
     setValue("deliveryMethod", "");
     setIsAddressListDataShipping(false);
@@ -526,9 +529,12 @@ const checkout = () => {
       setEQuerierShippingCost(0);
       setDhlShippingCost(0);
       setShowRoomShippingCost(0);
-      setTotal(totalPriceWithTax);
+      if (deliveryMethod === "E-Courier") {
+        setTotal(totalPriceWithTax + totalFragileCharge);
+      } else {
+        setTotal(totalPriceWithTax);
+      }
       if (countrySh === "Bangladesh" || distict1 === "Bangladesh") {
-        
         if (cityAddressSh) {
           const refinedCity = cityAddressSh.split(" ")[0];
           if (refinedCity === "Dhaka") {
@@ -565,9 +571,11 @@ const checkout = () => {
                 );
 
                 const extraWeight = Math.ceil(
-                  (weight - maxWeightPackage.weightrange.split("-")[1]) / 1000
+                  (totalProductWeight -
+                    maxWeightPackage.weightrange.split("-")[1]) /
+                    1000
                 );
-                const additionalCharge = extraWeight * 25;
+                const additionalCharge = extraWeight * fixedCharge;
 
                 setEQuerierShippingCost(
                   maxWeightPackage.shipping_charge + additionalCharge
@@ -580,7 +588,9 @@ const checkout = () => {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
               } else if (deliveryMethod === "E-Courier") {
-                setTotal(totalPriceWithTax + eQuerierShippingCost);
+                setTotal(
+                  totalPriceWithTax + totalFragileCharge + eQuerierShippingCost
+                );
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
                 setTotal(totalPriceWithTax + showRoomShippingCost);
@@ -621,9 +631,11 @@ const checkout = () => {
                 );
 
                 const extraWeight = Math.ceil(
-                  (weight - maxWeightPackage.weightrange.split("-")[1]) / 1000
+                  (totalProductWeight -
+                    maxWeightPackage.weightrange.split("-")[1]) /
+                    1000
                 );
-                const additionalCharge = extraWeight * 25;
+                const additionalCharge = extraWeight * fixedCharge;
 
                 setEQuerierShippingCost(
                   maxWeightPackage.shipping_charge + additionalCharge
@@ -635,7 +647,9 @@ const checkout = () => {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
               } else if (deliveryMethod === "E-Courier") {
-                setTotal(totalPriceWithTax + eQuerierShippingCost);
+                setTotal(
+                  totalPriceWithTax + totalFragileCharge + eQuerierShippingCost
+                );
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
                 setTotal(totalPriceWithTax + showRoomShippingCost);
@@ -660,7 +674,7 @@ const checkout = () => {
           }
           setDhlShippingCost(shippingChargeForSelectedCountry);
           if (deliveryMethod === "DHL") {
-            setTotal(totalPriceWithTax + dhlShippingCost);
+            setTotal(totalPriceWithTax + totalFragileCharge + dhlShippingCost);
             setShippingCost(dhlShippingCost);
           }
         }
@@ -671,7 +685,11 @@ const checkout = () => {
       setEQuerierShippingCost(0);
       setDhlShippingCost(0);
       setShowRoomShippingCost(0);
-      setTotal(totalPriceWithTax);
+      if (deliveryMethod === "E-Courier") {
+        setTotal(totalPriceWithTax + totalFragileCharge);
+      } else {
+        setTotal(totalPriceWithTax);
+      }
       if (country === "Bangladesh" || distict === "Bangladesh") {
         if (cityAddress) {
           const refinedCity = cityAddress.split(" ")[0];
@@ -709,9 +727,11 @@ const checkout = () => {
                 );
 
                 const extraWeight = Math.ceil(
-                  (weight - maxWeightPackage.weightrange.split("-")[1]) / 1000
+                  (totalProductWeight -
+                    maxWeightPackage.weightrange.split("-")[1]) /
+                    1000
                 );
-                const additionalCharge = extraWeight * 25;
+                const additionalCharge = extraWeight * fixedCharge;
 
                 setEQuerierShippingCost(
                   maxWeightPackage.shipping_charge + additionalCharge
@@ -723,7 +743,9 @@ const checkout = () => {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
               } else if (deliveryMethod === "E-Courier") {
-                setTotal(totalPriceWithTax + eQuerierShippingCost);
+                setTotal(
+                  totalPriceWithTax + totalFragileCharge + eQuerierShippingCost
+                );
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
                 setTotal(totalPriceWithTax + showRoomShippingCost);
@@ -772,9 +794,11 @@ const checkout = () => {
                 );
 
                 const extraWeight = Math.ceil(
-                  (weight - maxWeightPackage.weightrange.split("-")[1]) / 1000
+                  (totalProductWeight -
+                    maxWeightPackage.weightrange.split("-")[1]) /
+                    1000
                 );
-                const additionalCharge = extraWeight * 25;
+                const additionalCharge = extraWeight * fixedCharge;
 
                 setEQuerierShippingCost(
                   maxWeightPackage.shipping_charge + additionalCharge
@@ -786,7 +810,9 @@ const checkout = () => {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
               } else if (deliveryMethod === "E-Courier") {
-                setTotal(totalPriceWithTax + eQuerierShippingCost);
+                setTotal(
+                  totalPriceWithTax + totalFragileCharge + eQuerierShippingCost
+                );
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
                 setTotal(totalPriceWithTax + showRoomShippingCost);
@@ -811,7 +837,7 @@ const checkout = () => {
           }
           setDhlShippingCost(shippingChargeForSelectedCountry);
           if (deliveryMethod === "DHL") {
-            setTotal(totalPriceWithTax + dhlShippingCost);
+            setTotal(totalPriceWithTax + totalFragileCharge + dhlShippingCost);
             setShippingCost(dhlShippingCost);
           }
         }
@@ -1871,11 +1897,16 @@ const checkout = () => {
                     direction={"column"}
                     spacing={2}
                   >
-                    <Stack direction={"row"} spacing={4} width="100%">
+                    <Stack
+                      direction={"row"}
+                      spacing={{ xs: 1, lg: 0, xl: 1 }}
+                      width="100%"
+                    >
                       <Typography
                         variant="cardHeader"
                         color="initial"
                         className="bold"
+                        sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
                       >
                         SUBTOTAL :
                       </Typography>
@@ -1883,6 +1914,7 @@ const checkout = () => {
                         variant="cardHeader"
                         color="initial"
                         className="bold"
+                        sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                       >
                         {selectedCurrency} {totalPrice}
                       </Typography>
@@ -1931,22 +1963,63 @@ const checkout = () => {
                           </RadioGroup>
                         )}
                       />
-                      <Stack direction={"row"} spacing={5} width="100%">
+                      <Stack
+                        direction={"row"}
+                        spacing={{ xs: 1, lg: 0, xl: 1 }}
+                        width="100%"
+                      >
                         <Typography
                           variant="cardHeader"
                           color="initial"
                           className="bold"
+                          sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
                         >
-                          SHIPPING:
+                          SHIPPING COST :
                         </Typography>
                         <Typography
                           variant="cardHeader"
                           color="initial"
                           className="bold"
+                          sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                         >
                           {selectedCurrency} {shippingCost}
                         </Typography>
                       </Stack>
+                      {deliveryMethod === "E-Courier" ? (
+                        <>
+                          <Divider />
+                          <Stack
+                            direction={"row"}
+                            spacing={{ xs: 1, lg: 0, xl: 1 }}
+                            width="100%"
+                          >
+                            <Typography
+                              variant="cardHeader"
+                              color="initial"
+                              className="bold"
+                              sx={{
+                                width: { xs: "50%", lg: "60%", xl: "50%" },
+                              }}
+                              // width={"50%"}
+                            >
+                              FRAGILE CHARGE :
+                            </Typography>
+                            <Typography
+                              variant="cardHeader"
+                              color="initial"
+                              className="bold"
+                              sx={{
+                                width: { xs: "50%", lg: "40%", xl: "50%" },
+                              }}
+                              // width={"50%"}
+                            >
+                              {selectedCurrency} {totalFragileCharge}
+                            </Typography>
+                          </Stack>
+                        </>
+                      ) : (
+                        ""
+                      )}
                     </Stack>
 
                     {errors.deliveryMethod && (
@@ -1956,11 +2029,16 @@ const checkout = () => {
                     )}
 
                     <Divider />
-                    <Stack direction={"row"} spacing={7} width="100%">
+                    <Stack
+                      direction={"row"}
+                      spacing={{ xs: 1, lg: 0, xl: 1 }}
+                      width="100%"
+                    >
                       <Typography
                         variant="cardHeader"
                         color="initial"
                         className="bold"
+                        sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
                       >
                         TAX :
                       </Typography>
@@ -1968,18 +2046,25 @@ const checkout = () => {
                         variant="cardHeader"
                         color="initial"
                         className="bold"
-                        sx={{ marginLeft: "72px!important" }}
+                        sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
+                        textAlign={"left"}
+                        // sx={{ marginLeft: "72px!important" }}
                       >
                         {selectedCurrency}{" "}
                         {Math.round(totalPriceWithTax - totalPrice)}
                       </Typography>
                     </Stack>
                     <Divider />
-                    <Stack direction={"row"} spacing={5} width="100%">
+                    <Stack
+                      direction={"row"}
+                      spacing={{ xs: 1, lg: 0, xl: 1 }}
+                      width="100%"
+                    >
                       <Typography
                         variant="tabText1"
                         color="initial"
                         className="exterBold"
+                        sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
                       >
                         TOTAL :
                       </Typography>
@@ -1987,6 +2072,7 @@ const checkout = () => {
                         variant="tabText1"
                         color="initial"
                         className="exterBold"
+                        sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                       >
                         {selectedCurrency} {Math.round(total)}
                       </Typography>
