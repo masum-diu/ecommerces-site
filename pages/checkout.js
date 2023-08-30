@@ -42,7 +42,10 @@ import Link from "next/link";
 import AddressLists from "../components/AddressLists";
 import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 import useCityFetcher from "../src/hooks/useCityFetcher";
-import { eCourierCharge } from "../public/assets/data/eCourier_charges";
+import {
+  eCourierCharge,
+  fixedCharge,
+} from "../public/assets/data/eCourier_charges";
 
 const checkout = () => {
   // address popup state start
@@ -518,7 +521,6 @@ const checkout = () => {
   // Shipping Amount Calculation
   useEffect(() => {
     if (!showInputField) {
-      console.log("inside con");
       setShippingCost(0);
       setPathaoShippingCost(0);
       setEQuerierShippingCost(0);
@@ -526,7 +528,7 @@ const checkout = () => {
       setShowRoomShippingCost(0);
       setTotal(totalPriceWithTax);
       if (countrySh === "Bangladesh" || distict1 === "Bangladesh") {
-        console.log("inside con");
+        
         if (cityAddressSh) {
           const refinedCity = cityAddressSh.split(" ")[0];
           if (refinedCity === "Dhaka") {
@@ -551,7 +553,6 @@ const checkout = () => {
                   break;
                 }
               }
-              console.log('applicablePackage',applicablePackage)
               if (applicablePackage) {
                 setEQuerierShippingCost(applicablePackage.shipping_charge);
               } else {
@@ -608,7 +609,6 @@ const checkout = () => {
                   break;
                 }
               }
-              console.log('applicablePackage',applicablePackage)
               if (applicablePackage) {
                 setEQuerierShippingCost(applicablePackage.shipping_charge);
               } else {
@@ -697,7 +697,6 @@ const checkout = () => {
                   break;
                 }
               }
-              console.log('applicablePackage',applicablePackage)
               if (applicablePackage) {
                 setEQuerierShippingCost(applicablePackage.shipping_charge);
               } else {
@@ -761,7 +760,6 @@ const checkout = () => {
                   break;
                 }
               }
-              console.log('applicablePackage',applicablePackage)
               if (applicablePackage) {
                 setEQuerierShippingCost(applicablePackage.shipping_charge);
               } else {
