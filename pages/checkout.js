@@ -42,6 +42,8 @@ import Link from "next/link";
 import AddressLists from "../components/AddressLists";
 import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 import useCityFetcher from "../src/hooks/useCityFetcher";
+import { eCourierCharge } from "../public/assets/data/eCourier_charges";
+
 const checkout = () => {
   // address popup state start
   const [addressList, setAddressList] = useState(false);
@@ -66,6 +68,9 @@ const checkout = () => {
   );
   const totalPriceWithTaxOrg = useSelector(
     (state) => state.cart.totalPriceWithTaxOrg
+  );
+  const totalProductWeight = useSelector(
+    (state) => state.cart.totalProductWeight
   );
   const isGuestCheckout = useSelector(
     (state) => state.checkoutSlice.isGuestCheckout
@@ -186,7 +191,6 @@ const checkout = () => {
       shippingCost: dhlShippingCost,
     },
   ];
-  console.log('your log output',countryData)
   // code for if user is not logged in and not guest then open the login popup.
   /* useEffect(() => {
     if (isGuestCheckout === false && hasToken === false) {
@@ -203,12 +207,11 @@ const checkout = () => {
 
   useEffect(() => {
     if (eCourierData) {
-      const eCourierJsonData = JSON.parse(eCourierData?.response)
+      const eCourierJsonData = JSON.parse(eCourierData?.response);
       // console.log('eC',eCourierJsonData)
       setECourierResponse(eCourierJsonData);
     }
   }, [eCourierData]);
-console.log('eC',eCourierResponse)
   useEffect(() => {
     const host = location.host;
     if (host === "localhost:3000") {
@@ -515,6 +518,7 @@ console.log('eC',eCourierResponse)
   // Shipping Amount Calculation
   useEffect(() => {
     if (!showInputField) {
+      console.log("inside con");
       setShippingCost(0);
       setPathaoShippingCost(0);
       setEQuerierShippingCost(0);
@@ -522,21 +526,55 @@ console.log('eC',eCourierResponse)
       setShowRoomShippingCost(0);
       setTotal(totalPriceWithTax);
       if (countrySh === "Bangladesh" || distict1 === "Bangladesh") {
+        console.log("inside con");
         if (cityAddressSh) {
           const refinedCity = cityAddressSh.split(" ")[0];
           if (refinedCity === "Dhaka") {
             if (countryData) {
               let pathao, e_courier;
-              for (const item of countryData) {
-                if (item.shipping_charge.includes("inside_city")) {
-                  const shippingChargeObj = JSON.parse(item.shipping_charge);
-                  pathao = shippingChargeObj.inside_city.pathao;
-                  e_courier = shippingChargeObj.inside_city.e_courier;
+              const targetCoverage = "Inside Dhaka";
+              const applicablePackages = eCourierCharge.filter(
+                (item) => item.coverage_id === targetCoverage
+              );
+              let applicablePackage = null;
+
+              for (const pkg of applicablePackages) {
+                const [minWeight, maxWeight] = pkg.weightrange
+                  .split("-")
+                  .map(Number);
+
+                if (
+                  totalProductWeight >= minWeight &&
+                  totalProductWeight <= maxWeight
+                ) {
+                  applicablePackage = pkg;
                   break;
                 }
               }
+              console.log('applicablePackage',applicablePackage)
+              if (applicablePackage) {
+                setEQuerierShippingCost(applicablePackage.shipping_charge);
+              } else {
+                const maxWeightPackage = applicablePackages.reduce(
+                  (prev, curr) => {
+                    return curr.shipping_charge > prev.shipping_charge
+                      ? curr
+                      : prev;
+                  }
+                );
+
+                const extraWeight = Math.ceil(
+                  (weight - maxWeightPackage.weightrange.split("-")[1]) / 1000
+                );
+                const additionalCharge = extraWeight * 25;
+
+                setEQuerierShippingCost(
+                  maxWeightPackage.shipping_charge + additionalCharge
+                );
+              }
+
               setPathaoShippingCost(pathao);
-              setEQuerierShippingCost(e_courier);
+
               if (deliveryMethod === "Pathao") {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
@@ -551,16 +589,48 @@ console.log('eC',eCourierResponse)
           } else {
             if (countryData) {
               let pathao, e_courier;
-              for (const item of countryData) {
-                if (item.shipping_charge.includes("outside_city")) {
-                  const shippingChargeObj = JSON.parse(item.shipping_charge);
-                  pathao = shippingChargeObj.outside_city.pathao;
-                  e_courier = shippingChargeObj.outside_city.e_courier;
+              const targetCoverage = "Outside Dhaka";
+              const applicablePackages = eCourierCharge.filter(
+                (item) => item.coverage_id === targetCoverage
+              );
+              let applicablePackage = null;
+
+              for (const pkg of applicablePackages) {
+                const [minWeight, maxWeight] = pkg.weightrange
+                  .split("-")
+                  .map(Number);
+
+                if (
+                  totalProductWeight >= minWeight &&
+                  totalProductWeight <= maxWeight
+                ) {
+                  applicablePackage = pkg;
                   break;
                 }
               }
+              console.log('applicablePackage',applicablePackage)
+              if (applicablePackage) {
+                setEQuerierShippingCost(applicablePackage.shipping_charge);
+              } else {
+                const maxWeightPackage = applicablePackages.reduce(
+                  (prev, curr) => {
+                    return curr.shipping_charge > prev.shipping_charge
+                      ? curr
+                      : prev;
+                  }
+                );
+
+                const extraWeight = Math.ceil(
+                  (weight - maxWeightPackage.weightrange.split("-")[1]) / 1000
+                );
+                const additionalCharge = extraWeight * 25;
+
+                setEQuerierShippingCost(
+                  maxWeightPackage.shipping_charge + additionalCharge
+                );
+              }
               setPathaoShippingCost(pathao);
-              setEQuerierShippingCost(e_courier);
+              // setEQuerierShippingCost(e_courier);
               if (deliveryMethod === "Pathao") {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
@@ -608,16 +678,48 @@ console.log('eC',eCourierResponse)
           if (refinedCity === "Dhaka") {
             if (countryData) {
               let pathao, e_courier;
-              for (const item of countryData) {
-                if (item.shipping_charge.includes("inside_city")) {
-                  const shippingChargeObj = JSON.parse(item.shipping_charge);
-                  pathao = shippingChargeObj.inside_city.pathao;
-                  e_courier = shippingChargeObj.inside_city.e_courier;
+              const targetCoverage = "Inside Dhaka";
+              const applicablePackages = eCourierCharge.filter(
+                (item) => item.coverage_id === targetCoverage
+              );
+              let applicablePackage = null;
+
+              for (const pkg of applicablePackages) {
+                const [minWeight, maxWeight] = pkg.weightrange
+                  .split("-")
+                  .map(Number);
+
+                if (
+                  totalProductWeight >= minWeight &&
+                  totalProductWeight <= maxWeight
+                ) {
+                  applicablePackage = pkg;
                   break;
                 }
               }
+              console.log('applicablePackage',applicablePackage)
+              if (applicablePackage) {
+                setEQuerierShippingCost(applicablePackage.shipping_charge);
+              } else {
+                const maxWeightPackage = applicablePackages.reduce(
+                  (prev, curr) => {
+                    return curr.shipping_charge > prev.shipping_charge
+                      ? curr
+                      : prev;
+                  }
+                );
+
+                const extraWeight = Math.ceil(
+                  (weight - maxWeightPackage.weightrange.split("-")[1]) / 1000
+                );
+                const additionalCharge = extraWeight * 25;
+
+                setEQuerierShippingCost(
+                  maxWeightPackage.shipping_charge + additionalCharge
+                );
+              }
               setPathaoShippingCost(pathao);
-              setEQuerierShippingCost(e_courier);
+              // setEQuerierShippingCost(e_courier);
               if (deliveryMethod === "Pathao") {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
@@ -632,16 +734,56 @@ console.log('eC',eCourierResponse)
           } else {
             if (countryData) {
               let pathao, e_courier;
-              for (const item of countryData) {
+              /* for (const item of countryData) {
                 if (item.shipping_charge.includes("outside_city")) {
                   const shippingChargeObj = JSON.parse(item.shipping_charge);
                   pathao = shippingChargeObj.outside_city.pathao;
                   e_courier = shippingChargeObj.outside_city.e_courier;
                   break;
                 }
+              } */
+              const targetCoverage = "Outside Dhaka";
+              const applicablePackages = eCourierCharge.filter(
+                (item) => item.coverage_id === targetCoverage
+              );
+              let applicablePackage = null;
+
+              for (const pkg of applicablePackages) {
+                const [minWeight, maxWeight] = pkg.weightrange
+                  .split("-")
+                  .map(Number);
+
+                if (
+                  totalProductWeight >= minWeight &&
+                  totalProductWeight <= maxWeight
+                ) {
+                  applicablePackage = pkg;
+                  break;
+                }
+              }
+              console.log('applicablePackage',applicablePackage)
+              if (applicablePackage) {
+                setEQuerierShippingCost(applicablePackage.shipping_charge);
+              } else {
+                const maxWeightPackage = applicablePackages.reduce(
+                  (prev, curr) => {
+                    return curr.shipping_charge > prev.shipping_charge
+                      ? curr
+                      : prev;
+                  }
+                );
+
+                const extraWeight = Math.ceil(
+                  (weight - maxWeightPackage.weightrange.split("-")[1]) / 1000
+                );
+                const additionalCharge = extraWeight * 25;
+
+                setEQuerierShippingCost(
+                  maxWeightPackage.shipping_charge + additionalCharge
+                );
               }
               setPathaoShippingCost(pathao);
-              setEQuerierShippingCost(e_courier);
+              // setEQuerierShippingCost(e_courier);
               if (deliveryMethod === "Pathao") {
                 setTotal(totalPriceWithTax + pathaoShippingCost);
                 setShippingCost(pathaoShippingCost);
@@ -689,6 +831,7 @@ console.log('eC',eCourierResponse)
     countrySh,
     distict1,
     deliveryMethod,
+    eQuerierShippingCost,
   ]);
   useEffect(() => {
     setPayment(paymentMethod);
