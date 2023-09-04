@@ -55,6 +55,7 @@ const shop = () => {
   // The way of getting data by transforming
   const slicedData = homedata?.image_two?.split("/").slice(-4).join("/");
   const slicedDats = homedata?.image_two?.split("/");
+  
 
   return (
     <>

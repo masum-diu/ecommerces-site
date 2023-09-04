@@ -2,12 +2,12 @@ import { Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import Footer from "../components/Footer";
-import HomePageIntro from "../components/HomePageIntro";
-import HovarImage from "../components/HovarableImage/HovarImage";
-import Loader from "../components/Loader/Loader";
-import { useGetParticularCampignListsQuery } from "../src/features/api/apiSlice";
-import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
+import Footer from "../../components/Footer";
+import HomePageIntro from "../../components/HomePageIntro";
+import HovarImage from "../../components/HovarableImage/HovarImage";
+import Loader from "../../components/Loader/Loader";
+import { useGetParticularCampignListsQuery } from "../../src/features/api/apiSlice";
+import { useCurrencyConversion } from "../../src/hooks/useCurrencyConversion";
 const campaign = () => {
   const router = useRouter();
   const [campData, setCampData] = useState([]);
@@ -23,7 +23,7 @@ const campaign = () => {
       setCampData(data?.data);
     }
   }, [data, isSuccess]);
-
+  // console.log("your log output", campData);
   if (isLoading) {
     return <Loader></Loader>;
   }

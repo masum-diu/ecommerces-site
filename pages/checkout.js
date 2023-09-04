@@ -102,6 +102,7 @@ const checkout = () => {
     useState(false);
   const [pathaoShippingCost, setPathaoShippingCost] = useState(0);
   const [eQuerierShippingCost, setEQuerierShippingCost] = useState(0);
+  const [eQuerierPackagesCode, setEQuerierPackagesCode] = useState("");
   const [dhlShippingCost, setDhlShippingCost] = useState(0);
   const [showRoomShippingCost, setShowRoomShippingCost] = useState(0);
   const [countryBillingCode, setBillingCountryCode] = useState("");
@@ -215,6 +216,7 @@ const checkout = () => {
       setECourierResponse(eCourierJsonData);
     }
   }, [eCourierData]);
+  // console.log("your log output", eCourierResponse);
   useEffect(() => {
     const host = location.host;
     if (host === "localhost:3000") {
@@ -256,6 +258,7 @@ const checkout = () => {
             totalPriceWithTaxOrg: orderInfo?.totalPriceWithTaxOrg,
             totalFragileCharge: orderInfo?.totalFragileCharge,
             shippingCost: orderInfo.shippingCost,
+            eQuerierPackagesCode: orderInfo.eQuerierPackagesCode,
             finalPriceOfOrder: orderInfo?.finalPrice,
             currentConversionRate: orderInfo?.currentConversionRate,
             selectedCurrency: orderInfo?.selectedCurrency,
@@ -388,6 +391,7 @@ const checkout = () => {
       totalPriceWithTaxOrg: totalPriceWithTaxOrg,
       totalFragileCharge: totalFragileCharge,
       shippingCost: shippingCost,
+      eQuerierPackagesCode: eQuerierPackagesCode,
       finalPrice: Math.round(total),
       currentConversionRate: currentConversionRate,
       selectedCurrency: selectedCurrency,
@@ -408,6 +412,7 @@ const checkout = () => {
             totalPriceWithTax,
             totalPriceWithTaxOrg,
             totalFragileCharge,
+            eQuerierPackagesCode,
             shippingCost,
             currentConversionRate: currentConversionRate,
             selectedCurrency: selectedCurrency,
@@ -516,7 +521,7 @@ const checkout = () => {
     control,
     name: "orderNote",
   });
-  console.log("your log output", deliveryMethod);
+  // console.log("your log output", deliveryMethod);
   useEffect(() => {
     setValue("deliveryMethod", "");
     setIsAddressListDataShipping(false);
@@ -561,6 +566,7 @@ const checkout = () => {
               }
               if (applicablePackage) {
                 setEQuerierShippingCost(applicablePackage.shipping_charge);
+                setEQuerierPackagesCode(applicablePackage?.package_code);
               } else {
                 const maxWeightPackage = applicablePackages.reduce(
                   (prev, curr) => {
@@ -580,6 +586,7 @@ const checkout = () => {
                 setEQuerierShippingCost(
                   maxWeightPackage.shipping_charge + additionalCharge
                 );
+                setEQuerierPackagesCode(maxWeightPackage?.package_code);
               }
 
               setPathaoShippingCost(pathao);
@@ -621,6 +628,7 @@ const checkout = () => {
               }
               if (applicablePackage) {
                 setEQuerierShippingCost(applicablePackage.shipping_charge);
+                setEQuerierPackagesCode(applicablePackage?.package_code);
               } else {
                 const maxWeightPackage = applicablePackages.reduce(
                   (prev, curr) => {
@@ -640,6 +648,7 @@ const checkout = () => {
                 setEQuerierShippingCost(
                   maxWeightPackage.shipping_charge + additionalCharge
                 );
+                setEQuerierPackagesCode(maxWeightPackage?.package_code);
               }
               setPathaoShippingCost(pathao);
               // setEQuerierShippingCost(e_courier);
@@ -717,6 +726,7 @@ const checkout = () => {
               }
               if (applicablePackage) {
                 setEQuerierShippingCost(applicablePackage.shipping_charge);
+                setEQuerierPackagesCode(applicablePackage?.package_code);
               } else {
                 const maxWeightPackage = applicablePackages.reduce(
                   (prev, curr) => {
@@ -736,6 +746,7 @@ const checkout = () => {
                 setEQuerierShippingCost(
                   maxWeightPackage.shipping_charge + additionalCharge
                 );
+                setEQuerierPackagesCode(maxWeightPackage?.package_code);
               }
               setPathaoShippingCost(pathao);
               // setEQuerierShippingCost(e_courier);
@@ -784,6 +795,7 @@ const checkout = () => {
               }
               if (applicablePackage) {
                 setEQuerierShippingCost(applicablePackage.shipping_charge);
+                setEQuerierPackagesCode(applicablePackage?.package_code);
               } else {
                 const maxWeightPackage = applicablePackages.reduce(
                   (prev, curr) => {
@@ -803,6 +815,7 @@ const checkout = () => {
                 setEQuerierShippingCost(
                   maxWeightPackage.shipping_charge + additionalCharge
                 );
+                setEQuerierPackagesCode(maxWeightPackage?.package_code);
               }
               setPathaoShippingCost(pathao);
               // setEQuerierShippingCost(e_courier);
@@ -857,6 +870,8 @@ const checkout = () => {
     deliveryMethod,
     eQuerierShippingCost,
   ]);
+  // console.log("your log output", eQuerierPackagesCode);
+
   useEffect(() => {
     setPayment(paymentMethod);
   }, [payment, paymentMethod]);

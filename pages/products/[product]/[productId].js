@@ -101,15 +101,16 @@ const PorductDetails = () => {
   );
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const category = products?.p_category?.id;
+  const p_id = products?.id;
   const sub_catcategory = products?.p_subcategory?.id;
   const { data, isLoading, isSuccess, isError, error } =
     useGetParticularProductsQuery(productId);
   const { data: matchedwithProduct } = useGetMatchedWithProductQuery({
     category,
     sub_catcategory,
+    p_id,
   });
   const RelatedProducts = matchedwithProduct?.data;
-  
 
   // Fetching the particular Product
   useEffect(() => {
@@ -122,7 +123,6 @@ const PorductDetails = () => {
       handleSuccess();
     }
   }, [data, isSuccess, isLoading]);
-  
   // Product Selection Section
   useEffect(() => {
     if (products?.p_stocks) {
@@ -166,10 +166,11 @@ const PorductDetails = () => {
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
         );
-       
+
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
         setPriceWithoutFragileCharge(selectedProduct?.mrp);
+        
         if (products?.fragile === "Yes" && products?.fragile_charge) {
           setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
@@ -521,7 +522,7 @@ const PorductDetails = () => {
                 }}
               />
               <Stack direction={"row"} spacing={0.5} mb={0.5}>
-                <Stack width={"50%"}>
+                <Stack width={"50%"} cursor={"zoom-in"}>
                   <img
                     //  className={style.images}
                     onClick={() =>
@@ -641,6 +642,12 @@ const PorductDetails = () => {
                           {/* {console.log("your log output", products)} */}
                           {products?.p_sizes?.map((size, index) => (
                             <Button
+                              disabled={
+                                handleStockAvailability(size.id) ===
+                                "outOfStock"
+                                  ? true
+                                  : false
+                              }
                               startIcon={
                                 handleStockAvailability(size.id) ===
                                 "outOfStock" ? (
@@ -1218,61 +1225,68 @@ const PorductDetails = () => {
               </div>
             </Grid>
           </Grid>
-          <Box
-            sx={{
-              width: "90vw",
-              margin: "0 auto",
-              maxWidth: "fit-content",
-              mt: 3,
-            }}
-          >
-            <Typography
-              variant="cardHeader1"
-              color="initial"
-              className="SemiBold"
-            >
-              Similar Products
-            </Typography>
+          {RelatedProducts?.length > 0 ? (
+            <>
+              <Box
+                sx={{
+                  width: "90vw",
+                  margin: "0 auto",
+                  maxWidth: "fit-content",
+                  mt: 3,
+                }}
+              >
+                <Typography
+                  variant="cardHeader1"
+                  color="initial"
+                  className="SemiBold"
+                >
+                  Similar Products
+                </Typography>
 
-            <Grid container mt={1} spacing={1.5}>
-              {RelatedProducts?.map((data, index) => (
-                <Grid item lg={3} sm={6}>
-                  <HovarImage
-                    url={`/products/${
-                      data?.p_subcategory?.slug === "unknown"
-                        ? data?.p_category?.slug
-                        : data?.p_subcategory?.slug
-                    }/${data?.id}`}
-                    data={data}
-                    imageURL={`${data?.feature_image}`}
-                  ></HovarImage>
-                  {/* <img src={data?.feature_image} alt="" width={385} /> */}
-                  <Stack
-                    direction={"row"}
-                    justifyContent={"space-between"}
-                    mt={1}
-                  >
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                      className="SemiBold"
-                    >
-                      {data?.p_name}
-                    </Typography>
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                      className="bold"
-                    >
-                      {" "}
-                      {/* BDT {data?.p_stocks[0]?.mrp} */}
-                      {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
-                    </Typography>
-                  </Stack>
+                <Grid container mt={1} spacing={1.5}>
+                  {RelatedProducts?.map((data, index) => (
+                    <Grid item lg={3} sm={6} key={index}>
+                      <HovarImage
+                        url={`/products/${
+                          data?.p_subcategory?.slug === "unknown"
+                            ? data?.p_category?.slug
+                            : data?.p_subcategory?.slug
+                        }/${data?.id}`}
+                        data={data}
+                        imageURL={`${data?.feature_image}`}
+                      ></HovarImage>
+                      {/* <img src={data?.feature_image} alt="" width={385} /> */}
+                      <Stack
+                        direction={"row"}
+                        justifyContent={"space-between"}
+                        mt={1}
+                      >
+                        <Typography
+                          variant="cardHeader3"
+                          color="initial"
+                          className="SemiBold"
+                        >
+                          {data?.p_name}
+                        </Typography>
+                        <Typography
+                          variant="cardHeader3"
+                          color="initial"
+                          className="bold"
+                        >
+                          {" "}
+                          {/* BDT {data?.p_stocks[0]?.mrp} */}
+                          {selectedCurrency}{" "}
+                          {convertPrice(data?.p_stocks[0]?.mrp)}
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
-          </Box>
+              </Box>
+            </>
+          ) : (
+            ""
+          )}
         </Box>
 
         <Footer />

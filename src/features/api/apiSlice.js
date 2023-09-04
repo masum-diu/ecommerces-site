@@ -166,8 +166,8 @@ export const productApi = createApi({
       invalidatesTags: ["Orders"],
     }),
     getMatchedWithProduct: builder.query({
-      query: ({ category, sub_catcategory }) => ({
-        url: `/product/${category}/${sub_catcategory}?no_paginate=yes&take_some=4`,
+      query: ({ category, sub_catcategory, p_id }) => ({
+        url: `/product/${category}/${sub_catcategory}?p_id=${p_id}&no_paginate=yes&take_some=4`,
         method: "GET",
       }),
     }),
@@ -181,6 +181,7 @@ export const productApi = createApi({
         totalPriceWithTaxOrg,
         totalFragileCharge,
         shippingCost,
+        eQuerierPackagesCode,
         finalPriceOfOrder,
         currentConversionRate,
         selectedCurrency,
@@ -202,6 +203,7 @@ export const productApi = createApi({
           totalPriceWithTaxOrg: totalPriceWithTaxOrg,
           totalFragileCharge: totalFragileCharge,
           shippingCost: shippingCost,
+          eQuerierPackagesCode: eQuerierPackagesCode,
           finalPrice: finalPriceOfOrder,
           currentConversionRate: currentConversionRate,
           selectedCurrency: selectedCurrency,
@@ -227,6 +229,7 @@ export const productApi = createApi({
         finalPriceOfOrder,
         totalFragileCharge,
         shippingCost,
+        eQuerierPackagesCode,
         currentConversionRate,
         selectedCurrency,
         totalAmount,
@@ -246,6 +249,7 @@ export const productApi = createApi({
           totalPriceOrg: totalPriceOrg,
           totalFragileCharge: totalFragileCharge,
           shippingCost: shippingCost,
+          eQuerierPackagesCode: eQuerierPackagesCode,
           totalPriceWithTaxOrg: totalPriceWithTaxOrg,
           finalPrice: finalPriceOfOrder,
           currentConversionRate: currentConversionRate,

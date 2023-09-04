@@ -348,7 +348,7 @@ const SiderBar = ({ open, setOpen }) => {
                     )
                   }
                 >
-                  Occassions
+                  Occasions
                 </Button>
                 {occasion ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
@@ -361,7 +361,7 @@ const SiderBar = ({ open, setOpen }) => {
                           sx={{ cursor: "pointer" }}
                           onClick={() =>
                             router.push({
-                              pathname: "/campaign",
+                              pathname: `/campaign/cat_id=${list?.id}&cat_name=${list?.camp_name}`,
                               query: {
                                 cat_id: `${list?.id}`,
                                 cat_name: `${list?.camp_name}`,
