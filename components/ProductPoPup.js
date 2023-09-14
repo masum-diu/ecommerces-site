@@ -8,9 +8,11 @@ import Button from '@mui/material/Button'
 import { IconButton, Stack, Typography, Divider } from '@mui/material'
 import { MdClose } from 'react-icons/md'
 import { useRouter } from 'next/router'
+import { useCurrencyConversion } from '../src/hooks/useCurrencyConversion'
 
 const ProductPoPup = ({open,setOpen,product,count,Currency,price,subTotal,unitPrice}) => {
   const router = useRouter();
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
   console.log(router.asPath)
   return (
     <>
@@ -40,10 +42,10 @@ const ProductPoPup = ({open,setOpen,product,count,Currency,price,subTotal,unitPr
             <Typography variant="cardHeader1" className="SemiBold" color="initial">Quantity : </Typography><Typography variant="normal" color="initial" className="SemiBold">{count}</Typography>
             </Stack>
             <Stack direction={"row"}spacing={1}>
-            <Typography variant="cardHeader1" className="SemiBold" color="initial">Unit Price : </Typography><Typography variant="normal" color="initial" className="SemiBold">{Currency} {unitPrice}</Typography>
+            <Typography variant="cardHeader1" className="SemiBold" color="initial">Unit Price : </Typography><Typography variant="normal" color="initial" className="SemiBold">{Currency} {convertPrice(unitPrice)}</Typography>
             </Stack>
             <Stack direction={"row"}spacing={1} >
-            <Typography variant="cardHeader1" className="SemiBold" color="initial">SubTotal : </Typography><Typography variant="normal"  color="initial" className="SemiBold">{Currency} {subTotal}</Typography>
+            <Typography variant="cardHeader1" className="SemiBold" color="initial">SubTotal : </Typography><Typography variant="normal"  color="initial" className="SemiBold">{Currency} {convertPrice(subTotal)}</Typography>
             </Stack>
           
           </Stack>
