@@ -47,6 +47,7 @@ import {
 import HovarImage from "../../../components/HovarableImage/HovarImage";
 import style from "../../../public/assets/css/innerpage.module.css";
 import { useCurrencyConversion } from "../../../src/hooks/useCurrencyConversion";
+import ProductPoPup from "../../../components/ProductPoPup";
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
@@ -82,6 +83,9 @@ const PorductDetails = () => {
   const [activecolor, setActiveColor] = useState(null);
   const [open, setOpen] = useState(false);
   const [sizeGuide, setSizeGuide] = useState(false);
+
+  // product popup
+  const [productpopup, setProductpopup] = useState(false);
   const [noteTextForStock, setNoteTextForStock] = useState(
     " Please select a color and size in order to check stock availability."
   );
@@ -376,6 +380,7 @@ const PorductDetails = () => {
   const handleAddToCart = async (finalData) => {
     dispatch(addToCart(finalData));
     toast.success("Added To Cart!");
+    setProductpopup(true);
   };
 
   const handleImageForThumble = (data, images) => {
@@ -400,7 +405,11 @@ const PorductDetails = () => {
     toast.error("Removed From Wishlist!");
   };
   const description = products?.p_description;
-
+  const totalPriceWithTaxRounded =
+    count *
+    parseFloat(
+      productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
+    );
   const finalData = {
     id: products.id,
     image: products.feature_image,
@@ -456,6 +465,9 @@ const PorductDetails = () => {
         productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
       ),
   };
+  // unit price area
+  const unitPrice = finalData.totalPrice;
+
   const dataForWishList = {
     id: products.id,
     image: products.feature_image,
@@ -2240,6 +2252,16 @@ const PorductDetails = () => {
         subCat={subCat}
         cat={cat}
       ></SizeModal>
+      <ProductPoPup
+        open={productpopup}
+        setOpen={setProductpopup}
+        product={products}
+        count={count}
+        Currency={selectedCurrency}
+        price={convertPrice(priceWithoutFragileCharge)}
+        unitPrice={unitPrice}
+        subTotal={totalPriceWithTaxRounded}
+      />
     </>
   );
 };
