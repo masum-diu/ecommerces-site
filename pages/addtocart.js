@@ -34,14 +34,16 @@ import LoginModal from "../components/LoginModal";
 import { FiHeart } from "react-icons/fi";
 import USER_CONTEXT from "../components/userContext";
 import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
+import { useConvertCartData } from "../src/hooks/useConvertCartData";
 
 const addtocart = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   // const dataFetchedRef = useRef(false);
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
+  const { convertCartData } = useConvertCartData();
   const [loading, setLoading] = useState(true);
-  const cart = useSelector((state) => state.cart.cart);
+  // const cart = useSelector((state) => state.cart.cart);
   const [openLoginModal, setLoginModal] = useState(false);
   const carts = useSelector((state) => state.cart);
   const [isProceedClicked, setIsProceedClicked] = useState(false);
@@ -57,7 +59,8 @@ const addtocart = () => {
     dispatch(removeFromCart(data));
     toast.error("Removed From Cart!");
   };
-
+  const convertedCart = convertCartData(carts);
+  const cart = convertedCart.cart;
   useEffect(() => {
     if (isProceedClicked === true) {
       const securePage = async () => {
@@ -75,6 +78,49 @@ const addtocart = () => {
       securePage();
     }
   }, [isProceedClicked]);
+
+  // function to convert cart data
+
+  /* const convertCartData = (cartData) => {
+    const { convertPrice } = useCurrencyConversion(); // Use your custom hook here
+
+    // Convert data inside the cart array
+    const convertedCart = cartData.cart.map((item) => {
+      const convertedItem = { ...item };
+      convertedItem.price = convertPrice(item.price);
+      convertedItem.priceWithoutFragile = convertPrice(
+        item.priceWithoutFragile
+      );
+      convertedItem.priceWithTax = convertPrice(item.priceWithTax);
+      convertedItem.vatAmountParticularProduct = convertPrice(
+        item.vatAmountParticularProduct
+      );
+      convertedItem.totalPrice = convertPrice(item.totalPrice);
+      convertedItem.totalPriceWithTax = convertPrice(item.totalPriceWithTax);
+      convertedItem.taxAmount = convertPrice(item.taxAmount);
+      convertedItem.fragileCharge = convertPrice(item.fragileCharge);
+      convertedItem.totalFragileCharge = convertPrice(item.totalFragileCharge);
+      return convertedItem;
+    });
+
+    // Convert data outside the cart array
+    const convertedTotalFragileCharge = convertPrice(
+      cartData.totalFragileCharge
+    );
+    const convertedTotalPrice = convertPrice(cartData.totalPrice);
+    const convertedTotalPriceWithTax = convertPrice(cartData.totalPriceWithTax);
+
+    // Return the converted data
+    return {
+      ...cartData,
+      cart: convertedCart,
+      totalFragileCharge: convertedTotalFragileCharge,
+      totalPrice: convertedTotalPrice,
+      totalPriceWithTax: convertedTotalPriceWithTax,
+    };
+  }; */
+
+  // console.log("updated one", convertCartData(carts));
 
   const handleProceedToCheckout = () => {
     setIsProceedClicked(true);
@@ -175,7 +221,8 @@ const addtocart = () => {
                               SIZE: {data.size ? data.size : "N/A"}
                             </Typography>
                             <Typography variant="subtitle1" color="initial">
-                              {selectedCurrency} {data.totalPrice}
+                              {selectedCurrency}{" "}
+                              {data.totalPriceWithoutFragileCharge}
                             </Typography>
                             <Stack
                               direction={"row"}
@@ -211,19 +258,22 @@ const addtocart = () => {
                                       price: data.price,
                                       priceOrg: data.priceOrg,
                                       totalFragileCharge: data.fragileCharge,
+                                      totalFragileChargeOrg:
+                                        data.fragileChargeOrg,
                                       fragileCharge: data.fragileCharge,
+                                      fragileChargeOrg: data.fragileChargeOrg,
                                       totalProductWeight: data.productWeight,
                                       productWeight: data.productWeight,
                                       vatAmountParticularProduct:
                                         parseFloat(
-                                          data.vatAmountParticularProduct
+                                          data.vatAmountParticularProductOrg
                                         ) +
                                         parseFloat(
-                                          data.vatAmountParticularProduct
+                                          data.vatAmountParticularProductOrg
                                         ) /
                                           data.amount,
                                       priceWithTax: parseFloat(
-                                        data.priceWithTax
+                                        data.priceWithTaxOrg
                                       ),
                                       vatAmountParticularProductOrg:
                                         parseFloat(
@@ -236,18 +286,28 @@ const addtocart = () => {
                                       priceWithTaxOrg: parseFloat(
                                         data.priceWithTaxOrg
                                       ),
+                                      priceWithoutFragile:
+                                        data.priceWithoutFragileOrg,
+                                      priceWithoutFragileOrg:
+                                        data.priceWithoutFragileOrg,
                                       amount: data.amount + 1,
                                       stock: data.stock,
                                       totalAmount: 1,
                                       totalPrice:
-                                        data.totalPrice +
-                                        parseFloat(data.price),
+                                        data.totalPriceOrg +
+                                        parseFloat(data.priceOrg),
+                                      totalPriceWithoutFragileCharge:
+                                        data.totalPriceWithoutFragileChargeOrg +
+                                        parseFloat(data.priceWithoutFragileOrg),
                                       totalPriceWithTax:
-                                        data.totalPriceWithTax +
-                                        parseFloat(data.priceWithTax),
+                                        data.totalPriceWithTaxOrg +
+                                        parseFloat(data.priceWithTaxOrg),
                                       totalPriceOrg:
                                         data.totalPriceOrg +
                                         parseFloat(data.priceOrg),
+                                      totalPriceWithoutFragileChargeOrg:
+                                        data.totalPriceWithoutFragileChargeOrg +
+                                        parseFloat(data.priceWithoutFragileOrg),
                                       totalPriceWithTaxOrg:
                                         data.totalPriceWithTaxOrg +
                                         parseFloat(data.priceWithTaxOrg),
@@ -403,7 +463,8 @@ const addtocart = () => {
                               sx={{ border: "none", textAlign: "left" }}
                             >
                               <Typography variant="subtitle1" color="initial">
-                                {selectedCurrency} {data.totalPrice}
+                                {selectedCurrency}{" "}
+                                {data.totalPriceWithoutFragileCharge}
                               </Typography>
                             </TableCell>
                             {/* <TableCell sx={{ border: "none" }}>
@@ -447,19 +508,22 @@ const addtocart = () => {
                                       price: data.price,
                                       priceOrg: data.priceOrg,
                                       totalFragileCharge: data.fragileCharge,
+                                      totalFragileChargeOrg:
+                                        data.fragileChargeOrg,
                                       fragileCharge: data.fragileCharge,
+                                      fragileChargeOrg: data.fragileChargeOrg,
                                       totalProductWeight: data.productWeight,
                                       productWeight: data.productWeight,
                                       vatAmountParticularProduct:
                                         parseFloat(
-                                          data.vatAmountParticularProduct
+                                          data.vatAmountParticularProductOrg
                                         ) +
                                         parseFloat(
-                                          data.vatAmountParticularProduct
+                                          data.vatAmountParticularProductOrg
                                         ) /
                                           data.amount,
                                       priceWithTax: parseFloat(
-                                        data.priceWithTax
+                                        data.priceWithTaxOrg
                                       ),
                                       vatAmountParticularProductOrg:
                                         parseFloat(
@@ -472,18 +536,28 @@ const addtocart = () => {
                                       priceWithTaxOrg: parseFloat(
                                         data.priceWithTaxOrg
                                       ),
+                                      priceWithoutFragile:
+                                        data.priceWithoutFragileOrg,
+                                      priceWithoutFragileOrg:
+                                        data.priceWithoutFragileOrg,
                                       amount: data.amount + 1,
                                       stock: data.stock,
                                       totalAmount: 1,
                                       totalPrice:
-                                        data.totalPrice +
-                                        parseFloat(data.price),
+                                        data.totalPriceOrg +
+                                        parseFloat(data.priceOrg),
+                                      totalPriceWithoutFragileCharge:
+                                        data.totalPriceWithoutFragileChargeOrg +
+                                        parseFloat(data.priceWithoutFragileOrg),
                                       totalPriceWithTax:
-                                        data.totalPriceWithTax +
-                                        parseFloat(data.priceWithTax),
+                                        data.totalPriceWithTaxOrg +
+                                        parseFloat(data.priceWithTaxOrg),
                                       totalPriceOrg:
                                         data.totalPriceOrg +
                                         parseFloat(data.priceOrg),
+                                      totalPriceWithoutFragileChargeOrg:
+                                        data.totalPriceWithoutFragileChargeOrg +
+                                        parseFloat(data.priceWithoutFragileOrg),
                                       totalPriceWithTaxOrg:
                                         data.totalPriceWithTaxOrg +
                                         parseFloat(data.priceWithTaxOrg),

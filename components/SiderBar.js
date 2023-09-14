@@ -283,38 +283,63 @@ const SiderBar = ({ open, setOpen }) => {
                           <Box sx={{ width: "80%", margin: "0 auto" }}>
                             <Grid container spacing={2}>
                               {category.children.map((sub_cat, index) => (
-                                <Grid item xs={6} sm={6} key={index}>
-                                  <Typography
-                                    variant="cardHeader3"
-                                    color="initial"
-                                    sx={{ cursor: "pointer" }}
-                                    onClick={() =>
-                                      router.push(
-                                        {
-                                          pathname: `/products/${sub_cat?.slug}`,
-                                          query: {
-                                            data: JSON.stringify({
+                                <>
+                                  <Grid item xs={6} sm={6} key={index}>
+                                    <Typography
+                                      variant="cardHeader3"
+                                      color="initial"
+                                      sx={{ cursor: "pointer" }}
+                                      onClick={() =>
+                                        router.push(
+                                          {
+                                            pathname: `/products/${sub_cat?.slug}`,
+                                            query: {
+                                              data: JSON.stringify({
+                                                cat: sub_cat?.parent_category,
+                                                sub_cat: sub_cat?.id,
+                                              }),
                                               cat: sub_cat?.parent_category,
                                               sub_cat: sub_cat?.id,
-                                            }),
-                                            cat: sub_cat?.parent_category,
-                                            sub_cat: sub_cat?.id,
+                                            },
                                           },
-                                        },
-                                        `/products/${sub_cat?.slug}?cat=${
-                                          sub_cat?.parent_category
-                                        }${
-                                          sub_cat?.id
-                                            ? `&sub_cat=${sub_cat?.id}`
-                                            : ""
-                                        }`
-                                      )
-                                    }
-                                  >
-                                    {sub_cat.category_name}
-                                  </Typography>
-                                </Grid>
+                                          `/products/${sub_cat?.slug}?cat=${
+                                            sub_cat?.parent_category
+                                          }${
+                                            sub_cat?.id
+                                              ? `&sub_cat=${sub_cat?.id}`
+                                              : ""
+                                          }`
+                                        )
+                                      }
+                                    >
+                                      {sub_cat.category_name}
+                                    </Typography>
+                                  </Grid>
+                                </>
                               ))}
+                              <Grid item xs={6} sm={6}>
+                                <Typography
+                                  variant="bolder"
+                                  color="initial"
+                                  sx={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    router.push(
+                                      {
+                                        pathname: `/new-collections`,
+                                        query: {
+                                          data: JSON.stringify({
+                                            cat: category?.id,
+                                          }),
+                                          cat: category?.id,
+                                        },
+                                      },
+                                      `/new-collections/${category?.slug}?cat=${category?.id}`
+                                    )
+                                  }
+                                >
+                                  What's New
+                                </Typography>
+                              </Grid>
                             </Grid>
                           </Box>
                         ) : null}

@@ -136,7 +136,10 @@ const PorductDetails = () => {
     if (products?.fragile === "No") {
       setFragileCharge(products?.fragile_charge);
     }
+
+    // if both color and size both exists
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
+      // if both color and size both exists and but selected none
       if (colorSelected === false && sizeSelected === false) {
         setNoteTextForStock(
           " Please select a color and size in order to check stock availability"
@@ -145,6 +148,7 @@ const PorductDetails = () => {
           " Please select a color and size in order to enable Add To Cart"
         );
       }
+      // if both color and size both exists and but color not selected
       if (colorSelected === false && sizeSelected === true) {
         setNoteTextForStock(
           " Please select a color in order to check stock availability"
@@ -153,6 +157,7 @@ const PorductDetails = () => {
           " Please select a color in order to enable Add To Cart"
         );
       }
+      // if both color and size both exists and but size not selected
       if (sizeSelected === false && colorSelected === true) {
         setNoteTextForStock(
           " Please select a size in order to check stock availability"
@@ -161,7 +166,7 @@ const PorductDetails = () => {
           " Please select a size in order to enable Add To Cart."
         );
       }
-
+      // if both color and size both exists and both selected
       if (sizeSelected === true && colorSelected === true) {
         const selectedProduct = products?.p_stocks?.find(
           (stock) => stock?.size_id === sizeId && stock?.colour_id === colorId
@@ -169,15 +174,20 @@ const PorductDetails = () => {
 
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
-        setPriceWithoutFragileCharge(selectedProduct?.mrp);
-        
-        if (products?.fragile === "Yes" && products?.fragile_charge) {
-          setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
+        if (selectedProduct?.mrp) {
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
         } else {
-          setProductPrice(selectedProduct?.mrp);
-          setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          setPriceWithoutFragileCharge(0);
         }
+        setProductPrice(selectedProduct?.mrp);
+
+        /* if (products?.fragile === "Yes" && products?.fragile_charge) {
+          setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
+          // setPriceWithoutFragileCharge(selectedProduct?.mrp);
+        } else {
+          setProductPrice(selectedProduct?.mrp);
+          // setPriceWithoutFragileCharge(selectedProduct?.mrp);
+        } */
         if (stockAmount > 0) {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
@@ -188,6 +198,8 @@ const PorductDetails = () => {
         }
         setNoteTextForCart("");
       }
+
+      // if color exist but not selected
       if (
         products?.p_colours?.length > 0 &&
         colorSelected === false &&
@@ -200,6 +212,7 @@ const PorductDetails = () => {
           " Please select a color in order to enable Add To Cart"
         );
       }
+      // if size exist but not selected
       if (
         products?.p_sizes?.length > 0 &&
         sizeSelected === false &&
@@ -214,6 +227,7 @@ const PorductDetails = () => {
       }
     }
 
+    // if color or size only one of them exists
     if (
       (products?.p_colours?.length == 0 || products?.p_sizes?.length == 0) &&
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
@@ -224,13 +238,14 @@ const PorductDetails = () => {
             (stock) => stock?.colour_id === colorId
           );
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
-          if (products?.fragile === "Yes" && products?.fragile_charge) {
+          setProductPrice(selectedProduct?.mrp);
+          /* if (products?.fragile === "Yes" && products?.fragile_charge) {
             setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
-            setPriceWithoutFragileCharge(selectedProduct?.mrp);
+            // setPriceWithoutFragileCharge(selectedProduct?.mrp);
           } else {
             setProductPrice(selectedProduct?.mrp);
-            setPriceWithoutFragileCharge(selectedProduct?.mrp);
-          }
+            // setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          } */
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
@@ -239,13 +254,14 @@ const PorductDetails = () => {
             (stock) => stock?.size_id === sizeId
           );
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
-          if (products?.fragile === "Yes" && products?.fragile_charge) {
+          setProductPrice(selectedProduct?.mrp);
+          /* if (products?.fragile === "Yes" && products?.fragile_charge) {
             setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
-            setPriceWithoutFragileCharge(selectedProduct?.mrp);
+            // setPriceWithoutFragileCharge(selectedProduct?.mrp);
           } else {
             setProductPrice(selectedProduct?.mrp);
-            setPriceWithoutFragileCharge(selectedProduct?.mrp);
-          }
+            // setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          } */
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
@@ -294,15 +310,17 @@ const PorductDetails = () => {
       if (products?.p_stocks) {
         // setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
         // setProductPrice(products?.p_stocks[0]?.mrp + products?.fragile_charge);
-        if (products?.fragile === "Yes" && products?.fragile_charge) {
+        setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
+        setProductPrice(products?.p_stocks[0]?.mrp);
+        /* if (products?.fragile === "Yes" && products?.fragile_charge) {
           setProductPrice(
             products?.p_stocks[0]?.mrp + products?.fragile_charge
           );
-          setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
+          // setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
         } else {
           setProductPrice(products?.p_stocks[0]?.mrp);
-          setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
-        }
+          // setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
+        } */
         if (products?.p_stocks[0]?.stock > 0) {
           setNoteTextForStock("In Stock");
           setDisableBtn(false);
@@ -328,6 +346,7 @@ const PorductDetails = () => {
     products?.fragile,
     products?.fragile_charge,
   ]);
+  console.log("stockAmount", stockAmount);
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -382,30 +401,6 @@ const PorductDetails = () => {
   };
   const description = products?.p_description;
 
-  // variable for price priceWithTax
-  const priceWithTax1 = parseFloat(
-    convertPrice(productPrice) * (products?.p_tax?.tax_percentage / 100) +
-      convertPrice(productPrice)
-  );
-  const priceWithTaxRounded = Math.round(priceWithTax1);
-
-  // variable for price vatAmountParticularProduct
-  const vatAmountParticularProduct1 =
-    parseFloat(
-      convertPrice(productPrice) * (products?.p_tax?.tax_percentage / 100)
-    ) * count;
-  const vatAmountParticularProductRounded = Math.round(
-    vatAmountParticularProduct1
-  );
-
-  // variable for price vatAmountParticularProduct
-  const totalPriceWithTax1 =
-    parseFloat(
-      convertPrice(productPrice) * (products?.p_tax?.tax_percentage / 100) +
-        convertPrice(productPrice)
-    ) * count;
-  const totalPriceWithTaxRounded = Math.round(totalPriceWithTax1);
-  // console.log("priceWithTaxRounded", vatAmountParticularProductRounded);
   const finalData = {
     id: products.id,
     image: products.feature_image,
@@ -416,35 +411,51 @@ const PorductDetails = () => {
     text: products?.p_description,
     colors: products?.p_colours,
     color_id: colorId,
-    price: convertPrice(productPrice),
-    priceWithTax: priceWithTaxRounded,
-    vatAmountParticularProduct: vatAmountParticularProductRounded,
+    selectedCurrency: selectedCurrency,
+    price: productPrice,
+    priceOrg: productPrice,
+    priceWithTax: parseFloat(
+      productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
+    ),
+    priceWithTaxOrg: parseFloat(
+      productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
+    ),
+    priceWithoutFragile: priceWithoutFragileCharge,
+    priceWithoutFragileOrg: priceWithoutFragileCharge,
+    vatAmountParticularProduct:
+      count *
+      parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
     amount: count,
     stock: stockAmount,
     totalAmount: count,
     fragileCharge: fragileCharge,
+    fragileChargeOrg: fragileCharge,
     totalFragileCharge: count * fragileCharge,
+    totalFragileChargeOrg: count * fragileCharge,
     productWeight: productWeight,
     totalProductWeight: count * productWeight,
-    totalPrice: parseFloat(convertPrice(productPrice)) * count,
-    totalPriceWithTax: totalPriceWithTaxRounded,
+    totalPrice: parseFloat(productPrice) * count,
+    totalPriceWithoutFragileCharge:
+      parseFloat(priceWithoutFragileCharge) * count,
+    totalPriceWithoutFragileChargeOrg:
+      parseFloat(priceWithoutFragileCharge) * count,
+    totalPriceOrg: count * parseFloat(productPrice),
+    totalPriceWithTax:
+      count *
+      parseFloat(
+        productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
+      ),
     taxAmount: products?.p_tax?.tax_percentage,
-    priceOrg: productPrice,
-    priceWithTaxOrg: parseFloat(
-      productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
-    ),
-
     vatAmountParticularProductOrg:
       count *
       parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
-    totalPriceOrg: count * parseFloat(productPrice),
+
     totalPriceWithTaxOrg:
       count *
       parseFloat(
         productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
       ),
   };
-
   const dataForWishList = {
     id: products.id,
     image: products.feature_image,
@@ -455,7 +466,7 @@ const PorductDetails = () => {
     color_id: colorId,
     color_name: colorName,
     color_code: colorCode,
-    price: convertPrice(productPrice),
+    price: productPrice,
     priceOrg: productPrice,
     amount: 1,
     stock: products?.p_stocks,
@@ -614,7 +625,10 @@ const PorductDetails = () => {
                     fontWeight={700}
                   >
                     {/* Price : BDT {productPrice} */}
-                    {selectedCurrency} {convertPrice(priceWithoutFragileCharge)}
+                    {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
+                    {priceWithoutFragileCharge > 0
+                      ? `${convertPrice(priceWithoutFragileCharge)}`
+                      : "Out of Stock"}
                   </Typography>
                   {products?.p_sizes?.length > 0 ? (
                     <>
@@ -1348,7 +1362,10 @@ const PorductDetails = () => {
                   className="exterBold"
                 >
                   {/* Price : {productPrice} BDT */}
-                  {selectedCurrency} {convertPrice(productPrice)}
+                  {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
+                  {priceWithoutFragileCharge > 0
+                    ? `${convertPrice(priceWithoutFragileCharge)}`
+                    : "Out of Stock"}
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -1399,7 +1416,10 @@ const PorductDetails = () => {
                   className="exterBold"
                 >
                   {/* Price : {productPrice} BDT */}
-                  {selectedCurrency} {convertPrice(productPrice)}
+                  {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
+                  {priceWithoutFragileCharge > 0
+                    ? `${convertPrice(priceWithoutFragileCharge)}`
+                    : "Out of Stock"}
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -1450,7 +1470,10 @@ const PorductDetails = () => {
                   className="exterBold"
                 >
                   {/* Price : {productPrice} BDT */}
-                  {selectedCurrency} {convertPrice(productPrice)}
+                  {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
+                  {priceWithoutFragileCharge > 0
+                    ? `${convertPrice(priceWithoutFragileCharge)}`
+                    : "Out of Stock"}
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -1501,7 +1524,10 @@ const PorductDetails = () => {
                   className="exterBold"
                 >
                   {/* Price : {productPrice} BDT */}
-                  {selectedCurrency} {convertPrice(productPrice)}
+                  {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
+                  {priceWithoutFragileCharge > 0
+                    ? `${convertPrice(priceWithoutFragileCharge)}`
+                    : "Out of Stock"}
                 </Typography>
               </Stack>
             </SwiperSlide>

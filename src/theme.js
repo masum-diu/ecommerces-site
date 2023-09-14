@@ -196,6 +196,14 @@ theme.typography.cardHeader3 = {
     fontSize: "12px",
   },
 };
+theme.typography.bolder = {
+  fontSize: "14px",
+  fontWeight: "bold",
+  color: "#3A3A3A",
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "12px",
+  },
+};
 theme.typography.cardHeader1 = {
   fontSize: "16px",
   fontWeight: "bold",

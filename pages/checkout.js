@@ -46,12 +46,17 @@ import {
   eCourierCharge,
   fixedCharge,
 } from "../public/assets/data/eCourier_charges";
+import { useConvertCartData } from "../src/hooks/useConvertCartData";
 
 const checkout = () => {
   // address popup state start
   const [addressList, setAddressList] = useState(false);
+  const { convertCartData } = useConvertCartData();
+  const carts = useSelector((state) => state.cart);
+  const convertedCart = convertCartData(carts);
   // address popup state end
-  const cart = useSelector((state) => state.cart.cart);
+  const cart = convertedCart.cart;
+  // const cart = useSelector((state) => state.cart.cart);
   const [addAddressValue, setAddAddressValue] = useState(0);
   const [distict, setDistict] = useState("Select Country");
   const [distict1, setDistict1] = useState("Select Country");
@@ -59,19 +64,23 @@ const checkout = () => {
   const [townBillingSh, setTownBillingSh] = useState("Select Town/City");
   const [isSameAddress, setIsSameAddress] = useState(false);
   const [host, setHost] = useState("");
+
   const dispatch = useDispatch();
-  const totalPrice = useSelector((state) => state.cart.totalPrice);
-  const totalPriceOrg = useSelector((state) => state.cart.totalPriceOrg);
-  const totalFragileCharge = useSelector(
+  // const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const totalPrice = convertedCart.totalPrice;
+  const totalPriceWithoutFragile= convertedCart.totalPriceWithoutFragileCharge;
+  const totalPriceOrg = convertedCart.totalPriceOrg;
+  // const totalPriceOrg = useSelector((state) => state.cart.totalPriceOrg);
+  const totalFragileCharge = convertedCart.totalFragileCharge;
+  /* const totalFragileCharge = useSelector(
     (state) => state.cart.totalFragileCharge
-  );
+  ); */
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const totalPriceWithTax = useSelector(
+  const totalPriceWithTax = convertedCart.totalPriceWithTax;
+  /* const totalPriceWithTax = useSelector(
     (state) => state.cart.totalPriceWithTax
-  );
-  const totalPriceWithTaxOrg = useSelector(
-    (state) => state.cart.totalPriceWithTaxOrg
-  );
+  ); */
+  const totalPriceWithTaxOrg = convertedCart.totalPriceWithTaxOrg;
   const totalProductWeight = useSelector(
     (state) => state.cart.totalProductWeight
   );
@@ -83,7 +92,7 @@ const checkout = () => {
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [isAgreed, setAgreed] = useState(false);
-  const [total, setTotal] = useState(totalPriceWithTax);
+  const [total, setTotal] = useState(totalPriceWithoutFragile);
   const [error, setError] = useState({ initialState: true });
   const [openLoginModal, setLoginModal] = useState(false);
   const [payment, setPayment] = useState("");
@@ -216,7 +225,7 @@ const checkout = () => {
       setECourierResponse(eCourierJsonData);
     }
   }, [eCourierData]);
-  // console.log("your log output", eCourierResponse);
+  console.log("your log output", cart);
   useEffect(() => {
     const host = location.host;
     if (host === "localhost:3000") {
@@ -555,7 +564,6 @@ const checkout = () => {
                 const [minWeight, maxWeight] = pkg.weightrange
                   .split("-")
                   .map(Number);
-
                 if (
                   totalProductWeight >= minWeight &&
                   totalProductWeight <= maxWeight
@@ -565,7 +573,9 @@ const checkout = () => {
                 }
               }
               if (applicablePackage) {
-                setEQuerierShippingCost(applicablePackage.shipping_charge);
+                setEQuerierShippingCost(
+                  convertPrice(applicablePackage.shipping_charge)
+                );
                 setEQuerierPackagesCode(applicablePackage?.package_code);
               } else {
                 const maxWeightPackage = applicablePackages.reduce(
@@ -584,7 +594,9 @@ const checkout = () => {
                 const additionalCharge = extraWeight * fixedCharge;
 
                 setEQuerierShippingCost(
-                  maxWeightPackage.shipping_charge + additionalCharge
+                  convertPrice(
+                    maxWeightPackage.shipping_charge + additionalCharge
+                  )
                 );
                 setEQuerierPackagesCode(maxWeightPackage?.package_code);
               }
@@ -627,7 +639,9 @@ const checkout = () => {
                 }
               }
               if (applicablePackage) {
-                setEQuerierShippingCost(applicablePackage.shipping_charge);
+                setEQuerierShippingCost(
+                  convertPrice(applicablePackage.shipping_charge)
+                );
                 setEQuerierPackagesCode(applicablePackage?.package_code);
               } else {
                 const maxWeightPackage = applicablePackages.reduce(
@@ -646,7 +660,9 @@ const checkout = () => {
                 const additionalCharge = extraWeight * fixedCharge;
 
                 setEQuerierShippingCost(
-                  maxWeightPackage.shipping_charge + additionalCharge
+                  convertPrice(
+                    maxWeightPackage.shipping_charge + additionalCharge
+                  )
                 );
                 setEQuerierPackagesCode(maxWeightPackage?.package_code);
               }
@@ -725,7 +741,9 @@ const checkout = () => {
                 }
               }
               if (applicablePackage) {
-                setEQuerierShippingCost(applicablePackage.shipping_charge);
+                setEQuerierShippingCost(
+                  convertPrice(applicablePackage.shipping_charge)
+                );
                 setEQuerierPackagesCode(applicablePackage?.package_code);
               } else {
                 const maxWeightPackage = applicablePackages.reduce(
@@ -744,7 +762,9 @@ const checkout = () => {
                 const additionalCharge = extraWeight * fixedCharge;
 
                 setEQuerierShippingCost(
-                  maxWeightPackage.shipping_charge + additionalCharge
+                  convertPrice(
+                    maxWeightPackage.shipping_charge + additionalCharge
+                  )
                 );
                 setEQuerierPackagesCode(maxWeightPackage?.package_code);
               }
@@ -794,7 +814,9 @@ const checkout = () => {
                 }
               }
               if (applicablePackage) {
-                setEQuerierShippingCost(applicablePackage.shipping_charge);
+                setEQuerierShippingCost(
+                  convertPrice(applicablePackage.shipping_charge)
+                );
                 setEQuerierPackagesCode(applicablePackage?.package_code);
               } else {
                 const maxWeightPackage = applicablePackages.reduce(
@@ -813,7 +835,9 @@ const checkout = () => {
                 const additionalCharge = extraWeight * fixedCharge;
 
                 setEQuerierShippingCost(
-                  maxWeightPackage.shipping_charge + additionalCharge
+                  convertPrice(
+                    maxWeightPackage.shipping_charge + additionalCharge
+                  )
                 );
                 setEQuerierPackagesCode(maxWeightPackage?.package_code);
               }
@@ -869,6 +893,7 @@ const checkout = () => {
     distict1,
     deliveryMethod,
     eQuerierShippingCost,
+    convertedCart,
   ]);
   // console.log("your log output", eQuerierPackagesCode);
 
@@ -1931,7 +1956,7 @@ const checkout = () => {
                         className="bold"
                         sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                       >
-                        {selectedCurrency} {totalPrice}
+                        {selectedCurrency} {totalPriceWithoutFragile}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -2065,8 +2090,8 @@ const checkout = () => {
                         textAlign={"left"}
                         // sx={{ marginLeft: "72px!important" }}
                       >
-                        {selectedCurrency}{" "}
-                        {Math.round(totalPriceWithTax - totalPrice)}
+                        {selectedCurrency} {parseFloat((totalPriceWithTax - totalPrice).toFixed(2))}
+                        {console.log('some data',totalPriceWithTax,totalPrice)}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -2089,7 +2114,7 @@ const checkout = () => {
                         className="exterBold"
                         sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                       >
-                        {selectedCurrency} {Math.round(total)}
+                        {selectedCurrency} {total}
                       </Typography>
                     </Stack>
                     <Divider />

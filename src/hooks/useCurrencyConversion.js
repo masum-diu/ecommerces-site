@@ -40,7 +40,7 @@ export function useCurrencyConversion() {
 
     // Convert the price to the selected currency
     const preConvertedPrice = price * conversionRates[selectedCurrency];
-    const convertedPrice = Math.round(preConvertedPrice);
+    const convertedPrice = parseFloat(preConvertedPrice.toFixed(2));
 
     return convertedPrice; // Adjust the precision as needed
   }
