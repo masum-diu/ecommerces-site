@@ -68,10 +68,11 @@ const checkout = () => {
   const dispatch = useDispatch();
   // const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalPrice = convertedCart.totalPrice;
-  const totalPriceWithoutFragile= convertedCart.totalPriceWithoutFragileCharge;
+  const totalPriceWithoutFragile = convertedCart.totalPriceWithoutFragileCharge;
   const totalPriceOrg = convertedCart.totalPriceOrg;
   // const totalPriceOrg = useSelector((state) => state.cart.totalPriceOrg);
   const totalFragileCharge = convertedCart.totalFragileCharge;
+  const totalFragileChargeOrg = convertedCart.totalFragileChargeOrg;
   /* const totalFragileCharge = useSelector(
     (state) => state.cart.totalFragileCharge
   ); */
@@ -266,6 +267,7 @@ const checkout = () => {
             totalPriceWithTax: orderInfo?.totalPriceWithTax,
             totalPriceWithTaxOrg: orderInfo?.totalPriceWithTaxOrg,
             totalFragileCharge: orderInfo?.totalFragileCharge,
+            totalFragileChargeOrg: orderInfo?.totalFragileChargeOrg,
             shippingCost: orderInfo.shippingCost,
             eQuerierPackagesCode: orderInfo.eQuerierPackagesCode,
             finalPriceOfOrder: orderInfo?.finalPrice,
@@ -399,6 +401,7 @@ const checkout = () => {
       totalPriceOrg: totalPriceOrg,
       totalPriceWithTaxOrg: totalPriceWithTaxOrg,
       totalFragileCharge: totalFragileCharge,
+      totalFragileChargeOrg: totalFragileChargeOrg,
       shippingCost: shippingCost,
       eQuerierPackagesCode: eQuerierPackagesCode,
       finalPrice: Math.round(total),
@@ -421,6 +424,7 @@ const checkout = () => {
             totalPriceWithTax,
             totalPriceWithTaxOrg,
             totalFragileCharge,
+            totalFragileChargeOrg,
             eQuerierPackagesCode,
             shippingCost,
             currentConversionRate: currentConversionRate,
@@ -544,9 +548,11 @@ const checkout = () => {
       setDhlShippingCost(0);
       setShowRoomShippingCost(0);
       if (deliveryMethod === "E-Courier") {
-        setTotal(totalPriceWithTax + totalFragileCharge);
+        setTotal(
+          parseFloat((totalPriceWithTax + totalFragileCharge).toFixed(2))
+        );
       } else {
-        setTotal(totalPriceWithTax);
+        setTotal(parseFloat(totalPriceWithTax.toFixed(2)));
       }
       if (countrySh === "Bangladesh" || distict1 === "Bangladesh") {
         if (cityAddressSh) {
@@ -604,15 +610,29 @@ const checkout = () => {
               setPathaoShippingCost(pathao);
 
               if (deliveryMethod === "Pathao") {
-                setTotal(totalPriceWithTax + pathaoShippingCost);
+                setTotal(
+                  parseFloat(
+                    (totalPriceWithTax + pathaoShippingCost).toFixed(2)
+                  )
+                );
                 setShippingCost(pathaoShippingCost);
               } else if (deliveryMethod === "E-Courier") {
                 setTotal(
-                  totalPriceWithTax + totalFragileCharge + eQuerierShippingCost
+                  parseFloat(
+                    (
+                      totalPriceWithTax +
+                      totalFragileCharge +
+                      eQuerierShippingCost
+                    ).toFixed(2)
+                  )
                 );
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
-                setTotal(totalPriceWithTax + showRoomShippingCost);
+                setTotal(
+                  parseFloat(
+                    (totalPriceWithTax + showRoomShippingCost).toFixed(2)
+                  )
+                );
                 setShippingCost(showRoomShippingCost);
               }
             }
@@ -669,15 +689,29 @@ const checkout = () => {
               setPathaoShippingCost(pathao);
               // setEQuerierShippingCost(e_courier);
               if (deliveryMethod === "Pathao") {
-                setTotal(totalPriceWithTax + pathaoShippingCost);
+                setTotal(
+                  parseFloat(
+                    (totalPriceWithTax + pathaoShippingCost).toFixed(2)
+                  )
+                );
                 setShippingCost(pathaoShippingCost);
               } else if (deliveryMethod === "E-Courier") {
                 setTotal(
-                  totalPriceWithTax + totalFragileCharge + eQuerierShippingCost
+                  parseFloat(
+                    (
+                      totalPriceWithTax +
+                      totalFragileCharge +
+                      eQuerierShippingCost
+                    ).toFixed(2)
+                  )
                 );
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
-                setTotal(totalPriceWithTax + showRoomShippingCost);
+                setTotal(
+                  parseFloat(
+                    (totalPriceWithTax + showRoomShippingCost).toFixed(2)
+                  )
+                );
                 setShippingCost(showRoomShippingCost);
               }
             }
@@ -699,7 +733,15 @@ const checkout = () => {
           }
           setDhlShippingCost(shippingChargeForSelectedCountry);
           if (deliveryMethod === "DHL") {
-            setTotal(totalPriceWithTax + totalFragileCharge + dhlShippingCost);
+            setTotal(
+              parseFloat(
+                (
+                  totalPriceWithTax +
+                  totalFragileCharge +
+                  dhlShippingCost
+                ).toFixed(2)
+              )
+            );
             setShippingCost(dhlShippingCost);
           }
         }
@@ -711,9 +753,11 @@ const checkout = () => {
       setDhlShippingCost(0);
       setShowRoomShippingCost(0);
       if (deliveryMethod === "E-Courier") {
-        setTotal(totalPriceWithTax + totalFragileCharge);
+        setTotal(
+          parseFloat((totalPriceWithTax + totalFragileCharge).toFixed(2))
+        );
       } else {
-        setTotal(totalPriceWithTax);
+        setTotal(parseFloat(totalPriceWithTax.toFixed(2)));
       }
       if (country === "Bangladesh" || distict === "Bangladesh") {
         if (cityAddress) {
@@ -771,15 +815,29 @@ const checkout = () => {
               setPathaoShippingCost(pathao);
               // setEQuerierShippingCost(e_courier);
               if (deliveryMethod === "Pathao") {
-                setTotal(totalPriceWithTax + pathaoShippingCost);
+                setTotal(
+                  parseFloat(
+                    (totalPriceWithTax + pathaoShippingCost).toFixed(2)
+                  )
+                );
                 setShippingCost(pathaoShippingCost);
               } else if (deliveryMethod === "E-Courier") {
                 setTotal(
-                  totalPriceWithTax + totalFragileCharge + eQuerierShippingCost
+                  parseFloat(
+                    (
+                      totalPriceWithTax +
+                      totalFragileCharge +
+                      eQuerierShippingCost
+                    ).toFixed(2)
+                  )
                 );
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
-                setTotal(totalPriceWithTax + showRoomShippingCost);
+                setTotal(
+                  parseFloat(
+                    (totalPriceWithTax + showRoomShippingCost).toFixed(2)
+                  )
+                );
                 setShippingCost(showRoomShippingCost);
               }
             }
@@ -844,15 +902,29 @@ const checkout = () => {
               setPathaoShippingCost(pathao);
               // setEQuerierShippingCost(e_courier);
               if (deliveryMethod === "Pathao") {
-                setTotal(totalPriceWithTax + pathaoShippingCost);
+                setTotal(
+                  parseFloat(
+                    (totalPriceWithTax + pathaoShippingCost).toFixed(2)
+                  )
+                );
                 setShippingCost(pathaoShippingCost);
               } else if (deliveryMethod === "E-Courier") {
                 setTotal(
-                  totalPriceWithTax + totalFragileCharge + eQuerierShippingCost
+                  parseFloat(
+                    (
+                      totalPriceWithTax +
+                      totalFragileCharge +
+                      eQuerierShippingCost
+                    ).toFixed(2)
+                  )
                 );
                 setShippingCost(eQuerierShippingCost);
               } else if (deliveryMethod === "Pickup from showroom") {
-                setTotal(totalPriceWithTax + showRoomShippingCost);
+                setTotal(
+                  parseFloat(
+                    (totalPriceWithTax + showRoomShippingCost).toFixed(2)
+                  )
+                );
                 setShippingCost(showRoomShippingCost);
               }
             }
@@ -874,7 +946,15 @@ const checkout = () => {
           }
           setDhlShippingCost(shippingChargeForSelectedCountry);
           if (deliveryMethod === "DHL") {
-            setTotal(totalPriceWithTax + totalFragileCharge + dhlShippingCost);
+            setTotal(
+              parseFloat(
+                (
+                  totalPriceWithTax +
+                  totalFragileCharge +
+                  dhlShippingCost
+                ).toFixed(2)
+              )
+            );
             setShippingCost(dhlShippingCost);
           }
         }
@@ -2090,8 +2170,15 @@ const checkout = () => {
                         textAlign={"left"}
                         // sx={{ marginLeft: "72px!important" }}
                       >
-                        {selectedCurrency} {parseFloat((totalPriceWithTax - totalPrice).toFixed(2))}
-                        {console.log('some data',totalPriceWithTax,totalPrice)}
+                        {selectedCurrency}{" "}
+                        {parseFloat(
+                          (totalPriceWithTax - totalPrice).toFixed(2)
+                        )}
+                        {console.log(
+                          "some data",
+                          totalPriceWithTax,
+                          totalPrice
+                        )}
                       </Typography>
                     </Stack>
                     <Divider />
