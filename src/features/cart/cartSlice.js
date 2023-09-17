@@ -258,7 +258,7 @@ export const cartSlice = createSlice({
           exist.vatAmountParticularProduct -=
             productID.vatAmountParticularProductOrg / productID.amount;
           exist.totalPriceWithTax -= productID.priceWithTaxOrg;
-          exist.totalPriceOrg -= productID.priceOrg;
+          // exist.totalPriceOrg -= productID.priceOrg;
           exist.totalPriceWithoutFragileCharge -=
             productID.priceWithoutFragileOrg;
           exist.totalPriceWithoutFragileChargeOrg -=
