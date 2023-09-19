@@ -17,7 +17,7 @@ const ProductPoPup = ({open,setOpen,product,count,Currency,price,subTotal,unitPr
   return (
     <>
       <Dialog open={open} onClose={()=>setOpen(false)}   PaperProps={{
-          sx: { width: { lg: "30%", xs: "100vw" }, height: "fit-content" },
+          sx: { width: { lg: "100%", xs: "100vw" }, height: "fit-content" },
         }} >
            <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} p={1}>
          
@@ -42,10 +42,10 @@ const ProductPoPup = ({open,setOpen,product,count,Currency,price,subTotal,unitPr
             <Typography variant="cardHeader1" className="SemiBold" color="initial">Quantity : </Typography><Typography variant="normal" color="initial" className="SemiBold">{count}</Typography>
             </Stack>
             <Stack direction={"row"}spacing={1}>
-            <Typography variant="cardHeader1" className="SemiBold" color="initial">Unit Price : </Typography><Typography variant="normal" color="initial" className="SemiBold">{Currency} {convertPrice(unitPrice)}</Typography>
+            <Typography variant="cardHeader1" className="SemiBold" color="initial">Unit Price : </Typography><Typography variant="normal" color="initial" className="SemiBold">{Currency} {price}</Typography>
             </Stack>
             <Stack direction={"row"}spacing={1} >
-            <Typography variant="cardHeader1" className="SemiBold" color="initial">SubTotal : </Typography><Typography variant="normal"  color="initial" className="SemiBold">{Currency} {convertPrice(subTotal)}</Typography>
+            <Typography variant="cardHeader1" className="SemiBold" color="initial">SubTotal : </Typography><Typography variant="normal"  color="initial" className="SemiBold">{Currency} {convertPrice(unitPrice)}</Typography>
             </Stack>
           
           </Stack>
