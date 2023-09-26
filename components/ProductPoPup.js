@@ -13,7 +13,7 @@ import { useCurrencyConversion } from '../src/hooks/useCurrencyConversion'
 const ProductPoPup = ({open,setOpen,product,count,Currency,price,subTotal,unitPrice}) => {
   const router = useRouter();
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
-  console.log(router.asPath)
+  // console.log(router.asPath)
   return (
     <>
       <Dialog open={open} onClose={()=>setOpen(false)}   PaperProps={{

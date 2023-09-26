@@ -226,7 +226,7 @@ const checkout = () => {
       setECourierResponse(eCourierJsonData);
     }
   }, [eCourierData]);
-  console.log("your log output", cart);
+  // console.log("your log output", cart);
   useEffect(() => {
     const host = location.host;
     if (host === "localhost:3000") {

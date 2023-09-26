@@ -10,6 +10,7 @@ export function UserProvider({ children }) {
   const [hasToken, setHasToken] = useState(false);
   const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   const [keepShowing, setKeepShowing] = useState(false);
+  const [selectItem, setSelectItem] = useState("terms-conditions");
   const value = {
     user,
     setUser,
@@ -25,6 +26,8 @@ export function UserProvider({ children }) {
     setIsProceedCheckout,
     keepShowing,
     setKeepShowing,
+    selectItem,
+    setSelectItem,
   };
   return (
     <USER_CONTEXT.Provider value={value}>{children}</USER_CONTEXT.Provider>

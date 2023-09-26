@@ -28,23 +28,90 @@ const shop = () => {
     isError: isLandingError,
     error: landingError,
   } = useGetHomePageProductsQuery();
+  // console.log("sizes", homedata);
   useEffect(() => {
     if (isSuccess) {
-      const handleSuccess = async () => {
-        await setProducts(data?.data);
+      const handleSuccess = () => {
+        setProducts(data?.data);
       };
       handleSuccess();
     }
   }, [data, isLoading]);
-
+  // console.log("your log output", homedata);
   useEffect(() => {
     if (isLandingSuccess) {
-      const handleSuccess = async () => {
-        await setHomeData(landingdata);
+      const handleSuccess = () => {
+        setHomeData(landingdata);
       };
       handleSuccess();
     }
   }, [isLandingSuccess, landingdata]);
+
+  const handleFirstBanner = () => {
+    router.push({
+      pathname: `/new-collections`,
+    });
+  };
+  const handleSecondBanner = () => {
+    const backUrl = homedata?.back_url_three;
+    const pathname = `/products/${backUrl.split("?")[0]}`;
+    const query = {};
+
+    const catMatch = /cat=(\d+)/.exec(backUrl);
+    if (catMatch) {
+      query.cat = catMatch[1];
+    }
+
+    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
+    if (subCatMatch) {
+      query.sub_cat = subCatMatch[1];
+    }
+
+    router.push({
+      pathname,
+      query,
+    });
+  };
+  const handleThirdBanner = () => {
+    const backUrl = homedata?.back_url_four;
+    const pathname = `/products/${backUrl.split("?")[0]}`;
+    const query = {};
+
+    const catMatch = /cat=(\d+)/.exec(backUrl);
+    if (catMatch) {
+      query.cat = catMatch[1];
+    }
+
+    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
+    if (subCatMatch) {
+      query.sub_cat = subCatMatch[1];
+    }
+
+    router.push({
+      pathname,
+      query,
+    });
+  };
+  const handleFourthBanner = () => {
+    const backUrl = homedata?.back_url_five;
+    const pathname = `/products/${backUrl.split("?")[0]}`;
+    const query = {};
+
+    const catMatch = /cat=(\d+)/.exec(backUrl);
+    if (catMatch) {
+      query.cat = catMatch[1];
+    }
+
+    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
+    if (subCatMatch) {
+      query.sub_cat = subCatMatch[1];
+    }
+
+    router.push({
+      pathname,
+      query,
+    });
+  };
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -55,7 +122,6 @@ const shop = () => {
   // The way of getting data by transforming
   const slicedData = homedata?.image_two?.split("/").slice(-4).join("/");
   const slicedDats = homedata?.image_two?.split("/");
-  
 
   return (
     <>
@@ -128,12 +194,15 @@ const shop = () => {
             style={{ width: "100%", height: "fit-content" }}
             height={700}
           /> */}
+
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_two
               ?.split("/")
               .slice(-3)
               .join("/")}`}
             alt=""
+            style={{ cursor: "pointer" }}
+            onClick={() => handleFirstBanner()}
             // style={{ width: "1920px", height: "900px" }}
           />
           <Stack
@@ -156,8 +225,7 @@ const shop = () => {
               textTransform="uppercase"
               onClick={() =>
                 router.push({
-                  pathname: `/products/${homedata?.back_url_two}`,
-                  query: { cat: 1, sub_cat: 7 },
+                  pathname: `/new-collections`,
                 })
               }
               sx={{
@@ -183,12 +251,7 @@ const shop = () => {
             style={{ cursor: "pointer" }}
             alt=""
             width={"50%"}
-            onClick={() =>
-              router.push({
-                pathname: `/products/${homedata?.back_url_three}`,
-                query: { cat: 2, sub_cat: 13 },
-              })
-            }
+            onClick={() => handleSecondBanner()}
           />
 
           <img
@@ -199,12 +262,7 @@ const shop = () => {
             style={{ cursor: "pointer" }}
             alt=""
             width={"50%"}
-            onClick={() =>
-              router.push({
-                pathname: `/products/${homedata?.back_url_two}`,
-                query: { cat: 1, sub_cat: 7 },
-              })
-            }
+            onClick={() => handleThirdBanner()}
           />
           <Stack
             direction={"row"}
@@ -224,12 +282,7 @@ const shop = () => {
               textAlign={"center"}
               fontWeight={"600"}
               textTransform="uppercase"
-              onClick={() =>
-                router.push({
-                  pathname: `/products/${homedata?.back_url_three}`,
-                  query: { cat: 2, sub_cat: 13 },
-                })
-              }
+              onClick={() => handleSecondBanner()}
               sx={{
                 display: "flex",
                 justifyContent: "flex-start",
@@ -240,7 +293,7 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{homedata?.back_url_three}</li>
+              <li>{/^(.*?)\?/.exec(homedata?.back_url_three)[1]?/^(.*?)\?/.exec(homedata?.back_url_three)[1]:""}</li>
             </Typography>
             <Typography
               className={style.menu3}
@@ -248,12 +301,7 @@ const shop = () => {
               color="initial"
               fontWeight={"600"}
               textTransform="uppercase"
-              onClick={() =>
-                router.push({
-                  pathname: `/products/${homedata?.back_url_two}`,
-                  query: { cat: 1, sub_cat: 7 },
-                })
-              }
+              onClick={() => handleThirdBanner()}
               sx={{
                 display: "flex",
                 justifyContent: "flex-start",
@@ -264,7 +312,7 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{homedata?.back_url_two}</li>
+              <li>{/^(.*?)\?/.exec(homedata?.back_url_four)[1]?/^(.*?)\?/.exec(homedata?.back_url_four)[1]:""}</li>
             </Typography>
           </Stack>
         </Stack>
@@ -342,7 +390,11 @@ const shop = () => {
           style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
           height={700}
         /> */}
-        <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
+        <Stack
+          onClick={() => handleFourthBanner()}
+          direction={"row"}
+          sx={{ width: "100%", position: "relative", cursor: "pointer" }}
+        >
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_five
               ?.split("/")
@@ -369,15 +421,6 @@ const shop = () => {
               textAlign={"center"}
               fontWeight={"600"}
               textTransform="uppercase"
-              onClick={() =>
-                router.push(
-                  {
-                    pathname: "/products/kurti-fatua",
-                    query: { cat: 1, sub_cat: 9 },
-                  },
-                  "/products/kurti-fatua?cat=1&sub_cat=9"
-                )
-              }
               sx={{
                 display: "flex",
                 justifyContent: "flex-start",
@@ -388,7 +431,7 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>Kurti & Fatua</li>
+              <li>{/^(.*?)\?/.exec(homedata?.back_url_five)[1]?/^(.*?)\?/.exec(homedata?.back_url_five)[1]:""}</li>
             </Typography>
           </Stack>
         </Stack>

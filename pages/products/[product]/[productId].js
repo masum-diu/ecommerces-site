@@ -83,6 +83,8 @@ const PorductDetails = () => {
   const [activecolor, setActiveColor] = useState(null);
   const [open, setOpen] = useState(false);
   const [sizeGuide, setSizeGuide] = useState(false);
+  const [sizes, setSizes] = useState([]);
+  const [categoryName, setCategoryName] = useState("");
 
   // product popup
   const [productpopup, setProductpopup] = useState(false);
@@ -350,7 +352,7 @@ const PorductDetails = () => {
     products?.fragile,
     products?.fragile_charge,
   ]);
-  console.log("stockAmount", stockAmount);
+  // console.log("stockAmount", stockAmount);
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -367,10 +369,10 @@ const PorductDetails = () => {
     setColorCode(code);
     setActiveColor(id);
   };
+  // console.log("inside handle stock", products);
   const handleStockAvailability = (id) => {
     const element = products?.p_stocks.find((item) => item.size_id === id);
 
-    // console.log("inside handle stock", element);
     if (element && element.stock > 0) {
       return "inStock";
     } else {
@@ -387,11 +389,14 @@ const PorductDetails = () => {
     setOpen(data);
     setImageData(images);
   };
-  const handleSizeGuide = (subcat_id, cat_id) => {
+  const handleSizeGuide = (subcat_id, cat_id, sizes, category) => {
     setSizeGuide(true);
     setSubCat(subcat_id);
     setCat(cat_id);
+    setSizes(sizes);
+    setCategoryName(category);
   };
+  // console.log("sizes", sizes);
   const handleAddToWishList = async (data) => {
     dispatch(addToWishList(data));
     setShowBrokenHeart("block");
@@ -713,24 +718,44 @@ const PorductDetails = () => {
                             </Button>
                           ))}
                         </Stack>
-                        {products?.subcat_id === 13 ||
+                        {
+                          /* products?.subcat_id === 13 ||
                         products?.subcat_id === 15 ||
-                        products?.cat_id === 1 ? (
-                          <Button
-                            variant="text"
-                            color="primary"
-                            onClick={() =>
-                              handleSizeGuide(
-                                products?.subcat_id,
-                                products?.cat_id
-                              )
-                            }
-                          >
-                            size guide
-                          </Button>
-                        ) : (
-                          ""
-                        )}
+                        products?.cat_id === 1 */ products?.p_sizes.length >
+                            0 &&
+                          products?.p_sizes.some((item) =>
+                            [
+                              "s",
+                              "m",
+                              "lg",
+                              "xl",
+                              "xxl",
+                              "38",
+                              "40",
+                              "42",
+                              "44",
+                              "46",
+                              "48",
+                            ].includes(item.slug)
+                          ) ? (
+                            <Button
+                              variant="text"
+                              color="primary"
+                              onClick={() =>
+                                handleSizeGuide(
+                                  products?.subcat_id,
+                                  products?.cat_id,
+                                  products?.p_sizes,
+                                  products?.p_category?.slug
+                                )
+                              }
+                            >
+                              size guide
+                            </Button>
+                          ) : (
+                            ""
+                          )
+                        }
                       </Stack>
                     </>
                   ) : (
@@ -1619,16 +1644,31 @@ const PorductDetails = () => {
                           </Button>
                         ))}
                       </Stack>
-                      {products?.subcat_id === 13 ||
-                      products?.subcat_id === 15 ||
-                      products?.cat_id === 1 ? (
+                      {products?.p_sizes.length > 0 &&
+                      products?.p_sizes.some((item) =>
+                        [
+                          "s",
+                          "m",
+                          "lg",
+                          "xl",
+                          "xxl",
+                          "38",
+                          "40",
+                          "42",
+                          "44",
+                          "46",
+                          "48",
+                        ].includes(item.slug)
+                      ) ? (
                         <Button
                           variant="text"
                           color="primary"
                           onClick={() =>
                             handleSizeGuide(
                               products?.subcat_id,
-                              products?.cat_id
+                              products?.cat_id,
+                              products?.p_sizes,
+                              products?.p_category?.slug
                             )
                           }
                         >
@@ -2251,6 +2291,10 @@ const PorductDetails = () => {
         setOpen={setSizeGuide}
         subCat={subCat}
         cat={cat}
+        sizes={sizes}
+        setSizes={setSizes}
+        categoryName={categoryName}
+        setCategoryName={setCategoryName}
       ></SizeModal>
       <ProductPoPup
         open={productpopup}

@@ -18,7 +18,7 @@ import { MdClose } from "react-icons/md";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-const SizeModal = ({ open, setOpen, subCat, cat }) => {
+const SizeModal = ({ open, setOpen, subCat, cat, sizes, categoryName }) => {
   const [row, setRow] = useState([]);
   const router = useRouter();
   // const productName = router?.query?.product?.toUpperCase();
@@ -28,7 +28,6 @@ const SizeModal = ({ open, setOpen, subCat, cat }) => {
   function createDataW(name, chest, length) {
     return { name, chest, length };
   }
-
   const rowsWomen = [
     createDataW("S", 38, 33),
     createDataW("M", 40, 36),
@@ -60,17 +59,54 @@ const SizeModal = ({ open, setOpen, subCat, cat }) => {
   ];
 
   useEffect(() => {
-    if (cat === 1) {
-      setRow(rowsWomen);
-    }
-    if (cat === 2 && subCat === 13) {
-      setRow(rowsPanjabi);
-    }
-    if (cat === 2 && subCat === 15) {
-      setRow(rowsTShirt);
-    }
-  }, [cat, subCat]);
+    function checkAndSetRowType(sizes) {
+      // Initialize a variable to track the row type
+      let rowType = null;
 
+      // Iterate through the array of objects
+      for (const item of sizes) {
+        const slug = item.slug;
+
+        // Check if the slug can be parsed as a number
+        if (!isNaN(parseFloat(slug))) {
+          // If the slug is numeric, set the row type to "Number"
+          rowType = "Number";
+        } else {
+          // If the slug is not numeric, set the row type to "String"
+          rowType = "String";
+          // No need to check further if we find a non-numeric slug
+          break;
+        }
+      }
+
+      if (
+        rowType === "Number" &&
+        categoryName !== "men" &&
+        categoryName !== "women"
+      ) {
+        setRow(rowsPanjabi);
+        // return "Number";
+      } else if (
+        rowType === "String" &&
+        categoryName !== "men" &&
+        categoryName !== "women"
+      ) {
+        setRow([...rowsPanjabi, ...rowsWomen]);
+        // return "Number";
+      } else if (rowType === "Number" && categoryName === "men") {
+        setRow(rowsPanjabi);
+        // return "Number";
+      } else if (rowType === "String" && categoryName === "men") {
+        setRow(rowsTShirt);
+        // return "String";
+      } else if (rowType === "String" && categoryName === "women") {
+        setRow(rowsWomen);
+        // return "String";
+      }
+    }
+
+    checkAndSetRowType(sizes);
+  }, [cat, subCat]);
 
   const handleclearuser = () => {
     setUserData("");
