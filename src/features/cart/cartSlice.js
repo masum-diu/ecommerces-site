@@ -236,7 +236,7 @@ export const cartSlice = createSlice({
         if (exist.amount === 1) {
           state.cart = state.cart.filter(
             (product) =>
-              product.id != productID.id ||
+              product.id !== productID.id ||
               product.size !== productID.size ||
               product.size_id !== productID.size_id ||
               product.color_id !== productID.color_id
@@ -301,7 +301,10 @@ export const cartSlice = createSlice({
         if (exist.amount >= 1) {
           state.cart = state.cart.filter(
             (product) =>
-              product.id != productID.id || product.size !== productID.size
+              product.id !== productID.id ||
+              product.size !== productID.size ||
+              product.size_id !== productID.size_id ||
+              product.color_id !== productID.color_id
           );
           state.totalAmount -= productID.amount;
           state.totalPrice -= productID.totalPriceOrg;
