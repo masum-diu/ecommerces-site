@@ -197,7 +197,7 @@ const addtocart = () => {
                               alignItems={"center"}
                             >
                               <Typography>Colors: </Typography>
-                              {data.colors.length > 0 ? (
+                              {/* {data.colors.length > 0 ? (
                                 <>
                                   {data?.colors?.map((singleColor, index) => (
                                     <Typography
@@ -213,6 +213,13 @@ const addtocart = () => {
                                     </Typography>
                                   ))}
                                 </>
+                              ) : (
+                                <Typography>N/A</Typography>
+                              )} */}
+                              {data?.color_name ? (
+                                <Typography variant="subtitle1" color="initial">
+                                  {data?.color_name}
+                                </Typography>
                               ) : (
                                 <Typography>N/A</Typography>
                               )}
@@ -430,7 +437,7 @@ const addtocart = () => {
                                   }}
                                 ></Box> */}
                                 <Typography>Colors: </Typography>
-                                {data.colors.length > 0 ? (
+                                {/* {data.colors.length > 0 ? (
                                   <>
                                     {data?.colors?.map((singleColor, index) => (
                                       <Typography
@@ -446,6 +453,16 @@ const addtocart = () => {
                                       </Typography>
                                     ))}
                                   </>
+                                ) : (
+                                  <Typography>N/A</Typography>
+                                )} */}
+                                {data?.color_name ? (
+                                  <Typography
+                                    variant="subtitle1"
+                                    color="initial"
+                                  >
+                                    {data?.color_name}
+                                  </Typography>
                                 ) : (
                                   <Typography>N/A</Typography>
                                 )}

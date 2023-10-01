@@ -425,6 +425,7 @@ const PorductDetails = () => {
     text: products?.p_description,
     colors: products?.p_colours,
     color_id: colorId,
+    color_name: colorName,
     selectedCurrency: selectedCurrency,
     price: productPrice,
     priceOrg: productPrice,
