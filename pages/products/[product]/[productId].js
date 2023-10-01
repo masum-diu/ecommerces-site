@@ -1659,6 +1659,9 @@ const PorductDetails = () => {
                           "44",
                           "46",
                           "48",
+                          "52",
+                          "54",
+                          "56",
                         ].includes(item.slug)
                       ) ? (
                         <Button
