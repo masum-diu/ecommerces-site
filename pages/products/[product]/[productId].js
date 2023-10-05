@@ -78,7 +78,7 @@ const PorductDetails = () => {
   const [priceWithoutFragileCharge, setPriceWithoutFragileCharge] = useState(0);
   const [fragileCharge, setFragileCharge] = useState(0);
   const [productWeight, setProductWeight] = useState(0);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState({});
   const [activesize, setActiveSize] = useState(null);
   const [activecolor, setActiveColor] = useState(null);
   const [open, setOpen] = useState(false);
@@ -130,7 +130,6 @@ const PorductDetails = () => {
     }
   }, [data, isSuccess, isLoading]);
   // Product Selection Section
-  console.log("your log output", products);
   useEffect(() => {
     if (products?.p_stocks) {
       setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
@@ -146,6 +145,8 @@ const PorductDetails = () => {
 
     // if both color and size both exists
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
+      console.log("if both color and size both exists");
+      setDisableBtn(true);
       // if both color and size both exists and but selected none
       if (colorSelected === false && sizeSelected === false) {
         setNoteTextForStock(
@@ -192,12 +193,7 @@ const PorductDetails = () => {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
         }
-        if (
-          stockAmount === undefined ||
-          stockAmount === 0 ||
-          priceWithoutFragileCharge === 0 ||
-          priceWithoutFragileCharge === undefined
-        ) {
+        if (stockAmount === undefined || stockAmount === 0) {
           setDisableBtn(true);
           setNoteTextForStock("Out of Stock");
         }
@@ -237,6 +233,8 @@ const PorductDetails = () => {
       (products?.p_colours?.length == 0 || products?.p_sizes?.length == 0) &&
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
     ) {
+      console.log("if color or size only one of them exists");
+      setDisableBtn(true);
       if (sizeSelected == true || colorSelected == true) {
         if (colorSelected == true) {
           const selectedProduct = products?.p_stocks?.find(
@@ -244,7 +242,7 @@ const PorductDetails = () => {
           );
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
           setProductPrice(selectedProduct?.mrp);
-          
+
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
@@ -254,7 +252,7 @@ const PorductDetails = () => {
           );
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
           setProductPrice(selectedProduct?.mrp);
-          
+
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
@@ -263,12 +261,7 @@ const PorductDetails = () => {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
         }
-        if (
-          stockAmount === undefined ||
-          stockAmount === 0 ||
-          priceWithoutFragileCharge === 0 ||
-          priceWithoutFragileCharge === undefined
-        ) {
+        if (stockAmount === undefined || stockAmount === 0) {
           setDisableBtn(true);
           setNoteTextForStock("Out of Stock");
         }
@@ -304,21 +297,20 @@ const PorductDetails = () => {
       }
     }
 
-    if (!products?.p_colours?.length && !products?.p_sizes?.length) {
+    // if color or size none of them exist
+    if (products?.p_colours?.length === 0 && products?.p_sizes?.length === 0) {
+      console.log("if color or size none of them exist");
       if (products?.p_stocks) {
-        
         setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
         setProductPrice(products?.p_stocks[0]?.mrp);
-        
+
         if (products?.p_stocks[0]?.stock > 0) {
           setNoteTextForStock("In Stock");
           setDisableBtn(false);
         }
         if (
           products?.p_stocks[0]?.stock === undefined ||
-          products?.p_stocks[0]?.stock === 0 ||
-          priceWithoutFragileCharge === 0 ||
-          priceWithoutFragileCharge === undefined
+          products?.p_stocks[0]?.stock === 0
         ) {
           setNoteTextForStock("Out of Stock");
           setDisableBtn(true);
@@ -338,7 +330,10 @@ const PorductDetails = () => {
     products?.fragile,
     products?.fragile_charge,
   ]);
-  console.log("priceWithoutFragileCharge", priceWithoutFragileCharge);
+  useEffect(() => {
+    setDisableBtn(true);
+    setCount(0);
+  }, [productId]);
   // console.log("stockAmount", stockAmount);
   if (isLoading) {
     return <Loader></Loader>;
