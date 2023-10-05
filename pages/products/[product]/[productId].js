@@ -332,7 +332,7 @@ const PorductDetails = () => {
   ]);
   useEffect(() => {
     setDisableBtn(true);
-    setCount(0);
+    setCount(1);
   }, [productId]);
   // console.log("stockAmount", stockAmount);
   if (isLoading) {
