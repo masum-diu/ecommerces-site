@@ -145,7 +145,6 @@ const PorductDetails = () => {
 
     // if both color and size both exists
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
-      console.log("if both color and size both exists");
       setDisableBtn(true);
       // if both color and size both exists and but selected none
       if (colorSelected === false && sizeSelected === false) {
@@ -233,9 +232,8 @@ const PorductDetails = () => {
       (products?.p_colours?.length == 0 || products?.p_sizes?.length == 0) &&
       (products?.p_colours?.length > 0 || products?.p_sizes?.length > 0)
     ) {
-      console.log("if color or size only one of them exists");
       setDisableBtn(true);
-      if (sizeSelected == true || colorSelected == true) {
+      if (sizeSelected === true || colorSelected === true) {
         if (colorSelected == true) {
           const selectedProduct = products?.p_stocks?.find(
             (stock) => stock?.colour_id === colorId
@@ -299,12 +297,13 @@ const PorductDetails = () => {
 
     // if color or size none of them exist
     if (products?.p_colours?.length === 0 && products?.p_sizes?.length === 0) {
-      console.log("if color or size none of them exist");
+      setDisableBtn(true);
       if (products?.p_stocks) {
         setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
         setProductPrice(products?.p_stocks[0]?.mrp);
 
         if (products?.p_stocks[0]?.stock > 0) {
+          setStockAmount(products?.p_stocks[0]?.stock);
           setNoteTextForStock("In Stock");
           setDisableBtn(false);
         }
@@ -333,6 +332,8 @@ const PorductDetails = () => {
   useEffect(() => {
     setDisableBtn(true);
     setCount(1);
+    setSizeSelected(false);
+    setColorSelected(false);
   }, [productId]);
   // console.log("stockAmount", stockAmount);
   if (isLoading) {
