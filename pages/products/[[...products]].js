@@ -13,11 +13,13 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
 import style from "../../public/assets/css/HomePageIntro.module.css";
+import { useCurrencyConversion } from "../../src/hooks/useCurrencyConversion";
 
 const shop = () => {
   const [homedata, setHomeData] = useState([]);
   const [products, setProducts] = useState([]);
   const router = useRouter();
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
   const {
     data: landingdata,
@@ -26,23 +28,90 @@ const shop = () => {
     isError: isLandingError,
     error: landingError,
   } = useGetHomePageProductsQuery();
+  // console.log("sizes", homedata);
   useEffect(() => {
     if (isSuccess) {
-      const handleSuccess = async () => {
+      const handleSuccess = () => {
         setProducts(data?.data);
       };
       handleSuccess();
     }
   }, [data, isLoading]);
-
+  // console.log("your log output", homedata);
   useEffect(() => {
     if (isLandingSuccess) {
-      const handleSuccess = async () => {
+      const handleSuccess = () => {
         setHomeData(landingdata);
       };
       handleSuccess();
     }
   }, [isLandingSuccess, landingdata]);
+
+  const handleFirstBanner = () => {
+    router.push({
+      pathname: `/new-collections`,
+    });
+  };
+  const handleSecondBanner = () => {
+    const backUrl = homedata?.back_url_three;
+    const pathname = `/products/${backUrl.split("?")[0]}`;
+    const query = {};
+
+    const catMatch = /cat=(\d+)/.exec(backUrl);
+    if (catMatch) {
+      query.cat = catMatch[1];
+    }
+
+    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
+    if (subCatMatch) {
+      query.sub_cat = subCatMatch[1];
+    }
+
+    router.push({
+      pathname,
+      query,
+    });
+  };
+  const handleThirdBanner = () => {
+    const backUrl = homedata?.back_url_four;
+    const pathname = `/products/${backUrl.split("?")[0]}`;
+    const query = {};
+
+    const catMatch = /cat=(\d+)/.exec(backUrl);
+    if (catMatch) {
+      query.cat = catMatch[1];
+    }
+
+    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
+    if (subCatMatch) {
+      query.sub_cat = subCatMatch[1];
+    }
+
+    router.push({
+      pathname,
+      query,
+    });
+  };
+  const handleFourthBanner = () => {
+    const backUrl = homedata?.back_url_five;
+    const pathname = `/products/${backUrl.split("?")[0]}`;
+    const query = {};
+
+    const catMatch = /cat=(\d+)/.exec(backUrl);
+    if (catMatch) {
+      query.cat = catMatch[1];
+    }
+
+    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
+    if (subCatMatch) {
+      query.sub_cat = subCatMatch[1];
+    }
+
+    router.push({
+      pathname,
+      query,
+    });
+  };
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -96,13 +165,26 @@ const shop = () => {
             width="100%"
           /> */}
 
-          <video
+          {/* <video
             width={"100%"}
             autoPlay
             // playsinline
+            type="video/mp4"
             loop
             muted={true}
             src={homedata?.image_one}
+          /> */}
+
+          {/* <div
+          
+        /> */}
+          <Stack
+            dangerouslySetInnerHTML={{
+              __html: `<video className="app__backgroundVideo" autoplay loop muted playsinline>
+              <source src=${homedata?.image_one} type="video/mp4" />
+              Your browser does not support the video tag.
+              </video>`,
+            }}
           />
 
           {/* <Image
@@ -112,12 +194,15 @@ const shop = () => {
             style={{ width: "100%", height: "fit-content" }}
             height={700}
           /> */}
+
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_two
               ?.split("/")
               .slice(-3)
               .join("/")}`}
             alt=""
+            style={{ cursor: "pointer" }}
+            onClick={() => handleFirstBanner()}
             // style={{ width: "1920px", height: "900px" }}
           />
           <Stack
@@ -140,8 +225,7 @@ const shop = () => {
               textTransform="uppercase"
               onClick={() =>
                 router.push({
-                  // pathname: `${homedata?.back_url_one}`,
-                  query: { cat: 1, sub_cat: 7 },
+                  pathname: `/new-collections`,
                 })
               }
               sx={{
@@ -167,12 +251,7 @@ const shop = () => {
             style={{ cursor: "pointer" }}
             alt=""
             width={"50%"}
-            onClick={() =>
-              router.push({
-                pathname: `/products/${homedata?.back_url_three}`,
-                query: { cat: 2, sub_cat: 13 },
-              })
-            }
+            onClick={() => handleSecondBanner()}
           />
 
           <img
@@ -183,12 +262,7 @@ const shop = () => {
             style={{ cursor: "pointer" }}
             alt=""
             width={"50%"}
-            onClick={() =>
-              router.push({
-                pathname: `/products/${homedata?.back_url_two}`,
-                query: { cat: 1, sub_cat: 7 },
-              })
-            }
+            onClick={() => handleThirdBanner()}
           />
           <Stack
             direction={"row"}
@@ -208,12 +282,7 @@ const shop = () => {
               textAlign={"center"}
               fontWeight={"600"}
               textTransform="uppercase"
-              onClick={() =>
-                router.push({
-                  pathname: `/products/${homedata?.back_url_three}`,
-                  query: { cat: 2, sub_cat: 13 },
-                })
-              }
+              onClick={() => handleSecondBanner()}
               sx={{
                 display: "flex",
                 justifyContent: "flex-start",
@@ -224,7 +293,7 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{homedata?.back_url_three}</li>
+              <li>{homedata?.back_url_three?/^(.*?)\?/.exec(homedata?.back_url_three)[1]:""}</li>
             </Typography>
             <Typography
               className={style.menu3}
@@ -232,12 +301,7 @@ const shop = () => {
               color="initial"
               fontWeight={"600"}
               textTransform="uppercase"
-              onClick={() =>
-                router.push({
-                  pathname: `/products/${homedata?.back_url_two}`,
-                  query: { cat: 1, sub_cat: 7 },
-                })
-              }
+              onClick={() => handleThirdBanner()}
               sx={{
                 display: "flex",
                 justifyContent: "flex-start",
@@ -248,7 +312,7 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{homedata?.back_url_two}</li>
+              <li>{homedata?.back_url_four?/^(.*?)\?/.exec(homedata?.back_url_four)[1]:""}</li>
             </Typography>
           </Stack>
         </Stack>
@@ -279,10 +343,7 @@ const shop = () => {
                         : data?.p_subcategory?.slug
                     }/${data?.id}`}
                     data={data}
-                    imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
-                      ?.split("/")
-                      .slice(-3)
-                      .join("/")}`}
+                    imageURL={`${data?.p_image_one}`}
                   ></HovarImage>
                   {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
@@ -314,7 +375,7 @@ const shop = () => {
                       className="bold"
                       color="initial"
                     >
-                      BDT {data?.p_stocks[0]?.mrp}
+                      {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -329,7 +390,11 @@ const shop = () => {
           style={{ width: "100%", height: "fit-content", marginTop: "25px" }}
           height={700}
         /> */}
-        <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
+        <Stack
+          onClick={() => handleFourthBanner()}
+          direction={"row"}
+          sx={{ width: "100%", position: "relative", cursor: "pointer" }}
+        >
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_five
               ?.split("/")
@@ -356,15 +421,6 @@ const shop = () => {
               textAlign={"center"}
               fontWeight={"600"}
               textTransform="uppercase"
-              onClick={() =>
-                router.push(
-                  {
-                    pathname: "/products/kurti-fatua",
-                    query: { cat: 1, sub_cat: 9 },
-                  },
-                  "/products/kurti-fatua?cat=1&sub_cat=9"
-                )
-              }
               sx={{
                 display: "flex",
                 justifyContent: "flex-start",
@@ -375,7 +431,7 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>Kurti & Fatua</li>
+              <li>{homedata?.back_url_five?/^(.*?)\?/.exec(homedata?.back_url_five)[1]:""}</li>
             </Typography>
           </Stack>
         </Stack>
@@ -406,10 +462,7 @@ const shop = () => {
                         : data?.p_subcategory?.slug
                     }/${data?.id}`}
                     data={data}
-                    imageURL={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_850,w_550/${data?.feature_image
-                      ?.split("/")
-                      .slice(-3)
-                      .join("/")}`}
+                    imageURL={`${data?.p_image_one}`}
                   ></HovarImage>
                   {/* <img
                       src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fit,h_1.0,w_1.0/v1676527368/aranya-product/${data?.feature_image?.substring(
@@ -441,7 +494,7 @@ const shop = () => {
                       className="bold"
                       color="initial"
                     >
-                      BDT {data?.p_stocks[0]?.mrp}
+                      {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>
