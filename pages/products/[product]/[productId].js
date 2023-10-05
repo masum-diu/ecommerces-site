@@ -16,7 +16,7 @@ import {
 import { pink, red } from "@mui/material/colors";
 import CloseIcon from "@mui/icons-material/Close";
 import HomePageIntro from "../../../components/HomePageIntro";
-// import { Box } from "@mui/system";
+
 import Footer from "../../../components/Footer";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
@@ -110,7 +110,7 @@ const PorductDetails = () => {
   const p_id = products?.id;
   const sub_catcategory = products?.p_subcategory?.id;
   const { data, isLoading, isSuccess, isError, error } =
-    useGetParticularProductsQuery(productId);
+    useGetParticularProductsQuery(productId, { skip: !productId });
   const { data: matchedwithProduct } = useGetMatchedWithProductQuery({
     category,
     sub_catcategory,
@@ -130,6 +130,7 @@ const PorductDetails = () => {
     }
   }, [data, isSuccess, isLoading]);
   // Product Selection Section
+  console.log("your log output", products);
   useEffect(() => {
     if (products?.p_stocks) {
       setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
@@ -187,18 +188,16 @@ const PorductDetails = () => {
         }
         setProductPrice(selectedProduct?.mrp);
 
-        /* if (products?.fragile === "Yes" && products?.fragile_charge) {
-          setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
-          // setPriceWithoutFragileCharge(selectedProduct?.mrp);
-        } else {
-          setProductPrice(selectedProduct?.mrp);
-          // setPriceWithoutFragileCharge(selectedProduct?.mrp);
-        } */
         if (stockAmount > 0) {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
         }
-        if (stockAmount === undefined || stockAmount === 0) {
+        if (
+          stockAmount === undefined ||
+          stockAmount === 0 ||
+          priceWithoutFragileCharge === 0 ||
+          priceWithoutFragileCharge === undefined
+        ) {
           setDisableBtn(true);
           setNoteTextForStock("Out of Stock");
         }
@@ -245,13 +244,7 @@ const PorductDetails = () => {
           );
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
           setProductPrice(selectedProduct?.mrp);
-          /* if (products?.fragile === "Yes" && products?.fragile_charge) {
-            setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
-            // setPriceWithoutFragileCharge(selectedProduct?.mrp);
-          } else {
-            setProductPrice(selectedProduct?.mrp);
-            // setPriceWithoutFragileCharge(selectedProduct?.mrp);
-          } */
+          
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
@@ -261,13 +254,7 @@ const PorductDetails = () => {
           );
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
           setProductPrice(selectedProduct?.mrp);
-          /* if (products?.fragile === "Yes" && products?.fragile_charge) {
-            setProductPrice(selectedProduct?.mrp + products?.fragile_charge);
-            // setPriceWithoutFragileCharge(selectedProduct?.mrp);
-          } else {
-            setProductPrice(selectedProduct?.mrp);
-            // setPriceWithoutFragileCharge(selectedProduct?.mrp);
-          } */
+          
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
@@ -276,7 +263,12 @@ const PorductDetails = () => {
           setDisableBtn(false);
           setNoteTextForStock("In Stock");
         }
-        if (stockAmount === undefined) {
+        if (
+          stockAmount === undefined ||
+          stockAmount === 0 ||
+          priceWithoutFragileCharge === 0 ||
+          priceWithoutFragileCharge === undefined
+        ) {
           setDisableBtn(true);
           setNoteTextForStock("Out of Stock");
         }
@@ -314,28 +306,22 @@ const PorductDetails = () => {
 
     if (!products?.p_colours?.length && !products?.p_sizes?.length) {
       if (products?.p_stocks) {
-        // setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
-        // setProductPrice(products?.p_stocks[0]?.mrp + products?.fragile_charge);
+        
         setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
         setProductPrice(products?.p_stocks[0]?.mrp);
-        /* if (products?.fragile === "Yes" && products?.fragile_charge) {
-          setProductPrice(
-            products?.p_stocks[0]?.mrp + products?.fragile_charge
-          );
-          // setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
-        } else {
-          setProductPrice(products?.p_stocks[0]?.mrp);
-          // setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
-        } */
+        
         if (products?.p_stocks[0]?.stock > 0) {
           setNoteTextForStock("In Stock");
           setDisableBtn(false);
         }
         if (
           products?.p_stocks[0]?.stock === undefined ||
-          products?.p_stocks[0]?.stock === 0
+          products?.p_stocks[0]?.stock === 0 ||
+          priceWithoutFragileCharge === 0 ||
+          priceWithoutFragileCharge === undefined
         ) {
           setNoteTextForStock("Out of Stock");
+          setDisableBtn(true);
         }
       }
       setNoteTextForCart("");
@@ -352,6 +338,7 @@ const PorductDetails = () => {
     products?.fragile,
     products?.fragile_charge,
   ]);
+  console.log("priceWithoutFragileCharge", priceWithoutFragileCharge);
   // console.log("stockAmount", stockAmount);
   if (isLoading) {
     return <Loader></Loader>;

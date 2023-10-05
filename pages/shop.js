@@ -293,7 +293,7 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{/^(.*?)\?/.exec(homedata?.back_url_three)[1]?/^(.*?)\?/.exec(homedata?.back_url_three)[1]:""}</li>
+              <li>{homedata?.back_url_three?/^(.*?)\?/.exec(homedata?.back_url_three)[1]:""}</li>
             </Typography>
             <Typography
               className={style.menu3}
