@@ -312,7 +312,7 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{/^(.*?)\?/.exec(homedata?.back_url_four)[1]?/^(.*?)\?/.exec(homedata?.back_url_four)[1]:""}</li>
+              <li>{homedata?.back_url_four?/^(.*?)\?/.exec(homedata?.back_url_four)[1]:""}</li>
             </Typography>
           </Stack>
         </Stack>
@@ -431,7 +431,7 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{/^(.*?)\?/.exec(homedata?.back_url_five)[1]?/^(.*?)\?/.exec(homedata?.back_url_five)[1]:""}</li>
+              <li>{homedata?.back_url_five?/^(.*?)\?/.exec(homedata?.back_url_five)[1]:""}</li>
             </Typography>
           </Stack>
         </Stack>
