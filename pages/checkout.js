@@ -2241,7 +2241,20 @@ const checkout = () => {
                                 </Typography>
                               }
                             />
-                            {showCashOnDelivery === "Bangladesh" ? (
+                            <FormControlLabel
+                              value="cash"
+                              control={<Radio />}
+                              label={
+                                <Typography
+                                  variant="cardHeader"
+                                  className="bold"
+                                  mb={0.6}
+                                >
+                                  Cash On Delivery
+                                </Typography>
+                              }
+                            />
+                            {/* {showCashOnDelivery === "Bangladesh" ? (
                               <FormControlLabel
                                 value="cash"
                                 control={<Radio />}
@@ -2257,7 +2270,7 @@ const checkout = () => {
                               />
                             ) : (
                               ""
-                            )}
+                            )} */}
                           </RadioGroup>
                         )}
                       />
