@@ -1,32 +1,37 @@
 /* @import url('https://fonts.cdnfonts.com/css/gellix'); */
 @font-face {
-  font-family:'Gellix' ;
-  src: url('../public/fonts/Gellix-Light/Gellix-Light.ttf');
+  font-family: "Gellix";
+  src: url("../public/fonts/Gellix-Light/Gellix-Light.ttf");
 }
 @font-face {
-  font-family:'SemiBold' ;
-  src: url('../public/fonts/Gellix-SemiBold/Gellix-SemiBold.ttf');
+  font-family: "SemiBold";
+  src: url("../public/fonts/Gellix-SemiBold/Gellix-SemiBold.ttf");
 }
 @font-face {
-  font-family:'ExterBold' ;
-  src: url('../public/fonts/font/Gellix-Bold.woff');
+  font-family: "ExterBold";
+  src: url("../public/fonts/font/Gellix-Bold.woff");
 }
 @font-face {
-  font-family:'normal' ;
-  src: url('../public/fonts/font/Gellix-Regular.ttf');
+  font-family: "normal";
+  src: url("../public/fonts/font/Gellix-Regular.ttf");
 }
 @font-face {
-  font-family:'bold' ;
-  src: url('../public/fonts/font/Gellix-Bold.woff');
+  font-family: "bold";
+  src: url("../public/fonts/font/Gellix-Bold.woff");
 }
 
-.exterBold{font-family:'ExterBold' ;
-    /* background-color:red; */
+.exterBold {
+  font-family: "ExterBold";
+  /* background-color:red; */
 }
-.SemiBold{font-family:'normal' ;
-    /* background-color:red; */
+.SemiBold {
+  font-family: "normal";
+  /* background-color:red; */
 }
-.light{font-family:'Gellix' ;
-    /* background-color:red; */
+.light {
+  font-family: "Gellix";
+  /* background-color:red; */
 }
-.bold{font-family: 'bold';}
+.bold {
+  font-family: "bold";
+}

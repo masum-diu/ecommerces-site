@@ -14,6 +14,7 @@ import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "react-hot-toast";
 import "../styles/globals.css";
+import "../styles/custom.css";
 import Pixel from "../components/Pixel";
 import { SessionProvider } from "next-auth/react";
 import { useRouter } from "next/router";

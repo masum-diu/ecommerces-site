@@ -30,17 +30,7 @@ import { useEffect } from "react";
 const FlashPage = ({ title }) => {
   const router = useRouter();
   const [country, setCountry] = React.useState(10);
-  const handleChange = (event) => {
-    setCountry(event.target.value);
-  };
-  // const [currency, setCurrency] = React.useState(10);
-  const handleChangeCurrency = (event) => {
-    setCurrency(event.target.value);
-  };
   const [language, setLanguage] = React.useState(10);
-  const handleLanguage = (event) => {
-    setLanguage(event.target.value);
-  };
   const currencies = [
     { label: "BDT", year: 1994, value: "BDT" },
     { label: "USD", year: 1972, value: "USD" },
@@ -51,6 +41,20 @@ const FlashPage = ({ title }) => {
     { label: "SGD", year: 1972, value: "SGD" },
   ];
   const [currency, setCurrency] = React.useState(currencies[0].label);
+  const handleChange = (event) => {
+    setCountry(event.target.value);
+  };
+
+  // const [currency, setCurrency] = React.useState(10);
+
+  const handleChangeCurrency = (event) => {
+    setCurrency(event.target.value);
+  };
+
+  const handleLanguage = (event) => {
+    setLanguage(event.target.value);
+  };
+
   const {
     register,
     handleSubmit,
@@ -67,8 +71,11 @@ const FlashPage = ({ title }) => {
     setCurrency(event.target.value);
   };
   const onSubmit = async (data) => {
-    localStorage.setItem('currency',data.currency)
-    router.push("/shop");
+    localStorage.setItem("currency", data.currency);
+    const hasCurrency = localStorage.getItem("currency");
+    if (hasCurrency) {
+      router.push("/shop");
+    }
   };
   return (
     <>

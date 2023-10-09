@@ -64,7 +64,7 @@ const checkout = () => {
   const [townBillingSh, setTownBillingSh] = useState("Select Town/City");
   const [isSameAddress, setIsSameAddress] = useState(false);
   const [host, setHost] = useState("");
-
+  const [showCashOnDelivery, setShowCashOnDelivery] = useState();
   const dispatch = useDispatch();
   // const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalPrice = convertedCart.totalPrice;
@@ -1136,7 +1136,15 @@ const checkout = () => {
     country,
     countrySh,
   ]);
-
+  useEffect(() => {
+    if (showInputField === true) {
+      setShowCashOnDelivery(country);
+    }
+    if (showInputField === false) {
+      setShowCashOnDelivery(countrySh);
+    }
+  }, [showInputField, country, countrySh]);
+  // console.log("showCashOnDelivery", showCashOnDelivery);
   const errorObject = Object.keys(errors).length;
   useEffect(() => {
     if (errorObject > 0) {
@@ -1349,6 +1357,7 @@ const checkout = () => {
                         message: "Country is Required",
                       },
                     })}
+                    className="custom"
                     onClick={() => trigger("country_billing")}
                     error={Boolean(errors.country_billing)}
                     size="small"
@@ -1380,7 +1389,12 @@ const checkout = () => {
                   {/* <Select label="Age"  /> */}
                 </Stack>
 
-                <Stack direction={"column"} spacing={2} mt={3}>
+                <Stack
+                  direction={"column"}
+                  spacing={2}
+                  mt={3}
+                  className="custom"
+                >
                   <Typography variant="cardHeader1" color="initial">
                     TOWN / CITY *
                   </Typography>
@@ -1413,6 +1427,7 @@ const checkout = () => {
                       error={Boolean(errors.city_billing)}
                       size="small"
                       value={townBilling}
+                      sx={customStyle}
                       onChange={handleSelectChangeTownBilling}
                     >
                       <MenuItem value={"Select Town/City"} disabled>
@@ -1709,7 +1724,7 @@ const checkout = () => {
                     disabled={isSameAddressChecked === false ? false : true}
                     onClick={() => trigger("country_shipping")}
                     error={Boolean(errors.country_shipping)}
-                    id="demo-simple-select"
+                    id="country_shipping"
                     size="small"
                     value={isSameAddressChecked === false ? distict1 : distict}
                     onChange={handleSelectChangeShipping}
@@ -1769,7 +1784,7 @@ const checkout = () => {
                       disabled={isSameAddressChecked === false ? false : true}
                       onClick={() => trigger("city_shipping")}
                       error={Boolean(errors.city_shipping)}
-                      id="demo-simple-select"
+                      id="city_shipping"
                       size="small"
                       value={townBillingSh}
                       onChange={handleSelectChangeTownShipping}
@@ -2174,11 +2189,6 @@ const checkout = () => {
                         {parseFloat(
                           (totalPriceWithTax - totalPrice).toFixed(2)
                         )}
-                        {console.log(
-                          "some data",
-                          totalPriceWithTax,
-                          totalPrice
-                        )}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -2231,19 +2241,23 @@ const checkout = () => {
                                 </Typography>
                               }
                             />
-                            <FormControlLabel
-                              value="cash"
-                              control={<Radio />}
-                              label={
-                                <Typography
-                                  variant="cardHeader"
-                                  className="bold"
-                                  mb={0.6}
-                                >
-                                  Cash On Delivery
-                                </Typography>
-                              }
-                            />
+                            {showCashOnDelivery === "Bangladesh" ? (
+                              <FormControlLabel
+                                value="cash"
+                                control={<Radio />}
+                                label={
+                                  <Typography
+                                    variant="cardHeader"
+                                    className="bold"
+                                    mb={0.6}
+                                  >
+                                    Cash On Delivery
+                                  </Typography>
+                                }
+                              />
+                            ) : (
+                              ""
+                            )}
                           </RadioGroup>
                         )}
                       />
