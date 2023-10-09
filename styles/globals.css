@@ -35,3 +35,10 @@
 .bold {
   font-family: "bold";
 }
+#country_shipping,
+#city_shipping,
+#country_billing,
+#city_billing,
+ul.MuiList-root.MuiList-padding.MuiMenu-list.mui-style-6hp17o-MuiList-root-MuiMenu-list {
+  max-height: 50vh;
+}
