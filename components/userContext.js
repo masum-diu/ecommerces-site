@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { createContext, useState } from "react";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../src/features/cart/cartSlice";
 
 const USER_CONTEXT = createContext();
 
@@ -29,6 +32,22 @@ export function UserProvider({ children }) {
     selectItem,
     setSelectItem,
   };
+  const dispatch = useDispatch();
+  const currentVersion = localStorage.getItem("version");
+  useEffect(() => {
+    let updatedVersion = "v-1.0.0";
+    const currentVersion = localStorage.getItem("version");
+    if (currentVersion) {
+      if (currentVersion !== updatedVersion) {
+        dispatch(clearCart("cart"));
+        localStorage.setItem("version", updatedVersion);
+      }
+    } else {
+      dispatch(clearCart("cart"));
+      localStorage.setItem("version", updatedVersion);
+    }
+  }, [currentVersion]);
+  // console.log('from root',)
   return (
     <USER_CONTEXT.Provider value={value}>{children}</USER_CONTEXT.Provider>
   );

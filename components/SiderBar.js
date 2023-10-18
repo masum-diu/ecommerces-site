@@ -415,7 +415,7 @@ const SiderBar = ({ open, setOpen }) => {
                 <Typography
                   variant="cardHeader"
                   className="SemiBold"
-                  color="initial"
+                  style={{color:"#8b8b8b"}}
                   onClick={() => router.push("/shop")}
                 >
                   SHOP
@@ -433,7 +433,7 @@ const SiderBar = ({ open, setOpen }) => {
                 <Typography
                   variant="cardHeader"
                   className="SemiBold"
-                  color="initial"
+                  style={{color:"#8b8b8b"}}
                   onClick={() => router.push("/story")}
                 >
                   STORY
@@ -456,15 +456,15 @@ const SiderBar = ({ open, setOpen }) => {
                       spacing={1}
                       sx={{ alignItems: "center" }}
                     >
-                      <AccountCircle style={{ color: "#0A0A0A" }} />
+                      <AccountCircle style={{ color: "#8b8b8b" }} />
 
                       <Typography variant="cardHeader" className="SemiBold">
                         {userjsondata ? (
-                          <Typography variant="cardHeader">
+                          <Typography variant="cardHeader" color="#8b8b8b">
                             {userjsondata.name}
                           </Typography>
                         ) : (
-                          <Typography variant="cardHeader">
+                          <Typography variant="cardHeader" color="#8b8b8b">
                             {user.name}
                           </Typography>
                         )}
@@ -495,7 +495,7 @@ const SiderBar = ({ open, setOpen }) => {
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
-                    fill="currentColor"
+                    fill="gray"
                     className="bi bi-geo-alt"
                     viewBox="0 0 16 16"
                   >
@@ -505,7 +505,7 @@ const SiderBar = ({ open, setOpen }) => {
                 </IconButton>
                 <Typography
                   variant="cardHeader"
-                  color="initial"
+                  style={{color:"#8b8b8b"}}
                   className="SemiBold"
                 >
                   BD

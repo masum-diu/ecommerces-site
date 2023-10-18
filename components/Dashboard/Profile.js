@@ -287,7 +287,7 @@ const Profile = () => {
               )
             }
           >
-            Additional Information
+            Update Information
           </Button>
           {openList ? (
             <Paper sx={{ p: 2, width: "90%", maxWidth: "800px" }} elevation={2}>

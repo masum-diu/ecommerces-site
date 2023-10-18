@@ -1134,18 +1134,14 @@ const PorductDetails = () => {
                             >
                               {
                                 <Stack direction={"row"} spacing={1}>
-                                  {products?.p_colours?.map((color) => (
-                                    <>
-                                      <Typography
-                                        variant="cardLocation1"
-                                        sx={{ width: "50%" }}
-                                        className="SemiBold"
-                                        color="initial"
-                                      >
-                                        {color?.color_name}
-                                      </Typography>
-                                    </>
-                                  ))}
+                                  <Typography
+                                    variant="cardLocation1"
+                                    sx={{ width: "50%" }}
+                                    className="SemiBold"
+                                    color="initial"
+                                  >
+                                    {products?.p_flat_colour}
+                                  </Typography>
                                 </Stack>
                               }
                             </Typography>

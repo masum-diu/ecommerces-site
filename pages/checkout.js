@@ -100,6 +100,7 @@ const checkout = () => {
   const [enable, setEnable] = useState(true);
   const [guestCheckoutResponse, setGuestCheckoutResponse] = useState([]);
   const [shippingCost, setShippingCost] = useState(0);
+  const [shippingCostOrg, setShippingCostOrg] = useState(0);
   const [billingCountry, setBillingCountry] = useState("");
   const [shippingCountry, setShippingCountry] = useState("");
   const [orderInfo, setOrderInfo] = useState({});
@@ -112,6 +113,7 @@ const checkout = () => {
     useState(false);
   const [pathaoShippingCost, setPathaoShippingCost] = useState(0);
   const [eQuerierShippingCost, setEQuerierShippingCost] = useState(0);
+  const [eQuerierShippingCostOrg, setEQuerierShippingCostOrg] = useState(0);
   const [eQuerierPackagesCode, setEQuerierPackagesCode] = useState("");
   const [dhlShippingCost, setDhlShippingCost] = useState(0);
   const [showRoomShippingCost, setShowRoomShippingCost] = useState(0);
@@ -139,6 +141,17 @@ const checkout = () => {
     ".mui-style-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
       {
         "-webkit-text-fill-color": "rgb(0 0 0)",
+      },
+    ".mui-style-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper":
+      {
+        background: "red!important",
+      },
+  };
+
+  const customStyle2 = {
+    "& .mui-style-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper":
+      {
+        background: "red!important",
       },
   };
   const {
@@ -250,6 +263,65 @@ const checkout = () => {
       securePage();
     }
   }, [isPlaceOrder, hasToken, error]);
+
+  // User Checkout Section
+  const onSubmit = async (data) => {
+    setIsPlaceOrder(true);
+    setIsSameAddress(isSameAddressChecked);
+    setOrderInfo({
+      data: data,
+      cart: cart,
+      totalPrice: totalPrice,
+      totalPriceWithTax: totalPriceWithTax,
+      totalPriceOrg: totalPriceOrg,
+      totalPriceWithTaxOrg: totalPriceWithTaxOrg,
+      totalFragileCharge: totalFragileCharge,
+      totalFragileChargeOrg: totalFragileChargeOrg,
+      shippingCost: shippingCost,
+      shippingCostOrg: shippingCostOrg,
+      eQuerierPackagesCode: eQuerierPackagesCode,
+      finalPrice: Math.round(total),
+      currentConversionRate: currentConversionRate,
+      selectedCurrency: selectedCurrency,
+      totalAmount: totalAmount,
+      isSameAddress: isSameAddressChecked,
+      isGuestCheckout: true,
+    });
+    if (hasToken === true && cart?.length > 0) {
+      const finalPriceOfOrder = Math.round(total);
+      const handleUserOrder = async () => {
+        try {
+          const postResponse = await userOrder({
+            data,
+            cart,
+            backUri: host,
+            totalPrice,
+            totalPriceOrg,
+            totalPriceWithTax,
+            totalPriceWithTaxOrg,
+            totalFragileCharge,
+            totalFragileChargeOrg,
+            eQuerierPackagesCode,
+            shippingCost,
+            shippingCostOrg,
+            currentConversionRate: currentConversionRate,
+            selectedCurrency: selectedCurrency,
+            finalPriceOfOrder,
+            totalAmount,
+            isSameAddressChecked,
+            isGuestCheckout,
+            token,
+          });
+          setOrderResponseUser(postResponse);
+        } catch (e) {
+          console.log("your log output", e);
+        }
+      };
+      handleUserOrder();
+    }
+  };
+
+  // Guest Checkout Section
   useEffect(() => {
     if (
       hasToken === false &&
@@ -269,6 +341,7 @@ const checkout = () => {
             totalFragileCharge: orderInfo?.totalFragileCharge,
             totalFragileChargeOrg: orderInfo?.totalFragileChargeOrg,
             shippingCost: orderInfo.shippingCost,
+            shippingCostOrg: orderInfo.shippingCostOrg,
             eQuerierPackagesCode: orderInfo.eQuerierPackagesCode,
             finalPriceOfOrder: orderInfo?.finalPrice,
             currentConversionRate: orderInfo?.currentConversionRate,
@@ -287,13 +360,7 @@ const checkout = () => {
 
       handleGuestOrder();
     }
-  }, [
-    isPlaceOrder,
-    orderInfo,
-    isGuestCheckout,
-    hasToken,
-    guestCheckoutResponse,
-  ]);
+  }, [isPlaceOrder, orderInfo, isGuestCheckout, hasToken]);
   // handling Different Form Events
   const handleDistict = (event) => {
     setDistict(event.target.value);
@@ -331,12 +398,11 @@ const checkout = () => {
   if (token) {
     setHasToken(true);
   }
-
-  const handleAddressStatusBilling = () => {
+  const handleAddressStatusShipping = () => {
     setAddressList(true);
     setAddAddressValue(1);
   };
-  const handleAddressStatusShipping = () => {
+  const handleAddressStatusBilling = () => {
     setAddressList(true);
     setAddAddressValue(2);
   };
@@ -352,6 +418,12 @@ const checkout = () => {
     setIsAddressListDataShipping(false);
     setTownBillingSh("Select Town/City");
     setValue("deliveryMethod", "");
+    setValue("city_shipping", "");
+    setPathaoShippingCost(0);
+    setEQuerierShippingCost(0);
+    setEQuerierShippingCostOrg(0);
+    setDhlShippingCost(0);
+    setShowRoomShippingCost(0);
   };
 
   // Handling React Hook form
@@ -389,60 +461,6 @@ const checkout = () => {
       deliveryMethod: "",
     },
   });
-  const allFieldsFilled = watch();
-  const onSubmit = async (data) => {
-    setIsPlaceOrder(true);
-    setIsSameAddress(isSameAddressChecked);
-    setOrderInfo({
-      data: data,
-      cart: cart,
-      totalPrice: totalPrice,
-      totalPriceWithTax: totalPriceWithTax,
-      totalPriceOrg: totalPriceOrg,
-      totalPriceWithTaxOrg: totalPriceWithTaxOrg,
-      totalFragileCharge: totalFragileCharge,
-      totalFragileChargeOrg: totalFragileChargeOrg,
-      shippingCost: shippingCost,
-      eQuerierPackagesCode: eQuerierPackagesCode,
-      finalPrice: Math.round(total),
-      currentConversionRate: currentConversionRate,
-      selectedCurrency: selectedCurrency,
-      totalAmount: totalAmount,
-      isSameAddress: isSameAddressChecked,
-      isGuestCheckout: true,
-    });
-    if (hasToken === true && cart?.length > 0) {
-      const finalPriceOfOrder = Math.round(total);
-      const handleUserOrder = async () => {
-        try {
-          const postResponse = await userOrder({
-            data,
-            cart,
-            backUri: host,
-            totalPrice,
-            totalPriceOrg,
-            totalPriceWithTax,
-            totalPriceWithTaxOrg,
-            totalFragileCharge,
-            totalFragileChargeOrg,
-            eQuerierPackagesCode,
-            shippingCost,
-            currentConversionRate: currentConversionRate,
-            selectedCurrency: selectedCurrency,
-            finalPriceOfOrder,
-            totalAmount,
-            isSameAddressChecked,
-            isGuestCheckout,
-            token,
-          });
-          setOrderResponseUser(postResponse);
-        } catch (e) {
-          console.log("your log output", e);
-        }
-      };
-      handleUserOrder();
-    }
-  };
 
   const handleSelectChange = (event) => {
     setValue("country_billing", event.target.value, { shouldValidate: true });
@@ -454,20 +472,22 @@ const checkout = () => {
   };
   const handleSelectChangeTownBilling = (event) => {
     setValue("city_billing", event.target.value, { shouldValidate: true });
-    setTownBilling(event.target.value);
+    if (!isSameAddressChecked) {
+      setTownBilling(event.target.value);
+    }
   };
   const handleSelectChangeTownShipping = (event) => {
     setValue("city_shipping", event.target.value, { shouldValidate: true });
-    if (!isSameAddressChecked) {
-      setTownBillingSh(event.target.value);
-    }
+    setTownBillingSh(event.target.value);
   };
+
+  console.log("your log output", isSameAddressChecked);
   useEffect(() => {
     if (isSameAddressChecked) {
-      setTownBillingSh(townBilling);
+      setTownBilling(townBilling);
     }
     if (!isSameAddressChecked) {
-      setTownBillingSh("Select Town/City");
+      setTownBilling("Select Town/City");
     }
   }, [isSameAddressChecked]);
 
@@ -529,224 +549,235 @@ const checkout = () => {
   const deliveryMethod = useWatch({ control, name: "deliveryMethod" });
   const termsAndCondition = useWatch({ control, name: "termsAndConditions" });
   const showInputField = useWatch({ control, name: "isSameAddress" });
-
+  console.log("paymentMethod", paymentMethod);
   const orderNote = useWatch({
     control,
     name: "orderNote",
   });
   // console.log("your log output", deliveryMethod);
   useEffect(() => {
-    setValue("deliveryMethod", "");
+    // setValue("deliveryMethod", "");
     setIsAddressListDataShipping(false);
   }, [showInputField]);
+
   // Shipping Amount Calculation
   useEffect(() => {
-    if (!showInputField) {
-      setShippingCost(0);
-      setPathaoShippingCost(0);
-      setEQuerierShippingCost(0);
-      setDhlShippingCost(0);
-      setShowRoomShippingCost(0);
-      if (deliveryMethod === "E-Courier") {
-        setTotal(
-          parseFloat((totalPriceWithTax + totalFragileCharge).toFixed(2))
-        );
-      } else {
-        setTotal(parseFloat(totalPriceWithTax.toFixed(2)));
-      }
-      if (countrySh === "Bangladesh" || distict1 === "Bangladesh") {
-        if (cityAddressSh) {
-          const refinedCity = cityAddressSh.split(" ")[0];
-          if (refinedCity === "Dhaka") {
-            if (countryData) {
-              let pathao, e_courier;
-              const targetCoverage = "Inside Dhaka";
-              const applicablePackages = eCourierCharge.filter(
-                (item) => item.coverage_id === targetCoverage
-              );
-              let applicablePackage = null;
-
-              for (const pkg of applicablePackages) {
-                const [minWeight, maxWeight] = pkg.weightrange
-                  .split("-")
-                  .map(Number);
-                if (
-                  totalProductWeight >= minWeight &&
-                  totalProductWeight <= maxWeight
-                ) {
-                  applicablePackage = pkg;
-                  break;
-                }
-              }
-              if (applicablePackage) {
-                setEQuerierShippingCost(
-                  convertPrice(applicablePackage.shipping_charge)
-                );
-                setEQuerierPackagesCode(applicablePackage?.package_code);
-              } else {
-                const maxWeightPackage = applicablePackages.reduce(
-                  (prev, curr) => {
-                    return curr.shipping_charge > prev.shipping_charge
-                      ? curr
-                      : prev;
-                  }
-                );
-
-                const extraWeight = Math.ceil(
-                  (totalProductWeight -
-                    maxWeightPackage.weightrange.split("-")[1]) /
-                    1000
-                );
-                const additionalCharge = extraWeight * fixedCharge;
-
-                setEQuerierShippingCost(
-                  convertPrice(
-                    maxWeightPackage.shipping_charge + additionalCharge
-                  )
-                );
-                setEQuerierPackagesCode(maxWeightPackage?.package_code);
-              }
-
-              setPathaoShippingCost(pathao);
-
-              if (deliveryMethod === "Pathao") {
-                setTotal(
-                  parseFloat(
-                    (totalPriceWithTax + pathaoShippingCost).toFixed(2)
-                  )
-                );
-                setShippingCost(pathaoShippingCost);
-              } else if (deliveryMethod === "E-Courier") {
-                setTotal(
-                  parseFloat(
-                    (
-                      totalPriceWithTax +
-                      totalFragileCharge +
-                      eQuerierShippingCost
-                    ).toFixed(2)
-                  )
-                );
-                setShippingCost(eQuerierShippingCost);
-              } else if (deliveryMethod === "Pickup from showroom") {
-                setTotal(
-                  parseFloat(
-                    (totalPriceWithTax + showRoomShippingCost).toFixed(2)
-                  )
-                );
-                setShippingCost(showRoomShippingCost);
-              }
-            }
-          } else {
-            if (countryData) {
-              let pathao, e_courier;
-              const targetCoverage = "Outside Dhaka";
-              const applicablePackages = eCourierCharge.filter(
-                (item) => item.coverage_id === targetCoverage
-              );
-              let applicablePackage = null;
-
-              for (const pkg of applicablePackages) {
-                const [minWeight, maxWeight] = pkg.weightrange
-                  .split("-")
-                  .map(Number);
-
-                if (
-                  totalProductWeight >= minWeight &&
-                  totalProductWeight <= maxWeight
-                ) {
-                  applicablePackage = pkg;
-                  break;
-                }
-              }
-              if (applicablePackage) {
-                setEQuerierShippingCost(
-                  convertPrice(applicablePackage.shipping_charge)
-                );
-                setEQuerierPackagesCode(applicablePackage?.package_code);
-              } else {
-                const maxWeightPackage = applicablePackages.reduce(
-                  (prev, curr) => {
-                    return curr.shipping_charge > prev.shipping_charge
-                      ? curr
-                      : prev;
-                  }
-                );
-
-                const extraWeight = Math.ceil(
-                  (totalProductWeight -
-                    maxWeightPackage.weightrange.split("-")[1]) /
-                    1000
-                );
-                const additionalCharge = extraWeight * fixedCharge;
-
-                setEQuerierShippingCost(
-                  convertPrice(
-                    maxWeightPackage.shipping_charge + additionalCharge
-                  )
-                );
-                setEQuerierPackagesCode(maxWeightPackage?.package_code);
-              }
-              setPathaoShippingCost(pathao);
-              // setEQuerierShippingCost(e_courier);
-              if (deliveryMethod === "Pathao") {
-                setTotal(
-                  parseFloat(
-                    (totalPriceWithTax + pathaoShippingCost).toFixed(2)
-                  )
-                );
-                setShippingCost(pathaoShippingCost);
-              } else if (deliveryMethod === "E-Courier") {
-                setTotal(
-                  parseFloat(
-                    (
-                      totalPriceWithTax +
-                      totalFragileCharge +
-                      eQuerierShippingCost
-                    ).toFixed(2)
-                  )
-                );
-                setShippingCost(eQuerierShippingCost);
-              } else if (deliveryMethod === "Pickup from showroom") {
-                setTotal(
-                  parseFloat(
-                    (totalPriceWithTax + showRoomShippingCost).toFixed(2)
-                  )
-                );
-                setShippingCost(showRoomShippingCost);
-              }
-            }
-          }
-        }
-      } else {
-        if (countryData) {
-          let shippingChargeForSelectedCountry;
-          for (const item of countryData) {
-            if (
-              item.country_code === shippingCountry &&
-              item.country_code !== "BD"
-            ) {
-              shippingChargeForSelectedCountry = JSON.parse(
-                item.shipping_charge
-              )?.amount;
-              break;
-            }
-          }
-          setDhlShippingCost(shippingChargeForSelectedCountry);
-          if (deliveryMethod === "DHL") {
-            setTotal(
-              parseFloat(
-                (
-                  totalPriceWithTax +
-                  totalFragileCharge +
-                  dhlShippingCost
-                ).toFixed(2)
-              )
+    setShippingCost(0);
+    setShippingCostOrg(0);
+    setPathaoShippingCost(0);
+    setEQuerierShippingCost(0);
+    setEQuerierShippingCostOrg(0);
+    setDhlShippingCost(0);
+    setShowRoomShippingCost(0);
+    if (deliveryMethod === "E-Courier") {
+      setTotal(parseFloat((totalPriceWithTax + totalFragileCharge).toFixed(2)));
+    } else {
+      setTotal(parseFloat(totalPriceWithTax.toFixed(2)));
+    }
+    if (countrySh === "Bangladesh" || distict1 === "Bangladesh") {
+      if (cityAddressSh) {
+        const refinedCity = cityAddressSh.split(" ")[0];
+        if (refinedCity === "Dhaka") {
+          if (countryData) {
+            let pathao, e_courier;
+            const targetCoverage = "Inside Dhaka";
+            const applicablePackages = eCourierCharge.filter(
+              (item) => item.coverage_id === targetCoverage
             );
-            setShippingCost(dhlShippingCost);
+            let applicablePackage = null;
+
+            for (const pkg of applicablePackages) {
+              const [minWeight, maxWeight] = pkg.weightrange
+                .split("-")
+                .map(Number);
+              if (
+                totalProductWeight >= minWeight &&
+                totalProductWeight <= maxWeight
+              ) {
+                applicablePackage = pkg;
+                break;
+              }
+            }
+            if (applicablePackage) {
+              setEQuerierShippingCost(
+                convertPrice(applicablePackage.shipping_charge)
+              );
+              setEQuerierShippingCostOrg(applicablePackage.shipping_charge);
+              setEQuerierPackagesCode(applicablePackage?.package_code);
+            } else {
+              const maxWeightPackage = applicablePackages.reduce(
+                (prev, curr) => {
+                  return curr.shipping_charge > prev.shipping_charge
+                    ? curr
+                    : prev;
+                }
+              );
+
+              const extraWeight = Math.ceil(
+                (totalProductWeight -
+                  maxWeightPackage.weightrange.split("-")[1]) /
+                  1000
+              );
+              const additionalCharge = extraWeight * fixedCharge;
+
+              setEQuerierShippingCost(
+                convertPrice(
+                  maxWeightPackage.shipping_charge + additionalCharge
+                )
+              );
+              setEQuerierShippingCostOrg(
+                maxWeightPackage.shipping_charge + additionalCharge
+              );
+              setEQuerierPackagesCode(maxWeightPackage?.package_code);
+            }
+
+            setPathaoShippingCost(pathao);
+
+            if (deliveryMethod === "Pathao") {
+              setTotal(
+                parseFloat((totalPriceWithTax + pathaoShippingCost).toFixed(2))
+              );
+              setShippingCost(pathaoShippingCost);
+              setShippingCostOrg(pathaoShippingCost);
+            } else if (deliveryMethod === "E-Courier") {
+              setTotal(
+                parseFloat(
+                  (
+                    totalPriceWithTax +
+                    totalFragileCharge +
+                    eQuerierShippingCost
+                  ).toFixed(2)
+                )
+              );
+              setShippingCost(eQuerierShippingCost);
+              setShippingCostOrg(eQuerierShippingCostOrg);
+            } else if (deliveryMethod === "Pickup from showroom") {
+              setTotal(
+                parseFloat(
+                  (totalPriceWithTax + showRoomShippingCost).toFixed(2)
+                )
+              );
+              setShippingCost(showRoomShippingCost);
+              setShippingCostOrg(showRoomShippingCost);
+            }
+          }
+        } else {
+          if (countryData) {
+            let pathao, e_courier;
+            const targetCoverage = "Outside Dhaka";
+            const applicablePackages = eCourierCharge.filter(
+              (item) => item.coverage_id === targetCoverage
+            );
+            let applicablePackage = null;
+
+            for (const pkg of applicablePackages) {
+              const [minWeight, maxWeight] = pkg.weightrange
+                .split("-")
+                .map(Number);
+
+              if (
+                totalProductWeight >= minWeight &&
+                totalProductWeight <= maxWeight
+              ) {
+                applicablePackage = pkg;
+                break;
+              }
+            }
+            if (applicablePackage) {
+              setEQuerierShippingCost(
+                convertPrice(applicablePackage.shipping_charge)
+              );
+              setEQuerierShippingCostOrg(applicablePackage.shipping_charge);
+              setEQuerierPackagesCode(applicablePackage?.package_code);
+            } else {
+              const maxWeightPackage = applicablePackages.reduce(
+                (prev, curr) => {
+                  return curr.shipping_charge > prev.shipping_charge
+                    ? curr
+                    : prev;
+                }
+              );
+
+              const extraWeight = Math.ceil(
+                (totalProductWeight -
+                  maxWeightPackage.weightrange.split("-")[1]) /
+                  1000
+              );
+              const additionalCharge = extraWeight * fixedCharge;
+
+              setEQuerierShippingCost(
+                convertPrice(
+                  maxWeightPackage.shipping_charge + additionalCharge
+                )
+              );
+              setEQuerierShippingCostOrg(
+                maxWeightPackage.shipping_charge + additionalCharge
+              );
+              setEQuerierPackagesCode(maxWeightPackage?.package_code);
+            }
+            setPathaoShippingCost(pathao);
+            // setEQuerierShippingCost(e_courier);
+            if (deliveryMethod === "Pathao") {
+              setTotal(
+                parseFloat((totalPriceWithTax + pathaoShippingCost).toFixed(2))
+              );
+              setShippingCost(pathaoShippingCost);
+              setShippingCostOrg(pathaoShippingCost);
+            } else if (deliveryMethod === "E-Courier") {
+              setTotal(
+                parseFloat(
+                  (
+                    totalPriceWithTax +
+                    totalFragileCharge +
+                    eQuerierShippingCost
+                  ).toFixed(2)
+                )
+              );
+              setShippingCost(eQuerierShippingCost);
+              setShippingCostOrg(eQuerierShippingCostOrg);
+            } else if (deliveryMethod === "Pickup from showroom") {
+              setTotal(
+                parseFloat(
+                  (totalPriceWithTax + showRoomShippingCost).toFixed(2)
+                )
+              );
+              setShippingCost(showRoomShippingCost);
+              setShippingCostOrg(showRoomShippingCost);
+            }
           }
         }
       }
     } else {
+      if (countryData) {
+        let shippingChargeForSelectedCountry;
+        for (const item of countryData) {
+          if (
+            item.country_code === shippingCountry &&
+            item.country_code !== "BD"
+          ) {
+            shippingChargeForSelectedCountry = JSON.parse(
+              item.shipping_charge
+            )?.amount;
+            break;
+          }
+        }
+        setDhlShippingCost(convertPrice(shippingChargeForSelectedCountry));
+        if (deliveryMethod === "DHL") {
+          setTotal(
+            parseFloat(
+              (
+                totalPriceWithTax +
+                totalFragileCharge +
+                dhlShippingCost
+              ).toFixed(2)
+            )
+          );
+          setShippingCost(dhlShippingCost);
+          setShippingCostOrg(dhlShippingCost);
+        }
+      }
+    }
+    /* else {
       setShippingCost(0);
       setPathaoShippingCost(0);
       setEQuerierShippingCost(0);
@@ -788,6 +819,7 @@ const checkout = () => {
                 setEQuerierShippingCost(
                   convertPrice(applicablePackage.shipping_charge)
                 );
+                setEQuerierShippingCostOrg(applicablePackage.shipping_charge);
                 setEQuerierPackagesCode(applicablePackage?.package_code);
               } else {
                 const maxWeightPackage = applicablePackages.reduce(
@@ -809,6 +841,9 @@ const checkout = () => {
                   convertPrice(
                     maxWeightPackage.shipping_charge + additionalCharge
                   )
+                );
+                setEQuerierShippingCostOrg(
+                  maxWeightPackage.shipping_charge + additionalCharge
                 );
                 setEQuerierPackagesCode(maxWeightPackage?.package_code);
               }
@@ -844,14 +879,7 @@ const checkout = () => {
           } else {
             if (countryData) {
               let pathao, e_courier;
-              /* for (const item of countryData) {
-                if (item.shipping_charge.includes("outside_city")) {
-                  const shippingChargeObj = JSON.parse(item.shipping_charge);
-                  pathao = shippingChargeObj.outside_city.pathao;
-                  e_courier = shippingChargeObj.outside_city.e_courier;
-                  break;
-                }
-              } */
+
               const targetCoverage = "Outside Dhaka";
               const applicablePackages = eCourierCharge.filter(
                 (item) => item.coverage_id === targetCoverage
@@ -875,6 +903,7 @@ const checkout = () => {
                 setEQuerierShippingCost(
                   convertPrice(applicablePackage.shipping_charge)
                 );
+                setEQuerierShippingCostOrg(applicablePackage.shipping_charge);
                 setEQuerierPackagesCode(applicablePackage?.package_code);
               } else {
                 const maxWeightPackage = applicablePackages.reduce(
@@ -896,6 +925,9 @@ const checkout = () => {
                   convertPrice(
                     maxWeightPackage.shipping_charge + additionalCharge
                   )
+                );
+                setEQuerierShippingCostOrg(
+                  maxWeightPackage.shipping_charge + additionalCharge
                 );
                 setEQuerierPackagesCode(maxWeightPackage?.package_code);
               }
@@ -944,7 +976,7 @@ const checkout = () => {
               break;
             }
           }
-          setDhlShippingCost(shippingChargeForSelectedCountry);
+          setDhlShippingCost(convertPrice(shippingChargeForSelectedCountry));
           if (deliveryMethod === "DHL") {
             setTotal(
               parseFloat(
@@ -959,7 +991,7 @@ const checkout = () => {
           }
         }
       }
-    }
+    } */
   }, [
     showInputField,
     townBilling,
@@ -973,6 +1005,8 @@ const checkout = () => {
     distict1,
     deliveryMethod,
     eQuerierShippingCost,
+    dhlShippingCost,
+    pathaoShippingCost,
     convertedCart,
   ]);
   // console.log("your log output", eQuerierPackagesCode);
@@ -1077,50 +1111,52 @@ const checkout = () => {
     orderResponseGuest,
     guestOrderLoading,
   ]);
+
   useEffect(() => {
-    if (showInputField === true) {
-      setValue("first_name_shipping", firstName);
-      setValue("last_name_shipping", lastName);
-      setValue("street_address_shipping", streetAddress);
-      setValue("apartment_address_shipping", apartmentAddress);
-      setValue("city_shipping", cityAddress);
-      setValue("country_shipping", country);
-      setValue("post_code_shipping", postBilling);
-      setValue("phone_shipping", phoneBilling);
-      setValue("email_shipping", emailBilling);
-      setDistict1(country);
-      setTownBillingSh(cityAddress);
+    if (showInputField === true || paymentMethod === "cash") {
+      setValue("first_name_billing", firstNameSh);
+      setValue("last_name_billing", lastNameSh);
+      setValue("street_address_billing", streetAddressSh);
+      setValue("apartment_address_billing", apartmentAddressSh);
+      setValue("city_billing", cityAddressSh);
+      setValue("country_billing", countrySh);
+      setValue("post_code_billing", postBillingSh);
+      setValue("phone_billing", phoneBillingSh);
+      setValue("email_billing", emailBillingSh);
+      setDistict(countrySh);
+      setTownBilling(cityAddressSh);
     } else if (
       showInputField === false &&
       isAddressListDataShipping === false
     ) {
-      setValue("first_name_shipping", "");
-      setValue("last_name_shipping", "");
-      setValue("street_address_shipping", "");
-      setValue("apartment_address_shipping", "");
-      setValue("city_shipping", "");
-      setValue("country_shipping", "");
-      setValue("post_code_shipping", "");
-      setValue("phone_shipping", "");
-      setValue("email_shipping", "");
-      setDistict1("Select Country");
-      setTownBillingSh("Select Town/City");
+      setValue("first_name_billing", "");
+      setValue("last_name_billing", "");
+      setValue("street_address_billing", "");
+      setValue("apartment_address_billing", "");
+      setValue("city_billing", "");
+      setValue("country_billing", "");
+      setValue("post_code_billing", "");
+      setValue("phone_billing", "");
+      setValue("email_billing", "");
+      setDistict("Select Country");
+      setTownBilling("Select Town/City");
     }
   }, [
     showInputField,
-    country,
-    distict,
-    townBilling,
-    cityAddress,
-    firstName,
-    lastName,
-    streetAddress,
-    apartmentAddress,
-    cityAddress,
-    country,
-    postBilling,
-    phoneBilling,
-    emailBilling,
+    distict1,
+    townBillingSh,
+    cityAddressSh,
+    firstNameSh,
+    lastNameSh,
+    streetAddressSh,
+    apartmentAddressSh,
+    cityAddressSh,
+    countrySh,
+    postBillingSh,
+    phoneBillingSh,
+    emailBillingSh,
+    paymentMethod,
+    isSameAddressChecked,
   ]);
 
   useEffect(() => {
@@ -1155,6 +1191,41 @@ const checkout = () => {
     if (isSameAddressChecked === false) {
       setEnable(true);
       if (
+        firstNameSh &&
+        lastNameSh &&
+        streetAddressSh &&
+        cityAddressSh &&
+        countrySh &&
+        phoneBillingSh &&
+        emailBillingSh &&
+        deliveryMethod &&
+        paymentMethod &&
+        termsAndCondition
+      ) {
+        setEnable(false);
+      }
+    }
+    if (isSameAddressChecked === true) {
+      setEnable(true);
+      if (
+        firstNameSh &&
+        lastNameSh &&
+        streetAddressSh &&
+        cityAddressSh &&
+        countrySh &&
+        phoneBillingSh &&
+        emailBillingSh &&
+        deliveryMethod &&
+        paymentMethod &&
+        termsAndCondition
+      ) {
+        setEnable(false);
+      }
+    }
+
+    if (isSameAddressChecked === false && paymentMethod === "online") {
+      setEnable(true);
+      if (
         firstName &&
         lastName &&
         streetAddress &&
@@ -1176,40 +1247,24 @@ const checkout = () => {
         setEnable(false);
       }
     }
-    if (isSameAddressChecked === true) {
-      setEnable(true);
-      if (
-        firstName &&
-        lastName &&
-        streetAddress &&
-        cityAddress &&
-        country &&
-        phoneBilling &&
-        emailBilling &&
-        deliveryMethod &&
-        paymentMethod &&
-        termsAndCondition
-      ) {
-        setEnable(false);
-      }
-    }
   }, [
     isSameAddressChecked,
     firstName,
     lastName,
-    streetAddress,
-    apartmentAddress,
     cityAddress,
     country,
+    streetAddress,
+    apartmentAddress,
     postBilling,
     phoneBilling,
     emailBilling,
     firstNameSh,
     lastNameSh,
-    streetAddressSh,
-    apartmentAddressSh,
     cityAddressSh,
     countrySh,
+    streetAddressSh,
+    apartmentAddressSh,
+    postBillingSh,
     phoneBillingSh,
     emailBillingSh,
     orderNote,
@@ -1267,370 +1322,20 @@ const checkout = () => {
               xs={12}
               columnGap={5}
               rowGap={4}
-              sx={{ width: "90%", mx: "auto" }}
+              sx={{ width: "100%", mx: "auto" }}
+              justifyContent={"center"}
             >
-              {/* Billing form */}
-              <Grid item lg={4} sx={{ width: "100%" }}>
-                <Typography variant="header1" color="initial">
-                  BILLING DETAILS
-                </Typography>
-                <Stack direction={"row"} spacing={1} mt={3.8}>
-                  <Typography
-                    variant="cardLocation123"
-                    color="#7E7250"
-                    onClick={() => handleAddressStatusBilling()}
-                    className="SemiBold"
-                    sx={{
-                      textDecoration: "underline",
-                      textUnderlineOffset: ".3rem",
-                      color: "initial",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Add New or Existing Billing Address
+              <Grid item lg={7} sx={{ width: "100%" }}>
+                {/* Shipping form */}
+                <Grid item lg={12} sx={{ width: "100%" }}>
+                  <Typography variant="header1" color="initial">
+                    SHIPPING DETAILS
                   </Typography>
-                </Stack>
-
-                <Stack direction={"column"} spacing={2} mt={{ lg: 2.5 }}>
-                  <Typography variant="cardHeader1" color="initial">
-                    FIRST NAME *
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    {...register("first_name_billing", {
-                      required: {
-                        value: true,
-                        message: "First Name Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("first_name_billing")}
-                    error={Boolean(errors.first_name_billing)}
-                    // onChange={}
-                    placeholder="First Name *"
-                    size="small"
-                  />
-                  {errors.first_name_billing && (
-                    <p style={{ color: "red" }}>
-                      {errors.first_name_billing?.message}
-                    </p>
-                  )}
-                </Stack>
-
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    LAST NAME *
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("last_name_billing", {
-                      required: {
-                        value: true,
-                        message: "Last Name Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("last_name_billing")}
-                    error={Boolean(errors.last_name_billing)}
-                    placeholder="Last Name *"
-                    size="small"
-                  />
-                  {errors.last_name_billing && (
-                    <p style={{ color: "red" }}>
-                      {errors.last_name_billing?.message}
-                    </p>
-                  )}
-                </Stack>
-
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    COUNTRY *
-                  </Typography>
-                  <Select
-                    id="country_billing"
-                    {...register("country_billing", {
-                      required: {
-                        value: true,
-                        message: "Country is Required",
-                      },
-                    })}
-                    className="custom"
-                    onClick={() => trigger("country_billing")}
-                    error={Boolean(errors.country_billing)}
-                    size="small"
-                    value={distict}
-                    onChange={handleSelectChange}
-                  >
-                    <MenuItem value={"Select Country"} disabled>
-                      Select Country
-                    </MenuItem>
-                    {countryData?.map((country, index) => (
-                      <MenuItem
-                        key={index}
-                        value={country.country_name}
-                        onClick={() =>
-                          handleBillingCountry(country?.country_code)
-                        }
-                      >
-                        {country.country_name}
-                      </MenuItem>
-                    ))}
-
-                    {/* <MenuItem value={"India"}>India</MenuItem> */}
-                  </Select>
-                  {errors.country_billing && (
-                    <p style={{ color: "red" }}>
-                      {errors.country_billing?.message}
-                    </p>
-                  )}
-                  {/* <Select label="Age"  /> */}
-                </Stack>
-
-                <Stack
-                  direction={"column"}
-                  spacing={2}
-                  mt={3}
-                  className="custom"
-                >
-                  <Typography variant="cardHeader1" color="initial">
-                    TOWN / CITY *
-                  </Typography>
-
-                  {billingCityLoading ? (
-                    <Stack
-                      border={"1px solid gray"}
-                      borderRadius={"5px"}
-                      direction={"rwo"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                    >
-                      <Typography sx={{ marginLeft: "10px" }}>
-                        Collecting Cities
-                      </Typography>
-                      <CircularProgress
-                        sx={{ color: "#3C5676", marginRight: "10px" }}
-                      />
-                    </Stack>
-                  ) : (
-                    <Select
-                      id="city_billing"
-                      {...register("city_billing", {
-                        required: {
-                          value: true,
-                          message: "Town/City is Required",
-                        },
-                      })}
-                      onClick={() => trigger("city_billing")}
-                      error={Boolean(errors.city_billing)}
-                      size="small"
-                      value={townBilling}
-                      sx={customStyle}
-                      onChange={handleSelectChangeTownBilling}
-                    >
-                      <MenuItem value={"Select Town/City"} disabled>
-                        Select Town/City
-                      </MenuItem>
-                      {isAddressListDataBilling ? (
-                        <MenuItem value={townBilling}>{townBilling}</MenuItem>
-                      ) : (
-                        billingCities?.map((towns) => (
-                          <MenuItem value={towns}>{towns}</MenuItem>
-                        ))
-                      )}
-
-                      {/* <MenuItem value={"India"}>India</MenuItem> */}
-                    </Select>
-                  )}
-
-                  {errors.city_billing && (
-                    <p style={{ color: "red" }}>
-                      {errors.city_billing?.message}
-                    </p>
-                  )}
-                </Stack>
-
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    STREET ADDRESS *
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("street_address_billing", {
-                      required: {
-                        value: true,
-                        message: "House and Street Address Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("street_address_billing")}
-                    error={Boolean(errors.street_address_billing)}
-                    placeholder="House Number and street name"
-                    size="small"
-                  />
-                  {errors.street_address_billing && (
-                    <p style={{ color: "red" }}>
-                      {errors.street_address_billing?.message}
-                    </p>
-                  )}
-                </Stack>
-
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    APARTMENT ADDRESS (OPTIONAL)
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("apartment_address_billing", {
-                      required: {
-                        value: false,
-                        message: "Apartment Address Required",
-                      },
-                    })}
-                    // onSelect={(e) => setBillingTown(e.target.value)}
-                    onKeyUp={() => trigger("apartment_address_billing")}
-                    error={Boolean(errors.apartment_address_billing)}
-                    placeholder="Apartment suite, unit, etc."
-                    size="small"
-                  />
-                  {errors.apartment_address_billing && (
-                    <p style={{ color: "red" }}>
-                      {errors.apartment_address_billing?.message}
-                    </p>
-                  )}
-                </Stack>
-
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    POSTCODE / ZIP (OPTIONAL)
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("post_code_billing", {
-                      required: {
-                        value: false,
-                        message: "Enter Post Code",
-                      },
-                    })}
-                    error={Boolean(errors.post_code_billing)}
-                    placeholder="Postcode / zip (Optional)"
-                    size="small"
-                  />
-                  {errors.post_code_billing && (
-                    <p style={{ color: "red" }}>
-                      {errors.post_code_billing?.message}
-                    </p>
-                  )}
-                </Stack>
-
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    PHONE *
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("phone_billing", {
-                      required: {
-                        value: true,
-                        message: "Phone Number is Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("phone_billing")}
-                    error={Boolean(errors.phone_billing)}
-                    placeholder="Phone *"
-                    size="small"
-                  />
-                  {errors.phone_billing && (
-                    <p style={{ color: "red" }}>
-                      {errors.phone_billing?.message}
-                    </p>
-                  )}
-                </Stack>
-
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    EMAIL ADDRESS *
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    // onChange={}
-                    {...register("email_billing", {
-                      required: {
-                        value: true,
-                        message: "Email Address is Required",
-                      },
-                      pattern: {
-                        value:
-                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: "This is not a valid email",
-                      },
-                    })}
-                    onKeyUp={() => trigger("email_billing")}
-                    error={Boolean(errors.email_billing)}
-                    placeholder="Email Address *"
-                    size="small"
-                  />
-                  {errors.email_billing && (
-                    <p style={{ color: "red" }}>
-                      {errors.email_billing?.message}
-                    </p>
-                  )}
-                </Stack>
-              </Grid>
-
-              {/* Shipping Form */}
-              <Grid item lg={4} sx={{ width: "100%" }}>
-                <Typography variant="header1" color="initial">
-                  SHIPPING DETAILS
-                </Typography>
-                <Stack
-                  direction={"column"}
-                  spacing={2}
-                  sx={{ marginTop: "17px" }}
-                >
-                  <Stack
-                    direction={"row"}
-                    justifyContent="left"
-                    alignItems="center"
-                    mt={1}
-                    spacing={1}
-                  >
-                    <input
-                      autoComplete="off"
-                      type="checkbox"
-                      {...register("isSameAddress")}
-                      // name="isSameAddress"
-                      control={control}
-                      id=""
-                      onClick={() => handleSameAddressSelected()}
-                    />
-                    <Typography
-                      variant="cardLocation123"
-                      className="SemiBold"
-                      color="initial"
-                    >
-                      Same As Billing Address.
-                    </Typography>
-                    <b>/</b>
+                  <Stack direction={"row"} spacing={1} mt={3.8}>
                     <Typography
                       variant="cardLocation123"
                       color="#7E7250"
-                      onClick={() => handleAddressStatusShipping()}
+                      onClick={() => handleAddressStatusBilling()}
                       className="SemiBold"
                       sx={{
                         textDecoration: "underline",
@@ -1639,399 +1344,909 @@ const checkout = () => {
                         cursor: "pointer",
                       }}
                     >
-                      Add New or Existing Shipping Address
+                      Add New or Existing Billing Address
                     </Typography>
                   </Stack>
-                  <Typography variant="cardHeader1" color="initial">
-                    FIRST NAME *
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    autoComplete="off"
-                    {...register("first_name_shipping", {
-                      required: {
-                        value: isSameAddressChecked === false ? true : false,
-                        message: "First Name Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("first_name_shipping")}
-                    error={Boolean(errors.first_name_shipping)}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    placeholder={
-                      isSameAddressChecked === false
-                        ? "First Name *"
-                        : firstName
-                    }
-                    size="small"
-                    sx={customStyle}
-                  />
-                  {errors.first_name_shipping &&
-                    isSameAddressChecked === false && (
-                      <p style={{ color: "red" }}>
-                        {errors.first_name_shipping?.message}
-                      </p>
-                    )}
-                </Stack>
 
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    LAST NAME *
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    autoComplete="off"
-                    {...register("last_name_shipping", {
-                      required: {
-                        value: isSameAddressChecked === false ? true : false,
-                        message: "Last Name Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("last_name_shipping")}
-                    error={Boolean(errors.last_name_shipping)}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    placeholder={
-                      isSameAddressChecked === false ? "Last Name *" : lastName
-                    }
-                    size="small"
-                    sx={customStyle}
-                  />
-                  {errors.last_name_shipping &&
-                    isSameAddressChecked === false && (
-                      <p style={{ color: "red" }}>
-                        {errors.last_name_shipping?.message}
-                      </p>
-                    )}
-                </Stack>
+                  <Stack mt={5}>
+                    <Typography variant="cardHeader1" color="initial">
+                      FIRST NAME *
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      autoComplete="off"
+                      {...register("first_name_shipping", {
+                        required: {
+                          value: true,
+                          message: "First Name Required",
+                        },
+                      })}
+                      onKeyUp={() => trigger("first_name_shipping")}
+                      error={Boolean(errors.first_name_shipping)}
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "First Name *"
+                          : firstName
+                      }
+                      size="small"
+                      sx={customStyle}
+                    />
+                    {errors.first_name_shipping &&
+                      isSameAddressChecked === false && (
+                        <p style={{ color: "red" }}>
+                          {errors.first_name_shipping?.message}
+                        </p>
+                      )}
+                  </Stack>
 
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    COUNTRY *
-                  </Typography>
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      LAST NAME *
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      autoComplete="off"
+                      {...register("last_name_shipping", {
+                        required: {
+                          value: true,
+                          message: "Last Name Required",
+                        },
+                      })}
+                      onKeyUp={() => trigger("last_name_shipping")}
+                      error={Boolean(errors.last_name_shipping)}
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "Last Name *"
+                          : lastName
+                      }
+                      size="small"
+                      sx={customStyle}
+                    />
+                    {errors.last_name_shipping &&
+                      isSameAddressChecked === false && (
+                        <p style={{ color: "red" }}>
+                          {errors.last_name_shipping?.message}
+                        </p>
+                      )}
+                  </Stack>
 
-                  <Select
-                    autoComplete="off"
-                    {...register("country_shipping", {
-                      required: {
-                        value: isSameAddressChecked === false ? true : false,
-                        message: "Country is Required",
-                      },
-                    })}
-                    sx={customStyle}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    onClick={() => trigger("country_shipping")}
-                    error={Boolean(errors.country_shipping)}
-                    id="country_shipping"
-                    size="small"
-                    value={isSameAddressChecked === false ? distict1 : distict}
-                    onChange={handleSelectChangeShipping}
-                  >
-                    <MenuItem value={"Select Country"} disabled>
-                      Select Country
-                    </MenuItem>
-                    {countryData?.map((country, index) => (
-                      <MenuItem
-                        key={index}
-                        value={country.country_name}
-                        onClick={() =>
-                          handleShippingCountry(country?.country_code)
-                        }
-                      >
-                        {country.country_name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {errors.country_shipping &&
-                    isSameAddressChecked === false && (
-                      <p style={{ color: "red" }}>
-                        {errors.country_shipping?.message}
-                      </p>
-                    )}
-                </Stack>
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      COUNTRY *
+                    </Typography>
 
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    TOWN / CITY *
-                  </Typography>
-                  {shippingCityLoading ? (
-                    <Stack
-                      border={"1px solid gray"}
-                      borderRadius={"5px"}
-                      direction={"rwo"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                    >
-                      <Typography sx={{ marginLeft: "10px" }}>
-                        Collecting Cities
-                      </Typography>
-                      <CircularProgress
-                        sx={{ color: "#3C5676", marginRight: "10px" }}
-                      />
-                    </Stack>
-                  ) : (
                     <Select
                       autoComplete="off"
-                      {...register("city_shipping", {
+                      {...register("country_shipping", {
                         required: {
-                          value: isSameAddressChecked === false ? true : false,
-                          message: "Town/City is Required",
+                          value: true,
+                          message: "Country is Required",
                         },
                       })}
                       sx={customStyle}
-                      disabled={isSameAddressChecked === false ? false : true}
-                      onClick={() => trigger("city_shipping")}
-                      error={Boolean(errors.city_shipping)}
-                      id="city_shipping"
+                      onClick={() => trigger("country_shipping")}
+                      error={Boolean(errors.country_shipping)}
+                      id="country_shipping"
                       size="small"
-                      value={townBillingSh}
-                      onChange={handleSelectChangeTownShipping}
+                      value={distict1}
+                      onChange={handleSelectChangeShipping}
                     >
-                      <MenuItem value={"Select Town/City"} disabled>
-                        Select Town/City
+                      <MenuItem value={"Select Country"} disabled>
+                        Select Country
                       </MenuItem>
-                      {isSameAddressChecked === true ? (
-                        <MenuItem value={townBillingSh}>
-                          {townBillingSh}
+                      {countryData?.map((country, index) => (
+                        <MenuItem
+                          key={index}
+                          value={country.country_name}
+                          onClick={() =>
+                            handleShippingCountry(country?.country_code)
+                          }
+                        >
+                          {country.country_name}
                         </MenuItem>
-                      ) : isAddressListDataShipping === true ? (
-                        <MenuItem value={townBillingSh}>
-                          {townBillingSh}
-                        </MenuItem>
-                      ) : (
-                        shippingCities?.map((towns) => (
-                          <MenuItem value={towns}>{towns}</MenuItem>
-                        ))
-                      )}
+                      ))}
                     </Select>
-                  )}
+                    {errors.country_shipping &&
+                      isSameAddressChecked === false && (
+                        <p style={{ color: "red" }}>
+                          {errors.country_shipping?.message}
+                        </p>
+                      )}
+                  </Stack>
 
-                  {errors.city_shipping && isSameAddressChecked === false && (
-                    <p style={{ color: "red" }}>
-                      {errors.city_shipping?.message}
-                    </p>
-                  )}
-                </Stack>
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      TOWN / CITY *
+                    </Typography>
+                    {shippingCityLoading ? (
+                      <Stack
+                        border={"1px solid gray"}
+                        borderRadius={"5px"}
+                        direction={"rwo"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        <Typography sx={{ marginLeft: "10px" }}>
+                          Collecting Cities
+                        </Typography>
+                        <CircularProgress
+                          sx={{ color: "#3C5676", marginRight: "10px" }}
+                        />
+                      </Stack>
+                    ) : (
+                      <Select
+                        autoComplete="off"
+                        {...register("city_shipping", {
+                          required: {
+                            value: true,
+                            message: "Town/City is Required",
+                          },
+                        })}
+                        sx={customStyle}
+                        onClick={() => trigger("city_shipping")}
+                        error={Boolean(errors.city_shipping)}
+                        id="city_shipping"
+                        size="small"
+                        value={townBillingSh}
+                        onChange={handleSelectChangeTownShipping}
+                      >
+                        <MenuItem value={"Select Town/City"} disabled>
+                          Select Town/City
+                        </MenuItem>
+                        {isAddressListDataShipping === true ? (
+                          <MenuItem value={townBillingSh}>
+                            {townBillingSh}
+                          </MenuItem>
+                        ) : (
+                          shippingCities?.map((towns) => (
+                            <MenuItem value={towns}>{towns}</MenuItem>
+                          ))
+                        )}
+                      </Select>
+                    )}
 
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    STREET ADDRESS *
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    autoComplete="off"
-                    {...register("street_address_shipping", {
-                      required: {
-                        value: isSameAddressChecked === false ? true : false,
-                        message: "House and Street Address Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("street_address_shipping")}
-                    error={Boolean(errors.street_address_shipping)}
-                    // onChange={}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    placeholder={
-                      isSameAddressChecked === false
-                        ? "House Number and street name"
-                        : streetAddress
-                    }
-                    // placeholder="House Number and street name"
-                    size="small"
-                    sx={customStyle}
-                  />
-                  {errors.street_address_shipping &&
-                    isSameAddressChecked === false && (
+                    {errors.city_shipping && isSameAddressChecked === false && (
                       <p style={{ color: "red" }}>
-                        {errors.street_address_shipping?.message}
+                        {errors.city_shipping?.message}
                       </p>
                     )}
-                </Stack>
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    APARTMENT ADDRESS (OPTIONAL)
-                  </Typography>
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    autoComplete="off"
-                    {...register("apartment_address_shipping", {
-                      required: {
-                        value: false,
-                        message: "Apartment Address Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("apartment_address_shipping")}
-                    error={Boolean(errors.apartment_address_shipping)}
-                    // onChange={}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    placeholder={
-                      isSameAddressChecked === false
-                        ? "Apartment suite, unit, etc."
-                        : apartmentAddress
-                    }
-                    // placeholder="Apartment suite, unit, etc."
-                    size="small"
-                    sx={customStyle}
-                  />
-                  {errors.apartment_address_shipping &&
-                    isSameAddressChecked === false && (
-                      <p style={{ color: "red" }}>
-                        {errors.apartment_address_shipping?.message}
-                      </p>
-                    )}
-                </Stack>
+                  </Stack>
 
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    POSTCODE / ZIP (OPTIONAL)
-                  </Typography>
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      STREET ADDRESS *
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      autoComplete="off"
+                      {...register("street_address_shipping", {
+                        required: {
+                          value: true,
+                          message: "House and Street Address Required",
+                        },
+                      })}
+                      onKeyUp={() => trigger("street_address_shipping")}
+                      error={Boolean(errors.street_address_shipping)}
+                      // onChange={}
 
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    autoComplete="off"
-                    {...register("post_code_shipping", {
-                      required: {
-                        value: false,
-                        message: "Post Code Required",
-                      },
-                    })}
-                    error={Boolean(errors.post_code_shipping)}
-                    // onChange={}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    placeholder={
-                      isSameAddressChecked === false
-                        ? "Postcode / zip (Optional)"
-                        : postBilling
-                    }
-                    // placeholder="Postcode / zip (Optional)"
-                    size="small"
-                    sx={customStyle}
-                  />
-                  {errors.post_code_shipping &&
-                    isSameAddressChecked === false && (
-                      <p style={{ color: "red" }}>
-                        {errors.post_code_shipping?.message}
-                      </p>
-                    )}
-                </Stack>
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "House Number and street name"
+                          : streetAddress
+                      }
+                      // placeholder="House Number and street name"
+                      size="small"
+                      sx={customStyle}
+                    />
+                    {errors.street_address_shipping &&
+                      isSameAddressChecked === false && (
+                        <p style={{ color: "red" }}>
+                          {errors.street_address_shipping?.message}
+                        </p>
+                      )}
+                  </Stack>
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      APARTMENT ADDRESS (OPTIONAL)
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      autoComplete="off"
+                      {...register("apartment_address_shipping", {
+                        required: {
+                          value: false,
+                          message: "Apartment Address Required",
+                        },
+                      })}
+                      onKeyUp={() => trigger("apartment_address_shipping")}
+                      error={Boolean(errors.apartment_address_shipping)}
+                      // onChange={}
 
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    PHONE *
-                  </Typography>
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "Apartment suite, unit, etc."
+                          : apartmentAddress
+                      }
+                      // placeholder="Apartment suite, unit, etc."
+                      size="small"
+                      sx={customStyle}
+                    />
+                    {errors.apartment_address_shipping &&
+                      isSameAddressChecked === false && (
+                        <p style={{ color: "red" }}>
+                          {errors.apartment_address_shipping?.message}
+                        </p>
+                      )}
+                  </Stack>
 
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    autoComplete="off"
-                    {...register("phone_shipping", {
-                      required: {
-                        value: isSameAddressChecked === false ? true : false,
-                        message: "Phone Number is Required",
-                      },
-                    })}
-                    onKeyUp={() => trigger("phone_shipping")}
-                    error={Boolean(errors.phone_shipping)}
-                    // onChange={}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    placeholder={
-                      isSameAddressChecked === false ? "Phone *" : phoneBilling
-                    }
-                    // placeholder="Phone *"
-                    size="small"
-                    sx={customStyle}
-                  />
-                  {errors.phone_shipping && isSameAddressChecked === false && (
-                    <p style={{ color: "red" }}>
-                      {errors.phone_shipping?.message}
-                    </p>
-                  )}
-                </Stack>
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      POSTCODE / ZIP (OPTIONAL)
+                    </Typography>
 
-                <Stack direction={"column"} spacing={2} mt={3}>
-                  <Typography variant="cardHeader1" color="initial">
-                    EMAIL ADDRESS *
-                  </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      autoComplete="off"
+                      {...register("post_code_shipping", {
+                        required: {
+                          value: false,
+                          message: "Post Code Required",
+                        },
+                      })}
+                      error={Boolean(errors.post_code_shipping)}
+                      // onChange={}
 
-                  <TextField
-                    // id=""
-                    // label=""
-                    // value={}
-                    autoComplete="off"
-                    {...register("email_shipping", {
-                      required: {
-                        value: isSameAddressChecked === false ? true : false,
-                        message: "Email Address is Required",
-                      },
-                      pattern: {
-                        value:
-                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: "This is not a valid email",
-                      },
-                    })}
-                    onKeyUp={() => trigger("email_shipping")}
-                    error={Boolean(errors.email_shipping)}
-                    // onChange={}
-                    disabled={isSameAddressChecked === false ? false : true}
-                    placeholder={
-                      isSameAddressChecked === false
-                        ? "Email Address *"
-                        : emailBilling
-                    }
-                    // placeholder="Email Address *"
-                    size="small"
-                    sx={customStyle}
-                  />
-                  {errors.email_shipping && isSameAddressChecked === false && (
-                    <p style={{ color: "red" }}>
-                      {errors.email_shipping?.message}
-                    </p>
-                  )}
-                </Stack>
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "Postcode / zip (Optional)"
+                          : postBilling
+                      }
+                      // placeholder="Postcode / zip (Optional)"
+                      size="small"
+                      sx={customStyle}
+                    />
+                    {errors.post_code_shipping &&
+                      isSameAddressChecked === false && (
+                        <p style={{ color: "red" }}>
+                          {errors.post_code_shipping?.message}
+                        </p>
+                      )}
+                  </Stack>
 
-                <Stack
-                  direction={"column"}
-                  spacing={2}
-                  sx={{ display: { xs: "", lg: "none" } }}
-                  mt={3}
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      PHONE *
+                    </Typography>
+
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      autoComplete="off"
+                      {...register("phone_shipping", {
+                        required: {
+                          value: true,
+                          message: "Phone Number is Required",
+                        },
+                      })}
+                      onKeyUp={() => trigger("phone_shipping")}
+                      error={Boolean(errors.phone_shipping)}
+                      // onChange={}
+
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "Phone *"
+                          : phoneBilling
+                      }
+                      // placeholder="Phone *"
+                      size="small"
+                      sx={customStyle}
+                    />
+                    {errors.phone_shipping &&
+                      isSameAddressChecked === false && (
+                        <p style={{ color: "red" }}>
+                          {errors.phone_shipping?.message}
+                        </p>
+                      )}
+                  </Stack>
+
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      EMAIL ADDRESS *
+                    </Typography>
+
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      autoComplete="off"
+                      {...register("email_shipping", {
+                        required: {
+                          value: true,
+                          message: "Email Address is Required",
+                        },
+                        pattern: {
+                          value:
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: "This is not a valid email",
+                        },
+                      })}
+                      onKeyUp={() => trigger("email_shipping")}
+                      error={Boolean(errors.email_shipping)}
+                      // onChange={}
+
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "Email Address *"
+                          : emailBilling
+                      }
+                      // placeholder="Email Address *"
+                      size="small"
+                      sx={customStyle}
+                    />
+                    {errors.email_shipping &&
+                      isSameAddressChecked === false && (
+                        <p style={{ color: "red" }}>
+                          {errors.email_shipping?.message}
+                        </p>
+                      )}
+                  </Stack>
+                </Grid>
+
+                {/* Billing Form */}
+                <Grid
+                  item
+                  mt={5}
+                  lg={12}
+                  sx={{
+                    width: "100%",
+                    display: `${paymentMethod === "online" ? "block" : "none"}`,
+                  }}
                 >
-                  <Typography variant="cardHeader1" color="initial">
-                    ORDER NOTES (OPTIONAL)
+                  <Typography variant="header1" color="initial">
+                    BILLING DETAILS
                   </Typography>
+                  <Stack
+                    direction={"column"}
+                    spacing={2}
+                    sx={{ marginTop: "17px" }}
+                  >
+                    <Stack
+                      direction={"row"}
+                      justifyContent="left"
+                      alignItems="center"
+                      mt={1}
+                      spacing={1}
+                    >
+                      <input
+                        autoComplete="off"
+                        type="checkbox"
+                        {...register("isSameAddress")}
+                        // name="isSameAddress"
+                        control={control}
+                        id=""
+                        onClick={() => handleSameAddressSelected()}
+                      />
+                      <Typography
+                        variant="cardLocation123"
+                        className="SemiBold"
+                        color="initial"
+                      >
+                        Same As Shipping Address.
+                      </Typography>
+                      <b>/</b>
+                      <Typography
+                        variant="cardLocation123"
+                        color="#7E7250"
+                        onClick={() => handleAddressStatusShipping()}
+                        className="SemiBold"
+                        sx={{
+                          textDecoration: "underline",
+                          textUnderlineOffset: ".3rem",
+                          color: "initial",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Add New or Existing Shipping Address
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                  <Stack direction={"column"} spacing={2} mt={{ lg: 2.5 }}>
+                    <Typography variant="cardHeader1" color="initial">
+                      FIRST NAME *
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      {...register("first_name_billing", {
+                        required: {
+                          value:
+                            isSameAddressChecked === false &&
+                            paymentMethod === "online"
+                              ? true
+                              : false,
+                          message: "First Name Required",
+                        },
+                      })}
+                      onKeyUp={() => trigger("first_name_billing")}
+                      error={Boolean(errors.first_name_billing)}
+                      disabled={isSameAddressChecked === false ? false : true}
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "First Name *"
+                          : firstNameSh
+                      }
+                      size="small"
+                    />
+                    {errors.first_name_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.first_name_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
 
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rows={4}
-                    autoComplete="off"
-                    onKeyUp={() => trigger("orderNote")}
-                    error={Boolean(errors.orderNote)}
-                    placeholder="Place your order note here."
-                    size="small"
-                    sx={customStyle}
-                  />
-                  {errors.orderNote && (
-                    <p style={{ color: "red" }}>{errors.orderNote?.message}</p>
-                  )}
-                </Stack>
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      LAST NAME *
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      // onChange={}
+                      {...register("last_name_billing", {
+                        required: {
+                          value:
+                            isSameAddressChecked === false &&
+                            paymentMethod === "online"
+                              ? true
+                              : false,
+                          message: "Last Name Required",
+                        },
+                      })}
+                      disabled={isSameAddressChecked === false ? false : true}
+                      onKeyUp={() => trigger("last_name_billing")}
+                      error={Boolean(errors.last_name_billing)}
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "Last Name *"
+                          : lastNameSh
+                      }
+                      size="small"
+                    />
+                    {errors.last_name_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.last_name_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      COUNTRY *
+                    </Typography>
+                    <Select
+                      id="country_billing"
+                      {...register("country_billing", {
+                        required: {
+                          value:
+                            isSameAddressChecked === false &&
+                            paymentMethod === "online"
+                              ? true
+                              : false,
+                          message: "Country is Required",
+                        },
+                      })}
+                      disabled={isSameAddressChecked === false ? false : true}
+                      className="custom"
+                      onClick={() => trigger("country_billing")}
+                      error={Boolean(errors.country_billing)}
+                      size="small"
+                      value={
+                        isSameAddressChecked === false ? distict : distict1
+                      }
+                      onChange={handleSelectChange}
+                    >
+                      <MenuItem value={"Select Country"} disabled>
+                        Select Country
+                      </MenuItem>
+                      {countryData?.map((country, index) => (
+                        <MenuItem
+                          key={index}
+                          value={country.country_name}
+                          onClick={() =>
+                            handleBillingCountry(country?.country_code)
+                          }
+                        >
+                          {country.country_name}
+                        </MenuItem>
+                      ))}
+
+                      {/* <MenuItem value={"India"}>India</MenuItem> */}
+                    </Select>
+                    {errors.country_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.country_billing?.message}
+                      </p>
+                    )}
+                    {/* <Select label="Age"  /> */}
+                  </Stack>
+
+                  <Stack
+                    direction={"column"}
+                    spacing={2}
+                    mt={3}
+                    className="custom"
+                    sx={customStyle2}
+                  >
+                    <Typography variant="cardHeader1" color="initial">
+                      TOWN / CITY *
+                    </Typography>
+
+                    {billingCityLoading ? (
+                      <Stack
+                        border={"1px solid gray"}
+                        borderRadius={"5px"}
+                        direction={"rwo"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        <Typography sx={{ marginLeft: "10px" }}>
+                          Collecting Cities
+                        </Typography>
+                        <CircularProgress
+                          sx={{ color: "#3C5676", marginRight: "10px" }}
+                        />
+                      </Stack>
+                    ) : (
+                      <Select
+                        id="city_billing"
+                        {...register("city_billing", {
+                          required: {
+                            value:
+                              isSameAddressChecked === false &&
+                              paymentMethod === "online"
+                                ? true
+                                : false,
+                            message: "Town/City is Required",
+                          },
+                        })}
+                        disabled={isSameAddressChecked === false ? false : true}
+                        onClick={() => trigger("city_billing")}
+                        error={Boolean(errors.city_billing)}
+                        size="small"
+                        value={
+                          isSameAddressChecked === false
+                            ? townBilling
+                            : townBillingSh
+                        }
+                        sx={customStyle}
+                        onChange={handleSelectChangeTownBilling}
+                      >
+                        <MenuItem value={"Select Town/City"} disabled>
+                          Select Town/City
+                        </MenuItem>
+                        {isSameAddressChecked === true ? (
+                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                        ) : isAddressListDataBilling ? (
+                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                        ) : (
+                          billingCities?.map((towns) => (
+                            <MenuItem value={towns}>{towns}</MenuItem>
+                          ))
+                        )}
+
+                        {/* <MenuItem value={"India"}>India</MenuItem> */}
+                      </Select>
+                    )}
+
+                    {errors.city_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.city_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      STREET ADDRESS *
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      // onChange={}
+                      {...register("street_address_billing", {
+                        required: {
+                          value:
+                            isSameAddressChecked === false &&
+                            paymentMethod === "online"
+                              ? true
+                              : false,
+                          message: "House and Street Address Required",
+                        },
+                      })}
+                      disabled={isSameAddressChecked === false ? false : true}
+                      onKeyUp={() => trigger("street_address_billing")}
+                      error={Boolean(errors.street_address_billing)}
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "House Number and street name"
+                          : streetAddressSh
+                      }
+                      size="small"
+                    />
+                    {errors.street_address_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.street_address_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      APARTMENT ADDRESS (OPTIONAL)
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      // onChange={}
+                      {...register("apartment_address_billing", {
+                        required: {
+                          value: false,
+                          message: "Apartment Address Required",
+                        },
+                      })}
+                      disabled={isSameAddressChecked === false ? false : true}
+                      onKeyUp={() => trigger("apartment_address_billing")}
+                      error={Boolean(errors.apartment_address_billing)}
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "Apartment suite, unit, etc."
+                          : apartmentAddressSh
+                      }
+                      size="small"
+                    />
+                    {errors.apartment_address_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.apartment_address_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      POSTCODE / ZIP (OPTIONAL)
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      // onChange={}
+                      {...register("post_code_billing", {
+                        required: {
+                          value: false,
+                          message: "Enter Post Code",
+                        },
+                      })}
+                      disabled={isSameAddressChecked === false ? false : true}
+                      error={Boolean(errors.post_code_billing)}
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "Postcode / zip (Optional)"
+                          : postBillingSh
+                      }
+                      size="small"
+                    />
+                    {errors.post_code_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.post_code_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      PHONE *
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      // onChange={}
+                      {...register("phone_billing", {
+                        required: {
+                          value:
+                            isSameAddressChecked === false &&
+                            paymentMethod === "online"
+                              ? true
+                              : false,
+                          message: "Phone Number is Required",
+                        },
+                      })}
+                      disabled={isSameAddressChecked === false ? false : true}
+                      onKeyUp={() => trigger("phone_billing")}
+                      error={Boolean(errors.phone_billing)}
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "Phone *"
+                          : phoneBilling
+                      }
+                      size="small"
+                    />
+                    {errors.phone_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.phone_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      EMAIL ADDRESS *
+                    </Typography>
+                    <TextField
+                      // id=""
+                      // label=""
+                      // value={}
+                      // onChange={}
+                      {...register("email_billing", {
+                        required: {
+                          value:
+                            isSameAddressChecked === false &&
+                            paymentMethod === "online"
+                              ? true
+                              : false,
+                          message: "Email Address is Required",
+                        },
+                        pattern: {
+                          value:
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: "This is not a valid email",
+                        },
+                      })}
+                      disabled={isSameAddressChecked === false ? false : true}
+                      onKeyUp={() => trigger("email_billing")}
+                      error={Boolean(errors.email_billing)}
+                      placeholder={
+                        isSameAddressChecked === false
+                          ? "Email Address *"
+                          : emailBilling
+                      }
+                      size="small"
+                    />
+                    {errors.email_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.email_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
+                </Grid>
+
+                {/* Order Notes */}
+                <Grid item mt={5} lg={12}>
+                  <Stack direction={"column"} spacing={2}>
+                    <Typography variant="cardHeader1" color="initial">
+                      ORDER NOTES (OPTIONAL)
+                    </Typography>
+
+                    <TextField
+                      id="standard-multiline-flexible"
+                      multiline
+                      rows={4}
+                      autoComplete="off"
+                      {...register("orderNote", {
+                        required: {
+                          value: false,
+                          message: "Place your order note here.",
+                        },
+                      })}
+                      onKeyUp={() => trigger("orderNote")}
+                      error={Boolean(errors.orderNote)}
+                      placeholder="Place your order note here."
+                      size="small"
+                      sx={customStyle}
+                    />
+                    {errors.orderNote && (
+                      <p style={{ color: "red" }}>
+                        {errors.orderNote?.message}
+                      </p>
+                    )}
+                  </Stack>
+                </Grid>
               </Grid>
-
               {/* Checkout Details sheet */}
-              <Grid item lg={3} mt={4} xs={12}>
+              <Grid item lg={3} mt={4} xs={12} sx={{ width: "100%" }}>
                 <Paper elevation={3} mb={1} sx={{ width: "100%" }}>
                   <Stack
                     sx={{ width: "100%", mx: "auto", p: 2 }}
                     direction={"column"}
                     spacing={2}
                   >
+                    <Stack
+                      direction={"row"}
+                      spacing={{ xs: 1, lg: 0, xl: 1 }}
+                      width="100%"
+                      justifyContent={"space-between"}
+                    >
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                      >
+                        PRODUCT
+                      </Typography>
+                      <Typography
+                        variant="cardHeader"
+                        color="initial"
+                        className="bold"
+                      >
+                        SUBTOTAL
+                        {/* {selectedCurrency} {totalPriceWithoutFragile} */}
+                      </Typography>
+                    </Stack>
+                    <Divider />
+
+                    <Stack direction={"column"} spacing={1}>
+                      {convertedCart?.cart?.map((item, index) => (
+                        <>
+                          <Stack
+                            key={index}
+                            direction={"row"}
+                            spacing={{ xs: 1, lg: 0, xl: 1 }}
+                            width="100%"
+                            justifyContent={"space-between"}
+                          >
+                            <Stack direction={"column"}>
+                              <Typography
+                                variant="cardHeader"
+                                color="initial"
+                                className="bold"
+                              >
+                                {item?.name}
+                              </Typography>
+                              <Typography
+                                variant="cardLocation1"
+                                color="gray"
+                                className="bold"
+                              >
+                                Quantity: {item?.amount}
+                              </Typography>
+                            </Stack>
+
+                            {/* <Typography
+                              variant="cardHeader"
+                              color="initial"
+                              className="bold"
+                            >
+                              
+                            </Typography> */}
+                            <Typography
+                              variant="cardHeader"
+                              color="initial"
+                              className="bold"
+                            >
+                              {selectedCurrency} {item?.totalPrice}
+                              {/* {selectedCurrency} {totalPriceWithoutFragile} */}
+                            </Typography>
+                          </Stack>
+                          <Divider />
+                        </>
+                      ))}
+                    </Stack>
+
                     <Stack
                       direction={"row"}
                       spacing={{ xs: 1, lg: 0, xl: 1 }}
@@ -2241,7 +2456,7 @@ const checkout = () => {
                                 </Typography>
                               }
                             />
-                            <FormControlLabel
+                            {/* <FormControlLabel
                               value="cash"
                               control={<Radio />}
                               label={
@@ -2253,8 +2468,8 @@ const checkout = () => {
                                   Cash On Delivery
                                 </Typography>
                               }
-                            />
-                            {/* {showCashOnDelivery === "Bangladesh" ? (
+                            /> */}
+                            {showCashOnDelivery === "Bangladesh" ? (
                               <FormControlLabel
                                 value="cash"
                                 control={<Radio />}
@@ -2270,7 +2485,7 @@ const checkout = () => {
                               />
                             ) : (
                               ""
-                            )} */}
+                            )}
                           </RadioGroup>
                         )}
                       />
@@ -2339,40 +2554,6 @@ const checkout = () => {
                     </Button>
                   </Stack>
                 </Paper>
-              </Grid>
-
-              {/* Order notes */}
-              <Grid
-                lg={8.5}
-                xl={8.37}
-                sx={{ display: { xs: "none", lg: "block" } }}
-              >
-                <Stack direction={"column"} spacing={2}>
-                  <Typography variant="cardHeader1" color="initial">
-                    ORDER NOTES (OPTIONAL)
-                  </Typography>
-
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    rows={4}
-                    autoComplete="off"
-                    {...register("orderNote", {
-                      required: {
-                        value: false,
-                        message: "Place your order note here.",
-                      },
-                    })}
-                    onKeyUp={() => trigger("orderNote")}
-                    error={Boolean(errors.orderNote)}
-                    placeholder="Place your order note here."
-                    size="small"
-                    sx={customStyle}
-                  />
-                  {errors.orderNote && (
-                    <p style={{ color: "red" }}>{errors.orderNote?.message}</p>
-                  )}
-                </Stack>
               </Grid>
             </Grid>
           </form>

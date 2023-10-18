@@ -8,7 +8,7 @@ import theme from "../src/theme";
 import createEmotionCache from "../src/createEmotionCache";
 import NextNProgress from "nextjs-progressbar";
 import { UserProvider } from "../components/userContext";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { store } from "../src/app/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
@@ -18,6 +18,7 @@ import "../styles/custom.css";
 import Pixel from "../components/Pixel";
 import { SessionProvider } from "next-auth/react";
 import { useRouter } from "next/router";
+import { clearCart } from "../src/features/cart/cartSlice";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

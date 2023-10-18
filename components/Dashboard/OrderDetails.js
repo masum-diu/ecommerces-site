@@ -64,7 +64,6 @@ const OrderDetails = () => {
       setCancelResponse(cancelResponse?.data);
     }
   }, [isCancelSuccess]);
-  // console.log("response", response);
   if (cancelLoading) {
     return <Loader></Loader>;
   }
@@ -130,7 +129,7 @@ const OrderDetails = () => {
                 <>
                   <TableRow key={index}>
                     <TableCell className="SemiBold">
-                      {orderInfo?.order_id}
+                      {orderInfo?.id}
                     </TableCell>
                     <TableCell className="SemiBold">
                       {orderInfo?.order_date}

@@ -22,7 +22,7 @@ const Footer = () => {
 
   return (
     <>
-      <Box bgcolor={"#1F1F1F"}>
+      <Box bgcolor={"#3c5676"}>
         <Stack
           direction={"column"}
           sx={{
@@ -46,10 +46,15 @@ const Footer = () => {
           </Typography>
           <Input
             placeholder="Email Address"
+            InputProps={{
+              classes: {
+                input: { color: "red" }, // Apply the custom placeholder color
+              },
+            }}
             sx={{ color: "#ffff", width: "90vw", maxWidth: "306px", pb: 1 }}
             endAdornment={
               <IconButton>
-                <VscArrowRight style={{ color: "#787878" }} />
+                <VscArrowRight style={{ color: "#F2F2F2" }} />
               </IconButton>
             }
           />
@@ -58,22 +63,22 @@ const Footer = () => {
             ABOUT
           </Typography>
           <Stack direction={"row"} flexWrap={"wrap"} columnGap={4} rowGap={2}>
-            <Typography variant="cardHeader2" color="#787878">
+            <Typography variant="cardHeader2" color="#F2F2F2">
               About
             </Typography>
-            <Typography variant="cardHeader2" color="#787878">
+            <Typography variant="cardHeader2" color="#F2F2F2">
               Community
             </Typography>
-            <Typography variant="cardHeader2" color="#787878">
+            <Typography variant="cardHeader2" color="#F2F2F2">
               Colors
             </Typography>
-            <Typography variant="cardHeader2" color="#787878">
+            <Typography variant="cardHeader2" color="#F2F2F2">
               Sustainability
             </Typography>
-            <Typography variant="cardHeader2" color="#787878">
+            <Typography variant="cardHeader2" color="#F2F2F2">
               Partners
             </Typography>
-            <Typography variant="cardHeader2" color="#787878">
+            <Typography variant="cardHeader2" color="#F2F2F2">
               Blog
             </Typography>
           </Stack>
@@ -81,13 +86,13 @@ const Footer = () => {
             BUSINESS
           </Typography>
           <Stack direction={"row"} spacing={3}>
-            <Typography variant="cardHeader2" color="#787878">
+            <Typography variant="cardHeader2" color="#F2F2F2">
               B2B Export
             </Typography>
-            <Typography variant="cardHeader2" color="#787878">
+            <Typography variant="cardHeader2" color="#F2F2F2">
               Career
             </Typography>
-            <Typography variant="cardHeader2" color="#787878">
+            <Typography variant="cardHeader2" color="#F2F2F2">
               Contact
             </Typography>
           </Stack>
@@ -100,7 +105,7 @@ const Footer = () => {
               target="_blank"
               style={{ textDecoration: "none" }}
             >
-              <Typography variant="cardHeader2" color="#787878">
+              <Typography variant="cardHeader2" color="#F2F2F2">
                 Facebook
               </Typography>
             </a>
@@ -109,7 +114,7 @@ const Footer = () => {
               target="_blank"
               style={{ textDecoration: "none" }}
             >
-              <Typography variant="cardHeader2" color="#787878">
+              <Typography variant="cardHeader2" color="#F2F2F2">
                 Instagram
               </Typography>
             </a>
@@ -118,7 +123,7 @@ const Footer = () => {
               target="_blank"
               style={{ textDecoration: "none" }}
             >
-              <Typography variant="cardHeader2" color="#787878">
+              <Typography variant="cardHeader2" color="#F2F2F2">
                 Youtube
               </Typography>
             </a>
@@ -127,7 +132,7 @@ const Footer = () => {
               target="_blank"
               style={{ textDecoration: "none" }}
             >
-              <Typography variant="cardHeader2" color="#787878">
+              <Typography variant="cardHeader2" color="#F2F2F2">
                 LinkedIn
               </Typography>
             </a>

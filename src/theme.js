@@ -9,6 +9,7 @@ const error = "#FF0000";
 const success = "#308129";
 const black = "#000";
 const ash = "#E9E9E9";
+const gray = "#8b8b8b";
 const bandColor="#3D5675"
 
 const breakpoints = {
@@ -37,6 +38,10 @@ const theme = createTheme({
     ash: {
       main: ash,
       dark: "#00000089",
+      contrastText: primary,
+    },
+    gray: {
+      main: gray,
       contrastText: primary,
     },
     white: {

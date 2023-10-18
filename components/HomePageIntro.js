@@ -79,7 +79,6 @@ const HomePageIntro = ({ title }) => {
     handleMobileMenuClose();
   };
   const handelogout = async () => {
-    // localStorage.clear();
     setUser("");
     setAnchorEl(null);
     router.push("/shop");
@@ -148,7 +147,7 @@ const HomePageIntro = ({ title }) => {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <AccountCircle color="background2" />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -212,7 +211,7 @@ const HomePageIntro = ({ title }) => {
               </Link>
             </Stack>
 
-            <Hidden only={["lg", "xl"]}>
+            <Hidden only={["lg", "xl", "md"]}>
               <Stack direction={"row"} alignItems={"center"} spacing={1}>
                 <IconButton
                   aria-label=""
@@ -225,11 +224,10 @@ const HomePageIntro = ({ title }) => {
                     
                     /> */}
                     <svg
-                      style={{ color: "#0A0A0A" }}
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
                       height="18"
-                      fill="currentColor"
+                      fill="gray"
                       className="bi bi-heart"
                       viewBox="0 0 16 16"
                     >
@@ -250,7 +248,7 @@ const HomePageIntro = ({ title }) => {
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
                       height="20"
-                      fill="currentColor"
+                      fill="gray"
                       className="bi bi-cart2"
                       viewBox="0 0 16 16"
                     >
@@ -269,7 +267,10 @@ const HomePageIntro = ({ title }) => {
             </Hidden>
           </Stack>
           <Hidden only={["xs", "xms", "sm"]}>
-            <Box ml={userjsondata?.name ? { xl: 35, lg: 35 } : 30}>
+            <Box
+              ml={userjsondata?.name ? { xl: 35, lg: 35 } : 30}
+              mr={userjsondata?.name ? { md: 20, xl: 0, lg: 0 } : 30}
+            >
               <Stack direction={"row"} spacing={5} mt={1}>
                 <Typography
                   className={style.menu3}
@@ -278,7 +279,7 @@ const HomePageIntro = ({ title }) => {
                   color="initial"
                   onClick={() => router.push("/shop")}
                 >
-                  <li>SHOP</li>
+                  <li style={{ color: "gray" }}>SHOP</li>
                 </Typography>
                 <Typography
                   className={style.menu3}
@@ -287,12 +288,12 @@ const HomePageIntro = ({ title }) => {
                   color="initial"
                   onClick={() => router.push("/story")}
                 >
-                  <li>STORY</li>
+                  <li style={{ color: "gray" }}>STORY</li>
                 </Typography>
               </Stack>
             </Box>
 
-            <Stack direction={"row"} alignItems="center" spacing={2} mt={1}>
+            <Stack direction={"row"} alignItems="center" spacing={1} mt={1}>
               <IconButton aria-label="" onClick={() => setSearchModal(true)}>
                 <CiSearch style={{ color: "#0A0A0A" }} />
               </IconButton>
@@ -333,7 +334,7 @@ const HomePageIntro = ({ title }) => {
                       aria-controls={menuId}
                       aria-haspopup="true"
                     >
-                      <AccountCircle />
+                      <AccountCircle color="gray" />
                     </IconButton>
                     <p style={{ color: "#0A0A0A", cursor: "pointer" }}>
                       {userjsondata
@@ -377,11 +378,10 @@ const HomePageIntro = ({ title }) => {
                 <Badge badgeContent={totalWishedProduct} color="background2">
                   {/* <TfiHeart style={{ color: "#0A0A0A", fontSize: "18px" }} /> */}
                   <svg
-                    style={{ color: "#0A0A0A" }}
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
                     height="18"
-                    fill="currentColor"
+                    fill="gray"
                     className="bi bi-heart"
                     viewBox="0 0 16 16"
                   >
@@ -399,7 +399,7 @@ const HomePageIntro = ({ title }) => {
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
-                    fill="currentColor"
+                    fill="gray"
                     className="bi bi-cart2"
                     viewBox="0 0 16 16"
                   >
@@ -414,7 +414,7 @@ const HomePageIntro = ({ title }) => {
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
-                    fill="currentColor"
+                    fill="gray"
                     className="bi bi-geo-alt"
                     viewBox="0 0 16 16"
                   >
@@ -424,8 +424,8 @@ const HomePageIntro = ({ title }) => {
                 </IconButton>
                 <Typography
                   variant="cardHeader"
-                  color="initial"
-                  sx={{ cursor: "pointer" }}
+                  
+                  sx={{ cursor: "pointer",color:"#8b8b8b" }}
                 >
                   BD
                 </Typography>

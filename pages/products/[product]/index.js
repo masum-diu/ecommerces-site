@@ -430,6 +430,7 @@ const masterCollectionLayout = () => {
     makeColorTrue,
     makePriceTrue,
     fabricName,
+    colorSelected
   ]);
 
   // Setting static data of products in a state

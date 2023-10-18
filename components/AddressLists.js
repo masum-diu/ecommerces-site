@@ -44,7 +44,7 @@ const AddressLists = ({
   const [updateId, setUpdateId] = useState("");
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
-  const [openList1, setOpenList1] = React.useState(false);
+  const [openList1, setOpenList1] = React.useState(true);
   const [country, setCountry] = useState("Select Country");
   const [town, setTown] = useState("Select Town/City");
   const [arrow1, setArrow1] = useState(false);
@@ -60,8 +60,17 @@ const AddressLists = ({
     isLoading: countryLoading,
   } = useGetCountryListWithShippingChargeQuery(tokens);
 
-  const handleDataSet = (id) => {
-    setUpdateId(id);
+  const handleDataSet = (data) => {
+    setUpdateId(data?.id);
+    setValueNewAddress("first_name", data?.first_name);
+    setValueNewAddress("last_name", data?.last_name);
+    setValueNewAddress("street_address", data?.street_address);
+    setValueNewAddress("town", data?.city);
+    setValueNewAddress("country", data?.country);
+    setValueNewAddress("post_code", data?.post_code);
+    setValueNewAddress("phone", data?.phone);
+    setValueNewAddress("email", data?.email);
+    setValueNewAddress("apartment", data?.apartment);
   };
 
   const handleClick = () => {
@@ -76,7 +85,7 @@ const AddressLists = ({
 
   const handleSetNewData = (data) => {
     if (data) {
-      if (addAddressValue === 1) {
+      if (addAddressValue === 1 && !showInputField) {
         setValue("first_name_billing", data?.first_name);
         setValue("last_name_billing", data?.last_name);
         setValue("street_address_billing", data?.street_address);
@@ -89,7 +98,7 @@ const AddressLists = ({
         setDistict(data?.country);
         setTownBilling(data?.city);
         setIsAddressListDataBilling(true);
-      } else if (addAddressValue === 2 && !showInputField) {
+      } else if (addAddressValue === 2) {
         setValue("first_name_shipping", data?.first_name);
         setValue("last_name_shipping", data?.last_name);
         setValue("street_address_shipping", data?.street_address);
@@ -367,7 +376,7 @@ const AddressLists = ({
                         </Typography>
                       </Typography>
                     </Button>
-                    <IconButton onClick={() => handleDataSet(data?.id)}>
+                    <IconButton onClick={() => handleDataSet(data)}>
                       <FiEdit />
                     </IconButton>
                   </Stack>
