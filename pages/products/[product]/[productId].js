@@ -298,7 +298,6 @@ const PorductDetails = () => {
 
     // if color or size none of them exist
     if (products?.p_colours?.length === 0 && products?.p_sizes?.length === 0) {
-      
       setDisableBtn(true);
       if (products?.p_stocks) {
         setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
@@ -2240,21 +2239,21 @@ const PorductDetails = () => {
           <Stack
             direction={"row"}
             sx={{
-              backgroundColor: "#000",
+              backgroundColor: "#3c5676",
               mt: 2,
-              color: "#fff",
+              color: "#F2F2F2",
               justifyContent: "space-between",
               p: 4,
             }}
           >
             <Stack direction={"row"} spacing={3}>
-              <Typography variant="cardLocation1" color="#9F9F9F">
+              <Typography variant="cardLocation1" color="#F2F2F2">
                 Home
               </Typography>
-              <Typography variant="cardLocation1" color="#9F9F9F">
+              <Typography variant="cardLocation1" color="#F2F2F2">
                 Women
               </Typography>
-              <Typography variant="cardLocation1" color="#9F9F9F">
+              <Typography variant="cardLocation1" color="#F2F2F2">
                 Kurti & Fatua{" "}
               </Typography>
             </Stack>
