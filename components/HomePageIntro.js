@@ -269,7 +269,7 @@ const HomePageIntro = ({ title }) => {
           <Hidden only={["xs", "xms", "sm"]}>
             <Box
               ml={userjsondata?.name ? { xl: 35, lg: 35 } : 30}
-              mr={userjsondata?.name ? { md: 20, xl: 0, lg: 0 } : 30}
+              mr={userjsondata?.name ? { md: 20, xl: 0, lg: 0 } : {lg:0,xl:0,md:30}}
             >
               <Stack direction={"row"} spacing={5} mt={1}>
                 <Typography
