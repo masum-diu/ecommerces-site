@@ -187,14 +187,6 @@ const shop = () => {
             }}
           />
 
-          {/* <Image
-            src=
-            {repo.image_two}
-            width={1900}
-            style={{ width: "100%", height: "fit-content" }}
-            height={700}
-          /> */}
-
           <img
             src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_two
               ?.split("/")
@@ -203,7 +195,6 @@ const shop = () => {
             alt=""
             style={{ cursor: "pointer" }}
             onClick={() => handleFirstBanner()}
-            // style={{ width: "1920px", height: "900px" }}
           />
           <Stack
             direction={"row"}
@@ -293,7 +284,11 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{homedata?.back_url_three?/^(.*?)\?/.exec(homedata?.back_url_three)[1]:""}</li>
+              <li>
+                {homedata?.back_url_three
+                  ? /^(.*?)\?/.exec(homedata?.back_url_three)[1]
+                  : ""}
+              </li>
             </Typography>
             <Typography
               className={style.menu3}
@@ -312,7 +307,11 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{homedata?.back_url_four?/^(.*?)\?/.exec(homedata?.back_url_four)[1]:""}</li>
+              <li>
+                {homedata?.back_url_four
+                  ? /^(.*?)\?/.exec(homedata?.back_url_four)[1]
+                  : ""}
+              </li>
             </Typography>
           </Stack>
         </Stack>
@@ -431,7 +430,11 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{homedata?.back_url_five?/^(.*?)\?/.exec(homedata?.back_url_five)[1]:""}</li>
+              <li>
+                {homedata?.back_url_five
+                  ? /^(.*?)\?/.exec(homedata?.back_url_five)[1]
+                  : ""}
+              </li>
             </Typography>
           </Stack>
         </Stack>
