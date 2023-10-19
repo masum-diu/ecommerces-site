@@ -145,6 +145,7 @@ const PorductDetails = () => {
 
     // if both color and size both exists
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
+      console.log("both exists");
       setDisableBtn(true);
       // if both color and size both exists and but selected none
       if (colorSelected === false && sizeSelected === false) {
@@ -297,6 +298,7 @@ const PorductDetails = () => {
 
     // if color or size none of them exist
     if (products?.p_colours?.length === 0 && products?.p_sizes?.length === 0) {
+      
       setDisableBtn(true);
       if (products?.p_stocks) {
         setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
@@ -328,6 +330,8 @@ const PorductDetails = () => {
     productPrice,
     products?.fragile,
     products?.fragile_charge,
+    location.pathname,
+    disableBtn,
   ]);
   useEffect(() => {
     setDisableBtn(true);
