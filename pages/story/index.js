@@ -91,7 +91,7 @@ const story = () => {
         />
       </Head>
       <HomePageIntro title={"Saree "} />
-      <Box sx={{ pt: { lg: 8, xs: 7 } }} height={"fit-content"}>
+      {/* <Box sx={{ pt: { lg: 8, xs: 7 } }} height={"fit-content"}>
         <Box>
           <Stack direction={"row"} alignItems="center">
             <img
@@ -149,9 +149,7 @@ const story = () => {
           {storyNavItem.map((text, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton onClick={() => handleMenuClick(text)}>
-                {/* <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                      </ListItemIcon> */}
+               
                 <ListItemText
                   primary={
                     <>
@@ -169,7 +167,16 @@ const story = () => {
             </ListItem>
           ))}
         </List>
-      </Drawer>
+      </Drawer> */}
+      <Stack
+        justifyContent={"center"}
+        alignItems={"center"}
+        sx={{ pt: { lg: 8, xs: 7 }, height: "50vh" }}
+      >
+        <Typography variant="login2" textAlign={"center"}>
+          Coming Soon
+        </Typography>
+      </Stack>
       {/* <MenuDawer /> */}
       {/* <Filter /> */}
     </>
