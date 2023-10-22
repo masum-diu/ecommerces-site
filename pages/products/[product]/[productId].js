@@ -123,8 +123,8 @@ const PorductDetails = () => {
     if (isSuccess) {
       const handleSuccess = async () => {
         setProducts(data?.data);
-        setActiveSize(data?.data.p_sizes[0]?.id);
-        setActiveColor(data?.data.p_colours[0]?.id);
+        // setActiveSize(data?.data.p_sizes[0]?.id);
+        // setActiveColor(data?.data.p_colours[0]?.id);
       };
       handleSuccess();
     }
