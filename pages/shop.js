@@ -167,7 +167,7 @@ const shop = () => {
               </video>`,
             }}
           />
-          {console.log("your log output", homedata)}
+          
           <img
             src={`${homedata?.image_two
               ?.split("/")
