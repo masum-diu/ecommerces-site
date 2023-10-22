@@ -159,25 +159,6 @@ const shop = () => {
       <HomePageIntro title={"Shop "} />
       <Box sx={{ width: "100%", mb: 4, pt: { lg: 8, xs: 7 } }}>
         <Stack sx={{ position: "relative" }}>
-          {/* <video
-            src="https://static.zara.net/photos///contents/mkt/spots/aw22-north-kids-party/subhome-xmedia-47-2//w/1920/IMAGE-landscape-fill-90388659-c9ad-44c0-8fbc-3e049adef8d9-default_0.jpg?ts=1669457847606"
-            alt=""
-            width="100%"
-          /> */}
-
-          {/* <video
-            width={"100%"}
-            autoPlay
-            // playsinline
-            type="video/mp4"
-            loop
-            muted={true}
-            src={homedata?.image_one}
-          /> */}
-
-          {/* <div
-          
-        /> */}
           <Stack
             dangerouslySetInnerHTML={{
               __html: `<video className="app__backgroundVideo" autoplay loop muted playsinline>
@@ -186,24 +167,18 @@ const shop = () => {
               </video>`,
             }}
           />
-
-          {/* <Image
-            src=
-            {repo.image_two}
-            width={1900}
-            style={{ width: "100%", height: "fit-content" }}
-            height={700}
-          /> */}
-
+          {console.log("your log output", homedata)}
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_two
+            src={`${homedata?.image_two
               ?.split("/")
-              .slice(-3)
+              .slice(0, 6)
+              .join("/")}/c_lfill,g_auto,h_900,w_1920/${homedata?.image_two
+              ?.split("/")
+              .slice(6)
               .join("/")}`}
             alt=""
             style={{ cursor: "pointer" }}
             onClick={() => handleFirstBanner()}
-            // style={{ width: "1920px", height: "900px" }}
           />
           <Stack
             direction={"row"}
@@ -244,9 +219,12 @@ const shop = () => {
         </Stack>
         <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
+            src={`${homedata?.image_three
               ?.split("/")
-              .slice(-3)
+              .slice(0, 6)
+              .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
+              ?.split("/")
+              .slice(6)
               .join("/")}`}
             style={{ cursor: "pointer" }}
             alt=""
@@ -255,9 +233,12 @@ const shop = () => {
           />
 
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
+            src={`${homedata?.image_four
               ?.split("/")
-              .slice(-3)
+              .slice(0, 6)
+              .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
+              ?.split("/")
+              .slice(6)
               .join("/")}`}
             style={{ cursor: "pointer" }}
             alt=""
@@ -293,7 +274,11 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{homedata?.back_url_three?/^(.*?)\?/.exec(homedata?.back_url_three)[1]:""}</li>
+              <li>
+                {homedata?.back_url_three
+                  ? /^(.*?)\?/.exec(homedata?.back_url_three)[1]
+                  : ""}
+              </li>
             </Typography>
             <Typography
               className={style.menu3}
@@ -312,7 +297,11 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{homedata?.back_url_four?/^(.*?)\?/.exec(homedata?.back_url_four)[1]:""}</li>
+              <li>
+                {homedata?.back_url_four
+                  ? /^(.*?)\?/.exec(homedata?.back_url_four)[1]
+                  : ""}
+              </li>
             </Typography>
           </Stack>
         </Stack>
@@ -396,9 +385,12 @@ const shop = () => {
           sx={{ width: "100%", position: "relative", cursor: "pointer" }}
         >
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_five
+            src={`${homedata?.image_five
               ?.split("/")
-              .slice(-3)
+              .slice(0, 6)
+              .join("/")}/c_lfill,g_auto,h_900,w_1920/${homedata?.image_five
+              ?.split("/")
+              .slice(6)
               .join("/")}`}
             alt=""
             style={{ width: "100%", height: "auto", marginTop: "25px" }}
@@ -431,7 +423,11 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>{homedata?.back_url_five?/^(.*?)\?/.exec(homedata?.back_url_five)[1]:""}</li>
+              <li>
+                {homedata?.back_url_five
+                  ? /^(.*?)\?/.exec(homedata?.back_url_five)[1]
+                  : ""}
+              </li>
             </Typography>
           </Stack>
         </Stack>

@@ -430,7 +430,7 @@ const masterCollectionLayout = () => {
     makeColorTrue,
     makePriceTrue,
     fabricName,
-    colorSelected
+    colorSelected,
   ]);
 
   // Setting static data of products in a state
@@ -721,6 +721,7 @@ const masterCollectionLayout = () => {
   if (loading || loadingCat) {
     return <Loader></Loader>;
   }
+  console.log('products',products)
   // Slicing data for static products and dynamic products
   const productsForStatic = filteredData.slice(0, 7);
   const productsForDynamic = chunkArray(filteredData.slice(9));
@@ -750,13 +751,16 @@ const masterCollectionLayout = () => {
           content={"Find all product  in " + productName + "category"}
         />
       </Head>
-      <HomePageIntro title={"Saree "} />
+      <HomePageIntro title={currentPath} />
       <Box mb={4} sx={{ pt: { lg: 8, xs: 7 } }}>
         <Stack direction={"row"} alignItems="center">
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${staticData?.cat_img_one
+            src={`${staticData?.cat_img_one
               ?.split("/")
-              .slice(-3)
+              .slice(0, 6)
+              .join("/")}/c_lfill,g_auto,h_900,w_1920/${staticData?.cat_img_one
+              ?.split("/")
+              .slice(6)
               .join("/")}`}
             width={1900}
             style={{ width: "100%", height: "auto" }}

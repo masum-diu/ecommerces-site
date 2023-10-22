@@ -167,11 +167,14 @@ const shop = () => {
               </video>`,
             }}
           />
-
+          {console.log("your log output", homedata)}
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_two
+            src={`${homedata?.image_two
               ?.split("/")
-              .slice(-3)
+              .slice(0, 6)
+              .join("/")}/c_lfill,g_auto,h_900,w_1920/${homedata?.image_two
+              ?.split("/")
+              .slice(6)
               .join("/")}`}
             alt=""
             style={{ cursor: "pointer" }}
@@ -216,9 +219,12 @@ const shop = () => {
         </Stack>
         <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
+            src={`${homedata?.image_three
               ?.split("/")
-              .slice(-3)
+              .slice(0, 6)
+              .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
+              ?.split("/")
+              .slice(6)
               .join("/")}`}
             style={{ cursor: "pointer" }}
             alt=""
@@ -227,9 +233,12 @@ const shop = () => {
           />
 
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
+            src={`${homedata?.image_four
               ?.split("/")
-              .slice(-3)
+              .slice(0, 6)
+              .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
+              ?.split("/")
+              .slice(6)
               .join("/")}`}
             style={{ cursor: "pointer" }}
             alt=""
@@ -376,9 +385,12 @@ const shop = () => {
           sx={{ width: "100%", position: "relative", cursor: "pointer" }}
         >
           <img
-            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_lfill,g_auto,h_900,w_1920/${homedata?.image_five
+            src={`${homedata?.image_five
               ?.split("/")
-              .slice(-3)
+              .slice(0, 6)
+              .join("/")}/c_lfill,g_auto,h_900,w_1920/${homedata?.image_five
+              ?.split("/")
+              .slice(6)
               .join("/")}`}
             alt=""
             style={{ width: "100%", height: "auto", marginTop: "25px" }}

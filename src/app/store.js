@@ -15,6 +15,7 @@ import storage from "./persistStore";
 import wishListSlice from "../features/wishlist/wishListSlice";
 import checkoutSlice from "../features/checkout/checkoutSlice";
 
+let ENV = "production";
 const reducers = combineReducers({
   [productApi.reducerPath]: productApi.reducer,
   cart: cartSlice,
@@ -37,5 +38,5 @@ export const store = configureStore({
       },
       immutableCheck: false,
     }).concat(productApi.middleware),
-  // devTools: false,
+  devTools: ENV === "production" ? false : true,
 });

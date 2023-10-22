@@ -749,7 +749,7 @@ const masterCollectionLayout = () => {
           content={"Find all product  in " + productName + "category"}
         />
       </Head>
-      <HomePageIntro title={"Saree "} />
+      <HomePageIntro title={"New Collection "} />
       {/* <Box mb={4} sx={{ pt: { lg: 8, xs: 7 } }}>
           <Stack direction={"row"} alignItems="center">
             <img

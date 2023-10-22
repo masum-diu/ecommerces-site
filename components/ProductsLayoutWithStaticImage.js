@@ -31,8 +31,7 @@ const ProductsLayoutWithStaticImage = ({
           <HovarImage
             url={`${router?.asPath?.split("?")[0]}/${productsDataChunk[0]?.id}`}
             data={productsDataChunk[0]}
-            imageURL={`${productsDataChunk[0]?.feature_image
-              }`}
+            imageURL={`${productsDataChunk[0]?.feature_image}`}
             width={550}
             height={850}
           />
@@ -55,7 +54,8 @@ const ProductsLayoutWithStaticImage = ({
             </Typography>
             <Typography variant="cardHeader3" color="initial" className="bold">
               {/* BDT {productsDataChunk[0]?.p_stocks[0]?.mrp} */}
-              {selectedCurrency} {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
+              {selectedCurrency}{" "}
+              {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
             </Typography>
           </Stack>
         </Stack>
@@ -76,8 +76,7 @@ const ProductsLayoutWithStaticImage = ({
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
-              imageURL={`${product?.feature_image
-                }`}
+              imageURL={`${product?.feature_image}`}
               width={568}
               height={827}
             />
@@ -108,17 +107,23 @@ const ProductsLayoutWithStaticImage = ({
       </Grid>
       <Stack direction={"row"} sx={{ width: "100%" }} mt={4}>
         <img
-          src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_828,w_720/${staticData?.cat_img_two
+          src={`${staticData?.cat_img_one
             ?.split("/")
-            .slice(-3)
+            .slice(0, 6)
+            .join("/")}/c_fill,g_auto,h_828,w_720/${staticData?.cat_img_two
+            ?.split("/")
+            .slice(6)
             .join("/")}`}
           alt=""
           width={"50%"}
         />
         <img
-          src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_fill,g_auto,h_828,w_720/${staticData?.cat_img_three
+          src={`${staticData?.cat_img_one
             ?.split("/")
-            .slice(-3)
+            .slice(0, 6)
+            .join("/")}/c_fill,g_auto,h_828,w_720/${staticData?.cat_img_three
+            ?.split("/")
+            .slice(6)
             .join("/")}`}
           alt=""
           width={"50%"}
@@ -140,8 +145,7 @@ const ProductsLayoutWithStaticImage = ({
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
-              imageURL={`${product?.feature_image
-                }`}
+              imageURL={`${product?.feature_image}`}
               width={568}
               height={827}
             />

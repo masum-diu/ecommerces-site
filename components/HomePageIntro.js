@@ -159,7 +159,7 @@ const HomePageIntro = ({ title }) => {
   return (
     <>
       <Head>
-        <title>{title ? title + "- Aranya" : "Aranya"}</title>
+        <title>{title ? title + " - Aranya" : "Aranya"}</title>
         <meta name="description" content="Ecommerce Website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

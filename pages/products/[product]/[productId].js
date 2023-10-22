@@ -514,8 +514,9 @@ const PorductDetails = () => {
         <meta property="og:description" content={products?.p_description} />
         <meta property="og:price:amount" content={products?.p_sale_price} />
         <meta property="og:price:currency" content="BDT" />
+        {/* <title>{products?.p_name}</title> */}
       </Head>
-      <HomePageIntro title={"Saree "} />
+      <HomePageIntro title={products?.p_name} />
 
       {/* Product Details for pc */}
       <Hidden only={["xms", "xs"]}>

@@ -61,7 +61,7 @@ const wishlists = () => {
 
   return (
     <>
-      <HomePageIntro title={"wishlist "} />
+      <HomePageIntro title={"Wishlist "} />
       <Box sx={{ height: "fit-content" }}>
         <Stack sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }} py={15}>
           <Typography

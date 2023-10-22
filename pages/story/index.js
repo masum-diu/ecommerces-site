@@ -90,7 +90,7 @@ const story = () => {
           // content={"Find all product  in " + productName + "category"}
         />
       </Head>
-      <HomePageIntro title={"Saree "} />
+      <HomePageIntro title={"Story "} />
       {/* <Box sx={{ pt: { lg: 8, xs: 7 } }} height={"fit-content"}>
         <Box>
           <Stack direction={"row"} alignItems="center">
