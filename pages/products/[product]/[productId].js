@@ -1622,7 +1622,7 @@ const PorductDetails = () => {
                                   : ""
                               }
                             >
-                              {size?.size_name} demo
+                              {size?.size_name}
                             </Typography>
                           </Button>
                         ))}
