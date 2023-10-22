@@ -53,6 +53,8 @@ const checkout = () => {
   const [addressList, setAddressList] = useState(false);
   const { convertCartData } = useConvertCartData();
   const carts = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart.cart);
+  const hasFragile = cartItems.some((product) => product.isFragile);
   const convertedCart = convertCartData(carts);
   // address popup state end
   const cart = convertedCart.cart;
@@ -63,6 +65,7 @@ const checkout = () => {
   const [townBilling, setTownBilling] = useState("Select Town/City");
   const [townBillingSh, setTownBillingSh] = useState("Select Town/City");
   const [isSameAddress, setIsSameAddress] = useState(false);
+  const [totalFragileCharge, setTotalFragileCharge] = useState(0);
   const [host, setHost] = useState("");
   const [showCashOnDelivery, setShowCashOnDelivery] = useState();
   const dispatch = useDispatch();
@@ -71,11 +74,9 @@ const checkout = () => {
   const totalPriceWithoutFragile = convertedCart.totalPriceWithoutFragileCharge;
   const totalPriceOrg = convertedCart.totalPriceOrg;
   // const totalPriceOrg = useSelector((state) => state.cart.totalPriceOrg);
-  const totalFragileCharge = convertedCart.totalFragileCharge;
+  // const totalFragileCharge = convertedCart.totalFragileCharge;
   const totalFragileChargeOrg = convertedCart.totalFragileChargeOrg;
-  /* const totalFragileCharge = useSelector(
-    (state) => state.cart.totalFragileCharge
-  ); */
+
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const totalPriceWithTax = convertedCart.totalPriceWithTax;
   /* const totalPriceWithTax = useSelector(
@@ -231,6 +232,15 @@ const checkout = () => {
       toast.error("Oops! Something went wrong. Please try again later.");
     }
   }, [userOrderError, guestOrderError]);
+
+  useEffect(() => {
+    if (hasFragile === true) {
+      setTotalFragileCharge(25);
+    }
+    if (hasFragile === false) {
+      setTotalFragileCharge(0);
+    }
+  }, [hasFragile, totalFragileCharge]);
 
   useEffect(() => {
     if (eCourierData) {
@@ -481,7 +491,7 @@ const checkout = () => {
     setTownBillingSh(event.target.value);
   };
 
-  console.log("your log output", isSameAddressChecked);
+  
   useEffect(() => {
     if (isSameAddressChecked) {
       setTownBilling(townBilling);
@@ -549,7 +559,6 @@ const checkout = () => {
   const deliveryMethod = useWatch({ control, name: "deliveryMethod" });
   const termsAndCondition = useWatch({ control, name: "termsAndConditions" });
   const showInputField = useWatch({ control, name: "isSameAddress" });
-  console.log("paymentMethod", paymentMethod);
   const orderNote = useWatch({
     control,
     name: "orderNote",
@@ -777,221 +786,6 @@ const checkout = () => {
         }
       }
     }
-    /* else {
-      setShippingCost(0);
-      setPathaoShippingCost(0);
-      setEQuerierShippingCost(0);
-      setDhlShippingCost(0);
-      setShowRoomShippingCost(0);
-      if (deliveryMethod === "E-Courier") {
-        setTotal(
-          parseFloat((totalPriceWithTax + totalFragileCharge).toFixed(2))
-        );
-      } else {
-        setTotal(parseFloat(totalPriceWithTax.toFixed(2)));
-      }
-      if (country === "Bangladesh" || distict === "Bangladesh") {
-        if (cityAddress) {
-          const refinedCity = cityAddress.split(" ")[0];
-          if (refinedCity === "Dhaka") {
-            if (countryData) {
-              let pathao, e_courier;
-              const targetCoverage = "Inside Dhaka";
-              const applicablePackages = eCourierCharge.filter(
-                (item) => item.coverage_id === targetCoverage
-              );
-              let applicablePackage = null;
-
-              for (const pkg of applicablePackages) {
-                const [minWeight, maxWeight] = pkg.weightrange
-                  .split("-")
-                  .map(Number);
-
-                if (
-                  totalProductWeight >= minWeight &&
-                  totalProductWeight <= maxWeight
-                ) {
-                  applicablePackage = pkg;
-                  break;
-                }
-              }
-              if (applicablePackage) {
-                setEQuerierShippingCost(
-                  convertPrice(applicablePackage.shipping_charge)
-                );
-                setEQuerierShippingCostOrg(applicablePackage.shipping_charge);
-                setEQuerierPackagesCode(applicablePackage?.package_code);
-              } else {
-                const maxWeightPackage = applicablePackages.reduce(
-                  (prev, curr) => {
-                    return curr.shipping_charge > prev.shipping_charge
-                      ? curr
-                      : prev;
-                  }
-                );
-
-                const extraWeight = Math.ceil(
-                  (totalProductWeight -
-                    maxWeightPackage.weightrange.split("-")[1]) /
-                    1000
-                );
-                const additionalCharge = extraWeight * fixedCharge;
-
-                setEQuerierShippingCost(
-                  convertPrice(
-                    maxWeightPackage.shipping_charge + additionalCharge
-                  )
-                );
-                setEQuerierShippingCostOrg(
-                  maxWeightPackage.shipping_charge + additionalCharge
-                );
-                setEQuerierPackagesCode(maxWeightPackage?.package_code);
-              }
-              setPathaoShippingCost(pathao);
-              // setEQuerierShippingCost(e_courier);
-              if (deliveryMethod === "Pathao") {
-                setTotal(
-                  parseFloat(
-                    (totalPriceWithTax + pathaoShippingCost).toFixed(2)
-                  )
-                );
-                setShippingCost(pathaoShippingCost);
-              } else if (deliveryMethod === "E-Courier") {
-                setTotal(
-                  parseFloat(
-                    (
-                      totalPriceWithTax +
-                      totalFragileCharge +
-                      eQuerierShippingCost
-                    ).toFixed(2)
-                  )
-                );
-                setShippingCost(eQuerierShippingCost);
-              } else if (deliveryMethod === "Pickup from showroom") {
-                setTotal(
-                  parseFloat(
-                    (totalPriceWithTax + showRoomShippingCost).toFixed(2)
-                  )
-                );
-                setShippingCost(showRoomShippingCost);
-              }
-            }
-          } else {
-            if (countryData) {
-              let pathao, e_courier;
-
-              const targetCoverage = "Outside Dhaka";
-              const applicablePackages = eCourierCharge.filter(
-                (item) => item.coverage_id === targetCoverage
-              );
-              let applicablePackage = null;
-
-              for (const pkg of applicablePackages) {
-                const [minWeight, maxWeight] = pkg.weightrange
-                  .split("-")
-                  .map(Number);
-
-                if (
-                  totalProductWeight >= minWeight &&
-                  totalProductWeight <= maxWeight
-                ) {
-                  applicablePackage = pkg;
-                  break;
-                }
-              }
-              if (applicablePackage) {
-                setEQuerierShippingCost(
-                  convertPrice(applicablePackage.shipping_charge)
-                );
-                setEQuerierShippingCostOrg(applicablePackage.shipping_charge);
-                setEQuerierPackagesCode(applicablePackage?.package_code);
-              } else {
-                const maxWeightPackage = applicablePackages.reduce(
-                  (prev, curr) => {
-                    return curr.shipping_charge > prev.shipping_charge
-                      ? curr
-                      : prev;
-                  }
-                );
-
-                const extraWeight = Math.ceil(
-                  (totalProductWeight -
-                    maxWeightPackage.weightrange.split("-")[1]) /
-                    1000
-                );
-                const additionalCharge = extraWeight * fixedCharge;
-
-                setEQuerierShippingCost(
-                  convertPrice(
-                    maxWeightPackage.shipping_charge + additionalCharge
-                  )
-                );
-                setEQuerierShippingCostOrg(
-                  maxWeightPackage.shipping_charge + additionalCharge
-                );
-                setEQuerierPackagesCode(maxWeightPackage?.package_code);
-              }
-              setPathaoShippingCost(pathao);
-              // setEQuerierShippingCost(e_courier);
-              if (deliveryMethod === "Pathao") {
-                setTotal(
-                  parseFloat(
-                    (totalPriceWithTax + pathaoShippingCost).toFixed(2)
-                  )
-                );
-                setShippingCost(pathaoShippingCost);
-              } else if (deliveryMethod === "E-Courier") {
-                setTotal(
-                  parseFloat(
-                    (
-                      totalPriceWithTax +
-                      totalFragileCharge +
-                      eQuerierShippingCost
-                    ).toFixed(2)
-                  )
-                );
-                setShippingCost(eQuerierShippingCost);
-              } else if (deliveryMethod === "Pickup from showroom") {
-                setTotal(
-                  parseFloat(
-                    (totalPriceWithTax + showRoomShippingCost).toFixed(2)
-                  )
-                );
-                setShippingCost(showRoomShippingCost);
-              }
-            }
-          }
-        }
-      } else {
-        if (countryData) {
-          let shippingChargeForSelectedCountry;
-          for (const item of countryData) {
-            if (
-              item.country_code === billingCountry &&
-              item.country_code !== "BD"
-            ) {
-              shippingChargeForSelectedCountry = JSON.parse(
-                item.shipping_charge
-              )?.amount;
-              break;
-            }
-          }
-          setDhlShippingCost(convertPrice(shippingChargeForSelectedCountry));
-          if (deliveryMethod === "DHL") {
-            setTotal(
-              parseFloat(
-                (
-                  totalPriceWithTax +
-                  totalFragileCharge +
-                  dhlShippingCost
-                ).toFixed(2)
-              )
-            );
-            setShippingCost(dhlShippingCost);
-          }
-        }
-      }
-    } */
   }, [
     showInputField,
     townBilling,

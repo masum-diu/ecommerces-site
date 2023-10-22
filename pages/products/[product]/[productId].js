@@ -85,6 +85,8 @@ const PorductDetails = () => {
   const [sizeGuide, setSizeGuide] = useState(false);
   const [sizes, setSizes] = useState([]);
   const [categoryName, setCategoryName] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFragile, setIsFragile] = useState(false);
 
   // product popup
   const [productpopup, setProductpopup] = useState(false);
@@ -129,6 +131,15 @@ const PorductDetails = () => {
       handleSuccess();
     }
   }, [data, isSuccess, isLoading]);
+
+  useEffect(() => {
+    if (products?.fragile === "1") {
+      setIsFragile(true);
+    }
+    if (products?.fragile === "0") {
+      setIsFragile(false);
+    }
+  }, [isFragile, products?.fragile]);
   // Product Selection Section
   useEffect(() => {
     if (products?.p_stocks) {
@@ -145,7 +156,6 @@ const PorductDetails = () => {
 
     // if both color and size both exists
     if (products?.p_colours?.length > 0 && products?.p_sizes?.length > 0) {
-      console.log("both exists");
       setDisableBtn(true);
       // if both color and size both exists and but selected none
       if (colorSelected === false && sizeSelected === false) {
@@ -356,6 +366,7 @@ const PorductDetails = () => {
     setActiveColor(id);
   };
   // console.log("inside handle stock", products);
+
   const handleStockAvailability = (id) => {
     const element = products?.p_stocks.find((item) => item.size_id === id);
 
@@ -408,6 +419,7 @@ const PorductDetails = () => {
     design_code: products?.p_design_code,
     size: size,
     size_id: sizeId,
+    isFragile: isFragile,
     text: products?.p_description,
     colors: products?.p_colours,
     color_id: colorId,
@@ -1334,68 +1346,15 @@ const PorductDetails = () => {
             slidesPerView={1}
             pagination={true}
             modules={[Pagination]}
+            initialSlide={currentIndex}
           >
             <SwiperSlide
               onClick={() =>
                 handleImageForThumble(true, {
-                  img1: products?.feature_image,
-                  img2: products?.p_image_one,
-                  img3: products?.p_image_two,
-                  img4: products?.p_image_three,
-                })
-              }
-              style={{
-                backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.feature_image})`,
-                backgroundSize: "cover",
-                height: "92vh",
-                maxHeight: "auto",
-                backgroundPosition: "center",
-                width: "100%",
-              }}
-            >
-              <Stack
-                direction={"column"}
-                spacing={5}
-                sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
-              >
-                <Stack direction={"column"}>
-                  <Typography
-                    variant="login2"
-                    color="initial"
-                    className="exterBold"
-                  >
-                    {products?.p_name}
-                  </Typography>
-
-                  <Typography
-                    variant="cardHeader1"
-                    color="initial"
-                    textTransform={"uppercase"}
-                    className="SemiBold"
-                  >
-                    {/*Home {path}*/}
-                  </Typography>
-                </Stack>
-                <Typography
-                  variant="tabText1"
-                  color="initial"
-                  className="exterBold"
-                >
-                  {/* Price : {productPrice} BDT */}
-                  {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
-                  {priceWithoutFragileCharge > 0
-                    ? `${convertPrice(priceWithoutFragileCharge)}`
-                    : "Out of Stock"}
-                </Typography>
-              </Stack>
-            </SwiperSlide>
-            <SwiperSlide
-              onClick={() =>
-                handleImageForThumble(true, {
                   img1: products?.p_image_one,
-                  img2: products?.feature_image,
-                  img3: products?.p_image_two,
-                  img4: products?.p_image_three,
+                  img2: products?.p_image_two,
+                  img3: products?.p_image_three,
+                  img4: products?.p_image_four,
                 })
               }
               style={{
@@ -1447,9 +1406,9 @@ const PorductDetails = () => {
               onClick={() =>
                 handleImageForThumble(true, {
                   img1: products?.p_image_two,
-                  img2: products?.feature_image,
-                  img3: products?.p_image_one,
-                  img4: products?.p_image_three,
+                  img2: products?.p_image_one,
+                  img3: products?.p_image_three,
+                  img4: products?.p_image_four,
                 })
               }
               style={{
@@ -1501,13 +1460,67 @@ const PorductDetails = () => {
               onClick={() =>
                 handleImageForThumble(true, {
                   img1: products?.p_image_three,
-                  img2: products?.feature_image,
-                  img3: products?.p_image_one,
-                  img4: products?.p_image_two,
+                  img2: products?.p_image_one,
+                  img3: products?.p_image_two,
+                  img4: products?.p_image_four,
                 })
               }
               style={{
                 backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.p_image_three})`,
+                backgroundSize: "cover",
+                height: "92vh",
+                maxHeight: "auto",
+                backgroundPosition: "center",
+                width: "100%",
+              }}
+            >
+              <Stack
+                direction={"column"}
+                spacing={5}
+                sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
+              >
+                <Stack direction={"column"}>
+                  <Typography
+                    variant="login2"
+                    color="initial"
+                    className="exterBold"
+                  >
+                    {products?.p_name}
+                  </Typography>
+
+                  <Typography
+                    variant="cardHeader1"
+                    color="initial"
+                    textTransform={"uppercase"}
+                    className="SemiBold"
+                  >
+                    {/*Home {path}*/}
+                  </Typography>
+                </Stack>
+                <Typography
+                  variant="tabText1"
+                  color="initial"
+                  className="exterBold"
+                >
+                  {/* Price : {productPrice} BDT */}
+                  {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
+                  {priceWithoutFragileCharge > 0
+                    ? `${convertPrice(priceWithoutFragileCharge)}`
+                    : "Out of Stock"}
+                </Typography>
+              </Stack>
+            </SwiperSlide>
+            <SwiperSlide
+              onClick={() =>
+                handleImageForThumble(true, {
+                  img1: products?.p_image_four,
+                  img2: products?.p_image_one,
+                  img3: products?.p_image_two,
+                  img4: products?.p_image_three,
+                })
+              }
+              style={{
+                backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.0001) 62.15%, rgba(0, 0, 0, 0.5) 100%),url(${products?.p_image_four})`,
                 backgroundSize: "cover",
                 height: "92vh",
                 maxHeight: "auto",

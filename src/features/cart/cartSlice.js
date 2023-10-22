@@ -73,6 +73,7 @@ export const cartSlice = createSlice({
             design_code: productID.design_code,
             text: productID.text,
             size: productID.size,
+            isFragile: productID.isFragile,
             size_id: productID.size_id,
             colors: productID.colors,
             color_id: productID.color_id,

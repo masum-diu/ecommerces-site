@@ -16,7 +16,6 @@ const payment = () => {
     if (payment === "success") {
     }
   }, []);
-  console.log("payment", payment);
   const handleClearButtonClick = () => {
     dispatch(clearCart("cart"));
     router.push("/shop");
