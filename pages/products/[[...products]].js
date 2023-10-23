@@ -54,7 +54,7 @@ const shop = () => {
   };
   const handleSecondBanner = () => {
     const backUrl = homedata?.back_url_three;
-    const pathname = `/products/${backUrl.split("?")[0]}`;
+    const pathname = `/products/${backUrl?.split("?")[0]}`;
     const query = {};
 
     const catMatch = /cat=(\d+)/.exec(backUrl);
@@ -67,14 +67,16 @@ const shop = () => {
       query.sub_cat = subCatMatch[1];
     }
 
-    router.push({
-      pathname,
-      query,
-    });
+    if (subCatMatch && catMatch) {
+      return `${pathname}?cat=${query.cat}&sub_cat=${query.sub_cat}`;
+    }
+    if (!subCatMatch) {
+      return `${pathname}?cat=${query.cat}`;
+    }
   };
   const handleThirdBanner = () => {
     const backUrl = homedata?.back_url_four;
-    const pathname = `/products/${backUrl.split("?")[0]}`;
+    const pathname = `/products/${backUrl?.split("?")[0]}`;
     const query = {};
 
     const catMatch = /cat=(\d+)/.exec(backUrl);
@@ -87,10 +89,56 @@ const shop = () => {
       query.sub_cat = subCatMatch[1];
     }
 
-    router.push({
-      pathname,
-      query,
-    });
+    if (subCatMatch && catMatch) {
+      return `${pathname}?cat=${query.cat}&sub_cat=${query.sub_cat}`;
+    }
+    if (!subCatMatch) {
+      return `${pathname}?cat=${query.cat}`;
+    }
+  };
+  const handleSecondBannerForA = () => {
+    const backUrl = homedata?.back_url_three;
+    const pathname = `/products/${backUrl?.split("?")[0]}`;
+    const query = {};
+
+    const catMatch = /cat=(\d+)/.exec(backUrl);
+    if (catMatch) {
+      query.cat = catMatch[1];
+    }
+
+    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
+    if (subCatMatch) {
+      query.sub_cat = subCatMatch[1];
+    }
+
+    if (subCatMatch && catMatch) {
+      return `${pathname}?cat=${query.cat}&sub_cat=${query.sub_cat}`;
+    }
+    if (!subCatMatch) {
+      return `${pathname}?cat=${query.cat}`;
+    }
+  };
+  const handleThirdBannerForA = () => {
+    const backUrl = homedata?.back_url_four;
+    const pathname = `/products/${backUrl?.split("?")[0]}`;
+    const query = {};
+
+    const catMatch = /cat=(\d+)/.exec(backUrl);
+    if (catMatch) {
+      query.cat = catMatch[1];
+    }
+
+    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
+    if (subCatMatch) {
+      query.sub_cat = subCatMatch[1];
+    }
+
+    if (subCatMatch && catMatch) {
+      return `${pathname}?cat=${query.cat}&sub_cat=${query.sub_cat}`;
+    }
+    if (!subCatMatch) {
+      return `${pathname}?cat=${query.cat}`;
+    }
   };
 
   const handleFourthBanner = () => {
@@ -168,9 +216,9 @@ const shop = () => {
               </video>`,
             }}
           />
-          <Link href="/new-collections">
-            <Stack>
-              <a href="/new-collections" style={{ lineHeight: 0 }}>
+          <Stack>
+            <Link href="/new-collections">
+              <a style={{ lineHeight: 0 }}>
                 <img
                   src={`${homedata?.image_two
                     ?.split("/")
@@ -187,11 +235,10 @@ const shop = () => {
                     width: "100%",
                     height: "fit-content",
                   }}
-                  onClick={() => handleFirstBanner()}
                 />
               </a>
-            </Stack>
-          </Link>
+            </Link>
+          </Stack>
           <Stack
             direction={"row"}
             sx={{
@@ -229,46 +276,47 @@ const shop = () => {
             </Typography>
           </Stack>
         </Stack>
+
         <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
           <Stack sx={{ width: "100%" }}>
-            <a
-              href={`/products/${homedata?.back_url_three?.split("?")[0]}`}
-              style={{ lineHeight: 0 }}
-            >
-              <img
-                src={`${homedata?.image_three
-                  ?.split("/")
-                  .slice(0, 6)
-                  .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
-                  ?.split("/")
-                  .slice(6)
-                  .join("/")}`}
-                style={{ cursor: "pointer" }}
-                alt=""
-                width={"100%"}
-                onClick={() => handleSecondBanner()}
-              />
-            </a>
+            <Link href={`${handleSecondBanner()}`}>
+              <a style={{ lineHeight: 0 }}>
+                <img
+                  src={`${homedata?.image_three
+                    ?.split("/")
+                    .slice(0, 6)
+                    .join(
+                      "/"
+                    )}/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
+                    ?.split("/")
+                    .slice(6)
+                    .join("/")}`}
+                  style={{ cursor: "pointer" }}
+                  alt=""
+                  width={"100%"}
+                />
+              </a>
+            </Link>
           </Stack>
           <Stack sx={{ width: "100%" }}>
-            <a
-              href={`/products/${homedata?.back_url_four?.split("?")[0]}`}
-              style={{ lineHeight: 0 }}
-            >
-              <img
-                src={`${homedata?.image_four
-                  ?.split("/")
-                  .slice(0, 6)
-                  .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
-                  ?.split("/")
-                  .slice(6)
-                  .join("/")}`}
-                style={{ cursor: "pointer" }}
-                alt=""
-                width={"100%"}
-                onClick={() => handleThirdBanner()}
-              />
-            </a>
+            <Link href={`${handleThirdBanner()}`}>
+              <a style={{ lineHeight: 0 }}>
+                <img
+                  src={`${homedata?.image_four
+                    ?.split("/")
+                    .slice(0, 6)
+                    .join(
+                      "/"
+                    )}/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
+                    ?.split("/")
+                    .slice(6)
+                    .join("/")}`}
+                  style={{ cursor: "pointer" }}
+                  alt=""
+                  width={"100%"}
+                />
+              </a>
+            </Link>
           </Stack>
           <Stack
             direction={"row"}
