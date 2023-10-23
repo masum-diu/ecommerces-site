@@ -63,44 +63,46 @@ const ProductsLayoutWithStaticImage = ({
       <Grid
         container
         justifyContent={"center"}
-        spacing={2}
+        spacing={0}
         sx={{
-          width: "90%",
+          width: "95%",
           maxWidth: "1500px",
           margin: "0 auto",
           marginTop: "1rem",
         }}
       >
         {productsDataChunk?.slice(1, 4).map((product) => (
-          <Grid item lg={4} sm={6} key={product?.id}>
-            <HovarImage
-              url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
-              data={product}
-              imageURL={`${product?.feature_image}`}
-              width={568}
-              height={827}
-            />
-            <Stack
-              direction={"row"}
-              spacing={2}
-              justifyContent={"space-between"}
-              mt={2}
-            >
-              <Typography
-                variant="cardHeader3"
-                color="initial"
-                className="SemiBold"
+          <Grid item lg={4} sm={6} key={product?.id} >
+            <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
+              <HovarImage
+                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+                data={product}
+                imageURL={`${product?.feature_image}`}
+                // width={568}
+                // height={827}
+              />
+              <Stack
+                direction={"row"}
+                spacing={2}
+                justifyContent={"space-between"}
+                mt={2}
               >
-                {product?.p_name}
-              </Typography>
-              <Typography
-                variant="cardHeader3"
-                color="initial"
-                className="bold"
-              >
-                {/* BDT {product?.p_stocks[0]?.mrp} */}
-                {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-              </Typography>
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  className="SemiBold"
+                >
+                  {product?.p_name}
+                </Typography>
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  className="bold"
+                >
+                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
+                </Typography>
+              </Stack>
             </Stack>
           </Grid>
         ))}
@@ -132,9 +134,9 @@ const ProductsLayoutWithStaticImage = ({
       <Grid
         container
         justifyContent={"center"}
-        spacing={2}
+        // spacing={2}
         sx={{
-          width: "90%",
+          width: "95%",
           maxWidth: "1500px",
           margin: "0 auto",
           marginTop: "3rem",
@@ -142,12 +144,13 @@ const ProductsLayoutWithStaticImage = ({
       >
         {productsDataChunk?.slice(4, 7).map((product) => (
           <Grid item lg={4} sm={6} key={product?.id}>
+            <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
             <HovarImage
               url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
               data={product}
               imageURL={`${product?.feature_image}`}
-              width={568}
-              height={827}
+              // width={568}
+              // height={827}
             />
             <Stack
               direction={"row"}
@@ -170,6 +173,7 @@ const ProductsLayoutWithStaticImage = ({
                 {/* BDT {product?.p_stocks[0]?.mrp} */}
                 {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
               </Typography>
+            </Stack>
             </Stack>
           </Grid>
         ))}

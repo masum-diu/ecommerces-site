@@ -1108,7 +1108,7 @@ const checkout = () => {
           </Typography>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            style={{ width: "100%", margin: "0 auto" }}
+            style={{ width: "94%", margin: "0 auto",maxWidth:"1500px" }}
           >
             <Grid
               container

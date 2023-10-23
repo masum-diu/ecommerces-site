@@ -50,7 +50,8 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
             </Typography>
             <Typography variant="cardHeader3" color="initial" className="bold">
               {/* BDT {productsDataChunk[0]?.p_stocks[0]?.mrp} */}
-              {selectedCurrency} {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
+              {selectedCurrency}{" "}
+              {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
             </Typography>
           </Stack>
         </Stack>
@@ -58,9 +59,9 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
       <Grid
         container
         justifyContent={"center"}
-        spacing={2}
+        // spacing={2}
         sx={{
-          width: "90%",
+          width: "95%",
           maxWidth: "1500px",
           margin: "0 auto",
           marginTop: "1rem",
@@ -68,28 +69,32 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
       >
         {productsDataChunk?.slice(1, 4).map((product, index) => (
           <Grid item lg={4} sm={6} key={product?.id}>
-            <HovarImage
-              url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
-              data={product}
-              imageURL={`${product?.feature_image}`}
-            />
-            <Stack
-              direction={"row"}
-              spacing={2}
-              justifyContent={"space-between"}
-              mt={2}
-            >
-              <Typography variant="cardHeader3" color="initial">
-                {product?.p_name}
-              </Typography>
-              <Typography
-                variant="cardHeader3"
-                color="initial"
-                className="bold"
+            <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
+              <HovarImage
+                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+                data={product}
+                imageURL={`${product?.feature_image}`}
+                // width={568}
+                // height={827}
+              />
+              <Stack
+                direction={"row"}
+                spacing={2}
+                justifyContent={"space-between"}
+                mt={2}
               >
-                {/* BDT {product?.p_stocks[0]?.mrp} */}
-                {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-              </Typography>
+                <Typography variant="cardHeader3" color="initial">
+                  {product?.p_name}
+                </Typography>
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  className="bold"
+                >
+                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
+                </Typography>
+              </Stack>
             </Stack>
           </Grid>
         ))}
@@ -97,9 +102,9 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
       <Grid
         container
         justifyContent={"center"}
-        spacing={2}
+        // spacing={2}
         sx={{
-          width: "90%",
+          width: "95%",
           maxWidth: "1500px",
           margin: "0 auto",
           marginTop: "1rem",
@@ -107,28 +112,32 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
       >
         {productsDataChunk?.slice(4, 6).map((product) => (
           <Grid item lg={4} sm={6} key={product?.id}>
-            <HovarImage
-              url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
-              data={product}
-              imageURL={`${product?.feature_image}`}
-            />
-            <Stack
-              direction={"row"}
-              spacing={2}
-              justifyContent={"space-between"}
-              mt={2}
-            >
-              <Typography variant="cardHeader3" color="initial">
-                {product?.p_name}
-              </Typography>
-              <Typography
-                variant="cardHeader3"
-                color="initial"
-                className="bold"
+            <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
+              <HovarImage
+                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+                data={product}
+                imageURL={`${product?.feature_image}`}
+                // width={568}
+                // height={827}
+              />
+              <Stack
+                direction={"row"}
+                spacing={2}
+                justifyContent={"space-between"}
+                mt={2}
               >
-                {/* BDT {product?.p_stocks[0]?.mrp} */}
-                {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-              </Typography>
+                <Typography variant="cardHeader3" color="initial">
+                  {product?.p_name}
+                </Typography>
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  className="bold"
+                >
+                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
+                </Typography>
+              </Stack>
             </Stack>
           </Grid>
         ))}
@@ -136,9 +145,9 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
       <Grid
         container
         justifyContent={"center"}
-        spacing={2}
+        // spacing={2}
         sx={{
-          width: "90%",
+          width: "95%",
           maxWidth: "1500px",
           margin: "0 auto",
           marginTop: "1rem",
@@ -146,28 +155,32 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
       >
         {productsDataChunk?.slice(6, 9).map((product) => (
           <Grid item lg={4} sm={6} key={product?.id}>
-            <HovarImage
-              url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
-              data={product}
-              imageURL={`${product?.feature_image}`}
-            />
-            <Stack
-              direction={"row"}
-              spacing={2}
-              justifyContent={"space-between"}
-              mt={2}
-            >
-              <Typography variant="cardHeader3" color="initial">
-                {product?.p_name}
-              </Typography>
-              <Typography
-                variant="cardHeader3"
-                color="initial"
-                className="bold"
+            <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
+              <HovarImage
+                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+                data={product}
+                imageURL={`${product?.feature_image}`}
+                // width={568}
+                // height={827}
+              />
+              <Stack
+                direction={"row"}
+                spacing={2}
+                justifyContent={"space-between"}
+                mt={2}
               >
-                {/* BDT {product?.p_stocks[0]?.mrp} */}
-                {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-              </Typography>
+                <Typography variant="cardHeader3" color="initial">
+                  {product?.p_name}
+                </Typography>
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  className="bold"
+                >
+                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
+                </Typography>
+              </Stack>
             </Stack>
           </Grid>
         ))}

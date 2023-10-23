@@ -1574,7 +1574,7 @@ const PorductDetails = () => {
                 spacing={1}
                 sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
               >
-                <Typography variant="cardHeader3" color="initial">
+                <Typography variant="cardHeader3" color="initial" textAlign={"justify"}>
                   {description}
                 </Typography>
                 {products?.p_sizes?.length > 0 ? (
@@ -1599,7 +1599,7 @@ const PorductDetails = () => {
                       alignItems="start"
                       justifyContent={"space-between"}
                     >
-                      <Stack direction={"row"}>
+                      <Stack direction={"row"} sx={{flexWrap:"wrap",columnGap:1,rowGap:1}}>
                         {products?.p_sizes?.map((size, index) => (
                           <Button
                             startIcon={

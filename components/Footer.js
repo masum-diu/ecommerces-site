@@ -26,14 +26,15 @@ const Footer = () => {
         <Stack
           direction={"column"}
           sx={{
-            p: 4,
+            p: 1,
             justifyContent: "center",
             alignItems: "center",
             width: "95%",
             margin: "0 auto",
             maxWidth: "1500px",
+           
           }}
-          spacing={4}
+          spacing={{lg:4,xs:2}}
         >
           <img src="/assets/footerLogo.png" alt="" />
           <Typography
@@ -62,7 +63,7 @@ const Footer = () => {
           <Typography variant="normal" color="#F2F2F2">
             ABOUT
           </Typography>
-          <Stack direction={"row"} flexWrap={"wrap"} columnGap={4} rowGap={2}>
+          <Stack direction={"row"} flexWrap={"wrap"} columnGap={4} rowGap={2} >
             <Typography variant="cardHeader2" color="#F2F2F2">
               About
             </Typography>
@@ -72,11 +73,12 @@ const Footer = () => {
             <Typography variant="cardHeader2" color="#F2F2F2">
               Colors
             </Typography>
-            <Typography variant="cardHeader2" color="#F2F2F2">
-              Sustainability
-            </Typography>
+           
             <Typography variant="cardHeader2" color="#F2F2F2">
               Partners
+            </Typography>
+            <Typography variant="cardHeader2" color="#F2F2F2">
+              Sustainability
             </Typography>
             <Typography variant="cardHeader2" color="#F2F2F2">
               Blog
@@ -149,6 +151,7 @@ const Footer = () => {
             width: "95%",
             margin: "0 auto",
             maxWidth: "1500px",
+           flexDirection:{xs:"column-reverse",lg:"row"}
           }}
           direction={"row"}
         >
@@ -157,9 +160,10 @@ const Footer = () => {
           </Typography>
           <Stack
             direction={"row"}
-            columnGap={3}
+            columnGap={2}
             rowGap={2}
             px={2}
+            flexWrap={"wrap"}
             alignItems="center"
           >
             {data?.map((content, index) => (

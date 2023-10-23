@@ -21,6 +21,7 @@ import Loader from "../../components/Loader/Loader";
 import SegmentIcon from "@mui/icons-material/Segment";
 import { useContext } from "react";
 import USER_CONTEXT from "../../components/userContext";
+import { MdClose } from "react-icons/md";
 
 const policiespages = () => {
   // const [selectItem, setSelectItem] = useState("terms-conditions");
@@ -30,6 +31,7 @@ const policiespages = () => {
   // console.log("data", data);
   const handleMenuClick = (menu) => {
     setSelectItem(menu);
+    setOpen(false)
   };
   const renderMenuContent = () => {
     const selectedItem = data?.find((item) => item.slug === selectItem);
@@ -44,7 +46,7 @@ const policiespages = () => {
   return (
     <>
       <HomePageIntro title={"PoliciesPages "} />
-      <Box sx={{ pt: { lg: 8, xs: 7 } }} mb={4} height={"fit-content"}>
+      <Box sx={{ pt: { lg: 8, xs: 7 } }} mb={4} >
         <Stack>
           <Typography
             variant="header1"
@@ -91,6 +93,8 @@ const policiespages = () => {
                               variant="cardHeader1"
                               className="bold"
                               color="initial"
+                              textAlign={"left"}
+              
                             >
                               {content?.title}
                             </Typography>
@@ -104,7 +108,7 @@ const policiespages = () => {
             </Grid>
           </Hidden>
           <Grid item lg={6} sm={12} xs={12}>
-            <Typography paragraph>{renderMenuContent()}</Typography>
+            <Typography paragraph  textAlign={"justify"}>{renderMenuContent()}</Typography>
           </Grid>
         </Grid>
       </Box>
@@ -122,6 +126,11 @@ const policiespages = () => {
           },
         }}
       >
+        <Stack justifyContent={"flex-end"} alignItems={"flex-end"} p={1}>
+          <IconButton aria-label="" onClick={() => setOpen(false)}>
+            <MdClose />
+          </IconButton>
+        </Stack>
         <List>
           {data?.map((content, index) => (
             <ListItem key={index} disablePadding>

@@ -721,7 +721,6 @@ const masterCollectionLayout = () => {
   if (loading || loadingCat) {
     return <Loader></Loader>;
   }
-  console.log('products',products)
   // Slicing data for static products and dynamic products
   const productsForStatic = filteredData.slice(0, 7);
   const productsForDynamic = chunkArray(filteredData.slice(9));
@@ -804,27 +803,6 @@ const masterCollectionLayout = () => {
             {productName} COLLECTION
           </Typography>
         </Stack>
-
-        {/* <Stack
-          direction={"row"}
-          sx={{
-            width: "95%",
-            maxWidth: "1500px",
-            margin: "0 auto",
-            justifyContent: "space-between",
-          }}
-        >
-          <IconButton onClick={() => setLists(true)}>
-            <Hidden only={["xl", "lg"]}>
-              <SortIcon />
-            </Hidden>
-          </IconButton>
-          {/* <IconButton onClick={() => setLists1(true)}>
-            <Hidden only={["xl", "lg"]}>
-              <SegmentIcon />
-            </Hidden>
-          </IconButton> 
-        </Stack> */}
 
         <Box
           sx={{

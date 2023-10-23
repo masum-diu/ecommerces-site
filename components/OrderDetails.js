@@ -122,7 +122,7 @@ const OrderDetails = () => {
               {selectedCurrency} {totalPriceWithTax}
             </Typography>
           </Stack>
-          <Divider />
+          {/* <Divider /> */}
         </Stack>
       </Paper>
     </Grid>

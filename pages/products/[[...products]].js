@@ -92,9 +92,10 @@ const shop = () => {
       query,
     });
   };
+
   const handleFourthBanner = () => {
     const backUrl = homedata?.back_url_five;
-    const pathname = `/products/${backUrl.split("?")[0]}`;
+    const pathname = `/products/${backUrl?.split("?")[0]}`;
     const query = {};
 
     const catMatch = /cat=(\d+)/.exec(backUrl);
@@ -167,19 +168,30 @@ const shop = () => {
               </video>`,
             }}
           />
-          {console.log("your log output", homedata)}
-          <img
-            src={`${homedata?.image_two
-              ?.split("/")
-              .slice(0, 6)
-              .join("/")}/c_lfill,g_auto,h_900,w_1920/${homedata?.image_two
-              ?.split("/")
-              .slice(6)
-              .join("/")}`}
-            alt=""
-            style={{ cursor: "pointer" }}
-            onClick={() => handleFirstBanner()}
-          />
+          <Link href="/new-collections">
+            <Stack>
+              <a href="/new-collections" style={{ lineHeight: 0 }}>
+                <img
+                  src={`${homedata?.image_two
+                    ?.split("/")
+                    .slice(0, 6)
+                    .join(
+                      "/"
+                    )}/c_lfill,g_auto,h_900,w_1920/${homedata?.image_two
+                    ?.split("/")
+                    .slice(6)
+                    .join("/")}`}
+                  alt=""
+                  style={{
+                    cursor: "pointer",
+                    width: "100%",
+                    height: "fit-content",
+                  }}
+                  onClick={() => handleFirstBanner()}
+                />
+              </a>
+            </Stack>
+          </Link>
           <Stack
             direction={"row"}
             sx={{
@@ -218,33 +230,46 @@ const shop = () => {
           </Stack>
         </Stack>
         <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
-          <img
-            src={`${homedata?.image_three
-              ?.split("/")
-              .slice(0, 6)
-              .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
-              ?.split("/")
-              .slice(6)
-              .join("/")}`}
-            style={{ cursor: "pointer" }}
-            alt=""
-            width={"50%"}
-            onClick={() => handleSecondBanner()}
-          />
-
-          <img
-            src={`${homedata?.image_four
-              ?.split("/")
-              .slice(0, 6)
-              .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
-              ?.split("/")
-              .slice(6)
-              .join("/")}`}
-            style={{ cursor: "pointer" }}
-            alt=""
-            width={"50%"}
-            onClick={() => handleThirdBanner()}
-          />
+          <Stack sx={{ width: "100%" }}>
+            <a
+              href={`/products/${homedata?.back_url_three?.split("?")[0]}`}
+              style={{ lineHeight: 0 }}
+            >
+              <img
+                src={`${homedata?.image_three
+                  ?.split("/")
+                  .slice(0, 6)
+                  .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
+                  ?.split("/")
+                  .slice(6)
+                  .join("/")}`}
+                style={{ cursor: "pointer" }}
+                alt=""
+                width={"100%"}
+                onClick={() => handleSecondBanner()}
+              />
+            </a>
+          </Stack>
+          <Stack sx={{ width: "100%" }}>
+            <a
+              href={`/products/${homedata?.back_url_four?.split("?")[0]}`}
+              style={{ lineHeight: 0 }}
+            >
+              <img
+                src={`${homedata?.image_four
+                  ?.split("/")
+                  .slice(0, 6)
+                  .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
+                  ?.split("/")
+                  .slice(6)
+                  .join("/")}`}
+                style={{ cursor: "pointer" }}
+                alt=""
+                width={"100%"}
+                onClick={() => handleThirdBanner()}
+              />
+            </a>
+          </Stack>
           <Stack
             direction={"row"}
             sx={{
@@ -380,9 +405,9 @@ const shop = () => {
           height={700}
         /> */}
         <Stack
-          onClick={() => handleFourthBanner()}
+          // onClick={() => handleFourthBanner()}
           direction={"row"}
-          sx={{ width: "100%", position: "relative", cursor: "pointer" }}
+          sx={{ width: "100%", position: "relative" }}
         >
           <img
             src={`${homedata?.image_five
@@ -423,11 +448,11 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>
+              {/* <li>
                 {homedata?.back_url_five
                   ? /^(.*?)\?/.exec(homedata?.back_url_five)[1]
                   : ""}
-              </li>
+              </li> */}
             </Typography>
           </Stack>
         </Stack>

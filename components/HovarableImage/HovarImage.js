@@ -149,12 +149,14 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     <div>
       <div className={style.uicard}>
         <Link href={url}>
-          <img
-            src={imageURL}
-            style={{ maxWidth: "100%", height: "auto" }}
-            width={width}
-            height={height}
-          />
+          <a>
+            <img
+              src={imageURL}
+              style={{ maxWidth: "100%", height: "auto" }}
+              width={width}
+              height={height}
+            />
+          </a>
         </Link>
         <div className={style.description}>
           <Stack direction={"column"} spacing={1}>

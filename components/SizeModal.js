@@ -141,7 +141,7 @@ const SizeModal = ({ open, setOpen, subCat, cat, sizes, categoryName }) => {
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
-          sx: { width: { lg: "50%", xs: "100vw" }, height: "fit-content" },
+          sx: { width: { lg: "50%", xs: "100%" }},
         }}
       >
         <Stack justifyContent={"flex-end"} alignItems={"flex-end"} p={1}>
