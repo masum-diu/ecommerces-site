@@ -13,6 +13,8 @@ const initialState = {
   totalProductWeight: 0,
   totalPriceWithoutFragileCharge: 0,
   totalPriceWithoutFragileChargeOrg: 0,
+  totalPriceAfterDiscount: 0,
+  totalPriceAfterDiscountOrg: 0,
 };
 
 export const cartSlice = createSlice({
@@ -50,6 +52,11 @@ export const cartSlice = createSlice({
           exist.totalFragileChargeOrg += productID.totalFragileChargeOrg;
           exist.productWeight = productID.productWeight;
           exist.totalProductWeight += productID.totalProductWeight;
+
+          exist.totalPriceAfterDiscount += productID.totalPriceAfterDiscountOrg;
+          exist.totalPriceAfterDiscountOrg +=
+            productID.totalPriceAfterDiscountOrg;
+
           state.totalAmount += productID.totalAmount;
           state.totalPrice += productID.totalPriceOrg;
           state.totalPriceWithTax += productID.totalPriceWithTaxOrg;
@@ -62,6 +69,10 @@ export const cartSlice = createSlice({
             productID.totalPriceWithoutFragileChargeOrg;
           state.totalPriceWithoutFragileChargeOrg +=
             productID.totalPriceWithoutFragileChargeOrg;
+
+          state.totalPriceAfterDiscount += productID.totalPriceAfterDiscountOrg;
+          state.totalPriceAfterDiscountOrg +=
+            productID.totalPriceAfterDiscountOrg;
         } else {
           state.cart.push({
             id: productID.id,
@@ -80,6 +91,10 @@ export const cartSlice = createSlice({
             color_name: productID.color_name,
             selectedCurrency: productID.selectedCurrency,
             price: productID.priceOrg,
+
+            priceAfterDiscount: productID.priceAfterDiscountOrg,
+            priceAfterDiscountOrg: productID.priceAfterDiscountOrg,
+
             priceWithoutFragile: productID.priceWithoutFragileOrg,
             priceWithTax: productID.priceWithTaxOrg,
             vatAmountParticularProduct: productID.vatAmountParticularProductOrg,
@@ -99,6 +114,10 @@ export const cartSlice = createSlice({
             totalPriceOrg: productID.totalPriceOrg,
             totalPriceWithoutFragileChargeOrg:
               productID.totalPriceWithoutFragileChargeOrg,
+
+            totalPriceAfterDiscount: productID.totalPriceAfterDiscountOrg,
+            totalPriceAfterDiscountOrg: productID.totalPriceAfterDiscountOrg,
+
             totalPriceWithTaxOrg: productID.totalPriceWithTaxOrg,
             fragileChargeOrg: productID.fragileChargeOrg,
             totalProductWeight: productID.totalProductWeight,
@@ -115,6 +134,10 @@ export const cartSlice = createSlice({
             productID.totalPriceWithoutFragileChargeOrg;
           state.totalPriceWithoutFragileChargeOrg +=
             productID.totalPriceWithoutFragileChargeOrg;
+
+          state.totalPriceAfterDiscount += productID.totalPriceAfterDiscountOrg;
+          state.totalPriceAfterDiscountOrg +=
+            productID.totalPriceAfterDiscountOrg;
         }
       } catch (e) {
         return e;
@@ -154,6 +177,11 @@ export const cartSlice = createSlice({
           exist.totalProductWeight += productID.totalProductWeight;
           exist.priceWithoutFragile = productID.priceWithoutFragileOrg;
           exist.priceWithoutFragileOrg = productID.priceWithoutFragileOrg;
+
+          exist.totalPriceAfterDiscount = productID.totalPriceAfterDiscountOrg;
+          exist.totalPriceAfterDiscountOrg =
+            productID.totalPriceAfterDiscountOrg;
+
           state.totalAmount += 1;
           state.totalPrice += productID.priceOrg;
           state.totalPriceWithTax += productID.priceWithTaxOrg;
@@ -166,6 +194,10 @@ export const cartSlice = createSlice({
             productID.priceWithoutFragileOrg;
           state.totalPriceWithoutFragileChargeOrg +=
             productID.priceWithoutFragileOrg;
+
+          state.totalPriceAfterDiscount += productID.totalPriceAfterDiscountOrg;
+          state.totalPriceAfterDiscountOrg +=
+            productID.totalPriceAfterDiscountOrg;
         } else {
           state.cart.push({
             id: productID.id,
@@ -182,6 +214,10 @@ export const cartSlice = createSlice({
             color_name: productID.color_name,
             selectedCurrency: productID.selectedCurrency,
             price: productID.price,
+
+            priceAfterDiscount: productID.priceAfterDiscountOrg,
+            priceAfterDiscountOrg: productID.priceAfterDiscountOrg,
+
             priceWithoutFragile: productID.priceWithoutFragile,
             priceWithTax: productID.priceWithTax,
             vatAmountParticularProduct: productID.vatAmountParticularProduct,
@@ -204,6 +240,9 @@ export const cartSlice = createSlice({
             totalPriceWithTaxOrg: productID.totalPriceWithTaxOrg,
             fragileChargeOrg: productID.fragileChargeOrg,
             totalProductWeight: productID.totalProductWeight,
+
+            totalPriceAfterDiscount: productID.totalPriceAfterDiscountOrg,
+            totalPriceAfterDiscountOrg: productID.totalPriceAfterDiscountOrg,
           });
           state.totalAmount += productID.amount;
           state.totalPrice += productID.priceOrg;
@@ -217,6 +256,9 @@ export const cartSlice = createSlice({
             productID.priceWithoutFragileOrg;
           state.totalPriceWithoutFragileChargeOrg +=
             productID.priceWithoutFragileOrg;
+
+          state.totalPriceAfterDiscount += productID.priceAfterDiscountOrg;
+          state.totalPriceAfterDiscountOrg += productID.priceAfterDiscountOrg;
         }
       } catch (e) {
         return e;
@@ -254,6 +296,9 @@ export const cartSlice = createSlice({
             productID.priceWithoutFragileOrg;
           state.totalPriceWithoutFragileChargeOrg -=
             productID.priceWithoutFragileOrg;
+
+          state.totalPriceAfterDiscount -= productID.priceAfterDiscountOrg;
+          state.totalPriceAfterDiscountOrg -= productID.priceAfterDiscountOrg;
         } else {
           exist.amount--;
           exist.totalPrice -= productID.priceOrg;
@@ -266,6 +311,10 @@ export const cartSlice = createSlice({
             productID.priceWithoutFragileOrg;
           exist.totalPriceWithoutFragileChargeOrg -=
             productID.priceWithoutFragileOrg;
+
+          exist.totalPriceAfterDiscount -= productID.priceAfterDiscountOrg;
+          exist.totalPriceAfterDiscountOrg -= productID.priceAfterDiscountOrg;
+
           exist.vatAmountParticularProductOrg -=
             productID.vatAmountParticularProductOrg / productID.amount;
           exist.totalPriceWithTaxOrg -= productID.priceWithTaxOrg;
