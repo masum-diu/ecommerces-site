@@ -3,11 +3,12 @@ import React from "react";
 import HovarImage from "./HovarableImage/HovarImage";
 import { useRouter } from "next/router";
 import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
+import useDiscountCount from "../src/hooks/useDiscountCount";
 
 const ProductsLayout = ({ productsDataChunk, isLoading }) => {
   const router = useRouter();
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
-
+  const { updatedPriceAfterDiscount } = useDiscountCount();
   if (productsDataChunk.length === 0) return <></>;
   return (
     <>
@@ -48,11 +49,77 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
             >
               {productsDataChunk[0]?.p_name}
             </Typography>
-            <Typography variant="cardHeader3" color="initial" className="bold">
-              {/* BDT {productsDataChunk[0]?.p_stocks[0]?.mrp} */}
+            <Stack
+              direction={"column"}
+              justifyContent={"space-between"}
+              alignItems={"end"}
+            >
+              {productsDataChunk[0]?.p_stocks[0]?.discount?.discount_type !==
+              undefined ? (
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  className="bold"
+                >
+                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency}{" "}
+                  <span>
+                    {
+                      updatedPriceAfterDiscount(
+                        convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp),
+                        productsDataChunk[0]?.p_stocks[0]?.discount
+                          ?.discount_amount,
+                        productsDataChunk[0]?.p_stocks[0]?.discount
+                          ?.discount_type
+                      ).updatedPrice
+                    }
+                  </span>
+                </Typography>
+              ) : (
+                ""
+              )}
+              <Stack direction={"row"} spacing={2}>
+                {productsDataChunk[0]?.p_stocks[0]?.discount?.discount_type !==
+                undefined ? (
+                  <Typography
+                    variant="cardHeader3"
+                    color="initial"
+                    className="bold"
+                  >
+                    -
+                    {
+                      productsDataChunk[0]?.p_stocks[0]?.discount
+                        ?.discount_amount
+                    }
+                    %
+                  </Typography>
+                ) : (
+                  ""
+                )}
+
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  className="bold"
+                  style={{
+                    textDecorationLine: `${
+                      productsDataChunk[0]?.p_stocks[0]?.discount
+                        ?.discount_type !== undefined
+                        ? "line-through"
+                        : "none"
+                    }`,
+                  }}
+                >
+                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency}{" "}
+                  {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
+                </Typography>
+              </Stack>
+            </Stack>
+            {/* <Typography variant="cardHeader3" color="initial" className="bold">
               {selectedCurrency}{" "}
               {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
-            </Typography>
+            </Typography> */}
           </Stack>
         </Stack>
       )}
@@ -86,14 +153,73 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                 <Typography variant="cardHeader3" color="initial">
                   {product?.p_name}
                 </Typography>
-                <Typography
+                <Stack
+                  direction={"column"}
+                  justifyContent={"space-between"}
+                  alignItems={"end"}
+                >
+                  {product?.p_stocks[0]?.discount?.discount_type !==
+                  undefined ? (
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      <span>
+                        {
+                          updatedPriceAfterDiscount(
+                            convertPrice(product?.p_stocks[0]?.mrp),
+                            product?.p_stocks[0]?.discount?.discount_amount,
+                            product?.p_stocks[0]?.discount?.discount_type
+                          ).updatedPrice
+                        }
+                      </span>
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Stack direction={"row"} spacing={2}>
+                    {product?.p_stocks[0]?.discount?.discount_type !==
+                    undefined ? (
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="bold"
+                      >
+                        -{product?.p_stocks[0]?.discount?.discount_amount}%
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                      style={{
+                        textDecorationLine: `${
+                          product?.p_stocks[0]?.discount?.discount_type !==
+                          undefined
+                            ? "line-through"
+                            : "none"
+                        }`,
+                      }}
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      {convertPrice(product?.p_stocks[0]?.mrp)}
+                    </Typography>
+                  </Stack>
+                </Stack>
+                {/* <Typography
                   variant="cardHeader3"
                   color="initial"
                   className="bold"
                 >
-                  {/* BDT {product?.p_stocks[0]?.mrp} */}
                   {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-                </Typography>
+                </Typography> */}
               </Stack>
             </Stack>
           </Grid>
@@ -129,14 +255,74 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                 <Typography variant="cardHeader3" color="initial">
                   {product?.p_name}
                 </Typography>
-                <Typography
+                <Stack
+                  direction={"column"}
+                  justifyContent={"space-between"}
+                  alignItems={"end"}
+                >
+                  {product?.p_stocks[0]?.discount?.discount_type !==
+                  undefined ? (
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      <span>
+                        {
+                          updatedPriceAfterDiscount(
+                            convertPrice(product?.p_stocks[0]?.mrp),
+                            product?.p_stocks[0]?.discount?.discount_amount,
+                            product?.p_stocks[0]?.discount?.discount_type
+                          ).updatedPrice
+                        }
+                      </span>
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Stack direction={"row"} spacing={2}>
+                    {product?.p_stocks[0]?.discount?.discount_type !==
+                    undefined ? (
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="bold"
+                      >
+                        -{product?.p_stocks[0]?.discount?.discount_amount}%
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                      style={{
+                        textDecorationLine: `${
+                          product?.p_stocks[0]?.discount?.discount_type !==
+                          undefined
+                            ? "line-through"
+                            : "none"
+                        }`,
+                      }}
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      {convertPrice(product?.p_stocks[0]?.mrp)}
+                    </Typography>
+                  </Stack>
+                </Stack>
+                {/* <Typography
                   variant="cardHeader3"
                   color="initial"
                   className="bold"
                 >
-                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  
                   {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-                </Typography>
+                </Typography> */}
               </Stack>
             </Stack>
           </Grid>
@@ -172,14 +358,73 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                 <Typography variant="cardHeader3" color="initial">
                   {product?.p_name}
                 </Typography>
-                <Typography
+                <Stack
+                  direction={"column"}
+                  justifyContent={"space-between"}
+                  alignItems={"end"}
+                >
+                  {product?.p_stocks[0]?.discount?.discount_type !==
+                  undefined ? (
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      <span>
+                        {
+                          updatedPriceAfterDiscount(
+                            convertPrice(product?.p_stocks[0]?.mrp),
+                            product?.p_stocks[0]?.discount?.discount_amount,
+                            product?.p_stocks[0]?.discount?.discount_type
+                          ).updatedPrice
+                        }
+                      </span>
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Stack direction={"row"} spacing={2}>
+                    {product?.p_stocks[0]?.discount?.discount_type !==
+                    undefined ? (
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="bold"
+                      >
+                        -{product?.p_stocks[0]?.discount?.discount_amount}%
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                      style={{
+                        textDecorationLine: `${
+                          product?.p_stocks[0]?.discount?.discount_type !==
+                          undefined
+                            ? "line-through"
+                            : "none"
+                        }`,
+                      }}
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      {convertPrice(product?.p_stocks[0]?.mrp)}
+                    </Typography>
+                  </Stack>
+                </Stack>
+                {/* <Typography
                   variant="cardHeader3"
                   color="initial"
                   className="bold"
                 >
-                  {/* BDT {product?.p_stocks[0]?.mrp} */}
                   {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-                </Typography>
+                </Typography> */}
               </Stack>
             </Stack>
           </Grid>

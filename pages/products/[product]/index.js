@@ -101,8 +101,7 @@ const masterCollectionLayout = () => {
   const divRef = useRef(null);
   const cat = router.query?.cat;
   const sub_cat = router.query?.sub_cat;
-
-  // console.log('your log output',debounced)
+  console.log("your log output", products);
   // Getting product data with subCategory
   const {
     data,

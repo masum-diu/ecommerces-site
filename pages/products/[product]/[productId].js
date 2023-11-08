@@ -48,6 +48,7 @@ import HovarImage from "../../../components/HovarableImage/HovarImage";
 import style from "../../../public/assets/css/innerpage.module.css";
 import { useCurrencyConversion } from "../../../src/hooks/useCurrencyConversion";
 import ProductPoPup from "../../../components/ProductPoPup";
+import useDiscountCount from "../../../src/hooks/useDiscountCount";
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
@@ -76,6 +77,7 @@ const PorductDetails = () => {
   const [stockAmount, setStockAmount] = useState(0);
   const [productPrice, setProductPrice] = useState(0);
   const [priceWithoutFragileCharge, setPriceWithoutFragileCharge] = useState(0);
+  const [priceAfterDiscount, setPriceAfterDiscount] = useState(0);
   const [fragileCharge, setFragileCharge] = useState(0);
   const [productWeight, setProductWeight] = useState(0);
   const [products, setProducts] = useState({});
@@ -87,7 +89,7 @@ const PorductDetails = () => {
   const [categoryName, setCategoryName] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFragile, setIsFragile] = useState(false);
-
+  console.log("your log output", products);
   // product popup
   const [productpopup, setProductpopup] = useState(false);
   const [noteTextForStock, setNoteTextForStock] = useState(
@@ -108,6 +110,7 @@ const PorductDetails = () => {
     myProduct?.showBrokenHeart ? myProduct?.showBrokenHeart : "none"
   );
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
+  const { updatedPriceAfterDiscount } = useDiscountCount();
   const category = products?.p_category?.id;
   const p_id = products?.id;
   const sub_catcategory = products?.p_subcategory?.id;
@@ -194,8 +197,18 @@ const PorductDetails = () => {
         setStockAmount(selectedProduct?.stock);
         if (selectedProduct?.mrp) {
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          setPriceAfterDiscount(
+            updatedPriceAfterDiscount(
+              selectedProduct?.mrp,
+              selectedProduct?.discount?.discount_amount,
+              selectedProduct?.discount?.discount_type
+            ).updatedPrice
+          );
+          // setPriceAfterDiscount(updatedPriceAfterDiscount())
         } else {
           setPriceWithoutFragileCharge(0);
+          setPriceAfterDiscount(0);
+          // setPriceAfterDiscount(updatedPriceAfterDiscount())
         }
         setProductPrice(selectedProduct?.mrp);
 
@@ -249,7 +262,15 @@ const PorductDetails = () => {
           const selectedProduct = products?.p_stocks?.find(
             (stock) => stock?.colour_id === colorId
           );
+
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          setPriceAfterDiscount(
+            updatedPriceAfterDiscount(
+              selectedProduct?.mrp,
+              selectedProduct?.discount?.discount_amount,
+              selectedProduct?.discount?.discount_type
+            ).updatedPrice
+          );
           setProductPrice(selectedProduct?.mrp);
 
           setStockDetails(selectedProduct);
@@ -260,6 +281,13 @@ const PorductDetails = () => {
             (stock) => stock?.size_id === sizeId
           );
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
+          setPriceAfterDiscount(
+            updatedPriceAfterDiscount(
+              selectedProduct?.mrp,
+              selectedProduct?.discount?.discount_amount,
+              selectedProduct?.discount?.discount_type
+            ).updatedPrice
+          );
           setProductPrice(selectedProduct?.mrp);
 
           setStockDetails(selectedProduct);
@@ -311,6 +339,13 @@ const PorductDetails = () => {
       setDisableBtn(true);
       if (products?.p_stocks) {
         setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
+        setPriceAfterDiscount(
+          updatedPriceAfterDiscount(
+            products?.p_stocks[0]?.mrp,
+            products?.p_stocks[0]?.discount?.discount_amount,
+            products?.p_stocks[0]?.discount?.discount_type
+          ).updatedPrice
+        );
         setProductPrice(products?.p_stocks[0]?.mrp);
 
         if (products?.p_stocks[0]?.stock > 0) {
@@ -435,6 +470,8 @@ const PorductDetails = () => {
     ),
     priceWithoutFragile: priceWithoutFragileCharge,
     priceWithoutFragileOrg: priceWithoutFragileCharge,
+    priceAfterDiscount: priceAfterDiscount,
+    priceAfterDiscountOrg: priceAfterDiscount,
     vatAmountParticularProduct:
       count *
       parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
@@ -452,6 +489,8 @@ const PorductDetails = () => {
       parseFloat(priceWithoutFragileCharge) * count,
     totalPriceWithoutFragileChargeOrg:
       parseFloat(priceWithoutFragileCharge) * count,
+    totalPriceAfterDiscount: priceAfterDiscount * count,
+    totalPriceAfterDiscountOrg: priceAfterDiscount * count,
     totalPriceOrg: count * parseFloat(productPrice),
     totalPriceWithTax:
       count *
@@ -1574,7 +1613,11 @@ const PorductDetails = () => {
                 spacing={1}
                 sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
               >
-                <Typography variant="cardHeader3" color="initial" textAlign={"justify"}>
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  textAlign={"justify"}
+                >
                   {description}
                 </Typography>
                 {products?.p_sizes?.length > 0 ? (
@@ -1599,7 +1642,10 @@ const PorductDetails = () => {
                       alignItems="start"
                       justifyContent={"space-between"}
                     >
-                      <Stack direction={"row"} sx={{flexWrap:"wrap",columnGap:1,rowGap:1}}>
+                      <Stack
+                        direction={"row"}
+                        sx={{ flexWrap: "wrap", columnGap: 1, rowGap: 1 }}
+                      >
                         {products?.p_sizes?.map((size, index) => (
                           <Button
                             startIcon={

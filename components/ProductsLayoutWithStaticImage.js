@@ -5,6 +5,7 @@ import HovarImage from "./HovarableImage/HovarImage";
 import { useRouter } from "next/router";
 import Loader from "./Loader/Loader";
 import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
+import useDiscountCount from "../src/hooks/useDiscountCount";
 
 const ProductsLayoutWithStaticImage = ({
   productsDataChunk,
@@ -13,6 +14,7 @@ const ProductsLayoutWithStaticImage = ({
 }) => {
   const router = useRouter();
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
+  const { updatedPriceAfterDiscount } = useDiscountCount();
   /* if (isLoading) {
     return <Loader />;
   } */
@@ -52,11 +54,77 @@ const ProductsLayoutWithStaticImage = ({
             >
               {productsDataChunk[0]?.p_name}
             </Typography>
-            <Typography variant="cardHeader3" color="initial" className="bold">
-              {/* BDT {productsDataChunk[0]?.p_stocks[0]?.mrp} */}
+            <Stack
+              direction={"column"}
+              justifyContent={"space-between"}
+              alignItems={"end"}
+            >
+              {productsDataChunk[0]?.p_stocks[0]?.discount?.discount_type !==
+              undefined ? (
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  className="bold"
+                >
+                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency}{" "}
+                  <span>
+                    {
+                      updatedPriceAfterDiscount(
+                        convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp),
+                        productsDataChunk[0]?.p_stocks[0]?.discount
+                          ?.discount_amount,
+                        productsDataChunk[0]?.p_stocks[0]?.discount
+                          ?.discount_type
+                      ).updatedPrice
+                    }
+                  </span>
+                </Typography>
+              ) : (
+                ""
+              )}
+              <Stack direction={"row"} spacing={2}>
+                {productsDataChunk[0]?.p_stocks[0]?.discount?.discount_type !==
+                undefined ? (
+                  <Typography
+                    variant="cardHeader3"
+                    color="initial"
+                    className="bold"
+                  >
+                    -
+                    {
+                      productsDataChunk[0]?.p_stocks[0]?.discount
+                        ?.discount_amount
+                    }
+                    %
+                  </Typography>
+                ) : (
+                  ""
+                )}
+
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  className="bold"
+                  style={{
+                    textDecorationLine: `${
+                      productsDataChunk[0]?.p_stocks[0]?.discount
+                        ?.discount_type !== undefined
+                        ? "line-through"
+                        : "none"
+                    }`,
+                  }}
+                >
+                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency}{" "}
+                  {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
+                </Typography>
+              </Stack>
+            </Stack>
+            {/* <Typography variant="cardHeader3" color="initial" className="bold">
               {selectedCurrency}{" "}
               {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
-            </Typography>
+            </Typography> */}
           </Stack>
         </Stack>
       )}
@@ -72,7 +140,7 @@ const ProductsLayoutWithStaticImage = ({
         }}
       >
         {productsDataChunk?.slice(1, 4).map((product) => (
-          <Grid item lg={4} sm={6} key={product?.id} >
+          <Grid item lg={4} sm={6} key={product?.id}>
             <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
               <HovarImage
                 url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
@@ -94,14 +162,73 @@ const ProductsLayoutWithStaticImage = ({
                 >
                   {product?.p_name}
                 </Typography>
-                <Typography
+                <Stack
+                  direction={"column"}
+                  justifyContent={"space-between"}
+                  alignItems={"end"}
+                >
+                  {product?.p_stocks[0]?.discount?.discount_type !==
+                  undefined ? (
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      <span>
+                        {
+                          updatedPriceAfterDiscount(
+                            convertPrice(product?.p_stocks[0]?.mrp),
+                            product?.p_stocks[0]?.discount?.discount_amount,
+                            product?.p_stocks[0]?.discount?.discount_type
+                          ).updatedPrice
+                        }
+                      </span>
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Stack direction={"row"} spacing={2}>
+                    {product?.p_stocks[0]?.discount?.discount_type !==
+                    undefined ? (
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="bold"
+                      >
+                        -{product?.p_stocks[0]?.discount?.discount_amount}%
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                      style={{
+                        textDecorationLine: `${
+                          product?.p_stocks[0]?.discount?.discount_type !==
+                          undefined
+                            ? "line-through"
+                            : "none"
+                        }`,
+                      }}
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      {convertPrice(product?.p_stocks[0]?.mrp)}
+                    </Typography>
+                  </Stack>
+                </Stack>
+                {/* <Typography
                   variant="cardHeader3"
                   color="initial"
                   className="bold"
                 >
-                  {/* BDT {product?.p_stocks[0]?.mrp} */}
                   {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-                </Typography>
+                </Typography> */}
               </Stack>
             </Stack>
           </Grid>
@@ -145,35 +272,87 @@ const ProductsLayoutWithStaticImage = ({
         {productsDataChunk?.slice(4, 7).map((product) => (
           <Grid item lg={4} sm={6} key={product?.id}>
             <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
-            <HovarImage
-              url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
-              data={product}
-              imageURL={`${product?.feature_image}`}
-              // width={568}
-              // height={827}
-            />
-            <Stack
-              direction={"row"}
-              spacing={2}
-              justifyContent={"space-between"}
-              mt={2}
-            >
-              <Typography
-                variant="cardHeader3"
-                color="initial"
-                className="SemiBold"
+              <HovarImage
+                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+                data={product}
+                imageURL={`${product?.feature_image}`}
+                // width={568}
+                // height={827}
+              />
+              <Stack
+                direction={"row"}
+                spacing={2}
+                justifyContent={"space-between"}
+                mt={2}
               >
-                {product?.p_name}
-              </Typography>
-              <Typography
-                variant="cardHeader3"
-                color="initial"
-                className="bold"
-              >
-                {/* BDT {product?.p_stocks[0]?.mrp} */}
-                {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-              </Typography>
-            </Stack>
+                <Typography
+                  variant="cardHeader3"
+                  color="initial"
+                  className="SemiBold"
+                >
+                  {product?.p_name}
+                </Typography>
+                <Stack
+                  direction={"column"}
+                  justifyContent={"space-between"}
+                  alignItems={"end"}
+                >
+                  {product?.p_stocks[0]?.discount?.discount_type !==
+                  undefined ? (
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      <span>
+                        {
+                          updatedPriceAfterDiscount(
+                            convertPrice(product?.p_stocks[0]?.mrp),
+                            product?.p_stocks[0]?.discount?.discount_amount,
+                            product?.p_stocks[0]?.discount?.discount_type
+                          ).updatedPrice
+                        }
+                      </span>
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Stack direction={"row"} spacing={2}>
+                    {product?.p_stocks[0]?.discount?.discount_type !==
+                    undefined ? (
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="bold"
+                      >
+                        -{product?.p_stocks[0]?.discount?.discount_amount}%
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                      style={{
+                        textDecorationLine: `${
+                          product?.p_stocks[0]?.discount?.discount_type !==
+                          undefined
+                            ? "line-through"
+                            : "none"
+                        }`,
+                      }}
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      {convertPrice(product?.p_stocks[0]?.mrp)}
+                    </Typography>
+                  </Stack>
+                </Stack>
+              </Stack>
             </Stack>
           </Grid>
         ))}
