@@ -28,6 +28,14 @@ const OrderDetails = () => {
   const totalPrice = convertedCart.totalPrice;
   const totalPriceWithoutFragile = convertedCart.totalPriceWithoutFragileCharge;
   const totalPriceWithTax = convertedCart.totalPriceWithTax;
+
+  const totalPrice_after_discount = convertedCart.totalPrice_after_discount;
+
+  const totalPriceWithoutFragile_after_discount =
+    convertedCart.totalPriceWithoutFragileCharge_after_discount;
+
+  const totalPriceWithTax_after_discount =
+    convertedCart.totalPriceWithTax_after_discount;
   const { selectedCurrency, convertPrice, currentConversionRate } =
     useCurrencyConversion();
   return (
@@ -69,7 +77,7 @@ const OrderDetails = () => {
               className="bold"
               sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
             >
-              {selectedCurrency} {totalPriceWithoutFragile}
+              {selectedCurrency} {totalPriceWithoutFragile_after_discount}
             </Typography>
           </Stack>
 
@@ -96,7 +104,11 @@ const OrderDetails = () => {
               // sx={{ marginLeft: "72px!important" }}
             >
               {selectedCurrency}{" "}
-              {parseFloat((totalPriceWithTax - totalPrice).toFixed(2))}
+              {parseFloat(
+                (
+                  totalPriceWithTax_after_discount - totalPrice_after_discount
+                ).toFixed(2)
+              )}
             </Typography>
           </Stack>
           <Divider />
@@ -119,7 +131,7 @@ const OrderDetails = () => {
               className="exterBold"
               sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
             >
-              {selectedCurrency} {totalPriceWithTax}
+              {selectedCurrency} {totalPriceWithTax_after_discount}
             </Typography>
           </Stack>
           {/* <Divider /> */}

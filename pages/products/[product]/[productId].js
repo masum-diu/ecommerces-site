@@ -89,7 +89,9 @@ const PorductDetails = () => {
   const [categoryName, setCategoryName] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFragile, setIsFragile] = useState(false);
-  console.log("your log output", products);
+  const [discountAmount, setDiscountAmount] = useState();
+  const [discountType, setDiscountType] = useState();
+  // console.log("your log output", products);
   // product popup
   const [productpopup, setProductpopup] = useState(false);
   const [noteTextForStock, setNoteTextForStock] = useState(
@@ -147,7 +149,17 @@ const PorductDetails = () => {
   useEffect(() => {
     if (products?.p_stocks) {
       setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
+
+      setPriceAfterDiscount(
+        updatedPriceAfterDiscount(
+          products?.p_stocks[0]?.mrp,
+          products?.p_stocks[0]?.discount?.discount_amount,
+          products?.p_stocks[0]?.discount?.discount_type
+        ).updatedPrice
+      );
       setProductPrice(products?.p_stocks[0]?.mrp);
+      setDiscountAmount(products?.p_stocks[0]?.discount?.discount_amount);
+      setDiscountType(products?.p_stocks[0]?.discount?.discount_type);
     }
     setProductWeight(products?.p_weight);
     if (products?.fragile === "Yes") {
@@ -204,13 +216,14 @@ const PorductDetails = () => {
               selectedProduct?.discount?.discount_type
             ).updatedPrice
           );
-          // setPriceAfterDiscount(updatedPriceAfterDiscount())
+          setProductPrice(selectedProduct?.mrp);
+          setDiscountAmount(selectedProduct?.discount?.discount_amount);
+          setDiscountType(selectedProduct?.discount?.discount_type);
         } else {
           setPriceWithoutFragileCharge(0);
           setPriceAfterDiscount(0);
-          // setPriceAfterDiscount(updatedPriceAfterDiscount())
+          setProductPrice(0);
         }
-        setProductPrice(selectedProduct?.mrp);
 
         if (stockAmount > 0) {
           setDisableBtn(false);
@@ -272,7 +285,8 @@ const PorductDetails = () => {
             ).updatedPrice
           );
           setProductPrice(selectedProduct?.mrp);
-
+          setDiscountAmount(selectedProduct?.discount?.discount_amount);
+          setDiscountType(selectedProduct?.discount?.discount_type);
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
@@ -289,7 +303,8 @@ const PorductDetails = () => {
             ).updatedPrice
           );
           setProductPrice(selectedProduct?.mrp);
-
+          setDiscountAmount(selectedProduct?.discount?.discount_amount);
+          setDiscountType(selectedProduct?.discount?.discount_type);
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
         }
@@ -347,7 +362,8 @@ const PorductDetails = () => {
           ).updatedPrice
         );
         setProductPrice(products?.p_stocks[0]?.mrp);
-
+        setDiscountAmount(products?.p_stocks[0]?.discount?.discount_amount);
+        setDiscountType(products?.p_stocks[0]?.discount?.discount_type);
         if (products?.p_stocks[0]?.stock > 0) {
           setStockAmount(products?.p_stocks[0]?.stock);
           setNoteTextForStock("In Stock");
@@ -376,7 +392,11 @@ const PorductDetails = () => {
     products?.fragile_charge,
     location.pathname,
     disableBtn,
+    discountAmount,
+    discountType,
+    products?.p_stocks,
   ]);
+
   useEffect(() => {
     setDisableBtn(true);
     setCount(1);
@@ -460,6 +480,12 @@ const PorductDetails = () => {
     color_id: colorId,
     color_name: colorName,
     selectedCurrency: selectedCurrency,
+    productWeight: productWeight,
+    totalProductWeight: count * productWeight,
+    amount: count,
+    stock: stockAmount,
+    totalAmount: count,
+    taxAmount: products?.p_tax?.tax_percentage,
     price: productPrice,
     priceOrg: productPrice,
     priceWithTax: parseFloat(
@@ -470,42 +496,80 @@ const PorductDetails = () => {
     ),
     priceWithoutFragile: priceWithoutFragileCharge,
     priceWithoutFragileOrg: priceWithoutFragileCharge,
-    priceAfterDiscount: priceAfterDiscount,
-    priceAfterDiscountOrg: priceAfterDiscount,
+
     vatAmountParticularProduct:
       count *
       parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
-    amount: count,
-    stock: stockAmount,
-    totalAmount: count,
+    vatAmountParticularProductOrg:
+      count *
+      parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
+
     fragileCharge: fragileCharge,
     fragileChargeOrg: fragileCharge,
     totalFragileCharge: count * fragileCharge,
     totalFragileChargeOrg: count * fragileCharge,
-    productWeight: productWeight,
-    totalProductWeight: count * productWeight,
+
     totalPrice: parseFloat(productPrice) * count,
+    totalPriceOrg: count * parseFloat(productPrice),
     totalPriceWithoutFragileCharge:
       parseFloat(priceWithoutFragileCharge) * count,
     totalPriceWithoutFragileChargeOrg:
       parseFloat(priceWithoutFragileCharge) * count,
-    totalPriceAfterDiscount: priceAfterDiscount * count,
-    totalPriceAfterDiscountOrg: priceAfterDiscount * count,
-    totalPriceOrg: count * parseFloat(productPrice),
     totalPriceWithTax:
       count *
       parseFloat(
         productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
       ),
-    taxAmount: products?.p_tax?.tax_percentage,
-    vatAmountParticularProductOrg:
-      count *
-      parseFloat(productPrice * (products?.p_tax?.tax_percentage / 100)),
-
     totalPriceWithTaxOrg:
       count *
       parseFloat(
         productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
+      ),
+
+    // Setting data after discount
+
+    price_after_discount: priceAfterDiscount,
+    priceOrg_after_discount: priceAfterDiscount,
+    priceWithTax_after_discount: parseFloat(
+      priceAfterDiscount * (products?.p_tax?.tax_percentage / 100) +
+        priceAfterDiscount
+    ),
+    priceWithTaxOrg_after_discount: parseFloat(
+      priceAfterDiscount * (products?.p_tax?.tax_percentage / 100) +
+        priceAfterDiscount
+    ),
+    priceWithoutFragile_after_discount: priceAfterDiscount,
+    priceWithoutFragileOrg_after_discount: priceAfterDiscount,
+
+    vatAmountParticularProduct_after_discount:
+      count *
+      parseFloat(priceAfterDiscount * (products?.p_tax?.tax_percentage / 100)),
+    vatAmountParticularProductOrg_after_discount:
+      count *
+      parseFloat(priceAfterDiscount * (products?.p_tax?.tax_percentage / 100)),
+
+    fragileCharge_after_discount: fragileCharge,
+    fragileChargeOrg_after_discount: fragileCharge,
+    totalFragileCharge_after_discount: count * fragileCharge,
+    totalFragileChargeOrg_after_discount: count * fragileCharge,
+
+    totalPrice_after_discount: parseFloat(priceAfterDiscount) * count,
+    totalPriceOrg_after_discount: count * parseFloat(priceAfterDiscount),
+    totalPriceWithoutFragileCharge_after_discount:
+      parseFloat(priceAfterDiscount) * count,
+    totalPriceWithoutFragileChargeOrg_after_discount:
+      parseFloat(priceAfterDiscount) * count,
+    totalPriceWithTax_after_discount:
+      count *
+      parseFloat(
+        priceAfterDiscount * (products?.p_tax?.tax_percentage / 100) +
+          priceAfterDiscount
+      ),
+    totalPriceWithTaxOrg_after_discount:
+      count *
+      parseFloat(
+        priceAfterDiscount * (products?.p_tax?.tax_percentage / 100) +
+          priceAfterDiscount
       ),
   };
   // unit price area
@@ -673,19 +737,64 @@ const PorductDetails = () => {
                   >
                     {description}
                   </Typography>
-                  <Typography
-                    variant="header1"
-                    className="SemiBold"
-                    color="initial"
-                    letterSpacing={0.3}
-                    fontWeight={700}
+                  {discountType !== undefined ? (
+                    <Typography
+                      variant="header1"
+                      className="SemiBold"
+                      color="initial"
+                      letterSpacing={0.3}
+                      fontWeight={700}
+                    >
+                      {/* Price : BDT {productPrice} */}
+                      {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
+                      {priceAfterDiscount > 0
+                        ? `${convertPrice(priceAfterDiscount)}`
+                        : "Out of Stock"}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+
+                  <Stack
+                    direction={"row"}
+                    justifyContent={"start"}
+                    alignItems={"center"}
+                    spacing={2}
                   >
-                    {/* Price : BDT {productPrice} */}
-                    {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
-                    {priceWithoutFragileCharge > 0
-                      ? `${convertPrice(priceWithoutFragileCharge)}`
-                      : "Out of Stock"}
-                  </Typography>
+                    {discountType !== undefined ? (
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="bold"
+                      >
+                        -{discountAmount}
+                        {discountType === "percentage" ? "%" : ""}
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+                    <Typography
+                      variant="header1"
+                      className="SemiBold"
+                      color="initial"
+                      letterSpacing={0.3}
+                      fontWeight={700}
+                      style={{
+                        textDecorationLine: `${
+                          discountType !== undefined ? "line-through" : "none"
+                        }`,
+                      }}
+                    >
+                      {/* Price : BDT {productPrice} */}
+                      {priceWithoutFragileCharge > 0
+                        ? selectedCurrency
+                        : ""}{" "}
+                      {priceWithoutFragileCharge > 0
+                        ? `${convertPrice(priceWithoutFragileCharge)}`
+                        : "Out of Stock"}
+                    </Typography>
+                  </Stack>
+
                   {products?.p_sizes?.length > 0 ? (
                     <>
                       <Stack direction={"row"} spacing={1} alignItems="center">
@@ -1490,17 +1599,61 @@ const PorductDetails = () => {
                     {/*Home {path}*/}
                   </Typography>
                 </Stack>
-                <Typography
-                  variant="tabText1"
-                  color="initial"
-                  className="exterBold"
+                {discountType !== undefined ? (
+                  <Typography
+                    variant="header1"
+                    className="SemiBold"
+                    color="initial"
+                    letterSpacing={0.3}
+                    fontWeight={700}
+                  >
+                    {/* Price : BDT {productPrice} */}
+                    {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
+                    {priceAfterDiscount > 0
+                      ? `${convertPrice(priceAfterDiscount)}`
+                      : "Out of Stock"}
+                  </Typography>
+                ) : (
+                  ""
+                )}
+
+                <Stack
+                  direction={"row"}
+                  justifyContent={"start"}
+                  alignItems={"center"}
+                  spacing={2}
                 >
-                  {/* Price : {productPrice} BDT */}
-                  {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
-                  {priceWithoutFragileCharge > 0
-                    ? `${convertPrice(priceWithoutFragileCharge)}`
-                    : "Out of Stock"}
-                </Typography>
+                  {discountType !== undefined ? (
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      -{discountAmount}
+                      {discountType === "percentage" ? "%" : ""}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Typography
+                    variant="header1"
+                    className="SemiBold"
+                    color="initial"
+                    letterSpacing={0.3}
+                    fontWeight={700}
+                    style={{
+                      textDecorationLine: `${
+                        discountType !== undefined ? "line-through" : "none"
+                      }`,
+                    }}
+                  >
+                    {/* Price : BDT {productPrice} */}
+                    {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
+                    {priceWithoutFragileCharge > 0
+                      ? `${convertPrice(priceWithoutFragileCharge)}`
+                      : "Out of Stock"}
+                  </Typography>
+                </Stack>
               </Stack>
             </SwiperSlide>
             <SwiperSlide
@@ -1544,17 +1697,61 @@ const PorductDetails = () => {
                     {/*Home {path}*/}
                   </Typography>
                 </Stack>
-                <Typography
-                  variant="tabText1"
-                  color="initial"
-                  className="exterBold"
+                {discountType !== undefined ? (
+                  <Typography
+                    variant="header1"
+                    className="SemiBold"
+                    color="initial"
+                    letterSpacing={0.3}
+                    fontWeight={700}
+                  >
+                    {/* Price : BDT {productPrice} */}
+                    {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
+                    {priceAfterDiscount > 0
+                      ? `${convertPrice(priceAfterDiscount)}`
+                      : "Out of Stock"}
+                  </Typography>
+                ) : (
+                  ""
+                )}
+
+                <Stack
+                  direction={"row"}
+                  justifyContent={"start"}
+                  alignItems={"center"}
+                  spacing={2}
                 >
-                  {/* Price : {productPrice} BDT */}
-                  {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
-                  {priceWithoutFragileCharge > 0
-                    ? `${convertPrice(priceWithoutFragileCharge)}`
-                    : "Out of Stock"}
-                </Typography>
+                  {discountType !== undefined ? (
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      -{discountAmount}
+                      {discountType === "percentage" ? "%" : ""}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Typography
+                    variant="header1"
+                    className="SemiBold"
+                    color="initial"
+                    letterSpacing={0.3}
+                    fontWeight={700}
+                    style={{
+                      textDecorationLine: `${
+                        discountType !== undefined ? "line-through" : "none"
+                      }`,
+                    }}
+                  >
+                    {/* Price : BDT {productPrice} */}
+                    {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
+                    {priceWithoutFragileCharge > 0
+                      ? `${convertPrice(priceWithoutFragileCharge)}`
+                      : "Out of Stock"}
+                  </Typography>
+                </Stack>
               </Stack>
             </SwiperSlide>
             <SwiperSlide
@@ -1598,17 +1795,61 @@ const PorductDetails = () => {
                     {/*Home {path}*/}
                   </Typography>
                 </Stack>
-                <Typography
-                  variant="tabText1"
-                  color="initial"
-                  className="exterBold"
+                {discountType !== undefined ? (
+                  <Typography
+                    variant="header1"
+                    className="SemiBold"
+                    color="initial"
+                    letterSpacing={0.3}
+                    fontWeight={700}
+                  >
+                    {/* Price : BDT {productPrice} */}
+                    {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
+                    {priceAfterDiscount > 0
+                      ? `${convertPrice(priceAfterDiscount)}`
+                      : "Out of Stock"}
+                  </Typography>
+                ) : (
+                  ""
+                )}
+
+                <Stack
+                  direction={"row"}
+                  justifyContent={"start"}
+                  alignItems={"center"}
+                  spacing={2}
                 >
-                  {/* Price : {productPrice} BDT */}
-                  {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
-                  {priceWithoutFragileCharge > 0
-                    ? `${convertPrice(priceWithoutFragileCharge)}`
-                    : "Out of Stock"}
-                </Typography>
+                  {discountType !== undefined ? (
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      -{discountAmount}
+                      {discountType === "percentage" ? "%" : ""}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Typography
+                    variant="header1"
+                    className="SemiBold"
+                    color="initial"
+                    letterSpacing={0.3}
+                    fontWeight={700}
+                    style={{
+                      textDecorationLine: `${
+                        discountType !== undefined ? "line-through" : "none"
+                      }`,
+                    }}
+                  >
+                    {/* Price : BDT {productPrice} */}
+                    {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
+                    {priceWithoutFragileCharge > 0
+                      ? `${convertPrice(priceWithoutFragileCharge)}`
+                      : "Out of Stock"}
+                  </Typography>
+                </Stack>
               </Stack>
             </SwiperSlide>
             <SwiperSlide
@@ -1652,17 +1893,61 @@ const PorductDetails = () => {
                     {/*Home {path}*/}
                   </Typography>
                 </Stack>
-                <Typography
-                  variant="tabText1"
-                  color="initial"
-                  className="exterBold"
+                {discountType !== undefined ? (
+                  <Typography
+                    variant="header1"
+                    className="SemiBold"
+                    color="initial"
+                    letterSpacing={0.3}
+                    fontWeight={700}
+                  >
+                    {/* Price : BDT {productPrice} */}
+                    {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
+                    {priceAfterDiscount > 0
+                      ? `${convertPrice(priceAfterDiscount)}`
+                      : "Out of Stock"}
+                  </Typography>
+                ) : (
+                  ""
+                )}
+
+                <Stack
+                  direction={"row"}
+                  justifyContent={"start"}
+                  alignItems={"center"}
+                  spacing={2}
                 >
-                  {/* Price : {productPrice} BDT */}
-                  {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
-                  {priceWithoutFragileCharge > 0
-                    ? `${convertPrice(priceWithoutFragileCharge)}`
-                    : "Out of Stock"}
-                </Typography>
+                  {discountType !== undefined ? (
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      -{discountAmount}
+                      {discountType === "percentage" ? "%" : ""}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Typography
+                    variant="header1"
+                    className="SemiBold"
+                    color="initial"
+                    letterSpacing={0.3}
+                    fontWeight={700}
+                    style={{
+                      textDecorationLine: `${
+                        discountType !== undefined ? "line-through" : "none"
+                      }`,
+                    }}
+                  >
+                    {/* Price : BDT {productPrice} */}
+                    {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
+                    {priceWithoutFragileCharge > 0
+                      ? `${convertPrice(priceWithoutFragileCharge)}`
+                      : "Out of Stock"}
+                  </Typography>
+                </Stack>
               </Stack>
             </SwiperSlide>
           </Swiper>

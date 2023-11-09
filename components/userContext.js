@@ -35,7 +35,7 @@ export function UserProvider({ children }) {
   const dispatch = useDispatch();
   const currentVersion = localStorage.getItem("version");
   useEffect(() => {
-    let updatedVersion = "v-1.0.1";
+    let updatedVersion = "v-1.1.1";
     const currentVersion = localStorage.getItem("version");
     if (currentVersion) {
       if (currentVersion !== updatedVersion) {

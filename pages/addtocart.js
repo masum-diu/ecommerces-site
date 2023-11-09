@@ -323,6 +323,70 @@ const addtocart = () => {
                                           totalPriceWithTaxOrg:
                                             data.totalPriceWithTaxOrg +
                                             parseFloat(data.priceWithTaxOrg),
+
+                                          // set cart data for discount price
+                                          price_after_discount:
+                                            data.price_after_discount,
+                                          priceOrg_after_discount:
+                                            data.priceOrg_after_discount,
+                                          priceWithTax_after_discount:
+                                            parseFloat(
+                                              data.priceWithTaxOrg_after_discount
+                                            ),
+                                          priceWithTaxOrg_after_discount:
+                                            parseFloat(
+                                              data.priceWithTaxOrg_after_discount
+                                            ),
+                                          vatAmountParticularProduct_after_discount:
+                                            parseFloat(
+                                              data.vatAmountParticularProductOrg_after_discount
+                                            ) +
+                                            parseFloat(
+                                              data.vatAmountParticularProductOrg_after_discount
+                                            ) /
+                                              data.amount,
+                                          vatAmountParticularProductOrg_after_discount:
+                                            parseFloat(
+                                              data.vatAmountParticularProductOrg_after_discount
+                                            ) +
+                                            parseFloat(
+                                              data.vatAmountParticularProductOrg_after_discount
+                                            ) /
+                                              data.amount,
+                                          totalPrice_after_discount:
+                                            data.totalPriceOrg_after_discount +
+                                            parseFloat(
+                                              data.priceOrg_after_discount
+                                            ),
+                                          totalPriceOrg_after_discount:
+                                            data.totalPriceOrg_after_discount +
+                                            parseFloat(
+                                              data.priceOrg_after_discount
+                                            ),
+                                          totalPriceWithTax_after_discount:
+                                            data.totalPriceWithTaxOrg_after_discount +
+                                            parseFloat(
+                                              data.priceWithTaxOrg_after_discount
+                                            ),
+                                          totalPriceWithTaxOrg_after_discount:
+                                            data.totalPriceWithTaxOrg_after_discount +
+                                            parseFloat(
+                                              data.priceWithTaxOrg_after_discount
+                                            ),
+                                          priceWithoutFragile_after_discount:
+                                            data.priceWithoutFragileOrg_after_discount,
+                                          priceWithoutFragileOrg_after_discount:
+                                            data.priceWithoutFragileOrg_after_discount,
+                                          totalPriceWithoutFragileCharge_after_discount:
+                                            data.totalPriceWithoutFragileChargeOrg_after_discount +
+                                            parseFloat(
+                                              data.priceWithoutFragileOrg_after_discount
+                                            ),
+                                          totalPriceWithoutFragileChargeOrg_after_discount:
+                                            data.totalPriceWithoutFragileChargeOrg_after_discount +
+                                            parseFloat(
+                                              data.priceWithoutFragileOrg_after_discount
+                                            ),
                                         })
                                       )
                                     }
@@ -554,6 +618,70 @@ const addtocart = () => {
                                                 parseFloat(
                                                   data.priceWithTaxOrg
                                                 ),
+
+                                              // setting cart data for discount price
+                                              price_after_discount:
+                                                data.price_after_discount,
+                                              priceOrg_after_discount:
+                                                data.priceOrg_after_discount,
+                                              priceWithTax_after_discount:
+                                                parseFloat(
+                                                  data.priceWithTaxOrg_after_discount
+                                                ),
+                                              priceWithTaxOrg_after_discount:
+                                                parseFloat(
+                                                  data.priceWithTaxOrg_after_discount
+                                                ),
+                                              vatAmountParticularProduct_after_discount:
+                                                parseFloat(
+                                                  data.vatAmountParticularProductOrg_after_discount
+                                                ) +
+                                                parseFloat(
+                                                  data.vatAmountParticularProductOrg_after_discount
+                                                ) /
+                                                  data.amount,
+                                              vatAmountParticularProductOrg_after_discount:
+                                                parseFloat(
+                                                  data.vatAmountParticularProductOrg_after_discount
+                                                ) +
+                                                parseFloat(
+                                                  data.vatAmountParticularProductOrg_after_discount
+                                                ) /
+                                                  data.amount,
+                                              totalPrice_after_discount:
+                                                data.totalPriceOrg_after_discount +
+                                                parseFloat(
+                                                  data.priceOrg_after_discount
+                                                ),
+                                              totalPriceOrg_after_discount:
+                                                data.totalPriceOrg_after_discount +
+                                                parseFloat(
+                                                  data.priceOrg_after_discount
+                                                ),
+                                              totalPriceWithTax_after_discount:
+                                                data.totalPriceWithTaxOrg_after_discount +
+                                                parseFloat(
+                                                  data.priceWithTaxOrg_after_discount
+                                                ),
+                                              totalPriceWithTaxOrg_after_discount:
+                                                data.totalPriceWithTaxOrg_after_discount +
+                                                parseFloat(
+                                                  data.priceWithTaxOrg_after_discount
+                                                ),
+                                              priceWithoutFragile_after_discount:
+                                                data.priceWithoutFragileOrg_after_discount,
+                                              priceWithoutFragileOrg_after_discount:
+                                                data.priceWithoutFragileOrg_after_discount,
+                                              totalPriceWithoutFragileCharge_after_discount:
+                                                data.totalPriceWithoutFragileChargeOrg_after_discount +
+                                                parseFloat(
+                                                  data.priceWithoutFragileOrg_after_discount
+                                                ),
+                                              totalPriceWithoutFragileChargeOrg_after_discount:
+                                                data.totalPriceWithoutFragileChargeOrg_after_discount +
+                                                parseFloat(
+                                                  data.priceWithoutFragileOrg_after_discount
+                                                ),
                                             })
                                           )
                                         }
@@ -634,7 +762,7 @@ const addtocart = () => {
                               >
                                 <Typography variant="subtitle1" color="initial">
                                   {selectedCurrency}{" "}
-                                  {data.totalPriceWithoutFragileCharge}
+                                  {data.totalPriceWithoutFragileCharge_after_discount}
                                 </Typography>
                               </TableCell>
                               {/* <TableCell

@@ -1,12 +1,9 @@
-import { useState } from "react";
-
 const useDiscountCount = () => {
   const updatedPriceAfterDiscount = (
     productPrice,
     discountAmount,
     discountType
   ) => {
-    console.log("your log output", productPrice, discountAmount, discountType);
     if (discountType === "percentage") {
       const updatedPrice = (
         productPrice -
@@ -29,7 +26,6 @@ const useDiscountCount = () => {
       };
     }
     if (discountType === undefined) {
-      console.log("inside null");
       return {
         updatedPrice: parseFloat(productPrice),
         discountAmount: discountAmount,

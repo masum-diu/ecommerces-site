@@ -58,6 +58,8 @@ const checkout = () => {
   const convertedCart = convertCartData(carts);
   // address popup state end
   const cart = convertedCart.cart;
+
+  // console.log("your log output", convertedCart);
   // const cart = useSelector((state) => state.cart.cart);
   const [addAddressValue, setAddAddressValue] = useState(0);
   const [distict, setDistict] = useState("Select Country");
@@ -70,31 +72,38 @@ const checkout = () => {
   const [showCashOnDelivery, setShowCashOnDelivery] = useState();
   const dispatch = useDispatch();
   // const totalPrice = useSelector((state) => state.cart.totalPrice);
-  const totalPrice = convertedCart.totalPrice;
-  const totalPriceWithoutFragile = convertedCart.totalPriceWithoutFragileCharge;
-  const totalPriceOrg = convertedCart.totalPriceOrg;
-  // const totalPriceOrg = useSelector((state) => state.cart.totalPriceOrg);
-  // const totalFragileCharge = convertedCart.totalFragileCharge;
-  const totalFragileChargeOrg = convertedCart.totalFragileChargeOrg;
-
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const totalPriceWithTax = convertedCart.totalPriceWithTax;
-  /* const totalPriceWithTax = useSelector(
-    (state) => state.cart.totalPriceWithTax
-  ); */
-  const totalPriceWithTaxOrg = convertedCart.totalPriceWithTaxOrg;
   const totalProductWeight = useSelector(
     (state) => state.cart.totalProductWeight
   );
   const isGuestCheckout = useSelector(
     (state) => state.checkoutSlice.isGuestCheckout
   );
+  const totalPrice = convertedCart.totalPrice;
+  const totalPriceOrg = convertedCart.totalPriceOrg;
+  const totalPriceWithoutFragile = convertedCart.totalPriceWithoutFragileCharge;
+  const totalFragileChargeOrg = convertedCart.totalFragileChargeOrg;
+  const totalPriceWithTax = convertedCart.totalPriceWithTax;
+  const totalPriceWithTaxOrg = convertedCart.totalPriceWithTaxOrg;
+  // taking discount cart data
+  const totalPrice_after_discount = convertedCart.totalPrice_after_discount;
+  const totalPriceOrg_after_discount =
+    convertedCart.totalPriceOrg_after_discount;
+  const totalPriceWithoutFragile_after_discount =
+    convertedCart.totalPriceWithoutFragileCharge_after_discount;
+  const totalFragileChargeOrg_after_discount =
+    convertedCart.totalFragileChargeOrg_after_discount;
+  const totalPriceWithTax_after_discount =
+    convertedCart.totalPriceWithTax_after_discount;
+  const totalPriceWithTaxOrg_after_discount =
+    convertedCart.totalPriceWithTaxOrg_after_discount;
+
   const [isDhakaChecked, setIsDhakaChecked] = useState(false);
   const [isOutSideChecked, setIsOutSideChecked] = useState(false);
   const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [isAgreed, setAgreed] = useState(false);
-  const [total, setTotal] = useState(totalPriceWithoutFragile);
+  const [total, setTotal] = useState(totalPriceWithoutFragile_after_discount);
   const [error, setError] = useState({ initialState: true });
   const [openLoginModal, setLoginModal] = useState(false);
   const [payment, setPayment] = useState("");
@@ -282,11 +291,17 @@ const checkout = () => {
       data: data,
       cart: cart,
       totalPrice: totalPrice,
+      totalPrice_after_discount: totalPrice_after_discount,
       totalPriceWithTax: totalPriceWithTax,
+      totalPriceWithTax_after_discount: totalPriceWithTax_after_discount,
       totalPriceOrg: totalPriceOrg,
+      totalPriceOrg_after_discount: totalPriceOrg_after_discount,
       totalPriceWithTaxOrg: totalPriceWithTaxOrg,
+      totalPriceWithTaxOrg_after_discount: totalPriceWithTaxOrg_after_discount,
       totalFragileCharge: totalFragileCharge,
       totalFragileChargeOrg: totalFragileChargeOrg,
+      totalFragileChargeOrg_after_discount:
+        totalFragileChargeOrg_after_discount,
       shippingCost: shippingCost,
       shippingCostOrg: shippingCostOrg,
       eQuerierPackagesCode: eQuerierPackagesCode,
@@ -306,11 +321,16 @@ const checkout = () => {
             cart,
             backUri: host,
             totalPrice,
+            totalPrice_after_discount,
             totalPriceOrg,
+            totalPriceOrg_after_discount,
             totalPriceWithTax,
+            totalPriceWithTax_after_discount,
             totalPriceWithTaxOrg,
+            totalPriceWithTaxOrg_after_discount,
             totalFragileCharge,
             totalFragileChargeOrg,
+            totalFragileChargeOrg_after_discount,
             eQuerierPackagesCode,
             shippingCost,
             shippingCostOrg,
@@ -345,11 +365,20 @@ const checkout = () => {
             data: orderInfo?.data,
             cart: orderInfo?.cart,
             totalPrice: orderInfo?.totalPrice,
+            totalPrice_after_discount: orderInfo?.totalPrice_after_discount,
             totalPriceOrg: orderInfo?.totalPriceOrg,
+            totalPriceOrg_after_discount:
+              orderInfo?.totalPriceOrg_after_discount,
             totalPriceWithTax: orderInfo?.totalPriceWithTax,
+            totalPriceWithTax_after_discount:
+              orderInfo?.totalPriceWithTax_after_discount,
             totalPriceWithTaxOrg: orderInfo?.totalPriceWithTaxOrg,
+            totalPriceWithTaxOrg_after_discount:
+              orderInfo?.totalPriceWithTaxOrg_after_discount,
             totalFragileCharge: orderInfo?.totalFragileCharge,
             totalFragileChargeOrg: orderInfo?.totalFragileChargeOrg,
+            totalFragileChargeOrg_after_discount:
+              orderInfo?.totalFragileChargeOrg_after_discount,
             shippingCost: orderInfo.shippingCost,
             shippingCostOrg: orderInfo.shippingCostOrg,
             eQuerierPackagesCode: orderInfo.eQuerierPackagesCode,
@@ -491,7 +520,6 @@ const checkout = () => {
     setTownBillingSh(event.target.value);
   };
 
-  
   useEffect(() => {
     if (isSameAddressChecked) {
       setTownBilling(townBilling);
@@ -579,9 +607,13 @@ const checkout = () => {
     setDhlShippingCost(0);
     setShowRoomShippingCost(0);
     if (deliveryMethod === "E-Courier") {
-      setTotal(parseFloat((totalPriceWithTax + totalFragileCharge).toFixed(2)));
+      setTotal(
+        parseFloat(
+          (totalPriceWithTax_after_discount + totalFragileCharge).toFixed(2)
+        )
+      );
     } else {
-      setTotal(parseFloat(totalPriceWithTax.toFixed(2)));
+      setTotal(parseFloat(totalPriceWithTax_after_discount.toFixed(2)));
     }
     if (countrySh === "Bangladesh" || distict1 === "Bangladesh") {
       if (cityAddressSh) {
@@ -644,7 +676,11 @@ const checkout = () => {
 
             if (deliveryMethod === "Pathao") {
               setTotal(
-                parseFloat((totalPriceWithTax + pathaoShippingCost).toFixed(2))
+                parseFloat(
+                  (
+                    totalPriceWithTax_after_discount + pathaoShippingCost
+                  ).toFixed(2)
+                )
               );
               setShippingCost(pathaoShippingCost);
               setShippingCostOrg(pathaoShippingCost);
@@ -652,7 +688,7 @@ const checkout = () => {
               setTotal(
                 parseFloat(
                   (
-                    totalPriceWithTax +
+                    totalPriceWithTax_after_discount +
                     totalFragileCharge +
                     eQuerierShippingCost
                   ).toFixed(2)
@@ -663,7 +699,9 @@ const checkout = () => {
             } else if (deliveryMethod === "Pickup from showroom") {
               setTotal(
                 parseFloat(
-                  (totalPriceWithTax + showRoomShippingCost).toFixed(2)
+                  (
+                    totalPriceWithTax_after_discount + showRoomShippingCost
+                  ).toFixed(2)
                 )
               );
               setShippingCost(showRoomShippingCost);
@@ -728,7 +766,11 @@ const checkout = () => {
             // setEQuerierShippingCost(e_courier);
             if (deliveryMethod === "Pathao") {
               setTotal(
-                parseFloat((totalPriceWithTax + pathaoShippingCost).toFixed(2))
+                parseFloat(
+                  (
+                    totalPriceWithTax_after_discount + pathaoShippingCost
+                  ).toFixed(2)
+                )
               );
               setShippingCost(pathaoShippingCost);
               setShippingCostOrg(pathaoShippingCost);
@@ -736,7 +778,7 @@ const checkout = () => {
               setTotal(
                 parseFloat(
                   (
-                    totalPriceWithTax +
+                    totalPriceWithTax_after_discount +
                     totalFragileCharge +
                     eQuerierShippingCost
                   ).toFixed(2)
@@ -747,7 +789,9 @@ const checkout = () => {
             } else if (deliveryMethod === "Pickup from showroom") {
               setTotal(
                 parseFloat(
-                  (totalPriceWithTax + showRoomShippingCost).toFixed(2)
+                  (
+                    totalPriceWithTax_after_discount + showRoomShippingCost
+                  ).toFixed(2)
                 )
               );
               setShippingCost(showRoomShippingCost);
@@ -775,7 +819,7 @@ const checkout = () => {
           setTotal(
             parseFloat(
               (
-                totalPriceWithTax +
+                totalPriceWithTax_after_discount +
                 totalFragileCharge +
                 dhlShippingCost
               ).toFixed(2)
@@ -1108,7 +1152,7 @@ const checkout = () => {
           </Typography>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            style={{ width: "94%", margin: "0 auto",maxWidth:"1500px" }}
+            style={{ width: "94%", margin: "0 auto", maxWidth: "1500px" }}
           >
             <Grid
               container
@@ -2032,7 +2076,8 @@ const checkout = () => {
                               color="initial"
                               className="bold"
                             >
-                              {selectedCurrency} {item?.totalPrice}
+                              {selectedCurrency}{" "}
+                              {item?.totalPrice_after_discount}
                               {/* {selectedCurrency} {totalPriceWithoutFragile} */}
                             </Typography>
                           </Stack>
@@ -2060,7 +2105,8 @@ const checkout = () => {
                         className="bold"
                         sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                       >
-                        {selectedCurrency} {totalPriceWithoutFragile}
+                        {selectedCurrency}{" "}
+                        {totalPriceWithoutFragile_after_discount}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -2196,7 +2242,10 @@ const checkout = () => {
                       >
                         {selectedCurrency}{" "}
                         {parseFloat(
-                          (totalPriceWithTax - totalPrice).toFixed(2)
+                          (
+                            totalPriceWithTax_after_discount -
+                            totalPrice_after_discount
+                          ).toFixed(2)
                         )}
                       </Typography>
                     </Stack>
