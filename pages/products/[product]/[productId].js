@@ -573,7 +573,7 @@ const PorductDetails = () => {
       ),
   };
   // unit price area
-  const unitPrice = finalData.totalPrice;
+  const unitPrice = finalData.totalPrice_after_discount;
 
   const dataForWishList = {
     id: products.id,
@@ -2754,7 +2754,7 @@ const PorductDetails = () => {
         product={products}
         count={count}
         Currency={selectedCurrency}
-        price={convertPrice(priceWithoutFragileCharge)}
+        price={convertPrice(priceAfterDiscount)}
         unitPrice={unitPrice}
         subTotal={totalPriceWithTaxRounded}
       />
