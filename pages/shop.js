@@ -212,8 +212,8 @@ const shop = () => {
         <Stack sx={{ position: "relative" }}>
           <Stack
             dangerouslySetInnerHTML={{
-              __html: `<video className="app__backgroundVideo" autoplay loop muted playsinline>
-              <source src=${homedata?.image_one} type="video/mp4" />
+              __html: `<video className="app__backgroundVideo" autoplay="true" muted="true" preload="auto" loop playsinline="" data-wf-ignore="true" data-object-fit="cover" >
+              <source src=${homedata?.image_one} type="video/mp4" data-wf-ignore="true" />
               Your browser does not support the video tag.
               </video>`,
             }}
@@ -235,7 +235,7 @@ const shop = () => {
                   style={{
                     cursor: "pointer",
                     width: "100%",
-                    height: "fit-content",
+                    height: "auto",
                   }}
                 />
               </a>
