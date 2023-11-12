@@ -232,7 +232,7 @@ const addtocart = () => {
                             </Typography>
                             <Typography variant="subtitle1" color="initial">
                               {selectedCurrency}{" "}
-                              {data.totalPriceWithoutFragileCharge}
+                              {data.totalPriceWithoutFragileCharge_after_discount}
                             </Typography>
                             <Stack
                               direction={"row"}

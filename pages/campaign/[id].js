@@ -81,14 +81,72 @@ const campaign = () => {
                 <Typography variant="cardHeader2" color="initial">
                   {data?.p_name}
                 </Typography>
-                <Typography
+                <Stack
+                  direction={"column"}
+                  justifyContent={"space-between"}
+                  alignItems={"end"}
+                >
+                  {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency}{" "}
+                      <span>
+                        {
+                          updatedPriceAfterDiscount(
+                            convertPrice(data?.p_stocks[0]?.mrp),
+                            data?.p_stocks[0]?.discount?.discount_amount,
+                            data?.p_stocks[0]?.discount?.discount_type
+                          ).updatedPrice
+                        }
+                      </span>
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  <Stack direction={"row"} spacing={2}>
+                    {data?.p_stocks[0]?.discount?.discount_type !==
+                    undefined ? (
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="bold"
+                      >
+                        -{data?.p_stocks[0]?.discount?.discount_amount}%
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                      className="bold"
+                      style={{
+                        textDecorationLine: `${
+                          data?.p_stocks[0]?.discount?.discount_type !==
+                          undefined
+                            ? "line-through"
+                            : "none"
+                        }`,
+                      }}
+                    >
+                      {/* BDT {product?.p_stocks[0]?.mrp} */}
+                      {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
+                    </Typography>
+                  </Stack>
+                </Stack>
+                {/* <Typography
                   variant="cardHeader2"
                   fontWeight={"bold"}
                   color="initial"
                 >
-                  {/* BDT {data?.p_stocks[0]?.mrp} */}
+                  
                   {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
-                </Typography>
+                </Typography> */}
               </Stack>
             </Stack>
           ))}
