@@ -8,21 +8,31 @@ import HovarImage from "../../components/HovarableImage/HovarImage";
 import Loader from "../../components/Loader/Loader";
 import { useGetParticularCampignListsQuery } from "../../src/features/api/apiSlice";
 import { useCurrencyConversion } from "../../src/hooks/useCurrencyConversion";
+import useDiscountCount from "../../src/hooks/useDiscountCount";
+import InfiniteScroll from "react-infinite-scroll-component";
 const campaign = () => {
   const router = useRouter();
   const [campData, setCampData] = useState([]);
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
+  const { updatedPriceAfterDiscount } = useDiscountCount();
+  const [products, setProducts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   // console.log('your log output',campData)
   const Camp_id = router?.query?.cat_id;
   const Camp_name = router?.query?.cat_name;
-
+  // const page = 1;
   const { data, isLoading, isSuccess, isError, error } =
-    useGetParticularCampignListsQuery(Camp_id);
+    useGetParticularCampignListsQuery({ Camp_id, page });
   useEffect(() => {
     if (isSuccess) {
-      setCampData(data?.data);
+      setCampData((prevData) => [...prevData, ...data?.data]);
+      setHasMore(data?.data.length > 0);
     }
   }, [data, isSuccess]);
+  const fetchMoreData = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
   // console.log("your log output", campData);
   if (isLoading) {
     return <Loader></Loader>;
@@ -48,66 +58,55 @@ const campaign = () => {
         >
           {Camp_name}
         </Typography>
-        <Stack
-          mt={3}
-          direction={"row"}
-          flexWrap={"wrap"}
-          alignItems="center"
-          justifyContent={"center"}
-          columnGap={3}
-          rowGap={3}
+        <InfiniteScroll
+          dataLength={campData.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<Loader></Loader>}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>NO MORE ITEMS AVAILABLE.</b>
+            </p>
+          }
         >
-          {campData?.map((data) => (
-            <Stack direction={"column"} spacing={2} key={data?.id}>
-              <HovarImage
-                url={`/products/${
-                  data?.p_subcategory?.slug === "unknown"
-                    ? data?.p_category?.slug
-                    : data?.p_subcategory?.slug
-                }/${data?.id}`}
-                data={data}
-                imageURL={`${data?.p_image_one}`}
-                width={350}
-                height={350}
-              ></HovarImage>
+          <Stack
+            mt={3}
+            direction={"row"}
+            flexWrap={"wrap"}
+            alignItems="center"
+            justifyContent={"center"}
+            columnGap={3}
+            rowGap={3}
+          >
+            {campData?.map((data) => (
+              <Stack direction={"column"} spacing={2} key={data?.id}>
+                <HovarImage
+                  url={`/products/${
+                    data?.p_subcategory?.slug === "unknown"
+                      ? data?.p_category?.slug
+                      : data?.p_subcategory?.slug
+                  }/${data?.id}`}
+                  data={data}
+                  imageURL={`${data?.p_image_one}`}
+                  width={350}
+                  height={350}
+                ></HovarImage>
 
-              {/* <img src={data?.feature_image} alt="" width={350} height={350} /> */}
+                {/* <img src={data?.feature_image} alt="" width={350} height={350} /> */}
 
-              <Stack
-                direction={"row"}
-                spacing={2}
-                justifyContent={"space-between"}
-              >
-                <Typography variant="cardHeader2" color="initial">
-                  {data?.p_name}
-                </Typography>
                 <Stack
-                  direction={"column"}
+                  direction={"row"}
+                  spacing={2}
                   justifyContent={"space-between"}
-                  alignItems={"end"}
                 >
-                  {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                      className="bold"
-                    >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
-                      {selectedCurrency}{" "}
-                      <span>
-                        {
-                          updatedPriceAfterDiscount(
-                            convertPrice(data?.p_stocks[0]?.mrp),
-                            data?.p_stocks[0]?.discount?.discount_amount,
-                            data?.p_stocks[0]?.discount?.discount_type
-                          ).updatedPrice
-                        }
-                      </span>
-                    </Typography>
-                  ) : (
-                    ""
-                  )}
-                  <Stack direction={"row"} spacing={2}>
+                  <Typography variant="cardHeader2" color="initial">
+                    {data?.p_name}
+                  </Typography>
+                  <Stack
+                    direction={"column"}
+                    justifyContent={"space-between"}
+                    alignItems={"end"}
+                  >
                     {data?.p_stocks[0]?.discount?.discount_type !==
                     undefined ? (
                       <Typography
@@ -115,31 +114,55 @@ const campaign = () => {
                         color="initial"
                         className="bold"
                       >
-                        -{data?.p_stocks[0]?.discount?.discount_amount}%
+                        {/* BDT {product?.p_stocks[0]?.mrp} */}
+                        {selectedCurrency}{" "}
+                        <span>
+                          {
+                            updatedPriceAfterDiscount(
+                              convertPrice(data?.p_stocks[0]?.mrp),
+                              data?.p_stocks[0]?.discount?.discount_amount,
+                              data?.p_stocks[0]?.discount?.discount_type
+                            ).updatedPrice
+                          }
+                        </span>
                       </Typography>
                     ) : (
                       ""
                     )}
+                    <Stack direction={"row"} spacing={2}>
+                      {data?.p_stocks[0]?.discount?.discount_type !==
+                      undefined ? (
+                        <Typography
+                          variant="cardHeader3"
+                          color="initial"
+                          className="bold"
+                        >
+                          -{data?.p_stocks[0]?.discount?.discount_amount}%
+                        </Typography>
+                      ) : (
+                        ""
+                      )}
 
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                      className="bold"
-                      style={{
-                        textDecorationLine: `${
-                          data?.p_stocks[0]?.discount?.discount_type !==
-                          undefined
-                            ? "line-through"
-                            : "none"
-                        }`,
-                      }}
-                    >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
-                      {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
-                    </Typography>
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="bold"
+                        style={{
+                          textDecorationLine: `${
+                            data?.p_stocks[0]?.discount?.discount_type !==
+                            undefined
+                              ? "line-through"
+                              : "none"
+                          }`,
+                        }}
+                      >
+                        {/* BDT {product?.p_stocks[0]?.mrp} */}
+                        {selectedCurrency}{" "}
+                        {convertPrice(data?.p_stocks[0]?.mrp)}
+                      </Typography>
+                    </Stack>
                   </Stack>
-                </Stack>
-                {/* <Typography
+                  {/* <Typography
                   variant="cardHeader2"
                   fontWeight={"bold"}
                   color="initial"
@@ -147,10 +170,11 @@ const campaign = () => {
                   
                   {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
                 </Typography> */}
+                </Stack>
               </Stack>
-            </Stack>
-          ))}
-        </Stack>
+            ))}
+          </Stack>
+        </InfiniteScroll>
       </Box>
       <Footer />
     </>

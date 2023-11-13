@@ -27,7 +27,7 @@ export const productApi = createApi({
       query: () => "/all-campaign?status",
     }),
     getParticularCampignLists: builder.query({
-      query: (id) => `product?no_paginate=y&camp_id=${id}`,
+      query: ({ Camp_id, page }) => `product?camp_id=${Camp_id}&page=${page}&per_page=8`,
     }),
     getCategoryWiseProducts: builder.query({
       query: ({ cat, page }) => `/product/${cat}?page=${page}&per_page=16`,

@@ -370,7 +370,7 @@ const SiderBar = ({ open, setOpen }) => {
                 {occasion ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
                     <Stack direction={"column"} mt={2} spacing={1.5}>
-                      {lists?.map((list,index) => (
+                      {lists?.map((list, index) => (
                         <Typography
                           key={index}
                           variant="cardHeader3"
@@ -415,7 +415,7 @@ const SiderBar = ({ open, setOpen }) => {
                 <Typography
                   variant="cardHeader"
                   className="SemiBold"
-                  style={{color:"#8b8b8b"}}
+                  style={{ color: "#8b8b8b" }}
                   onClick={() => router.push("/shop")}
                 >
                   SHOP
@@ -433,7 +433,7 @@ const SiderBar = ({ open, setOpen }) => {
                 <Typography
                   variant="cardHeader"
                   className="SemiBold"
-                  style={{color:"#8b8b8b"}}
+                  style={{ color: "#8b8b8b" }}
                   onClick={() => router.push("/story")}
                 >
                   STORY
@@ -505,7 +505,7 @@ const SiderBar = ({ open, setOpen }) => {
                 </IconButton>
                 <Typography
                   variant="cardHeader"
-                  style={{color:"#8b8b8b"}}
+                  style={{ color: "#8b8b8b" }}
                   className="SemiBold"
                 >
                   BD
