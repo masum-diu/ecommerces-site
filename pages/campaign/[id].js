@@ -29,7 +29,7 @@ const campaign = () => {
       setCampData((prevData) => [...prevData, ...data?.data]);
       setHasMore(data?.data.length > 0);
     }
-  }, [data, isSuccess]);
+  }, [data]);
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1);
   };
