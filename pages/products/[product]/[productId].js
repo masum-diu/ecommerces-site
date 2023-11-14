@@ -49,6 +49,7 @@ import style from "../../../public/assets/css/innerpage.module.css";
 import { useCurrencyConversion } from "../../../src/hooks/useCurrencyConversion";
 import ProductPoPup from "../../../components/ProductPoPup";
 import useDiscountCount from "../../../src/hooks/useDiscountCount";
+import { ArrowRight, ArrowRightOutlined, Padding } from "@mui/icons-material";
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
@@ -63,6 +64,7 @@ const PorductDetails = () => {
   );
   const router = useRouter();
   const path = router.asPath;
+
   const productId = router?.query?.productId;
   const [colorSelected, setColorSelected] = useState(false);
   const [sizeSelected, setSizeSelected] = useState(false);
@@ -91,6 +93,8 @@ const PorductDetails = () => {
   const [isFragile, setIsFragile] = useState(false);
   const [discountAmount, setDiscountAmount] = useState();
   const [discountType, setDiscountType] = useState();
+  const [swiperKey, setSwiperKey] = useState(0);
+
   // console.log("your log output", products);
   // product popup
   const [productpopup, setProductpopup] = useState(false);
@@ -124,7 +128,8 @@ const PorductDetails = () => {
     p_id,
   });
   const RelatedProducts = matchedwithProduct?.data;
-
+  const catName = products?.p_category?.cat_name;
+  const subCatName = products?.p_subcategory?.cat_name;
   // Fetching the particular Product
   useEffect(() => {
     if (isSuccess) {
@@ -136,6 +141,15 @@ const PorductDetails = () => {
       handleSuccess();
     }
   }, [data, isSuccess, isLoading]);
+  /* useEffect(() => {
+    const handleProductChange = () => {
+      // Call this function when you navigate to a new product
+      setTimeout(() => {
+        setSwiperKey((prevKey) => prevKey + 1);
+      }, 500);
+    };
+    handleProductChange();
+  }, [catName, subCatName]); */
 
   useEffect(() => {
     if (products?.fragile === "1") {
@@ -1104,7 +1118,7 @@ const PorductDetails = () => {
                       // width="25%"
                       className="SemiBold"
                     >
-                      Availability & Specs
+                      Availability & Specification
                     </Typography>
                     {/* <hr
                       style={{
@@ -1133,13 +1147,13 @@ const PorductDetails = () => {
                       {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
                       {noteTextForStock}
                     </Typography>
-                    <Typography
+                    {/* <Typography
                       variant="cardHeader12"
                       color="initial"
                       className="SemiBold"
                     >
                       Check In Store Availability
-                    </Typography>
+                    </Typography> */}
                   </Stack>
 
                   <Stack direction={"row"} spacing={1}>
@@ -1552,6 +1566,7 @@ const PorductDetails = () => {
       <Hidden only={["md", "lg", "xl", "sm"]}>
         <Box pt={7} sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}>
           <Swiper
+            key={Math.random() * 10}
             spaceBetween={50}
             slidesPerView={1}
             pagination={true}
@@ -1994,6 +2009,12 @@ const PorductDetails = () => {
                       >
                         {products?.p_sizes?.map((size, index) => (
                           <Button
+                          disabled={
+                            handleStockAvailability(size.id) ===
+                            "outOfStock"
+                              ? true
+                              : false
+                          }
                             startIcon={
                               handleStockAvailability(size.id) ===
                               "outOfStock" ? (
@@ -2053,6 +2074,9 @@ const PorductDetails = () => {
                         ].includes(item.slug)
                       ) ? (
                         <Button
+                          sx={{
+                            padding: "6px 0px",
+                          }}
                           variant="text"
                           color="primary"
                           onClick={() =>
@@ -2233,7 +2257,7 @@ const PorductDetails = () => {
 
                 <Stack direction={"row"} spacing={1} alignItems="center">
                   <Typography variant="cardHeader3" color="#959595">
-                    Availability & Spces
+                    Availability & Specification
                   </Typography>
                   {/* <hr
                     style={{
@@ -2251,9 +2275,9 @@ const PorductDetails = () => {
                     {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
                     {noteTextForStock}
                   </Typography>
-                  <Typography variant="cardHeader12" color="initial">
+                  {/* <Typography variant="cardHeader12" color="initial">
                     Check In Store Availability
-                  </Typography>
+                  </Typography> */}
                 </Stack>
                 <Stack direction={"row"} spacing={1}>
                   {" "}
@@ -2717,10 +2741,10 @@ const PorductDetails = () => {
                 Home
               </Typography>
               <Typography variant="cardLocation1" color="#F2F2F2">
-                Women
+                {catName}
               </Typography>
               <Typography variant="cardLocation1" color="#F2F2F2">
-                Kurti & Fatua{" "}
+                {subCatName}
               </Typography>
             </Stack>
             {/* <Typography variant="tabText1" color="#fff">
