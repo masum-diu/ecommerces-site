@@ -50,9 +50,44 @@ const shop = () => {
   }, [isLandingSuccess, landingdata]);
 
   const handleFirstBanner = () => {
-    router.push({
+    /* router.push({
       pathname: `/new-collections`,
-    });
+    }); */
+
+    const backUrl = homedata?.back_url_two;
+    console.log("your log output", homedata);
+    const pathname = `/products/${backUrl?.split("?")[0]}`;
+    const pathname_campaign = `/${backUrl?.split("?")[0]}`;
+    const isCampaign = homedata?.back_url_two?.includes("campaign");
+    console.log("your log output", isCampaign);
+    const query = {};
+
+    const catMatch = /cat=(\d+)/.exec(backUrl);
+    if (catMatch) {
+      query.cat = catMatch[1];
+    }
+
+    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
+    if (subCatMatch) {
+      query.sub_cat = subCatMatch[1];
+    }
+    const sub_cat_name = /cat_name=([^&]+)/.exec(backUrl);
+    if (sub_cat_name) {
+      query.sub_cat_name = sub_cat_name[1];
+    }
+
+    if (subCatMatch && catMatch) {
+      if (isCampaign) {
+        return `${pathname_campaign}/cat=${query.cat}&cat_name=${query.sub_cat_name}`;
+      }
+      return `${pathname}?cat=${query.cat}&sub_cat=${query.sub_cat}`;
+    }
+    if (!subCatMatch) {
+      if (isCampaign) {
+        return `${pathname_campaign}/cat=${query.cat}&cat_name=${query.sub_cat_name}`;
+      }
+      return `${pathname}?cat=${query.cat}`;
+    }
   };
   const handleSecondBanner = () => {
     const backUrl = homedata?.back_url_three;
@@ -219,7 +254,7 @@ const shop = () => {
             }}
           />
           <Stack>
-            <Link href="/new-collections">
+            <Link href={`${handleFirstBanner()}`}>
               <a style={{ lineHeight: 0 }}>
                 <img
                   src={`${homedata?.image_two
@@ -274,7 +309,16 @@ const shop = () => {
                 px: 4,
               }}
             >
-              <li>Latest Collection</li>
+              {console.log("your log output", homedata?.back_url_two)}
+              <li>
+                {homedata?.back_url_two?.includes("campaign")
+                  ? homedata?.back_url_two
+                    ? /cat_name=([^&]+)/.exec(homedata?.back_url_two)[1]
+                    : ""
+                  : homedata?.back_url_two
+                  ? /^(.*?)\?/.exec(homedata?.back_url_two)[1]
+                  : ""}
+              </li>
             </Typography>
           </Stack>
         </Stack>

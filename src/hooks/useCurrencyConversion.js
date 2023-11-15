@@ -24,6 +24,7 @@ export function useCurrencyConversion() {
       fetchExchangeRates(currency).then((rates) => setConversionRates(rates));
     }
   }, []);
+  // console.log('your log output',conversionRates)
   useEffect(() => {
     // Current Conversion Rate
     if (conversionRates) {

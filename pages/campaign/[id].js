@@ -18,12 +18,20 @@ const campaign = () => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  // console.log('your log output',campData)
-  const Camp_id = router?.query?.cat_id;
-  const Camp_name = router?.query?.cat_name;
+  // const Camp_id = router?.query?.cat_id;
+  // const Camp_id = router?.query?.id?.match(/=(.*)/)[1];
+
+  // const Camp_name = router?.query?.id?.match(/=(.*)/)[2];
+
+  const catIdMatch = /cat=(\d+)/.exec(router?.query?.id);
+  const catNameMatch = /cat_name=([^&]+)/.exec(router?.query?.id);
+
+  const Camp_id = catIdMatch ? catIdMatch[1] : null;
+  const Camp_name = catNameMatch ? catNameMatch[1] : null;
+
   // const page = 1;
   const { data, isLoading, isSuccess, isError, error } =
-    useGetParticularCampignListsQuery({ Camp_id, page });
+    useGetParticularCampignListsQuery({ Camp_id, page }, { skip: !Camp_id });
   useEffect(() => {
     if (isSuccess) {
       setCampData((prevData) => [...prevData, ...data?.data]);

@@ -239,7 +239,7 @@ const SiderBar = ({ open, setOpen }) => {
                       key={index}
                       className="SemiBold"
                       variant="text"
-                      color="inherit"
+                      // color="inherit"
                       onClick={() =>
                         handleClick(
                           category?.id,
@@ -279,7 +279,7 @@ const SiderBar = ({ open, setOpen }) => {
                                   <Grid item xs={6} sm={6} key={index}>
                                     <Typography
                                       variant="cardHeader3"
-                                      color="initial"
+                                      color="#1b3148"
                                       sx={{ cursor: "pointer" }}
                                       onClick={() =>
                                         router.push(
@@ -312,7 +312,7 @@ const SiderBar = ({ open, setOpen }) => {
                               <Grid item xs={6} sm={6}>
                                 <Typography
                                   variant="bolder"
-                                  color="initial"
+                                  color="#1b3148"
                                   sx={{ cursor: "pointer" }}
                                   onClick={() =>
                                     router.push(
@@ -344,10 +344,11 @@ const SiderBar = ({ open, setOpen }) => {
                 <Button
                   className="SemiBold"
                   variant="text"
-                  color="inherit"
+                  // color="inherit"
                   onClick={handleClickOccasion}
                   fullWidth
                   sx={{
+                    color: "#1b3148",
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "space-between",
@@ -374,11 +375,11 @@ const SiderBar = ({ open, setOpen }) => {
                         <Typography
                           key={index}
                           variant="cardHeader3"
-                          color="initial"
+                          color="#1b3148"
                           sx={{ cursor: "pointer" }}
                           onClick={() =>
                             router.push({
-                              pathname: `/campaign/cat_id=${list?.id}&cat_name=${list?.camp_name}`,
+                              pathname: `/campaign/cat=${list?.id}&cat_name=${list?.camp_name}`,
                               query: {
                                 cat_id: `${list?.id}`,
                                 cat_name: `${list?.camp_name}`,

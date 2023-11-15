@@ -259,7 +259,7 @@ const HomePageIntro = ({ title }) => {
 
                 <IconButton aria-label="">
                   <CiSearch
-                    style={{ color: "#0A0A0A" }}
+                    style={{ color: "gray" }}
                     onClick={() => setSearchModal(true)}
                   />
                 </IconButton>
@@ -269,7 +269,11 @@ const HomePageIntro = ({ title }) => {
           <Hidden only={["xs", "xms", "sm"]}>
             <Box
               ml={userjsondata?.name ? { xl: 35, lg: 35 } : 30}
-              mr={userjsondata?.name ? { md: 20, xl: 0, lg: 0 } : {lg:0,xl:0,md:30}}
+              mr={
+                userjsondata?.name
+                  ? { md: 20, xl: 0, lg: 0 }
+                  : { lg: 0, xl: 0, md: 30 }
+              }
             >
               <Stack direction={"row"} spacing={5} mt={1}>
                 <Typography
@@ -295,7 +299,7 @@ const HomePageIntro = ({ title }) => {
 
             <Stack direction={"row"} alignItems="center" spacing={1} mt={1}>
               <IconButton aria-label="" onClick={() => setSearchModal(true)}>
-                <CiSearch style={{ color: "#0A0A0A" }} />
+                <CiSearch style={{ color: "gray" }} />
               </IconButton>
               {userjsondata || user.status == true ? (
                 <>
@@ -424,8 +428,7 @@ const HomePageIntro = ({ title }) => {
                 </IconButton>
                 <Typography
                   variant="cardHeader"
-                  
-                  sx={{ cursor: "pointer",color:"#8b8b8b" }}
+                  sx={{ cursor: "pointer", color: "#8b8b8b" }}
                 >
                   BD
                 </Typography>

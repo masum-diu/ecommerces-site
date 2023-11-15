@@ -130,6 +130,10 @@ const PorductDetails = () => {
   const RelatedProducts = matchedwithProduct?.data;
   const catName = products?.p_category?.cat_name;
   const subCatName = products?.p_subcategory?.cat_name;
+  const sub_cat_slug = products?.p_subcategory?.slug;
+  const cat_slug = products?.p_category?.slug;
+  const sub_cat_slug_id = products?.p_subcategory?.id;
+  const cat_slug_id = products?.p_category?.id;
   // Fetching the particular Product
   useEffect(() => {
     if (isSuccess) {
@@ -141,15 +145,6 @@ const PorductDetails = () => {
       handleSuccess();
     }
   }, [data, isSuccess, isLoading]);
-  /* useEffect(() => {
-    const handleProductChange = () => {
-      // Call this function when you navigate to a new product
-      setTimeout(() => {
-        setSwiperKey((prevKey) => prevKey + 1);
-      }, 500);
-    };
-    handleProductChange();
-  }, [catName, subCatName]); */
 
   useEffect(() => {
     if (products?.fragile === "1") {
@@ -736,6 +731,7 @@ const PorductDetails = () => {
                     className="exterBold"
                     variant="productName"
                     color="initial"
+                    fontFamily={'IM Fell Double Pica'}
                     sx={{ letterSpacing: 0.6 }}
                   >
                     {products?.p_name}
@@ -1593,7 +1589,7 @@ const PorductDetails = () => {
             >
               <Stack
                 direction={"column"}
-                spacing={5}
+                spacing={1}
                 sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
               >
                 <Stack direction={"column"}>
@@ -1691,7 +1687,7 @@ const PorductDetails = () => {
             >
               <Stack
                 direction={"column"}
-                spacing={5}
+                spacing={1}
                 sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
               >
                 <Stack direction={"column"}>
@@ -2009,12 +2005,11 @@ const PorductDetails = () => {
                       >
                         {products?.p_sizes?.map((size, index) => (
                           <Button
-                          disabled={
-                            handleStockAvailability(size.id) ===
-                            "outOfStock"
-                              ? true
-                              : false
-                          }
+                            disabled={
+                              handleStockAvailability(size.id) === "outOfStock"
+                                ? true
+                                : false
+                            }
                             startIcon={
                               handleStockAvailability(size.id) ===
                               "outOfStock" ? (
@@ -2737,13 +2732,42 @@ const PorductDetails = () => {
             }}
           >
             <Stack direction={"row"} spacing={3}>
-              <Typography variant="cardLocation1" color="#F2F2F2">
+              <Typography
+                style={{ cursor: "pointer" }}
+                variant="cardLocation1"
+                color="#F2F2F2"
+                onClick={() => {
+                  router.push("/shop");
+                }}
+              >
                 Home
               </Typography>
-              <Typography variant="cardLocation1" color="#F2F2F2">
+              {/* <Typography variant="cardLocation1" color="#F2F2F2">
                 {catName}
-              </Typography>
-              <Typography variant="cardLocation1" color="#F2F2F2">
+              </Typography> */}
+              <Typography
+                style={{ cursor: "pointer" }}
+                variant="cardLocation1"
+                color="#F2F2F2"
+                onClick={() =>
+                  router.push(
+                    {
+                      pathname: `/products/${sub_cat_slug}`,
+                      query: {
+                        data: JSON.stringify({
+                          cat: cat_slug_id,
+                          sub_cat: sub_cat_slug_id,
+                        }),
+                        cat: cat_slug_id,
+                        sub_cat: sub_cat_slug_id,
+                      },
+                    },
+                    `/products/${sub_cat_slug}?cat=${cat_slug_id}${
+                      sub_cat_slug_id ? `&sub_cat=${sub_cat_slug_id}` : ""
+                    }`
+                  )
+                }
+              >
                 {subCatName}
               </Typography>
             </Stack>
