@@ -279,7 +279,7 @@ const SiderBar = ({ open, setOpen }) => {
                                   <Grid item xs={6} sm={6} key={index}>
                                     <Typography
                                       variant="cardHeader3"
-                                      color="#1b3148"
+                                      color="initial"
                                       sx={{ cursor: "pointer" }}
                                       onClick={() =>
                                         router.push(
@@ -312,7 +312,7 @@ const SiderBar = ({ open, setOpen }) => {
                               <Grid item xs={6} sm={6}>
                                 <Typography
                                   variant="bolder"
-                                  color="#1b3148"
+                                  color="initial"
                                   sx={{ cursor: "pointer" }}
                                   onClick={() =>
                                     router.push(
@@ -348,7 +348,7 @@ const SiderBar = ({ open, setOpen }) => {
                   onClick={handleClickOccasion}
                   fullWidth
                   sx={{
-                    color: "#1b3148",
+                    // color: "initial",
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "space-between",
@@ -375,7 +375,7 @@ const SiderBar = ({ open, setOpen }) => {
                         <Typography
                           key={index}
                           variant="cardHeader3"
-                          color="#1b3148"
+                          color="initial"
                           sx={{ cursor: "pointer" }}
                           onClick={() =>
                             router.push({
