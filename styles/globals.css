@@ -19,10 +19,6 @@
   font-family: "bold";
   src: url("../public/fonts/font/Gellix-Bold.woff");
 }
-/* @import url('https://fonts.googleapis.com/css2?family=IM+Fell+Double+Pica&family=Noto+Serif+Bengali&display=swap');
-body{
-  font-family: 'IM Fell Double Pica', serif;
-} */
 .exterBold {
   font-family: "ExterBold";
   /* background-color:red; */
