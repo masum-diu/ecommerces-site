@@ -1,11 +1,13 @@
-import React from 'react'
-import FlashPage from '../components/FlashPage'
+import React from "react";
+import FlashPage from "../components/FlashPage";
+import Head from "next/head";
+import Pixel from "../components/Pixel";
 
 const Home = () => {
   return (
     <>
-      <FlashPage title={"HomePage "}/>
+      <FlashPage title={"HomePage "} />
     </>
-  )
-}
-export default Home
+  );
+};
+export default Home;

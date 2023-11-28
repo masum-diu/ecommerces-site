@@ -256,7 +256,7 @@ const masterCollectionLayout = () => {
         !hasMore,
     }
   );
-
+// Getting Filtered data by price without sub category
   const {
     data: filterDataCatp,
     isLoading: filterLoadingCatp,

@@ -39,7 +39,6 @@ const shop = () => {
       handleSuccess();
     }
   }, [data, isLoading]);
-  // console.log("your log output", homedata);
   useEffect(() => {
     if (isLandingSuccess) {
       const handleSuccess = () => {
@@ -55,11 +54,11 @@ const shop = () => {
     }); */
 
     const backUrl = homedata?.back_url_two;
-    console.log("your log output", homedata);
+
     const pathname = `/products/${backUrl?.split("?")[0]}`;
     const pathname_campaign = `/${backUrl?.split("?")[0]}`;
     const isCampaign = homedata?.back_url_two?.includes("campaign");
-    console.log("your log output", isCampaign);
+
     const query = {};
 
     const catMatch = /cat=(\d+)/.exec(backUrl);
@@ -309,7 +308,6 @@ const shop = () => {
                 px: 4,
               }}
             >
-              {console.log("your log output", homedata?.back_url_two)}
               <li>
                 {homedata?.back_url_two?.includes("campaign")
                   ? homedata?.back_url_two

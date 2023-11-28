@@ -15,6 +15,7 @@ import {
 import { MdClose, AiOutlinePlus } from "react-icons/md";
 import { useDebouncedCallback, useDebounce } from "use-debounce";
 import { useRouter } from "next/router";
+import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 
 const Filter = ({
   open,
@@ -43,6 +44,7 @@ const Filter = ({
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
   const [value] = useDebounce(rangeValue, 1000, { trailing: true });
+  const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const router = useRouter();
   const currentPath =
     router?.query?.product?.charAt(0).toUpperCase() +
@@ -269,8 +271,24 @@ const Filter = ({
                   sx={{ color: "#2D323F" }}
                 />
                 <Stack direction={"row"} justifyContent="space-between">
-                  <Typography>{min}</Typography>
-                  <Typography>{max}</Typography>
+                  <Stack direction={"row"} spacing={1}>
+                    <Typography>{min}</Typography>
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                    >
+                      {selectedCurrency}
+                    </Typography>
+                  </Stack>
+                  <Stack direction={"row"} spacing={1}>
+                    <Typography>{convertPrice(max)}</Typography>
+                    <Typography
+                      variant="cardHeader3"
+                      color="initial"
+                    >
+                      {selectedCurrency}
+                    </Typography>
+                  </Stack>
                 </Stack>
               </Stack>
             </Box>
