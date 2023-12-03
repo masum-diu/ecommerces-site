@@ -14,6 +14,7 @@ import {
   removeFromWishList,
 } from "../../src/features/wishlist/wishListSlice";
 import { useCurrencyConversion } from "../../src/hooks/useCurrencyConversion";
+import * as fbq from "../../lib/fpixel";
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -104,6 +105,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     setShowBrokenHeart("block");
     setShowHeart("none");
     await toast.success("Added To WishList!");
+    fbq.event("AddToWishlist");
   };
   const handleRemoveFromList = async (data) => {
     dispatch(removeFromWishList(data));

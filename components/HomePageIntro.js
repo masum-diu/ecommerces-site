@@ -37,6 +37,7 @@ import { useSignOut } from "react-firebase-hooks/auth";
 import auth from "../src/firebase.init";
 import Loader from "./Loader/Loader";
 import { useGetCategoryAndSubCatListQuery } from "../src/features/api/apiSlice";
+import * as fbq from "../lib/fpixel";
 const HomePageIntro = ({ title }) => {
   const [signOut, loading] = useSignOut(auth);
   const [open, setOpen] = useState(false);
@@ -95,6 +96,10 @@ const HomePageIntro = ({ title }) => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const handleSearchOpen =()=>{
+    setSearchModal(true)
+    fbq.event("InitiateCheckout");
+  }
   if (loading) {
     return <Loader></Loader>;
   }
@@ -260,7 +265,7 @@ const HomePageIntro = ({ title }) => {
                 <IconButton aria-label="">
                   <CiSearch
                     style={{ color: "gray" }}
-                    onClick={() => setSearchModal(true)}
+                    onClick={() => handleSearchOpen()}
                   />
                 </IconButton>
               </Stack>
@@ -298,7 +303,7 @@ const HomePageIntro = ({ title }) => {
             </Box>
 
             <Stack direction={"row"} alignItems="center" spacing={1} mt={1}>
-              <IconButton aria-label="" onClick={() => setSearchModal(true)}>
+              <IconButton aria-label="" onClick={() => handleSearchOpen()}>
                 <CiSearch style={{ color: "gray" }} />
               </IconButton>
               {userjsondata || user.status == true ? (

@@ -14,6 +14,7 @@ import USER_CONTEXT from "./userContext";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import instance from "../pages/api/api_instance";
+import * as fbq from "../lib/fpixel";
 const SignInModal = ({ open, setOpen, signModal }) => {
   const [values, setValues] = useState({
     pass: "",
@@ -69,6 +70,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
         setUser(result?.data?.user);
         reset();
         setOpen(false);
+        fbq.event("CompleteRegistration");
       })
       .catch((err) => {});
   };

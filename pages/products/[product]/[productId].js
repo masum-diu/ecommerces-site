@@ -465,6 +465,7 @@ const PorductDetails = () => {
     setShowBrokenHeart("block");
     setShowHeart("none");
     toast.success("Added To WishList!");
+    fbq.event("AddToWishlist");
   };
   const handleRemoveFromList = async (data) => {
     dispatch(removeFromWishList(data));
