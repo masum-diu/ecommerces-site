@@ -16,7 +16,7 @@ export default () => {
         async
         src="https://www.googletagmanager.com/gtag/js?id=UA-105579019-2"
       />
-      <script
+      {/* <script
         dangerouslySetInnerHTML={{
           __html: `!function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -38,7 +38,7 @@ fbq('track', 'ViewContent');
         src="https://www.facebook.com/tr?id=359252785196040&ev=PageView&noscript=1"
         />`,
         }}
-      />
+      /> */}
     </React.Fragment>
   );
 };

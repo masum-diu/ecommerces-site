@@ -16,6 +16,15 @@ export default class MyDocument extends Document {
           {/* <link href="https://fonts.cdnfonts.com/css/gellix" rel="stylesheet"/> */}
 
           {this.props.emotionStyleTags}
+
+          <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: 'none' }}
+            src={`https://www.facebook.com/tr?id=359252785196040&ev=PageView&noscript=1`}
+          />
+        </noscript>
         </Head>
         <body>
           <Main />

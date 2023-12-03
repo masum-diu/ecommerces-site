@@ -50,6 +50,7 @@ import { useCurrencyConversion } from "../../../src/hooks/useCurrencyConversion"
 import ProductPoPup from "../../../components/ProductPoPup";
 import useDiscountCount from "../../../src/hooks/useDiscountCount";
 import { ArrowRight, ArrowRightOutlined, Padding } from "@mui/icons-material";
+import * as fbq from "../../../lib/fpixel";
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
@@ -444,9 +445,7 @@ const PorductDetails = () => {
     dispatch(addToCart(finalData));
     toast.success("Added To Cart!");
     setProductpopup(true);
-    if (typeof fbq !== "undefined") {
-      fbq('track', 'AddToCart');
-    }
+    fbq.event("AddToCart");
   };
 
   const handleImageForThumble = (data, images) => {
@@ -734,7 +733,7 @@ const PorductDetails = () => {
                     className="exterBold"
                     variant="productName"
                     color="initial"
-                    fontFamily={'IM Fell Double Pica'}
+                    fontFamily={"IM Fell Double Pica"}
                     sx={{ letterSpacing: 0.6 }}
                   >
                     {products?.p_name}
