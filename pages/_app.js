@@ -62,7 +62,19 @@ export default function MyApp(props) {
           `,
         }}
       />
-      <Pixel name="FACEBOOK_PIXEL_1" />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-105579019-2')`,
+        }}
+      />
+      <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=UA-105579019-2"
+      />
+      {/* <Pixel name="FACEBOOK_PIXEL_1" /> */}
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <NextNProgress

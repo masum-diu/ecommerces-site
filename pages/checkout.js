@@ -47,6 +47,7 @@ import {
   fixedCharge,
 } from "../public/assets/data/eCourier_charges";
 import { useConvertCartData } from "../src/hooks/useConvertCartData";
+import * as fbq from "../lib/fpixel";
 
 const checkout = () => {
   // address popup state start
@@ -343,6 +344,10 @@ const checkout = () => {
             token,
           });
           setOrderResponseUser(postResponse);
+          fbq.event("Purchase", {
+            currency: selectedCurrency,
+            value: totalPriceWithTax_after_discount,
+          });
         } catch (e) {
           console.log("your log output", e);
         }
@@ -392,6 +397,10 @@ const checkout = () => {
             token,
           });
           setOrderResponseGuest(postResponse);
+          fbq.event("Purchase", {
+            currency: orderInfo?.selectedCurrency,
+            value: orderInfo?.totalPriceWithTax_after_discount,
+          });
         } catch (e) {
           console.log("your log output", e);
         }

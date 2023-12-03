@@ -38,6 +38,7 @@ import USER_CONTEXT from "../components/userContext";
 import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 import { useConvertCartData } from "../src/hooks/useConvertCartData";
 import OrderDetails from "../components/OrderDetails";
+import * as fbq from "../lib/fpixel";
 
 const addtocart = () => {
   const router = useRouter();
@@ -129,6 +130,7 @@ const addtocart = () => {
     setIsProceedClicked(true);
     setIsProceedCheckout(true);
     setKeepShowing(true);
+    fbq.event("ProceedtoCheckout");
   };
 
   return (

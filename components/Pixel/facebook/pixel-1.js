@@ -4,7 +4,7 @@ import React from "react";
 export default () => {
   return (
     <React.Fragment>
-      <script
+      {/* <script
         dangerouslySetInnerHTML={{
           __html: `window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -15,7 +15,7 @@ export default () => {
       <script
         async
         src="https://www.googletagmanager.com/gtag/js?id=UA-105579019-2"
-      />
+      /> */}
       {/* <script
         dangerouslySetInnerHTML={{
           __html: `!function(f,b,e,v,n,t,s)
