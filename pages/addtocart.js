@@ -130,7 +130,7 @@ const addtocart = () => {
     setIsProceedClicked(true);
     setIsProceedCheckout(true);
     setKeepShowing(true);
-    fbq.event("ProceedtoCheckout");
+    fbq.event("InitiateCheckout");
   };
 
   return (
