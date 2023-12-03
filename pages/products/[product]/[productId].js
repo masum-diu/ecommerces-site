@@ -444,6 +444,9 @@ const PorductDetails = () => {
     dispatch(addToCart(finalData));
     toast.success("Added To Cart!");
     setProductpopup(true);
+    if (typeof fbq !== "undefined") {
+      fbq('track', 'AddToCart');
+    }
   };
 
   const handleImageForThumble = (data, images) => {

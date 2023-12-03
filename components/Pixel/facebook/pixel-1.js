@@ -29,13 +29,6 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('init', '359252785196040');
 fbq('track', 'PageView');
 fbq('track', 'ViewContent');
-fbq('track', 'Search');
-fbq('track', 'AddToCart');
-fbq('track', 'InitiateCheckout');
-fbq('track', 'AddPaymentInfo');
-fbq('track', 'Purchase', { value: '0.00', currency: 'USD' });
-fbq('track', 'Lead');
-fbq('track', 'CompleteRegistration');
 `,
         }}
       />
