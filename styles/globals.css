@@ -34,6 +34,15 @@
 .bold {
   font-family: "bold";
 }
+.MuiDrawer-paperAnchorTop {
+  /* background-color: red; */
+  position: absolute;
+  box-shadow: none;
+  top: 64px;
+}
+.mui-style-1u2w381-MuiModal-root-MuiDrawer-root {
+  position: unset;
+}
 /* #country_shipping,
 #city_shipping,
 #country_billing,

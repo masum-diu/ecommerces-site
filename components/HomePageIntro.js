@@ -38,10 +38,12 @@ import auth from "../src/firebase.init";
 import Loader from "./Loader/Loader";
 import { useGetCategoryAndSubCatListQuery } from "../src/features/api/apiSlice";
 import * as fbq from "../lib/fpixel";
+import MegaMenu from "./Megamenu";
 const HomePageIntro = ({ title }) => {
   const [signOut, loading] = useSignOut(auth);
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [openMegaMenu, setOpenMegaMenu] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
   const router = useRouter();
   const [value, setValue] = React.useState("0");
@@ -96,10 +98,14 @@ const HomePageIntro = ({ title }) => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const handleSearchOpen =()=>{
-    setSearchModal(true)
+  const handleSearchOpen = () => {
+    setSearchModal(true);
     fbq.event("InitiateCheckout");
-  }
+  };
+  const handleMegaMenuOpen = () => {
+    // router.push("/shop");
+    setOpenMegaMenu(true);
+  };
   if (loading) {
     return <Loader></Loader>;
   }
@@ -177,6 +183,7 @@ const HomePageIntro = ({ title }) => {
         }}
       >
         <Toolbar
+          className="toolbar"
           sx={{
             display: "flex",
             justifyContent: "space-between",
@@ -287,6 +294,7 @@ const HomePageIntro = ({ title }) => {
                   variant="homeFlash"
                   color="initial"
                   onClick={() => router.push("/shop")}
+                  onMouseEnter={() => handleMegaMenuOpen()}
                 >
                   <li style={{ color: "gray" }}>SHOP</li>
                 </Typography>
@@ -445,6 +453,7 @@ const HomePageIntro = ({ title }) => {
       <SiderBar open={open} setOpen={setOpen} />
       <LoginModal open={modalOpen} setOpen={setModalOpen} />
       <SearchModal open={searchModal} setOpen={setSearchModal} />
+      <MegaMenu open={openMegaMenu} setOpen={setOpenMegaMenu}></MegaMenu>
     </>
   );
 };
