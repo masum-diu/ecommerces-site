@@ -43,6 +43,9 @@
 .mui-style-1u2w381-MuiModal-root-MuiDrawer-root {
   position: unset;
 }
+.categoryList:hover{
+  transition: 2s ease-in-out;;
+}
 /* #country_shipping,
 #city_shipping,
 #country_billing,

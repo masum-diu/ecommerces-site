@@ -38,7 +38,7 @@ import auth from "../src/firebase.init";
 import Loader from "./Loader/Loader";
 import { useGetCategoryAndSubCatListQuery } from "../src/features/api/apiSlice";
 import * as fbq from "../lib/fpixel";
-import MegaMenu from "./Megamenu";
+import MegaMenu from "./MegaMenu";
 const HomePageIntro = ({ title }) => {
   const [signOut, loading] = useSignOut(auth);
   const [open, setOpen] = useState(false);
