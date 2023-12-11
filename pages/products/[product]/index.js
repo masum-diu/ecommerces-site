@@ -256,7 +256,7 @@ const masterCollectionLayout = () => {
         !hasMore,
     }
   );
-// Getting Filtered data by price without sub category
+  // Getting Filtered data by price without sub category
   const {
     data: filterDataCatp,
     isLoading: filterLoadingCatp,
@@ -972,6 +972,7 @@ const masterCollectionLayout = () => {
         setHasMore={setHasMore}
         setFilteredData={setFilteredData}
         setProducts={setProducts}
+        currentPath={currentPath}
       />
     </>
   );

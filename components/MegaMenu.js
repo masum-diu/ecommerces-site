@@ -23,13 +23,13 @@ import {
 } from "../src/features/api/apiSlice";
 import Loader from "./Loader/Loader";
 import style from "../public/assets/css/HomePageIntro.module.css";
-import SubCatDetails from "./SubcatDetails";
+import { useRouter } from "next/router";
+import CategoryImg from "./CategoryImg";
 
 const MegaMenu = ({ open, setOpen }) => {
   const [categoryAndSubCatList, setCatAndSubCatList] = useState([]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
-
-  console.log("your log output", hoveredCategory);
+  const router = useRouter();
   const {
     data: catAndSubCatList,
     isLoading: isListLoading,
@@ -43,23 +43,64 @@ const MegaMenu = ({ open, setOpen }) => {
     }
   }, [catAndSubCatList, isCatSuccess]);
 
+  const handleMouseLeaveOperation = () => {
+    setHoveredCategory(null);
+    setOpen(false);
+  };
+  const handleRedirectSubCat = (sub_cat) => {
+    setOpen(false);
+    router.push(
+      {
+        pathname: `/products/${sub_cat?.slug}`,
+        query: {
+          data: JSON.stringify({
+            cat: sub_cat?.parent_category,
+            sub_cat: sub_cat?.id,
+          }),
+          cat: sub_cat?.parent_category,
+          sub_cat: sub_cat?.id,
+        },
+      },
+      `/products/${sub_cat?.slug}?cat=${sub_cat?.parent_category}${
+        sub_cat?.id ? `&sub_cat=${sub_cat?.id}` : ""
+      }`
+    );
+  };
+  const handleRedirectCat = (category) => {
+    setOpen(false);
+    console.log("category", category);
+    router.push(
+      {
+        pathname: `/products?cat_name=${category?.slug}&cat=${category?.id}`,
+        query: {
+          data: JSON.stringify({
+            cat: category?.parent_category,
+            category: category?.id,
+          }),
+          cat: category?.parent_category,
+          category: category?.id,
+        },
+      },
+      `/products?cat_name=${category?.slug}&cat=${category?.id}`
+    );
+  };
+
   if (isListLoading) {
     return <Loader></Loader>;
   }
   return (
-    <>
-      {/*  */}
+    <div>
       <Drawer
-        transitionDuration={{ enter: 500, exit: 500 }}
+        transitionDuration={{ enter: 900, exit: 900 }}
         anchor="top"
-        open={true}
-        onMouseLeave={() => setOpen(false)}
+        open={open}
+        onMouseLeave={() => handleMouseLeaveOperation()}
       >
         <Box
           sx={{
             height: { lg: "100%", xs: "fit-content" },
             py: 5,
-            width: { lg: "90%", xs: "100%" },
+            width: { lg: "90%", xs: "90%" },
             maxWidth: "1500px",
             margin: "0 auto",
             // border: "1px solid red",
@@ -72,17 +113,6 @@ const MegaMenu = ({ open, setOpen }) => {
             alignItems: "stretch",
           }}
         >
-          {/* <Stack
-            direction={"row"}
-            flexWrap={"wrap"}
-            columnGap={1.5}
-            rowGap={1.5}
-            justifyContent="center"
-            // alignItems={"center"}
-            alignItems={"center"}
-          >
-            <Typography style={{ background: "red" }}>sdasd</Typography>
-          </Stack> */}
           <Stack
             sx={{
               height: "fit-content",
@@ -98,48 +128,17 @@ const MegaMenu = ({ open, setOpen }) => {
             columnGap={5}
             rowGap={1}
           >
-            {/* {categoryAndSubCatList.map((category, index) => (
-              <Stack key={index}>
-                <Typography className={style.menu3}>
-                  <li className={style.menu3}>{category?.category_name}</li>
-                </Typography>
-                <Typography className={style.menu3}>{
-                  category.children.map((item)=><li className={style.menu3}>{item?.category_name}</li>)
-                }
-                  
-                </Typography>
-                
-              </Stack>
-            ))} */}
             {categoryAndSubCatList.map((category, index) => (
               <Stack
                 key={index}
                 onMouseEnter={() => setHoveredCategory(category)}
-                onMouseLeave={() => setHoveredCategory(null)}
+                onClick={() => handleRedirectCat(category)}
               >
                 <Typography className={style.menu3}>
                   <li className={style.menu3}>{category?.category_name}</li>
                 </Typography>
               </Stack>
             ))}
-            {/* <Stack  style={{background:"gray"}}>
-                <Typography className={style.menu3}>
-                  <li className={style.menu3}>dfgdsfg</li>
-                </Typography>
-              </Stack><Stack  style={{background:"gray"}}>
-                <Typography className={style.menu3}>
-                  <li className={style.menu3}>dfgdsfg</li>
-                </Typography>
-              </Stack>
-            <Stack  style={{background:"gray"}}>
-                <Typography className={style.menu3}>
-                  <li className={style.menu3}>dfgdsfg</li>
-                </Typography>
-              </Stack><Stack  style={{background:"gray"}}>
-                <Typography className={style.menu3}>
-                  <li className={style.menu3}>dfgdsfg</li>
-                </Typography>
-              </Stack> */}
           </Stack>
           <Divider />
 
@@ -148,47 +147,74 @@ const MegaMenu = ({ open, setOpen }) => {
             pt={5}
             sx={{
               width: "100%",
-              maxWidth: "1021px",
+              maxWidth: "1001px",
               margin: "0 auto",
               justifyContent: "space-between",
               transition: "background 0.3s ease",
             }}
+            pb={10}
             spacing={3}
           >
             {/*  */}
             {hoveredCategory ? (
               <Stack
-                direction={"row"}
+                direction={{ xs: "column", sm: "row" }}
                 sx={{
                   width: "100%",
                   transition: "background 0.3s ease",
-                  border:"1px solid black"
+                  height: "300px",
                 }}
-                alignItems={"start"}
+                rowGap={{ xs: 15, sm: 0 }}
+                alignItems={{ xs: "center", sm: "start" }}
                 justifyContent={"space-between"}
+                onMouseLeave={() => setHoveredCategory(null)}
               >
-                <Stack sx={{borderRight:"2px solid black",width:"80%"}} direction={"column"} justifyContent={"center"} alignItems={"center"}>
-                  <Box sx={{ width: "100%", margin: "0 auto", }}>
+                <Stack
+                  sx={{
+                    borderRight: { sm: "2px solid black" },
+                    width: { xs: "100%", sm: "50%", lg: "60%" },
+                    height: "100%",
+                  }}
+                  direction={"column"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Box sx={{ width: "100%", margin: "0 auto" }}>
                     <Grid container spacing={2}>
-                      {hoveredCategory.children.map((item, subIndex) => (
-                        <Grid item xs={4} sm={4} key={subIndex}>
-                          {" "}
-                          <Typography className={style.menu3}>
-                            <li className={style.menu3}>
-                              {item?.category_name}
-                            </li>
-                          </Typography>
+                      {hoveredCategory?.children?.map((sub_cat, subIndex) => (
+                        <Grid item xs={6} md={4} key={subIndex} width={"100px"}>
+                          <Stack
+                            sx={{
+                              width: { sm: "100%", md: "100%", lg: "60%" },
+                            }}
+                            onClick={() => handleRedirectSubCat(sub_cat)}
+                          >
+                            <Typography className={style.menu3}>
+                              <li className={style.menu3}>
+                                {sub_cat?.category_name}
+                              </li>
+                            </Typography>
+                          </Stack>{" "}
                         </Grid>
                       ))}
                     </Grid>
-                    <Stack mt={5} item xs={4} sm={4}>
+                    <Stack
+                      mt={5}
+                      item
+                      xs={4}
+                      sm={4}
+                      sx={{ width: { md: "30%", lg: "20%", xl: "15%" } }}
+                    >
                       {" "}
                       <Typography className={style.menu3} color={"red"}>
                         <li className={style.menu3}>What's New</li>
                       </Typography>
                     </Stack>
                   </Box>
-                  <Box style={{ width: "30%" }}>
+                  <Box
+                    style={{ width: { xs: "100%", sm: "100%", md: "100%" } }}
+                    pt={5}
+                  >
                     <Stack>
                       <Button variant="outlined" size="large">
                         Shop all {hoveredCategory?.category_name}
@@ -197,27 +223,35 @@ const MegaMenu = ({ open, setOpen }) => {
                   </Box>
                 </Stack>
                 {/* <Divider sx={{ bgcolor: "red" }} /> */}
-                <Stack sx={{ width: "10%", transition: "width 0.3s ease" }}>
+                {/* <Stack sx={{ width: "25%", transition: "width 0.3s ease" }}>
                   {" "}
                   <img
                     src={hoveredCategory?.category_image_two}
                     alt=""
-                    width={317}
+                    width={"100%"}
                     height={372}
                     style={{ objectFit: "cover" }}
                   />
-                </Stack>
+                </Stack> */}
+                <CategoryImg hoveredCategory={hoveredCategory}></CategoryImg>
               </Stack>
             ) : (
               // <SubCatDetails hoveredCategory={hoveredCategory}></SubCatDetails>
-              categoryAndSubCatList.slice(0, 3).map((category, index) => (
-                <img
-                  src={category?.category_image_two}
-                  alt=""
-                  width={317}
-                  height={372}
-                  style={{ objectFit: "cover" }}
-                />
+              categoryAndSubCatList?.map((category, index) => (
+                <CategoryImg
+                  key={index}
+                  hoveredCategory={category}
+                ></CategoryImg>
+                //  <img
+                //   src={category?.category_image_two}
+                //   alt=""
+                //   width={317}
+                //   height={372}
+                //   style={{
+                //     objectFit: "cover",
+                //     transition: "background 0.3s ease",
+                //   }}
+                // />
 
                 // <Typography key={index} className={style.menu3}>
                 //   <li className={style.menu3}>{category?.category_name}</li>
@@ -227,7 +261,7 @@ const MegaMenu = ({ open, setOpen }) => {
           </Stack>
         </Box>
       </Drawer>
-    </>
+    </div>
   );
 };
 

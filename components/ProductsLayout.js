@@ -22,7 +22,11 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           }}
         >
           <HovarImage
-            url={`${router?.asPath?.split("?")[0]}/${productsDataChunk[0]?.id}`}
+            url={`${router?.asPath?.split("?")[0]}/${
+              router?.query?.cat_name
+                ? `${productsDataChunk[0]?.p_subcategory?.slug}/`
+                : ""
+            }${productsDataChunk[0]?.id}`}
             data={productsDataChunk[0]}
             /* src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/${homedata?.image_five
               ?.split("/")
@@ -138,7 +142,11 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           <Grid item lg={4} sm={6} key={product?.id}>
             <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
               <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+                url={`${router?.asPath?.split("?")[0]}/${
+                  router?.query?.cat_name
+                    ? `${product?.p_subcategory?.slug}/`
+                    : ""
+                }${product?.id}`}
                 data={product}
                 imageURL={`${product?.feature_image}`}
                 // width={568}
@@ -240,7 +248,11 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           <Grid item lg={4} sm={6} key={product?.id}>
             <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
               <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+                url={`${router?.asPath?.split("?")[0]}/${
+                  router?.query?.cat_name
+                    ? `${product?.p_subcategory?.slug}/`
+                    : ""
+                }${product?.id}`}
                 data={product}
                 imageURL={`${product?.feature_image}`}
                 // width={568}
@@ -343,7 +355,11 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
           <Grid item lg={4} sm={6} key={product?.id}>
             <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
               <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+                url={`${router?.asPath?.split("?")[0]}/${
+                  router?.query?.cat_name
+                    ? `${product?.p_subcategory?.slug}/`
+                    : ""
+                }${product?.id}`}
                 data={product}
                 imageURL={`${product?.feature_image}`}
                 // width={568}

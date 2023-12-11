@@ -17,7 +17,7 @@ import { useDebouncedCallback, useDebounce } from "use-debounce";
 import { useRouter } from "next/router";
 import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 
-const Filter = ({
+const FilterCategory = ({
   open,
   setOpen,
   uniqueColors,
@@ -300,4 +300,4 @@ const Filter = ({
   );
 };
 
-export default Filter;
+export default FilterCategory;

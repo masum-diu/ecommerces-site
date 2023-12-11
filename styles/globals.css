@@ -35,7 +35,6 @@
   font-family: "bold";
 }
 .MuiDrawer-paperAnchorTop {
-  /* background-color: red; */
   position: absolute;
   box-shadow: none;
   top: 64px;
@@ -43,8 +42,8 @@
 .mui-style-1u2w381-MuiModal-root-MuiDrawer-root {
   position: unset;
 }
-.categoryList:hover{
-  transition: 2s ease-in-out;;
+.categoryList:hover {
+  transition: 2s ease-in-out;
 }
 /* #country_shipping,
 #city_shipping,

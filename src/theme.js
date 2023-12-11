@@ -148,6 +148,18 @@ theme.typography.login2 = {
     fontWeight: "700",
   },
 };
+theme.typography.CategoryName = {
+  fontSize: "48px",
+  fontWeight: "900",
+  color: "white",
+  // [theme.breakpoints.down("md")]: {
+  //   fontSize: "24px",
+  // },
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "30px",
+    fontWeight: "700",
+  },
+};
 theme.typography.legend = {
   fontSize: "16px",
   fontWeight: "500",

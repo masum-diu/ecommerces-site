@@ -13,12 +13,14 @@ const ProductsLayoutWithStaticImage = ({
   isLoading,
 }) => {
   const router = useRouter();
+  // console.log("kashfee", router);
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const { updatedPriceAfterDiscount } = useDiscountCount();
   /* if (isLoading) {
     return <Loader />;
   } */
   if (productsDataChunk.length === 0) return <></>;
+  console.log("kashfee", productsDataChunk);
   return (
     <>
       {productsDataChunk[0] && (
@@ -31,7 +33,11 @@ const ProductsLayoutWithStaticImage = ({
           }}
         >
           <HovarImage
-            url={`${router?.asPath?.split("?")[0]}/${productsDataChunk[0]?.id}`}
+            url={`${router?.asPath?.split("?")[0]}/${
+              router?.query?.cat_name
+                ? `${productsDataChunk[0]?.p_subcategory?.slug}/`
+                : ""
+            }${productsDataChunk[0]?.id}`}
             data={productsDataChunk[0]}
             imageURL={`${productsDataChunk[0]?.feature_image}`}
             width={550}
@@ -143,7 +149,11 @@ const ProductsLayoutWithStaticImage = ({
           <Grid item lg={4} sm={6} key={product?.id}>
             <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
               <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+                url={`${router?.asPath?.split("?")[0]}/${
+                  router?.query?.cat_name
+                    ? `${product?.p_subcategory?.slug}/`
+                    : ""
+                }${product?.id}`}
                 data={product}
                 imageURL={`${product?.feature_image}`}
                 // width={568}
@@ -273,7 +283,11 @@ const ProductsLayoutWithStaticImage = ({
           <Grid item lg={4} sm={6} key={product?.id}>
             <Stack direction={"column"} spacing={2} ml={1} mr={1} mt={2}>
               <HovarImage
-                url={`${router?.asPath?.split("?")[0]}/${product?.id}`}
+                url={`${router?.asPath?.split("?")[0]}/${
+                  router?.query?.cat_name
+                    ? `${product?.p_subcategory?.slug}/`
+                    : ""
+                }${product?.id}`}
                 data={product}
                 imageURL={`${product?.feature_image}`}
                 // width={568}
