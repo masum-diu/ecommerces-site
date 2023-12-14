@@ -40,7 +40,12 @@ const FilterCategory = ({
   setHasMore,
   setFilteredData,
   setProducts,
-  currentPath
+  currentPath,
+  subCategories,
+  setSubCategoryName,
+  setSubCategoryID,
+  makeSubCategoryTrue,
+  setMakeSubCategoryTrue,
 }) => {
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
@@ -274,19 +279,13 @@ const FilterCategory = ({
                 <Stack direction={"row"} justifyContent="space-between">
                   <Stack direction={"row"} spacing={1}>
                     <Typography>{min}</Typography>
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                    >
+                    <Typography variant="cardHeader3" color="initial">
                       {selectedCurrency}
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={1}>
                     <Typography>{convertPrice(max)}</Typography>
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                    >
+                    <Typography variant="cardHeader3" color="initial">
                       {selectedCurrency}
                     </Typography>
                   </Stack>

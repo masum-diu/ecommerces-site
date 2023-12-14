@@ -149,7 +149,7 @@ theme.typography.login2 = {
   },
 };
 theme.typography.CategoryName = {
-  fontSize: "48px",
+  fontSize: "30px",
   fontWeight: "900",
   color: "white",
   // [theme.breakpoints.down("md")]: {

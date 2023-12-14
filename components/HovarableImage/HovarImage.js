@@ -15,6 +15,7 @@ import {
 } from "../../src/features/wishlist/wishListSlice";
 import { useCurrencyConversion } from "../../src/hooks/useCurrencyConversion";
 import * as fbq from "../../lib/fpixel";
+import useDiscountCount from "../../src/hooks/useDiscountCount";
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -44,6 +45,8 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [stockDetails, setStockDetails] = useState([]);
   const [stockAmount, setStockAmount] = useState(0);
 
+  const { updatedPriceAfterDiscount } = useDiscountCount();
+  console.log("data", data);
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
       if (sizeSelected === true && colorSelected === true) {
@@ -160,56 +163,126 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
             />
           </a>
         </Link>
-        <div className={style.description}>
-          <Stack direction={"column"} spacing={1}>
-            {/* <Stack className={style.size} direction={"row"} spacing={1} mx={1}>
-              {data?.p_sizes?.map((size, index) => (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  onClick={() => handleSelectSize(size?.size_name, size?.id)}
-                >
-                  {size?.size_name}
-                </Button>
-              ))}
-            </Stack>
-            <Stack className={style.size} direction={"row"}>
-              {data?.p_colours?.map((color, index) => (
-                <Box
-                  mx={1}
-                  key={index}
-                  style={{
-                    backgroundColor: `${color?.color_code}`,
-                    width: "30px",
-                    height: "30px",
-                    cursor: "pointer",
-                    border: "1px solid #000",
-                  }}
-                  onClick={() =>
-                    handleSelectColor(
-                      color?.color_name,
-                      color?.color_code,
-                      color?.id
-                    )
-                  }
-                ></Box>
-              ))}
-            </Stack> */}
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Stack
+            direction={"column"}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              maxWidth: "565px",
+              mt: 2,
+            }}
+          >
+            <Typography
+              variant="cardHeader3"
+              color="initial"
+              className="SemiBold"
+            >
+              {data?.p_name}
+            </Typography>
             <Stack
               direction={"row"}
-              justifyContent="space-between"
-              className={style.size}
+              justifyContent={"start"}
+              alignItems={"start"}
             >
+              {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
+                <Typography
+                  variant="cardHeader1"
+                  color="initial"
+                  className="bold"
+                >
+                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  {selectedCurrency}{" "}
+                  <span>
+                    {
+                      updatedPriceAfterDiscount(
+                        convertPrice(data?.p_stocks[0]?.mrp),
+                        data?.p_stocks[0]?.discount?.discount_amount,
+                        data?.p_stocks[0]?.discount?.discount_type
+                      ).updatedPrice
+                    }
+                  </span>
+                </Typography>
+              ) : (
+                ""
+              )}
+              <Stack direction={"row"} spacing={2}>
+                {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
+                  <Typography
+                    variant="cardHeader3"
+                    color="initial"
+                    className="bold"
+                    pl={2}
+                    style={{
+                      textDecorationLine: "line-through",
+                    }}
+                  >
+                    {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
+                  </Typography>
+                ) : (
+                  <Typography
+                    variant="cardHeader1"
+                    color="initial"
+                    className="bold"
+                    style={{
+                      textDecorationLine: "none",
+                    }}
+                  >
+                    {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
+                  </Typography>
+                )}
+                {/* <Typography
+                  variant="cardHeader1"
+                  color="initial"
+                  className="bold"
+                  pl={2}
+                  style={{
+                    textDecorationLine: `${
+                      data?.p_stocks[0]?.discount?.discount_type !== undefined
+                        ? "line-through"
+                        : "none"
+                    }`,
+                  }}
+                >
+                  {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
+                </Typography> */}
+                {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
+                  <Typography
+                    variant="cardHeader3"
+                    color="initial"
+                    className="bold"
+                  >
+                    -{data?.p_stocks[0]?.discount?.discount_amount}%
+                  </Typography>
+                ) : (
+                  ""
+                )}
+              </Stack>
+            </Stack>
+            {/* <Typography variant="cardHeader3" color="initial" className="bold">
+              {selectedCurrency}{" "}
+              {convertPrice(data?.p_stocks[0]?.mrp)}
+            </Typography> */}
+          </Stack>
+
+          <Stack>
+            <Stack style={{ display: `${showHeart}` }}>
               <IconButton
-                style={{ display: `${showHeart}` }}
+                className="hartIcon"
                 aria-label=""
                 onClick={() => handleAddToWishList(dataForWishList)}
               >
                 <FiHeart style={{ color: "#fff" }} />
               </IconButton>
+            </Stack>
+            <Stack style={{ display: `${showBrokenHeart}` }}>
               <IconButton
-                style={{ display: `${showBrokenHeart}` }}
+                className="hartIcon"
                 aria-label=""
                 onClick={() =>
                   handleRemoveFromList({
@@ -222,30 +295,9 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               >
                 <HeartBrokenOutlinedIcon style={{ color: "#fff" }} />
               </IconButton>
-              <Button
-                onClick={() => router.push(url)}
-                sx={{ backgroundColor: "none", color: "#fff" }}
-                variant="text"
-                // color="secondary"
-              >
-                View Details
-              </Button>
-              {/* <Button
-                variant="secondary"
-                style={{ color: "white", border: "1px solid white" }}
-                disabled={disableBtn}
-                onClick={() => handleAddToCart(finalData)}
-              >
-                Add to cart
-              </Button> */}
             </Stack>
           </Stack>
-          {/* <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod.
-          </p> */}
-          {/* <a href="#">Read More</a> */}
-        </div>
+        </Stack>
       </div>
     </div>
   );

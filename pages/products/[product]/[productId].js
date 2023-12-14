@@ -1464,7 +1464,7 @@ const PorductDetails = () => {
                         imageURL={`${data?.feature_image}`}
                       ></HovarImage>
                       {/* <img src={data?.feature_image} alt="" width={385} /> */}
-                      <Stack
+                      {/* <Stack
                         direction={"row"}
                         justifyContent={"space-between"}
                         mt={1}
@@ -1488,7 +1488,6 @@ const PorductDetails = () => {
                               color="initial"
                               className="bold"
                             >
-                              {/* BDT {product?.p_stocks[0]?.mrp} */}
                               {selectedCurrency}{" "}
                               <span>
                                 {
@@ -1531,23 +1530,12 @@ const PorductDetails = () => {
                                 }`,
                               }}
                             >
-                              {/* BDT {product?.p_stocks[0]?.mrp} */}
                               {selectedCurrency}{" "}
                               {convertPrice(data?.p_stocks[0]?.mrp)}
                             </Typography>
                           </Stack>
                         </Stack>
-                        {/* <Typography
-                          variant="cardHeader3"
-                          color="initial"
-                          className="bold"
-                        >
-                          {" "}
-                          
-                          {selectedCurrency}{" "}
-                          {convertPrice(data?.p_stocks[0]?.mrp)}
-                        </Typography> */}
-                      </Stack>
+                      </Stack> */}
                     </Grid>
                   ))}
                 </Grid>
@@ -2638,7 +2626,7 @@ const PorductDetails = () => {
                   imageURL={`${data?.feature_image}`}
                 ></HovarImage>
                 {/* <img src={data?.feature_image} alt="" width={385} /> */}
-                <Stack
+                {/* <Stack
                   direction={"column"}
                   justifyContent={"space-between"}
                   mt={1}
@@ -2662,7 +2650,6 @@ const PorductDetails = () => {
                         color="initial"
                         className="bold"
                       >
-                        {/* BDT {product?.p_stocks[0]?.mrp} */}
                         {selectedCurrency}{" "}
                         <span>
                           {
@@ -2704,22 +2691,12 @@ const PorductDetails = () => {
                           }`,
                         }}
                       >
-                        {/* BDT {product?.p_stocks[0]?.mrp} */}
                         {selectedCurrency}{" "}
                         {convertPrice(data?.p_stocks[0]?.mrp)}
                       </Typography>
                     </Stack>
                   </Stack>
-                  {/* <Typography
-                    variant="cardHeader3"
-                    color="initial"
-                    className="bold"
-                  >
-                    {" "}
-                    
-                    {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
-                  </Typography> */}
-                </Stack>
+                </Stack> */}
               </SwiperSlide>
             ))}
           </Swiper>

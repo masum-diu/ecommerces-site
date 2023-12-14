@@ -43,7 +43,7 @@ const ProductsLayoutWithStaticImage = ({
             width={550}
             height={850}
           />
-          <Stack
+          {/* <Stack
             direction={"row"}
             sx={{
               display: "flex",
@@ -72,7 +72,6 @@ const ProductsLayoutWithStaticImage = ({
                   color="initial"
                   className="bold"
                 >
-                  {/* BDT {product?.p_stocks[0]?.mrp} */}
                   {selectedCurrency}{" "}
                   <span>
                     {
@@ -121,17 +120,12 @@ const ProductsLayoutWithStaticImage = ({
                     }`,
                   }}
                 >
-                  {/* BDT {product?.p_stocks[0]?.mrp} */}
                   {selectedCurrency}{" "}
                   {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
                 </Typography>
               </Stack>
             </Stack>
-            {/* <Typography variant="cardHeader3" color="initial" className="bold">
-              {selectedCurrency}{" "}
-              {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
-            </Typography> */}
-          </Stack>
+          </Stack> */}
         </Stack>
       )}
       <Grid
@@ -143,6 +137,7 @@ const ProductsLayoutWithStaticImage = ({
           maxWidth: "1500px",
           margin: "0 auto",
           marginTop: "1rem",
+          marginBottom: "1rem",
         }}
       >
         {productsDataChunk?.slice(1, 4).map((product) => (
@@ -159,7 +154,7 @@ const ProductsLayoutWithStaticImage = ({
                 // width={568}
                 // height={827}
               />
-              <Stack
+              {/* <Stack
                 direction={"row"}
                 spacing={2}
                 justifyContent={"space-between"}
@@ -184,7 +179,6 @@ const ProductsLayoutWithStaticImage = ({
                       color="initial"
                       className="bold"
                     >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
                       {selectedCurrency}{" "}
                       <span>
                         {
@@ -226,47 +220,52 @@ const ProductsLayoutWithStaticImage = ({
                         }`,
                       }}
                     >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
                       {selectedCurrency}{" "}
                       {convertPrice(product?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>
-                {/* <Typography
-                  variant="cardHeader3"
-                  color="initial"
-                  className="bold"
-                >
-                  {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-                </Typography> */}
-              </Stack>
+              </Stack> */}
             </Stack>
           </Grid>
         ))}
       </Grid>
-      <Stack direction={"row"} sx={{ width: "100%" }} mt={4}>
-        <img
-          src={`${staticData?.cat_img_one
-            ?.split("/")
-            .slice(0, 6)
-            .join("/")}/c_fill,g_auto,h_828,w_720/${staticData?.cat_img_two
-            ?.split("/")
-            .slice(6)
-            .join("/")}`}
-          alt=""
-          width={"50%"}
-        />
-        <img
-          src={`${staticData?.cat_img_one
-            ?.split("/")
-            .slice(0, 6)
-            .join("/")}/c_fill,g_auto,h_828,w_720/${staticData?.cat_img_three
-            ?.split("/")
-            .slice(6)
-            .join("/")}`}
-          alt=""
-          width={"50%"}
-        />
+      <Stack
+        px={{ xs: 1, xl: 1 }}
+        direction={"row"}
+        spacing={5}
+        sx={{
+          maxWidth: "1500px",
+          width: "95%",
+          margin: "0 auto",
+        }}
+      >
+        <Stack sx={{ width: "100%" }}>
+          <img
+            src={`${staticData?.cat_img_one
+              ?.split("/")
+              .slice(0, 6)
+              .join("/")}/c_fill,g_auto,h_828,w_720/${staticData?.cat_img_two
+              ?.split("/")
+              .slice(6)
+              .join("/")}`}
+            alt=""
+            width={"100%"}
+          />
+        </Stack>
+        <Stack sx={{ width: "100%" }}>
+          <img
+            src={`${staticData?.cat_img_one
+              ?.split("/")
+              .slice(0, 6)
+              .join("/")}/c_fill,g_auto,h_828,w_720/${staticData?.cat_img_three
+              ?.split("/")
+              .slice(6)
+              .join("/")}`}
+            alt=""
+            width={"100%"}
+          />
+        </Stack>
       </Stack>
       <Grid
         container
@@ -293,7 +292,7 @@ const ProductsLayoutWithStaticImage = ({
                 // width={568}
                 // height={827}
               />
-              <Stack
+              {/* <Stack
                 direction={"row"}
                 spacing={2}
                 justifyContent={"space-between"}
@@ -318,7 +317,6 @@ const ProductsLayoutWithStaticImage = ({
                       color="initial"
                       className="bold"
                     >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
                       {selectedCurrency}{" "}
                       <span>
                         {
@@ -360,13 +358,12 @@ const ProductsLayoutWithStaticImage = ({
                         }`,
                       }}
                     >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
                       {selectedCurrency}{" "}
                       {convertPrice(product?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>
-              </Stack>
+              </Stack> */}
             </Stack>
           </Grid>
         ))}

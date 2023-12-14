@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Grid } from "@mui/material";
+import { Box, Stack, Typography, Grid, Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import HomePageIntro from "../components/HomePageIntro";
@@ -19,6 +19,8 @@ import useDiscountCount from "../src/hooks/useDiscountCount";
 const shop = () => {
   const [homedata, setHomeData] = useState([]);
   const [products, setProducts] = useState([]);
+  const [isHoveredRight, setIsHoveredRight] = useState(false);
+  const [isHoveredLeft, setIsHoveredLeft] = useState(false);
   const router = useRouter();
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
@@ -47,7 +49,7 @@ const shop = () => {
       handleSuccess();
     }
   }, [isLandingSuccess, landingdata]);
-
+  console.log("homedata", homedata);
   const handleFirstBanner = () => {
     /* router.push({
       pathname: `/new-collections`,
@@ -243,8 +245,9 @@ const shop = () => {
       </Head>
       <HomePageIntro title={"Shop "} />
       <Box sx={{ width: "100%", mb: 4, pt: { lg: 8, xs: 7 } }}>
-        <Stack sx={{ position: "relative" }}>
+        <Stack>
           <Stack
+            mb={5}
             dangerouslySetInnerHTML={{
               __html: `<video className="app__backgroundVideo" autoplay="true" muted="true" preload="auto" loop playsinline="" data-wf-ignore="true" data-object-fit="cover" >
               <source src=${homedata?.image_one} type="video/mp4" data-wf-ignore="true" />
@@ -252,7 +255,7 @@ const shop = () => {
               </video>`,
             }}
           />
-          <Stack>
+          <Stack sx={{ position: "relative" }} mb={5}>
             <Link href={`${handleFirstBanner()}`}>
               <a style={{ lineHeight: 0 }}>
                 <img
@@ -274,95 +277,226 @@ const shop = () => {
                 />
               </a>
             </Link>
-          </Stack>
-          <Stack
-            direction={"row"}
-            sx={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              width: "100%",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              className={style.menu3}
-              variant="cardHeader"
-              color="initial"
-              textAlign={"center"}
-              fontWeight={"600"}
-              textTransform="uppercase"
-              onClick={() =>
-                router.push({
-                  pathname: `/new-collections`,
-                })
-              }
+            <Stack
+              direction={"row"}
               sx={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
+                position: "absolute",
+                bottom: 0,
+                left: 0,
                 width: "100%",
-                pb: 4,
-                cursor: "pointer",
-                px: 4,
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
             >
-              <li>
-                {homedata?.back_url_two?.includes("campaign")
-                  ? homedata?.back_url_two
-                    ? /cat_name=([^&]+)/.exec(homedata?.back_url_two)[1]
-                    : ""
-                  : homedata?.back_url_two
-                  ? /^(.*?)\?/.exec(homedata?.back_url_two)[1]
-                  : ""}
-              </li>
-            </Typography>
+              <Typography
+                className={style.menu3}
+                variant="cardHeader"
+                color="initial"
+                textAlign={"center"}
+                fontWeight={"600"}
+                textTransform="uppercase"
+                onClick={() =>
+                  router.push({
+                    pathname: `/new-collections`,
+                  })
+                }
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  width: "100%",
+                  pb: 4,
+                  cursor: "pointer",
+                  px: 4,
+                }}
+              >
+                <li>
+                  {homedata?.back_url_two?.includes("campaign")
+                    ? homedata?.back_url_two
+                      ? /cat_name=([^&]+)/.exec(homedata?.back_url_two)[1]
+                      : ""
+                    : homedata?.back_url_two
+                    ? /^(.*?)\?/.exec(homedata?.back_url_two)[1]
+                    : ""}
+                </li>
+              </Typography>
+            </Stack>
           </Stack>
         </Stack>
 
-        <Stack direction={"row"} sx={{ width: "100%", position: "relative" }}>
-          <Stack sx={{ width: "100%" }}>
+        <Stack
+          spacing={5}
+          px={{ xs: 1, xl: 1 }}
+          direction={"row"}
+          justifyContent={"space-around"}
+          sx={{
+            maxWidth: "1500px",
+            width: "95%",
+            position: "relative",
+            margin: "0 auto",
+          }}
+        >
+          <Stack
+            sx={{
+              position: "relative",
+              overflow: "hidden",
+            }}
+            onMouseEnter={() => setIsHoveredLeft(true)}
+            onMouseLeave={() => setIsHoveredLeft(false)}
+          >
             <Link href={`${handleSecondBanner()}`}>
               <a style={{ lineHeight: 0 }}>
-                <img
-                  src={`${homedata?.image_three
-                    ?.split("/")
-                    .slice(0, 6)
-                    .join(
-                      "/"
-                    )}/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
-                    ?.split("/")
-                    .slice(6)
-                    .join("/")}`}
-                  style={{ cursor: "pointer" }}
-                  alt=""
-                  width={"100%"}
-                />
+                <Stack
+                  style={{
+                    position: "absolute",
+                    right: isHoveredLeft ? 0 : "100%",
+                    top: 0,
+                    width: "100%",
+                    height: "100%",
+                    background: "rgba(0, 0, 0, 0.5)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "all .8s ease-in-out", // Adjust the duration and easing as needed
+                    transform: isHoveredLeft
+                      ? "translateX(0)"
+                      : "translateX(-100%)",
+                  }}
+                >
+                  {/* Add your content inside this box */}
+                  {/* <p style={{ color: "#fff" }}>Your Content Here</p> */}
+                  <Stack
+                    direction={"column"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    columnGap={5}
+                    rowGap={5}
+                  >
+                    <Typography
+                      variant="CategoryName"
+                      sx={{
+                        color: "white",
+                        textAlign: "center",
+                      }}
+                      textTransform="uppercase"
+                    >
+                      {homedata?.back_url_three
+                        ? /^(.*?)\?/.exec(homedata?.back_url_three)[1]
+                        : ""}
+                    </Typography>
+                    <Button
+                      style={{
+                        backgroundColor: "#1B3148",
+                        padding: "1rem",
+                        width: "236px",
+                      }}
+                      variant="contained"
+                      size="large"
+                      onClick={() => handleSecondBanner()}
+                    >
+                      Shop all{" "}
+                      {homedata?.back_url_three
+                        ? /^(.*?)\?/.exec(homedata?.back_url_three)[1]
+                        : ""}
+                    </Button>
+                  </Stack>
+                </Stack>
               </a>
             </Link>
-          </Stack>
-          <Stack sx={{ width: "100%" }}>
-            <Link href={`${handleThirdBanner()}`}>
-              <a style={{ lineHeight: 0 }}>
-                <img
-                  src={`${homedata?.image_four
-                    ?.split("/")
-                    .slice(0, 6)
-                    .join(
-                      "/"
-                    )}/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
-                    ?.split("/")
-                    .slice(6)
-                    .join("/")}`}
-                  style={{ cursor: "pointer" }}
-                  alt=""
-                  width={"100%"}
-                />
-              </a>
-            </Link>
+            <img
+              src={`${homedata?.image_three
+                ?.split("/")
+                .slice(0, 6)
+                .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_three
+                ?.split("/")
+                .slice(6)
+                .join("/")}`}
+              style={{ cursor: "pointer" }}
+              alt=""
+              width={"100%"}
+            />
           </Stack>
           <Stack
+            sx={{
+              position: "relative",
+              overflow: "hidden",
+            }}
+            onMouseEnter={() => setIsHoveredRight(true)}
+            onMouseLeave={() => setIsHoveredRight(false)}
+          >
+            <Link href={`${handleThirdBanner()}`}>
+              <a style={{ lineHeight: 0 }}>
+                <Stack
+                  style={{
+                    position: "absolute",
+                    right: isHoveredRight ? 0 : "-100%", // Adjust to '0' for right to left effect
+                    top: 0,
+                    width: "100%",
+                    height: "100%",
+                    background: "rgba(0, 0, 0, 0.5)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "all 0.8s ease-in-out", // Adjust the duration and easing as needed
+                    transform: isHoveredRight
+                      ? "translateX(0)"
+                      : "translateX(100%)",
+                  }}
+                >
+                  {/* Add your content inside this box */}
+                  {/* <p style={{ color: "#fff" }}>Your Content Here</p> */}
+                  <Stack
+                    direction={"column"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    columnGap={5}
+                    rowGap={5}
+                  >
+                    <Typography
+                      variant="CategoryName"
+                      sx={{
+                        color: "white",
+                        textAlign: "center",
+                      }}
+                      textTransform="uppercase"
+                    >
+                      {homedata?.back_url_four
+                        ? /^(.*?)\?/.exec(homedata?.back_url_four)[1]
+                        : ""}
+                    </Typography>
+                    <Button
+                      style={{
+                        backgroundColor: "#1B3148",
+                        padding: "1rem",
+                        width: "236px",
+                      }}
+                      variant="contained"
+                      size="large"
+                      onClick={() => handleThirdBanner()}
+                    >
+                      Shop all{" "}
+                      {homedata?.back_url_four
+                        ? /^(.*?)\?/.exec(homedata?.back_url_four)[1]
+                        : ""}
+                    </Button>
+                  </Stack>
+                </Stack>
+              </a>
+            </Link>
+            <img
+              src={`${homedata?.image_four
+                ?.split("/")
+                .slice(0, 6)
+                .join("/")}/c_lfill,g_auto,h_900,w_900/${homedata?.image_four
+                ?.split("/")
+                .slice(6)
+                .join("/")}`}
+              style={{ cursor: "pointer" }}
+              alt=""
+              width={"100%"}
+            />
+          </Stack>
+          {/* <Stack
             direction={"row"}
             sx={{
               position: "absolute",
@@ -420,7 +554,7 @@ const shop = () => {
                   : ""}
               </li>
             </Typography>
-          </Stack>
+          </Stack> */}
         </Stack>
         <Box mt={4}>
           <Stack
@@ -459,7 +593,7 @@ const shop = () => {
                       width={300}
                     /> */}
 
-                  <Stack
+                  {/* <Stack
                     direction={{
                       xl: "row",
                       lg: "row",
@@ -488,7 +622,6 @@ const shop = () => {
                           color="initial"
                           className="bold"
                         >
-                          {/* BDT {product?.p_stocks[0]?.mrp} */}
                           {selectedCurrency}{" "}
                           <span>
                             {
@@ -530,20 +663,12 @@ const shop = () => {
                             }`,
                           }}
                         >
-                          {/* BDT {product?.p_stocks[0]?.mrp} */}
                           {selectedCurrency}{" "}
                           {convertPrice(data?.p_stocks[0]?.mrp)}
                         </Typography>
                       </Stack>
                     </Stack>
-                    {/* <Typography
-                      variant="cardHeader2"
-                      className="bold"
-                      color="initial"
-                    >
-                      {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
-                    </Typography> */}
-                  </Stack>
+                  </Stack> */}
                 </Stack>
               </Grid>
             ))}
@@ -645,7 +770,7 @@ const shop = () => {
                       width={300}
                     /> */}
 
-                  <Stack
+                  {/* <Stack
                     direction={{
                       xl: "row",
                       lg: "row",
@@ -674,7 +799,6 @@ const shop = () => {
                           color="initial"
                           className="bold"
                         >
-                          {/* BDT {product?.p_stocks[0]?.mrp} */}
                           {selectedCurrency}{" "}
                           <span>
                             {
@@ -716,20 +840,12 @@ const shop = () => {
                             }`,
                           }}
                         >
-                          {/* BDT {product?.p_stocks[0]?.mrp} */}
                           {selectedCurrency}{" "}
                           {convertPrice(data?.p_stocks[0]?.mrp)}
                         </Typography>
                       </Stack>
                     </Stack>
-                    {/* <Typography
-                      variant="cardHeader2"
-                      className="bold"
-                      color="initial"
-                    >
-                      {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
-                    </Typography> */}
-                  </Stack>
+                  </Stack> */}
                 </Stack>
               </Grid>
             ))}

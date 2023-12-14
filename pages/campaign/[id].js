@@ -102,7 +102,7 @@ const campaign = () => {
 
                 {/* <img src={data?.feature_image} alt="" width={350} height={350} /> */}
 
-                <Stack
+                {/* <Stack
                   direction={"row"}
                   spacing={2}
                   justifyContent={"space-between"}
@@ -122,7 +122,6 @@ const campaign = () => {
                         color="initial"
                         className="bold"
                       >
-                        {/* BDT {product?.p_stocks[0]?.mrp} */}
                         {selectedCurrency}{" "}
                         <span>
                           {
@@ -164,21 +163,12 @@ const campaign = () => {
                           }`,
                         }}
                       >
-                        {/* BDT {product?.p_stocks[0]?.mrp} */}
                         {selectedCurrency}{" "}
                         {convertPrice(data?.p_stocks[0]?.mrp)}
                       </Typography>
                     </Stack>
                   </Stack>
-                  {/* <Typography
-                  variant="cardHeader2"
-                  fontWeight={"bold"}
-                  color="initial"
-                >
-                  
-                  {selectedCurrency} {convertPrice(data?.p_stocks[0]?.mrp)}
-                </Typography> */}
-                </Stack>
+                </Stack> */}
               </Stack>
             ))}
           </Stack>

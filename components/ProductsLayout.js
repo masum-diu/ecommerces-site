@@ -36,7 +36,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
             width={550}
             height={850}
           />
-          <Stack
+          {/* <Stack
             direction={"row"}
             sx={{
               display: "flex",
@@ -65,7 +65,6 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                   color="initial"
                   className="bold"
                 >
-                  {/* BDT {product?.p_stocks[0]?.mrp} */}
                   {selectedCurrency}{" "}
                   <span>
                     {
@@ -114,17 +113,13 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                     }`,
                   }}
                 >
-                  {/* BDT {product?.p_stocks[0]?.mrp} */}
+                  
                   {selectedCurrency}{" "}
                   {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
                 </Typography>
               </Stack>
             </Stack>
-            {/* <Typography variant="cardHeader3" color="initial" className="bold">
-              {selectedCurrency}{" "}
-              {convertPrice(productsDataChunk[0]?.p_stocks[0]?.mrp)}
-            </Typography> */}
-          </Stack>
+          </Stack> */}
         </Stack>
       )}
       <Grid
@@ -152,7 +147,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                 // width={568}
                 // height={827}
               />
-              <Stack
+              {/* <Stack
                 direction={"row"}
                 spacing={2}
                 justifyContent={"space-between"}
@@ -173,7 +168,6 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                       color="initial"
                       className="bold"
                     >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
                       {selectedCurrency}{" "}
                       <span>
                         {
@@ -215,20 +209,12 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                         }`,
                       }}
                     >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
                       {selectedCurrency}{" "}
                       {convertPrice(product?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>
-                {/* <Typography
-                  variant="cardHeader3"
-                  color="initial"
-                  className="bold"
-                >
-                  {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-                </Typography> */}
-              </Stack>
+              </Stack> */}
             </Stack>
           </Grid>
         ))}
@@ -258,7 +244,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                 // width={568}
                 // height={827}
               />
-              <Stack
+              {/* <Stack
                 direction={"row"}
                 spacing={2}
                 justifyContent={"space-between"}
@@ -279,7 +265,6 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                       color="initial"
                       className="bold"
                     >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
                       {selectedCurrency}{" "}
                       <span>
                         {
@@ -321,21 +306,12 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                         }`,
                       }}
                     >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
                       {selectedCurrency}{" "}
                       {convertPrice(product?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>
-                {/* <Typography
-                  variant="cardHeader3"
-                  color="initial"
-                  className="bold"
-                >
-                  
-                  {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-                </Typography> */}
-              </Stack>
+              </Stack> */}
             </Stack>
           </Grid>
         ))}
@@ -365,7 +341,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                 // width={568}
                 // height={827}
               />
-              <Stack
+              {/* <Stack
                 direction={"row"}
                 spacing={2}
                 justifyContent={"space-between"}
@@ -386,7 +362,6 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                       color="initial"
                       className="bold"
                     >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
                       {selectedCurrency}{" "}
                       <span>
                         {
@@ -428,20 +403,12 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
                         }`,
                       }}
                     >
-                      {/* BDT {product?.p_stocks[0]?.mrp} */}
                       {selectedCurrency}{" "}
                       {convertPrice(product?.p_stocks[0]?.mrp)}
                     </Typography>
                   </Stack>
                 </Stack>
-                {/* <Typography
-                  variant="cardHeader3"
-                  color="initial"
-                  className="bold"
-                >
-                  {selectedCurrency} {convertPrice(product?.p_stocks[0]?.mrp)}
-                </Typography> */}
-              </Stack>
+              </Stack> */}
             </Stack>
           </Grid>
         ))}

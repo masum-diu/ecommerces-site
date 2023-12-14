@@ -25,6 +25,10 @@ import Loader from "./Loader/Loader";
 import style from "../public/assets/css/HomePageIntro.module.css";
 import { useRouter } from "next/router";
 import CategoryImg from "./CategoryImg";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const MegaMenu = ({ open, setOpen }) => {
   const [categoryAndSubCatList, setCatAndSubCatList] = useState([]);
@@ -69,20 +73,24 @@ const MegaMenu = ({ open, setOpen }) => {
   const handleRedirectCat = (category) => {
     setOpen(false);
     console.log("category", category);
-    router.push(
-      {
-        pathname: `/products?cat_name=${category?.slug}&cat=${category?.id}`,
-        query: {
-          data: JSON.stringify({
+    const targetUrl = `/products?cat_name=${category?.slug}&cat=${category?.id}`;
+    if (router.asPath !== targetUrl) {
+      router.push(
+        {
+          pathname: `/products?cat_name=${category?.slug}&cat=${category?.id}`,
+          query: {
+            data: JSON.stringify({
+              cat: category?.parent_category,
+              category: category?.id,
+            }),
             cat: category?.parent_category,
             category: category?.id,
-          }),
-          cat: category?.parent_category,
-          category: category?.id,
+          },
         },
-      },
-      `/products?cat_name=${category?.slug}&cat=${category?.id}`
-    );
+        `/products?cat_name=${category?.slug}&cat=${category?.id}`,
+        { replace: true }
+      );
+    }
   };
 
   if (isListLoading) {
@@ -132,9 +140,11 @@ const MegaMenu = ({ open, setOpen }) => {
               <Stack
                 key={index}
                 onMouseEnter={() => setHoveredCategory(category)}
-                onClick={() => handleRedirectCat(category)}
               >
-                <Typography className={style.menu3}>
+                <Typography
+                  className={style.menu3}
+                  onClick={() => handleRedirectCat(category)}
+                >
                   <li className={style.menu3}>{category?.category_name}</li>
                 </Typography>
               </Stack>
@@ -236,27 +246,76 @@ const MegaMenu = ({ open, setOpen }) => {
                 <CategoryImg hoveredCategory={hoveredCategory}></CategoryImg>
               </Stack>
             ) : (
-              // <SubCatDetails hoveredCategory={hoveredCategory}></SubCatDetails>
-              categoryAndSubCatList?.map((category, index) => (
-                <CategoryImg
-                  key={index}
-                  hoveredCategory={category}
-                ></CategoryImg>
-                //  <img
-                //   src={category?.category_image_two}
-                //   alt=""
-                //   width={317}
-                //   height={372}
-                //   style={{
-                //     objectFit: "cover",
-                //     transition: "background 0.3s ease",
-                //   }}
-                // />
+              <Swiper
+                spaceBetween={80}
+                slidesPerView={3}
+                modules={[Pagination]}
+                className="mySwiper"
+              >
+                {categoryAndSubCatList?.map((category, index) => (
+                  <SwiperSlide
+                    key={index}
+                    style={{ maxWidth: "281px", width: "100%" }}
+                  >
+                    <Stack
+                      style={{
+                        backgroundImage: `url(${
+                          category?.category_image_two
+                            ? category?.category_image_two
+                            : "https://res.cloudinary.com/diyc1dizi/image/upload/aranya-product/boishakh/ZS001299.jpg"
+                        })`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center center",
+                      }}
+                      sx={{
+                        /* maxWidth: { xs: "100%", sm: "281px" },
+                        width: {
+                          xs: "100%",
+                          sm: "45%",
+                          md: "35%",
+                          lg: "30%",
+                          xl: "100%",
+                        }, */
+                        height: "300px",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                      }}
+                      pb={2}
+                    >
+                      <Typography
+                        variant="CategoryName"
+                        sx={{
+                          color: "white",
+                          textAlign: "center",
+                        }}
+                      >
+                        {category?.category_name}
+                      </Typography>
+                    </Stack>
+                    {/* <CategoryImg
+                      key={index}
+                      hoveredCategory={category}
+                    ></CategoryImg> */}
+                  </SwiperSlide>
 
-                // <Typography key={index} className={style.menu3}>
-                //   <li className={style.menu3}>{category?.category_name}</li>
-                // </Typography>
-              ))
+                  //  <img
+                  //   src={category?.category_image_two}
+                  //   alt=""
+                  //   width={317}
+                  //   height={372}
+                  //   style={{
+                  //     objectFit: "cover",
+                  //     transition: "background 0.3s ease",
+                  //   }}
+                  // />
+
+                  // <Typography key={index} className={style.menu3}>
+                  //   <li className={style.menu3}>{category?.category_name}</li>
+                  // </Typography>
+                ))}
+              </Swiper>
+              // <SubCatDetails hoveredCategory={hoveredCategory}></SubCatDetails>
             )}
           </Stack>
         </Box>

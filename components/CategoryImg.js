@@ -23,6 +23,7 @@ const CategoryImg = ({ hoveredCategory }) => {
         variant="CategoryName"
         sx={{
           color: "white",
+          textAlign: "center",
         }}
       >
         {hoveredCategory?.category_name}

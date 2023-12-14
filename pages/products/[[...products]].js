@@ -28,7 +28,6 @@ import ProductsLayoutWithStaticImage from "../../components/ProductsLayoutWithSt
 import ProductsLayout from "../../components/ProductsLayout";
 import Head from "next/head";
 import FilterCategory from "../../components/FilterCategory";
-
 function chunkArray(arr, chunkSize = 9) {
   const chunkedArray = [];
   for (let i = 0; i < arr.length; i += chunkSize) {
@@ -56,10 +55,14 @@ const masterCollectionLayout = () => {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(1000);
   const [staticData, setStaticData] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
   const [fabrics, setFabric] = useState([]);
   const [fabricSelect, setFabricSelect] = useState([]);
+  const [subCategorySelect, setSubCategorySelect] = useState([]);
   const [fabricName, setFabricName] = useState("");
   const [fabricID, setFabricID] = useState(0);
+  const [subCategoryName, setSubCategoryName] = useState("");
+  const [subCategoryID, setSubCategoryID] = useState(0);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
   const [rangeValue, setValue] = useState([0, 100000]);
@@ -70,10 +73,12 @@ const masterCollectionLayout = () => {
   const [page, setPage] = useState(1);
   const [debounced, setDebounced] = useState([]);
   const [makeFabricTrue, setMakeFabricTrue] = useState(false);
+  const [makeSubCategoryTrue, setMakeSubCategoryTrue] = useState(false);
   const [makeColorTrue, setMakeColorTrue] = useState(false);
   const [makePriceTrue, setMakePriceTrue] = useState(false);
 
   const cat = router.query?.cat;
+  const sub_cat = subCategoryID;
 
   // Getting product data with only category
   const {
@@ -100,7 +105,6 @@ const masterCollectionLayout = () => {
   } = useGetSubWiseProductsQuery(cat, {
     skip: !cat,
   });
-
   // Getting attributes of Product with Category
   const {
     data: attirbutesDatasCat,
@@ -178,12 +182,34 @@ const masterCollectionLayout = () => {
         !cat || !fabricID || makeFabricTrue === false || page < 1 || !hasMore,
     }
   );
+  // Getting filtered by sub category
+  const {
+    data: filterDataBySubCat,
+    isLoading: filterDataLoadingSubCat,
+    isFetching: filterDataFetchingSubCat,
+    // isSuccess,
+    // isError,
+    // error,
+    // isFetching: isFetchingSubCat,
+  } = useGetCategoryAndSubWiseProductsQuery(
+    { cat, sub_cat, page },
+    {
+      refetchOnMountOrArgChange: true,
+      skip:
+        sub_cat === undefined ||
+        !subCategoryID ||
+        makeSubCategoryTrue === false ||
+        page < 1 ||
+        !hasMore,
+    }
+  );
 
   // Setting all filtering state to its default at page change
   useEffect(() => {
     setMakeFabricTrue(false);
     setMakeColorTrue(false);
     setMakePriceTrue(false);
+    setMakeSubCategoryTrue(false);
   }, [window.location.href]);
 
   useEffect(() => {
@@ -203,9 +229,9 @@ const masterCollectionLayout = () => {
     if (
       hasMore &&
       catetoryData?.data &&
-      makeFabricTrue === false &&
       makeColorTrue === false &&
-      makePriceTrue === false
+      makePriceTrue === false &&
+      makeSubCategoryTrue === false
     ) {
       if (categoryLoading || isCategoryFetching) {
         return;
@@ -246,10 +272,10 @@ const masterCollectionLayout = () => {
     hasMore,
     cat,
     page,
-    makeFabricTrue,
+    makeSubCategoryTrue,
     makeColorTrue,
     makePriceTrue,
-    fabricName,
+    subCategoryName,
     colorSelected,
   ]);
 
@@ -260,11 +286,12 @@ const masterCollectionLayout = () => {
       const handleSuccess = async () => {
         if (cat) {
           setStaticData(staticDatasCat?.data);
+          setSubCategories(staticDatasCat?.data?.children);
         }
       };
       handleSuccess();
     }
-  }, [staticDatasCat, loadingCat, successCat]);
+  }, [staticDatasCat, loadingCat, successCat, subCategories]);
 
   // Setting fabric of products in a state
   useEffect(() => {
@@ -281,6 +308,8 @@ const masterCollectionLayout = () => {
     attirbutesloadingCat,
     attirbutessuccessCat,
     fabricName,
+    subCategoryName,
+    subCategoryID,
     fabricID,
   ]);
   // Filtering the products using fabric
@@ -322,6 +351,8 @@ const masterCollectionLayout = () => {
     filterSuccessCatFab,
     fabricID,
     fabricName,
+    subCategoryName,
+    subCategoryID,
     hasMore,
     cat,
     page,
@@ -334,7 +365,7 @@ const masterCollectionLayout = () => {
     if (
       hasMore &&
       filterDataCat?.data &&
-      (makeFabricTrue === true ||
+      (makeSubCategoryTrue === true ||
         makeColorTrue === true ||
         makePriceTrue === true)
     ) {
@@ -368,7 +399,55 @@ const masterCollectionLayout = () => {
     selectedColor,
     hasMore,
     page,
-    makeFabricTrue,
+    makeSubCategoryTrue,
+    makeColorTrue,
+    makePriceTrue,
+  ]);
+
+  // Filtering data by subCategory
+  useEffect(() => {
+    if (filterDataBySubCat) {
+    }
+    if (
+      hasMore &&
+      filterDataBySubCat?.data &&
+      (makeSubCategoryTrue === true ||
+        makeColorTrue === true ||
+        makePriceTrue === true)
+    ) {
+      if (filterDataLoadingSubCat || filterDataFetchingSubCat) {
+        return;
+      }
+      const handleSuccess = () => {
+        if (filterDataBySubCat && subCategoryID) {
+          if (cat && filterDataBySubCat?.data) {
+            if (page === 1) {
+              // setProducts((prev) => [...filterDataCatFab?.data]);
+              setFilteredData((prev) => [...filterDataBySubCat?.data]);
+            } else {
+              // setProducts((prev) => [...prev, ...filterDataCatFab?.data]);
+              setFilteredData((prev) => [...prev, ...filterDataBySubCat?.data]);
+            }
+            setTotalProducts((prev) => prev + filterDataBySubCat.meta?.total);
+            if (!filterDataBySubCat.data?.length) {
+              setHasMore(false);
+            }
+          }
+        }
+      };
+      handleSuccess();
+    }
+  }, [
+    filterDataBySubCat,
+    filterDataLoadingSubCat,
+    filterDataFetchingSubCat,
+    subCategoryID,
+    fabricName,
+    subCategoryName,
+    hasMore,
+    cat,
+    page,
+    makeSubCategoryTrue,
     makeColorTrue,
     makePriceTrue,
   ]);
@@ -378,7 +457,7 @@ const masterCollectionLayout = () => {
     if (
       hasMore &&
       filterDataCatp?.data &&
-      (makeFabricTrue === true ||
+      (makeSubCategoryTrue === true ||
         makeColorTrue === true ||
         makePriceTrue === true)
     ) {
@@ -413,7 +492,7 @@ const masterCollectionLayout = () => {
     hasMore,
     cat,
     page,
-    makeFabricTrue,
+    makeSubCategoryTrue,
     makeColorTrue,
     makePriceTrue,
   ]);
@@ -439,6 +518,20 @@ const masterCollectionLayout = () => {
     setFabricID(id);
     setPage(1);
     setMakeFabricTrue(true);
+    setMakeSubCategoryTrue(false);
+    setMakeColorTrue(false);
+    setMakePriceTrue(false);
+    setHasMore(true);
+    setFilteredData([]);
+    setProducts([]);
+  };
+  const handleSubCategoryChange = (data, id) => {
+    setSubCategoryName(data);
+    setSubCategorySelect(data);
+    setSubCategoryID(id);
+    setPage(1);
+    setMakeFabricTrue(false);
+    setMakeSubCategoryTrue(true);
     setMakeColorTrue(false);
     setMakePriceTrue(false);
     setHasMore(true);
@@ -448,6 +541,9 @@ const masterCollectionLayout = () => {
   const handleAllProduct = (data) => {
     setFabricName(data);
     setFabricSelect(data);
+    setSubCategoryName(data);
+    setSubCategorySelect(data);
+    setMakeSubCategoryTrue(false);
     setMakeFabricTrue(false);
     setMakeColorTrue(false);
     setMakePriceTrue(false);
@@ -573,7 +669,7 @@ const masterCollectionLayout = () => {
                   variant="homeFlash"
                   className="SemiBold"
                   style={
-                    fabricSelect === "all"
+                    subCategorySelect === "all"
                       ? {
                           borderBottom: "2px solid gray",
                         }
@@ -588,13 +684,14 @@ const masterCollectionLayout = () => {
                 >
                   All {currentPath}
                 </Typography>
-                {fabrics?.slice(0, 1).map((fabric, index) => (
+                
+                {subCategories?.map((sub_cat, index) => (
                   <Typography
                     key={index}
                     className="SemiBold"
                     variant="homeFlash"
                     style={
-                      fabricSelect === fabric?.fabric_name
+                      subCategorySelect === sub_cat?.category_name
                         ? {
                             borderBottom: "2px solid gray",
                           }
@@ -606,9 +703,12 @@ const masterCollectionLayout = () => {
                       letterSpacing: 1.5,
                     }}
                     onClick={() =>
-                      handleFabricChange(fabric?.fabric_name, fabric?.fabric_id)
+                      handleSubCategoryChange(
+                        sub_cat?.category_name,
+                        sub_cat?.id
+                      )
                     }
-                  >{`${fabric?.fabric_name}`}</Typography>
+                  >{`${sub_cat?.category_name}`}</Typography>
                 ))}
 
                 {/* <Menu1 title={"Nakshikantha Saree"} />
@@ -690,6 +790,11 @@ const masterCollectionLayout = () => {
         setHasMore={setHasMore}
         setFilteredData={setFilteredData}
         setProducts={setProducts}
+        subCategories={subCategories}
+        setSubCategoryName={setSubCategoryName}
+        setSubCategoryID={setSubCategoryID}
+        makeSubCategoryTrue={makeSubCategoryTrue}
+        setMakeSubCategoryTrue={setMakeSubCategoryTrue}
       />
       {/* <Menu1Dawer open={lists1} setOpen={setLists1} /> */}
       <FilterCategory
@@ -718,6 +823,11 @@ const masterCollectionLayout = () => {
         setFilteredData={setFilteredData}
         setProducts={setProducts}
         currentPath={currentPath}
+        subCategories={subCategories}
+        setSubCategoryName={setSubCategoryName}
+        setSubCategoryID={setSubCategoryID}
+        makeSubCategoryTrue={makeSubCategoryTrue}
+        setMakeSubCategoryTrue={setMakeSubCategoryTrue}
       />
     </>
   );

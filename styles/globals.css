@@ -45,6 +45,9 @@
 .categoryList:hover {
   transition: 2s ease-in-out;
 }
+.hartIcon svg {
+  color: #3D5675!important;
+}
 /* #country_shipping,
 #city_shipping,
 #country_billing,

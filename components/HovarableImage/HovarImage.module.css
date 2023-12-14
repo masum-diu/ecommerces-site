@@ -1,9 +1,5 @@
 .uicard {
-  cursor: pointer;
-  position: relative;
   overflow: hidden;
-  transition: all 0.3s ease-out;
-  background: radial-gradient(#111 50%, #000 100%);
 }
 .uicard .description .typography {
   margin: 0 0 20px;
@@ -12,11 +8,8 @@
   transition: all 0.3s ease-out;
 }
 .uicard img {
-  transform: scale(1.091);
-  transition: all 0.3s ease-out;
 }
 .uicard:hover img {
-  opacity: 0.3;
 }
 .uicard .description {
   position: absolute;

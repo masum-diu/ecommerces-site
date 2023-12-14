@@ -21,7 +21,7 @@ export const productApi = createApi({
       query: () => `/home-pagedata`,
     }),
     getSearchResult: builder.query({
-      query: (keyWord) => `/product?no_paginate=yes&keyword=${keyWord}`,
+      query: ({searchText,page}) => `/product?page=${page}&keyword=${searchText}&per_page=10`,
     }),
     getCampignLists: builder.query({
       query: () => "/all-campaign?status",
