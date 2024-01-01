@@ -36,6 +36,9 @@ const SearchModal = ({ open, setOpen }) => {
         setApiData(data?.data);
       }
     } else {
+      if (searchText === "") {
+        setApiData([]);
+      }
       setApiData((prevData) => [...prevData, ...data?.data]);
     }
     setHasMore(data?.data.length > 0);
@@ -101,14 +104,14 @@ const SearchModal = ({ open, setOpen }) => {
               }}
             />
           </Stack>
-          <div id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
+          <div id="scrollableDiv" style={{ }}>
             <InfiniteScroll
               dataLength={apiData?.length}
               next={fetchMoreData}
-              hasMore={true}
+              hasMore={hasMore}
               scrollThreshold={1}
-              height={300}
-              loader={<Loader></Loader>}
+              height={600}
+              loader={<p>"Loading"</p>}
               scrollableTarget="scrollableDiv"
               endMessage={
                 <p style={{ textAlign: "center" }}>

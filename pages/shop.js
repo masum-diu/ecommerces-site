@@ -388,16 +388,18 @@ const shop = () => {
                       style={{
                         backgroundColor: "#1B3148",
                         padding: "1rem",
-                        width: "236px",
+                        width: { xs: "10rem", sm: "12rem", md: "15rem" },
                       }}
                       variant="contained"
                       size="large"
                       onClick={() => handleSecondBanner()}
                     >
-                      Shop all{" "}
-                      {homedata?.back_url_three
-                        ? /^(.*?)\?/.exec(homedata?.back_url_three)[1]
-                        : ""}
+                      <Typography variant="tabText">
+                        Shop all{" "}
+                        {homedata?.back_url_three
+                          ? /^(.*?)\?/.exec(homedata?.back_url_three)[1]
+                          : ""}
+                      </Typography>
                     </Button>
                   </Stack>
                 </Stack>
@@ -465,19 +467,21 @@ const shop = () => {
                         : ""}
                     </Typography>
                     <Button
-                      style={{
+                      sx={{
                         backgroundColor: "#1B3148",
                         padding: "1rem",
-                        width: "236px",
+                        width: { xs: "10rem", sm: "12rem", md: "15rem" },
                       }}
                       variant="contained"
                       size="large"
                       onClick={() => handleThirdBanner()}
                     >
-                      Shop all{" "}
-                      {homedata?.back_url_four
-                        ? /^(.*?)\?/.exec(homedata?.back_url_four)[1]
-                        : ""}
+                      <Typography variant="tabText">
+                        Shop all{" "}
+                        {homedata?.back_url_four
+                          ? /^(.*?)\?/.exec(homedata?.back_url_four)[1]
+                          : ""}
+                      </Typography>{" "}
                     </Button>
                   </Stack>
                 </Stack>
