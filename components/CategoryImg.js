@@ -2,10 +2,15 @@ import { Stack, Typography } from "@mui/material";
 import React from "react";
 
 const CategoryImg = ({ hoveredCategory }) => {
+  console.log("hoveredCategory?.category_image_two", hoveredCategory);
   return (
     <Stack
       style={{
-        backgroundImage: `url(${hoveredCategory?.category_image_two})`,
+        backgroundImage: `url(${
+          hoveredCategory?.category_image_two
+            ? hoveredCategory?.category_image_two
+            : "https://res.cloudinary.com/diyc1dizi/image/upload/aranya-product/boishakh/ZS001299.jpg"
+        })`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center center",
