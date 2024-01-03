@@ -29,6 +29,7 @@ const SearchModal = ({ open, setOpen }) => {
     page,
   });
   useEffect(() => {
+    console.log("page", typeof searchText);
     if (page === 1) {
       if (searchText === "") {
         setApiData([]);
@@ -37,17 +38,23 @@ const SearchModal = ({ open, setOpen }) => {
       }
     } else {
       if (searchText === "") {
+        console.log("in");
         setApiData([]);
+      } else {
+        setApiData((prevData) => [...prevData, ...data?.data]);
       }
-      setApiData((prevData) => [...prevData, ...data?.data]);
     }
     setHasMore(data?.data.length > 0);
-  }, [data, page, searchText, isSuccess]);
+  }, [data]);
   const fetchMoreData = () => {
     if (hasMore) {
       setPage((prevPage) => prevPage + 1);
     }
   };
+  useEffect(() => {
+    console.log("searchText", searchText);
+    setPage(1);
+  }, [searchText]);
   const handleFilter = (e) => {
     const value = e.target.value;
     setSearchText(value);
@@ -57,6 +64,7 @@ const SearchModal = ({ open, setOpen }) => {
   return (
     <>
       <Drawer
+        className="some"
         anchor="right"
         open={open}
         onClose={() => setOpen(false)}
@@ -81,7 +89,13 @@ const SearchModal = ({ open, setOpen }) => {
               justifyContent={"flex-start"}
               alignItems={"center"}
             >
-              <IconButton aria-label="" onClick={() => setOpen(false)}>
+              <IconButton
+                aria-label=""
+                onClick={() => {
+                  setOpen(false);
+                  setApiData([]);
+                }}
+              >
                 <MdClose />
               </IconButton>
               <Typography>SEARCH</Typography>
@@ -104,14 +118,15 @@ const SearchModal = ({ open, setOpen }) => {
               }}
             />
           </Stack>
-          <div id="scrollableDiv" style={{ }}>
+          <div id="scrollableDiv" style={{}}>
             <InfiniteScroll
               dataLength={apiData?.length}
               next={fetchMoreData}
               hasMore={hasMore}
               scrollThreshold={1}
-              height={600}
-              loader={<p>"Loading"</p>}
+              style={{ overflow: "auto" }}
+              height={700}
+              // loader={<p>"Loading"</p>}
               scrollableTarget="scrollableDiv"
               endMessage={
                 <p style={{ textAlign: "center" }}>
@@ -127,6 +142,7 @@ const SearchModal = ({ open, setOpen }) => {
                 justifyContent="center"
                 alignItems={"flex-start"}
               >
+                {console.log("search", apiData)}
                 {apiData?.map((data, index) => (
                   <Link
                     key={index}

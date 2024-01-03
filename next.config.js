@@ -21,6 +21,7 @@ const nextConfig = {
         hostname: "cloudinary.com",
       },
     ],
+    unoptimized: true,
   },
 };
 module.exports = nextConfig;

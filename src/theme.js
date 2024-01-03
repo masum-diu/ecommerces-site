@@ -208,7 +208,7 @@ theme.typography.cardHeader2 = {
 theme.typography.cardHeader3 = {
   fontSize: "14px",
   fontWeight: "400",
-  color: "#3A3A3A",
+  color: "#1B3148",
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
   },
@@ -216,7 +216,7 @@ theme.typography.cardHeader3 = {
 theme.typography.bolder = {
   fontSize: "14px",
   fontWeight: "bold",
-  color: "#3A3A3A",
+  color: "#1B3148",
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
   },

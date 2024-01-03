@@ -15,6 +15,7 @@ import Head from "next/head";
 import style from "../public/assets/css/HomePageIntro.module.css";
 import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 import useDiscountCount from "../src/hooks/useDiscountCount";
+import ArrowRightAltOutlinedIcon from "@mui/icons-material/ArrowRightAltOutlined";
 
 const shop = () => {
   const [homedata, setHomeData] = useState([]);
@@ -308,6 +309,8 @@ const shop = () => {
                   pb: 4,
                   cursor: "pointer",
                   px: 4,
+                  color: "black",
+                  fontSize: "2rem",
                 }}
               >
                 <li>
@@ -466,7 +469,7 @@ const shop = () => {
                         ? /^(.*?)\?/.exec(homedata?.back_url_four)[1]
                         : ""}
                     </Typography>
-                    <Button
+                    {/* <Button
                       sx={{
                         backgroundColor: "#1B3148",
                         padding: "1rem",
@@ -482,6 +485,23 @@ const shop = () => {
                           ? /^(.*?)\?/.exec(homedata?.back_url_four)[1]
                           : ""}
                       </Typography>{" "}
+                    </Button> */}
+                    <Button
+                      style={{
+                        backgroundColor: "#1B3148",
+                        padding: "1rem",
+                        width: { xs: "10rem", sm: "12rem", md: "15rem" },
+                      }}
+                      variant="contained"
+                      size="large"
+                      onClick={() => handleThirdBanner()}
+                    >
+                      <Typography variant="tabText">
+                        Shop all{" "}
+                        {homedata?.back_url_four
+                          ? /^(.*?)\?/.exec(homedata?.back_url_four)[1]
+                          : ""}
+                      </Typography>
                     </Button>
                   </Stack>
                 </Stack>
@@ -566,12 +586,20 @@ const shop = () => {
             justifyContent="space-between"
             sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px" }}
           >
-            <Typography variant="tabText" color="initial" px={1}>
+            <Typography
+              variant="tabText"
+              // color="#1B3148"
+              style={{ color: "#1B3148", fontWeight: "900" }}
+              px={1}
+            >
               WHAT'S NEW
             </Typography>
-            <Typography variant="tabText" color="initial" pr={1}>
+            {/* <Typography variant="tabText" color="initial" pr={1}>
               VIEW ALL
-            </Typography>
+            </Typography> */}
+            <ArrowRightAltOutlinedIcon
+              style={{ fontSize: "2rem" }}
+            ></ArrowRightAltOutlinedIcon>
           </Stack>
           <Grid
             container
@@ -743,12 +771,20 @@ const shop = () => {
             justifyContent="space-between"
             sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px" }}
           >
-            <Typography variant="tabText" color="initial" px={1}>
+            <Typography
+              variant="tabText"
+              // color="#1B3148"
+              style={{ color: "#1B3148", fontWeight: "900" }}
+              px={1}
+            >
               WHAT'S NEW
             </Typography>
-            <Typography variant="tabText" color="initial" pr={1}>
+            {/* <Typography variant="tabText" color="initial" pr={1}>
               VIEW ALL
-            </Typography>
+            </Typography> */}
+            <ArrowRightAltOutlinedIcon
+              style={{ fontSize: "2rem" }}
+            ></ArrowRightAltOutlinedIcon>
           </Stack>
           <Grid
             container

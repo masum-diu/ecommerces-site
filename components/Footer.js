@@ -22,7 +22,7 @@ const Footer = () => {
 
   return (
     <>
-      <Box bgcolor={"#3c5676"}>
+      <Box bgcolor={"#1B3148"}>
         <Stack
           direction={"column"}
           sx={{
@@ -84,7 +84,7 @@ const Footer = () => {
               Blog
             </Typography>
           </Stack>
-          <Typography variant="normal" color="#F2F2F2 ">
+          {/* <Typography variant="normal" color="#F2F2F2 ">
             BUSINESS
           </Typography>
           <Stack direction={"row"} spacing={3}>
@@ -97,7 +97,7 @@ const Footer = () => {
             <Typography variant="cardHeader2" color="#F2F2F2">
               Contact
             </Typography>
-          </Stack>
+          </Stack> */}
           <Typography variant="normal" color="#F2F2F2 ">
             SOCIAL MEDIA
           </Typography>

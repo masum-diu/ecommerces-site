@@ -99,6 +99,7 @@ const MegaMenu = ({ open, setOpen }) => {
   return (
     <div>
       <Drawer
+        className="shop"
         transitionDuration={{ enter: 900, exit: 900 }}
         anchor="top"
         open={open}

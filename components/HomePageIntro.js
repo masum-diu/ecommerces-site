@@ -39,6 +39,11 @@ import Loader from "./Loader/Loader";
 import { useGetCategoryAndSubCatListQuery } from "../src/features/api/apiSlice";
 import * as fbq from "../lib/fpixel";
 import MegaMenu from "./MegaMenu";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { BiMenuAltLeft } from "react-icons/bi";
 const HomePageIntro = ({ title }) => {
   const [signOut, loading] = useSignOut(auth);
   const [open, setOpen] = useState(false);
@@ -207,7 +212,8 @@ const HomePageIntro = ({ title }) => {
                 onClick={() => setOpen(true)}
               >
                 {/* <GoThreeBars style={{ color: "#0A0A0A" }} /> */}
-                <FcMenu style={{ color: "#0A0A0A" }} />
+                {/* <FcMenu style={{ color: "#0A0A0A" }} /> */}
+                <BiMenuAltLeft style={{color:"#1B3148"}} />
               </IconButton>
               <Link href={"/shop"}>
                 <img
@@ -235,7 +241,7 @@ const HomePageIntro = ({ title }) => {
                       style={{ color: "#0A0A0A" }}
                     
                     /> */}
-                    <svg
+                    {/* <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
                       height="18"
@@ -244,7 +250,10 @@ const HomePageIntro = ({ title }) => {
                       viewBox="0 0 16 16"
                     >
                       <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                    </svg>
+                    </svg> */}
+                    <FavoriteBorderIcon
+                      style={{ color: "#3D5675" }}
+                    ></FavoriteBorderIcon>
                   </Badge>
                 </IconButton>
                 <IconButton
@@ -256,7 +265,7 @@ const HomePageIntro = ({ title }) => {
                       style={{ color: "#0A0A0A" }}
                       
                     /> */}
-                    <svg
+                    {/* <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
                       height="20"
@@ -265,13 +274,16 @@ const HomePageIntro = ({ title }) => {
                       viewBox="0 0 16 16"
                     >
                       <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                    </svg>
+                    </svg> */}
+                    <ShoppingBagOutlinedIcon
+                      style={{ color: "#3D5675" }}
+                    ></ShoppingBagOutlinedIcon>
                   </Badge>
                 </IconButton>
 
                 <IconButton aria-label="">
-                  <CiSearch
-                    style={{ color: "gray" }}
+                  <SearchOutlinedIcon
+                    style={{ color: "#3D5675" }}
                     onClick={() => handleSearchOpen()}
                   />
                 </IconButton>
@@ -296,7 +308,7 @@ const HomePageIntro = ({ title }) => {
                   onClick={() => router.push("/shop")}
                   onMouseEnter={() => handleMegaMenuOpen()}
                 >
-                  <li style={{ color: "gray" }}>SHOP</li>
+                  <li style={{ color: "#1B3148", fontWeight: "900" }}>SHOP</li>
                 </Typography>
                 <Typography
                   className={style.menu3}
@@ -305,14 +317,14 @@ const HomePageIntro = ({ title }) => {
                   color="initial"
                   onClick={() => router.push("/story")}
                 >
-                  <li style={{ color: "gray" }}>STORY</li>
+                  <li style={{ color: "#1B3148", fontWeight: "900" }}>STORY</li>
                 </Typography>
               </Stack>
             </Box>
 
             <Stack direction={"row"} alignItems="center" spacing={1} mt={1}>
               <IconButton aria-label="" onClick={() => handleSearchOpen()}>
-                <CiSearch style={{ color: "gray" }} />
+                <SearchOutlinedIcon style={{ color: "#3D5675" }} />
               </IconButton>
               {userjsondata || user.status == true ? (
                 <>
@@ -376,7 +388,7 @@ const HomePageIntro = ({ title }) => {
                 </>
               ) : (
                 <>
-                  <Typography
+                  {/* <Typography
                     className={style.menu3}
                     sx={{ cursor: "pointer" }}
                     variant="cardHeader"
@@ -384,7 +396,13 @@ const HomePageIntro = ({ title }) => {
                     onClick={() => setModalOpen(true)}
                   >
                     <li>LOGIN</li>
-                  </Typography>
+                  </Typography> */}
+                  <IconButton
+                    onClick={() => setModalOpen(true)}
+                    color="initial"
+                  >
+                    <PersonOutlineOutlinedIcon style={{ color: "#3D5675" }} />
+                  </IconButton>
                 </>
               )}
 
@@ -394,7 +412,7 @@ const HomePageIntro = ({ title }) => {
               >
                 <Badge badgeContent={totalWishedProduct} color="background2">
                   {/* <TfiHeart style={{ color: "#0A0A0A", fontSize: "18px" }} /> */}
-                  <svg
+                  {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
                     height="18"
@@ -403,7 +421,10 @@ const HomePageIntro = ({ title }) => {
                     viewBox="0 0 16 16"
                   >
                     <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                  </svg>
+                  </svg> */}
+                  <FavoriteBorderIcon
+                    style={{ color: "#3D5675" }}
+                  ></FavoriteBorderIcon>
                 </Badge>
               </IconButton>
               <IconButton
@@ -412,7 +433,7 @@ const HomePageIntro = ({ title }) => {
               >
                 <Badge badgeContent={totalAmount} color="background2">
                   {/* <CiShoppingCart style={{ color: "#0A0A0A" }} /> */}
-                  <svg
+                  {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
@@ -421,12 +442,14 @@ const HomePageIntro = ({ title }) => {
                     viewBox="0 0 16 16"
                   >
                     <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                  </svg>
+                  </svg> */}
+                  <ShoppingBagOutlinedIcon
+                    style={{ color: "#3D5675" }}
+                  ></ShoppingBagOutlinedIcon>
                 </Badge>
               </IconButton>
-              <Stack alignItems="center" direction={"row"}>
+              {/* <Stack alignItems="center" direction={"row"}>
                 <IconButton aria-label="">
-                  {/* <BiMap style={{ color: "#0A0A0A",fontWeight:"10px" }} /> */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -445,7 +468,7 @@ const HomePageIntro = ({ title }) => {
                 >
                   BD
                 </Typography>
-              </Stack>
+              </Stack> */}
             </Stack>
           </Hidden>
         </Toolbar>

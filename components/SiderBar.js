@@ -35,6 +35,7 @@ import {
 import Link from "next/link";
 import Loader from "./Loader/Loader";
 import auth from "../src/firebase.init";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
 const SiderBar = ({ open, setOpen }) => {
   const [categoryAndSubCatList, setCatAndSubCatList] = useState([]);
@@ -217,7 +218,7 @@ const SiderBar = ({ open, setOpen }) => {
         <Box p={2}>
           <Stack direction={"row"} alignItems="center" spacing={2}>
             <IconButton aria-label="" onClick={() => setOpen(false)}>
-              <MdClose />
+              <MdClose style={{color:"#1B3148"}} />
             </IconButton>
             <img
               src="/assets/headerLogo.png"
@@ -477,21 +478,27 @@ const SiderBar = ({ open, setOpen }) => {
                   </>
                 ) : (
                   <>
-                    <Typography
+                    {/* <Typography
                       variant="cardHeader"
                       className="SemiBold"
                       color="initial"
                       onClick={() => setModalOpen(true)}
                     >
                       LOGIN
-                    </Typography>
+                    </Typography> */}
+                    <IconButton
+                      onClick={() => setModalOpen(true)}
+                      color="initial"
+                    >
+                      <PersonOutlineOutlinedIcon style={{ color: "#3D5675" }} />
+                    </IconButton>
                   </>
                 )}
               </Button>
 
-              <Stack alignItems="center" direction={"row"}>
+              {/* <Stack alignItems="center" direction={"row"}>
                 <IconButton aria-label="">
-                  {/* <BiMap style={{ color: "#0A0A0A" }} /> */}
+                 
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -511,7 +518,7 @@ const SiderBar = ({ open, setOpen }) => {
                 >
                   BD
                 </Typography>
-              </Stack>
+              </Stack> */}
               {/* <IconButton aria-label="">
                 <FiSearch style={{ color: "#0A0A0A" }} />
               </IconButton> */}

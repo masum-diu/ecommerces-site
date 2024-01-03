@@ -33,6 +33,7 @@
 }
 .bold {
   font-family: "bold";
+  /* color: #1B3148!important; */
 }
 .MuiDrawer-paperAnchorTop {
   position: absolute;
