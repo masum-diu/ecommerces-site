@@ -72,7 +72,6 @@ const MegaMenu = ({ open, setOpen }) => {
   };
   const handleRedirectCat = (category) => {
     setOpen(false);
-    console.log("category", category);
     const targetUrl = `/products?cat_name=${category?.slug}&cat=${category?.id}`;
     if (router.asPath !== targetUrl) {
       router.push(

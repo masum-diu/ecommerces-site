@@ -48,6 +48,8 @@ import {
 } from "../public/assets/data/eCourier_charges";
 import { useConvertCartData } from "../src/hooks/useConvertCartData";
 import * as fbq from "../lib/fpixel";
+import useCityFetcherEcourier from "../src/hooks/useCityFetcherEcourier";
+import useThanaFetcherEcourier from "../src/hooks/useThanaFetcherEcourier";
 
 const checkout = () => {
   // address popup state start
@@ -67,6 +69,13 @@ const checkout = () => {
   const [distict1, setDistict1] = useState("Select Country");
   const [townBilling, setTownBilling] = useState("Select Town/City");
   const [townBillingSh, setTownBillingSh] = useState("Select Town/City");
+  const [thanaBilling, setThanaBilling] = useState("Select Thana");
+  const [thanaBillingSh, setThanaBillingSh] = useState("Select Thana");
+  const [postCodeBilling, setPostCodeBilling] = useState("Select Post Code");
+  const [postCodeBillingSh, setPostCodeBillingSh] =
+    useState("Select Post Code");
+  const [areaBilling, setAreaBilling] = useState("Select Area");
+  const [areaBillingSh, setAreaBillingSh] = useState("Select Area");
   const [isSameAddress, setIsSameAddress] = useState(false);
   const [totalFragileCharge, setTotalFragileCharge] = useState(0);
   const [host, setHost] = useState("");
@@ -144,6 +153,26 @@ const checkout = () => {
     cities: shippingCities,
     loading: shippingCityLoading,
   } = useCityFetcher();
+  const {
+    selectedCountry: selectedCountryShippingEcourier,
+    setSelectedCountry: setSelectedCountryShippingEcourier,
+    cities: shippingCitiesEcourier,
+    loading: shippingCityLoadingEcourier,
+  } = useCityFetcherEcourier();
+
+  const {
+    selectedCountry: selectedCountryBillingEcourier,
+    setSelectedCountry: setSelectedCountryBillingEcourier,
+    cities: billingCitiesEcourier,
+    loading: billingCityLoadingEcourier,
+  } = useCityFetcherEcourier();
+  const {
+    selectedCity: selectedCityShippingEcourier,
+    setSelectedCity: setSelectedCityShippingEcourier,
+    thanas: shippingThanasEcourier,
+    loading: shippingThanaLoadingEcourier,
+  } = useThanaFetcherEcourier();
+  console.log("your log output", shippingThanasEcourier);
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
       {
@@ -588,6 +617,9 @@ const checkout = () => {
     name: "apartment_address_shipping",
   });
   const cityAddressSh = useWatch({ control, name: "city_shipping" });
+  const thanaAddressSh = useWatch({ control, name: "thana_shipping" });
+  const postAddressSh = useWatch({ control, name: "post_shipping" });
+  const areaAddressSh = useWatch({ control, name: "area_shipping" });
   const countrySh = useWatch({ control, name: "country_shipping" });
   const postBillingSh = useWatch({ control, name: "post_code_shipping" });
   const phoneBillingSh = useWatch({ control, name: "phone_shipping" });
@@ -903,6 +935,7 @@ const checkout = () => {
   useEffect(() => {
     if (isAddressListDataShipping === false) {
       setSelectedCountryShipping(countryShippingCode);
+      setSelectedCountryShippingEcourier(countryShippingCode);
     }
   }, [countryShippingCode, countrySh, isAddressListDataShipping]);
 
@@ -1009,6 +1042,8 @@ const checkout = () => {
   useEffect(() => {
     setSelectedCountryBilling(billingCountry);
     setSelectedCountryShipping(shippingCountry);
+    setSelectedCountryShippingEcourier(shippingCountry);
+    setSelectedCityShippingEcourier(cityAddressSh);
   }, [
     billingCountry,
     shippingCountry,
@@ -1018,6 +1053,7 @@ const checkout = () => {
     shippingCountry,
     country,
     countrySh,
+    cityAddressSh,
   ]);
   useEffect(() => {
     if (showInputField === true) {
@@ -1194,7 +1230,7 @@ const checkout = () => {
                       Add New or Existing Billing Address
                     </Typography>
                   </Stack>
-
+                  {/* first name */}
                   <Stack mt={5}>
                     <Typography variant="cardHeader1" color="initial">
                       FIRST NAME *
@@ -1228,6 +1264,7 @@ const checkout = () => {
                       )}
                   </Stack>
 
+                  {/* last name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       LAST NAME *
@@ -1261,6 +1298,7 @@ const checkout = () => {
                       )}
                   </Stack>
 
+                  {/* country name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       COUNTRY *
@@ -1305,9 +1343,133 @@ const checkout = () => {
                       )}
                   </Stack>
 
+                  {/* town/city name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       TOWN / CITY *
+                    </Typography>
+                    {shippingCityLoadingEcourier ? (
+                      <Stack
+                        border={"1px solid gray"}
+                        borderRadius={"5px"}
+                        direction={"rwo"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        <Typography sx={{ marginLeft: "10px" }}>
+                          Collecting Cities
+                        </Typography>
+                        <CircularProgress
+                          sx={{ color: "#3C5676", marginRight: "10px" }}
+                        />
+                      </Stack>
+                    ) : (
+                      <Select
+                        autoComplete="off"
+                        {...register("city_shipping", {
+                          required: {
+                            value: true,
+                            message: "Town/City is Required",
+                          },
+                        })}
+                        sx={customStyle}
+                        onClick={() => trigger("city_shipping")}
+                        error={Boolean(errors.city_shipping)}
+                        id="city_shipping"
+                        size="small"
+                        value={townBillingSh}
+                        onChange={handleSelectChangeTownShipping}
+                      >
+                        <MenuItem value={"Select Town/City"} disabled>
+                          Select Town/City
+                        </MenuItem>
+                        {isAddressListDataShipping === true ? (
+                          <MenuItem value={townBillingSh}>
+                            {townBillingSh}
+                          </MenuItem>
+                        ) : shippingCitiesEcourier ? (
+                          shippingCitiesEcourier.map((towns) => (
+                            <MenuItem value={towns?.value}>
+                              {towns?.value}
+                            </MenuItem>
+                          ))
+                        ) : (
+                          ""
+                        )}
+                      </Select>
+                    )}
+
+                    {errors.city_shipping && isSameAddressChecked === false && (
+                      <p style={{ color: "red" }}>
+                        {errors.city_shipping?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  {/* thana name */}
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      THANA *
+                    </Typography>
+                    {shippingThanaLoadingEcourier ? (
+                      <Stack
+                        border={"1px solid gray"}
+                        borderRadius={"5px"}
+                        direction={"rwo"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        <Typography sx={{ marginLeft: "10px" }}>
+                          Collecting Thana
+                        </Typography>
+                        <CircularProgress
+                          sx={{ color: "#3C5676", marginRight: "10px" }}
+                        />
+                      </Stack>
+                    ) : (
+                      <Select
+                        autoComplete="off"
+                        {...register("thana_shipping", {
+                          required: {
+                            value: true,
+                            message: "Thana is Required",
+                          },
+                        })}
+                        sx={customStyle}
+                        onClick={() => trigger("thana_shipping")}
+                        error={Boolean(errors.thana_shipping)}
+                        id="thana_shipping"
+                        size="small"
+                        value={thanaBillingSh}
+                        onChange={handleSelectChangeTownShipping}
+                      >
+                        <MenuItem value={"Select Thana"} disabled>
+                          Select Thana
+                        </MenuItem>
+                        {isAddressListDataShipping === true ? (
+                          <MenuItem value={thanaBillingSh}>
+                            {thanaBillingSh}
+                          </MenuItem>
+                        ) : (
+                          shippingThanasEcourier?.map((towns) => (
+                            <MenuItem value={towns?.value}>{towns?.value}</MenuItem>
+                          ))
+                        )}
+                      </Select>
+                    )}
+
+                    {errors.thana_shipping &&
+                      isSameAddressChecked === false && (
+                        <p style={{ color: "red" }}>
+                          {errors.thana_shipping?.message}
+                        </p>
+                      )}
+                  </Stack>
+
+                  {/* post code name */}
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      POSTCODE / ZIP (OPTIONAL)
                     </Typography>
                     {shippingCityLoading ? (
                       <Stack
@@ -1349,7 +1511,7 @@ const checkout = () => {
                             {townBillingSh}
                           </MenuItem>
                         ) : (
-                          shippingCities?.map((towns) => (
+                          shippingCitiesEcourier?.map((towns) => (
                             <MenuItem value={towns}>{towns}</MenuItem>
                           ))
                         )}
@@ -1363,6 +1525,66 @@ const checkout = () => {
                     )}
                   </Stack>
 
+                  {/* area code name */}
+                  <Stack direction={"column"} spacing={2} mt={3}>
+                    <Typography variant="cardHeader1" color="initial">
+                      AREA *
+                    </Typography>
+                    {shippingCityLoading ? (
+                      <Stack
+                        border={"1px solid gray"}
+                        borderRadius={"5px"}
+                        direction={"rwo"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        <Typography sx={{ marginLeft: "10px" }}>
+                          Collecting Cities
+                        </Typography>
+                        <CircularProgress
+                          sx={{ color: "#3C5676", marginRight: "10px" }}
+                        />
+                      </Stack>
+                    ) : (
+                      <Select
+                        autoComplete="off"
+                        {...register("city_shipping", {
+                          required: {
+                            value: true,
+                            message: "Town/City is Required",
+                          },
+                        })}
+                        sx={customStyle}
+                        onClick={() => trigger("city_shipping")}
+                        error={Boolean(errors.city_shipping)}
+                        id="city_shipping"
+                        size="small"
+                        value={townBillingSh}
+                        onChange={handleSelectChangeTownShipping}
+                      >
+                        <MenuItem value={"Select Town/City"} disabled>
+                          Select Town/City
+                        </MenuItem>
+                        {isAddressListDataShipping === true ? (
+                          <MenuItem value={townBillingSh}>
+                            {townBillingSh}
+                          </MenuItem>
+                        ) : (
+                          shippingCitiesEcourier?.map((towns) => (
+                            <MenuItem value={towns}>{towns}</MenuItem>
+                          ))
+                        )}
+                      </Select>
+                    )}
+
+                    {errors.city_shipping && isSameAddressChecked === false && (
+                      <p style={{ color: "red" }}>
+                        {errors.city_shipping?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  {/* street name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       STREET ADDRESS *
@@ -1398,6 +1620,8 @@ const checkout = () => {
                         </p>
                       )}
                   </Stack>
+
+                  {/* apartment name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       APARTMENT ADDRESS (OPTIONAL)
@@ -1434,42 +1658,7 @@ const checkout = () => {
                       )}
                   </Stack>
 
-                  <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
-                      POSTCODE / ZIP (OPTIONAL)
-                    </Typography>
-
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      autoComplete="off"
-                      {...register("post_code_shipping", {
-                        required: {
-                          value: false,
-                          message: "Post Code Required",
-                        },
-                      })}
-                      error={Boolean(errors.post_code_shipping)}
-                      // onChange={}
-
-                      placeholder={
-                        isSameAddressChecked === false
-                          ? "Postcode / zip (Optional)"
-                          : postBilling
-                      }
-                      // placeholder="Postcode / zip (Optional)"
-                      size="small"
-                      sx={customStyle}
-                    />
-                    {errors.post_code_shipping &&
-                      isSameAddressChecked === false && (
-                        <p style={{ color: "red" }}>
-                          {errors.post_code_shipping?.message}
-                        </p>
-                      )}
-                  </Stack>
-
+                  {/* phone name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       PHONE *
@@ -1507,6 +1696,7 @@ const checkout = () => {
                       )}
                   </Stack>
 
+                  {/* email name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       EMAIL ADDRESS *
@@ -1608,6 +1798,7 @@ const checkout = () => {
                       </Typography>
                     </Stack>
                   </Stack>
+                  {/* first name */}
                   <Stack direction={"column"} spacing={2} mt={{ lg: 2.5 }}>
                     <Typography variant="cardHeader1" color="initial">
                       FIRST NAME *
@@ -1643,6 +1834,7 @@ const checkout = () => {
                     )}
                   </Stack>
 
+                  {/* last name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       LAST NAME *
@@ -1679,6 +1871,7 @@ const checkout = () => {
                     )}
                   </Stack>
 
+                  {/* country name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       COUNTRY *
@@ -1730,6 +1923,7 @@ const checkout = () => {
                     {/* <Select label="Age"  /> */}
                   </Stack>
 
+                  {/* town/city name */}
                   <Stack
                     direction={"column"}
                     spacing={2}
@@ -1805,6 +1999,235 @@ const checkout = () => {
                     )}
                   </Stack>
 
+                  {/* thana name */}
+                  <Stack
+                    direction={"column"}
+                    spacing={2}
+                    mt={3}
+                    className="custom"
+                    sx={customStyle2}
+                  >
+                    <Typography variant="cardHeader1" color="initial">
+                      THANA *
+                    </Typography>
+
+                    {billingCityLoading ? (
+                      <Stack
+                        border={"1px solid gray"}
+                        borderRadius={"5px"}
+                        direction={"rwo"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        <Typography sx={{ marginLeft: "10px" }}>
+                          Collecting Cities
+                        </Typography>
+                        <CircularProgress
+                          sx={{ color: "#3C5676", marginRight: "10px" }}
+                        />
+                      </Stack>
+                    ) : (
+                      <Select
+                        id="city_billing"
+                        {...register("city_billing", {
+                          required: {
+                            value:
+                              isSameAddressChecked === false &&
+                              paymentMethod === "online"
+                                ? true
+                                : false,
+                            message: "Town/City is Required",
+                          },
+                        })}
+                        disabled={isSameAddressChecked === false ? false : true}
+                        onClick={() => trigger("city_billing")}
+                        error={Boolean(errors.city_billing)}
+                        size="small"
+                        value={
+                          isSameAddressChecked === false
+                            ? townBilling
+                            : townBillingSh
+                        }
+                        sx={customStyle}
+                        onChange={handleSelectChangeTownBilling}
+                      >
+                        <MenuItem value={"Select Town/City"} disabled>
+                          Select Town/City
+                        </MenuItem>
+                        {isSameAddressChecked === true ? (
+                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                        ) : isAddressListDataBilling ? (
+                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                        ) : (
+                          billingCities?.map((towns) => (
+                            <MenuItem value={towns}>{towns}</MenuItem>
+                          ))
+                        )}
+
+                        {/* <MenuItem value={"India"}>India</MenuItem> */}
+                      </Select>
+                    )}
+
+                    {errors.city_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.city_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  {/* post code name */}
+                  <Stack
+                    direction={"column"}
+                    spacing={2}
+                    mt={3}
+                    className="custom"
+                    sx={customStyle2}
+                  >
+                    <Typography variant="cardHeader1" color="initial">
+                      POSTCODE / ZIP (OPTIONAL)
+                    </Typography>
+
+                    {billingCityLoading ? (
+                      <Stack
+                        border={"1px solid gray"}
+                        borderRadius={"5px"}
+                        direction={"rwo"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        <Typography sx={{ marginLeft: "10px" }}>
+                          Collecting Cities
+                        </Typography>
+                        <CircularProgress
+                          sx={{ color: "#3C5676", marginRight: "10px" }}
+                        />
+                      </Stack>
+                    ) : (
+                      <Select
+                        id="city_billing"
+                        {...register("city_billing", {
+                          required: {
+                            value:
+                              isSameAddressChecked === false &&
+                              paymentMethod === "online"
+                                ? true
+                                : false,
+                            message: "Town/City is Required",
+                          },
+                        })}
+                        disabled={isSameAddressChecked === false ? false : true}
+                        onClick={() => trigger("city_billing")}
+                        error={Boolean(errors.city_billing)}
+                        size="small"
+                        value={
+                          isSameAddressChecked === false
+                            ? townBilling
+                            : townBillingSh
+                        }
+                        sx={customStyle}
+                        onChange={handleSelectChangeTownBilling}
+                      >
+                        <MenuItem value={"Select Town/City"} disabled>
+                          Select Town/City
+                        </MenuItem>
+                        {isSameAddressChecked === true ? (
+                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                        ) : isAddressListDataBilling ? (
+                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                        ) : (
+                          billingCities?.map((towns) => (
+                            <MenuItem value={towns}>{towns}</MenuItem>
+                          ))
+                        )}
+
+                        {/* <MenuItem value={"India"}>India</MenuItem> */}
+                      </Select>
+                    )}
+
+                    {errors.city_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.city_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  {/* post code name */}
+                  <Stack
+                    direction={"column"}
+                    spacing={2}
+                    mt={3}
+                    className="custom"
+                    sx={customStyle2}
+                  >
+                    <Typography variant="cardHeader1" color="initial">
+                      AREA *
+                    </Typography>
+
+                    {billingCityLoading ? (
+                      <Stack
+                        border={"1px solid gray"}
+                        borderRadius={"5px"}
+                        direction={"rwo"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        <Typography sx={{ marginLeft: "10px" }}>
+                          Collecting Cities
+                        </Typography>
+                        <CircularProgress
+                          sx={{ color: "#3C5676", marginRight: "10px" }}
+                        />
+                      </Stack>
+                    ) : (
+                      <Select
+                        id="city_billing"
+                        {...register("city_billing", {
+                          required: {
+                            value:
+                              isSameAddressChecked === false &&
+                              paymentMethod === "online"
+                                ? true
+                                : false,
+                            message: "Town/City is Required",
+                          },
+                        })}
+                        disabled={isSameAddressChecked === false ? false : true}
+                        onClick={() => trigger("city_billing")}
+                        error={Boolean(errors.city_billing)}
+                        size="small"
+                        value={
+                          isSameAddressChecked === false
+                            ? townBilling
+                            : townBillingSh
+                        }
+                        sx={customStyle}
+                        onChange={handleSelectChangeTownBilling}
+                      >
+                        <MenuItem value={"Select Town/City"} disabled>
+                          Select Town/City
+                        </MenuItem>
+                        {isSameAddressChecked === true ? (
+                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                        ) : isAddressListDataBilling ? (
+                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                        ) : (
+                          billingCities?.map((towns) => (
+                            <MenuItem value={towns}>{towns}</MenuItem>
+                          ))
+                        )}
+
+                        {/* <MenuItem value={"India"}>India</MenuItem> */}
+                      </Select>
+                    )}
+
+                    {errors.city_billing && (
+                      <p style={{ color: "red" }}>
+                        {errors.city_billing?.message}
+                      </p>
+                    )}
+                  </Stack>
+
+                  {/* street name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       STREET ADDRESS *
@@ -1841,6 +2264,7 @@ const checkout = () => {
                     )}
                   </Stack>
 
+                  {/* apartment name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       APARTMENT ADDRESS (OPTIONAL)
@@ -1873,37 +2297,7 @@ const checkout = () => {
                     )}
                   </Stack>
 
-                  <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
-                      POSTCODE / ZIP (OPTIONAL)
-                    </Typography>
-                    <TextField
-                      // id=""
-                      // label=""
-                      // value={}
-                      // onChange={}
-                      {...register("post_code_billing", {
-                        required: {
-                          value: false,
-                          message: "Enter Post Code",
-                        },
-                      })}
-                      disabled={isSameAddressChecked === false ? false : true}
-                      error={Boolean(errors.post_code_billing)}
-                      placeholder={
-                        isSameAddressChecked === false
-                          ? "Postcode / zip (Optional)"
-                          : postBillingSh
-                      }
-                      size="small"
-                    />
-                    {errors.post_code_billing && (
-                      <p style={{ color: "red" }}>
-                        {errors.post_code_billing?.message}
-                      </p>
-                    )}
-                  </Stack>
-
+                  {/* phone name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       PHONE *
@@ -1940,6 +2334,7 @@ const checkout = () => {
                     )}
                   </Stack>
 
+                  {/* email name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="initial">
                       EMAIL ADDRESS *

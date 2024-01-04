@@ -46,7 +46,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [stockAmount, setStockAmount] = useState(0);
 
   const { updatedPriceAfterDiscount } = useDiscountCount();
-  console.log("data", data);
+  
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
       if (sizeSelected === true && colorSelected === true) {

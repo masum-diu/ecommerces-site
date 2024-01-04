@@ -20,7 +20,7 @@ const ProductsLayoutWithStaticImage = ({
     return <Loader />;
   } */
   if (productsDataChunk.length === 0) return <></>;
-  console.log("kashfee", productsDataChunk);
+  
   return (
     <>
       {productsDataChunk[0] && (

@@ -29,7 +29,6 @@ const SearchModal = ({ open, setOpen }) => {
     page,
   });
   useEffect(() => {
-    console.log("page", typeof searchText);
     if (page === 1) {
       if (searchText === "") {
         setApiData([]);
@@ -38,7 +37,7 @@ const SearchModal = ({ open, setOpen }) => {
       }
     } else {
       if (searchText === "") {
-        console.log("in");
+        
         setApiData([]);
       } else {
         setApiData((prevData) => [...prevData, ...data?.data]);
@@ -52,7 +51,7 @@ const SearchModal = ({ open, setOpen }) => {
     }
   };
   useEffect(() => {
-    console.log("searchText", searchText);
+    
     setPage(1);
   }, [searchText]);
   const handleFilter = (e) => {
@@ -142,7 +141,7 @@ const SearchModal = ({ open, setOpen }) => {
                 justifyContent="center"
                 alignItems={"flex-start"}
               >
-                {console.log("search", apiData)}
+                
                 {apiData?.map((data, index) => (
                   <Link
                     key={index}
