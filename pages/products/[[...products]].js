@@ -28,6 +28,8 @@ import ProductsLayoutWithStaticImage from "../../components/ProductsLayoutWithSt
 import ProductsLayout from "../../components/ProductsLayout";
 import Head from "next/head";
 import FilterCategory from "../../components/FilterCategory";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
 function chunkArray(arr, chunkSize = 9) {
   const chunkedArray = [];
   for (let i = 0; i < arr.length; i += chunkSize) {
@@ -662,54 +664,67 @@ const masterCollectionLayout = () => {
                 height: "61px",
                 justifyContent: "space-between",
                 alignItems: "center",
+                border:"1px solid red"
               }}
             >
               <Stack direction={"row"} spacing={4} alignItems={"center"}>
-                <Typography
-                  variant="homeFlash"
-                  className="SemiBold"
-                  style={
-                    subCategorySelect === "all"
-                      ? {
-                          borderBottom: "2px solid gray",
-                        }
-                      : {}
-                  }
-                  sx={{
-                    cursor: "pointer",
-                    padding: "5px",
-                    letterSpacing: 1.5,
-                  }}
-                  onClick={() => handleAllProduct("all")}
+                <Swiper
+                  // spaceBetween={80}
+                  slidesPerView={3}
+                  modules={[Pagination]}
+                  className="mySwiper"
                 >
-                  All {currentPath}
-                </Typography>
-                
-                {subCategories?.map((sub_cat, index) => (
-                  <Typography
-                    key={index}
-                    className="SemiBold"
-                    variant="homeFlash"
-                    style={
-                      subCategorySelect === sub_cat?.category_name
-                        ? {
-                            borderBottom: "2px solid gray",
-                          }
-                        : {}
-                    }
-                    sx={{
-                      cursor: "pointer",
-                      padding: "5px",
-                      letterSpacing: 1.5,
-                    }}
-                    onClick={() =>
-                      handleSubCategoryChange(
-                        sub_cat?.category_name,
-                        sub_cat?.id
-                      )
-                    }
-                  >{`${sub_cat?.category_name}`}</Typography>
-                ))}
+                  <SwiperSlide style={{width:"10%"}}>
+                    <Typography
+                      variant="homeFlash"
+                      className="SemiBold"
+                      style={
+                        subCategorySelect === "all"
+                          ? {
+                              borderBottom: "2px solid gray",
+                            }
+                          : {}
+                      }
+                      sx={{
+                        cursor: "pointer",
+                        padding: "5px",
+                        letterSpacing: 1.5,
+                      }}
+                      onClick={() => handleAllProduct("all")}
+                    >
+                      All {currentPath}
+                    </Typography>
+                  </SwiperSlide>
+                  {subCategories?.map((sub_cat, index) => (
+                    <SwiperSlide
+                      key={index}
+                      
+                    >
+                      <Typography
+                        className="SemiBold"
+                        variant="homeFlash"
+                        style={
+                          subCategorySelect === sub_cat?.category_name
+                            ? {
+                                borderBottom: "2px solid gray",
+                              }
+                            : {}
+                        }
+                        sx={{
+                          cursor: "pointer",
+                          padding: "5px",
+                          letterSpacing: 1.5,
+                        }}
+                        onClick={() =>
+                          handleSubCategoryChange(
+                            sub_cat?.category_name,
+                            sub_cat?.id
+                          )
+                        }
+                      >{`${sub_cat?.category_name}`}</Typography>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
 
                 {/* <Menu1 title={"Nakshikantha Saree"} />
                   <Menu1 title={"Jamdani Saree"} /> */}
