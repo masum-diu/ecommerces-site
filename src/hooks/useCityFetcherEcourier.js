@@ -9,7 +9,8 @@ const useCityFetcherEcourier = () => {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        if (selectedCountry) {
+       
+        if (selectedCountry === "Bangladesh") {
           setLoading(true);
           const result = ecourierInstance
             .post("/city-list")
@@ -31,7 +32,6 @@ const useCityFetcherEcourier = () => {
 
     fetchCities();
   }, [selectedCountry]);
-
   return {
     selectedCountry,
     setSelectedCountry,

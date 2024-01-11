@@ -1,31 +1,39 @@
 // useCitySelect.js
 import { useState, useEffect } from "react";
+import ecourierInstance from "../../pages/api/ecourier_instance";
 
 const API_URL = "https://secure.geonames.org/searchJSON";
-const USERNAME = "shamimulhaque"; // Replace with your actual Geonames username
+const USERNAME = "shamimulhaque";
+// Replace with your actual Geonames username
 // const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
 
 const usePostCodeFetcherEcourier = () => {
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [cities, setCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedThana, setSelectedThana] = useState("");
+  const [postCode, setPostCode] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        if (selectedCountry) {
+        console.log("selectedCity", selectedCity);
+        if (
+          selectedCity &&
+          selectedThana &&
+          selectedCity !== "Select Town/City" &&
+          selectedThana !== "Select Thana"
+        ) {
           setLoading(true);
-          const url = new URL(`${API_URL}`);
-          url.searchParams.append("country", selectedCountry);
-          url.searchParams.append("featureCode", "ADM1");
-          url.searchParams.append("maxRows", "1000");
-          url.searchParams.append("username", USERNAME);
-          const response = await fetch(url.toString());
-          const data = await response.json();
+          const result = ecourierInstance
+            .post(`/postcode-list?city=${selectedCity}&thana=${selectedThana}`)
+            .then((result) => {
+              setPostCode(result?.data?.message);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
 
-          // Assuming the API response data is an array of objects with 'toponymName' property
-          const citiesData = data.geonames.map((city) => city?.toponymName);
-          setCities(citiesData);
+          //   setCities(data);
         }
       } catch (error) {
         console.error("Error fetching cities:", error);
@@ -35,12 +43,12 @@ const usePostCodeFetcherEcourier = () => {
     };
 
     fetchCities();
-  }, [selectedCountry]);
+  }, [selectedCity, selectedThana]);
 
   return {
-    selectedCountry,
-    setSelectedCountry,
-    cities,
+    setSelectedCity,
+    setSelectedThana,
+    postCode,
     loading,
   };
 };

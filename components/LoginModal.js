@@ -324,7 +324,7 @@ const LoginModal = ({ open, setOpen }) => {
                 >
                   sign-In with google{" "}
                 </Button>
-                <Button
+                {/* <Button
                   onClick={() => signInWithFacebook()}
                   variant="outlined"
                   color="background2"
@@ -337,7 +337,7 @@ const LoginModal = ({ open, setOpen }) => {
                   }
                 >
                   sign-In with facebook{" "}
-                </Button>
+                </Button> */}
                 {/* <Button
                   onClick={() => signInWithGoogle()}
                   variant="outlined"

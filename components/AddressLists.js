@@ -29,8 +29,6 @@ const AddressLists = ({
   setOpen,
   getUserAddress,
   setValue,
-  setDistict,
-  setDistict1,
   setTownBilling,
   setTownBillingSh,
   setAddAddressValue,
@@ -95,7 +93,7 @@ const AddressLists = ({
         setValue("phone_billing", data?.phone);
         setValue("email_billing", data?.email);
         setValue("apartment_address_billing", data?.apartment);
-        setDistict(data?.country);
+        
         setTownBilling(data?.city);
         setIsAddressListDataBilling(true);
       } else if (addAddressValue === 2) {
@@ -108,7 +106,7 @@ const AddressLists = ({
         setValue("phone_shipping", data?.phone);
         setValue("email_shipping", data?.email);
         setValue("apartment_address_shipping", data?.apartment);
-        setDistict1(data?.country);
+        
         setTownBillingSh(data?.city);
         setIsAddressListDataShipping(true);
       }

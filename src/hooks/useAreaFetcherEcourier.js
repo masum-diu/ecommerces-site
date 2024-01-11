@@ -1,31 +1,32 @@
 // useCitySelect.js
 import { useState, useEffect } from "react";
-
-const API_URL = "https://secure.geonames.org/searchJSON";
-const USERNAME = "shamimulhaque"; // Replace with your actual Geonames username
-// const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
+import ecourierInstance from "../../pages/api/ecourier_instance";
 
 const useAreaFetcherEcourier = () => {
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [cities, setCities] = useState([]);
+  const [selectedPostCode, setSelectedPostCode] = useState("");
+  const [area, setArea] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        if (selectedCountry) {
+        console.log("selectedCity", selectedPostCode);
+        if (
+          selectedPostCode &&
+          selectedPostCode !== "Select POSTCODE / ZIP" &&
+          selectedPostCode !== ""
+        ) {
           setLoading(true);
-          const url = new URL(`${API_URL}`);
-          url.searchParams.append("country", selectedCountry);
-          url.searchParams.append("featureCode", "ADM1");
-          url.searchParams.append("maxRows", "1000");
-          url.searchParams.append("username", USERNAME);
-          const response = await fetch(url.toString());
-          const data = await response.json();
+          const result = ecourierInstance
+            .post(`/area-list?postcode=${selectedPostCode}`)
+            .then((result) => {
+              setArea(result?.data?.message);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
 
-          // Assuming the API response data is an array of objects with 'toponymName' property
-          const citiesData = data.geonames.map((city) => city?.toponymName);
-          setCities(citiesData);
+          //   setCities(data);
         }
       } catch (error) {
         console.error("Error fetching cities:", error);
@@ -35,12 +36,12 @@ const useAreaFetcherEcourier = () => {
     };
 
     fetchCities();
-  }, [selectedCountry]);
+  }, [selectedPostCode]);
 
   return {
-    selectedCountry,
-    setSelectedCountry,
-    cities,
+    selectedPostCode,
+    setSelectedPostCode,
+    area,
     loading,
   };
 };

@@ -50,6 +50,8 @@ import { useConvertCartData } from "../src/hooks/useConvertCartData";
 import * as fbq from "../lib/fpixel";
 import useCityFetcherEcourier from "../src/hooks/useCityFetcherEcourier";
 import useThanaFetcherEcourier from "../src/hooks/useThanaFetcherEcourier";
+import usePostCodeFetcherEcourier from "../src/hooks/usePostCodeFetcherEcourier";
+import useAreaFetcherEcourier from "../src/hooks/useAreaFetcherEcourier";
 
 const checkout = () => {
   // address popup state start
@@ -65,17 +67,6 @@ const checkout = () => {
   // console.log("your log output", convertedCart);
   // const cart = useSelector((state) => state.cart.cart);
   const [addAddressValue, setAddAddressValue] = useState(0);
-  const [distict, setDistict] = useState("Select Country");
-  const [distict1, setDistict1] = useState("Select Country");
-  const [townBilling, setTownBilling] = useState("Select Town/City");
-  const [townBillingSh, setTownBillingSh] = useState("Select Town/City");
-  const [thanaBilling, setThanaBilling] = useState("Select Thana");
-  const [thanaBillingSh, setThanaBillingSh] = useState("Select Thana");
-  const [postCodeBilling, setPostCodeBilling] = useState("Select Post Code");
-  const [postCodeBillingSh, setPostCodeBillingSh] =
-    useState("Select Post Code");
-  const [areaBilling, setAreaBilling] = useState("Select Area");
-  const [areaBillingSh, setAreaBillingSh] = useState("Select Area");
   const [isSameAddress, setIsSameAddress] = useState(false);
   const [totalFragileCharge, setTotalFragileCharge] = useState(0);
   const [host, setHost] = useState("");
@@ -108,9 +99,6 @@ const checkout = () => {
   const totalPriceWithTaxOrg_after_discount =
     convertedCart.totalPriceWithTaxOrg_after_discount;
 
-  const [isDhakaChecked, setIsDhakaChecked] = useState(false);
-  const [isOutSideChecked, setIsOutSideChecked] = useState(false);
-  const [isFromShowRoomChecked, setIsFromShowRoomChecked] = useState(false);
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [isAgreed, setAgreed] = useState(false);
   const [total, setTotal] = useState(totalPriceWithoutFragile_after_discount);
@@ -139,6 +127,8 @@ const checkout = () => {
   const [showRoomShippingCost, setShowRoomShippingCost] = useState(0);
   const [countryBillingCode, setBillingCountryCode] = useState("");
   const [countryShippingCode, setShippingCountryCode] = useState("");
+  const [allShippingCities, setAllShippingCities] = useState([]);
+  const [allBillingCities, setAllBillingCities] = useState([]);
   const { selectedCurrency, convertPrice, currentConversionRate } =
     useCurrencyConversion();
   const {
@@ -172,7 +162,37 @@ const checkout = () => {
     thanas: shippingThanasEcourier,
     loading: shippingThanaLoadingEcourier,
   } = useThanaFetcherEcourier();
-  console.log("your log output", shippingThanasEcourier);
+  const {
+    selectedCity: selectedCityBillingEcourier,
+    setSelectedCity: setSelectedCityBillingEcourier,
+    thanas: billingThanasEcourier,
+    loading: billingThanaLoadingEcourier,
+  } = useThanaFetcherEcourier();
+  const {
+    setSelectedCity: setSelectedCityForPostCodeShippingEcourier,
+    setSelectedThana: setSelectedThanaForPostCodeShippingEcourier,
+    postCode: shippingPostCodeEcourier,
+    loading: shippingPostCodeLoadingEcourier,
+  } = usePostCodeFetcherEcourier();
+  const {
+    setSelectedCity: setSelectedCityForPostCodeBillingEcourier,
+    setSelectedThana: setSelectedThanaForPostCodeBillingEcourier,
+    postCode: billingPostCodeEcourier,
+    loading: billingPostCodeLoadingEcourier,
+  } = usePostCodeFetcherEcourier();
+  const {
+    selectedPostCode: selectedPostCodeShippingEcourier,
+    setSelectedPostCode: setSelectedPostCodeShippingEcourier,
+    area: shippingAreaEcourier,
+    loading: shippingAreaLoadingEcourier,
+  } = useAreaFetcherEcourier();
+  const {
+    selectedPostCode: selectedPostCodeBillingEcourier,
+    setSelectedPostCode: setSelectedPostCodeBillingEcourier,
+    area: billingAreaEcourier,
+    loading: billingAreaLoadingEcourier,
+  } = useAreaFetcherEcourier();
+  console.log("your log output", shippingAreaEcourier);
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
       {
@@ -249,7 +269,7 @@ const checkout = () => {
     },
     {
       id: 1,
-      innerText: "Pickup from showroom",
+      innerText: "Pickup_from_showroom",
       shippingCost: 0,
     },
     {
@@ -258,14 +278,7 @@ const checkout = () => {
       shippingCost: dhlShippingCost,
     },
   ];
-  // code for if user is not logged in and not guest then open the login popup.
-  /* useEffect(() => {
-    if (isGuestCheckout === false && hasToken === false) {
-      setIsProceedCheckout(true);
-      setLoginModal(true);
-    }
-  }, [isGuestCheckout, hasToken, isProceedCheckout]);
-  */
+
   useEffect(() => {
     if (userOrderError || guestOrderError) {
       toast.error("Oops! Something went wrong. Please try again later.");
@@ -439,34 +452,11 @@ const checkout = () => {
     }
   }, [isPlaceOrder, orderInfo, isGuestCheckout, hasToken]);
   // handling Different Form Events
-  const handleDistict = (event) => {
-    setDistict(event.target.value);
-  };
-  const handleDistict1 = (event) => {
-    setDistict1(event.target.value);
-  };
 
-  const handleDhakaSelected = () => {
-    setIsDhakaChecked(!isDhakaChecked);
-    setIsOutSideChecked(false);
-    setIsFromShowRoomChecked(false);
-  };
-  const handleOutSideDhakaSelected = () => {
-    setIsOutSideChecked(!isOutSideChecked);
-    setIsDhakaChecked(false);
-    setIsFromShowRoomChecked(false);
-  };
-  const handleShowRoomSelected = () => {
-    setIsFromShowRoomChecked(!isFromShowRoomChecked);
-    setIsDhakaChecked(false);
-    setIsOutSideChecked(false);
-  };
   const handleSameAddressSelected = () => {
     setIsSameAddressChecked(!isSameAddressChecked);
   };
-  const handleAgreed = () => {
-    setAgreed(!isAgreed);
-  };
+
   const token = localStorage.getItem("acesstoken");
   const handlePlaceOrder = () => {
     setIsPlaceOrder(true);
@@ -485,17 +475,16 @@ const checkout = () => {
   };
 
   const handleBillingCountry = (country_code) => {
-    setTownBilling("Select Town/City");
     setBillingCountry(country_code);
     setIsAddressListDataBilling(false);
     setValue("deliveryMethod", "");
+    setValue("city_billing", "Select Town/City");
   };
   const handleShippingCountry = (country_code) => {
     setShippingCountry(country_code);
     setIsAddressListDataShipping(false);
-    setTownBillingSh("Select Town/City");
     setValue("deliveryMethod", "");
-    setValue("city_shipping", "");
+    setValue("city_shipping", "Select Town/City");
     setPathaoShippingCost(0);
     setEQuerierShippingCost(0);
     setEQuerierShippingCostOrg(0);
@@ -508,7 +497,7 @@ const checkout = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors,isDirty,touched },
     watch,
     setValue,
     trigger,
@@ -516,22 +505,28 @@ const checkout = () => {
     defaultValues: {
       first_name_billing: "",
       last_name_billing: "",
+      country_billing: "Select Country",
+      city_billing: "Select Town/City",
+      thana_billing: "Select Thana",
+      post_code_billing: "Select POSTCODE / ZIP",
+      area_billing: "Select Area",
       street_address_billing: "",
-      city_billing: "",
-      country_billing: "",
-      post_code_billing: "",
+      apartment_address_billing: "",
       phone_billing: "",
       email_billing: "",
+
       first_name_shipping: "",
       last_name_shipping: "",
+      country_shipping: "Select Country",
+      city_shipping: "Select Town/City",
+      thana_shipping: "Select Thana",
+      post_code_shipping: "Select POSTCODE / ZIP",
+      area_shipping: "Select Area",
       street_address_shipping: "",
-      apartment_address_billing: "",
       apartment_address_shipping: "",
-      city_shipping: "",
-      country_shipping: "",
-      post_code_shipping: "",
       phone_shipping: "",
       email_shipping: "",
+
       orderNote: "",
       isSameAddress: false,
       paymentMethod: "",
@@ -539,75 +534,70 @@ const checkout = () => {
     },
   });
 
-  const handleSelectChange = (event) => {
+  const handleSelectChangeBilling = (event) => {
     setValue("country_billing", event.target.value, { shouldValidate: true });
-    setDistict(event.target.value);
   };
   const handleSelectChangeShipping = (event) => {
     setValue("country_shipping", event.target.value, { shouldValidate: true });
-    setDistict1(event.target.value);
   };
   const handleSelectChangeTownBilling = (event) => {
     setValue("city_billing", event.target.value, { shouldValidate: true });
-    if (!isSameAddressChecked) {
-      setTownBilling(event.target.value);
-    }
   };
   const handleSelectChangeTownShipping = (event) => {
     setValue("city_shipping", event.target.value, { shouldValidate: true });
-    setTownBillingSh(event.target.value);
   };
-
-  useEffect(() => {
-    if (isSameAddressChecked) {
-      setTownBilling(townBilling);
-    }
-    if (!isSameAddressChecked) {
-      setTownBilling("Select Town/City");
-    }
-  }, [isSameAddressChecked]);
+  const handleSelectChangeThanaShipping = (event) => {
+    setValue("thana_shipping", event.target.value, { shouldValidate: true });
+  };
+  const handleSelectChangeThanaBilling = (event) => {
+    setValue("thana_billing", event.target.value, { shouldValidate: true });
+  };
+  const handleSelectChangePostCodeShipping = (event) => {
+    setValue("post_code_shipping", event.target.value, {
+      shouldValidate: true,
+    });
+  };
+  const handleSelectChangePostCodeBilling = (event) => {
+    setValue("post_code_billing", event.target.value, { shouldValidate: true });
+  };
+  const handleSelectChangeAreaShipping = (event) => {
+    setValue("area_shipping", event.target.value, {
+      shouldValidate: true,
+    });
+  };
+  const handleSelectChangeAreaBilling = (event) => {
+    setValue("area_billing", event.target.value, { shouldValidate: true });
+  };
 
   // Delivery System
-  const getShippingOptions = () => {
-    if (showInputField) {
-      if (country === "Bangladesh" || distict === "Bangladesh") {
-        return shippingOptions.filter((option) => option.innerText !== "DHL");
-      } else if (country === "Select Country" || distict === "Select Country") {
-        return;
-      } else {
-        return shippingOptions.filter((option) => option.innerText === "DHL");
-      }
-    } else {
-      if (countrySh === "Bangladesh" || distict1 === "Bangladesh") {
-        return shippingOptions.filter((option) => option.innerText !== "DHL");
-      } else if (
-        countrySh === "Select Country" ||
-        distict1 === "Select Country"
-      ) {
-        return;
-      } else {
-        return shippingOptions.filter((option) => option.innerText === "DHL");
-      }
+  const handleOptionChanged = () => {
+    if (deliveryMethod === "Pickup_from_showroom") {
+      setValue("city_shipping", "Select Town/City");
     }
   };
-
   // Getting Billing Realtime Data
-  const watchSelectInput = watch("country_shipping");
   const firstName = useWatch({ control, name: "first_name_billing" });
   const lastName = useWatch({ control, name: "last_name_billing" });
+  const country = useWatch({ control, name: "country_billing" });
+  const cityAddress = useWatch({ control, name: "city_billing" });
+  const thanaAddress = useWatch({ control, name: "thana_billing" });
+  const postBilling = useWatch({ control, name: "post_code_billing" });
+  const areaAddress = useWatch({ control, name: "area_billing" });
   const streetAddress = useWatch({ control, name: "street_address_billing" });
   const apartmentAddress = useWatch({
     control,
     name: "apartment_address_billing",
   });
-  const cityAddress = useWatch({ control, name: "city_billing" });
-  const country = useWatch({ control, name: "country_billing" });
-  const postBilling = useWatch({ control, name: "post_code_billing" });
   const phoneBilling = useWatch({ control, name: "phone_billing" });
   const emailBilling = useWatch({ control, name: "email_billing" });
 
   const firstNameSh = useWatch({ control, name: "first_name_shipping" });
   const lastNameSh = useWatch({ control, name: "last_name_shipping" });
+  const countrySh = useWatch({ control, name: "country_shipping" });
+  const cityAddressSh = useWatch({ control, name: "city_shipping" });
+  const thanaAddressSh = useWatch({ control, name: "thana_shipping" });
+  const postBillingSh = useWatch({ control, name: "post_code_shipping" });
+  const areaAddressSh = useWatch({ control, name: "area_shipping" });
   const streetAddressSh = useWatch({
     control,
     name: "street_address_shipping",
@@ -616,14 +606,9 @@ const checkout = () => {
     control,
     name: "apartment_address_shipping",
   });
-  const cityAddressSh = useWatch({ control, name: "city_shipping" });
-  const thanaAddressSh = useWatch({ control, name: "thana_shipping" });
-  const postAddressSh = useWatch({ control, name: "post_shipping" });
-  const areaAddressSh = useWatch({ control, name: "area_shipping" });
-  const countrySh = useWatch({ control, name: "country_shipping" });
-  const postBillingSh = useWatch({ control, name: "post_code_shipping" });
   const phoneBillingSh = useWatch({ control, name: "phone_shipping" });
   const emailBillingSh = useWatch({ control, name: "email_shipping" });
+
   const paymentMethod = useWatch({ control, name: "paymentMethod" });
   const deliveryMethod = useWatch({ control, name: "deliveryMethod" });
   const termsAndCondition = useWatch({ control, name: "termsAndConditions" });
@@ -632,7 +617,63 @@ const checkout = () => {
     control,
     name: "orderNote",
   });
-  // console.log("your log output", deliveryMethod);
+
+  const getShippingOptions = () => {
+    if (showInputField) {
+      if (country === "Bangladesh") {
+        return shippingOptions.filter((option) => option.innerText !== "DHL");
+      } else if (country === "Select Country") {
+        return;
+      } else {
+        return shippingOptions.filter((option) => option.innerText === "DHL");
+      }
+    } else {
+      if (countrySh === "Bangladesh") {
+        return shippingOptions.filter((option) => option.innerText !== "DHL");
+      } else if (countrySh === "Select Country") {
+        return;
+      } else {
+        return shippingOptions.filter((option) => option.innerText === "DHL");
+      }
+    }
+  };
+  console.log("cityAddressSh", cityAddressSh);
+  useEffect(() => {
+    if (countrySh === "Bangladesh") {
+      // setValue("city_shipping","Select Town/City")
+      if (deliveryMethod === "E-Courier" || deliveryMethod === "") {
+        setAllShippingCities(shippingCitiesEcourier);
+      } else if (deliveryMethod === "Pickup_from_showroom") {
+        setAllShippingCities(shippingCities);
+      }
+    }
+    if (country === "Bangladesh") {
+      // setValue("city_billing","Select Town/City")
+      if (deliveryMethod === "E-Courier" || deliveryMethod === "") {
+        setAllBillingCities(billingCitiesEcourier);
+      } else if (deliveryMethod === "Pickup_from_showroom") {
+        setAllBillingCities(billingCities);
+      }
+    }
+    if (countrySh !== "Bangladesh") {
+      // setValue("city_shipping","Select Town/City")
+      setAllShippingCities(shippingCities);
+    }
+    if (country !== "Bangladesh") {
+      // setValue("city_billing","Select Town/City")
+      setAllBillingCities(billingCities);
+    }
+  }, [
+    countrySh,
+    country,
+    deliveryMethod,
+    shippingCitiesEcourier,
+    shippingCities,
+    billingCitiesEcourier,
+    billingCities,
+  ]);
+
+  console.log("allBillingCities", allBillingCities);
   useEffect(() => {
     // setValue("deliveryMethod", "");
     setIsAddressListDataShipping(false);
@@ -656,7 +697,7 @@ const checkout = () => {
     } else {
       setTotal(parseFloat(totalPriceWithTax_after_discount.toFixed(2)));
     }
-    if (countrySh === "Bangladesh" || distict1 === "Bangladesh") {
+    if (countrySh === "Bangladesh") {
       if (cityAddressSh) {
         const refinedCity = cityAddressSh.split(" ")[0];
         if (refinedCity === "Dhaka") {
@@ -737,7 +778,7 @@ const checkout = () => {
               );
               setShippingCost(eQuerierShippingCost);
               setShippingCostOrg(eQuerierShippingCostOrg);
-            } else if (deliveryMethod === "Pickup from showroom") {
+            } else if (deliveryMethod === "Pickup_from_showroom") {
               setTotal(
                 parseFloat(
                   (
@@ -827,7 +868,7 @@ const checkout = () => {
               );
               setShippingCost(eQuerierShippingCost);
               setShippingCostOrg(eQuerierShippingCostOrg);
-            } else if (deliveryMethod === "Pickup from showroom") {
+            } else if (deliveryMethod === "Pickup_from_showroom") {
               setTotal(
                 parseFloat(
                   (
@@ -873,15 +914,12 @@ const checkout = () => {
     }
   }, [
     showInputField,
-    townBilling,
-    townBillingSh,
     cityAddressSh,
     cityAddress,
     billingCountry,
     billingCities,
     country,
     countrySh,
-    distict1,
     deliveryMethod,
     eQuerierShippingCost,
     dhlShippingCost,
@@ -935,7 +973,7 @@ const checkout = () => {
   useEffect(() => {
     if (isAddressListDataShipping === false) {
       setSelectedCountryShipping(countryShippingCode);
-      setSelectedCountryShippingEcourier(countryShippingCode);
+      setSelectedCountryShippingEcourier(countrySh);
     }
   }, [countryShippingCode, countrySh, isAddressListDataShipping]);
 
@@ -1001,10 +1039,10 @@ const checkout = () => {
       setValue("city_billing", cityAddressSh);
       setValue("country_billing", countrySh);
       setValue("post_code_billing", postBillingSh);
+      setValue("area_billing", areaAddressSh);
+      setValue("thana_billing", thanaAddressSh);
       setValue("phone_billing", phoneBillingSh);
       setValue("email_billing", emailBillingSh);
-      setDistict(countrySh);
-      setTownBilling(cityAddressSh);
     } else if (
       showInputField === false &&
       isAddressListDataShipping === false
@@ -1013,18 +1051,16 @@ const checkout = () => {
       setValue("last_name_billing", "");
       setValue("street_address_billing", "");
       setValue("apartment_address_billing", "");
-      setValue("city_billing", "");
-      setValue("country_billing", "");
-      setValue("post_code_billing", "");
+      setValue("city_billing", "Select Town/City");
+      setValue("country_billing", "Select Country");
+      setValue("post_code_billing", "Select POSTCODE / ZIP");
+      setValue("area_billing", "Select Area");
+      setValue("thana_billing", "Select Thana");
       setValue("phone_billing", "");
       setValue("email_billing", "");
-      setDistict("Select Country");
-      setTownBilling("Select Town/City");
     }
   }, [
     showInputField,
-    distict1,
-    townBillingSh,
     cityAddressSh,
     firstNameSh,
     lastNameSh,
@@ -1037,24 +1073,35 @@ const checkout = () => {
     emailBillingSh,
     paymentMethod,
     isSameAddressChecked,
+    deliveryMethod,
   ]);
 
+  // fetch cities
   useEffect(() => {
     setSelectedCountryBilling(billingCountry);
     setSelectedCountryShipping(shippingCountry);
-    setSelectedCountryShippingEcourier(shippingCountry);
+    setSelectedCountryShippingEcourier(countrySh);
+    setSelectedCountryBillingEcourier(country);
+  }, [billingCountry, shippingCountry, country, countrySh]);
+
+  // fetch thana
+  useEffect(() => {
     setSelectedCityShippingEcourier(cityAddressSh);
-  }, [
-    billingCountry,
-    shippingCountry,
-    shippingCities,
-    billingCities,
-    billingCountry,
-    shippingCountry,
-    country,
-    countrySh,
-    cityAddressSh,
-  ]);
+    setSelectedCityBillingEcourier(cityAddress);
+  }, [cityAddressSh, cityAddress]);
+  // fetch post code
+  useEffect(() => {
+    setSelectedCityForPostCodeShippingEcourier(cityAddressSh);
+    setSelectedThanaForPostCodeShippingEcourier(thanaAddressSh);
+    setSelectedCityForPostCodeBillingEcourier(cityAddress);
+    setSelectedThanaForPostCodeBillingEcourier(thanaAddress);
+  }, [cityAddressSh, thanaAddressSh, cityAddress, thanaAddress]);
+  // fetch area
+  useEffect(() => {
+    setSelectedPostCodeShippingEcourier(postBillingSh);
+    setSelectedPostCodeBillingEcourier(postBilling);
+  }, [postBillingSh, postBilling]);
+
   useEffect(() => {
     if (showInputField === true) {
       setShowCashOnDelivery(country);
@@ -1077,8 +1124,16 @@ const checkout = () => {
         firstNameSh &&
         lastNameSh &&
         streetAddressSh &&
-        cityAddressSh &&
-        countrySh &&
+        cityAddressSh !== "Select Town/City" &&
+        cityAddressSh !== "" &&
+        countrySh !== "Select Country" &&
+        countrySh !== "" &&
+        thanaAddressSh !== "Select Thana" &&
+        thanaAddressSh !== "" &&
+        postBillingSh !== "Select POSTCODE / ZIP" &&
+        postBillingSh !== "" &&
+        areaAddressSh !== "Select Area" &&
+        areaAddressSh !== "" &&
         phoneBillingSh &&
         emailBillingSh &&
         deliveryMethod &&
@@ -1094,8 +1149,16 @@ const checkout = () => {
         firstNameSh &&
         lastNameSh &&
         streetAddressSh &&
-        cityAddressSh &&
-        countrySh &&
+        cityAddressSh !== "Select Town/City" &&
+        cityAddressSh !== "" &&
+        countrySh !== "Select Country" &&
+        countrySh !== "" &&
+        thanaAddressSh !== "Select Thana" &&
+        thanaAddressSh !== "" &&
+        postBillingSh !== "Select POSTCODE / ZIP" &&
+        postBillingSh !== "" &&
+        areaAddressSh !== "Select Area" &&
+        areaAddressSh !== "" &&
         phoneBillingSh &&
         emailBillingSh &&
         deliveryMethod &&
@@ -1112,15 +1175,31 @@ const checkout = () => {
         firstName &&
         lastName &&
         streetAddress &&
-        cityAddress &&
-        country &&
+        cityAddress !== "Select Town/City" &&
+        cityAddress !== "" &&
+        country !== "Select Country" &&
+        country !== "" &&
+        thanaAddress !== "Select Thana" &&
+        thanaAddress !== "" &&
+        postBilling !== "Select POSTCODE / ZIP" &&
+        postBilling !== "" &&
+        areaAddress !== "Select Area" &&
+        areaAddress !== "" &&
         phoneBilling &&
         emailBilling &&
         firstNameSh &&
         lastNameSh &&
         streetAddressSh &&
-        cityAddressSh &&
-        countrySh &&
+        cityAddressSh !== "Select Town/City" &&
+        cityAddressSh !== "" &&
+        countrySh !== "Select Country" &&
+        countrySh !== "" &&
+        thanaAddressSh !== "Select Thana" &&
+        thanaAddressSh !== "" &&
+        postBillingSh !== "Select POSTCODE / ZIP" &&
+        postBillingSh !== "" &&
+        areaAddressSh !== "Select Area" &&
+        areaAddressSh !== "" &&
         phoneBillingSh &&
         emailBillingSh &&
         deliveryMethod &&
@@ -1152,6 +1231,12 @@ const checkout = () => {
     emailBillingSh,
     orderNote,
     errors,
+    thanaAddress,
+    postBilling,
+    areaAddress,
+    thanaAddressSh,
+    postBillingSh,
+    areaAddressSh,
     paymentMethod,
     termsAndCondition,
     isPlaceOrder,
@@ -1317,7 +1402,7 @@ const checkout = () => {
                       error={Boolean(errors.country_shipping)}
                       id="country_shipping"
                       size="small"
-                      value={distict1}
+                      value={countrySh}
                       onChange={handleSelectChangeShipping}
                     >
                       <MenuItem value={"Select Country"} disabled>
@@ -1364,39 +1449,78 @@ const checkout = () => {
                         />
                       </Stack>
                     ) : (
-                      <Select
-                        autoComplete="off"
-                        {...register("city_shipping", {
-                          required: {
-                            value: true,
-                            message: "Town/City is Required",
-                          },
-                        })}
-                        sx={customStyle}
-                        onClick={() => trigger("city_shipping")}
-                        error={Boolean(errors.city_shipping)}
-                        id="city_shipping"
-                        size="small"
-                        value={townBillingSh}
-                        onChange={handleSelectChangeTownShipping}
-                      >
-                        <MenuItem value={"Select Town/City"} disabled>
-                          Select Town/City
-                        </MenuItem>
-                        {isAddressListDataShipping === true ? (
-                          <MenuItem value={townBillingSh}>
-                            {townBillingSh}
-                          </MenuItem>
-                        ) : shippingCitiesEcourier ? (
-                          shippingCitiesEcourier.map((towns) => (
-                            <MenuItem value={towns?.value}>
-                              {towns?.value}
+                      <>
+                        {(deliveryMethod === "" ||
+                          deliveryMethod === "E-Courier") &&
+                        countrySh === "Bangladesh" ? (
+                          <Select
+                            autoComplete="off"
+                            {...register("city_shipping", {
+                              required: {
+                                value: true,
+                                message: "Town/City is Required",
+                              },
+                            })}
+                            sx={customStyle}
+                            onBlur={() => trigger("city_shipping")}
+                            error={Boolean(errors.city_shipping)}
+                            id="city_shipping"
+                            size="small"
+                            value={cityAddressSh}
+                            onChange={handleSelectChangeTownShipping}
+                          >
+                            <MenuItem value={"Select Town/City"} disabled>
+                              Select Town/City
                             </MenuItem>
-                          ))
+                            {isAddressListDataShipping === true ? (
+                              <MenuItem value={cityAddressSh}>
+                                {cityAddressSh}
+                              </MenuItem>
+                            ) : allShippingCities ? (
+                              allShippingCities.map((towns) => (
+                                <MenuItem value={towns?.value}>
+                                  {towns?.value}
+                                </MenuItem>
+                              ))
+                            ) : (
+                              ""
+                            )}
+                          </Select>
                         ) : (
-                          ""
+                          <Select
+                            autoComplete="off"
+                            {...register("city_shipping", {
+                              required: {
+                                value: true,
+                                message: "Town/City is Required",
+                              },
+                            })}
+                            sx={customStyle}
+                            onBlur={() => trigger("city_shipping")}
+                            error={Boolean(errors.city_shipping)}
+                            id="city_shipping"
+                            size="small"
+                            placeholder="Select Town/City"
+                            value={cityAddressSh}
+                            onChange={handleSelectChangeTownShipping}
+                          >
+                            <MenuItem value={"Select Town/City"} disabled>
+                              Select Town/City
+                            </MenuItem>
+                            {isAddressListDataShipping === true ? (
+                              <MenuItem value={cityAddressSh}>
+                                {cityAddressSh}
+                              </MenuItem>
+                            ) : allShippingCities ? (
+                              allShippingCities?.map((towns) => (
+                                <MenuItem value={towns}>{towns}</MenuItem>
+                              ))
+                            ) : (
+                              ""
+                            )}
+                          </Select>
                         )}
-                      </Select>
+                      </>
                     )}
 
                     {errors.city_shipping && isSameAddressChecked === false && (
@@ -1427,35 +1551,65 @@ const checkout = () => {
                         />
                       </Stack>
                     ) : (
-                      <Select
-                        autoComplete="off"
-                        {...register("thana_shipping", {
-                          required: {
-                            value: true,
-                            message: "Thana is Required",
-                          },
-                        })}
-                        sx={customStyle}
-                        onClick={() => trigger("thana_shipping")}
-                        error={Boolean(errors.thana_shipping)}
-                        id="thana_shipping"
-                        size="small"
-                        value={thanaBillingSh}
-                        onChange={handleSelectChangeTownShipping}
-                      >
-                        <MenuItem value={"Select Thana"} disabled>
-                          Select Thana
-                        </MenuItem>
-                        {isAddressListDataShipping === true ? (
-                          <MenuItem value={thanaBillingSh}>
-                            {thanaBillingSh}
-                          </MenuItem>
+                      <>
+                        {(deliveryMethod === "" ||
+                          deliveryMethod === "E-Courier") &&
+                        countrySh === "Bangladesh" ? (
+                          <Select
+                            autoComplete="off"
+                            {...register("thana_shipping", {
+                              required: {
+                                value: true,
+                                message: "Thana is Required",
+                              },
+                            })}
+                            sx={customStyle}
+                            onClick={() => trigger("thana_shipping")}
+                            error={Boolean(errors.thana_shipping)}
+                            id="thana_shipping"
+                            size="small"
+                            value={thanaAddressSh}
+                            onChange={handleSelectChangeThanaShipping}
+                          >
+                            <MenuItem value={"Select Thana"} disabled>
+                              Select Thana
+                            </MenuItem>
+                            {isAddressListDataShipping === true ? (
+                              <MenuItem value={thanaAddressSh}>
+                                {thanaAddressSh}
+                              </MenuItem>
+                            ) : (
+                              shippingThanasEcourier?.map((thana) => (
+                                <MenuItem value={thana?.value}>
+                                  {thana?.value}
+                                </MenuItem>
+                              ))
+                            )}
+                          </Select>
                         ) : (
-                          shippingThanasEcourier?.map((towns) => (
-                            <MenuItem value={towns?.value}>{towns?.value}</MenuItem>
-                          ))
+                          <TextField
+                            autoComplete="off"
+                            {...register("thana_shipping", {
+                              required: {
+                                value: true,
+                                message: "Thana Address Required",
+                              },
+                            })}
+                            onKeyUp={() => trigger("thana_shipping")}
+                            error={Boolean(errors.thana_shipping)}
+                            // onChange={}
+
+                            placeholder={
+                              isSameAddressChecked === false
+                                ? "Enter Thana"
+                                : streetAddress
+                            }
+                            // placeholder="House Number and street name"
+                            size="small"
+                            sx={customStyle}
+                          />
                         )}
-                      </Select>
+                      </>
                     )}
 
                     {errors.thana_shipping &&
@@ -1471,7 +1625,7 @@ const checkout = () => {
                     <Typography variant="cardHeader1" color="initial">
                       POSTCODE / ZIP (OPTIONAL)
                     </Typography>
-                    {shippingCityLoading ? (
+                    {shippingPostCodeLoadingEcourier ? (
                       <Stack
                         border={"1px solid gray"}
                         borderRadius={"5px"}
@@ -1480,49 +1634,80 @@ const checkout = () => {
                         alignItems={"center"}
                       >
                         <Typography sx={{ marginLeft: "10px" }}>
-                          Collecting Cities
+                          Collecting POSTCODE / ZIP
                         </Typography>
                         <CircularProgress
                           sx={{ color: "#3C5676", marginRight: "10px" }}
                         />
                       </Stack>
                     ) : (
-                      <Select
-                        autoComplete="off"
-                        {...register("city_shipping", {
-                          required: {
-                            value: true,
-                            message: "Town/City is Required",
-                          },
-                        })}
-                        sx={customStyle}
-                        onClick={() => trigger("city_shipping")}
-                        error={Boolean(errors.city_shipping)}
-                        id="city_shipping"
-                        size="small"
-                        value={townBillingSh}
-                        onChange={handleSelectChangeTownShipping}
-                      >
-                        <MenuItem value={"Select Town/City"} disabled>
-                          Select Town/City
-                        </MenuItem>
-                        {isAddressListDataShipping === true ? (
-                          <MenuItem value={townBillingSh}>
-                            {townBillingSh}
-                          </MenuItem>
+                      <>
+                        {(deliveryMethod === "" ||
+                          deliveryMethod === "E-Courier") &&
+                        countrySh === "Bangladesh" ? (
+                          <Select
+                            autoComplete="off"
+                            {...register("post_code_shipping", {
+                              required: {
+                                value: true,
+                                message: "PostCode / ZIP is Required",
+                              },
+                            })}
+                            sx={customStyle}
+                            onClick={() => trigger("post_code_shipping")}
+                            error={Boolean(errors.post_code_shipping)}
+                            id="post_code_shipping"
+                            size="small"
+                            value={postBillingSh}
+                            onChange={handleSelectChangePostCodeShipping}
+                          >
+                            <MenuItem value={"Select POSTCODE / ZIP"} disabled>
+                              Select POSTCODE / ZIP
+                            </MenuItem>
+                            {isAddressListDataShipping === true ? (
+                              <MenuItem value={postBillingSh}>
+                                {postBillingSh}
+                              </MenuItem>
+                            ) : (
+                              shippingPostCodeEcourier?.map((postCode) => (
+                                <MenuItem value={postCode.value}>
+                                  {postCode.name}
+                                </MenuItem>
+                              ))
+                            )}
+                          </Select>
                         ) : (
-                          shippingCitiesEcourier?.map((towns) => (
-                            <MenuItem value={towns}>{towns}</MenuItem>
-                          ))
+                          <TextField
+                            autoComplete="off"
+                            {...register("post_code_shipping", {
+                              required: {
+                                value: true,
+                                message: "Post/ZIP Code is Required",
+                              },
+                            })}
+                            onKeyUp={() => trigger("post_code_shipping")}
+                            error={Boolean(errors.post_code_shipping)}
+                            // onChange={}
+
+                            placeholder={
+                              isSameAddressChecked === false
+                                ? "Enter Post/ZIP Code"
+                                : streetAddress
+                            }
+                            // placeholder="House Number and street name"
+                            size="small"
+                            sx={customStyle}
+                          />
                         )}
-                      </Select>
+                      </>
                     )}
 
-                    {errors.city_shipping && isSameAddressChecked === false && (
-                      <p style={{ color: "red" }}>
-                        {errors.city_shipping?.message}
-                      </p>
-                    )}
+                    {errors.post_code_shipping &&
+                      isSameAddressChecked === false && (
+                        <p style={{ color: "red" }}>
+                          {errors.post_code_shipping?.message}
+                        </p>
+                      )}
                   </Stack>
 
                   {/* area code name */}
@@ -1530,7 +1715,7 @@ const checkout = () => {
                     <Typography variant="cardHeader1" color="initial">
                       AREA *
                     </Typography>
-                    {shippingCityLoading ? (
+                    {shippingAreaLoadingEcourier ? (
                       <Stack
                         border={"1px solid gray"}
                         borderRadius={"5px"}
@@ -1539,47 +1724,77 @@ const checkout = () => {
                         alignItems={"center"}
                       >
                         <Typography sx={{ marginLeft: "10px" }}>
-                          Collecting Cities
+                          Collecting Areas
                         </Typography>
                         <CircularProgress
                           sx={{ color: "#3C5676", marginRight: "10px" }}
                         />
                       </Stack>
                     ) : (
-                      <Select
-                        autoComplete="off"
-                        {...register("city_shipping", {
-                          required: {
-                            value: true,
-                            message: "Town/City is Required",
-                          },
-                        })}
-                        sx={customStyle}
-                        onClick={() => trigger("city_shipping")}
-                        error={Boolean(errors.city_shipping)}
-                        id="city_shipping"
-                        size="small"
-                        value={townBillingSh}
-                        onChange={handleSelectChangeTownShipping}
-                      >
-                        <MenuItem value={"Select Town/City"} disabled>
-                          Select Town/City
-                        </MenuItem>
-                        {isAddressListDataShipping === true ? (
-                          <MenuItem value={townBillingSh}>
-                            {townBillingSh}
-                          </MenuItem>
+                      <>
+                        {(deliveryMethod === "" ||
+                          deliveryMethod === "E-Courier") &&
+                        countrySh === "Bangladesh" ? (
+                          <Select
+                            autoComplete="off"
+                            {...register("area_shipping", {
+                              required: {
+                                value: true,
+                                message: "Area is Required",
+                              },
+                            })}
+                            sx={customStyle}
+                            onClick={() => trigger("area_shipping")}
+                            error={Boolean(errors.area_shipping)}
+                            id="area_shipping"
+                            size="small"
+                            value={areaAddressSh}
+                            onChange={handleSelectChangeAreaShipping}
+                          >
+                            <MenuItem value={"Select Area"} disabled>
+                              Select Area
+                            </MenuItem>
+                            {isAddressListDataShipping === true ? (
+                              <MenuItem value={areaAddressSh}>
+                                {areaAddressSh}
+                              </MenuItem>
+                            ) : (
+                              shippingAreaEcourier?.map((area) => (
+                                <MenuItem value={area.value}>
+                                  {area.name}
+                                </MenuItem>
+                              ))
+                            )}
+                          </Select>
                         ) : (
-                          shippingCitiesEcourier?.map((towns) => (
-                            <MenuItem value={towns}>{towns}</MenuItem>
-                          ))
+                          <TextField
+                            autoComplete="off"
+                            {...register("area_shipping", {
+                              required: {
+                                value: true,
+                                message: "Area is Required",
+                              },
+                            })}
+                            onKeyUp={() => trigger("area_shipping")}
+                            error={Boolean(errors.area_shipping)}
+                            // onChange={}
+
+                            placeholder={
+                              isSameAddressChecked === false
+                                ? "Enter Area Name"
+                                : streetAddress
+                            }
+                            // placeholder="House Number and street name"
+                            size="small"
+                            sx={customStyle}
+                          />
                         )}
-                      </Select>
+                      </>
                     )}
 
-                    {errors.city_shipping && isSameAddressChecked === false && (
+                    {errors.area_shipping && isSameAddressChecked === false && (
                       <p style={{ color: "red" }}>
-                        {errors.city_shipping?.message}
+                        {errors.area_shipping?.message}
                       </p>
                     )}
                   </Stack>
@@ -1590,9 +1805,6 @@ const checkout = () => {
                       STREET ADDRESS *
                     </Typography>
                     <TextField
-                      // id=""
-                      // label=""
-                      // value={}
                       autoComplete="off"
                       {...register("street_address_shipping", {
                         required: {
@@ -1894,9 +2106,9 @@ const checkout = () => {
                       error={Boolean(errors.country_billing)}
                       size="small"
                       value={
-                        isSameAddressChecked === false ? distict : distict1
+                        isSameAddressChecked === false ? country : countrySh
                       }
-                      onChange={handleSelectChange}
+                      onChange={handleSelectChangeBilling}
                     >
                       <MenuItem value={"Select Country"} disabled>
                         Select Country
@@ -1935,7 +2147,7 @@ const checkout = () => {
                       TOWN / CITY *
                     </Typography>
 
-                    {billingCityLoading ? (
+                    {billingCityLoadingEcourier ? (
                       <Stack
                         border={"1px solid gray"}
                         borderRadius={"5px"}
@@ -1951,45 +2163,99 @@ const checkout = () => {
                         />
                       </Stack>
                     ) : (
-                      <Select
-                        id="city_billing"
-                        {...register("city_billing", {
-                          required: {
-                            value:
-                              isSameAddressChecked === false &&
-                              paymentMethod === "online"
-                                ? true
-                                : false,
-                            message: "Town/City is Required",
-                          },
-                        })}
-                        disabled={isSameAddressChecked === false ? false : true}
-                        onClick={() => trigger("city_billing")}
-                        error={Boolean(errors.city_billing)}
-                        size="small"
-                        value={
-                          isSameAddressChecked === false
-                            ? townBilling
-                            : townBillingSh
-                        }
-                        sx={customStyle}
-                        onChange={handleSelectChangeTownBilling}
-                      >
-                        <MenuItem value={"Select Town/City"} disabled>
-                          Select Town/City
-                        </MenuItem>
-                        {isSameAddressChecked === true ? (
-                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
-                        ) : isAddressListDataBilling ? (
-                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                      <>
+                        {(deliveryMethod === "" ||
+                          deliveryMethod === "E-Courier") &&
+                        country === "Bangladesh" ? (
+                          <Select
+                            autoComplete="off"
+                            {...register("city_billing", {
+                              required: {
+                                value:
+                                  isSameAddressChecked === false &&
+                                  paymentMethod === "online"
+                                    ? true
+                                    : false,
+                                message: "Town/City is Required",
+                              },
+                            })}
+                            disabled={
+                              isSameAddressChecked === false ? false : true
+                            }
+                            sx={customStyle}
+                            onClick={() => trigger("city_billing")}
+                            error={Boolean(errors.city_billing)}
+                            id="city_billing"
+                            size="small"
+                            value={
+                              isSameAddressChecked === false
+                                ? cityAddress
+                                : cityAddressSh
+                            }
+                            onChange={handleSelectChangeTownBilling}
+                          >
+                            <MenuItem value={"Select Town/City"} disabled>
+                              Select Town/City
+                            </MenuItem>
+                            {isAddressListDataBilling === true ? (
+                              <MenuItem value={cityAddress}>
+                                {cityAddress}
+                              </MenuItem>
+                            ) : allBillingCities ? (
+                              allBillingCities.map((towns) => (
+                                <MenuItem value={towns?.value}>
+                                  {towns?.value}
+                                </MenuItem>
+                              ))
+                            ) : (
+                              ""
+                            )}
+                          </Select>
                         ) : (
-                          billingCities?.map((towns) => (
-                            <MenuItem value={towns}>{towns}</MenuItem>
-                          ))
+                          <Select
+                            autoComplete="off"
+                            {...register("city_billing", {
+                              required: {
+                                value:
+                                  isSameAddressChecked === false &&
+                                  paymentMethod === "online"
+                                    ? true
+                                    : false,
+                                message: "Town/City is Required",
+                              },
+                            })}
+                            sx={customStyle}
+                            onClick={() => trigger("city_billing")}
+                            error={Boolean(errors.city_billing)}
+                            id="city_billing"
+                            size="small"
+                            disabled={
+                              isSameAddressChecked === false ? false : true
+                            }
+                            value={
+                              isSameAddressChecked === false
+                                ? cityAddress
+                                : cityAddressSh
+                            }
+                            onChange={handleSelectChangeTownBilling}
+                          >
+                            <MenuItem value={"Select Town/City"} disabled>
+                              Select Town/City
+                            </MenuItem>
+                            {isAddressListDataBilling === true ? (
+                              <MenuItem value={cityAddress}>
+                                {cityAddress}
+                              </MenuItem>
+                            ) : allBillingCities ? (
+                              allBillingCities?.map((towns) => (
+                                <MenuItem value={towns}>{towns}</MenuItem>
+                              ))
+                            ) : (
+                              ""
+                            )}
+                          </Select>
                         )}
-
-                        {/* <MenuItem value={"India"}>India</MenuItem> */}
-                      </Select>
+                      </>
                     )}
 
                     {errors.city_billing && (
@@ -2011,7 +2277,7 @@ const checkout = () => {
                       THANA *
                     </Typography>
 
-                    {billingCityLoading ? (
+                    {billingThanaLoadingEcourier ? (
                       <Stack
                         border={"1px solid gray"}
                         borderRadius={"5px"}
@@ -2020,57 +2286,94 @@ const checkout = () => {
                         alignItems={"center"}
                       >
                         <Typography sx={{ marginLeft: "10px" }}>
-                          Collecting Cities
+                          Collecting Thana
                         </Typography>
                         <CircularProgress
                           sx={{ color: "#3C5676", marginRight: "10px" }}
                         />
                       </Stack>
                     ) : (
-                      <Select
-                        id="city_billing"
-                        {...register("city_billing", {
-                          required: {
-                            value:
-                              isSameAddressChecked === false &&
-                              paymentMethod === "online"
-                                ? true
-                                : false,
-                            message: "Town/City is Required",
-                          },
-                        })}
-                        disabled={isSameAddressChecked === false ? false : true}
-                        onClick={() => trigger("city_billing")}
-                        error={Boolean(errors.city_billing)}
-                        size="small"
-                        value={
-                          isSameAddressChecked === false
-                            ? townBilling
-                            : townBillingSh
-                        }
-                        sx={customStyle}
-                        onChange={handleSelectChangeTownBilling}
-                      >
-                        <MenuItem value={"Select Town/City"} disabled>
-                          Select Town/City
-                        </MenuItem>
-                        {isSameAddressChecked === true ? (
-                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
-                        ) : isAddressListDataBilling ? (
-                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                      <>
+                        {(deliveryMethod === "" ||
+                          deliveryMethod === "E-Courier") &&
+                        country === "Bangladesh" ? (
+                          <Select
+                            autoComplete="off"
+                            {...register("thana_billing", {
+                              required: {
+                                value:
+                                  isSameAddressChecked === false &&
+                                  paymentMethod === "online"
+                                    ? true
+                                    : false,
+                                message: "Thana is Required",
+                              },
+                            })}
+                            sx={customStyle}
+                            onClick={() => trigger("thana_billing")}
+                            error={Boolean(errors.thana_billing)}
+                            id="thana_billing"
+                            size="small"
+                            disabled={
+                              isSameAddressChecked === false ? false : true
+                            }
+                            value={
+                              isSameAddressChecked === false
+                                ? thanaAddress
+                                : thanaAddressSh
+                            }
+                            onChange={handleSelectChangeThanaBilling}
+                          >
+                            <MenuItem value={"Select Thana"} disabled>
+                              Select Thana
+                            </MenuItem>
+                            {isAddressListDataShipping === true ? (
+                              <MenuItem value={thanaAddress}>
+                                {thanaAddress}
+                              </MenuItem>
+                            ) : (
+                              billingThanasEcourier?.map((thana) => (
+                                <MenuItem value={thana?.value}>
+                                  {thana?.value}
+                                </MenuItem>
+                              ))
+                            )}
+                          </Select>
                         ) : (
-                          billingCities?.map((towns) => (
-                            <MenuItem value={towns}>{towns}</MenuItem>
-                          ))
+                          <TextField
+                            autoComplete="off"
+                            {...register("thana_billing", {
+                              required: {
+                                value:
+                                  isSameAddressChecked === false &&
+                                  paymentMethod === "online"
+                                    ? true
+                                    : false,
+                                message: "Thana Address Required",
+                              },
+                            })}
+                            onKeyUp={() => trigger("thana_billing")}
+                            error={Boolean(errors.thana_billing)}
+                            // onChange={}
+                            disabled={
+                              isSameAddressChecked === false ? false : true
+                            }
+                            placeholder={
+                              isSameAddressChecked === false
+                                ? "Enter Thana"
+                                : thanaAddress
+                            }
+                            // placeholder="House Number and street name"
+                            size="small"
+                            sx={customStyle}
+                          />
                         )}
-
-                        {/* <MenuItem value={"India"}>India</MenuItem> */}
-                      </Select>
+                      </>
                     )}
 
-                    {errors.city_billing && (
+                    {errors.thana_billing && (
                       <p style={{ color: "red" }}>
-                        {errors.city_billing?.message}
+                        {errors.thana_billing?.message}
                       </p>
                     )}
                   </Stack>
@@ -2087,7 +2390,7 @@ const checkout = () => {
                       POSTCODE / ZIP (OPTIONAL)
                     </Typography>
 
-                    {billingCityLoading ? (
+                    {billingPostCodeLoadingEcourier ? (
                       <Stack
                         border={"1px solid gray"}
                         borderRadius={"5px"}
@@ -2096,62 +2399,99 @@ const checkout = () => {
                         alignItems={"center"}
                       >
                         <Typography sx={{ marginLeft: "10px" }}>
-                          Collecting Cities
+                          Collecting POSTCODE / ZIP
                         </Typography>
                         <CircularProgress
                           sx={{ color: "#3C5676", marginRight: "10px" }}
                         />
                       </Stack>
                     ) : (
-                      <Select
-                        id="city_billing"
-                        {...register("city_billing", {
-                          required: {
-                            value:
-                              isSameAddressChecked === false &&
-                              paymentMethod === "online"
-                                ? true
-                                : false,
-                            message: "Town/City is Required",
-                          },
-                        })}
-                        disabled={isSameAddressChecked === false ? false : true}
-                        onClick={() => trigger("city_billing")}
-                        error={Boolean(errors.city_billing)}
-                        size="small"
-                        value={
-                          isSameAddressChecked === false
-                            ? townBilling
-                            : townBillingSh
-                        }
-                        sx={customStyle}
-                        onChange={handleSelectChangeTownBilling}
-                      >
-                        <MenuItem value={"Select Town/City"} disabled>
-                          Select Town/City
-                        </MenuItem>
-                        {isSameAddressChecked === true ? (
-                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
-                        ) : isAddressListDataBilling ? (
-                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                      <>
+                        {(deliveryMethod === "" ||
+                          deliveryMethod === "E-Courier") &&
+                        country === "Bangladesh" ? (
+                          <Select
+                            autoComplete="off"
+                            {...register("post_code_billing", {
+                              required: {
+                                value:
+                                  isSameAddressChecked === false &&
+                                  paymentMethod === "online"
+                                    ? true
+                                    : false,
+                                message: "PostCode / ZIP is Required",
+                              },
+                            })}
+                            sx={customStyle}
+                            onClick={() => trigger("post_code_billing")}
+                            error={Boolean(errors.post_code_billing)}
+                            id="post_code_billing"
+                            size="small"
+                            disabled={
+                              isSameAddressChecked === false ? false : true
+                            }
+                            value={
+                              isSameAddressChecked === false
+                                ? postBilling
+                                : postBillingSh
+                            }
+                            onChange={handleSelectChangePostCodeBilling}
+                          >
+                            <MenuItem value={"Select POSTCODE / ZIP"} disabled>
+                              Select POSTCODE / ZIP
+                            </MenuItem>
+                            {isAddressListDataShipping === true ? (
+                              <MenuItem value={postBilling}>
+                                {postBilling}
+                              </MenuItem>
+                            ) : (
+                              billingPostCodeEcourier?.map((postCode) => (
+                                <MenuItem value={postCode.value}>
+                                  {postCode.name}
+                                </MenuItem>
+                              ))
+                            )}
+                          </Select>
                         ) : (
-                          billingCities?.map((towns) => (
-                            <MenuItem value={towns}>{towns}</MenuItem>
-                          ))
-                        )}
+                          <TextField
+                            autoComplete="off"
+                            {...register("post_code_billing", {
+                              required: {
+                                value:
+                                  isSameAddressChecked === false &&
+                                  paymentMethod === "online"
+                                    ? true
+                                    : false,
+                                message: "Post/ZIP Code is Required",
+                              },
+                            })}
+                            onKeyUp={() => trigger("post_code_billing")}
+                            error={Boolean(errors.post_code_billing)}
+                            // onChange={}
 
-                        {/* <MenuItem value={"India"}>India</MenuItem> */}
-                      </Select>
+                            placeholder={
+                              isSameAddressChecked === false
+                                ? "Enter Post/ZIP Code"
+                                : postBilling
+                            }
+                            disabled={
+                              isSameAddressChecked === false ? false : true
+                            }
+                            size="small"
+                            sx={customStyle}
+                          />
+                        )}
+                      </>
                     )}
 
-                    {errors.city_billing && (
+                    {errors.post_code_billing && (
                       <p style={{ color: "red" }}>
-                        {errors.city_billing?.message}
+                        {errors.post_code_billing?.message}
                       </p>
                     )}
                   </Stack>
 
-                  {/* post code name */}
+                  {/* area code name */}
                   <Stack
                     direction={"column"}
                     spacing={2}
@@ -2163,7 +2503,7 @@ const checkout = () => {
                       AREA *
                     </Typography>
 
-                    {billingCityLoading ? (
+                    {billingAreaLoadingEcourier ? (
                       <Stack
                         border={"1px solid gray"}
                         borderRadius={"5px"}
@@ -2172,57 +2512,93 @@ const checkout = () => {
                         alignItems={"center"}
                       >
                         <Typography sx={{ marginLeft: "10px" }}>
-                          Collecting Cities
+                          Collecting Areas
                         </Typography>
                         <CircularProgress
                           sx={{ color: "#3C5676", marginRight: "10px" }}
                         />
                       </Stack>
                     ) : (
-                      <Select
-                        id="city_billing"
-                        {...register("city_billing", {
-                          required: {
-                            value:
-                              isSameAddressChecked === false &&
-                              paymentMethod === "online"
-                                ? true
-                                : false,
-                            message: "Town/City is Required",
-                          },
-                        })}
-                        disabled={isSameAddressChecked === false ? false : true}
-                        onClick={() => trigger("city_billing")}
-                        error={Boolean(errors.city_billing)}
-                        size="small"
-                        value={
-                          isSameAddressChecked === false
-                            ? townBilling
-                            : townBillingSh
-                        }
-                        sx={customStyle}
-                        onChange={handleSelectChangeTownBilling}
-                      >
-                        <MenuItem value={"Select Town/City"} disabled>
-                          Select Town/City
-                        </MenuItem>
-                        {isSameAddressChecked === true ? (
-                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
-                        ) : isAddressListDataBilling ? (
-                          <MenuItem value={townBilling}>{townBilling}</MenuItem>
+                      <>
+                        {(deliveryMethod === "" ||
+                          deliveryMethod === "E-Courier") &&
+                        country === "Bangladesh" ? (
+                          <Select
+                            autoComplete="off"
+                            {...register("area_billing", {
+                              required: {
+                                value:
+                                  isSameAddressChecked === false &&
+                                  paymentMethod === "online"
+                                    ? true
+                                    : false,
+                                message: "Area is Required",
+                              },
+                            })}
+                            sx={customStyle}
+                            onClick={() => trigger("area_billing")}
+                            error={Boolean(errors.area_billing)}
+                            id="area_billing"
+                            size="small"
+                            disabled={
+                              isSameAddressChecked === false ? false : true
+                            }
+                            value={
+                              isSameAddressChecked === false
+                                ? areaAddress
+                                : areaAddressSh
+                            }
+                            onChange={handleSelectChangeAreaBilling}
+                          >
+                            <MenuItem value={"Select Area"} disabled>
+                              Select Area
+                            </MenuItem>
+                            {isAddressListDataShipping === true ? (
+                              <MenuItem value={areaAddress}>
+                                {areaAddress}
+                              </MenuItem>
+                            ) : (
+                              billingAreaEcourier?.map((area) => (
+                                <MenuItem value={area.value}>
+                                  {area.name}
+                                </MenuItem>
+                              ))
+                            )}
+                          </Select>
                         ) : (
-                          billingCities?.map((towns) => (
-                            <MenuItem value={towns}>{towns}</MenuItem>
-                          ))
+                          <TextField
+                            autoComplete="off"
+                            {...register("area_billing", {
+                              required: {
+                                value:
+                                  isSameAddressChecked === false &&
+                                  paymentMethod === "online"
+                                    ? true
+                                    : false,
+                                message: "Area is Required",
+                              },
+                            })}
+                            onKeyUp={() => trigger("area_billing")}
+                            error={Boolean(errors.area_billing)}
+                            disabled={
+                              isSameAddressChecked === false ? false : true
+                            }
+                            placeholder={
+                              isSameAddressChecked === false
+                                ? "Enter Area Name"
+                                : areaAddress
+                            }
+                            // placeholder="House Number and street name"
+                            size="small"
+                            sx={customStyle}
+                          />
                         )}
-
-                        {/* <MenuItem value={"India"}>India</MenuItem> */}
-                      </Select>
+                      </>
                     )}
 
-                    {errors.city_billing && (
+                    {errors.area_billing && (
                       <p style={{ color: "red" }}>
-                        {errors.city_billing?.message}
+                        {errors.area_billing?.message}
                       </p>
                     )}
                   </Stack>
@@ -2489,7 +2865,7 @@ const checkout = () => {
                         </>
                       ))}
                     </Stack>
-
+                    {console.log("your log output", deliveryMethod)}
                     <Stack
                       direction={"row"}
                       spacing={{ xs: 1, lg: 0, xl: 1 }}
@@ -2532,8 +2908,8 @@ const checkout = () => {
                                 key={index}
                                 control={
                                   <Radio
-                                    // checked={isFromShowRoomChecked}
-                                    onClick={handleShowRoomSelected}
+
+                                  // onClick={handleOptionChanged}
                                   />
                                 }
                                 label={
@@ -2813,12 +3189,8 @@ const checkout = () => {
         setOpen={setAddressList}
         getUserAddress={getUserAddress}
         setValue={setValue}
-        setDistict={setDistict}
-        setDistict1={setDistict1}
         addAddressValue={addAddressValue}
         setAddAddressValue={setAddAddressValue}
-        setTownBilling={setTownBilling}
-        setTownBillingSh={setTownBillingSh}
         setIsAddressListDataBilling={setIsAddressListDataBilling}
         setIsAddressListDataShipping={setIsAddressListDataShipping}
         showInputField={showInputField}
