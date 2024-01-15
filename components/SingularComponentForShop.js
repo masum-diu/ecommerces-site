@@ -16,7 +16,7 @@ const SingularComponentForShop = ({ homedata }) => {
     if (homedata?.use_for === "category") {
       return sectionBanner[0]?.back_link;
     }
-    if (homedata?.use_for === "campaign") {
+    if (homedata?.use_for === "sub_cat") {
       return sectionBanner[0]?.back_link;
     }
     if (homedata?.use_for === "campaign") {
@@ -83,19 +83,18 @@ const SingularComponentForShop = ({ homedata }) => {
             direction={"row"}
             sx={{
               position: "absolute",
-              bottom: 0,
-              left: 0,
-              width: "100%",
+              top: "10%",
+              left: "10%",
               justifyContent: "space-between",
               alignItems: "center",
             }}
           >
             <Typography
               className={style.menu3}
-              variant="cardHeader"
-              color="initial"
+              // variant="occasionHeader"
+              // color="white"
               textAlign={"center"}
-              fontWeight={"600"}
+              fontWeight={"900"}
               textTransform="uppercase"
               onClick={() =>
                 router.push({
@@ -107,14 +106,16 @@ const SingularComponentForShop = ({ homedata }) => {
                 justifyContent: "flex-start",
                 alignItems: "flex-start",
                 width: "100%",
-                pb: 4,
+                // pt: 4,
+                // fontFamily:"cursive",
                 cursor: "pointer",
                 px: 4,
-                color: "black",
-                fontSize: "2rem",
+                color: "#ffffff",
+                fontSize: { xs: "2rem", xms: "3rem", sm: "3rem", md: "5rem", lg: "5rem", xl: "5rem" },
               }}
             >
-              <li>
+              {sectionBanner[0]?.name}
+              {/* <li>
                 {homedata?.back_url_two?.includes("campaign")
                   ? homedata?.back_url_two
                     ? /cat_name=([^&]+)/.exec(homedata?.back_url_two)[1]
@@ -122,7 +123,8 @@ const SingularComponentForShop = ({ homedata }) => {
                   : homedata?.back_url_two
                   ? /^(.*?)\?/.exec(homedata?.back_url_two)[1]
                   : ""}
-              </li>
+                  {sectionBanner[0]?.name}
+              </li> */}
             </Typography>
           </Stack>
         </Stack>

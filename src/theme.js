@@ -213,6 +213,30 @@ theme.typography.cardHeader = {
     fontSize: "12px",
   },
 };
+theme.typography.occasionHeader = {
+  // fontSize: "14px",
+  fontWeight: "500",
+
+  color: black,
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "5rem",
+  },
+  [theme.breakpoints.down("xms")]: {
+    fontSize: "5rem",
+  },
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "5rem",
+  },
+  [theme.breakpoints.down("md")]: {
+    fontSize: "5rem",
+  },
+  [theme.breakpoints.down("lg")]: {
+    fontSize: "5rem",
+  },
+  [theme.breakpoints.down("xl")]: {
+    fontSize: "5rem",
+  },
+};
 theme.typography.cardHeader2 = {
   fontSize: "14px",
   fontWeight: "400",

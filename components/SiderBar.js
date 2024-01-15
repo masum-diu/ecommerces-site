@@ -218,7 +218,7 @@ const SiderBar = ({ open, setOpen }) => {
         <Box p={2}>
           <Stack direction={"row"} alignItems="center" spacing={2}>
             <IconButton aria-label="" onClick={() => setOpen(false)}>
-              <MdClose style={{color:"#1B3148"}} />
+              <MdClose style={{color:"#3D5675"}} />
             </IconButton>
             <img
               src="/assets/headerLogo.png"
@@ -255,6 +255,7 @@ const SiderBar = ({ open, setOpen }) => {
                         alignItems: "flex-start",
                         justifyContent: "space-between",
                         textTransform: "capitalize",
+                        color:"#1B3148"
                       }}
                       endIcon={
                         category?.children.length > 0 ? (
@@ -280,7 +281,7 @@ const SiderBar = ({ open, setOpen }) => {
                                   <Grid item xs={6} sm={6} key={index}>
                                     <Typography
                                       variant="cardHeader3"
-                                      color="initial"
+                                      color="#1B3148"
                                       sx={{ cursor: "pointer" }}
                                       onClick={() =>
                                         router.push(
@@ -313,7 +314,7 @@ const SiderBar = ({ open, setOpen }) => {
                               <Grid item xs={6} sm={6}>
                                 <Typography
                                   variant="bolder"
-                                  color="initial"
+                                  color="#1B3148"
                                   sx={{ cursor: "pointer" }}
                                   onClick={() =>
                                     router.push(
@@ -349,7 +350,7 @@ const SiderBar = ({ open, setOpen }) => {
                   onClick={handleClickOccasion}
                   fullWidth
                   sx={{
-                    // color: "initial",
+                    color:"#1B3148",
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "space-between",

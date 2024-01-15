@@ -7,6 +7,8 @@ import { VscArrowRight } from "react-icons/vsc";
 import USER_CONTEXT from "./userContext";
 import { useGetInformationQuery } from "../src/features/api/apiSlice";
 import Loader from "./Loader/Loader";
+import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
+import { FiInstagram } from "react-icons/fi";
 const Footer = () => {
   const { selectItem, setSelectItem } = useContext(USER_CONTEXT);
   const { data, isLoading, isError, isSuccess } = useGetInformationQuery();
@@ -32,9 +34,8 @@ const Footer = () => {
             width: "95%",
             margin: "0 auto",
             maxWidth: "1500px",
-           
           }}
-          spacing={{lg:4,xs:2}}
+          spacing={{ lg: 4, xs: 2 }}
         >
           <img src="/assets/footerLogo.png" alt="" />
           <Typography
@@ -63,7 +64,7 @@ const Footer = () => {
           <Typography variant="normal" color="#F2F2F2">
             ABOUT
           </Typography>
-          <Stack direction={"row"} flexWrap={"wrap"} columnGap={4} rowGap={2} >
+          <Stack direction={"row"} flexWrap={"wrap"} columnGap={4} rowGap={2}>
             <Typography variant="cardHeader2" color="#F2F2F2">
               About
             </Typography>
@@ -73,7 +74,7 @@ const Footer = () => {
             <Typography variant="cardHeader2" color="#F2F2F2">
               Colors
             </Typography>
-           
+
             <Typography variant="cardHeader2" color="#F2F2F2">
               Partners
             </Typography>
@@ -107,36 +108,60 @@ const Footer = () => {
               target="_blank"
               style={{ textDecoration: "none" }}
             >
-              <Typography variant="cardHeader2" color="#F2F2F2">
+              {/* <Typography variant="cardHeader2" color="#F2F2F2">
                 Facebook
-              </Typography>
+              </Typography> */}
+              <FacebookOutlinedIcon
+                style={{ color: "white", fontSize: "3.3rem" }}
+              ></FacebookOutlinedIcon>
             </a>
             <a
               href={" https://www.instagram.com/aranya_crafts/"}
               target="_blank"
-              style={{ textDecoration: "none" }}
+              style={{
+                textDecoration: "none",
+                background: "white",
+                borderRadius: "50%",
+                width: "2.9rem",
+                height: "2.9rem",
+              }}
             >
-              <Typography variant="cardHeader2" color="#F2F2F2">
+              {/*  <Typography variant="cardHeader2" color="#F2F2F2">
                 Instagram
-              </Typography>
+              </Typography> */}
+              <FiInstagram
+                style={{
+                  color: "white",
+                  fontSize: "3rem",
+                  padding: "8px",
+                  background: "black",
+                  borderRadius: "50%",
+                }}
+              ></FiInstagram>
             </a>
             <a
               href={"https://www.youtube.com/@aranyacraftslimited7427"}
               target="_blank"
               style={{ textDecoration: "none" }}
             >
-              <Typography variant="cardHeader2" color="#F2F2F2">
+              {/* <Typography variant="cardHeader2" color="#F2F2F2">
                 Youtube
-              </Typography>
+              </Typography> */}
+              <FacebookOutlinedIcon
+                style={{ color: "white", fontSize: "3rem" }}
+              ></FacebookOutlinedIcon>
             </a>
             <a
               href={"https://www.linkedin.com/company/aranyacrafts/mycompany/"}
               target="_blank"
               style={{ textDecoration: "none" }}
             >
-              <Typography variant="cardHeader2" color="#F2F2F2">
+              {/* <Typography variant="cardHeader2" color="#F2F2F2">
                 LinkedIn
-              </Typography>
+              </Typography> */}
+              <FacebookOutlinedIcon
+                style={{ color: "white", fontSize: "3rem" }}
+              ></FacebookOutlinedIcon>
             </a>
           </Stack>
         </Stack>
@@ -151,7 +176,7 @@ const Footer = () => {
             width: "95%",
             margin: "0 auto",
             maxWidth: "1500px",
-           flexDirection:{xs:"column-reverse",lg:"row"}
+            flexDirection: { xs: "column-reverse", lg: "row" },
           }}
           direction={"row"}
         >

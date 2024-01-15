@@ -208,12 +208,12 @@ const HomePageIntro = ({ title }) => {
           >
             <Stack direction={"row"} spacing={0.5} alignItems={"center"}>
               <IconButton
-                style={{ marginTop: ".50rem" }}
+                style={{ marginTop: ".50rem",color:"#3D5675" }}
                 onClick={() => setOpen(true)}
               >
                 {/* <GoThreeBars style={{ color: "#0A0A0A" }} /> */}
                 {/* <FcMenu style={{ color: "#0A0A0A" }} /> */}
-                <BiMenuAltLeft style={{color:"#1B3148"}} />
+                <BiMenuAltLeft style={{color:"#3D5675"}} />
               </IconButton>
               <Link href={"/shop"}>
                 <img
@@ -363,9 +363,9 @@ const HomePageIntro = ({ title }) => {
                       aria-controls={menuId}
                       aria-haspopup="true"
                     >
-                      <AccountCircle color="gray" />
+                      <AccountCircle color="gray"style={{color:"#3D5675"}} />
                     </IconButton>
-                    <p style={{ color: "#0A0A0A", cursor: "pointer" }}>
+                    <p style={{ color: "#3D5675", cursor: "pointer" }}>
                       {userjsondata
                         ? userjsondata?.name.split(" ")[0]
                         : user.name}
