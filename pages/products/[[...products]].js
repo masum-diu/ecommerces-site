@@ -30,6 +30,9 @@ import Head from "next/head";
 import FilterCategory from "../../components/FilterCategory";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 function chunkArray(arr, chunkSize = 9) {
   const chunkedArray = [];
   for (let i = 0; i < arr.length; i += chunkSize) {
@@ -78,9 +81,12 @@ const masterCollectionLayout = () => {
   const [makeSubCategoryTrue, setMakeSubCategoryTrue] = useState(false);
   const [makeColorTrue, setMakeColorTrue] = useState(false);
   const [makePriceTrue, setMakePriceTrue] = useState(false);
+  const [slidesPerView, setSlidePreview] = useState(0);
 
   const cat = router.query?.cat;
   const sub_cat = subCategoryID;
+
+  const theme = useTheme();
 
   // Getting product data with only category
   const {
@@ -513,6 +519,34 @@ const masterCollectionLayout = () => {
     setMax(max);
   }, [filteredData]);
 
+  // Setting SlidePreview
+  const isExtraSmallerScreen = useMediaQuery(theme.breakpoints.down("xms"));
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isExtraLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
+
+  useEffect(() => {
+    if (isExtraSmallerScreen) {
+      setSlidePreview(2);
+    } else if (isSmallerScreen) {
+      setSlidePreview(3);
+    } else if (isMediumScreen) {
+      setSlidePreview(4);
+    } else if (isLargeScreen) {
+      setSlidePreview(5);
+    } else if (isExtraLargeScreen) {
+      setSlidePreview(6);
+    } else {
+      setSlidePreview(7);
+    }
+  }, [
+    isExtraSmallerScreen,
+    isSmallerScreen,
+    isMediumScreen,
+    isLargeScreen,
+    isExtraLargeScreen,
+  ]);
   // handling fabric change state
   const handleFabricChange = (data, id) => {
     setFabricName(data);
@@ -656,7 +690,7 @@ const masterCollectionLayout = () => {
           <Hidden>
             <Stack
               direction={"row"}
-              spacing={2}
+              spacing={0}
               sx={{
                 width: "90%",
                 maxWidth: "1500px",
@@ -664,17 +698,24 @@ const masterCollectionLayout = () => {
                 height: "61px",
                 justifyContent: "space-between",
                 alignItems: "center",
-                border:"1px solid red"
               }}
             >
-              <Stack direction={"row"} spacing={4} alignItems={"center"}>
+              <Stack
+                direction={"row"}
+                // spacing={4}
+
+                justifyContent={"center"}
+                alignItems={"center"}
+                sx={{ width: "90%" }}
+              >
                 <Swiper
                   // spaceBetween={80}
-                  slidesPerView={3}
+                  slidesPerView={slidesPerView}
                   modules={[Pagination]}
                   className="mySwiper"
+                  // style={{border:"1px solid red"}}
                 >
-                  <SwiperSlide style={{width:"10%"}}>
+                  <SwiperSlide>
                     <Typography
                       variant="homeFlash"
                       className="SemiBold"
@@ -696,10 +737,7 @@ const masterCollectionLayout = () => {
                     </Typography>
                   </SwiperSlide>
                   {subCategories?.map((sub_cat, index) => (
-                    <SwiperSlide
-                      key={index}
-                      
-                    >
+                    <SwiperSlide key={index}>
                       <Typography
                         className="SemiBold"
                         variant="homeFlash"
@@ -725,14 +763,15 @@ const masterCollectionLayout = () => {
                     </SwiperSlide>
                   ))}
                 </Swiper>
-
+                {/* <ArrowForwardIosIcon></ArrowForwardIosIcon> */}
                 {/* <Menu1 title={"Nakshikantha Saree"} />
                   <Menu1 title={"Jamdani Saree"} /> */}
               </Stack>
               <Stack
+                sx={{ width: "8%" }}
                 direction={"row"}
                 alignItems="center"
-                spacing={0.5}
+                // spacing={0.5}
                 onClick={() => setFilter(true)}
               >
                 <Typography

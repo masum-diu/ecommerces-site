@@ -155,8 +155,24 @@ theme.typography.CategoryName = {
   // [theme.breakpoints.down("md")]: {
   //   fontSize: "24px",
   // },
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "15px",
+    fontWeight: "700",
+  },
+  [theme.breakpoints.down("xsm")]: {
+    fontSize: "15px",
+    fontWeight: "700",
+  },
   [theme.breakpoints.down("sm")]: {
-    fontSize: "30px",
+    fontSize: "15px",
+    fontWeight: "700",
+  },
+  [theme.breakpoints.down("md")]: {
+    fontSize: "15px",
+    fontWeight: "700",
+  },
+  [theme.breakpoints.down("lg")]: {
+    fontSize: "20px",
     fontWeight: "700",
   },
 };

@@ -11,6 +11,7 @@ import {
   TextField,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import Link from "next/link";
@@ -29,10 +30,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
+import { useTheme } from "@emotion/react";
 
 const MegaMenu = ({ open, setOpen }) => {
   const [categoryAndSubCatList, setCatAndSubCatList] = useState([]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [slidesPerView, setSlidePreview] = useState(0);
+  const theme = useTheme();
   const router = useRouter();
   const {
     data: catAndSubCatList,
@@ -46,6 +50,35 @@ const MegaMenu = ({ open, setOpen }) => {
       setCatAndSubCatList(catAndSubCatList);
     }
   }, [catAndSubCatList, isCatSuccess]);
+
+  // Setting SlidePreview
+  const isExtraSmallerScreen = useMediaQuery(theme.breakpoints.down("xms"));
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isExtraLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
+
+  useEffect(() => {
+    if (isExtraSmallerScreen) {
+      setSlidePreview(1);
+    } else if (isSmallerScreen) {
+      setSlidePreview(1);
+    } else if (isMediumScreen) {
+      setSlidePreview(1);
+    } else if (isLargeScreen) {
+      setSlidePreview(2);
+    } else if (isExtraLargeScreen) {
+      setSlidePreview(3);
+    } else {
+      setSlidePreview(3);
+    }
+  }, [
+    isExtraSmallerScreen,
+    isSmallerScreen,
+    isMediumScreen,
+    isLargeScreen,
+    isExtraLargeScreen,
+  ]);
 
   const handleMouseLeaveOperation = () => {
     setHoveredCategory(null);
@@ -102,6 +135,7 @@ const MegaMenu = ({ open, setOpen }) => {
         transitionDuration={{ enter: 900, exit: 900 }}
         anchor="top"
         open={open}
+        // open={true}
         onMouseLeave={() => handleMouseLeaveOperation()}
       >
         <Box
@@ -173,6 +207,7 @@ const MegaMenu = ({ open, setOpen }) => {
                   width: "100%",
                   transition: "background 0.3s ease",
                   height: "300px",
+                  transition: "2s ease-in-out ",
                 }}
                 rowGap={{ xs: 15, sm: 0 }}
                 alignItems={{ xs: "center", sm: "start" }}
@@ -184,6 +219,7 @@ const MegaMenu = ({ open, setOpen }) => {
                     borderRight: { sm: "2px solid black" },
                     width: { xs: "100%", sm: "50%", lg: "60%" },
                     height: "100%",
+                    transition: "2s ease-in-out ",
                   }}
                   direction={"column"}
                   justifyContent={"flex-start"}
@@ -247,8 +283,8 @@ const MegaMenu = ({ open, setOpen }) => {
               </Stack>
             ) : (
               <Swiper
-                spaceBetween={80}
-                slidesPerView={3}
+                spaceBetween={20}
+                slidesPerView={slidesPerView}
                 modules={[Pagination]}
                 className="mySwiper"
               >
