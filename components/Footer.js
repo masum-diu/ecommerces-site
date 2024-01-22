@@ -111,33 +111,16 @@ const Footer = () => {
               {/* <Typography variant="cardHeader2" color="#F2F2F2">
                 Facebook
               </Typography> */}
-              <FacebookOutlinedIcon
-                style={{ color: "white", fontSize: "3.3rem" }}
-              ></FacebookOutlinedIcon>
+              <img src="/assets/facebook.svg" alt="" />
             </a>
             <a
               href={" https://www.instagram.com/aranya_crafts/"}
               target="_blank"
-              style={{
-                textDecoration: "none",
-                background: "white",
-                borderRadius: "50%",
-                width: "2.9rem",
-                height: "2.9rem",
-              }}
             >
               {/*  <Typography variant="cardHeader2" color="#F2F2F2">
                 Instagram
               </Typography> */}
-              <FiInstagram
-                style={{
-                  color: "white",
-                  fontSize: "3rem",
-                  padding: "8px",
-                  background: "black",
-                  borderRadius: "50%",
-                }}
-              ></FiInstagram>
+              <img src="/assets/instagram.svg" alt="" />
             </a>
             <a
               href={"https://www.youtube.com/@aranyacraftslimited7427"}
@@ -147,9 +130,7 @@ const Footer = () => {
               {/* <Typography variant="cardHeader2" color="#F2F2F2">
                 Youtube
               </Typography> */}
-              <FacebookOutlinedIcon
-                style={{ color: "white", fontSize: "3rem" }}
-              ></FacebookOutlinedIcon>
+              <img src="/assets/youtube.svg" alt="" />
             </a>
             <a
               href={"https://www.linkedin.com/company/aranyacrafts/mycompany/"}
@@ -159,50 +140,55 @@ const Footer = () => {
               {/* <Typography variant="cardHeader2" color="#F2F2F2">
                 LinkedIn
               </Typography> */}
-              <FacebookOutlinedIcon
+              <img src="/assets/linkedin.svg" alt="" />
+              {/* <FacebookOutlinedIcon
                 style={{ color: "white", fontSize: "3rem" }}
-              ></FacebookOutlinedIcon>
+              ></FacebookOutlinedIcon> */}
             </a>
           </Stack>
         </Stack>
-        <Stack
-          flexWrap={"wrap"}
-          columnGap={1}
-          alignItems="center"
-          rowGap={2}
-          sx={{
-            pb: 5,
-            justifyContent: "space-between",
-            width: "95%",
-            margin: "0 auto",
-            maxWidth: "1500px",
-            flexDirection: { xs: "column-reverse", lg: "row" },
-          }}
-          direction={"row"}
-        >
-          <Typography variant="cardLocation1" color="#E3E3E3" px={2}>
-            © Aranya Crafts Limited 2023
-          </Typography>
+        <Box sx={{ background: "#476182", height: {xs:"10vh",lg:"5vh"},display:"flex",alignItems:"center",mt:"3vh" }}>
           <Stack
-            direction={"row"}
-            columnGap={2}
-            rowGap={2}
-            px={2}
             flexWrap={"wrap"}
+            columnGap={1}
             alignItems="center"
+            rowGap={2}
+            sx={{
+              // pb: 5
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "95%",
+              margin: "0 auto",
+              maxWidth: "1500px",
+              flexDirection: { lg: "row" },
+            }}
+            direction={"row"}
           >
-            {data?.map((content, index) => (
-              <Typography
-                key={index}
-                sx={{ cursor: "pointer" }}
-                onClick={() => handleRedirect("/policiespages", content?.slug)}
-                variant="cardLocation1"
-                color="#E3E3E3"
-              >
-                {content.title}
-              </Typography>
-            ))}
-            {/* <Typography
+            <Typography variant="cardLocation1" color="#E3E3E3" px={2}>
+              © Aranya Crafts Limited 2023
+            </Typography>
+            <Stack
+              direction={"row"}
+              columnGap={2}
+              rowGap={2}
+              px={2}
+              flexWrap={"wrap"}
+              alignItems="center"
+            >
+              {data?.map((content, index) => (
+                <Typography
+                  key={index}
+                  sx={{ cursor: "pointer" }}
+                  onClick={() =>
+                    handleRedirect("/policiespages", content?.slug)
+                  }
+                  variant="cardLocation1"
+                  color="#E3E3E3"
+                >
+                  {content.title}
+                </Typography>
+              ))}
+              {/* <Typography
               sx={{ cursor: "pointer" }}
               onClick={() => handleRedirect("/policiespages")}
               variant="cardLocation1"
@@ -221,11 +207,12 @@ const Footer = () => {
             <Typography variant="cardLocation1" color="#E3E3E3">
               Return
             </Typography> */}
-            <Typography variant="cardLocation1" color="#E3E3E3">
-              International
-            </Typography>
+              <Typography variant="cardLocation1" color="#E3E3E3">
+                International
+              </Typography>
+            </Stack>
           </Stack>
-        </Stack>
+        </Box>
       </Box>
     </>
   );
