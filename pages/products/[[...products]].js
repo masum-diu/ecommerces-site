@@ -82,6 +82,7 @@ const masterCollectionLayout = () => {
   const [makeColorTrue, setMakeColorTrue] = useState(false);
   const [makePriceTrue, setMakePriceTrue] = useState(false);
   const [slidesPerView, setSlidePreview] = useState(0);
+  const [spaceBetween, setSpaceBetween] = useState(0);
 
   const cat = router.query?.cat;
   const sub_cat = subCategoryID;
@@ -529,16 +530,22 @@ const masterCollectionLayout = () => {
   useEffect(() => {
     if (isExtraSmallerScreen) {
       setSlidePreview(2);
+      setSpaceBetween(5)
     } else if (isSmallerScreen) {
       setSlidePreview(3);
+      setSpaceBetween(5)
     } else if (isMediumScreen) {
-      setSlidePreview(4);
+      setSlidePreview(3);
+      setSpaceBetween(5)
     } else if (isLargeScreen) {
-      setSlidePreview(5);
+      setSlidePreview(4);
+      setSpaceBetween(60)
     } else if (isExtraLargeScreen) {
-      setSlidePreview(6);
+      setSlidePreview(5);
+      setSpaceBetween(60)
     } else {
-      setSlidePreview(7);
+      setSlidePreview(6);
+      setSpaceBetween(80)
     }
   }, [
     isExtraSmallerScreen,
@@ -709,7 +716,7 @@ const masterCollectionLayout = () => {
                 sx={{ width: "90%" }}
               >
                 <Swiper
-                  // spaceBetween={80}
+                  spaceBetween={spaceBetween}
                   slidesPerView={slidesPerView}
                   modules={[Pagination]}
                   className="mySwiper"

@@ -29,6 +29,7 @@ const Footer = () => {
           direction={"column"}
           sx={{
             p: 1,
+            pt:"3vh",
             justifyContent: "center",
             alignItems: "center",
             width: "95%",
@@ -99,9 +100,9 @@ const Footer = () => {
               Contact
             </Typography>
           </Stack> */}
-          <Typography variant="normal" color="#F2F2F2 ">
+          {/* <Typography variant="normal" color="#F2F2F2 ">
             SOCIAL MEDIA
-          </Typography>
+          </Typography> */}
           <Stack direction={"row"} spacing={3}>
             <a
               href={"https://www.facebook.com/aranyacrafts"}

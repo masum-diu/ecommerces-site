@@ -52,6 +52,9 @@ import useDiscountCount from "../../../src/hooks/useDiscountCount";
 import { ArrowRight, ArrowRightOutlined, Padding } from "@mui/icons-material";
 import * as fbq from "../../../lib/fpixel";
 
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
@@ -421,6 +424,7 @@ const PorductDetails = () => {
     setSizeSelected(true);
     setSizeId(id);
     setSize(data);
+    setActiveSize("");
     setActiveSize(id);
   };
   const handleSelectColor = (data, code, id) => {
@@ -746,7 +750,10 @@ const PorductDetails = () => {
                     className="light"
                     variant="cardHeader3"
                     color="initial"
-                    sx={{ letterSpacing: 0.17 }}
+                    sx={{
+                      letterSpacing: 0.17,
+                      width: { xs: "100%", lg: "70%", xl: "60%" },
+                    }}
                   >
                     {description}
                   </Typography>
@@ -767,50 +774,137 @@ const PorductDetails = () => {
                   ) : (
                     ""
                   )}
-
                   <Stack
                     direction={"row"}
-                    justifyContent={"start"}
+                    justifyContent={"space-between"}
                     alignItems={"center"}
-                    spacing={2}
                   >
-                    {discountType !== undefined ? (
+                    {" "}
+                    <Stack
+                      direction={"row"}
+                      justifyContent={"start"}
+                      alignItems={"center"}
+                      spacing={2}
+                    >
+                      {discountType !== undefined ? (
+                        <Typography
+                          variant="cardHeader3"
+                          color="initial"
+                          className="bold"
+                          sx={{
+                            border: "1px solid #3D5675",
+                            borderRadius: "5px",
+                            padding: "1px",
+                          }}
+                        >
+                          -{discountAmount}
+                          {discountType === "percentage" ? "%" : ""}
+                        </Typography>
+                      ) : (
+                        ""
+                      )}
                       <Typography
-                        variant="cardHeader3"
+                        variant="header1"
+                        className="SemiBold"
                         color="initial"
-                        className="bold"
+                        letterSpacing={0.3}
+                        fontWeight={700}
+                        style={{
+                          textDecorationLine: `${
+                            discountType !== undefined ? "line-through" : "none"
+                          }`,
+                        }}
                       >
-                        -{discountAmount}
-                        {discountType === "percentage" ? "%" : ""}
+                        {/* Price : BDT {productPrice} */}
+                        {priceWithoutFragileCharge > 0
+                          ? selectedCurrency
+                          : ""}{" "}
+                        {priceWithoutFragileCharge > 0
+                          ? `${convertPrice(priceWithoutFragileCharge)}`
+                          : "Out of Stock"}
                       </Typography>
-                    ) : (
-                      ""
-                    )}
-                    <Typography
-                      variant="header1"
-                      className="SemiBold"
-                      color="initial"
-                      letterSpacing={0.3}
-                      fontWeight={700}
-                      style={{
-                        textDecorationLine: `${
-                          discountType !== undefined ? "line-through" : "none"
-                        }`,
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={1}
+                      alignItems="center"
+                      sx={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "5px",
+                        px: 1,
                       }}
                     >
-                      {/* Price : BDT {productPrice} */}
-                      {priceWithoutFragileCharge > 0
-                        ? selectedCurrency
-                        : ""}{" "}
-                      {priceWithoutFragileCharge > 0
-                        ? `${convertPrice(priceWithoutFragileCharge)}`
-                        : "Out of Stock"}
-                    </Typography>
+                      <Stack>
+                        <Typography
+                          variant="cardHeader3"
+                          color="#959595"
+                          className="SemiBold"
+                        >
+                          Quantity
+                        </Typography>
+                        {/* <hr
+                      style={{
+                        textAlign: "left",
+                        width: "100%",
+                        height: "1px",
+                        backgroundColor: "black",
+                        // maxWidth: "340px",
+                      }}
+                    /> */}
+                      </Stack>
+                      <Stack
+                        direction={"row"}
+                        spacing={2}
+                        alignItems="center"
+                        justifyContent={"space-between"}
+                        // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                      >
+                        <Stack
+                          direction={"row"}
+                          spacing={2}
+                          alignItems="center"
+                          justifyContent={"space-between"}
+                          sx={{
+                            color: "#959595",
+                          }}
+                        >
+                          <IconButton
+                            size="small"
+                            aria-label="reduce"
+                            onClick={() => {
+                              setCount(Math.max(count - 1, 1));
+                            }}
+                          >
+                            <KeyboardArrowDownIcon fontSize="small" />
+                          </IconButton>
+                          <Typography variant="cardHeader3" color="#959595">
+                            {" "}
+                            {count}
+                          </Typography>
+                          <IconButton
+                            aria-label="increase"
+                            onClick={() => {
+                              setCount(count + 1);
+                            }}
+                          >
+                            <KeyboardArrowUpIcon fontSize="small" />
+                          </IconButton>
+                        </Stack>
+                      </Stack>
+                    </Stack>
                   </Stack>
 
+                  <hr />
+                  <br />
+
                   {products?.p_sizes?.length > 0 ? (
-                    <>
-                      <Stack direction={"row"} spacing={1} alignItems="center">
+                    <Stack style={{ marginBottom: "1vh" }}>
+                      <Stack
+                        direction={"row"}
+                        spacing={1}
+                        alignItems="center"
+                        style={{ marginBottom: "1vh" }}
+                      >
                         <Typography
                           variant="cardHeader3"
                           color="#959595"
@@ -851,15 +945,30 @@ const PorductDetails = () => {
                                   ""
                                 )
                               }
+                              sx={{
+                                ".mui-style-wapswz-MuiTypography-root": {
+                                  color: `${
+                                    activesize === size?.id
+                                      ? "#ffffff"
+                                      : "black"
+                                  }`,
+                                },
+                              }}
                               style={{
                                 boxShadow:
-                                  "0px 1px 4px 2px rgba(131 131 133 / 20%)",
+                                  "0px 1px 4px 2px rgba(131 131 133 / 10%)",
+                                border: "1px solid #3D5675",
+                                backgroundColor: `${
+                                  activesize === size?.id
+                                    ? "#1B3148"
+                                    : "initial"
+                                }`,
                               }}
                               key={index}
-                              variant={`${
+                              /* variant={`${
                                 activesize === size?.id ? "outlined" : "primary"
-                              }`}
-                              color="primary"
+                              }`} */
+                              // color="primary"
                               onClick={() =>
                                 handleSelectSize(size?.size_name, size?.id)
                               }
@@ -918,7 +1027,7 @@ const PorductDetails = () => {
                           )
                         }
                       </Stack>
-                    </>
+                    </Stack>
                   ) : (
                     ""
                   )}
@@ -976,7 +1085,7 @@ const PorductDetails = () => {
                   ) : (
                     ""
                   )}
-                  <Stack direction={"row"} spacing={1} alignItems="center">
+                  {/* <Stack direction={"row"} spacing={1} alignItems="center">
                     <Typography
                       variant="cardHeader3"
                       color="#959595"
@@ -984,15 +1093,7 @@ const PorductDetails = () => {
                     >
                       Quantity
                     </Typography>
-                    {/* <hr
-                      style={{
-                        textAlign: "left",
-                        width: "100%",
-                        height: "1px",
-                        backgroundColor: "black",
-                        // maxWidth: "340px",
-                      }}
-                    /> */}
+                    
                   </Stack>
                   <Stack
                     direction={"row"}
@@ -1030,7 +1131,9 @@ const PorductDetails = () => {
                         <AddIcon fontSize="small" />
                       </IconButton>
                     </Stack>
-                  </Stack>
+                  </Stack> */}
+                  <hr />
+                  <br />
                   {noteTextForCart && (
                     <>
                       <Stack
@@ -1045,6 +1148,7 @@ const PorductDetails = () => {
                       </Stack>
                     </>
                   )}
+
                   <Stack
                     direction={"row"}
                     alignItems={"center"}
@@ -1168,8 +1272,8 @@ const PorductDetails = () => {
                         alignItems: "center",
                         justifyContent: "space-between",
                         textTransform: "capitalize",
-                        width: "90vw",
-                        maxWidth: "300px",
+                        width: "100%",
+                        // maxWidth: "300px",
                       }}
                       endIcon={
                         arrow ? (
@@ -1577,87 +1681,7 @@ const PorductDetails = () => {
                 backgroundPosition: "center",
                 width: "100%",
               }}
-            >
-              <Stack
-                direction={"column"}
-                spacing={1}
-                sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
-              >
-                <Stack direction={"column"}>
-                  <Typography
-                    variant="login2"
-                    color="initial"
-                    className="exterBold"
-                  >
-                    {products?.p_name}
-                  </Typography>
-
-                  <Typography
-                    variant="cardHeader1"
-                    color="initial"
-                    textTransform={"uppercase"}
-                    className="SemiBold"
-                  >
-                    {/*Home {path}*/}
-                  </Typography>
-                </Stack>
-                {discountType !== undefined ? (
-                  <Typography
-                    variant="header1"
-                    className="SemiBold"
-                    color="initial"
-                    letterSpacing={0.3}
-                    fontWeight={700}
-                  >
-                    {/* Price : BDT {productPrice} */}
-                    {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
-                    {priceAfterDiscount > 0
-                      ? `${convertPrice(priceAfterDiscount)}`
-                      : "Out of Stock"}
-                  </Typography>
-                ) : (
-                  ""
-                )}
-
-                <Stack
-                  direction={"row"}
-                  justifyContent={"start"}
-                  alignItems={"center"}
-                  spacing={2}
-                >
-                  {discountType !== undefined ? (
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                      className="bold"
-                    >
-                      -{discountAmount}
-                      {discountType === "percentage" ? "%" : ""}
-                    </Typography>
-                  ) : (
-                    ""
-                  )}
-                  <Typography
-                    variant="header1"
-                    className="SemiBold"
-                    color="initial"
-                    letterSpacing={0.3}
-                    fontWeight={700}
-                    style={{
-                      textDecorationLine: `${
-                        discountType !== undefined ? "line-through" : "none"
-                      }`,
-                    }}
-                  >
-                    {/* Price : BDT {productPrice} */}
-                    {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
-                    {priceWithoutFragileCharge > 0
-                      ? `${convertPrice(priceWithoutFragileCharge)}`
-                      : "Out of Stock"}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </SwiperSlide>
+            ></SwiperSlide>
             <SwiperSlide
               onClick={() =>
                 handleImageForThumble(true, {
@@ -1675,87 +1699,7 @@ const PorductDetails = () => {
                 backgroundPosition: "center",
                 width: "100%",
               }}
-            >
-              <Stack
-                direction={"column"}
-                spacing={1}
-                sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
-              >
-                <Stack direction={"column"}>
-                  <Typography
-                    variant="login2"
-                    color="initial"
-                    className="exterBold"
-                  >
-                    {products?.p_name}
-                  </Typography>
-
-                  <Typography
-                    variant="cardHeader1"
-                    color="initial"
-                    textTransform={"uppercase"}
-                    className="SemiBold"
-                  >
-                    {/*Home {path}*/}
-                  </Typography>
-                </Stack>
-                {discountType !== undefined ? (
-                  <Typography
-                    variant="header1"
-                    className="SemiBold"
-                    color="initial"
-                    letterSpacing={0.3}
-                    fontWeight={700}
-                  >
-                    {/* Price : BDT {productPrice} */}
-                    {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
-                    {priceAfterDiscount > 0
-                      ? `${convertPrice(priceAfterDiscount)}`
-                      : "Out of Stock"}
-                  </Typography>
-                ) : (
-                  ""
-                )}
-
-                <Stack
-                  direction={"row"}
-                  justifyContent={"start"}
-                  alignItems={"center"}
-                  spacing={2}
-                >
-                  {discountType !== undefined ? (
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                      className="bold"
-                    >
-                      -{discountAmount}
-                      {discountType === "percentage" ? "%" : ""}
-                    </Typography>
-                  ) : (
-                    ""
-                  )}
-                  <Typography
-                    variant="header1"
-                    className="SemiBold"
-                    color="initial"
-                    letterSpacing={0.3}
-                    fontWeight={700}
-                    style={{
-                      textDecorationLine: `${
-                        discountType !== undefined ? "line-through" : "none"
-                      }`,
-                    }}
-                  >
-                    {/* Price : BDT {productPrice} */}
-                    {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
-                    {priceWithoutFragileCharge > 0
-                      ? `${convertPrice(priceWithoutFragileCharge)}`
-                      : "Out of Stock"}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </SwiperSlide>
+            ></SwiperSlide>
             <SwiperSlide
               onClick={() =>
                 handleImageForThumble(true, {
@@ -1773,87 +1717,7 @@ const PorductDetails = () => {
                 backgroundPosition: "center",
                 width: "100%",
               }}
-            >
-              <Stack
-                direction={"column"}
-                spacing={5}
-                sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
-              >
-                <Stack direction={"column"}>
-                  <Typography
-                    variant="login2"
-                    color="initial"
-                    className="exterBold"
-                  >
-                    {products?.p_name}
-                  </Typography>
-
-                  <Typography
-                    variant="cardHeader1"
-                    color="initial"
-                    textTransform={"uppercase"}
-                    className="SemiBold"
-                  >
-                    {/*Home {path}*/}
-                  </Typography>
-                </Stack>
-                {discountType !== undefined ? (
-                  <Typography
-                    variant="header1"
-                    className="SemiBold"
-                    color="initial"
-                    letterSpacing={0.3}
-                    fontWeight={700}
-                  >
-                    {/* Price : BDT {productPrice} */}
-                    {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
-                    {priceAfterDiscount > 0
-                      ? `${convertPrice(priceAfterDiscount)}`
-                      : "Out of Stock"}
-                  </Typography>
-                ) : (
-                  ""
-                )}
-
-                <Stack
-                  direction={"row"}
-                  justifyContent={"start"}
-                  alignItems={"center"}
-                  spacing={2}
-                >
-                  {discountType !== undefined ? (
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                      className="bold"
-                    >
-                      -{discountAmount}
-                      {discountType === "percentage" ? "%" : ""}
-                    </Typography>
-                  ) : (
-                    ""
-                  )}
-                  <Typography
-                    variant="header1"
-                    className="SemiBold"
-                    color="initial"
-                    letterSpacing={0.3}
-                    fontWeight={700}
-                    style={{
-                      textDecorationLine: `${
-                        discountType !== undefined ? "line-through" : "none"
-                      }`,
-                    }}
-                  >
-                    {/* Price : BDT {productPrice} */}
-                    {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
-                    {priceWithoutFragileCharge > 0
-                      ? `${convertPrice(priceWithoutFragileCharge)}`
-                      : "Out of Stock"}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </SwiperSlide>
+            ></SwiperSlide>
             <SwiperSlide
               onClick={() =>
                 handleImageForThumble(true, {
@@ -1871,11 +1735,15 @@ const PorductDetails = () => {
                 backgroundPosition: "center",
                 width: "100%",
               }}
-            >
+            ></SwiperSlide>
+          </Swiper>
+          <Grid container>
+            <Grid item xl={6} lg={5} md={6} sm={6} width={"100%"}>
               <Stack
                 direction={"column"}
-                spacing={5}
-                sx={{ justifyContent: "flex-end", height: "90%", px: 2 }}
+                mt={3}
+                spacing={1}
+                sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
               >
                 <Stack direction={"column"}>
                   <Typography
@@ -1895,72 +1763,7 @@ const PorductDetails = () => {
                     {/*Home {path}*/}
                   </Typography>
                 </Stack>
-                {discountType !== undefined ? (
-                  <Typography
-                    variant="header1"
-                    className="SemiBold"
-                    color="initial"
-                    letterSpacing={0.3}
-                    fontWeight={700}
-                  >
-                    {/* Price : BDT {productPrice} */}
-                    {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
-                    {priceAfterDiscount > 0
-                      ? `${convertPrice(priceAfterDiscount)}`
-                      : "Out of Stock"}
-                  </Typography>
-                ) : (
-                  ""
-                )}
 
-                <Stack
-                  direction={"row"}
-                  justifyContent={"start"}
-                  alignItems={"center"}
-                  spacing={2}
-                >
-                  {discountType !== undefined ? (
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                      className="bold"
-                    >
-                      -{discountAmount}
-                      {discountType === "percentage" ? "%" : ""}
-                    </Typography>
-                  ) : (
-                    ""
-                  )}
-                  <Typography
-                    variant="header1"
-                    className="SemiBold"
-                    color="initial"
-                    letterSpacing={0.3}
-                    fontWeight={700}
-                    style={{
-                      textDecorationLine: `${
-                        discountType !== undefined ? "line-through" : "none"
-                      }`,
-                    }}
-                  >
-                    {/* Price : BDT {productPrice} */}
-                    {priceWithoutFragileCharge > 0 ? selectedCurrency : ""}{" "}
-                    {priceWithoutFragileCharge > 0
-                      ? `${convertPrice(priceWithoutFragileCharge)}`
-                      : "Out of Stock"}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </SwiperSlide>
-          </Swiper>
-          <Grid container>
-            <Grid item xl={6} lg={5} md={6} sm={6} width={"100%"}>
-              <Stack
-                direction={"column"}
-                mt={3}
-                spacing={1}
-                sx={{ width: "85%", maxWidth: "1500px", mx: "auto" }}
-              >
                 <Typography
                   variant="cardHeader3"
                   color="initial"
@@ -1968,9 +1771,80 @@ const PorductDetails = () => {
                 >
                   {description}
                 </Typography>
+                <Stack>
+                  {discountType !== undefined ? (
+                    <Typography
+                      variant="header1"
+                      className="SemiBold"
+                      color="initial"
+                      letterSpacing={0.3}
+                      fontWeight={700}
+                    >
+                      {/* Price : BDT {productPrice} */}
+                      {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
+                      {priceAfterDiscount > 0
+                        ? `${convertPrice(priceAfterDiscount)}`
+                        : "Out of Stock"}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+
+                  <Stack
+                    direction={"row"}
+                    justifyContent={"start"}
+                    alignItems={"center"}
+                    spacing={2}
+                    pt={1}
+                  >
+                    {discountType !== undefined ? (
+                      <Typography
+                        variant="cardHeader3"
+                        color="initial"
+                        className="bold"
+                        sx={{
+                          border: "1px solid #3D5675",
+                          borderRadius: "5px",
+                          padding: "1px",
+                        }}
+                      >
+                        -{discountAmount}
+                        {discountType === "percentage" ? "%" : ""}
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+                    <Typography
+                      variant="header1"
+                      className="SemiBold"
+                      color="initial"
+                      letterSpacing={0.3}
+                      fontWeight={700}
+                      style={{
+                        textDecorationLine: `${
+                          discountType !== undefined ? "line-through" : "none"
+                        }`,
+                      }}
+                    >
+                      {/* Price : BDT {productPrice} */}
+                      {priceWithoutFragileCharge > 0
+                        ? selectedCurrency
+                        : ""}{" "}
+                      {priceWithoutFragileCharge > 0
+                        ? `${convertPrice(priceWithoutFragileCharge)}`
+                        : "Out of Stock"}
+                    </Typography>
+                  </Stack>
+                </Stack>
+                <hr />
                 {products?.p_sizes?.length > 0 ? (
-                  <>
-                    <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={1}
+                      alignItems="center"
+                      mb={1}
+                    >
                       <Typography variant="cardHeader3" color="#959595">
                         Sizes
                       </Typography>
@@ -2012,14 +1886,29 @@ const PorductDetails = () => {
                                 ""
                               )
                             }
-                            style={{
+                            /* style={{
                               boxShadow:
                                 "0px 1px 4px 2px rgba(131 131 133 / 20%)",
+                            }} */
+                            sx={{
+                              ".mui-style-wapswz-MuiTypography-root": {
+                                color: `${
+                                  activesize === size?.id ? "#ffffff" : "black"
+                                }`,
+                              },
+                            }}
+                            style={{
+                              boxShadow:
+                                "0px 1px 4px 2px rgba(131 131 133 / 10%)",
+                              border: "1px solid #3D5675",
+                              backgroundColor: `${
+                                activesize === size?.id ? "#1B3148" : "initial"
+                              }`,
                             }}
                             key={index}
-                            variant={`${
+                            /* variant={`${
                               activesize === size?.id ? "outlined" : "primary"
-                            }`}
+                            }`} */
                             color="primary"
                             onClick={() =>
                               handleSelectSize(size?.size_name, size?.id)
@@ -2080,13 +1969,20 @@ const PorductDetails = () => {
                         ""
                       )}
                     </Stack>
-                  </>
+                    <hr style={{ width: "100%" }} />
+                  </Stack>
                 ) : (
                   ""
                 )}
+
                 {products?.p_colours?.length > 0 ? (
-                  <>
-                    <Stack direction={"row"} spacing={1} alignItems="center">
+                  <Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={1}
+                      alignItems="center"
+                      mb={1}
+                    >
                       <Typography
                         variant="cardHeader3"
                         color="#959595"
@@ -2134,92 +2030,47 @@ const PorductDetails = () => {
                         ))}
                       </Stack>
                     </Stack>
-                  </>
+                    <hr style={{ width: "100%" }} />
+                  </Stack>
                 ) : (
                   ""
                 )}
-                <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595">
-                    Quantity
-                  </Typography>
-                  {/* <hr
-                    style={{
-                      textAlign: "left",
-                      width: "100%",
-                      height: "1px",
-                      backgroundColor: "black",
-                      // maxWidth: "340px",
-                    }}
-                  /> */}
-                </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  alignItems="center"
-                  justifyContent={"space-between"}
-                  sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
-                >
-                  <IconButton
-                    size="small"
-                    aria-label="reduce"
-                    onClick={() => {
-                      setCount(Math.max(count - 1, 1));
-                    }}
+                <Stack direction={"row"} sx={{width:"50%",border:"1px solid #D9D9D9",borderRadius:"5px",px:1}}>
+                  <Stack direction={"row"} spacing={1} alignItems="center">
+                    <Typography variant="cardHeader3" color="#959595"pr={1}>
+                      Quantity
+                    </Typography>
+                  </Stack>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    alignItems="center"
+                    justifyContent={"space-between"}
+                    sx={{ color: "#959595" }}
                   >
-                    <RemoveIcon fontSize="small" />
-                  </IconButton>
-                  <Typography variant="cardHeader3" color="#959595">
-                    {" "}
-                    {count}
-                  </Typography>
-                  <IconButton
-                    aria-label="increase"
-                    onClick={() => {
-                      setCount(count + 1);
-                    }}
-                  >
-                    <AddIcon fontSize="small" />
-                  </IconButton>
+                    <IconButton
+                      size="small"
+                      aria-label="reduce"
+                      onClick={() => {
+                        setCount(Math.max(count - 1, 1));
+                      }}
+                    >
+                      <KeyboardArrowDownIcon fontSize="small" />
+                    </IconButton>
+                    <Typography variant="cardHeader3" color="#959595">
+                      {" "}
+                      {count}
+                    </Typography>
+                    <IconButton
+                      aria-label="increase"
+                      onClick={() => {
+                        setCount(count + 1);
+                      }}
+                    >
+                      <KeyboardArrowUpIcon fontSize="small" />
+                    </IconButton>
+                  </Stack>
                 </Stack>
-                {/* {products?.p_colours?.length > 0 ? (
-                  <>
-                    <Stack direction={"row"} spacing={1} alignItems="center">
-                      <Typography variant="cardHeader3" color="#959595">
-                        Colors
-                      </Typography>
-                      
-                    </Stack>
-
-                    <Stack direction={"row"} spacing={1} height={40}>
-                      {products?.p_colours?.map((color, index) => (
-                        <Box
-                          size="small"
-                          key={index}
-                          style={{
-                            backgroundColor: `${color?.color_code}`,
-                            width: "40px",
-                            height: "40px",
-                            cursor: "pointer",
-                            border: `${
-                              activecolor === color?.id
-                                ? "4px solid #2d323f"
-                                : "1px solid black"
-                            }`,
-                          }}
-                          onClick={() =>
-                            handleSelectColor(
-                              color?.color_name,
-                              color?.color_code,
-                              color?.id
-                            )
-                          }
-                        ></Box>
-                      ))}
-                    </Stack>
-                  </>
-                ) : (
-                  ""
-                )} */}
 
                 {noteTextForCart && (
                   <>
@@ -2255,7 +2106,7 @@ const PorductDetails = () => {
                     }}
                   /> */}
                 </Stack>
-                <Stack direction={"column"} spacing={1}>
+                <Stack direction={"column"} spacing={1}pb={1}>
                   <Typography variant="cardHeader12" color="initial">
                     In Availability:{" "}
                     {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
@@ -2265,6 +2116,8 @@ const PorductDetails = () => {
                     Check In Store Availability
                   </Typography> */}
                 </Stack>
+                <hr />
+                <br />
                 <Stack direction={"row"} spacing={1}>
                   {" "}
                   <Button
@@ -2625,78 +2478,6 @@ const PorductDetails = () => {
                   data={data}
                   imageURL={`${data?.feature_image}`}
                 ></HovarImage>
-                {/* <img src={data?.feature_image} alt="" width={385} /> */}
-                {/* <Stack
-                  direction={"column"}
-                  justifyContent={"space-between"}
-                  mt={1}
-                >
-                  <Typography
-                    variant="cardHeader3"
-                    color="initial"
-                    className="SemiBold"
-                  >
-                    {data?.p_name}
-                  </Typography>
-                  <Stack
-                    direction={"column"}
-                    justifyContent={"space-between"}
-                    alignItems={"end"}
-                  >
-                    {data?.p_stocks[0]?.discount?.discount_type !==
-                    undefined ? (
-                      <Typography
-                        variant="cardHeader3"
-                        color="initial"
-                        className="bold"
-                      >
-                        {selectedCurrency}{" "}
-                        <span>
-                          {
-                            updatedPriceAfterDiscount(
-                              convertPrice(data?.p_stocks[0]?.mrp),
-                              data?.p_stocks[0]?.discount?.discount_amount,
-                              data?.p_stocks[0]?.discount?.discount_type
-                            ).updatedPrice
-                          }
-                        </span>
-                      </Typography>
-                    ) : (
-                      ""
-                    )}
-                    <Stack direction={"row"} spacing={2}>
-                      {data?.p_stocks[0]?.discount?.discount_type !==
-                      undefined ? (
-                        <Typography
-                          variant="cardHeader3"
-                          color="initial"
-                          className="bold"
-                        >
-                          -{data?.p_stocks[0]?.discount?.discount_amount}%
-                        </Typography>
-                      ) : (
-                        ""
-                      )}
-
-                      <Typography
-                        variant="cardHeader3"
-                        color="initial"
-                        className="bold"
-                        style={{
-                          textDecorationLine: `${
-                            data?.p_stocks[0]?.discount?.discount_type !==
-                            undefined
-                              ? "line-through"
-                              : "none"
-                          }`,
-                        }}
-                      >
-                        {selectedCurrency}{" "}
-                        {convertPrice(data?.p_stocks[0]?.mrp)}
-                      </Typography>
-                    </Stack>
-                  </Stack>
-                </Stack> */}
               </SwiperSlide>
             ))}
           </Swiper>
