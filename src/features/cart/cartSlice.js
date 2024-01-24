@@ -123,6 +123,8 @@ export const cartSlice = createSlice({
             taxAmount: productID.taxAmount,
             price: productID.priceOrg,
             priceOrg: productID.priceOrg,
+            discount: productID.discount,
+            discountType: productID.discountType,
             priceWithTax: productID.priceWithTaxOrg,
             priceWithTaxOrg: productID.priceWithTaxOrg,
             vatAmountParticularProduct: productID.vatAmountParticularProductOrg,

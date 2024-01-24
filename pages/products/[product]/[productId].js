@@ -97,7 +97,6 @@ const PorductDetails = () => {
   const [isFragile, setIsFragile] = useState(false);
   const [discountAmount, setDiscountAmount] = useState();
   const [discountType, setDiscountType] = useState();
-  const [swiperKey, setSwiperKey] = useState(0);
 
   // console.log("your log output", products);
   // product popup
@@ -160,6 +159,8 @@ const PorductDetails = () => {
   }, [isFragile, products?.fragile]);
   // Product Selection Section
   useEffect(() => {
+    setNoteTextForStock("");
+    setNoteTextForCart("");
     if (products?.p_stocks) {
       setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
 
@@ -411,6 +412,13 @@ const PorductDetails = () => {
   ]);
 
   useEffect(() => {
+    setActiveColor("");
+    setActiveSize("");
+    setDiscountAmount("");
+    setDiscountType("");
+  }, [window.location.href]);
+
+  useEffect(() => {
     setDisableBtn(true);
     setCount(1);
     setSizeSelected(false);
@@ -483,6 +491,7 @@ const PorductDetails = () => {
     parseFloat(
       productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
     );
+
   const finalData = {
     id: products.id,
     image: products.feature_image,
@@ -504,6 +513,8 @@ const PorductDetails = () => {
     taxAmount: products?.p_tax?.tax_percentage,
     price: productPrice,
     priceOrg: productPrice,
+    discount: discountAmount,
+    discountType: discountType,
     priceWithTax: parseFloat(
       productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
     ),
@@ -2035,9 +2046,17 @@ const PorductDetails = () => {
                 ) : (
                   ""
                 )}
-                <Stack direction={"row"} sx={{width:"50%",border:"1px solid #D9D9D9",borderRadius:"5px",px:1}}>
+                <Stack
+                  direction={"row"}
+                  sx={{
+                    width: "50%",
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "5px",
+                    px: 1,
+                  }}
+                >
                   <Stack direction={"row"} spacing={1} alignItems="center">
-                    <Typography variant="cardHeader3" color="#959595"pr={1}>
+                    <Typography variant="cardHeader3" color="#959595" pr={1}>
                       Quantity
                     </Typography>
                   </Stack>
@@ -2106,7 +2125,7 @@ const PorductDetails = () => {
                     }}
                   /> */}
                 </Stack>
-                <Stack direction={"column"} spacing={1}pb={1}>
+                <Stack direction={"column"} spacing={1} pb={1}>
                   <Typography variant="cardHeader12" color="initial">
                     In Availability:{" "}
                     {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}

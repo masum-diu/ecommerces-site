@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Card,
   Divider,
   Grid,
   Hidden,
@@ -38,6 +39,7 @@ import USER_CONTEXT from "../components/userContext";
 import { useCurrencyConversion } from "../src/hooks/useCurrencyConversion";
 import { useConvertCartData } from "../src/hooks/useConvertCartData";
 import OrderDetails from "../components/OrderDetails";
+import { MdCancelPresentation } from "react-icons/md";
 import * as fbq from "../lib/fpixel";
 
 const addtocart = () => {
@@ -82,49 +84,6 @@ const addtocart = () => {
       securePage();
     }
   }, [isProceedClicked]);
-
-  // function to convert cart data
-
-  /* const convertCartData = (cartData) => {
-    const { convertPrice } = useCurrencyConversion(); // Use your custom hook here
-
-    // Convert data inside the cart array
-    const convertedCart = cartData.cart.map((item) => {
-      const convertedItem = { ...item };
-      convertedItem.price = convertPrice(item.price);
-      convertedItem.priceWithoutFragile = convertPrice(
-        item.priceWithoutFragile
-      );
-      convertedItem.priceWithTax = convertPrice(item.priceWithTax);
-      convertedItem.vatAmountParticularProduct = convertPrice(
-        item.vatAmountParticularProduct
-      );
-      convertedItem.totalPrice = convertPrice(item.totalPrice);
-      convertedItem.totalPriceWithTax = convertPrice(item.totalPriceWithTax);
-      convertedItem.taxAmount = convertPrice(item.taxAmount);
-      convertedItem.fragileCharge = convertPrice(item.fragileCharge);
-      convertedItem.totalFragileCharge = convertPrice(item.totalFragileCharge);
-      return convertedItem;
-    });
-
-    // Convert data outside the cart array
-    const convertedTotalFragileCharge = convertPrice(
-      cartData.totalFragileCharge
-    );
-    const convertedTotalPrice = convertPrice(cartData.totalPrice);
-    const convertedTotalPriceWithTax = convertPrice(cartData.totalPriceWithTax);
-
-    // Return the converted data
-    return {
-      ...cartData,
-      cart: convertedCart,
-      totalFragileCharge: convertedTotalFragileCharge,
-      totalPrice: convertedTotalPrice,
-      totalPriceWithTax: convertedTotalPriceWithTax,
-    };
-  }; */
-
-  // console.log("updated one", convertCartData(carts));
 
   const handleProceedToCheckout = () => {
     setIsProceedClicked(true);
@@ -234,7 +193,9 @@ const addtocart = () => {
                             </Typography>
                             <Typography variant="subtitle1" color="initial">
                               {selectedCurrency}{" "}
-                              {data.totalPriceWithoutFragileCharge_after_discount}
+                              {
+                                data.totalPriceWithoutFragileCharge_after_discount
+                              }
                             </Typography>
                             <Stack
                               direction={"row"}
@@ -466,438 +427,406 @@ const addtocart = () => {
         <Hidden only={["xms", "xs", "sm"]}>
           {cart?.length > 0 ? (
             <>
-              <Grid container spacing={5} pt={5} xs={12}>
-                <Grid item lg={8} xl={9} md={8}>
+              <Grid
+                container
+                spacing={5}
+                pt={5}
+                xs={12}
+                alignItems={"flex-start"}
+              >
+                <Grid item lg={8} xl={7} md={8}>
                   <TableContainer>
                     <Table>
                       <TableBody>
                         {cart?.map((data) => (
-                          <>
-                            <TableRow
-                              // sx={{background:"#fdc",px:40}}
-                              key={data?.id}
-                              // sx={{ display: "flex", justifyContent: "space-between",alignItems:"center",textDecoration:"none",border:"none" }}
-                            >
+                          <Card
+                            key={data?.id}
+                            variant="outlined"
+                            sx={{ marginBottom: "8px" }}
+                          >
+                            {console.log("data", data)}
+                            <TableRow>
                               <TableCell sx={{ border: "none" }}>
-                                <IconButton
-                                  onClick={() => removeItemFromCart(data)}
-                                >
-                                  <MdClose />
-                                </IconButton>
+                                <img
+                                  style={{ borderRadius: "10px" }}
+                                  src={data?.image}
+                                  alt=""
+                                  width={100}
+                                />
                               </TableCell>
-                              <TableCell sx={{ border: "none" }}>
-                                <img src={data?.image} alt="" width={100} />
-                              </TableCell>
-                              <TableCell sx={{ border: "none" }}>
-                                <Typography variant="subtitle1" color="initial">
-                                  {data?.name}
-                                </Typography>
-                              </TableCell>
-                              <TableCell
-                                sx={{ border: "none", padding: "0px" }}
-                              >
-                                <Typography variant="subtitle1" color="initial">
-                                  {data?.design_code}
-                                </Typography>
-                              </TableCell>
-
-                              {/* Table cell for quantity */}
                               <TableCell
                                 sx={{
                                   border: "none",
-                                  textAlign: "center",
-                                  height: "100%",
-                                  width: "15%",
+                                  width: { md: "35%", lg: "50%" },
                                 }}
                               >
                                 <Stack
-                                  direction={"row"}
-                                  width={"100%"}
-                                  justifyContent={"space-between"}
-                                  alignItems={"center"}
-                                  // border={1}
-                                  // padding={"10px"}
+                                  sx={{ height: "100%" }}
+                                  direction={"column"}
+                                  spacing={2}
                                 >
-                                  <Stack
-                                    sx={{ border: "none", textAlign: "center" }}
-                                  >
-                                    <Typography
-                                      variant="subtitle1"
-                                      color="initial"
-                                    >
-                                      Quantity: {data.amount}
-                                    </Typography>
-                                  </Stack>
-                                  <Stack
-                                    direction={"column"}
-                                    alignItems={"center"}
-                                  >
-                                    <Stack
-                                      sx={{
-                                        border: "none",
-                                        textAlign: "center",
-                                      }}
-                                    >
-                                      <IconButton
-                                        aria-label="increase"
-                                        size="small"
-                                        onClick={() =>
-                                          dispatch(
-                                            increaseCart({
-                                              id: data.id,
-                                              image: data.image,
-                                              name: data.name,
-                                              design_code: data.design_code,
-                                              size: data.size,
-                                              size_id: data.size_id,
-                                              text: data.text,
-                                              colors: data.colors,
-                                              color_id: data.color_id,
-                                              price: data.price,
-                                              priceOrg: data.priceOrg,
-                                              totalFragileCharge:
-                                                data.fragileCharge,
-                                              totalFragileChargeOrg:
-                                                data.fragileChargeOrg,
-                                              fragileCharge: data.fragileCharge,
-                                              fragileChargeOrg:
-                                                data.fragileChargeOrg,
-                                              totalProductWeight:
-                                                data.productWeight,
-                                              productWeight: data.productWeight,
-                                              vatAmountParticularProduct:
-                                                parseFloat(
-                                                  data.vatAmountParticularProductOrg
-                                                ) +
-                                                parseFloat(
-                                                  data.vatAmountParticularProductOrg
-                                                ) /
-                                                  data.amount,
-                                              priceWithTax: parseFloat(
-                                                data.priceWithTaxOrg
-                                              ),
-                                              vatAmountParticularProductOrg:
-                                                parseFloat(
-                                                  data.vatAmountParticularProductOrg
-                                                ) +
-                                                parseFloat(
-                                                  data.vatAmountParticularProductOrg
-                                                ) /
-                                                  data.amount,
-                                              priceWithTaxOrg: parseFloat(
-                                                data.priceWithTaxOrg
-                                              ),
-                                              priceWithoutFragile:
-                                                data.priceWithoutFragileOrg,
-                                              priceWithoutFragileOrg:
-                                                data.priceWithoutFragileOrg,
-                                              amount: data.amount + 1,
-                                              stock: data.stock,
-                                              totalAmount: 1,
-                                              totalPrice:
-                                                data.totalPriceOrg +
-                                                parseFloat(data.priceOrg),
-                                              totalPriceWithoutFragileCharge:
-                                                data.totalPriceWithoutFragileChargeOrg +
-                                                parseFloat(
-                                                  data.priceWithoutFragileOrg
-                                                ),
-                                              totalPriceWithTax:
-                                                data.totalPriceWithTaxOrg +
-                                                parseFloat(
-                                                  data.priceWithTaxOrg
-                                                ),
-                                              totalPriceOrg:
-                                                data.totalPriceOrg +
-                                                parseFloat(data.priceOrg),
-                                              totalPriceWithoutFragileChargeOrg:
-                                                data.totalPriceWithoutFragileChargeOrg +
-                                                parseFloat(
-                                                  data.priceWithoutFragileOrg
-                                                ),
-                                              totalPriceWithTaxOrg:
-                                                data.totalPriceWithTaxOrg +
-                                                parseFloat(
-                                                  data.priceWithTaxOrg
-                                                ),
-
-                                              // setting cart data for discount price
-                                              price_after_discount:
-                                                data.price_after_discount,
-                                              priceOrg_after_discount:
-                                                data.priceOrg_after_discount,
-                                              priceWithTax_after_discount:
-                                                parseFloat(
-                                                  data.priceWithTaxOrg_after_discount
-                                                ),
-                                              priceWithTaxOrg_after_discount:
-                                                parseFloat(
-                                                  data.priceWithTaxOrg_after_discount
-                                                ),
-                                              vatAmountParticularProduct_after_discount:
-                                                parseFloat(
-                                                  data.vatAmountParticularProductOrg_after_discount
-                                                ) +
-                                                parseFloat(
-                                                  data.vatAmountParticularProductOrg_after_discount
-                                                ) /
-                                                  data.amount,
-                                              vatAmountParticularProductOrg_after_discount:
-                                                parseFloat(
-                                                  data.vatAmountParticularProductOrg_after_discount
-                                                ) +
-                                                parseFloat(
-                                                  data.vatAmountParticularProductOrg_after_discount
-                                                ) /
-                                                  data.amount,
-                                              totalPrice_after_discount:
-                                                data.totalPriceOrg_after_discount +
-                                                parseFloat(
-                                                  data.priceOrg_after_discount
-                                                ),
-                                              totalPriceOrg_after_discount:
-                                                data.totalPriceOrg_after_discount +
-                                                parseFloat(
-                                                  data.priceOrg_after_discount
-                                                ),
-                                              totalPriceWithTax_after_discount:
-                                                data.totalPriceWithTaxOrg_after_discount +
-                                                parseFloat(
-                                                  data.priceWithTaxOrg_after_discount
-                                                ),
-                                              totalPriceWithTaxOrg_after_discount:
-                                                data.totalPriceWithTaxOrg_after_discount +
-                                                parseFloat(
-                                                  data.priceWithTaxOrg_after_discount
-                                                ),
-                                              priceWithoutFragile_after_discount:
-                                                data.priceWithoutFragileOrg_after_discount,
-                                              priceWithoutFragileOrg_after_discount:
-                                                data.priceWithoutFragileOrg_after_discount,
-                                              totalPriceWithoutFragileCharge_after_discount:
-                                                data.totalPriceWithoutFragileChargeOrg_after_discount +
-                                                parseFloat(
-                                                  data.priceWithoutFragileOrg_after_discount
-                                                ),
-                                              totalPriceWithoutFragileChargeOrg_after_discount:
-                                                data.totalPriceWithoutFragileChargeOrg_after_discount +
-                                                parseFloat(
-                                                  data.priceWithoutFragileOrg_after_discount
-                                                ),
-                                            })
-                                          )
-                                        }
-                                      >
-                                        <KeyboardArrowUpIcon fontSize="small" />
-                                      </IconButton>
-                                    </Stack>
-
-                                    <Stack
-                                      sx={{
-                                        border: "none",
-                                        textAlign: "center",
-                                      }}
-                                    >
-                                      <IconButton
-                                        size="small"
-                                        aria-label="reduce"
-                                        onClick={() =>
-                                          dispatch(decreaseFromCart(data))
-                                        }
-                                      >
-                                        <KeyboardArrowDownIcon fontSize="small" />
-                                      </IconButton>
-                                    </Stack>
-                                  </Stack>
-                                </Stack>
-                              </TableCell>
-                              <TableCell
-                                sx={{ border: "none", textAlign: "left" }}
-                              >
-                                <Stack
-                                  direction={"row"}
-                                  spacing={1}
-                                  alignItems={"center"}
-                                >
-                                  <Typography>Colors: </Typography>
-                                  {/* {data.colors.length > 0 ? (
-                                  <>
-                                    {data?.colors?.map((singleColor, index) => (
-                                      <Typography
-                                        key={index}
-                                        variant="subtitle1"
-                                        color="initial"
-                                      >
-                                        {singleColor?.color_name}
-                                        {index !== data?.colors?.length - 1 &&
-                                        data?.colors?.length > 1
-                                          ? ", "
-                                          : ""}
-                                      </Typography>
-                                    ))}
-                                  </>
-                                ) : (
-                                  <Typography>N/A</Typography>
-                                )} */}
-                                  {data?.color_name ? (
-                                    <Typography
-                                      variant="subtitle1"
-                                      color="initial"
-                                    >
-                                      {data?.color_name}
-                                    </Typography>
-                                  ) : (
-                                    <Typography>N/A</Typography>
-                                  )}
-                                </Stack>
-                              </TableCell>
-                              <TableCell
-                                sx={{ border: "none", textAlign: "left" }}
-                              >
-                                <Typography variant="subtitle1" color="initial">
-                                  SIZE: {data.size ? data.size : "N/A"}
-                                </Typography>
-                              </TableCell>
-
-                              <TableCell
-                                sx={{ border: "none", textAlign: "left" }}
-                              >
-                                <Typography variant="subtitle1" color="initial">
-                                  {selectedCurrency}{" "}
-                                  {data.totalPriceWithoutFragileCharge_after_discount}
-                                </Typography>
-                              </TableCell>
-                              {/* <TableCell
-                              sx={{
-                                border: "none",
-                                textAlign: "center",
-                                height: "100%",
-                                width: "10%",
-                              }}
-                            >
-                              <Stack
-                                direction={"row"}
-                                width={"100%"}
-                                justifyContent={"space-between"}
-                                alignItems={"center"}
-                              >
-                                <Stack
-                                  sx={{ border: "none", textAlign: "center" }}
-                                >
+                                  {" "}
                                   <Typography
                                     variant="subtitle1"
                                     color="initial"
                                   >
-                                    {data.amount}
+                                    {data?.name}
                                   </Typography>
-                                </Stack>
-                                <Stack direction={"column"}>
                                   <Stack
-                                    sx={{ border: "none", textAlign: "center" }}
+                                    direction={"row"}
+                                    justifyContent={"flex-start"}
+                                    alignItems={"center"}
                                   >
-                                    <IconButton
-                                      aria-label="increase"
-                                      onClick={() =>
-                                        dispatch(
-                                          increaseCart({
-                                            id: data.id,
-                                            image: data.image,
-                                            name: data.name,
-                                            design_code: data.design_code,
-                                            size: data.size,
-                                            size_id: data.size_id,
-                                            text: data.text,
-                                            colors: data.colors,
-                                            color_id: data.color_id,
-                                            price: data.price,
-                                            priceOrg: data.priceOrg,
-                                            totalFragileCharge:
-                                              data.fragileCharge,
-                                            totalFragileChargeOrg:
-                                              data.fragileChargeOrg,
-                                            fragileCharge: data.fragileCharge,
-                                            fragileChargeOrg:
-                                              data.fragileChargeOrg,
-                                            totalProductWeight:
-                                              data.productWeight,
-                                            productWeight: data.productWeight,
-                                            vatAmountParticularProduct:
-                                              parseFloat(
-                                                data.vatAmountParticularProductOrg
-                                              ) +
-                                              parseFloat(
-                                                data.vatAmountParticularProductOrg
-                                              ) /
-                                                data.amount,
-                                            priceWithTax: parseFloat(
-                                              data.priceWithTaxOrg
-                                            ),
-                                            vatAmountParticularProductOrg:
-                                              parseFloat(
-                                                data.vatAmountParticularProductOrg
-                                              ) +
-                                              parseFloat(
-                                                data.vatAmountParticularProductOrg
-                                              ) /
-                                                data.amount,
-                                            priceWithTaxOrg: parseFloat(
-                                              data.priceWithTaxOrg
-                                            ),
-                                            priceWithoutFragile:
-                                              data.priceWithoutFragileOrg,
-                                            priceWithoutFragileOrg:
-                                              data.priceWithoutFragileOrg,
-                                            amount: data.amount + 1,
-                                            stock: data.stock,
-                                            totalAmount: 1,
-                                            totalPrice:
-                                              data.totalPriceOrg +
-                                              parseFloat(data.priceOrg),
-                                            totalPriceWithoutFragileCharge:
-                                              data.totalPriceWithoutFragileChargeOrg +
-                                              parseFloat(
-                                                data.priceWithoutFragileOrg
-                                              ),
-                                            totalPriceWithTax:
-                                              data.totalPriceWithTaxOrg +
-                                              parseFloat(data.priceWithTaxOrg),
-                                            totalPriceOrg:
-                                              data.totalPriceOrg +
-                                              parseFloat(data.priceOrg),
-                                            totalPriceWithoutFragileChargeOrg:
-                                              data.totalPriceWithoutFragileChargeOrg +
-                                              parseFloat(
-                                                data.priceWithoutFragileOrg
-                                              ),
-                                            totalPriceWithTaxOrg:
-                                              data.totalPriceWithTaxOrg +
-                                              parseFloat(data.priceWithTaxOrg),
-                                          })
-                                        )
-                                      }
+                                    <Typography
+                                      variant="cardLocation1"
+                                      color="initial"
                                     >
-                                      <AddIcon fontSize="small" />
-                                    </IconButton>
-                                  </Stack>
+                                      SIZE: {data.size ? data.size : "N/A"}
+                                    </Typography>
+                                    <Stack
+                                      direction={"row"}
+                                      spacing={1}
+                                      alignItems={"center"}
+                                      pl={3}
+                                    >
+                                      <Typography variant="cardLocation1">
+                                        Colors:{" "}
+                                      </Typography>
 
+                                      {data?.color_name ? (
+                                        <Typography
+                                          variant="cardLocation1"
+                                          color="initial"
+                                        >
+                                          {data?.color_name}
+                                        </Typography>
+                                      ) : (
+                                        <Typography variant="cardLocation1">
+                                          N/A
+                                        </Typography>
+                                      )}
+                                    </Stack>
+                                  </Stack>
                                   <Stack
-                                    sx={{ border: "none", textAlign: "center" }}
+                                    direction={"row"}
+                                    justifyContent={"flex-start"}
+                                    alignItems={"center"}
                                   >
-                                    <IconButton
-                                      size="small"
-                                      aria-label="reduce"
-                                      onClick={() =>
-                                        dispatch(decreaseFromCart(data))
-                                      }
+                                    {data?.discountType ? (
+                                      <Stack>
+                                        <Typography
+                                          variant="cardHeader3"
+                                          color="initial"
+                                          className="bold"
+                                          sx={{
+                                            border: "1px solid #3D5675",
+                                            borderRadius: "5px",
+                                            padding: "1px",
+                                          }}
+                                        >
+                                          -{data?.discount}
+                                          {data?.discountType === "percentage"
+                                            ? "%"
+                                            : ""}
+                                        </Typography>
+                                      </Stack>
+                                    ) : (
+                                      ""
+                                    )}
+
+                                    <Stack
+                                      direction={"column"}
+                                      justifyContent={"space-between"}
+                                      pl={{ md: 1, lg: 5 }}
                                     >
-                                      <RemoveIcon fontSize="small" />
-                                    </IconButton>
+                                      <Typography
+                                        variant={`${
+                                          data?.discountType !== undefined
+                                            ? "cardLocation1"
+                                            : "subtitle1"
+                                        }`}
+                                        style={{
+                                          textDecorationLine: `${
+                                            data?.discountType !== undefined
+                                              ? "line-through"
+                                              : "none"
+                                          }`,
+                                        }}
+                                      >
+                                        {selectedCurrency}{" "}
+                                        {data?.totalPriceWithoutFragileCharge}
+                                      </Typography>
+                                      {data?.discountType !== undefined ? (
+                                        <Typography
+                                          variant="subtitle1"
+                                          color="initial"
+                                        >
+                                          {selectedCurrency}{" "}
+                                          {
+                                            data.totalPriceWithoutFragileCharge_after_discount
+                                          }
+                                        </Typography>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </Stack>
                                   </Stack>
                                 </Stack>
-                              </Stack>
-                            </TableCell> */}
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  border: "none",
+                                  textAlign: "center",
+                                  width: "100%",
+                                }}
+                              >
+                                <Stack
+                                  sx={{ width: "100%" }}
+                                  direction={"column"}
+                                  alignItems={"flex-end"}
+                                  spacing={5}
+                                  justifyContent={"space-around"}
+                                >
+                                  <Stack
+                                    direction={"row"}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}
+                                  >
+                                    <IconButton
+                                      onClick={() => removeItemFromCart(data)}
+                                    >
+                                      <img
+                                        src="/assets/close-square.svg"
+                                        alt=""
+                                      />
+                                    </IconButton>
+                                  </Stack>
+                                  <Stack
+                                    direction={"row"}
+                                    spacing={1}
+                                    alignItems={"center"}
+                                    justifyContent={"space-between"}
+                                    sx={{
+                                      border: "1px solid #D9D9D9",
+                                      borderRadius: "5px",
+                                      px: 1,
+                                      width: {
+                                        md: "75%",
+                                        lg: "70%",
+                                        xl: "60%",
+                                      },
+                                    }}
+                                  >
+                                    <Stack>
+                                      <Typography
+                                        variant="cardHeader3"
+                                        color="#959595"
+                                        className="SemiBold"
+                                      >
+                                        Quantity
+                                      </Typography>
+                                      {/* <hr
+                      style={{
+                        textAlign: "left",
+                        width: "100%",
+                        height: "1px",
+                        backgroundColor: "black",
+                        // maxWidth: "340px",
+                      }}
+                    /> */}
+                                    </Stack>
+                                    <Stack
+                                      direction={"row"}
+                                      spacing={2}
+                                      alignItems="center"
+                                      justifyContent={"space-between"}
+                                      // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
+                                    >
+                                      <Stack
+                                        direction={"row"}
+                                        spacing={2}
+                                        alignItems="center"
+                                        justifyContent={"space-between"}
+                                        sx={{
+                                          color: "#959595",
+                                        }}
+                                      >
+                                        <IconButton
+                                          size="small"
+                                          aria-label="reduce"
+                                          onClick={() =>
+                                            dispatch(decreaseFromCart(data))
+                                          }
+                                        >
+                                          <KeyboardArrowDownIcon fontSize="small" />
+                                        </IconButton>
+                                        <Typography
+                                          variant="cardHeader3"
+                                          color="#959595"
+                                        >
+                                          {" "}
+                                          {data.amount}
+                                        </Typography>
+                                        <IconButton
+                                          aria-label="increase"
+                                          onClick={() =>
+                                            dispatch(
+                                              increaseCart({
+                                                id: data.id,
+                                                image: data.image,
+                                                name: data.name,
+                                                design_code: data.design_code,
+                                                size: data.size,
+                                                size_id: data.size_id,
+                                                text: data.text,
+                                                colors: data.colors,
+                                                color_id: data.color_id,
+                                                price: data.price,
+                                                priceOrg: data.priceOrg,
+                                                totalFragileCharge:
+                                                  data.fragileCharge,
+                                                totalFragileChargeOrg:
+                                                  data.fragileChargeOrg,
+                                                fragileCharge:
+                                                  data.fragileCharge,
+                                                fragileChargeOrg:
+                                                  data.fragileChargeOrg,
+                                                totalProductWeight:
+                                                  data.productWeight,
+                                                productWeight:
+                                                  data.productWeight,
+                                                vatAmountParticularProduct:
+                                                  parseFloat(
+                                                    data.vatAmountParticularProductOrg
+                                                  ) +
+                                                  parseFloat(
+                                                    data.vatAmountParticularProductOrg
+                                                  ) /
+                                                    data.amount,
+                                                priceWithTax: parseFloat(
+                                                  data.priceWithTaxOrg
+                                                ),
+                                                vatAmountParticularProductOrg:
+                                                  parseFloat(
+                                                    data.vatAmountParticularProductOrg
+                                                  ) +
+                                                  parseFloat(
+                                                    data.vatAmountParticularProductOrg
+                                                  ) /
+                                                    data.amount,
+                                                priceWithTaxOrg: parseFloat(
+                                                  data.priceWithTaxOrg
+                                                ),
+                                                priceWithoutFragile:
+                                                  data.priceWithoutFragileOrg,
+                                                priceWithoutFragileOrg:
+                                                  data.priceWithoutFragileOrg,
+                                                amount: data.amount + 1,
+                                                stock: data.stock,
+                                                totalAmount: 1,
+                                                totalPrice:
+                                                  data.totalPriceOrg +
+                                                  parseFloat(data.priceOrg),
+                                                totalPriceWithoutFragileCharge:
+                                                  data.totalPriceWithoutFragileChargeOrg +
+                                                  parseFloat(
+                                                    data.priceWithoutFragileOrg
+                                                  ),
+                                                totalPriceWithTax:
+                                                  data.totalPriceWithTaxOrg +
+                                                  parseFloat(
+                                                    data.priceWithTaxOrg
+                                                  ),
+                                                totalPriceOrg:
+                                                  data.totalPriceOrg +
+                                                  parseFloat(data.priceOrg),
+                                                totalPriceWithoutFragileChargeOrg:
+                                                  data.totalPriceWithoutFragileChargeOrg +
+                                                  parseFloat(
+                                                    data.priceWithoutFragileOrg
+                                                  ),
+                                                totalPriceWithTaxOrg:
+                                                  data.totalPriceWithTaxOrg +
+                                                  parseFloat(
+                                                    data.priceWithTaxOrg
+                                                  ),
+
+                                                // setting cart data for discount price
+                                                price_after_discount:
+                                                  data.price_after_discount,
+                                                priceOrg_after_discount:
+                                                  data.priceOrg_after_discount,
+                                                priceWithTax_after_discount:
+                                                  parseFloat(
+                                                    data.priceWithTaxOrg_after_discount
+                                                  ),
+                                                priceWithTaxOrg_after_discount:
+                                                  parseFloat(
+                                                    data.priceWithTaxOrg_after_discount
+                                                  ),
+                                                vatAmountParticularProduct_after_discount:
+                                                  parseFloat(
+                                                    data.vatAmountParticularProductOrg_after_discount
+                                                  ) +
+                                                  parseFloat(
+                                                    data.vatAmountParticularProductOrg_after_discount
+                                                  ) /
+                                                    data.amount,
+                                                vatAmountParticularProductOrg_after_discount:
+                                                  parseFloat(
+                                                    data.vatAmountParticularProductOrg_after_discount
+                                                  ) +
+                                                  parseFloat(
+                                                    data.vatAmountParticularProductOrg_after_discount
+                                                  ) /
+                                                    data.amount,
+                                                totalPrice_after_discount:
+                                                  data.totalPriceOrg_after_discount +
+                                                  parseFloat(
+                                                    data.priceOrg_after_discount
+                                                  ),
+                                                totalPriceOrg_after_discount:
+                                                  data.totalPriceOrg_after_discount +
+                                                  parseFloat(
+                                                    data.priceOrg_after_discount
+                                                  ),
+                                                totalPriceWithTax_after_discount:
+                                                  data.totalPriceWithTaxOrg_after_discount +
+                                                  parseFloat(
+                                                    data.priceWithTaxOrg_after_discount
+                                                  ),
+                                                totalPriceWithTaxOrg_after_discount:
+                                                  data.totalPriceWithTaxOrg_after_discount +
+                                                  parseFloat(
+                                                    data.priceWithTaxOrg_after_discount
+                                                  ),
+                                                priceWithoutFragile_after_discount:
+                                                  data.priceWithoutFragileOrg_after_discount,
+                                                priceWithoutFragileOrg_after_discount:
+                                                  data.priceWithoutFragileOrg_after_discount,
+                                                totalPriceWithoutFragileCharge_after_discount:
+                                                  data.totalPriceWithoutFragileChargeOrg_after_discount +
+                                                  parseFloat(
+                                                    data.priceWithoutFragileOrg_after_discount
+                                                  ),
+                                                totalPriceWithoutFragileChargeOrg_after_discount:
+                                                  data.totalPriceWithoutFragileChargeOrg_after_discount +
+                                                  parseFloat(
+                                                    data.priceWithoutFragileOrg_after_discount
+                                                  ),
+                                              })
+                                            )
+                                          }
+                                        >
+                                          <KeyboardArrowUpIcon fontSize="small" />
+                                        </IconButton>
+                                      </Stack>
+                                    </Stack>
+                                  </Stack>
+                                </Stack>
+                              </TableCell>
                             </TableRow>
-                          </>
+                          </Card>
                         ))}
                       </TableBody>
                     </Table>
@@ -933,7 +862,7 @@ const addtocart = () => {
                     </Button>
                   </Stack>
                 </Grid>
-                <OrderDetails></OrderDetails>
+                <OrderDetails style={{ width: "100%" }}></OrderDetails>
               </Grid>
             </>
           ) : (
