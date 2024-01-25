@@ -93,6 +93,30 @@ const OrderDetails = () => {
               className="bold"
               sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
             >
+              DISCOUNT :
+            </Typography>
+            <Typography
+              variant="cardHeader"
+              color="initial"
+              className="bold"
+              sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
+            >
+              {selectedCurrency} {totalPriceWithoutFragile_after_discount}
+            </Typography>
+          </Stack>
+
+          <Divider />
+          <Stack
+            direction={"row"}
+            spacing={{ xs: 1, lg: 0, xl: 1 }}
+            width="100%"
+          >
+            <Typography
+              variant="cardHeader"
+              color="initial"
+              className="bold"
+              sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
+            >
               TAX :
             </Typography>
             <Typography
