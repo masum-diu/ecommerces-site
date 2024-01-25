@@ -7,11 +7,9 @@ import Head from "next/head";
 import style from "../public/assets/css/HomePageIntro.module.css";
 
 const SingularComponentForShop = ({ homedata }) => {
-  console.log("homedata", homedata);
   const sectionBanner = JSON.parse(homedata.banner);
 
   const sectionFileType = sectionBanner[0]?.file_type;
-  console.log("sectionBanner", sectionBanner);
   const handleFirstBanner = () => {
     if (homedata?.use_for === "category") {
       return sectionBanner[0]?.back_link;

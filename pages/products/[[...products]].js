@@ -43,7 +43,6 @@ function chunkArray(arr, chunkSize = 9) {
 
 const masterCollectionLayout = () => {
   const router = useRouter();
-  console.log("your log output", router);
   const path =
     router.pathname.replace("/", "").charAt(0).toUpperCase() +
     router.pathname.replace("/", "").slice(1);
@@ -134,7 +133,6 @@ const masterCollectionLayout = () => {
     skip: !cat,
   });
 
-  console.log("your log output", cat);
   // Getting Attributes List
   const {
     data: attributesListData,

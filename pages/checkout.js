@@ -192,7 +192,7 @@ const checkout = () => {
     area: billingAreaEcourier,
     loading: billingAreaLoadingEcourier,
   } = useAreaFetcherEcourier();
-  console.log("your log output", shippingAreaEcourier);
+  
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
       {
@@ -637,7 +637,7 @@ const checkout = () => {
       }
     }
   };
-  console.log("cityAddressSh", cityAddressSh);
+  
   useEffect(() => {
     if (countrySh === "Bangladesh") {
       // setValue("city_shipping","Select Town/City")
@@ -673,7 +673,7 @@ const checkout = () => {
     billingCities,
   ]);
 
-  console.log("allBillingCities", allBillingCities);
+  
   useEffect(() => {
     // setValue("deliveryMethod", "");
     setIsAddressListDataShipping(false);
@@ -2865,7 +2865,7 @@ const checkout = () => {
                         </>
                       ))}
                     </Stack>
-                    {console.log("your log output", deliveryMethod)}
+                    
                     <Stack
                       direction={"row"}
                       spacing={{ xs: 1, lg: 0, xl: 1 }}

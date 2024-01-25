@@ -843,7 +843,7 @@ const addtocart = () => {
                             variant="outlined"
                             sx={{ marginBottom: "8px" }}
                           >
-                            {console.log("data", data)}
+                            
                             <TableRow>
                               <TableCell sx={{ border: "none" }}>
                                 <img

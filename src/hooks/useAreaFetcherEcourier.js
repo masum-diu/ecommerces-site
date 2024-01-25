@@ -10,7 +10,6 @@ const useAreaFetcherEcourier = () => {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        console.log("selectedCity", selectedPostCode);
         if (
           selectedPostCode &&
           selectedPostCode !== "Select POSTCODE / ZIP" &&

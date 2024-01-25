@@ -16,7 +16,6 @@ const usePostCodeFetcherEcourier = () => {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        console.log("selectedCity", selectedCity);
         if (
           selectedCity &&
           selectedThana &&

@@ -50,7 +50,6 @@ const shop = () => {
       handleSuccess();
     }
   }, [isLandingSuccess, landingdata]);
-  console.log("your log output", homedata);
   const handleFirstBanner = () => {
     /* router.push({
       pathname: `/new-collections`,
