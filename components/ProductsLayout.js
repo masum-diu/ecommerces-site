@@ -9,6 +9,7 @@ const ProductsLayout = ({ productsDataChunk, isLoading }) => {
   const router = useRouter();
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const { updatedPriceAfterDiscount } = useDiscountCount();
+
   if (productsDataChunk.length === 0) return <></>;
   return (
     <>

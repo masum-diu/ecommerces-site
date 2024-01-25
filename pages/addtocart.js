@@ -139,7 +139,9 @@ const addtocart = () => {
                             container
                             sx={{
                               width: "100%",
-                              borderRadius: "10px",
+                              borderRadius: "4px",
+                              border: "1px solid #CECECE",
+                              pl: ".2rem",
                             }}
                           >
                             <Grid
@@ -151,8 +153,19 @@ const addtocart = () => {
                             >
                               <Stack
                                 sx={{
-                                  width: "70%",
+                                  width: { xs: "90%", xms: "80%", sm: "70%" },
                                   bgcolor: "black",
+                                  paddingTop: {
+                                    xs: "5px",
+                                    xms: "4px",
+                                    sm: "5px",
+                                  },
+                                  paddingBottom: {
+                                    xs: "5px",
+                                    xms: "4px",
+                                    sm: "5px",
+                                  },
+                                  marginLeft: "4px",
                                   height: "100%",
                                 }}
                                 direction={"row"}
@@ -254,7 +267,26 @@ const addtocart = () => {
                                   <Stack
                                     direction={"column"}
                                     justifyContent={"space-between"}
-                                    pl={{ xs: 1, xms: 1, sm: 1 }}
+                                    sx={{
+                                      paddingLeft: {
+                                        xs: `${
+                                          data?.discountType !== undefined
+                                            ? ".5rem"
+                                            : 0
+                                        }`,
+                                        xms: `${
+                                          data?.discountType !== undefined
+                                            ? ".5rem"
+                                            : 0
+                                        }`,
+                                        sm: `${
+                                          data?.discountType !== undefined
+                                            ? ".5rem"
+                                            : 0
+                                        }`,
+                                      },
+                                    }}
+                                    // pl={{ xs: 1, xms: 1, sm: 1 }}
                                   >
                                     <Typography
                                       variant={`${
@@ -736,7 +768,7 @@ const addtocart = () => {
                               </Stack>
                             </Stack>
                           </Stack> */}
-                          <Divider />
+                          {/* <Divider /> */}
                         </>
                       ))}
                       <br />
@@ -798,6 +830,8 @@ const addtocart = () => {
                 pt={5}
                 xs={12}
                 alignItems={"flex-start"}
+                sx={{ margin: "0 auto" }}
+                pr={5}
               >
                 <Grid item lg={8} xl={8} md={8} justifyContent={"space-around"}>
                   <TableContainer>
@@ -902,7 +936,42 @@ const addtocart = () => {
                                     <Stack
                                       direction={"column"}
                                       justifyContent={"space-between"}
-                                      pl={{ md: 1, lg: 5 }}
+                                      sx={{
+                                        paddingLeft: {
+                                          md: `${
+                                            data?.discountType !== undefined
+                                              ? "1rem"
+                                              : 0
+                                          }`,
+                                          lg: `${
+                                            data?.discountType !== undefined
+                                              ? "1rem"
+                                              : 0
+                                          }`,
+                                          xl: `${
+                                            data?.discountType !== undefined
+                                              ? "1rem"
+                                              : 0
+                                          }`,
+                                        },
+                                      }}
+                                      /* pl={{
+                                        md: `${
+                                          data?.discountType !== undefined
+                                            ? 1
+                                            : 0
+                                        }`,
+                                        lg: `${
+                                          data?.discountType !== undefined
+                                            ? 5
+                                            : 0
+                                        }`,
+                                        xl: `${
+                                          data?.discountType !== undefined
+                                            ? 5
+                                            : 0
+                                        }`,
+                                      }} */
                                     >
                                       <Typography
                                         variant={`${
