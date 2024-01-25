@@ -67,7 +67,7 @@ const masterCollectionLayout = () => {
   const [fabricName, setFabricName] = useState("");
   const [fabricID, setFabricID] = useState(0);
   const [subCategoryName, setSubCategoryName] = useState("");
-  const [subCategoryID, setSubCategoryID] = useState(0);
+  const [subCategoryID, setSubCategoryID] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
   const [rangeValue, setValue] = useState([0, 100000]);
@@ -100,7 +100,15 @@ const masterCollectionLayout = () => {
     { cat, page },
     {
       refetchOnMountOrArgChange: true,
-      skip: !cat || page < 1 || !hasMore,
+      skip:
+        !cat ||
+        subCategoryID ||
+        page < 1 ||
+        !hasMore ||
+        makeColorTrue === true ||
+        priceSelected === true ||
+        makePriceTrue === true ||
+        makeFabricTrue === true,
     }
   );
 
@@ -125,13 +133,17 @@ const masterCollectionLayout = () => {
   } = useGetAttributesOfProductsQuery(cat, {
     skip: !cat,
   });
+
+  console.log("your log output", cat);
   // Getting Attributes List
   const {
     data: attributesListData,
     isSuccess: isAttributesListSuccess,
     isLoading: isAttributesLoading,
     error: attributesListError,
-  } = useGetAttributesListQuery(cat);
+  } = useGetAttributesListQuery(cat, {
+    skip: !cat,
+  });
 
   // Getting Filtered data by color with sub category
   const colorSelected = selectedColor[1];
@@ -530,22 +542,22 @@ const masterCollectionLayout = () => {
   useEffect(() => {
     if (isExtraSmallerScreen) {
       setSlidePreview(2);
-      setSpaceBetween(5)
+      setSpaceBetween(5);
     } else if (isSmallerScreen) {
       setSlidePreview(3);
-      setSpaceBetween(5)
+      setSpaceBetween(5);
     } else if (isMediumScreen) {
       setSlidePreview(3);
-      setSpaceBetween(5)
+      setSpaceBetween(5);
     } else if (isLargeScreen) {
       setSlidePreview(4);
-      setSpaceBetween(60)
+      setSpaceBetween(60);
     } else if (isExtraLargeScreen) {
       setSlidePreview(5);
-      setSpaceBetween(60)
+      setSpaceBetween(60);
     } else {
       setSlidePreview(6);
-      setSpaceBetween(80)
+      setSpaceBetween(80);
     }
   }, [
     isExtraSmallerScreen,

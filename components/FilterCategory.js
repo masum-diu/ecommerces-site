@@ -106,6 +106,7 @@ const FilterCategory = ({
     setHasMore(true);
     setFilteredData([]);
     setProducts([]);
+    setSubCategoryID("")
   };
   const handleFabric = (name, id) => {
     setFabricName(name);
@@ -117,6 +118,7 @@ const FilterCategory = ({
     setHasMore(true);
     setFilteredData([]);
     setProducts([]);
+    setSubCategoryID("")
   };
   const handleColor = ([colorName, colorId]) => {
     setSelectedColor([colorName, colorId]);
@@ -124,6 +126,7 @@ const FilterCategory = ({
     setMakeColorTrue(true);
     setMakePriceTrue(false);
     setHasMore(true);
+    setSubCategoryID("")
   };
   return (
     <React.Fragment>

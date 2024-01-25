@@ -36,6 +36,7 @@ const MenuDawer = ({
   setHasMore,
   setFilteredData,
   setProducts,
+  setSubCategoryID,
 }) => {
   const [openList, setOpenList] = useState(false);
   const [arrow, setArrow] = useState(false);
@@ -80,6 +81,7 @@ const MenuDawer = ({
     setHasMore(true);
     setFilteredData([]);
     setProducts([]);
+    setSubCategoryID("");
   };
 
   const handleFabric = (name, id) => {
@@ -92,6 +94,7 @@ const MenuDawer = ({
     setHasMore(true);
     setFilteredData([]);
     setProducts([]);
+    setSubCategoryID("");
   };
   const handleColor = ([colorName, colorId]) => {
     setSelectedColor([colorName, colorId]);
@@ -99,6 +102,7 @@ const MenuDawer = ({
     setMakeColorTrue(true);
     setMakePriceTrue(false);
     setHasMore(true);
+    setSubCategoryID("");
   };
   return (
     <>
