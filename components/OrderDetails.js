@@ -39,7 +39,7 @@ const OrderDetails = () => {
   const { selectedCurrency, convertPrice, currentConversionRate } =
     useCurrencyConversion();
   return (
-    <Grid item lg={4} xl={5} md={4} >
+    <Grid item lg={4} xl={4} md={4} >
       <Paper elevation={1} mb={1} sx={{ width: "100%" }}>
         <Stack
           sx={{ width: "100%", mx: "auto", p: 2 }}
