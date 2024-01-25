@@ -768,92 +768,112 @@ const PorductDetails = () => {
                   >
                     {description}
                   </Typography>
-                  {discountType !== undefined ? (
-                    <Typography
-                      variant="header1"
-                      className="SemiBold"
-                      color="initial"
-                      letterSpacing={0.3}
-                      fontWeight={700}
-                    >
-                      {/* Price : BDT {productPrice} */}
-                      {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
-                      {priceAfterDiscount > 0
-                        ? `${convertPrice(priceAfterDiscount)}`
-                        : "Out of Stock"}
-                    </Typography>
-                  ) : (
-                    ""
-                  )}
                   <Stack
                     direction={"row"}
                     justifyContent={"space-between"}
                     alignItems={"center"}
+                    
                   >
-                    {" "}
                     <Stack
-                      direction={"row"}
-                      justifyContent={"start"}
-                      alignItems={"center"}
-                      spacing={2}
+                      direction={{sm:"row",md:"column-reverse",lg:"row"}}
+                      justifyContent={"flex-start"}
+                      alignItems={{md:"flex-start",lg:"center"}}
+                      sx={{ width: "60%" }}
+                      spacing={1}
                     >
-                      {discountType !== undefined ? (
+                      <Stack
+                        direction={"row"}
+                        justifyContent={"start"}
+                        alignItems={"center"}
+                        spacing={2}
+                      >
+                        {discountType !== undefined ? (
+                          <Typography
+                            variant="cardHeader3"
+                            color="initial"
+                            className="bold"
+                            sx={{
+                              border: "1px solid #3D5675",
+                              borderRadius: "5px",
+                              padding: "1px",
+                            }}
+                          >
+                            -{discountAmount}
+                            {discountType === "percentage" ? "%" : ""}
+                          </Typography>
+                        ) : (
+                          ""
+                        )}
                         <Typography
-                          variant="cardHeader3"
+                          variant={
+                            discountType !== undefined ? "homeFlash" : "header1"
+                          }
+                          className="SemiBold"
                           color="initial"
-                          className="bold"
-                          sx={{
-                            border: "1px solid #3D5675",
-                            borderRadius: "5px",
-                            padding: "1px",
+                          letterSpacing={0.3}
+                          fontWeight={700}
+                          style={{
+                            textDecorationLine: `${
+                              discountType !== undefined
+                                ? "line-through"
+                                : "none"
+                            }`,
                           }}
                         >
-                          -{discountAmount}
-                          {discountType === "percentage" ? "%" : ""}
+                          {/* Price : BDT {productPrice} */}
+                          {priceWithoutFragileCharge > 0
+                            ? selectedCurrency
+                            : ""}{" "}
+                          {priceWithoutFragileCharge > 0
+                            ? `${convertPrice(priceWithoutFragileCharge)}`
+                            : "Out of Stock"}
+                        </Typography>
+                      </Stack>
+                      {discountType !== undefined ? (
+                        <Typography
+                          variant="header1"
+                          className="SemiBold"
+                          color="initial"
+                          letterSpacing={0.3}
+                          fontWeight={700}
+                        >
+                          {/* Price : BDT {productPrice} */}
+                          {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
+                          {priceAfterDiscount > 0
+                            ? `${convertPrice(priceAfterDiscount)}`
+                            : "Out of Stock"}
                         </Typography>
                       ) : (
                         ""
                       )}
-                      <Typography
-                        variant="header1"
-                        className="SemiBold"
-                        color="initial"
-                        letterSpacing={0.3}
-                        fontWeight={700}
-                        style={{
-                          textDecorationLine: `${
-                            discountType !== undefined ? "line-through" : "none"
-                          }`,
-                        }}
-                      >
-                        {/* Price : BDT {productPrice} */}
-                        {priceWithoutFragileCharge > 0
-                          ? selectedCurrency
-                          : ""}{" "}
-                        {priceWithoutFragileCharge > 0
-                          ? `${convertPrice(priceWithoutFragileCharge)}`
-                          : "Out of Stock"}
-                      </Typography>
                     </Stack>
+
                     <Stack
                       direction={"row"}
-                      spacing={1}
-                      alignItems="center"
-                      sx={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "5px",
-                        px: 1,
-                      }}
+                      justifyContent={"flex-end"}
+                      alignItems={"center"}
+                      sx={{ width: "40%" }}
                     >
-                      <Stack>
-                        <Typography
-                          variant="cardHeader3"
-                          color="#959595"
-                          className="SemiBold"
-                        >
-                          Quantity
-                        </Typography>
-                        {/* <hr
+                      {" "}
+                      <Stack
+                        direction={"row"}
+                        spacing={1}
+                        alignItems="center"
+                        sx={{
+                          border: "1px solid #D9D9D9",
+                          borderRadius: "5px",
+                          px: 1,
+                        }}
+                      >
+                        <Stack>
+                          <Typography
+                            variant="cardHeader3"
+                            color="#959595"
+                            className="SemiBold"
+                          >
+                            Quantity
+                          </Typography>
+                          {/* <hr
                       style={{
                         textAlign: "left",
                         width: "100%",
@@ -862,44 +882,45 @@ const PorductDetails = () => {
                         // maxWidth: "340px",
                       }}
                     /> */}
-                      </Stack>
-                      <Stack
-                        direction={"row"}
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent={"space-between"}
-                        // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
-                      >
+                        </Stack>
                         <Stack
                           direction={"row"}
                           spacing={2}
                           alignItems="center"
                           justifyContent={"space-between"}
-                          sx={{
-                            color: "#959595",
-                          }}
+                          // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
                         >
-                          <IconButton
-                            size="small"
-                            aria-label="reduce"
-                            onClick={() => {
-                              setCount(Math.max(count - 1, 1));
+                          <Stack
+                            direction={"row"}
+                            spacing={2}
+                            alignItems="center"
+                            justifyContent={"space-between"}
+                            sx={{
+                              color: "#959595",
                             }}
                           >
-                            <KeyboardArrowDownIcon fontSize="small" />
-                          </IconButton>
-                          <Typography variant="cardHeader3" color="#959595">
-                            {" "}
-                            {count}
-                          </Typography>
-                          <IconButton
-                            aria-label="increase"
-                            onClick={() => {
-                              setCount(count + 1);
-                            }}
-                          >
-                            <KeyboardArrowUpIcon fontSize="small" />
-                          </IconButton>
+                            <IconButton
+                              size="small"
+                              aria-label="reduce"
+                              onClick={() => {
+                                setCount(Math.max(count - 1, 1));
+                              }}
+                            >
+                              <KeyboardArrowDownIcon fontSize="small" />
+                            </IconButton>
+                            <Typography variant="cardHeader3" color="#959595">
+                              {" "}
+                              {count}
+                            </Typography>
+                            <IconButton
+                              aria-label="increase"
+                              onClick={() => {
+                                setCount(count + 1);
+                              }}
+                            >
+                              <KeyboardArrowUpIcon fontSize="small" />
+                            </IconButton>
+                          </Stack>
                         </Stack>
                       </Stack>
                     </Stack>
@@ -926,15 +947,18 @@ const PorductDetails = () => {
                       </Stack>
                       <Stack
                         direction={"row"}
-                        spacing={1}
+                        // spacing={1}
+                        gap={2}
                         alignItems="center"
                         justifyContent={"space-between"}
+                        flexWrap={"wrap"}
                       >
                         <Stack
                           direction={"row"}
-                          spacing={2}
-                          // width={"20%"}
-                          justifyContent="space-between"
+                          gap={2}
+                          flexWrap={"wrap"}
+                          justifyContent="flex-start"
+                          alignItems={"center"}
                         >
                           {/* {console.log("your log output", products)} */}
                           {products?.p_sizes?.map((size, index) => (
@@ -964,6 +988,7 @@ const PorductDetails = () => {
                                       : "black"
                                   }`,
                                 },
+                                
                               }}
                               style={{
                                 boxShadow:
@@ -999,10 +1024,7 @@ const PorductDetails = () => {
                             </Button>
                           ))}
                         </Stack>
-                        {
-                          /* products?.subcat_id === 13 ||
-                        products?.subcat_id === 15 ||
-                        products?.cat_id === 1 */ products?.p_sizes.length >
+                        { products?.p_sizes.length >
                             0 &&
                           products?.p_sizes.some((item) =>
                             [
@@ -1782,31 +1804,17 @@ const PorductDetails = () => {
                 >
                   {description}
                 </Typography>
-                <Stack>
-                  {discountType !== undefined ? (
-                    <Typography
-                      variant="header1"
-                      className="SemiBold"
-                      color="initial"
-                      letterSpacing={0.3}
-                      fontWeight={700}
-                    >
-                      {/* Price : BDT {productPrice} */}
-                      {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
-                      {priceAfterDiscount > 0
-                        ? `${convertPrice(priceAfterDiscount)}`
-                        : "Out of Stock"}
-                    </Typography>
-                  ) : (
-                    ""
-                  )}
-
+                <Stack
+                  direction={"row"}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
                   <Stack
                     direction={"row"}
                     justifyContent={"start"}
                     alignItems={"center"}
                     spacing={2}
-                    pt={1}
+                    // pt={1}
                   >
                     {discountType !== undefined ? (
                       <Typography
@@ -1826,12 +1834,15 @@ const PorductDetails = () => {
                       ""
                     )}
                     <Typography
-                      variant="header1"
+                      variant={`${
+                        discountType !== undefined ? "homeFlash" : "header1"
+                      }`}
                       className="SemiBold"
                       color="initial"
                       letterSpacing={0.3}
                       fontWeight={700}
                       style={{
+                        opacity: `${discountType !== undefined ? 0.6 : 1}`,
                         textDecorationLine: `${
                           discountType !== undefined ? "line-through" : "none"
                         }`,
@@ -1846,6 +1857,24 @@ const PorductDetails = () => {
                         : "Out of Stock"}
                     </Typography>
                   </Stack>
+                  {discountType !== undefined ? (
+                    <Typography
+                      variant="header1"
+                      className="SemiBold"
+                      color="initial"
+                      pl={1}
+                      letterSpacing={0.3}
+                      fontWeight={700}
+                    >
+                      {/* Price : BDT {productPrice} */}
+                      {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
+                      {priceAfterDiscount > 0
+                        ? `${convertPrice(priceAfterDiscount)}`
+                        : "Out of Stock"}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
                 </Stack>
                 <hr />
                 {products?.p_sizes?.length > 0 ? (
