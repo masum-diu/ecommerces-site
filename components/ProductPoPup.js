@@ -164,12 +164,14 @@ const ProductPoPup = ({
             variant="contained"
             color="secondary"
             className="SemiBold"
+            sx={{ bgcolor: "#af7b29" }}
             onClick={() => setOpen(false)}
           >
             continue shopping
           </Button>
           <Button
             fullWidth
+            sx={{ bgcolor: "#1B3148" }}
             variant="contained"
             color="background2"
             className="SemiBold"

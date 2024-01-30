@@ -91,6 +91,13 @@ const addtocart = () => {
     setKeepShowing(true);
     fbq.event("InitiateCheckout");
   };
+  const performDoubleOperation = (value1, value2) => {
+    return parseFloat((parseFloat(value1) + parseFloat(value2)).toFixed(2));
+  };
+
+  const performSingleOperation = (value1) => {
+    return parseFloat(parseFloat(value1).toFixed(2));
+  };
 
   return (
     <>
@@ -470,7 +477,7 @@ const addtocart = () => {
                                             data.totalPriceWithTaxOrg +
                                             parseFloat(data.priceWithTaxOrg),
 
-                                          // setting cart data for discount price
+                                          // set cart data for discount price
                                           price_after_discount:
                                             data.price_after_discount,
                                           priceOrg_after_discount:
@@ -843,7 +850,6 @@ const addtocart = () => {
                             variant="outlined"
                             sx={{ marginBottom: "8px" }}
                           >
-                            
                             <TableRow>
                               <TableCell sx={{ border: "none" }}>
                                 <img
@@ -1185,7 +1191,7 @@ const addtocart = () => {
                                                     data.priceWithTaxOrg
                                                   ),
 
-                                                // setting cart data for discount price
+                                                // set cart data for discount price
                                                 price_after_discount:
                                                   data.price_after_discount,
                                                 priceOrg_after_discount:

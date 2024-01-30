@@ -3,9 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const productApi = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://backend.aranya.com.bd/api",
+    baseUrl: "https://backend.aranya.com.bd/api",
     // baseUrl: "https://apiaranya.jumriz.com/public/api",
-    baseUrl: "https://apiaranya.etherstaging.xyz/public/api",
+    // baseUrl: "https://apiaranya.etherstaging.xyz/public/api",
   }),
   tagTypes: ["Orders", "UserAddress"],
   endpoints: (builder) => ({
@@ -22,13 +22,15 @@ export const productApi = createApi({
       query: () => `/home-pagedata`,
     }),
     getSearchResult: builder.query({
-      query: ({searchText,page}) => `/product?page=${page}&keyword=${searchText}&per_page=10`,
+      query: ({ searchText, page }) =>
+        `/product?page=${page}&keyword=${searchText}&per_page=10`,
     }),
     getCampignLists: builder.query({
       query: () => "/all-campaign?status",
     }),
     getParticularCampignLists: builder.query({
-      query: ({ Camp_id, page }) => `product?camp_id=${Camp_id}&page=${page}&per_page=8`,
+      query: ({ Camp_id, page }) =>
+        `product?camp_id=${Camp_id}&page=${page}&per_page=8`,
     }),
     getCategoryWiseProducts: builder.query({
       query: ({ cat, page }) => `/product/${cat}?page=${page}&per_page=16`,
@@ -76,7 +78,6 @@ export const productApi = createApi({
       query: ({ cat, up, low, page }) =>
         `/product/${cat}?range=${low}-${up}&page=${page}&per_page=16`,
       throttle: {
-        // Use throttle to limit the rate at which the query function is called
         wait: 500,
         leading: true,
         trailing: true,

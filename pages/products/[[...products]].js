@@ -588,7 +588,7 @@ const masterCollectionLayout = () => {
     setMakeColorTrue(false);
     setMakePriceTrue(false);
     setHasMore(true);
-    setFilteredData([]);
+    // setFilteredData([]);
     setProducts([]);
   };
   const handleAllProduct = (data) => {
@@ -676,7 +676,7 @@ const masterCollectionLayout = () => {
           >
             <Typography
               variant="cardHeader2"
-              color="initial"
+              color="#1B3148"
               sx={{ cursor: "pointer" }}
               onClick={() => router.push("/shop")}
             >
@@ -686,12 +686,12 @@ const masterCollectionLayout = () => {
             <Typography
               variant="cardHeader2"
               sx={{ cursor: "pointer" }}
-              color="initial"
+              color="#1B3148"
             >
               {currentPath}
             </Typography>
           </Stack>
-          <Typography variant="cardHeader1" color="initial">
+          <Typography variant="cardHeader1" color="#1B3148">
             {productName} COLLECTION
           </Typography>
         </Stack>
@@ -704,40 +704,63 @@ const masterCollectionLayout = () => {
             zIndex: 1,
           }}
         >
-          <Hidden>
+          <Stack
+            direction={"row"}
+            spacing={0}
+            sx={{
+              width: "90%",
+              maxWidth: "1500px",
+              margin: "0 auto",
+              height: "61px",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Stack
               direction={"row"}
-              spacing={0}
-              sx={{
-                width: "90%",
-                maxWidth: "1500px",
-                margin: "0 auto",
-                height: "61px",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Stack
-                direction={"row"}
-                // spacing={4}
+              // spacing={4}
 
-                justifyContent={"center"}
-                alignItems={"center"}
-                sx={{ width: "90%" }}
+              justifyContent={"center"}
+              alignItems={"center"}
+              sx={{ width: "90%" }}
+            >
+              <Swiper
+                spaceBetween={spaceBetween}
+                slidesPerView={slidesPerView}
+                modules={[Pagination]}
+                className="mySwiper"
+                // style={{border:"1px solid red"}}
               >
-                <Swiper
-                  spaceBetween={spaceBetween}
-                  slidesPerView={slidesPerView}
-                  modules={[Pagination]}
-                  className="mySwiper"
-                  // style={{border:"1px solid red"}}
-                >
-                  <SwiperSlide>
+                <SwiperSlide>
+                  <Typography
+                    variant="homeFlash"
+                    color="#1B3148"
+                    className="SemiBold"
+                    style={
+                      subCategorySelect === "all"
+                        ? {
+                            borderBottom: "2px solid gray",
+                          }
+                        : {}
+                    }
+                    sx={{
+                      cursor: "pointer",
+                      padding: "5px",
+                      letterSpacing: 1.5,
+                    }}
+                    onClick={() => handleAllProduct("all")}
+                  >
+                    All {currentPath}
+                  </Typography>
+                </SwiperSlide>
+                {subCategories?.map((sub_cat, index) => (
+                  <SwiperSlide key={index}>
                     <Typography
-                      variant="homeFlash"
                       className="SemiBold"
+                      variant="homeFlash"
+                      color="#1B3148"
                       style={
-                        subCategorySelect === "all"
+                        subCategorySelect === sub_cat?.category_name
                           ? {
                               borderBottom: "2px solid gray",
                             }
@@ -748,62 +771,36 @@ const masterCollectionLayout = () => {
                         padding: "5px",
                         letterSpacing: 1.5,
                       }}
-                      onClick={() => handleAllProduct("all")}
-                    >
-                      All {currentPath}
-                    </Typography>
+                      onClick={() =>
+                        handleSubCategoryChange(
+                          sub_cat?.category_name,
+                          sub_cat?.id
+                        )
+                      }
+                    >{`${sub_cat?.category_name}`}</Typography>
                   </SwiperSlide>
-                  {subCategories?.map((sub_cat, index) => (
-                    <SwiperSlide key={index}>
-                      <Typography
-                        className="SemiBold"
-                        variant="homeFlash"
-                        style={
-                          subCategorySelect === sub_cat?.category_name
-                            ? {
-                                borderBottom: "2px solid gray",
-                              }
-                            : {}
-                        }
-                        sx={{
-                          cursor: "pointer",
-                          padding: "5px",
-                          letterSpacing: 1.5,
-                        }}
-                        onClick={() =>
-                          handleSubCategoryChange(
-                            sub_cat?.category_name,
-                            sub_cat?.id
-                          )
-                        }
-                      >{`${sub_cat?.category_name}`}</Typography>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-                {/* <ArrowForwardIosIcon></ArrowForwardIosIcon> */}
-                {/* <Menu1 title={"Nakshikantha Saree"} />
-                  <Menu1 title={"Jamdani Saree"} /> */}
-              </Stack>
-              <Stack
-                sx={{ width: "8%" }}
-                direction={"row"}
-                alignItems="center"
-                // spacing={0.5}
+                ))}
+              </Swiper>
+            </Stack>
+            <Stack
+              sx={{ width: "8%" }}
+              direction={"row"}
+              alignItems="center"
+              // spacing={0.5}
+              onClick={() => setFilter(true)}
+            >
+              <Typography
+                variant="homeFlash"
+                className="SemiBold"
+                color="#1B3148"
+                sx={{ cursor: "pointer", letterSpacing: 1.5 }}
                 onClick={() => setFilter(true)}
               >
-                <Typography
-                  variant="homeFlash"
-                  className="SemiBold"
-                  color="initial"
-                  sx={{ cursor: "pointer", letterSpacing: 1.5 }}
-                  onClick={() => setFilter(true)}
-                >
-                  Filter
-                </Typography>
-                <BiFilter style={{ fontSize: "18px" }} />
-              </Stack>
+                Filter
+              </Typography>
+              <BiFilter style={{ fontSize: "18px" }} />
             </Stack>
-          </Hidden>
+          </Stack>
         </Box>
         <div style={{ minHeight: "100px" }}>
           <ProductsLayoutWithStaticImage

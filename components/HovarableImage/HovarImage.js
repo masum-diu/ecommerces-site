@@ -180,7 +180,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
           >
             <Typography
               variant="cardHeader3"
-              // color="initial"
+              color="#1B3148"
               className="SemiBold"
             >
               {data?.p_name}
@@ -193,7 +193,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
                 <Typography
                   variant="cardHeader1"
-                  // color="initial"
+                  color="#1B3148"
                   className="bold"
                 >
                   {/* BDT {product?.p_stocks[0]?.mrp} */}
@@ -215,7 +215,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
                 {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
                   <Typography
                     variant="cardHeader3"
-                    // color="initial"
+                    color="#1B3148"
                     className="bold"
                     pl={2}
                     style={{
@@ -227,7 +227,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
                 ) : (
                   <Typography
                     variant="cardHeader1"
-                    // color="initial"
+                    color="#1B3148"
                     className="bold"
                     style={{
                       textDecorationLine: "none",
@@ -254,7 +254,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
                 {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
                   <Typography
                     variant="cardHeader3"
-                    // color="initial"
+                    color="#1B3148"
                     className="bold"
                   >
                     -{data?.p_stocks[0]?.discount?.discount_amount}%

@@ -28,6 +28,23 @@ const SearchModal = ({ open, setOpen }) => {
     searchText,
     page,
   });
+
+  // Debouncing logic with an additional delay after the last keypress
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  const delayedHandleFilter = (value) => {
+    setSearchText(value);
+    setPage(1);
+  };
+
+  const debouncedHandleFilter = debounce(delayedHandleFilter, 1000); //
+
   useEffect(() => {
     if (page === 1) {
       if (searchText === "") {
@@ -37,7 +54,6 @@ const SearchModal = ({ open, setOpen }) => {
       }
     } else {
       if (searchText === "") {
-        
         setApiData([]);
       } else {
         setApiData((prevData) => [...prevData, ...data?.data]);
@@ -51,12 +67,11 @@ const SearchModal = ({ open, setOpen }) => {
     }
   };
   useEffect(() => {
-    
     setPage(1);
   }, [searchText]);
   const handleFilter = (e) => {
     const value = e.target.value;
-    setSearchText(value);
+    debouncedHandleFilter(value);
     setFilterVal(value);
   };
 
@@ -66,15 +81,17 @@ const SearchModal = ({ open, setOpen }) => {
         className="some"
         anchor="right"
         open={open}
-        onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            width: "30%",
+            width: "90vw",
+            maxWidth: { lg: "433px", xs: "300px" },
             mx: "auto",
             display: "flex",
             justifyContent: "flex-start",
           },
         }}
+        transitionDuration={{ enter: 500, exit: 500 }}
+        onClose={() => setOpen(false)}
       >
         <Box p={3}>
           <Stack
@@ -95,13 +112,17 @@ const SearchModal = ({ open, setOpen }) => {
                   setApiData([]);
                 }}
               >
-                <MdClose />
+                {/* <MdClose /> */}
+                <img src="/assets/close_sidebar.svg" alt="" />
               </IconButton>
-              <Typography>SEARCH</Typography>
+              <Typography sx={{ ml: 2 }} color="#1B3148">
+                SEARCH
+              </Typography>
             </Stack>
 
             <TextField
               fullWidth
+              sx={{ color: "#1B3148" }}
               id="standard-textarea"
               label="Search products…"
               value={filterVal ? filterVal : null}
@@ -141,7 +162,6 @@ const SearchModal = ({ open, setOpen }) => {
                 justifyContent="center"
                 alignItems={"flex-start"}
               >
-                
                 {apiData?.map((data, index) => (
                   <Link
                     key={index}
@@ -163,7 +183,7 @@ const SearchModal = ({ open, setOpen }) => {
                       />
                       <Typography
                         variant="cardHeader2"
-                        color="initial"
+                        color="#1B3148"
                         textAlign={"center"}
                       >
                         {data?.p_name}

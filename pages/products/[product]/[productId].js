@@ -661,7 +661,7 @@ const PorductDetails = () => {
           // sx={{ }}
         >
           <Grid container justifyContent={"center"}>
-            <Grid item xl={4} lg={5} md={6} sm={12}>
+            <Grid item xl={5} lg={5} md={6} sm={12}>
               <img
                 onClick={() =>
                   handleImageForThumble(true, {
@@ -742,13 +742,13 @@ const PorductDetails = () => {
             </Grid>
 
             {/* Description Section */}
-            <Grid item xl={8} lg={7} md={6}>
+            <Grid item xl={7} lg={7} md={6}>
               <div style={{ position: "sticky", top: 100 }}>
                 <Stack direction={"column"} mx={5} width={"100%"}>
                   <Typography
                     className="exterBold"
                     variant="productName"
-                    color="initial"
+                    color="#1B3148"
                     fontFamily={"IM Fell Double Pica"}
                     sx={{ letterSpacing: 0.6 }}
                   >
@@ -760,7 +760,7 @@ const PorductDetails = () => {
                   <Typography
                     className="light"
                     variant="cardHeader3"
-                    color="initial"
+                    color="#1B3148"
                     sx={{
                       letterSpacing: 0.17,
                       width: { xs: "100%", lg: "70%", xl: "60%" },
@@ -772,12 +772,11 @@ const PorductDetails = () => {
                     direction={"row"}
                     justifyContent={"space-between"}
                     alignItems={"center"}
-                    
                   >
                     <Stack
-                      direction={{sm:"row",md:"column-reverse",lg:"row"}}
+                      direction={{ sm: "row", md: "column-reverse", lg: "row" }}
                       justifyContent={"flex-start"}
-                      alignItems={{md:"flex-start",lg:"center"}}
+                      alignItems={{ md: "flex-start", lg: "center" }}
                       sx={{ width: "60%" }}
                       spacing={1}
                     >
@@ -790,7 +789,7 @@ const PorductDetails = () => {
                         {discountType !== undefined ? (
                           <Typography
                             variant="cardHeader3"
-                            color="initial"
+                            color="#1B3148"
                             className="bold"
                             sx={{
                               border: "1px solid #3D5675",
@@ -809,7 +808,7 @@ const PorductDetails = () => {
                             discountType !== undefined ? "homeFlash" : "header1"
                           }
                           className="SemiBold"
-                          color="initial"
+                          color="#1B3148"
                           letterSpacing={0.3}
                           fontWeight={700}
                           style={{
@@ -833,7 +832,7 @@ const PorductDetails = () => {
                         <Typography
                           variant="header1"
                           className="SemiBold"
-                          color="initial"
+                          color="#1B3148"
                           letterSpacing={0.3}
                           fontWeight={700}
                         >
@@ -927,7 +926,75 @@ const PorductDetails = () => {
                   </Stack>
 
                   <hr />
-                  <br />
+
+                  {products?.p_colours?.length > 0 ? (
+                    <>
+                      <Stack direction={"row"} spacing={1} alignItems="center">
+                        <Typography
+                          variant="cardHeader3"
+                          color="#959595"
+                          className="SemiBold"
+                        >
+                          Colors
+                        </Typography>
+                      </Stack>
+                      <Stack
+                        direction={"row"}
+                        spacing={1}
+                        alignItems="center"
+                        justifyContent={"space-between"}
+                      >
+                        <Stack
+                          direction={"row"}
+                          spacing={2}
+                          // width={"20%"}
+                          justifyContent="space-between"
+                          alignItems={"center"}
+                        >
+                          {products?.p_colours?.map((color) => (
+                            <Stack
+                              key={color.id}
+                              onClick={() =>
+                                handleSelectColor(
+                                  color.color_name,
+                                  color.color_code,
+                                  color.id
+                                )
+                              }
+                              sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                width: "35px",
+                                height: "35px",
+                                backgroundColor: color.color_code,
+                                borderRadius: "50%",
+                                cursor: "pointer",
+                                margin: "0 auto",
+                                padding: "2px",
+                              }}
+                            >
+                              <Stack
+                                sx={{
+                                  width: "90%",
+                                  height: "90%",
+                                  borderRadius: "50%",
+                                  cursor: "pointer",
+                                  border:
+                                    activecolor === color.id
+                                      ? "3px solid #ffffff"
+                                      : "none",
+                                }}
+                              ></Stack>
+                            </Stack>
+                          ))}
+                        </Stack>
+                      </Stack>
+                      <hr />
+                    </>
+                  ) : (
+                    ""
+                  )}
 
                   {products?.p_sizes?.length > 0 ? (
                     <Stack style={{ marginBottom: "1vh" }}>
@@ -952,6 +1019,7 @@ const PorductDetails = () => {
                         alignItems="center"
                         justifyContent={"space-between"}
                         flexWrap={"wrap"}
+                        mb={1}
                       >
                         <Stack
                           direction={"row"}
@@ -988,7 +1056,6 @@ const PorductDetails = () => {
                                       : "black"
                                   }`,
                                 },
-                                
                               }}
                               style={{
                                 boxShadow:
@@ -1024,47 +1091,46 @@ const PorductDetails = () => {
                             </Button>
                           ))}
                         </Stack>
-                        { products?.p_sizes.length >
-                            0 &&
-                          products?.p_sizes.some((item) =>
-                            [
-                              "s",
-                              "m",
-                              "lg",
-                              "xl",
-                              "xxl",
-                              "38",
-                              "40",
-                              "42",
-                              "44",
-                              "46",
-                              "48",
-                            ].includes(item.slug)
-                          ) ? (
-                            <Button
-                              variant="text"
-                              color="primary"
-                              onClick={() =>
-                                handleSizeGuide(
-                                  products?.subcat_id,
-                                  products?.cat_id,
-                                  products?.p_sizes,
-                                  products?.p_category?.slug
-                                )
-                              }
-                            >
-                              size guide
-                            </Button>
-                          ) : (
-                            ""
-                          )
-                        }
+                        {products?.p_sizes.length > 0 &&
+                        products?.p_sizes.some((item) =>
+                          [
+                            "s",
+                            "m",
+                            "lg",
+                            "xl",
+                            "xxl",
+                            "38",
+                            "40",
+                            "42",
+                            "44",
+                            "46",
+                            "48",
+                          ].includes(item.slug)
+                        ) ? (
+                          <Button
+                            variant="text"
+                            color="primary"
+                            onClick={() =>
+                              handleSizeGuide(
+                                products?.subcat_id,
+                                products?.cat_id,
+                                products?.p_sizes,
+                                products?.p_category?.slug
+                              )
+                            }
+                          >
+                            size guide
+                          </Button>
+                        ) : (
+                          ""
+                        )}
                       </Stack>
+                      <hr style={{ width: "100%" }} />
                     </Stack>
                   ) : (
                     ""
                   )}
-                  {products?.p_colours?.length > 0 ? (
+                  {/* {products?.p_colours?.length > 0 ? (
                     <>
                       <Stack direction={"row"} spacing={1} alignItems="center">
                         <Typography
@@ -1088,7 +1154,6 @@ const PorductDetails = () => {
                           justifyContent="space-between"
                           alignItems={"center"}
                         >
-                          {/* {console.log("your log output", products)} */}
                           {products?.p_colours?.map((color) => (
                             <Box
                               key={color.id}
@@ -1114,10 +1179,11 @@ const PorductDetails = () => {
                           ))}
                         </Stack>
                       </Stack>
+                      <hr />
                     </>
                   ) : (
                     ""
-                  )}
+                  )} */}
                   {/* <Stack direction={"row"} spacing={1} alignItems="center">
                     <Typography
                       variant="cardHeader3"
@@ -1165,7 +1231,7 @@ const PorductDetails = () => {
                       </IconButton>
                     </Stack>
                   </Stack> */}
-                  <hr />
+
                   <br />
                   {noteTextForCart && (
                     <>
@@ -1195,6 +1261,7 @@ const PorductDetails = () => {
                         variant="contained"
                         color="background2"
                         type="submit"
+                        sx={{ bgcolor: "#1B3148" }}
                         disabled={disableBtn}
                         onClick={() => handleAddToCart(finalData)}
                       >
@@ -1269,14 +1336,14 @@ const PorductDetails = () => {
                   <Stack direction={"column"} spacing={1}>
                     {/* <Typography
                       variant="cardHeader12"
-                      color="initial"
+                      color="#1B3148"
                       className="SemiBold"
                     >
                       Note: {noteTextForStock}
                     </Typography> */}
                     <Typography
                       variant="cardHeader12"
-                      color="initial"
+                      color="#1B3148"
                       className="SemiBold"
                     >
                       In Availability:{" "}
@@ -1285,7 +1352,7 @@ const PorductDetails = () => {
                     </Typography>
                     {/* <Typography
                       variant="cardHeader12"
-                      color="initial"
+                      color="#1B3148"
                       className="SemiBold"
                     >
                       Check In Store Availability
@@ -1296,11 +1363,12 @@ const PorductDetails = () => {
                     {" "}
                     <Button
                       variant="outlined"
-                      color="primary"
+                      // color="#1B3148"
                       onClick={handleClick}
                       size="small"
                       className="SemiBold"
                       sx={{
+                        color:"#1B3148",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
@@ -1335,7 +1403,7 @@ const PorductDetails = () => {
                             <Typography
                               variant="cardHeader12"
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               Weight
                             </Typography>
@@ -1345,7 +1413,7 @@ const PorductDetails = () => {
                               variant="cardLocation1"
                               sx={{ width: "50%" }}
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               {products?.p_weight}
                             </Typography>
@@ -1363,7 +1431,7 @@ const PorductDetails = () => {
                             <Typography
                               variant="cardHeader12"
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               Dimensions
                             </Typography>
@@ -1373,7 +1441,7 @@ const PorductDetails = () => {
                               variant="cardLocation1"
                               sx={{ width: "50%" }}
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               {products?.p_dimension}
                             </Typography>
@@ -1391,7 +1459,7 @@ const PorductDetails = () => {
                             <Typography
                               variant="cardHeader12"
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               Fabric
                             </Typography>
@@ -1401,7 +1469,7 @@ const PorductDetails = () => {
                               variant="cardLocation1"
                               sx={{ width: "50%" }}
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               {
                                 <Stack direction={"row"} spacing={1}>
@@ -1411,7 +1479,7 @@ const PorductDetails = () => {
                                         variant="cardLocation1"
                                         sx={{ width: "50%" }}
                                         className="SemiBold"
-                                        color="initial"
+                                        color="#1B3148"
                                       >
                                         {name?.fabric_name}
                                       </Typography>
@@ -1434,7 +1502,7 @@ const PorductDetails = () => {
                             <Typography
                               variant="cardHeader12"
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               Color
                             </Typography>
@@ -1444,7 +1512,7 @@ const PorductDetails = () => {
                               variant="cardLocation1"
                               sx={{ width: "50%" }}
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               {
                                 <Stack direction={"row"} spacing={1}>
@@ -1452,7 +1520,7 @@ const PorductDetails = () => {
                                     variant="cardLocation1"
                                     sx={{ width: "50%" }}
                                     className="SemiBold"
-                                    color="initial"
+                                    color="#1B3148"
                                   >
                                     {products?.p_flat_colour}
                                   </Typography>
@@ -1474,7 +1542,7 @@ const PorductDetails = () => {
                             <Typography
                               variant="cardHeader12"
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               Design Code
                             </Typography>
@@ -1484,7 +1552,7 @@ const PorductDetails = () => {
                               variant="cardLocation1"
                               sx={{ width: "50%" }}
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               {products?.p_design_code}
                             </Typography>
@@ -1503,7 +1571,7 @@ const PorductDetails = () => {
                             <Typography
                               variant="cardHeader12"
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               Size
                             </Typography>
@@ -1513,7 +1581,7 @@ const PorductDetails = () => {
                               variant="cardLocation1"
                               sx={{ width: "50%" }}
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               {
                                 <Stack direction={"row"} spacing={1}>
@@ -1523,7 +1591,7 @@ const PorductDetails = () => {
                                         variant="cardLocation1"
                                         sx={{ width: "50%" }}
                                         className="SemiBold"
-                                        color="initial"
+                                        color="#1B3148"
                                       >
                                         {size?.size_name}
                                       </Typography>
@@ -1547,7 +1615,7 @@ const PorductDetails = () => {
                             <Typography
                               variant="cardHeader12"
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               Country of origin
                             </Typography>
@@ -1557,7 +1625,7 @@ const PorductDetails = () => {
                               variant="cardLocation1"
                               sx={{ width: "50%" }}
                               className="SemiBold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               {products?.country_of_origin}
                             </Typography>
@@ -1582,7 +1650,7 @@ const PorductDetails = () => {
               >
                 <Typography
                   variant="cardHeader1"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                 >
                   Similar Products
@@ -1608,7 +1676,7 @@ const PorductDetails = () => {
                       >
                         <Typography
                           variant="cardHeader3"
-                          color="initial"
+                          color="#1B3148"
                           className="SemiBold"
                         >
                           {data?.p_name}
@@ -1622,7 +1690,7 @@ const PorductDetails = () => {
                           undefined ? (
                             <Typography
                               variant="cardHeader3"
-                              color="initial"
+                              color="#1B3148"
                               className="bold"
                             >
                               {selectedCurrency}{" "}
@@ -1645,7 +1713,7 @@ const PorductDetails = () => {
                             undefined ? (
                               <Typography
                                 variant="cardHeader3"
-                                color="initial"
+                                color="#1B3148"
                                 className="bold"
                               >
                                 -{data?.p_stocks[0]?.discount?.discount_amount}%
@@ -1656,7 +1724,7 @@ const PorductDetails = () => {
 
                             <Typography
                               variant="cardHeader3"
-                              color="initial"
+                              color="#1B3148"
                               className="bold"
                               style={{
                                 textDecorationLine: `${
@@ -1781,7 +1849,7 @@ const PorductDetails = () => {
                 <Stack direction={"column"}>
                   <Typography
                     variant="login2"
-                    color="initial"
+                    color="#1B3148"
                     className="exterBold"
                   >
                     {products?.p_name}
@@ -1789,7 +1857,7 @@ const PorductDetails = () => {
 
                   <Typography
                     variant="cardHeader1"
-                    color="initial"
+                    color="#1B3148"
                     textTransform={"uppercase"}
                     className="SemiBold"
                   >
@@ -1799,7 +1867,7 @@ const PorductDetails = () => {
 
                 <Typography
                   variant="cardHeader3"
-                  color="initial"
+                  color="#1B3148"
                   textAlign={"justify"}
                 >
                   {description}
@@ -1819,7 +1887,7 @@ const PorductDetails = () => {
                     {discountType !== undefined ? (
                       <Typography
                         variant="cardHeader3"
-                        color="initial"
+                        color="#1B3148"
                         className="bold"
                         sx={{
                           border: "1px solid #3D5675",
@@ -1838,7 +1906,7 @@ const PorductDetails = () => {
                         discountType !== undefined ? "homeFlash" : "header1"
                       }`}
                       className="SemiBold"
-                      color="initial"
+                      color="#1B3148"
                       letterSpacing={0.3}
                       fontWeight={700}
                       style={{
@@ -1861,7 +1929,7 @@ const PorductDetails = () => {
                     <Typography
                       variant="header1"
                       className="SemiBold"
-                      color="initial"
+                      color="#1B3148"
                       pl={1}
                       letterSpacing={0.3}
                       fontWeight={700}
@@ -1877,6 +1945,78 @@ const PorductDetails = () => {
                   )}
                 </Stack>
                 <hr />
+                {products?.p_colours?.length > 0 ? (
+                  <Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={1}
+                      alignItems="center"
+                      mb={1}
+                    >
+                      <Typography
+                        variant="cardHeader3"
+                        color="#959595"
+                        className="SemiBold"
+                      >
+                        Colors
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={1}
+                      alignItems="center"
+                      justifyContent={"space-between"}
+                    >
+                      <Stack
+                        direction={"row"}
+                        spacing={2}
+                        // width={"20%"}
+                        justifyContent="space-between"
+                        alignItems={"center"}
+                      >
+                        {products?.p_colours?.map((color) => (
+                          <Stack
+                            key={color.id}
+                            onClick={() =>
+                              handleSelectColor(
+                                color.color_name,
+                                color.color_code,
+                                color.id
+                              )
+                            }
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "35px",
+                              height: "35px",
+                              backgroundColor: color.color_code,
+                              borderRadius: "50%",
+                              cursor: "pointer",
+                              margin: "0 auto",
+                            }}
+                          >
+                            <Stack
+                              sx={{
+                                width: "90%",
+                                height: "90%",
+                                borderRadius: "50%",
+                                cursor: "pointer",
+                                border:
+                                  activecolor === color.id
+                                    ? "3px solid #ffffff"
+                                    : "none",
+                              }}
+                            ></Stack>
+                          </Stack>
+                        ))}
+                      </Stack>
+                    </Stack>
+                    <hr style={{ width: "100%" }} />
+                  </Stack>
+                ) : (
+                  ""
+                )}
                 {products?.p_sizes?.length > 0 ? (
                   <Stack>
                     <Stack
@@ -2015,7 +2155,7 @@ const PorductDetails = () => {
                   ""
                 )}
 
-                {products?.p_colours?.length > 0 ? (
+                {/* {products?.p_colours?.length > 0 ? (
                   <Stack>
                     <Stack
                       direction={"row"}
@@ -2044,9 +2184,9 @@ const PorductDetails = () => {
                         justifyContent="space-between"
                         alignItems={"center"}
                       >
-                        {/* {console.log("your log output", products)} */}
+                        
                         {products?.p_colours?.map((color) => (
-                          <Box
+                          <Stack
                             key={color.id}
                             onClick={() =>
                               handleSelectColor(
@@ -2056,17 +2196,30 @@ const PorductDetails = () => {
                               )
                             }
                             sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
                               width: "35px",
                               height: "35px",
                               backgroundColor: color.color_code,
-                              borderRadius: "10px",
+                              borderRadius: "50%",
                               cursor: "pointer",
-                              border:
-                                activecolor === color.id
-                                  ? "2px solid #3c5676"
-                                  : "none",
+                              margin: "0 auto",
                             }}
-                          />
+                          >
+                            <Stack
+                              sx={{
+                                width: "90%",
+                                height: "90%",
+                                borderRadius: "50%",
+                                cursor: "pointer",
+                                border:
+                                  activecolor === color.id
+                                    ? "3px solid #ffffff"
+                                    : "none",
+                              }}
+                            ></Stack>
+                          </Stack>
                         ))}
                       </Stack>
                     </Stack>
@@ -2074,7 +2227,7 @@ const PorductDetails = () => {
                   </Stack>
                 ) : (
                   ""
-                )}
+                )} */}
                 <Stack
                   direction={"row"}
                   sx={{
@@ -2135,6 +2288,7 @@ const PorductDetails = () => {
                   color="background2"
                   type="submit"
                   disabled={disableBtn}
+                  sx={{ bgcolor: "#1B3148" }}
                   onClick={() => handleAddToCart(finalData)}
                 >
                   ADD TO CART
@@ -2155,12 +2309,12 @@ const PorductDetails = () => {
                   /> */}
                 </Stack>
                 <Stack direction={"column"} spacing={1} pb={1}>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="#1B3148">
                     In Availability:{" "}
                     {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
                     {noteTextForStock}
                   </Typography>
-                  {/* <Typography variant="cardHeader12" color="initial">
+                  {/* <Typography variant="cardHeader12" color="#1B3148">
                     Check In Store Availability
                   </Typography> */}
                 </Stack>
@@ -2251,7 +2405,7 @@ const PorductDetails = () => {
                           <Typography
                             variant="cardHeader12"
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             Weight
                           </Typography>
@@ -2261,7 +2415,7 @@ const PorductDetails = () => {
                             variant="cardLocation1"
                             sx={{ width: "50%" }}
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             {products?.p_weight}
                           </Typography>
@@ -2279,7 +2433,7 @@ const PorductDetails = () => {
                           <Typography
                             variant="cardHeader12"
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             Dimensions
                           </Typography>
@@ -2289,7 +2443,7 @@ const PorductDetails = () => {
                             variant="cardLocation1"
                             sx={{ width: "50%" }}
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             {products?.p_dimension}
                           </Typography>
@@ -2307,7 +2461,7 @@ const PorductDetails = () => {
                           <Typography
                             variant="cardHeader12"
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             Fabric
                           </Typography>
@@ -2317,7 +2471,7 @@ const PorductDetails = () => {
                             variant="cardLocation1"
                             sx={{ width: "50%" }}
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             {
                               <Stack direction={"row"} spacing={1}>
@@ -2327,7 +2481,7 @@ const PorductDetails = () => {
                                       variant="cardLocation1"
                                       sx={{ width: "50%" }}
                                       className="SemiBold"
-                                      color="initial"
+                                      color="#1B3148"
                                     >
                                       {name?.fabric_name}
                                     </Typography>
@@ -2350,7 +2504,7 @@ const PorductDetails = () => {
                           <Typography
                             variant="cardHeader12"
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             Color
                           </Typography>
@@ -2360,7 +2514,7 @@ const PorductDetails = () => {
                             variant="cardLocation1"
                             sx={{ width: "50%" }}
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             {
                               <Stack direction={"row"} spacing={1}>
@@ -2370,7 +2524,7 @@ const PorductDetails = () => {
                                       variant="cardLocation1"
                                       sx={{ width: "50%" }}
                                       className="SemiBold"
-                                      color="initial"
+                                      color="#1B3148"
                                     >
                                       {color?.color_name}
                                     </Typography>
@@ -2394,7 +2548,7 @@ const PorductDetails = () => {
                           <Typography
                             variant="cardHeader12"
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             Design Code
                           </Typography>
@@ -2404,7 +2558,7 @@ const PorductDetails = () => {
                             variant="cardLocation1"
                             sx={{ width: "50%" }}
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             {products?.p_design_code}
                           </Typography>
@@ -2423,7 +2577,7 @@ const PorductDetails = () => {
                           <Typography
                             variant="cardHeader12"
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             Size
                           </Typography>
@@ -2433,7 +2587,7 @@ const PorductDetails = () => {
                             variant="cardLocation1"
                             sx={{ width: "50%" }}
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             {
                               <Stack direction={"row"} spacing={1}>
@@ -2443,7 +2597,7 @@ const PorductDetails = () => {
                                       variant="cardLocation1"
                                       sx={{ width: "50%" }}
                                       className="SemiBold"
-                                      color="initial"
+                                      color="#1B3148"
                                     >
                                       {size?.size_name}
                                     </Typography>
@@ -2467,7 +2621,7 @@ const PorductDetails = () => {
                           <Typography
                             variant="cardHeader12"
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             Country of origin
                           </Typography>
@@ -2477,7 +2631,7 @@ const PorductDetails = () => {
                             variant="cardLocation1"
                             sx={{ width: "50%" }}
                             className="SemiBold"
-                            color="initial"
+                            color="#1B3148"
                           >
                             {products?.country_of_origin}
                           </Typography>
@@ -2497,7 +2651,7 @@ const PorductDetails = () => {
           >
             <Typography
               variant="cardHeader1"
-              color="initial"
+              color="#1B3148"
               className="SemiBold"
             >
               Similar Products

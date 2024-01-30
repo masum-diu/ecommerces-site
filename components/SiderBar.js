@@ -192,7 +192,7 @@ const SiderBar = ({ open, setOpen }) => {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <AccountCircle style={{ color: "#3D5675" }} />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -418,7 +418,8 @@ const SiderBar = ({ open, setOpen }) => {
                 <Typography
                   variant="cardHeader"
                   className="SemiBold"
-                  style={{ color: "#8b8b8b" }}
+                  color="#1B3148"
+                  // style={{ color: "#8b8b8b" }}
                   onClick={() => router.push("/shop")}
                 >
                   SHOP
@@ -436,7 +437,8 @@ const SiderBar = ({ open, setOpen }) => {
                 <Typography
                   variant="cardHeader"
                   className="SemiBold"
-                  style={{ color: "#8b8b8b" }}
+                  color="#1B3148"
+                  // style={{ color: "#8b8b8b" }}
                   onClick={() => router.push("/story")}
                 >
                   STORY
@@ -459,15 +461,15 @@ const SiderBar = ({ open, setOpen }) => {
                       spacing={1}
                       sx={{ alignItems: "center" }}
                     >
-                      <AccountCircle style={{ color: "#8b8b8b" }} />
+                      <AccountCircle style={{ color: "#3D5675" }} />
 
                       <Typography variant="cardHeader" className="SemiBold">
                         {userjsondata ? (
-                          <Typography variant="cardHeader" color="#8b8b8b">
+                          <Typography variant="cardHeader" color="#1B3148">
                             {userjsondata.name}
                           </Typography>
                         ) : (
-                          <Typography variant="cardHeader" color="#8b8b8b">
+                          <Typography variant="cardHeader" color="#1B3148">
                             {user.name}
                           </Typography>
                         )}

@@ -209,7 +209,7 @@ const LoginModal = ({ open, setOpen }) => {
         <DialogTitle>
           <Typography
             variant="header1"
-            color="initial"
+            color="#1B3148"
             sx={{ display: "flex", justifyContent: "center" }}
           >
             Login
@@ -220,7 +220,7 @@ const LoginModal = ({ open, setOpen }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <Stack direction={"column"} spacing={3} mt={2} mb={2}>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="#1B3148">
                     EMAIL ADDRESS
                   </Typography>
                   <TextField
@@ -243,7 +243,7 @@ const LoginModal = ({ open, setOpen }) => {
                   <p style={{ color: "red" }}>{errors.email?.message}</p>
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="#1B3148">
                     PASSWORD
                   </Typography>
                   <TextField
@@ -299,7 +299,7 @@ const LoginModal = ({ open, setOpen }) => {
                     display: "flex",
                     justifyContent: "flex-end",
                   }}
-                  color="initial"
+                  color="#1B3148"
                   onClick={handleChange1}
                 >
                   Forgot Password?
@@ -357,7 +357,7 @@ const LoginModal = ({ open, setOpen }) => {
                   variant="cardHeader12"
                   textAlign={"center"}
                   sx={{ cursor: "pointer" }}
-                  color="initial"
+                  color="#1B3148"
                   onClick={handleChange}
                 >
                   New to Aranya?{" "}

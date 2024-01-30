@@ -53,6 +53,10 @@ import instance from "../../api/api_instance";
 import ProductsLayoutWithStaticImage from "../../../components/ProductsLayoutWithStaticImage";
 import ProductsLayout from "../../../components/ProductsLayout";
 import Head from "next/head";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 function chunkArray(arr, chunkSize = 9) {
   const chunkedArray = [];
@@ -97,7 +101,9 @@ const masterCollectionLayout = () => {
   const [makeFabricTrue, setMakeFabricTrue] = useState(false);
   const [makeColorTrue, setMakeColorTrue] = useState(false);
   const [makePriceTrue, setMakePriceTrue] = useState(false);
-
+  const [slidesPerView, setSlidePreview] = useState(0);
+  const [spaceBetween, setSpaceBetween] = useState(0);
+  const theme = useTheme();
   const divRef = useRef(null);
   const cat = router.query?.cat;
   const sub_cat = router.query?.sub_cat;
@@ -687,6 +693,41 @@ const masterCollectionLayout = () => {
     setMax(max);
   }, [filteredData]);
 
+  // Setting SlidePreview
+  const isExtraSmallerScreen = useMediaQuery(theme.breakpoints.down("xms"));
+  const isSmallerScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isExtraLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
+
+  useEffect(() => {
+    if (isExtraSmallerScreen) {
+      setSlidePreview(2);
+      setSpaceBetween(5);
+    } else if (isSmallerScreen) {
+      setSlidePreview(3);
+      setSpaceBetween(5);
+    } else if (isMediumScreen) {
+      setSlidePreview(3);
+      setSpaceBetween(5);
+    } else if (isLargeScreen) {
+      setSlidePreview(4);
+      setSpaceBetween(60);
+    } else if (isExtraLargeScreen) {
+      setSlidePreview(5);
+      setSpaceBetween(60);
+    } else {
+      setSlidePreview(6);
+      setSpaceBetween(80);
+    }
+  }, [
+    isExtraSmallerScreen,
+    isSmallerScreen,
+    isMediumScreen,
+    isLargeScreen,
+    isExtraLargeScreen,
+  ]);
+
   // handling fabric change state
   const handleFabricChange = (data, id) => {
     setFabricName(data);
@@ -697,7 +738,7 @@ const masterCollectionLayout = () => {
     setMakeColorTrue(false);
     setMakePriceTrue(false);
     setHasMore(true);
-    setFilteredData([]);
+    // setFilteredData([]);
     setProducts([]);
   };
   const handleAllProduct = (data) => {
@@ -722,7 +763,7 @@ const masterCollectionLayout = () => {
   // Slicing data for static products and dynamic products
   const productsForStatic = filteredData.slice(0, 7);
   const productsForDynamic = chunkArray(filteredData.slice(9));
-
+console.log('filteredData',filteredData)
   return (
     <>
       <Head>
@@ -782,7 +823,7 @@ const masterCollectionLayout = () => {
           >
             <Typography
               variant="cardHeader2"
-              color="initial"
+              color="#1B3148"
               sx={{ cursor: "pointer" }}
               onClick={() => router.push("/shop")}
             >
@@ -792,12 +833,12 @@ const masterCollectionLayout = () => {
             <Typography
               variant="cardHeader2"
               sx={{ cursor: "pointer" }}
-              color="initial"
+              color="#1B3148"
             >
               {currentPath}
             </Typography>
           </Stack>
-          <Typography variant="cardHeader1" color="initial">
+          <Typography variant="cardHeader1" color="#1B3148">
             {productName} COLLECTION
           </Typography>
         </Stack>
@@ -810,46 +851,39 @@ const masterCollectionLayout = () => {
             zIndex: 1,
           }}
         >
-          <Hidden>
+          <Stack
+            direction={"row"}
+            spacing={2}
+            sx={{
+              width: "90%",
+              maxWidth: "1500px",
+              margin: "0 auto",
+              height: "61px",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Stack
               direction={"row"}
-              spacing={2}
-              sx={{
-                width: "90%",
-                maxWidth: "1500px",
-                margin: "0 auto",
-                height: "61px",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
+              spacing={4}
+              justifyContent={"center"}
+              alignItems={"center"}
+              sx={{ width: "90%" }}
             >
-              <Stack direction={"row"} spacing={4} alignItems={"center"}>
-                <Typography
-                  variant="homeFlash"
-                  className="SemiBold"
-                  style={
-                    fabricSelect === "all"
-                      ? {
-                          borderBottom: "2px solid gray",
-                        }
-                      : {}
-                  }
-                  sx={{
-                    cursor: "pointer",
-                    padding: "5px",
-                    letterSpacing: 1.5,
-                  }}
-                  onClick={() => handleAllProduct("all")}
-                >
-                  All {currentPath}
-                </Typography>
-                {fabrics?.slice(0, 1).map((fabric, index) => (
+              <Swiper
+                spaceBetween={spaceBetween}
+                slidesPerView={slidesPerView}
+                modules={[Pagination]}
+                className="mySwiper"
+                // style={{border:"1px solid red"}}
+              >
+                <SwiperSlide>
                   <Typography
-                    key={index}
-                    className="SemiBold"
                     variant="homeFlash"
+                    color="#1B3148"
+                    className="SemiBold"
                     style={
-                      fabricSelect === fabric?.fabric_name
+                      fabricSelect === "all"
                         ? {
                             borderBottom: "2px solid gray",
                           }
@@ -860,34 +894,81 @@ const masterCollectionLayout = () => {
                       padding: "5px",
                       letterSpacing: 1.5,
                     }}
-                    onClick={() =>
-                      handleFabricChange(fabric?.fabric_name, fabric?.fabric_id)
-                    }
-                  >{`${fabric?.fabric_name}`}</Typography>
+                    onClick={() => handleAllProduct("all")}
+                  >
+                    All {currentPath}
+                  </Typography>
+                </SwiperSlide>
+                {fabrics?.map((fabric, index) => (
+                  <SwiperSlide>
+                    <Typography
+                      key={index}
+                      className="SemiBold"
+                      variant="homeFlash"
+                      color="#1B3148"
+                      style={
+                        fabricSelect === fabric?.fabric_name
+                          ? {
+                              borderBottom: "2px solid gray",
+                            }
+                          : {}
+                      }
+                      sx={{
+                        cursor: "pointer",
+                        padding: "5px",
+                        letterSpacing: 1.5,
+                      }}
+                      onClick={() =>
+                        handleFabricChange(
+                          fabric?.fabric_name,
+                          fabric?.fabric_id
+                        )
+                      }
+                    >{`${fabric?.fabric_name}`}</Typography>
+                  </SwiperSlide>
                 ))}
+              </Swiper>
+              {/* <Typography
+                variant="homeFlash"
+                className="SemiBold"
+                style={
+                  fabricSelect === "all"
+                    ? {
+                        borderBottom: "2px solid gray",
+                      }
+                    : {}
+                }
+                sx={{
+                  cursor: "pointer",
+                  padding: "5px",
+                  letterSpacing: 1.5,
+                }}
+                onClick={() => handleAllProduct("all")}
+              >
+                All {currentPath}
+              </Typography> */}
 
-                {/* <Menu1 title={"Nakshikantha Saree"} />
+              {/* <Menu1 title={"Nakshikantha Saree"} />
                   <Menu1 title={"Jamdani Saree"} /> */}
-              </Stack>
-              <Stack
-                direction={"row"}
-                alignItems="center"
-                spacing={0.5}
+            </Stack>
+            <Stack
+              direction={"row"}
+              alignItems="center"
+              spacing={0.5}
+              onClick={() => setFilter(true)}
+            >
+              <Typography
+                variant="homeFlash"
+                className="SemiBold"
+                color="#1B3148"
+                sx={{ cursor: "pointer", letterSpacing: 1.5 }}
                 onClick={() => setFilter(true)}
               >
-                <Typography
-                  variant="homeFlash"
-                  className="SemiBold"
-                  color="initial"
-                  sx={{ cursor: "pointer", letterSpacing: 1.5 }}
-                  onClick={() => setFilter(true)}
-                >
-                  Filter
-                </Typography>
-                <BiFilter style={{ fontSize: "18px" }} />
-              </Stack>
+                Filter
+              </Typography>
+              <BiFilter style={{ fontSize: "18px" }} />
             </Stack>
-          </Hidden>
+          </Stack>
         </Box>
         <div style={{ minHeight: "100px" }}>
           <ProductsLayoutWithStaticImage

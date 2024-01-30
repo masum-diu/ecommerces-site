@@ -12,6 +12,7 @@ import {
   TableCell,
   TableBody,
   Hidden,
+  Card,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
@@ -33,7 +34,7 @@ const wishlists = () => {
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const handleRemoveFromList = async (data) => {
     dispatch(removeFromWishList(data));
-    await toast.error("Removed From Wishlist!")
+    await toast.error("Removed From Wishlist!");
   };
   /* const wishlistData = [
     {
@@ -69,10 +70,11 @@ const wishlists = () => {
             color="initial"
             textAlign={"center"}
             textTransform={"uppercase"}
+            mb={3}
           >
             Wishlist
           </Typography>
-          <Hidden only={["md", "lg", "xl", "sm"]}>
+          {/* <Hidden only={["md", "lg", "xl", "sm"]}>
             {wishlist?.length > 0 ? (
               <Stack direction={"column"} spacing={2} pt={5}>
                 {wishlist?.map((wishlistData) => (
@@ -104,9 +106,7 @@ const wishlists = () => {
                       <Typography variant="cardHeader12" color="initial">
                         {selectedCurrency} {wishlistData?.price}
                       </Typography>
-                      {/* <Typography variant="cardHeader12" color="initial">
-                        {wishlistData?.stock[0]?.stock}
-                      </Typography> */}
+                     
                       <Button
                         variant="contained"
                         color="background2"
@@ -126,7 +126,7 @@ const wishlists = () => {
                     </Stack>
                     <br />
                     <Divider />
-                  </> 
+                  </>
                 ))}
               </Stack>
             ) : (
@@ -146,92 +146,189 @@ const wishlists = () => {
                 </Typography>
               </Stack>
             )}
-          </Hidden>
+          </Hidden> */}
           {/*  */}
-          <Hidden only={["xms", "xs"]}>
-            {wishlist?.length > 0 ? (
-              <TableContainer>
-                <Table>
-                  <TableBody sx={{ width: "100%" }}>
-                    {wishlist?.map((wishlistData) => (
-                      <>
-                        <TableRow
-                          // sx={{background:"#fdc",px:40}}
-                          key={wishlistData?.id}
-                          // sx={{ display: "flex", justifyContent: "space-between",alignItems:"center",textDecoration:"none",border:"none" }}
-                        >
-                          <TableCell sx={{ border: "none" }}>
-                            <IconButton
-                              aria-label=""
-                              onClick={() =>
-                                handleRemoveFromList({
-                                  id: wishlistData?.id,
-                                  amount: 1,
-                                })
-                              }
-                            >
-                              <MdClose />
-                            </IconButton>
-                          </TableCell>
-                          <TableCell sx={{ border: "none" }}>
-                            <img src={wishlistData?.image} alt="" width={100} />
-                          </TableCell>
 
-                          <TableCell sx={{ border: "none", textAlign: "left" }}>
-                            {" "}
-                            {wishlistData?.name}
-                          </TableCell>
-                          <TableCell sx={{ border: "none", textAlign: "left" }}>
-                            {selectedCurrency} {wishlistData?.price}
-                          </TableCell>
-                          {/* <TableCell sx={{ border: "none" }}>
-                        {wishlistData.stock[0]?.stock}
-                      </TableCell> */}
-                          <TableCell
-                            sx={{ border: "none", textAlign: "center" }}
-                          >
-                            <Button
-                              variant="contained"
-                              color="background2"
-                              size="small"
-                              onClick={() =>
-                                router.push(
-                                  `/products/${
-                                    wishlistData?.sub_category?.slug ===
-                                    "unknown"
-                                      ? wishlistData?.category?.slug
-                                      : wishlistData?.sub_category?.slug
-                                  }/${wishlistData?.id}`
-                                )
-                              }
-                            >
-                              View Product
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      </>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            ) : (
-              <Stack
-                direction={"column"}
-                spacing={2}
-                sx={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100%",
-                  mt: 10,
-                }}
+          {wishlist?.length > 0 ? (
+            <Stack sx={{ width: "100%" }} direction={"column"}>
+              {wishlist?.map((wishlistData) => (
+                <Card variant="outlined" sx={{ marginBottom: "8px", py: 2 }}>
+                  <Stack
+                    direction={"row"}
+                    justifyContent={"space-between"}
+                    sx={{ width: "100%", px: 2 }}
+                  >
+                    <Stack
+                      direction={{ xs: "column", sm: "row" }}
+                      justifyContent={"flex-start"}
+                      alignItems={"flex-start"}
+                      sx={{
+                        width: "50%",
+                      }}
+                    >
+                      <Stack
+                        sx={{
+                          width: {
+                            xs: "70%",
+                            xms: "50%",
+                            sm: "40%",
+                            md: "20%",
+                          },
+                        }}
+                      >
+                        <img
+                          style={{
+                            borderRadius: "10px",
+                            maxWidth: "170px",
+                            width: "100%",
+                            objectFit: "cover",
+                          }}
+                          src={wishlistData?.image}
+                          alt=""
+                          // width={100}
+                        />
+                      </Stack>
+                      <Stack sx={{ pl: { xs: 0, sm: 5 } }}>
+                        <Typography variant="wishlistPName">
+                          {wishlistData?.name}
+                        </Typography>
+                        <Typography variant="wishlistPPrice">
+                          {selectedCurrency} {wishlistData?.price}
+                        </Typography>
+                      </Stack>
+                    </Stack>
+
+                    <Stack
+                      sx={{
+                        width: "50%",
+                      }}
+                      direction={"column"}
+                      justifyContent={"flex-start"}
+                      alignItems={"flex-end"}
+                      spacing={10}
+                    >
+                      <Stack
+                        direction={"row"}
+                        justifyContent={"flex-end"}
+                        alignItems={"center"}
+                        sx={{ width: "30%" }}
+                      >
+                        <IconButton
+                          aria-label=""
+                          onClick={() =>
+                            handleRemoveFromList({
+                              id: wishlistData?.id,
+                              amount: 1,
+                            })
+                          }
+                        >
+                          <img src="/assets/close-square.svg" alt="" />
+                        </IconButton>
+                      </Stack>
+                      <Stack
+                        sx={{
+                          width: {
+                            xs: "100%",
+                            xms: "90%",
+                            sm: "50%",
+                            md: "40%",
+                            lg: "30%",
+                            xl: "20%",
+                          },
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="background2"
+                          size="small"
+                          onClick={() =>
+                            router.push(
+                              `/products/${
+                                wishlistData?.sub_category?.slug === "unknown"
+                                  ? wishlistData?.category?.slug
+                                  : wishlistData?.sub_category?.slug
+                              }/${wishlistData?.id}`
+                            )
+                          }
+                        >
+                          View Product
+                        </Button>
+                      </Stack>
+                    </Stack>
+                  </Stack>
+
+                  {/* <TableRow
+                      // sx={{background:"#fdc",px:40}}
+                      key={wishlistData?.id}
+                      // sx={{ display: "flex", justifyContent: "space-between",alignItems:"center",textDecoration:"none",border:"none" }}
+                    >
+                      <TableCell sx={{ border: "none" }}></TableCell>
+                      <TableCell sx={{ border: "none" }}>
+                        <img src={wishlistData?.image} alt="" width={100} />
+                      </TableCell>
+
+                      <TableCell sx={{ border: "none", textAlign: "left" }}>
+                        {" "}
+                        {wishlistData?.name}
+                      </TableCell>
+                      <TableCell sx={{ border: "none", textAlign: "left" }}>
+                        {selectedCurrency} {wishlistData?.price}
+                      </TableCell>
+                      <TableCell sx={{ border: "none", textAlign: "center" }}>
+                        <Button
+                          variant="contained"
+                          color="background2"
+                          size="small"
+                          onClick={() =>
+                            router.push(
+                              `/products/${
+                                wishlistData?.sub_category?.slug === "unknown"
+                                  ? wishlistData?.category?.slug
+                                  : wishlistData?.sub_category?.slug
+                              }/${wishlistData?.id}`
+                            )
+                          }
+                        >
+                          View Product
+                        </Button>
+                      </TableCell>
+                    </TableRow> */}
+                </Card>
+              ))}
+            </Stack>
+          ) : (
+            <Stack
+              direction={"column"}
+              spacing={2}
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                mt: 10,
+              }}
+            >
+              <img
+                style={{ width: "10rem" }}
+                src="/assets/wishlist_1.svg"
+                alt=""
+              />
+
+              {/* <FiHeart style={{ color: "#0A0A0A", fontSize: "128px" }} /> */}
+
+              <Typography variant="header1">
+                Your wishlist is currently empty
+              </Typography>
+              <Button
+                variant="contained"
+                color="background2"
+                size="large"
+                sx={{ width: "15rem" }}
+                onClick={() => router.push(`/shop`)}
               >
-                <FiHeart style={{ color: "#0A0A0A", fontSize: "128px" }} />
-                <Typography variant="header1">
-                  No products added to the wishlist
-                </Typography>
-              </Stack>
-            )}
-          </Hidden>
+                Shop All
+              </Button>
+            </Stack>
+          )}
         </Stack>
       </Box>
       <Footer />

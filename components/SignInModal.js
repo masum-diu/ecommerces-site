@@ -92,7 +92,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
         <DialogTitle>
           <Typography
             variant="header1"
-            color="initial"
+            color="#1B3148"
             sx={{ display: "flex", justifyContent: "center" }}
           >
             Register
@@ -103,7 +103,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <Stack direction={"column"} spacing={3} mt={2} mb={2}>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="#1B3148">
                     USERNAME
                   </Typography>
                   <TextField
@@ -119,7 +119,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   <p style={{ color: "red" }}>{errors.name?.message}</p>
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="#1B3148">
                     EMAIL ADDRESS
                   </Typography>
                   <TextField
@@ -142,7 +142,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                 </Stack>
 
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="#1B3148">
                     PASSWORD
                   </Typography>
                   <TextField
@@ -184,7 +184,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   <p style={{ color: "red" }}>{errors.password?.message}</p>
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="initial">
+                  <Typography variant="cardHeader12" color="#1B3148">
                     CONFIRM PASSWORD
                   </Typography>
                   <TextField
@@ -229,7 +229,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   variant="cardHeader12"
                   textAlign={"center"}
                   sx={{ cursor: "pointer" }}
-                  color="initial"
+                  color="#1B3148"
                   onClick={handleChange}
                 >
                   New to Aranya?{" "}

@@ -84,6 +84,7 @@ const MegaMenu = ({ open, setOpen }) => {
     setHoveredCategory(null);
     setOpen(false);
   };
+
   const handleRedirectSubCat = (sub_cat) => {
     setOpen(false);
     router.push(
@@ -176,6 +177,7 @@ const MegaMenu = ({ open, setOpen }) => {
                 onMouseEnter={() => setHoveredCategory(category)}
               >
                 <Typography
+                  sx={{ color: "#1B3148" }}
                   className={style.menu3}
                   onClick={() => handleRedirectCat(category)}
                 >
@@ -235,7 +237,7 @@ const MegaMenu = ({ open, setOpen }) => {
                             }}
                             onClick={() => handleRedirectSubCat(sub_cat)}
                           >
-                            <Typography className={style.menu3}>
+                            <Typography color="#476181" className={style.menu3}>
                               <li className={style.menu3}>
                                 {sub_cat?.category_name}
                               </li>
@@ -262,7 +264,11 @@ const MegaMenu = ({ open, setOpen }) => {
                     pt={5}
                   >
                     <Stack>
-                      <Button variant="outlined" size="large">
+                      <Button
+                        sx={{ color: "#3C5676", border: "1px solid #3C5676" }}
+                        variant="outlined"
+                        size="large"
+                      >
                         Shop all {hoveredCategory?.category_name}
                       </Button>
                     </Stack>

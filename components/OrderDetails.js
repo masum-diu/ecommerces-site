@@ -24,6 +24,9 @@ import { useConvertCartData } from "../src/hooks/useConvertCartData";
 const OrderDetails = () => {
   const { convertCartData } = useConvertCartData();
   const carts = useSelector((state) => state.cart);
+  const performOperation = (value1, value2) => {
+    return parseFloat((parseFloat(value1) - parseFloat(value2)).toFixed(2));
+  };
   const convertedCart = convertCartData(carts);
   const totalPrice = convertedCart.totalPrice;
   const totalPriceWithoutFragile = convertedCart.totalPriceWithoutFragileCharge;
@@ -36,6 +39,7 @@ const OrderDetails = () => {
 
   const totalPriceWithTax_after_discount =
     convertedCart.totalPriceWithTax_after_discount;
+    const totalDiscountAmount = performOperation(totalPriceWithoutFragile,totalPriceWithoutFragile_after_discount)
   const { selectedCurrency, convertPrice, currentConversionRate } =
     useCurrencyConversion();
   return (
@@ -101,7 +105,7 @@ const OrderDetails = () => {
               className="bold"
               sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
             >
-              {selectedCurrency} {totalPriceWithoutFragile_after_discount}
+              {selectedCurrency} {totalDiscountAmount}
             </Typography>
           </Stack>
 

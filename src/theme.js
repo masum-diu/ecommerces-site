@@ -113,6 +113,40 @@ theme.typography.header1 = {
     fontSize: "16px",
   },
 };
+theme.typography.wishlistPName = {
+  fontSize: "22px",
+  fontWeight: "bold",
+  color: black,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "14px",
+  },
+  [theme.breakpoints.down("xms")]: {
+    fontSize: "12px",
+  },
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "10px",
+  },
+  [theme.breakpoints.down("md")]: {
+    fontSize: "18px",
+  },
+};
+theme.typography.wishlistPPrice = {
+  fontSize: "32px",
+  fontWeight: "bold",
+  color: black,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "14px",
+  },
+  [theme.breakpoints.down("xms")]: {
+    fontSize: "12px",
+  },
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "10px",
+  },
+  [theme.breakpoints.down("md")]: {
+    fontSize: "20px",
+  },
+};
 
 theme.typography.login1 = {
   fontSize: "48px",
