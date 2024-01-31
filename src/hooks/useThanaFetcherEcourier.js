@@ -10,7 +10,7 @@ const useThanaFetcherEcourier = () => {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        console.log('selectedCity',selectedCity)
+        
         if (selectedCity&&selectedCity!=="Select Town/City"&&selectedCity!=="") {
           setLoading(true);
           const result = ecourierInstance

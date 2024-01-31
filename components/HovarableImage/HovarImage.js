@@ -18,6 +18,8 @@ import * as fbq from "../../lib/fpixel";
 import useDiscountCount from "../../src/hooks/useDiscountCount";
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
+  const innerPage = router?.query?.productId;
+  
   const dispatch = useDispatch();
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const cart = useSelector((state) => state.cart.cart);
@@ -46,7 +48,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
   const [stockAmount, setStockAmount] = useState(0);
 
   const { updatedPriceAfterDiscount } = useDiscountCount();
-  
+
   useEffect(() => {
     if (data?.p_colours?.length > 0 && data?.p_sizes?.length > 0) {
       if (sizeSelected === true && colorSelected === true) {
@@ -150,6 +152,11 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
     showHeart: "none",
     showBrokenHeart: "block",
   };
+
+  let productStyles = {};
+  if (innerPage) {
+    productStyles = {};
+  }
   return (
     <div>
       <div className={style.uicard}>
@@ -174,7 +181,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              maxWidth: "565px",
+              // maxWidth: "565px",
               mt: 2,
             }}
           >
@@ -186,7 +193,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               {data?.p_name}
             </Typography>
             <Stack
-              direction={"row"}
+              direction={innerPage ? { xs: "column", sm: "row" } : "row"}
               justifyContent={"start"}
               alignItems={"start"}
             >
@@ -211,13 +218,16 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               ) : (
                 ""
               )}
-              <Stack direction={"row"} spacing={2}>
+              <Stack
+                direction={"row"}
+                spacing={innerPage ? { xs: 1, sm: 2 } : 2}
+              >
                 {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
                   <Typography
                     variant="cardHeader3"
                     color="#1B3148"
                     className="bold"
-                    pl={2}
+                    pl={innerPage ? { xs: 0, sm: 2 } : 2}
                     style={{
                       textDecorationLine: "line-through",
                     }}
@@ -273,6 +283,8 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
           <Stack>
             <Stack style={{ display: `${showHeart}` }}>
               <IconButton
+                // size="medium"
+                // size={innerPage ? { xs: "small", sm: "medium" } : "medium"}
                 className="hartIcon"
                 aria-label=""
                 onClick={() => handleAddToWishList(dataForWishList)}
@@ -282,6 +294,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
             </Stack>
             <Stack style={{ display: `${showBrokenHeart}` }}>
               <IconButton
+                // size={innerPage ? { xs: "small", sm: "medium" } : "medium"}
                 className="hartIcon"
                 aria-label=""
                 onClick={() =>

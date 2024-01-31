@@ -763,7 +763,7 @@ const masterCollectionLayout = () => {
   // Slicing data for static products and dynamic products
   const productsForStatic = filteredData.slice(0, 7);
   const productsForDynamic = chunkArray(filteredData.slice(9));
-console.log('filteredData',filteredData)
+
   return (
     <>
       <Head>
