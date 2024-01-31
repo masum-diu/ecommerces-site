@@ -192,7 +192,7 @@ const checkout = () => {
     area: billingAreaEcourier,
     loading: billingAreaLoadingEcourier,
   } = useAreaFetcherEcourier();
-  
+
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
       {
@@ -497,7 +497,7 @@ const checkout = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors,isDirty,touched },
+    formState: { errors, isDirty, touched },
     watch,
     setValue,
     trigger,
@@ -637,7 +637,7 @@ const checkout = () => {
       }
     }
   };
-  
+
   useEffect(() => {
     if (countrySh === "Bangladesh") {
       // setValue("city_shipping","Select Town/City")
@@ -673,7 +673,6 @@ const checkout = () => {
     billingCities,
   ]);
 
-  
   useEffect(() => {
     // setValue("deliveryMethod", "");
     setIsAddressListDataShipping(false);
@@ -1274,7 +1273,7 @@ const checkout = () => {
         >
           <Typography
             variant="header1"
-            color="initial"
+            color="#1B3148"
             textAlign={"center"}
             textTransform={"uppercase"}
           >
@@ -1296,7 +1295,7 @@ const checkout = () => {
               <Grid item lg={7} sx={{ width: "100%" }}>
                 {/* Shipping form */}
                 <Grid item lg={12} sx={{ width: "100%" }}>
-                  <Typography variant="header1" color="initial">
+                  <Typography variant="header1" color="#1B3148">
                     SHIPPING DETAILS
                   </Typography>
                   <Stack direction={"row"} spacing={1} mt={3.8}>
@@ -1317,7 +1316,7 @@ const checkout = () => {
                   </Stack>
                   {/* first name */}
                   <Stack mt={5}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       FIRST NAME *
                     </Typography>
                     <TextField
@@ -1351,7 +1350,7 @@ const checkout = () => {
 
                   {/* last name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       LAST NAME *
                     </Typography>
                     <TextField
@@ -1385,7 +1384,7 @@ const checkout = () => {
 
                   {/* country name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       COUNTRY *
                     </Typography>
 
@@ -1430,7 +1429,7 @@ const checkout = () => {
 
                   {/* town/city name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       TOWN / CITY *
                     </Typography>
                     {shippingCityLoadingEcourier ? (
@@ -1532,7 +1531,7 @@ const checkout = () => {
 
                   {/* thana name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       THANA *
                     </Typography>
                     {shippingThanaLoadingEcourier ? (
@@ -1622,7 +1621,7 @@ const checkout = () => {
 
                   {/* post code name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       POSTCODE / ZIP (OPTIONAL)
                     </Typography>
                     {shippingPostCodeLoadingEcourier ? (
@@ -1712,7 +1711,7 @@ const checkout = () => {
 
                   {/* area code name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       AREA *
                     </Typography>
                     {shippingAreaLoadingEcourier ? (
@@ -1801,7 +1800,7 @@ const checkout = () => {
 
                   {/* street name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       STREET ADDRESS *
                     </Typography>
                     <TextField
@@ -1835,7 +1834,7 @@ const checkout = () => {
 
                   {/* apartment name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       APARTMENT ADDRESS (OPTIONAL)
                     </Typography>
                     <TextField
@@ -1872,7 +1871,7 @@ const checkout = () => {
 
                   {/* phone name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       PHONE *
                     </Typography>
 
@@ -1910,7 +1909,7 @@ const checkout = () => {
 
                   {/* email name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       EMAIL ADDRESS *
                     </Typography>
 
@@ -1962,7 +1961,7 @@ const checkout = () => {
                     display: `${paymentMethod === "online" ? "block" : "none"}`,
                   }}
                 >
-                  <Typography variant="header1" color="initial">
+                  <Typography variant="header1" color="#1B3148">
                     BILLING DETAILS
                   </Typography>
                   <Stack
@@ -1989,7 +1988,7 @@ const checkout = () => {
                       <Typography
                         variant="cardLocation123"
                         className="SemiBold"
-                        color="initial"
+                        color="#1B3148"
                       >
                         Same As Shipping Address.
                       </Typography>
@@ -2012,7 +2011,7 @@ const checkout = () => {
                   </Stack>
                   {/* first name */}
                   <Stack direction={"column"} spacing={2} mt={{ lg: 2.5 }}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       FIRST NAME *
                     </Typography>
                     <TextField
@@ -2048,7 +2047,7 @@ const checkout = () => {
 
                   {/* last name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       LAST NAME *
                     </Typography>
                     <TextField
@@ -2085,7 +2084,7 @@ const checkout = () => {
 
                   {/* country name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       COUNTRY *
                     </Typography>
                     <Select
@@ -2143,7 +2142,7 @@ const checkout = () => {
                     className="custom"
                     sx={customStyle2}
                   >
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       TOWN / CITY *
                     </Typography>
 
@@ -2273,7 +2272,7 @@ const checkout = () => {
                     className="custom"
                     sx={customStyle2}
                   >
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       THANA *
                     </Typography>
 
@@ -2386,7 +2385,7 @@ const checkout = () => {
                     className="custom"
                     sx={customStyle2}
                   >
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       POSTCODE / ZIP (OPTIONAL)
                     </Typography>
 
@@ -2499,7 +2498,7 @@ const checkout = () => {
                     className="custom"
                     sx={customStyle2}
                   >
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       AREA *
                     </Typography>
 
@@ -2605,7 +2604,7 @@ const checkout = () => {
 
                   {/* street name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       STREET ADDRESS *
                     </Typography>
                     <TextField
@@ -2642,7 +2641,7 @@ const checkout = () => {
 
                   {/* apartment name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       APARTMENT ADDRESS (OPTIONAL)
                     </Typography>
                     <TextField
@@ -2675,7 +2674,7 @@ const checkout = () => {
 
                   {/* phone name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       PHONE *
                     </Typography>
                     <TextField
@@ -2712,7 +2711,7 @@ const checkout = () => {
 
                   {/* email name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       EMAIL ADDRESS *
                     </Typography>
                     <TextField
@@ -2756,7 +2755,7 @@ const checkout = () => {
                 {/* Order Notes */}
                 <Grid item mt={5} lg={12}>
                   <Stack direction={"column"} spacing={2}>
-                    <Typography variant="cardHeader1" color="initial">
+                    <Typography variant="cardHeader1" color="#1B3148">
                       ORDER NOTES (OPTIONAL)
                     </Typography>
 
@@ -2801,14 +2800,14 @@ const checkout = () => {
                     >
                       <Typography
                         variant="cardHeader"
-                        color="initial"
+                        color="#1B3148"
                         className="bold"
                       >
                         PRODUCT
                       </Typography>
                       <Typography
                         variant="cardHeader"
-                        color="initial"
+                        color="#1B3148"
                         className="bold"
                       >
                         SUBTOTAL
@@ -2830,7 +2829,7 @@ const checkout = () => {
                             <Stack direction={"column"}>
                               <Typography
                                 variant="cardHeader"
-                                color="initial"
+                                color="#1B3148"
                                 className="bold"
                               >
                                 {item?.name}
@@ -2846,14 +2845,14 @@ const checkout = () => {
 
                             {/* <Typography
                               variant="cardHeader"
-                              color="initial"
+                              color="#1B3148"
                               className="bold"
                             >
                               
                             </Typography> */}
                             <Typography
                               variant="cardHeader"
-                              color="initial"
+                              color="#1B3148"
                               className="bold"
                             >
                               {selectedCurrency}{" "}
@@ -2865,7 +2864,7 @@ const checkout = () => {
                         </>
                       ))}
                     </Stack>
-                    
+
                     <Stack
                       direction={"row"}
                       spacing={{ xs: 1, lg: 0, xl: 1 }}
@@ -2873,7 +2872,7 @@ const checkout = () => {
                     >
                       <Typography
                         variant="cardHeader"
-                        color="initial"
+                        color="#1B3148"
                         className="bold"
                         sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
                       >
@@ -2881,7 +2880,7 @@ const checkout = () => {
                       </Typography>
                       <Typography
                         variant="cardHeader"
-                        color="initial"
+                        color="#1B3148"
                         className="bold"
                         sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                       >
@@ -2940,7 +2939,7 @@ const checkout = () => {
                       >
                         <Typography
                           variant="cardHeader"
-                          color="initial"
+                          color="#1B3148"
                           className="bold"
                           sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
                         >
@@ -2948,7 +2947,7 @@ const checkout = () => {
                         </Typography>
                         <Typography
                           variant="cardHeader"
-                          color="initial"
+                          color="#1B3148"
                           className="bold"
                           sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                         >
@@ -2965,7 +2964,7 @@ const checkout = () => {
                           >
                             <Typography
                               variant="cardHeader"
-                              color="initial"
+                              color="#1B3148"
                               className="bold"
                               sx={{
                                 width: { xs: "50%", lg: "60%", xl: "50%" },
@@ -2976,7 +2975,7 @@ const checkout = () => {
                             </Typography>
                             <Typography
                               variant="cardHeader"
-                              color="initial"
+                              color="#1B3148"
                               className="bold"
                               sx={{
                                 width: { xs: "50%", lg: "40%", xl: "50%" },
@@ -3006,7 +3005,7 @@ const checkout = () => {
                     >
                       <Typography
                         variant="cardHeader"
-                        color="initial"
+                        color="#1B3148"
                         className="bold"
                         sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
                       >
@@ -3014,7 +3013,7 @@ const checkout = () => {
                       </Typography>
                       <Typography
                         variant="cardHeader"
-                        color="initial"
+                        color="#1B3148"
                         className="bold"
                         sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                         textAlign={"left"}
@@ -3037,7 +3036,7 @@ const checkout = () => {
                     >
                       <Typography
                         variant="tabText1"
-                        color="initial"
+                        color="#1B3148"
                         className="exterBold"
                         sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
                       >
@@ -3045,7 +3044,7 @@ const checkout = () => {
                       </Typography>
                       <Typography
                         variant="tabText1"
-                        color="initial"
+                        color="#1B3148"
                         className="exterBold"
                         sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                       >
@@ -3169,7 +3168,12 @@ const checkout = () => {
                     <Button
                       disabled={enable}
                       variant="contained"
-                      color="background2"
+                      sx={{
+                        bgcolor: "#1B3148",
+                        "&:hover": {
+                          bgcolor: "#1B3148",
+                        },
+                      }}
                       type="submit"
                       onClick={() => setIsPlaceOrder(true)}
                     >
