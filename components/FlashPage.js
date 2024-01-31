@@ -115,9 +115,9 @@ const FlashPage = ({ title }) => {
               />
             </Stack>
 
-            <Stack direction={"row"} alignItems="center">
+            {/* <Stack direction={"row"} alignItems="center">
               <IconButton aria-label="">
-                {/* <BiMap style={{ color: "#0A0A0A" }} /> */}
+                
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -130,10 +130,10 @@ const FlashPage = ({ title }) => {
                   <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                 </svg>
               </IconButton>
-              <Typography variant="cardHeader" color="initial">
+              <Typography variant="cardHeader" color="#1B3148">
                 BD
               </Typography>
-            </Stack>
+            </Stack> */}
           </Toolbar>
         </AppBar>
         <Box>
@@ -166,7 +166,7 @@ const FlashPage = ({ title }) => {
                 {/* <MenuItem value={30}>England</MenuItem>
               <MenuItem value={40}>India</MenuItem> */}
               </Select>
-              <Typography variant="homeFlash" color="initial">
+              <Typography variant="homeFlash" color="#1B3148">
                 Select your currency
               </Typography>
               <Select
@@ -193,7 +193,7 @@ const FlashPage = ({ title }) => {
               {/* {errors.currency && (
                 <p style={{ color: "red" }}>{errors.currency?.message}</p>
               )} */}
-              <Typography variant="homeFlash" color="initial">
+              <Typography variant="homeFlash" color="#1B3148">
                 Language
               </Typography>
               <Select
@@ -225,7 +225,12 @@ const FlashPage = ({ title }) => {
             >
               <Button
                 variant="contained"
-                color="black"
+                sx={{
+                  bgcolor: "#1B3148",
+                  "&:hover": {
+                    bgcolor: "#1B3148",
+                  },
+                }}
                 type="submit"
                 // onClick={() => router.push("/shop")}
               >
