@@ -75,7 +75,7 @@ const userDashboard = () => {
           }}
         >
           <IconButton onClick={() => setOpen(true)}>
-            <Hidden only={["xl", "lg", ]}>
+            <Hidden only={["xl", "lg"]}>
               <SegmentIcon />
             </Hidden>
           </IconButton>
@@ -86,7 +86,7 @@ const userDashboard = () => {
           // spacing={2}
           sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto", mt: 2 }}
         >
-          <Hidden only={["sm", "xs", "xms","md"]}>
+          <Hidden only={["sm", "xs", "xms", "md"]}>
             <Grid item lg={3} sx={{ height: "600px" }}>
               <List>
                 {[
@@ -139,6 +139,21 @@ const userDashboard = () => {
           },
         }}
       >
+        <Stack
+          direction={"row"}
+          justifyContent={"flex-start"}
+          alignItems={"center"}
+        >
+          <IconButton
+            aria-label=""
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            {/* <MdClose /> */}
+            <img src="/assets/close_sidebar.svg" alt="" />
+          </IconButton>
+        </Stack>
         <List>
           {[
             "Account Information",
