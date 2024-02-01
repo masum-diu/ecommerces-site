@@ -347,11 +347,10 @@ const SiderBar = ({ open, setOpen }) => {
                 <Button
                   className="SemiBold"
                   variant="text"
-                  // color="inherit"
+                  color="inherit"
                   onClick={handleClickOccasion}
                   fullWidth
                   sx={{
-                    color: "#1B3148",
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "space-between",
@@ -369,7 +368,9 @@ const SiderBar = ({ open, setOpen }) => {
                     )
                   }
                 >
-                  Occasions
+                  <Typography sx={{ fontWeight: "900", color: "#1B3148" }}>
+                    Occasions
+                  </Typography>
                 </Button>
                 {occasion ? (
                   <Box sx={{ width: "80%", margin: "0 auto" }}>
