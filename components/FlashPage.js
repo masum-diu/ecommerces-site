@@ -166,7 +166,7 @@ const FlashPage = ({ title }) => {
               }}
               spacing={1}
             >
-              <Typography variant="homeFlash">
+              <Typography variant="homeFlash" color="#1B3148">
                 Select your shipping country
               </Typography>
               <Select
@@ -175,12 +175,15 @@ const FlashPage = ({ title }) => {
                 value={country}
                 onChange={handleChange}
                 size="small"
-                sx={{ backgroundColor: "white" }}
+                sx={{ backgroundColor: "white", color: "#1B3148" }}
               >
-                <MenuItem value={20} disabled>
-                  Select Shipping Country
+                <MenuItem color="#1B3148" value={20} disabled>
+                  <Typography color="#1B3148"></Typography>Select Shipping
+                  Country<Typography color="#1B3148"></Typography>
                 </MenuItem>
-                <MenuItem value={10}>Bangladesh</MenuItem>
+                <MenuItem color="#1B3148" value={10}>
+                  <Typography color="#1B3148">Bangladesh</Typography>
+                </MenuItem>
                 {/* <MenuItem value={30}>England</MenuItem>
               <MenuItem value={40}>India</MenuItem> */}
               </Select>
@@ -199,11 +202,12 @@ const FlashPage = ({ title }) => {
                 error={Boolean(errors.currency)}
                 size="small"
                 value={currency}
+                sx={{ color:"#1B3148" }}
                 onChange={(e) => handleSelectChangeCurrency(e)}
               >
                 {currencies.map((towns, index) => (
                   <MenuItem key={index} value={towns.value}>
-                    {towns.label}
+                    <Typography>{towns.label}</Typography>
                   </MenuItem>
                 ))}
                 {/* <MenuItem value={"India"}>India</MenuItem> */}
@@ -220,14 +224,14 @@ const FlashPage = ({ title }) => {
                 value={language}
                 onChange={handleLanguage}
                 size="small"
-                sx={{ backgroundColor: "white" }}
+                sx={{ backgroundColor: "white",color:"#1B3148" }}
               >
                 <MenuItem value={20} disabled>
-                  Select Language{" "}
+                  <Typography> Select Language </Typography>
                 </MenuItem>
                 {/* <MenuItem value={20}>Bangla</MenuItem> */}
                 <MenuItem value={10} sx>
-                  English
+                  <Typography>English</Typography>
                 </MenuItem>
                 {/* <MenuItem value={40}>Hindi</MenuItem> */}
               </Select>

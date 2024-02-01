@@ -1307,7 +1307,7 @@ const checkout = () => {
                       sx={{
                         textDecoration: "underline",
                         textUnderlineOffset: ".3rem",
-                        color: "initial",
+                        // color: "initial",
                         cursor: "pointer",
                       }}
                     >
@@ -1995,13 +1995,13 @@ const checkout = () => {
                       <b>/</b>
                       <Typography
                         variant="cardLocation123"
-                        color="#7E7250"
+                        color="#1B3148"
                         onClick={() => handleAddressStatusShipping()}
                         className="SemiBold"
                         sx={{
                           textDecoration: "underline",
                           textUnderlineOffset: ".3rem",
-                          color: "initial",
+                          // color: "initial",
                           cursor: "pointer",
                         }}
                       >
@@ -2836,7 +2836,7 @@ const checkout = () => {
                               </Typography>
                               <Typography
                                 variant="cardLocation1"
-                                color="gray"
+                                color="#8799B1"
                                 className="bold"
                               >
                                 Quantity: {item?.amount}
@@ -2914,12 +2914,14 @@ const checkout = () => {
                                 label={
                                   <Typography
                                     variant="cardHeader"
+                                    color="#1B3148"
                                     className="bold"
                                     mb={0.6}
                                   >
                                     {option.innerText}{" "}
                                     <Typography
                                       variant="cardHeader"
+                                      color="#1B3148"
                                       className="ExterBold"
                                       mb={0.6}
                                     >
@@ -3073,6 +3075,7 @@ const checkout = () => {
                                   variant="cardHeader"
                                   className="bold"
                                   mb={0.6}
+                                  color="#1B3148"
                                 >
                                   Online Payment
                                 </Typography>

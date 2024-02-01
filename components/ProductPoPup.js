@@ -48,7 +48,8 @@ const ProductPoPup = ({
           </Typography>
 
           <IconButton aria-label="" onClick={() => setOpen(false)}>
-            <MdClose />
+            {/* <MdClose /> */}
+            <img src="/assets/close-square.svg" alt="" />
           </IconButton>
         </Stack>
 

@@ -218,7 +218,8 @@ const SiderBar = ({ open, setOpen }) => {
         <Box p={2}>
           <Stack direction={"row"} alignItems="center" spacing={2}>
             <IconButton aria-label="" onClick={() => setOpen(false)}>
-              <MdClose style={{color:"#3D5675"}} />
+              <img src="/assets/close_sidebar.svg" alt="" />
+              {/* <MdClose style={{color:"#3D5675"}} /> */}
             </IconButton>
             <img
               src="/assets/headerLogo.png"
@@ -255,7 +256,7 @@ const SiderBar = ({ open, setOpen }) => {
                         alignItems: "flex-start",
                         justifyContent: "space-between",
                         textTransform: "capitalize",
-                        color:"#1B3148"
+                        color: "#1B3148",
                       }}
                       endIcon={
                         category?.children.length > 0 ? (
@@ -350,7 +351,7 @@ const SiderBar = ({ open, setOpen }) => {
                   onClick={handleClickOccasion}
                   fullWidth
                   sx={{
-                    color:"#1B3148",
+                    color: "#1B3148",
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "space-between",

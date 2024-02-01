@@ -106,7 +106,7 @@ const FilterCategory = ({
     setHasMore(true);
     setFilteredData([]);
     setProducts([]);
-    setSubCategoryID("")
+    setSubCategoryID("");
   };
   const handleFabric = (name, id) => {
     setFabricName(name);
@@ -118,7 +118,7 @@ const FilterCategory = ({
     setHasMore(true);
     setFilteredData([]);
     setProducts([]);
-    setSubCategoryID("")
+    setSubCategoryID("");
   };
   const handleColor = ([colorName, colorId]) => {
     setSelectedColor([colorName, colorId]);
@@ -126,7 +126,7 @@ const FilterCategory = ({
     setMakeColorTrue(true);
     setMakePriceTrue(false);
     setHasMore(true);
-    setSubCategoryID("")
+    setSubCategoryID("");
   };
   return (
     <React.Fragment>
@@ -146,10 +146,14 @@ const FilterCategory = ({
           direction={"row"}
           alignItems="center"
           spacing={2}
-          justifyContent="flex-end"
+          justifyContent="flex-start"
         >
-          <IconButton aria-label="" onClick={() => setOpen(false)}>
-            <MdClose />
+          <IconButton
+            style={{ marginLeft: "10px" }}
+            aria-label=""
+            onClick={() => setOpen(false)}
+          >
+            <img src="/assets/close_sidebar.svg" alt="" />
           </IconButton>
         </Stack>
         <Stack direction={"column"} spacing={1} p={2}>
@@ -173,7 +177,7 @@ const FilterCategory = ({
               )
             }
           >
-            Fabric
+            <Typography color="#1B3148">Fabric</Typography>
           </Button>
           {openList ? (
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
@@ -181,7 +185,7 @@ const FilterCategory = ({
                 <Typography
                   onClick={() => handleAllProduct("all")}
                   variant="cardHeader3"
-                  color="initial"
+                  color="#1B3148"
                   sx={{ cursor: "pointer" }}
                 >
                   All {currentPath}
@@ -192,7 +196,7 @@ const FilterCategory = ({
                       handleFabric(fabric?.fabric_name, fabric?.fabric_id)
                     }
                     variant="cardHeader3"
-                    color="initial"
+                    color="#1B3148"
                     key={index}
                     sx={{ cursor: "pointer" }}
                   >
@@ -223,7 +227,7 @@ const FilterCategory = ({
               )
             }
           >
-            Colors
+            <Typography color="#1B3148">Colors</Typography>
           </Button>
           {openList1 ? (
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
@@ -233,7 +237,7 @@ const FilterCategory = ({
                     <Typography
                       onClick={() => handleColor([color?.color_name, color.id])}
                       variant="cardHeader3"
-                      color="initial"
+                      color="#1B3148"
                       key={index}
                       sx={{ cursor: "pointer" }}
                     >
@@ -265,7 +269,7 @@ const FilterCategory = ({
               )
             }
           >
-            Price Range
+            <Typography color="#1B3148">Price Range</Typography>
           </Button>
           {openList2 ? (
             <Box sx={{ width: "100%", margin: "0 auto", px: 2 }}>
@@ -281,14 +285,14 @@ const FilterCategory = ({
                 />
                 <Stack direction={"row"} justifyContent="space-between">
                   <Stack direction={"row"} spacing={1}>
-                    <Typography>{min}</Typography>
-                    <Typography variant="cardHeader3" color="initial">
+                    <Typography color="#1B3148">{min}</Typography>
+                    <Typography variant="cardHeader3" color="#1B3148">
                       {selectedCurrency}
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={1}>
-                    <Typography>{convertPrice(max)}</Typography>
-                    <Typography variant="cardHeader3" color="initial">
+                    <Typography color="#1B3148">{convertPrice(max)}</Typography>
+                    <Typography variant="cardHeader3" color="#1B3148">
                       {selectedCurrency}
                     </Typography>
                   </Stack>

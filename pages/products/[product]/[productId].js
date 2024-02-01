@@ -809,7 +809,7 @@ const PorductDetails = () => {
                             discountType !== undefined ? "homeFlash" : "header1"
                           }
                           className="SemiBold"
-                          color="#1B3148"
+                          color="#8799B1"
                           letterSpacing={0.3}
                           fontWeight={700}
                           style={{
@@ -1120,7 +1120,12 @@ const PorductDetails = () => {
                               )
                             }
                           >
-                            size guide
+                            <Typography
+                              sx={{ textDecoration: "underline" }}
+                              color="#1B3148"
+                            >
+                              size guide
+                            </Typography>
                           </Button>
                         ) : (
                           ""
@@ -1272,7 +1277,9 @@ const PorductDetails = () => {
                         onClick={() => handleAddToCart(finalData)}
                       >
                         <ShoppingCartOutlinedIcon></ShoppingCartOutlinedIcon>
-                        <Typography style={{marginLeft:"1rem"}}>ADD TO CART</Typography>
+                        <Typography style={{ marginLeft: "1rem" }}>
+                          ADD TO CART
+                        </Typography>
                       </Button>
                     </Stack>
 
@@ -1454,6 +1461,7 @@ const PorductDetails = () => {
                             </Typography>
                           }
                         />
+
                         <ListItemText
                           sx={{
                             display: "flex",
@@ -1913,7 +1921,7 @@ const PorductDetails = () => {
                         discountType !== undefined ? "homeFlash" : "header1"
                       }`}
                       className="SemiBold"
-                      color="#1B3148"
+                      color="#8799B1"
                       letterSpacing={0.3}
                       fontWeight={700}
                       style={{
@@ -2151,7 +2159,12 @@ const PorductDetails = () => {
                             )
                           }
                         >
-                          size guide
+                          <Typography
+                            sx={{ textDecoration: "underline" }}
+                            color="#1B3148"
+                          >
+                            size guide
+                          </Typography>
                         </Button>
                       ) : (
                         ""
@@ -2304,8 +2317,10 @@ const PorductDetails = () => {
                   }}
                   onClick={() => handleAddToCart(finalData)}
                 >
-                  <ShoppingCartOutlinedIcon ></ShoppingCartOutlinedIcon>
-                  <Typography style={{marginLeft:"1rem"}}>ADD TO CART</Typography>
+                  <ShoppingCartOutlinedIcon></ShoppingCartOutlinedIcon>
+                  <Typography style={{ marginLeft: "1rem" }}>
+                    ADD TO CART
+                  </Typography>
                 </Button>
 
                 <Stack direction={"row"} spacing={1} alignItems="center">

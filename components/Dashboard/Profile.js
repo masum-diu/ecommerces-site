@@ -86,14 +86,14 @@ const Profile = () => {
         >
           <Typography
            variant="cardHeader1"
-           color="initial"
+           color="#1B3148"
            className="exterBold"
            textAlign={"center"}
            textTransform={"capitalize"}
           >
             ACCOUNT INFORMATION
           </Typography>
-          <Typography variant="cardLocation1" color="initial" className="light">
+          <Typography variant="cardLocation1" color="#1B3148" className="light">
             This section contains your address information
           </Typography>
           <br />
@@ -111,7 +111,7 @@ const Profile = () => {
             >
               <Typography
                 variant="cardHeader12"
-                color="initial"
+                color="#1B3148"
                 className="SemiBold"
               >
                 Personal Information
@@ -130,7 +130,7 @@ const Profile = () => {
                 </Typography>
                 <Typography
                   variant="cardLocation1"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                 >
                   {userjsondata ? userjsondata?.name : user?.name}
@@ -147,7 +147,7 @@ const Profile = () => {
                 </Typography>
                 <Typography
                   variant="cardLocation1"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                 >
                   {userjsondata ? userjsondata?.first_name : user?.first_name}
@@ -164,7 +164,7 @@ const Profile = () => {
                 </Typography>
                 <Typography
                   variant="cardLocation1"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                 >
                   {/* {userjsondata?.email} */}
@@ -182,7 +182,7 @@ const Profile = () => {
                 </Typography>
                 <Typography
                   variant="cardLocation1"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                 >
                   {/* {userjsondata?.address} */}
@@ -200,7 +200,7 @@ const Profile = () => {
                 </Typography>
                 <Typography
                   variant="cardLocation1"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                 >
                   {/* {userjsondata?.phone} */}
@@ -218,7 +218,7 @@ const Profile = () => {
                 </Typography>
                 <Typography
                   variant="cardLocation1"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                 >
                   {/* {userjsondata?.date_of_birth} */}
@@ -238,7 +238,7 @@ const Profile = () => {
                 </Typography>
                 <Typography
                   variant="cardLocation1"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                 >
                   {/* {userjsondata?.gender} */}
@@ -256,7 +256,7 @@ const Profile = () => {
                 </Typography>
                 <Typography
                   variant="cardLocation1"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                 >
                   {/* {userjsondata?.occupation} */}

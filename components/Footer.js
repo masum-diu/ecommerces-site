@@ -38,7 +38,11 @@ const Footer = () => {
           }}
           spacing={{ lg: 4, xs: 2 }}
         >
-          <img src="/assets/footerLogo.png" alt="" />
+          <Stack style={{ cursor: "pointer" }}>
+            <Link href="/shop">
+              <img src="/assets/footerLogo.png" alt="" />
+            </Link>
+          </Stack>
           <Typography
             variant="cardHeader"
             color="#F2F2F2"
@@ -185,7 +189,7 @@ const Footer = () => {
             direction={"row"}
           >
             <Typography variant="cardLocation1" color="#E3E3E3" px={2}>
-              © Aranya Crafts Limited 2023
+              © Aranya Crafts Limited 2024
             </Typography>
             <Stack
               direction={"row"}

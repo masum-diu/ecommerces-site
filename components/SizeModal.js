@@ -141,19 +141,20 @@ const SizeModal = ({ open, setOpen, subCat, cat, sizes, categoryName }) => {
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
-          sx: { width: { lg: "50%", xs: "100%" }},
+          sx: { width: { lg: "50%", xs: "100%" } },
         }}
       >
         <Stack justifyContent={"flex-end"} alignItems={"flex-end"} p={1}>
           <IconButton aria-label="" onClick={() => handleClose()}>
-            <MdClose />
+            {/* <MdClose /> */}
+            <img src="/assets/close-square.svg" alt="" />
           </IconButton>
         </Stack>
 
         <DialogTitle>
           <Typography
             variant="header1"
-            color="initial"
+            color="#1B3148"
             sx={{ display: "flex", justifyContent: "center" }}
           >
             Size Guide For {productName}
@@ -168,9 +169,13 @@ const SizeModal = ({ open, setOpen, subCat, cat, sizes, categoryName }) => {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Size</TableCell>
-                  <TableCell align="center">Chest</TableCell>
-                  <TableCell align="right">
+                  <TableCell sx={{ color: "#1B3148" }} align="left">
+                    Size
+                  </TableCell>
+                  <TableCell sx={{ color: "#1B3148" }} align="center">
+                    Chest
+                  </TableCell>
+                  <TableCell sx={{ color: "#1B3148" }} align="right">
                     {cat === 1 ? "Waist" : "Length"}
                   </TableCell>
                 </TableRow>
@@ -179,11 +184,20 @@ const SizeModal = ({ open, setOpen, subCat, cat, sizes, categoryName }) => {
                 {row.map((row) => (
                   <TableRow
                     key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      color: "#1B3148",
+                    }}
                   >
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="center">{row.chest}</TableCell>
-                    <TableCell align="right">{row.length}</TableCell>
+                    <TableCell sx={{ color: "#1B3148" }} align="left">
+                      {row.name}
+                    </TableCell>
+                    <TableCell sx={{ color: "#1B3148" }} align="center">
+                      {row.chest}
+                    </TableCell>
+                    <TableCell sx={{ color: "#1B3148" }} align="right">
+                      {row.length}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -22,7 +22,6 @@ const CategoryComponentForShop = ({ homedata }) => {
   const theme = useTheme();
   const sectionBanner = JSON.parse(homedata.banner);
   // console.log("aresdse", homedata);
-  console.log("aresdse", sectionBanner);
 
   const sectionFileType = sectionBanner[0]?.file_type;
 
@@ -184,7 +183,6 @@ const CategoryComponentForShop = ({ homedata }) => {
           marginBottom: "2rem",
         }}
       >
-        
         <Stack
           sx={{
             position: "relative",
@@ -371,7 +369,7 @@ const CategoryComponentForShop = ({ homedata }) => {
             <Typography
               variant="tabText"
               // color="#1B3148"
-              style={{ color: "#1B3148", fontWeight: "900" }}
+              sx={{ color: "#1B3148", fontWeight: "900" }}
               px={1}
             >
               WHAT'S NEW

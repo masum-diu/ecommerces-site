@@ -31,7 +31,7 @@ const policiespages = () => {
   // console.log("data", data);
   const handleMenuClick = (menu) => {
     setSelectItem(menu);
-    setOpen(false)
+    setOpen(false);
   };
   const renderMenuContent = () => {
     const selectedItem = data?.find((item) => item.slug === selectItem);
@@ -46,7 +46,7 @@ const policiespages = () => {
   return (
     <>
       <HomePageIntro title={"PoliciesPages "} />
-      <Box sx={{ pt: { lg: 8, xs: 7 } }} mb={4} >
+      <Box sx={{ pt: { lg: 8, xs: 7 } }} mb={4}>
         <Stack>
           <Typography
             variant="header1"
@@ -92,9 +92,8 @@ const policiespages = () => {
                             <Typography
                               variant="cardHeader1"
                               className="bold"
-                              color="initial"
+                              color="#1B3148"
                               textAlign={"left"}
-              
                             >
                               {content?.title}
                             </Typography>
@@ -108,7 +107,9 @@ const policiespages = () => {
             </Grid>
           </Hidden>
           <Grid item lg={6} sm={12} xs={12}>
-            <Typography paragraph  textAlign={"justify"}>{renderMenuContent()}</Typography>
+            <Typography paragraph textAlign={"justify"}>
+              {renderMenuContent()}
+            </Typography>
           </Grid>
         </Grid>
       </Box>
@@ -126,9 +127,10 @@ const policiespages = () => {
           },
         }}
       >
-        <Stack justifyContent={"flex-end"} alignItems={"flex-end"} p={1}>
+        <Stack justifyContent={"flex-end"} alignItems={"flex-start"} p={1}>
           <IconButton aria-label="" onClick={() => setOpen(false)}>
-            <MdClose />
+            <img src="/assets/close_sidebar.svg" alt="" />
+            {/* <MdClose /> */}
           </IconButton>
         </Stack>
         <List>
@@ -144,7 +146,7 @@ const policiespages = () => {
                       <Typography
                         variant="cardHeader1"
                         className="bold"
-                        color="initial"
+                        color="#1B3148"
                       >
                         {content.title}
                       </Typography>

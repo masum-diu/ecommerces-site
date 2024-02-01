@@ -19,7 +19,7 @@ const AddressBooks = () => {
       >
         <Typography
           variant="cardHeader1"
-          color="initial"
+          color="#1B3148"
           className="exterBold"
           textAlign={"center"}
         >

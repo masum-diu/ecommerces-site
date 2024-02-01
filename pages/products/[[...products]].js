@@ -698,6 +698,9 @@ const masterCollectionLayout = () => {
 
         <Box
           sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             backgroundColor: "#FAFAFA",
             position: "sticky",
             top: { lg: 64, xs: 55 },
@@ -722,7 +725,7 @@ const masterCollectionLayout = () => {
 
               justifyContent={"center"}
               alignItems={"center"}
-              sx={{ width: "90%" }}
+              sx={{ width: { xs: "80%", sm: "90%" } }}
             >
               <Swiper
                 spaceBetween={spaceBetween}

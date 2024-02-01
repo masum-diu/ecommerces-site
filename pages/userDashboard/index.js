@@ -75,7 +75,7 @@ const userDashboard = () => {
           }}
         >
           <IconButton onClick={() => setOpen(true)}>
-            <Hidden only={["xl", "lg", "md"]}>
+            <Hidden only={["xl", "lg", ]}>
               <SegmentIcon />
             </Hidden>
           </IconButton>
@@ -86,7 +86,7 @@ const userDashboard = () => {
           // spacing={2}
           sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto", mt: 2 }}
         >
-          <Hidden only={["sm", "xs", "xms"]}>
+          <Hidden only={["sm", "xs", "xms","md"]}>
             <Grid item lg={3} sx={{ height: "600px" }}>
               <List>
                 {[
@@ -106,7 +106,7 @@ const userDashboard = () => {
                             <Typography
                               variant="cardHeader1"
                               className="bold"
-                              color="initial"
+                              color="#1B3148"
                             >
                               {text}
                             </Typography>
@@ -119,7 +119,7 @@ const userDashboard = () => {
               </List>
             </Grid>
           </Hidden>
-          <Grid item lg={6} sm={12} xs={12}>
+          <Grid item lg={9} sm={12} xs={12}>
             <Typography paragraph>{renderMenuContent()}</Typography>
           </Grid>
         </Grid>

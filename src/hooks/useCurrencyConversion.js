@@ -19,7 +19,7 @@ export function useCurrencyConversion() {
   // console.log('your log output',conversionRates)
   useEffect(() => {
     const conversionRate = localStorage.getItem("rate");
-    const rate = CryptoJS.AES.decrypt(conversionRate, secretKey).toString(
+    const rate = AES.decrypt(conversionRate, secretKey).toString(
       CryptoJS.enc.Utf8
     );
     const finalRate = parseFloat(rate);

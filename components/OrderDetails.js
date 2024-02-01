@@ -60,7 +60,7 @@ const OrderDetails = () => {
             width="100%"
             justifyContent={"space-between"}
           >
-            <Typography variant="homeFlash" color="initial" className="bold">
+            <Typography variant="homeFlash" color="#1B3148" className="bold">
               Cart Totals
             </Typography>
           </Stack>
@@ -73,7 +73,7 @@ const OrderDetails = () => {
           >
             <Typography
               variant="cardHeader"
-              color="initial"
+              color="#1B3148"
               className="bold"
               sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
             >
@@ -82,7 +82,7 @@ const OrderDetails = () => {
             </Typography>
             <Typography
               variant="cardHeader"
-              color="initial"
+              color="#1B3148"
               className="bold"
               sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
             >
@@ -98,7 +98,7 @@ const OrderDetails = () => {
           >
             <Typography
               variant="cardHeader"
-              color="initial"
+              color="#1B3148"
               className="bold"
               sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
             >
@@ -106,7 +106,7 @@ const OrderDetails = () => {
             </Typography>
             <Typography
               variant="cardHeader"
-              color="initial"
+              color="#1B3148"
               className="bold"
               sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
             >
@@ -122,7 +122,7 @@ const OrderDetails = () => {
           >
             <Typography
               variant="cardHeader"
-              color="initial"
+              color="#1B3148"
               className="bold"
               sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
             >
@@ -130,7 +130,7 @@ const OrderDetails = () => {
             </Typography>
             <Typography
               variant="cardHeader"
-              color="initial"
+              color="#1B3148"
               className="bold"
               sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
               textAlign={"left"}
@@ -152,7 +152,7 @@ const OrderDetails = () => {
           >
             <Typography
               variant="tabText1"
-              color="initial"
+              color="#1B3148"
               className="exterBold"
               sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
             >
@@ -160,7 +160,7 @@ const OrderDetails = () => {
             </Typography>
             <Typography
               variant="tabText1"
-              color="initial"
+              color="#1B3148"
               className="exterBold"
               sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
             >

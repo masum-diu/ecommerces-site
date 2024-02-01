@@ -40,7 +40,7 @@ const Filter = ({
   setHasMore,
   setFilteredData,
   setProducts,
-  currentPath
+  currentPath,
 }) => {
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
@@ -136,19 +136,21 @@ const Filter = ({
       >
         <Stack
           direction={"row"}
+          style={{ marginLeft: "10px" }}
           alignItems="center"
           spacing={2}
-          justifyContent="flex-end"
+          justifyContent="flex-start"
         >
           <IconButton aria-label="" onClick={() => setOpen(false)}>
-            <MdClose />
+            <img src="/assets/close_sidebar.svg" alt="" />
+            {/* <MdClose /> */}
           </IconButton>
         </Stack>
         <Stack direction={"column"} spacing={1} p={2}>
           {/* Fabric Wise Filter Starts */}
           <Button
             variant="text"
-            color="inherit"
+            //color="inherit"
             onClick={handleClick}
             fullWidth
             sx={{
@@ -156,6 +158,7 @@ const Filter = ({
               alignItems: "flex-start",
               justifyContent: "space-between",
               textTransform: "capitalize",
+              //color: "#1B3148",
             }}
             endIcon={
               arrow ? (
@@ -165,7 +168,7 @@ const Filter = ({
               )
             }
           >
-            Fabric
+            <Typography color="#1B3148">Fabric</Typography>
           </Button>
           {openList ? (
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
@@ -174,7 +177,7 @@ const Filter = ({
                   onClick={() => handleAllProduct("all")}
                   variant="cardHeader3"
                   color="initial"
-                  sx={{ cursor: "pointer" }}
+                  sx={{ cursor: "pointer", color: "#1B3148" }}
                 >
                   All {currentPath}
                 </Typography>
@@ -186,7 +189,7 @@ const Filter = ({
                     variant="cardHeader3"
                     color="initial"
                     key={index}
-                    sx={{ cursor: "pointer" }}
+                    sx={{ cursor: "pointer", color: "#1B3148" }}
                   >
                     {fabric?.fabric_name}
                   </Typography>
@@ -198,7 +201,7 @@ const Filter = ({
           {/* Color Wise Filter Starts */}
           <Button
             variant="text"
-            color="inherit"
+            //color="inherit"
             onClick={handleClick1}
             fullWidth
             sx={{
@@ -206,6 +209,7 @@ const Filter = ({
               alignItems: "flex-start",
               justifyContent: "space-between",
               textTransform: "capitalize",
+              //color: "#1B3148",
             }}
             endIcon={
               arrow1 ? (
@@ -215,7 +219,7 @@ const Filter = ({
               )
             }
           >
-            Colors
+            <Typography color="#1B3148">Colors</Typography>
           </Button>
           {openList1 ? (
             <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
@@ -225,9 +229,9 @@ const Filter = ({
                     <Typography
                       onClick={() => handleColor([color?.color_name, color.id])}
                       variant="cardHeader3"
-                      color="initial"
+                      // color="initial"
                       key={index}
-                      sx={{ cursor: "pointer" }}
+                      sx={{ cursor: "pointer", color: "#1B3148" }}
                     >
                       {color?.color_name}
                     </Typography>
@@ -240,7 +244,7 @@ const Filter = ({
           {/* Price wise filter Starts */}
           <Button
             variant="text"
-            color="inherit"
+            //color="inherit"
             onClick={handleClick2}
             fullWidth
             sx={{
@@ -248,6 +252,7 @@ const Filter = ({
               alignItems: "flex-start",
               justifyContent: "space-between",
               textTransform: "capitalize",
+              //color: "#1B3148",
             }}
             endIcon={
               arrow2 ? (
@@ -257,7 +262,9 @@ const Filter = ({
               )
             }
           >
-            Price Range
+            <Typography color="#1B3148">
+              <Typography color="#1B3148">Price Range</Typography>
+            </Typography>
           </Button>
           {openList2 ? (
             <Box sx={{ width: "100%", margin: "0 auto", px: 2 }}>
@@ -273,20 +280,14 @@ const Filter = ({
                 />
                 <Stack direction={"row"} justifyContent="space-between">
                   <Stack direction={"row"} spacing={1}>
-                    <Typography>{min}</Typography>
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                    >
+                    <Typography color="#1B3148">{min}</Typography>
+                    <Typography variant="cardHeader3" color="#1B3148">
                       {selectedCurrency}
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={1}>
-                    <Typography>{convertPrice(max)}</Typography>
-                    <Typography
-                      variant="cardHeader3"
-                      color="initial"
-                    >
+                    <Typography color="#1B3148">{convertPrice(max)}</Typography>
+                    <Typography variant="cardHeader3" color="#1B3148">
                       {selectedCurrency}
                     </Typography>
                   </Stack>

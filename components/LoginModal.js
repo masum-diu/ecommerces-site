@@ -202,7 +202,9 @@ const LoginModal = ({ open, setOpen }) => {
       >
         <Stack justifyContent={"flex-end"} alignItems={"flex-end"} p={1}>
           <IconButton aria-label="" onClick={() => handleClose()}>
-            <MdClose />
+            <img src="/assets/close-square.svg" alt="" />
+            {/* <img src="/assets/close_sidebar.svg" alt="" /> */}
+            {/* <MdClose /> */}
           </IconButton>
         </Stack>
 
@@ -304,7 +306,11 @@ const LoginModal = ({ open, setOpen }) => {
                 >
                   Forgot Password?
                 </Typography>
-                <Button variant="contained" color="background2" type="submit">
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: "#1B3148", "&:hover": { bgcolor: "#1B3148" } }}
+                  type="submit"
+                >
                   Login
                 </Button>
                 {/* <Typography>
@@ -357,11 +363,11 @@ const LoginModal = ({ open, setOpen }) => {
                   variant="cardHeader12"
                   textAlign={"center"}
                   sx={{ cursor: "pointer" }}
-                  color="#1B3148"
+                  color="#CDCDCD"
                   onClick={handleChange}
                 >
                   New to Aranya?{" "}
-                  <span style={{ color: "#75879D" }}> Create an Account</span>
+                  <span style={{ color: "#1B3148" }}> Create an Account</span>
                 </Typography>
               </Stack>
             </form>
@@ -372,7 +378,7 @@ const LoginModal = ({ open, setOpen }) => {
               <hr style={{ width: "50%" }} />
               <Stack>
                 <Button onClick={() => handleGuestCheckoutClick()}>
-                  Checkout as Guest?
+                  <Typography color="#1B3148">Checkout as Guest?</Typography>
                 </Button>
               </Stack>
             </>

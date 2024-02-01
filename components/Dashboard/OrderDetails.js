@@ -96,7 +96,7 @@ const OrderDetails = () => {
       >
         <Typography
           variant="cardHeader1"
-          color="initial"
+          color="#1B3148"
           className="exterBold"
           textAlign={"center"}
         >
@@ -106,20 +106,28 @@ const OrderDetails = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell className="bold">Order Id</TableCell>
-                <TableCell className="bold">Order Date</TableCell>
-                <TableCell className="bold">Price</TableCell>
-                <TableCell className="bold">Status</TableCell>
+                <TableCell sx={{ color: "#1B3148" }} className="bold">
+                  Order Id
+                </TableCell>
+                <TableCell sx={{ color: "#1B3148" }} className="bold">
+                  Order Date
+                </TableCell>
+                <TableCell sx={{ color: "#1B3148" }} className="bold">
+                  Price
+                </TableCell>
+                <TableCell sx={{ color: "#1B3148" }} className="bold">
+                  Status
+                </TableCell>
                 {/* <TableCell className="bold" align="center">
                   Cancel
                 </TableCell>
                 <TableCell className="bold" align="center">
                   Refund
                 </TableCell> */}
-                <TableCell className="bold" align="center">
+                <TableCell sx={{ color: "#1B3148" }} className="bold" align="center">
                   Order Cancel
                 </TableCell>
-                <TableCell className="bold" align="center">
+                <TableCell sx={{ color: "#1B3148" }} className="bold" align="center">
                   Order Details
                 </TableCell>
               </TableRow>
@@ -128,19 +136,17 @@ const OrderDetails = () => {
               {info?.map((orderInfo, index) => (
                 <>
                   <TableRow key={index}>
-                    <TableCell className="SemiBold">
-                      {orderInfo?.id}
-                    </TableCell>
-                    <TableCell className="SemiBold">
+                    <TableCell sx={{ color: "#1B3148" }} className="SemiBold">{orderInfo?.id}</TableCell>
+                    <TableCell sx={{ color: "#1B3148" }} className="SemiBold">
                       {orderInfo?.order_date}
                     </TableCell>
-                    <TableCell className="SemiBold">
+                    <TableCell sx={{ color: "#1B3148" }} className="SemiBold">
                       {orderInfo?.total_price}
                     </TableCell>
-                    <TableCell className="SemiBold">
+                    <TableCell sx={{ color: "#1B3148" }} className="SemiBold">
                       {orderInfo?.payment_status ? "Paid" : "Unpaid"}
                     </TableCell>
-                    <TableCell className="SemiBold" align="center">
+                    <TableCell sx={{ color: "#1B3148" }} className="SemiBold" align="center">
                       <Button
                         onClick={() => handleCancel(orderInfo?.id, token)}
                         disabled={orderInfo?.status === 0 ? true : false}
@@ -166,7 +172,7 @@ const OrderDetails = () => {
                         Refund
                       </Button>
                     </TableCell> */}
-                    <TableCell className="SemiBold" align="center">
+                    <TableCell sx={{ color: "#1B3148" }} className="SemiBold" align="center">
                       <Button
                         onClick={() =>
                           handleViewOrder(orderInfo, orderInfo?.order_id)

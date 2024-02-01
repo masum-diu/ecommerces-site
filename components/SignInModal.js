@@ -85,7 +85,10 @@ const SignInModal = ({ open, setOpen, signModal }) => {
       >
         <Stack justifyContent={"flex-end"} alignItems={"flex-end"} p={1}>
           <IconButton aria-label="" onClick={() => setOpen(false)}>
-            <MdClose />
+            <img src="/assets/close-square.svg" alt="" />
+            {/* <MdClose /> */}
+            {/* style={{ marginLeft: "10px" }} */}
+            {/* <img src="/assets/close_sidebar.svg" alt="" /> */}
           </IconButton>
         </Stack>
 
@@ -222,18 +225,22 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   </p>
                 </Stack>
 
-                <Button variant="contained" color="background2" type="submit">
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: "#1B3148", "&:hover": { bgcolor: "#1B3148" } }}
+                  type="submit"
+                >
                   Register
                 </Button>
                 <Typography
                   variant="cardHeader12"
                   textAlign={"center"}
                   sx={{ cursor: "pointer" }}
-                  color="#1B3148"
+                  color="#CDCDCD"
                   onClick={handleChange}
                 >
                   New to Aranya?{" "}
-                  <span style={{ color: "#75879D" }}>
+                  <span style={{ color: "#1B3148" }}>
                     {" "}
                     Already have an Account
                   </span>

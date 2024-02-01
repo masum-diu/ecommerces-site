@@ -845,6 +845,9 @@ const masterCollectionLayout = () => {
 
         <Box
           sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             backgroundColor: "#FAFAFA",
             position: "sticky",
             top: { lg: 64, xs: 55 },
@@ -853,14 +856,16 @@ const masterCollectionLayout = () => {
         >
           <Stack
             direction={"row"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
             spacing={2}
             sx={{
               width: "90%",
               maxWidth: "1500px",
-              margin: "0 auto",
+              // margin: "0 auto",
               height: "61px",
-              justifyContent: "space-between",
-              alignItems: "center",
+              // justifyContent: "space-between",
+              // alignItems: "center",
             }}
           >
             <Stack
@@ -868,7 +873,7 @@ const masterCollectionLayout = () => {
               spacing={4}
               justifyContent={"space-between"}
               alignItems={"center"}
-              sx={{ width: "90%" }}
+              sx={{ width: {xs:"80%",sm:"90%"} }}
             >
               <Swiper
                 spaceBetween={spaceBetween}

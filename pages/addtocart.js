@@ -400,7 +400,7 @@ const addtocart = () => {
                                   </IconButton>
                                   <Typography
                                     variant="cardHeader3"
-                                    color="#959595"
+                                    color="#1B3148"
                                   >
                                     {" "}
                                     {data.amount}
@@ -1119,7 +1119,7 @@ const addtocart = () => {
                                         </IconButton>
                                         <Typography
                                           variant="cardHeader3"
-                                          color="#959595"
+                                          color="#1B3148"
                                         >
                                           {" "}
                                           {data.amount}
