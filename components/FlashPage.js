@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -25,12 +25,15 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { Padding } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
-
+import { AES } from "crypto-js";
+var CryptoJS = require("crypto-js");
 const FlashPage = ({ title }) => {
   const router = useRouter();
-  const [country, setCountry] = React.useState(10);
-  const [language, setLanguage] = React.useState(10);
+  const [country, setCountry] = useState(10);
+  const [conversionRates, setConversionRates] = useState(null);
+  const [language, setLanguage] = useState(10);
+  const secretKey =
+    "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5MDQ2MTg5OSwiaWF0IjoxNjkwNDYxODk5fQ.XpwsAA-b8YVaYW26LBUHLRXIzWU1wgTP6cIrLbs7qEw";
   const currencies = [
     { label: "BDT", year: 1994, value: "BDT" },
     { label: "USD", year: 1972, value: "USD" },
@@ -40,12 +43,24 @@ const FlashPage = ({ title }) => {
     { label: "JPY", year: 1972, value: "JPY" },
     { label: "SGD", year: 1972, value: "SGD" },
   ];
-  const [currency, setCurrency] = React.useState(currencies[0].label);
+  const [currency, setCurrency] = useState(currencies[0].label);
   const handleChange = (event) => {
     setCountry(event.target.value);
   };
 
   // const [currency, setCurrency] = React.useState(10);
+  useEffect(() => {
+    async function fetchExchangeRates(baseCurrency) {
+      const response = await fetch(
+        `https://api.exchangerate-api.com/v4/latest/BDT`
+      );
+      const data = await response.json();
+      return data.rates;
+    }
+    if (currency) {
+      fetchExchangeRates(currency).then((rates) => setConversionRates(rates));
+    }
+  }, [currency]);
 
   const handleChangeCurrency = (event) => {
     setCurrency(event.target.value);
@@ -73,8 +88,11 @@ const FlashPage = ({ title }) => {
   const onSubmit = async (data) => {
     localStorage.setItem("currency", data.currency);
     const hasCurrency = localStorage.getItem("currency");
-    if (hasCurrency) {
+    if (hasCurrency && conversionRates) {
       router.push("/shop");
+      const rawRate = conversionRates[currency].toString();
+      const rate = AES.encrypt(rawRate, secretKey).toString();
+      localStorage.setItem("rate", rate);
     }
   };
   return (

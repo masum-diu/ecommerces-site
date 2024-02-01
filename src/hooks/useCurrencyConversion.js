@@ -1,46 +1,42 @@
 import { useEffect, useState } from "react";
-
+import { AES } from "crypto-js";
 // Define a function to fetch currency exchange rates from an API
-async function fetchExchangeRates(baseCurrency) {
-  const response = await fetch(
-    `https://api.exchangerate-api.com/v4/latest/BDT`
-  );
-  const data = await response.json();
-  return data.rates;
-}
+var CryptoJS = require("crypto-js");
+const secretKey =
+  "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5MDQ2MTg5OSwiaWF0IjoxNjkwNDYxODk5fQ.XpwsAA-b8YVaYW26LBUHLRXIzWU1wgTP6cIrLbs7qEw";
 
-// Custom hook for currency conversion
 export function useCurrencyConversion() {
-  const [conversionRates, setConversionRates] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [conversionRate, setConversionRate] = useState(null);
   const [currentConversionRate, setCurrentConversionRate] = useState("");
   useEffect(() => {
-    // Retrieve the currency from local storage
     const currency = localStorage.getItem("currency");
-
     // Fetch exchange rates if currency is available
     if (currency) {
       setSelectedCurrency(currency);
-      fetchExchangeRates(currency).then((rates) => setConversionRates(rates));
     }
   }, []);
   // console.log('your log output',conversionRates)
   useEffect(() => {
-    // Current Conversion Rate
-    if (conversionRates) {
-      setCurrentConversionRate(conversionRates[selectedCurrency]);
+    const conversionRate = localStorage.getItem("rate");
+    const rate = CryptoJS.AES.decrypt(conversionRate, secretKey).toString(
+      CryptoJS.enc.Utf8
+    );
+    const finalRate = parseFloat(rate);
+
+    if (conversionRate && finalRate) {
+      setConversionRate(finalRate);
+      setCurrentConversionRate(finalRate);
     }
-  }, [conversionRates]);
-  // console.log("your log output", currentConversionRate);
-  // Function to convert a price to the selected currency
+  }, []);
+
   function convertPrice(price) {
-    if (!conversionRates || !selectedCurrency) {
-      // Return the original price if conversion rates are not available
+    if (!selectedCurrency) {
       return price;
     }
 
     // Convert the price to the selected currency
-    const preConvertedPrice = price * conversionRates[selectedCurrency];
+    const preConvertedPrice = price * conversionRate;
     const convertedPrice = parseFloat(preConvertedPrice.toFixed(2));
 
     return convertedPrice; // Adjust the precision as needed

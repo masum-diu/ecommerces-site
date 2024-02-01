@@ -29,7 +29,7 @@ const Footer = () => {
           direction={"column"}
           sx={{
             p: 1,
-            pt:"3vh",
+            pt: "3vh",
             justifyContent: "center",
             alignItems: "center",
             width: "95%",
@@ -54,7 +54,18 @@ const Footer = () => {
                 input: { color: "red" }, // Apply the custom placeholder color
               },
             }}
-            sx={{ color: "#ffff", width: "90vw", maxWidth: "306px", pb: 1 }}
+            sx={{
+              color: "#ffff",
+              width: "90vw",
+              maxWidth: "306px",
+              pb: 1,
+              "&:before": {
+                borderBottom: "2px solid #38486F",
+              },
+              "&:after": {
+                borderBottom: "2px solid #38486F",
+              },
+            }}
             endAdornment={
               <IconButton>
                 <VscArrowRight style={{ color: "#F2F2F2" }} />
@@ -62,9 +73,9 @@ const Footer = () => {
             }
           />
 
-          <Typography variant="normal" color="#F2F2F2">
+          {/* <Typography variant="normal" color="#F2F2F2">
             ABOUT
-          </Typography>
+          </Typography> */}
           <Stack direction={"row"} flexWrap={"wrap"} columnGap={4} rowGap={2}>
             <Typography variant="cardHeader2" color="#F2F2F2">
               About
@@ -148,7 +159,15 @@ const Footer = () => {
             </a>
           </Stack>
         </Stack>
-        <Box sx={{ background: "#476182", height: {xs:"10vh",lg:"5vh"},display:"flex",alignItems:"center",mt:"3vh" }}>
+        <Box
+          sx={{
+            background: "#476182",
+            height: { xs: "10vh", lg: "5vh" },
+            display: "flex",
+            alignItems: "center",
+            mt: "3vh",
+          }}
+        >
           <Stack
             flexWrap={"wrap"}
             columnGap={1}

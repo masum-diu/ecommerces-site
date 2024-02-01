@@ -173,108 +173,18 @@ const CategoryComponentForShop = ({ homedata }) => {
           width: "95%",
           position: "relative",
           margin: "0 auto",
-          height: {
+          /* height: {
             xs: "25vh",
             xms: "35vh",
             sm: "50vh",
             md: "70vh",
             lg: "80vh",
             xl: "85vh",
-          },
+          }, */
           marginBottom: "2rem",
         }}
       >
-        {/* {sectionBanner?.map((category, index) => {
-          const functions = [setIsHoveredLeft, setIsHoveredRight]; // Add more colors as needed
-          const appliedFunction = functions[index % functions.length];
-          const hoverClass = [isHoveredLeft, isHoveredRight]; // Add more colors as needed
-          const appliedHover = hoverClass[index % hoverClass.length];
-
-          return (
-            <Stack
-              sx={{
-                position: "relative",
-                overflow: "hidden",
-              }}
-              onMouseEnter={() => `${appliedFunction(true)}`}
-              onMouseLeave={() => `${appliedFunction(false)}`}
-              //   onMouseEnter={() => setIsHoveredLeft(true)}
-              //   onMouseLeave={() => setIsHoveredLeft(false)}
-            >
-              <Link href={`${handleSecondBanner()}`}>
-                <a style={{ lineHeight: 0 }}>
-                  <Stack
-                    style={{
-                      position: "absolute",
-                      right: appliedHover ? 0 : "100%",
-                      top: 0,
-                      width: "100%",
-                      height: "100%",
-                      background: "rgba(0, 0, 0, 0.5)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      transition: "all .8s ease-in-out", // Adjust the duration and easing as needed
-                      transform: appliedHover
-                        ? "translateX(0)"
-                        : "translateX(-100%)",
-                    }}
-                  >
-                    <Stack
-                      direction={"column"}
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      columnGap={5}
-                      rowGap={5}
-                    >
-                      <Typography
-                        variant="CategoryName"
-                        sx={{
-                          color: "white",
-                          textAlign: "center",
-                        }}
-                        textTransform="uppercase"
-                      >
-                        {category?.back_url_three
-                          ? /^(.*?)\?/.exec(category?.back_url_three)[1]
-                          : ""}
-                      </Typography>
-                      <Button
-                        style={{
-                          backgroundColor: "#1B3148",
-                          padding: "1rem",
-                          width: { xs: "10rem", sm: "12rem", md: "15rem" },
-                        }}
-                        variant="contained"
-                        size="large"
-                        onClick={() => handleSecondBanner()}
-                      >
-                        <Typography variant="tabText">
-                          Shop all{" "}
-                          {category?.back_url_three
-                            ? /^(.*?)\?/.exec(category?.back_url_three)[1]
-                            : ""}
-                        </Typography>
-                      </Button>
-                    </Stack>
-                  </Stack>
-                </a>
-              </Link>
-              <img
-                src={`${category?.banner_uri
-                  ?.split("/")
-                  .slice(0, 6)
-                  .join("/")}/c_lfill,g_auto,h_900,w_900/${category?.banner_uri
-                  ?.split("/")
-                  .slice(6)
-                  .join("/")}`}
-                style={{ cursor: "pointer" }}
-                alt=""
-                width={"100%"}
-              />
-            </Stack>
-          );
-        })} */}
+        
         <Stack
           sx={{
             position: "relative",

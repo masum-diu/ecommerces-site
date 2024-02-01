@@ -54,6 +54,7 @@ import * as fbq from "../../../lib/fpixel";
 
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
@@ -867,7 +868,7 @@ const PorductDetails = () => {
                         <Stack>
                           <Typography
                             variant="cardHeader3"
-                            color="#959595"
+                            color="#1B3148"
                             className="SemiBold"
                           >
                             Quantity
@@ -1261,24 +1262,30 @@ const PorductDetails = () => {
                         variant="contained"
                         color="background2"
                         type="submit"
-                        sx={{ bgcolor: "#1B3148" }}
+                        sx={{
+                          bgcolor: "#1B3148",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
                         disabled={disableBtn}
                         onClick={() => handleAddToCart(finalData)}
                       >
-                        ADD TO CART
+                        <ShoppingCartOutlinedIcon></ShoppingCartOutlinedIcon>
+                        <Typography style={{marginLeft:"1rem"}}>ADD TO CART</Typography>
                       </Button>
                     </Stack>
 
                     <Button
                       variant="outlined"
-                      color="primary"
+                      // sx={{color:"#1B3148"}}
                       aria-label=""
                       style={{ display: `${showHeart}` }}
                       onClick={() => handleAddToWishList(dataForWishList)}
                     >
                       <FiHeart
                         style={{
-                          // color: "#000",
+                          color: "#1B3148",
                           fontSize: "18px",
                           display: "flex",
                           justifyContent: "center",
@@ -1303,7 +1310,7 @@ const PorductDetails = () => {
                     >
                       <HeartBrokenOutlinedIcon
                         style={{
-                          color: "#000",
+                          color: "#1B3148",
                           fontSize: "18px",
                           display: "flex",
                           justifyContent: "center",
@@ -1368,7 +1375,7 @@ const PorductDetails = () => {
                       size="small"
                       className="SemiBold"
                       sx={{
-                        color:"#1B3148",
+                        color: "#1B3148",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
@@ -2131,6 +2138,7 @@ const PorductDetails = () => {
                         <Button
                           sx={{
                             padding: "6px 0px",
+                            textDecoration: "",
                           }}
                           variant="text"
                           color="primary"
@@ -2238,7 +2246,7 @@ const PorductDetails = () => {
                   }}
                 >
                   <Stack direction={"row"} spacing={1} alignItems="center">
-                    <Typography variant="cardHeader3" color="#959595" pr={1}>
+                    <Typography variant="cardHeader3" color="#1B3148" pr={1}>
                       Quantity
                     </Typography>
                   </Stack>
@@ -2288,10 +2296,16 @@ const PorductDetails = () => {
                   color="background2"
                   type="submit"
                   disabled={disableBtn}
-                  sx={{ bgcolor: "#1B3148" }}
+                  sx={{
+                    bgcolor: "#1B3148",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                   onClick={() => handleAddToCart(finalData)}
                 >
-                  ADD TO CART
+                  <ShoppingCartOutlinedIcon ></ShoppingCartOutlinedIcon>
+                  <Typography style={{marginLeft:"1rem"}}>ADD TO CART</Typography>
                 </Button>
 
                 <Stack direction={"row"} spacing={1} alignItems="center">
@@ -2355,7 +2369,7 @@ const PorductDetails = () => {
                   >
                     <FiHeart
                       style={{
-                        color: "#000",
+                        color: "#1B3148",
                         fontSize: "18px",
                         display: "flex",
                         justifyContent: "center",
@@ -2380,7 +2394,7 @@ const PorductDetails = () => {
                   >
                     <HeartBrokenOutlinedIcon
                       style={{
-                        color: "#000",
+                        color: "#1B3148",
                         fontSize: "18px",
                         display: "flex",
                         justifyContent: "center",

@@ -866,7 +866,7 @@ const masterCollectionLayout = () => {
             <Stack
               direction={"row"}
               spacing={4}
-              justifyContent={"center"}
+              justifyContent={"space-between"}
               alignItems={"center"}
               sx={{ width: "90%" }}
             >
@@ -875,7 +875,7 @@ const masterCollectionLayout = () => {
                 slidesPerView={slidesPerView}
                 modules={[Pagination]}
                 className="mySwiper"
-                // style={{border:"1px solid red"}}
+                style={{ width: "100%" }}
               >
                 <SwiperSlide>
                   <Typography

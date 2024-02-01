@@ -729,7 +729,7 @@ const masterCollectionLayout = () => {
                 slidesPerView={slidesPerView}
                 modules={[Pagination]}
                 className="mySwiper"
-                // style={{border:"1px solid red"}}
+                style={{ width: "100%" }}
               >
                 <SwiperSlide>
                   <Typography

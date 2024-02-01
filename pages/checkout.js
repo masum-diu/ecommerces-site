@@ -1301,7 +1301,7 @@ const checkout = () => {
                   <Stack direction={"row"} spacing={1} mt={3.8}>
                     <Typography
                       variant="cardLocation123"
-                      color="#7E7250"
+                      color="#1B3148"
                       onClick={() => handleAddressStatusBilling()}
                       className="SemiBold"
                       sx={{

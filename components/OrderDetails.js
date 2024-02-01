@@ -27,6 +27,7 @@ const OrderDetails = () => {
   const performOperation = (value1, value2) => {
     return parseFloat((parseFloat(value1) - parseFloat(value2)).toFixed(2));
   };
+  const totalProducts = carts?.cart?.length;
   const convertedCart = convertCartData(carts);
   const totalPrice = convertedCart.totalPrice;
   const totalPriceWithoutFragile = convertedCart.totalPriceWithoutFragileCharge;
@@ -39,11 +40,14 @@ const OrderDetails = () => {
 
   const totalPriceWithTax_after_discount =
     convertedCart.totalPriceWithTax_after_discount;
-    const totalDiscountAmount = performOperation(totalPriceWithoutFragile,totalPriceWithoutFragile_after_discount)
+  const totalDiscountAmount = performOperation(
+    totalPriceWithoutFragile,
+    totalPriceWithoutFragile_after_discount
+  );
   const { selectedCurrency, convertPrice, currentConversionRate } =
     useCurrencyConversion();
   return (
-    <Grid item lg={4} xl={4} md={4} >
+    <Grid item lg={4} xl={4} md={4}>
       <Paper elevation={1} mb={1} sx={{ width: "100%" }}>
         <Stack
           sx={{ width: "100%", mx: "auto", p: 2 }}
@@ -73,7 +77,8 @@ const OrderDetails = () => {
               className="bold"
               sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
             >
-              SUBTOTAL :
+              SUBTOTAL :<br />{" "}
+              <small style={{ opacity: 0.5 }}>({totalProducts}product)</small>
             </Typography>
             <Typography
               variant="cardHeader"

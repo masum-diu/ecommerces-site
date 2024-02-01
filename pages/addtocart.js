@@ -121,7 +121,7 @@ const addtocart = () => {
         >
           <Typography
             variant="header1"
-            color="initial"
+            color="#1B3148"
             textAlign={"center"}
             textTransform={"uppercase"}
           >
@@ -197,7 +197,7 @@ const addtocart = () => {
                               sm={6}
                               sx={{ width: "40%", mt: 2 }}
                             >
-                              {/* <Typography variant="homeFlash" color="initial">
+                              {/* <Typography variant="homeFlash" color="#1B3148">
                                 {data?.name}
                               </Typography> */}
                               <Stack
@@ -206,7 +206,11 @@ const addtocart = () => {
                                 spacing={2}
                               >
                                 {" "}
-                                <Typography variant="homeFlash" color="initial">
+                                <Typography
+                                  variant="homeFlash"
+                                  color="#1B3148"
+                                  sx={{ fontWeight: "900" }}
+                                >
                                   {data?.name}
                                 </Typography>
                                 <Stack
@@ -216,7 +220,7 @@ const addtocart = () => {
                                 >
                                   <Typography
                                     variant="cardLocation1"
-                                    color="initial"
+                                    color="#1B3148"
                                   >
                                     SIZE: {data.size ? data.size : "N/A"}
                                   </Typography>
@@ -233,7 +237,7 @@ const addtocart = () => {
                                     {data?.color_name ? (
                                       <Typography
                                         variant="cardLocation1"
-                                        color="initial"
+                                        color="#1B3148"
                                       >
                                         {data?.color_name}
                                       </Typography>
@@ -253,7 +257,7 @@ const addtocart = () => {
                                     <Stack>
                                       <Typography
                                         variant="cardHeader3"
-                                        color="initial"
+                                        color="#1B3148"
                                         className="bold"
                                         sx={{
                                           border: "1px solid #3D5675",
@@ -308,6 +312,7 @@ const addtocart = () => {
                                             : "none"
                                         }`,
                                       }}
+                                      sx={{ fontWeight: "900" }}
                                     >
                                       {selectedCurrency}{" "}
                                       {data?.totalPriceWithoutFragileCharge}
@@ -315,7 +320,8 @@ const addtocart = () => {
                                     {data?.discountType !== undefined ? (
                                       <Typography
                                         variant="homeFlash"
-                                        color="initial"
+                                        color="#1B3148"
+                                        sx={{ fontWeight: "900" }}
                                       >
                                         {selectedCurrency}{" "}
                                         {
@@ -400,6 +406,7 @@ const addtocart = () => {
                                     {data.amount}
                                   </Typography>
                                   <IconButton
+                                    size="small"
                                     aria-label="increase"
                                     onClick={() =>
                                       dispatch(
@@ -571,10 +578,10 @@ const addtocart = () => {
                               <MdClose />
                             </IconButton>
                             <img src={data.image} alt="" width={100} />
-                            <Typography variant="subtitle1" color="initial">
+                            <Typography variant="subtitle1" color="#1B3148">
                               {data?.name}
                             </Typography>
-                            <Typography variant="subtitle1" color="initial">
+                            <Typography variant="subtitle1" color="#1B3148">
                               {data?.design_code}
                             </Typography>
                             <Stack
@@ -585,17 +592,17 @@ const addtocart = () => {
                               <Typography>Colors: </Typography>
                               
                               {data?.color_name ? (
-                                <Typography variant="subtitle1" color="initial">
+                                <Typography variant="subtitle1" color="#1B3148">
                                   {data?.color_name}
                                 </Typography>
                               ) : (
                                 <Typography>N/A</Typography>
                               )}
                             </Stack>
-                            <Typography variant="subtitle1" color="initial">
+                            <Typography variant="subtitle1" color="#1B3148">
                               SIZE: {data.size ? data.size : "N/A"}
                             </Typography>
-                            <Typography variant="subtitle1" color="initial">
+                            <Typography variant="subtitle1" color="#1B3148">
                               {selectedCurrency}{" "}
                               {
                                 data.totalPriceWithoutFragileCharge_after_discount
@@ -607,7 +614,7 @@ const addtocart = () => {
                               justifyContent={"space-between"}
                               spacing={2}
                             >
-                              <Typography variant="subtitle1" color="initial">
+                              <Typography variant="subtitle1" color="#1B3148">
                                 Quantity: {data.amount}
                               </Typography>
 
@@ -789,7 +796,12 @@ const addtocart = () => {
                         {" "}
                         <Button
                           variant="contained"
-                          color="secondary"
+                          sx={{
+                            bgcolor: "#af7b29",
+                            "&:hover": {
+                              bgcolor: "#af7b29",
+                            },
+                          }}
                           onClick={() => router.push("/shop")}
                         >
                           CONTINUE SHOPPING
@@ -873,7 +885,8 @@ const addtocart = () => {
                                   {" "}
                                   <Typography
                                     variant="subtitle1"
-                                    color="initial"
+                                    color="#1B3148"
+                                    sx={{ fontWeight: "900" }}
                                   >
                                     {data?.name}
                                   </Typography>
@@ -884,7 +897,7 @@ const addtocart = () => {
                                   >
                                     <Typography
                                       variant="cardLocation1"
-                                      color="initial"
+                                      color="#1B3148"
                                     >
                                       SIZE: {data.size ? data.size : "N/A"}
                                     </Typography>
@@ -901,7 +914,7 @@ const addtocart = () => {
                                       {data?.color_name ? (
                                         <Typography
                                           variant="cardLocation1"
-                                          color="initial"
+                                          color="#1B3148"
                                         >
                                           {data?.color_name}
                                         </Typography>
@@ -921,7 +934,7 @@ const addtocart = () => {
                                       <Stack>
                                         <Typography
                                           variant="cardHeader3"
-                                          color="initial"
+                                          color="#1B3148"
                                           className="bold"
                                           sx={{
                                             border: "1px solid #3D5675",
@@ -992,6 +1005,7 @@ const addtocart = () => {
                                               : "none"
                                           }`,
                                         }}
+                                        sx={{ fontWeight: "900" }}
                                       >
                                         {selectedCurrency}{" "}
                                         {data?.totalPriceWithoutFragileCharge}
@@ -999,7 +1013,8 @@ const addtocart = () => {
                                       {data?.discountType !== undefined ? (
                                         <Typography
                                           variant="subtitle1"
-                                          color="initial"
+                                          color="#1B3148"
+                                          sx={{ fontWeight: "900" }}
                                         >
                                           {selectedCurrency}{" "}
                                           {
@@ -1043,24 +1058,27 @@ const addtocart = () => {
                                   </Stack>
                                   <Stack
                                     direction={"row"}
-                                    spacing={1}
+                                    // spacing={1}
                                     alignItems={"center"}
-                                    justifyContent={"space-between"}
+                                    justifyContent={{
+                                      md: "space-around",
+                                      lg: "center",
+                                    }}
                                     sx={{
                                       border: "1px solid #D9D9D9",
                                       borderRadius: "5px",
                                       px: 1,
                                       width: {
-                                        md: "75%",
-                                        lg: "70%",
-                                        xl: "50%",
+                                        md: "70%",
+                                        lg: "63%",
+                                        xl: "45%",
                                       },
                                     }}
                                   >
                                     <Stack>
                                       <Typography
                                         variant="cardHeader3"
-                                        color="#959595"
+                                        color="#1B3148"
                                         className="SemiBold"
                                       >
                                         Quantity
@@ -1077,14 +1095,13 @@ const addtocart = () => {
                                     </Stack>
                                     <Stack
                                       direction={"row"}
-                                      spacing={2}
                                       alignItems="center"
                                       justifyContent={"space-between"}
                                       // sx={{ width: "100%", maxWidth: "50px", color: "#959595" }}
                                     >
                                       <Stack
                                         direction={"row"}
-                                        spacing={2}
+                                        spacing={1}
                                         alignItems="center"
                                         justifyContent={"space-between"}
                                         sx={{
@@ -1108,6 +1125,7 @@ const addtocart = () => {
                                           {data.amount}
                                         </Typography>
                                         <IconButton
+                                          size="small"
                                           aria-label="increase"
                                           onClick={() =>
                                             dispatch(
@@ -1288,7 +1306,12 @@ const addtocart = () => {
                     {" "}
                     <Button
                       variant="contained"
-                      color="secondary"
+                      sx={{
+                        bgcolor: "#af7b29",
+                        "&:hover": {
+                          bgcolor: "#af7b29",
+                        },
+                      }}
                       onClick={() => router.push("/shop")}
                     >
                       CONTINUE SHOPPING
@@ -1316,9 +1339,9 @@ const addtocart = () => {
               }}
             >
               <ProductionQuantityLimitsIcon
-                style={{ color: "#0A0A0A", fontSize: "128px" }}
+                style={{ color: "#1B3148", fontSize: "128px" }}
               ></ProductionQuantityLimitsIcon>
-              <Typography variant="header1">
+              <Typography color="#1B3148" variant="header1">
                 Your cart is currently empty.
               </Typography>
             </Stack>
