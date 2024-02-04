@@ -26,7 +26,7 @@ const SingularComponentForShop = ({ homedata }) => {
     <>
       {sectionFileType === "video" ? (
         <Stack
-          mb={5}
+          mb={15}
           dangerouslySetInnerHTML={{
             __html: `<video className="app__backgroundVideo" autoplay="true" muted="true" preload="auto" loop playsinline="" data-wf-ignore="true" data-object-fit="cover" >
               <source src=${sectionBanner[0]?.banner_uri} type="video/mp4" data-wf-ignore="true" />
@@ -35,7 +35,7 @@ const SingularComponentForShop = ({ homedata }) => {
           }}
         />
       ) : sectionFileType === "image" ? (
-        <Stack sx={{ position: "relative" }} mb={5}>
+        <Stack sx={{ position: "relative" }} mb={15}>
           {sectionBanner[0]?.back_link &&
           sectionBanner[0]?.back_link !== null ? (
             <Link href={`${handleFirstBanner()}`}>

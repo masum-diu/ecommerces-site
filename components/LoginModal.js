@@ -212,6 +212,7 @@ const LoginModal = ({ open, setOpen }) => {
           <Typography
             variant="header1"
             color="#1B3148"
+            className="bold"
             sx={{ display: "flex", justifyContent: "center" }}
           >
             Login
@@ -222,7 +223,11 @@ const LoginModal = ({ open, setOpen }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <Stack direction={"column"} spacing={3} mt={2} mb={2}>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="#1B3148">
+                  <Typography
+                    variant="cardHeader12"
+                    color="#1B3148"
+                    className="SemiBold"
+                  >
                     EMAIL ADDRESS
                   </Typography>
                   <TextField
@@ -245,7 +250,11 @@ const LoginModal = ({ open, setOpen }) => {
                   <p style={{ color: "red" }}>{errors.email?.message}</p>
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="#1B3148">
+                  <Typography
+                    variant="cardHeader12"
+                    color="#1B3148"
+                    className="SemiBold"
+                  >
                     PASSWORD
                   </Typography>
                   <TextField
@@ -303,6 +312,7 @@ const LoginModal = ({ open, setOpen }) => {
                   }}
                   color="#1B3148"
                   onClick={handleChange1}
+                  className="SemiBold"
                 >
                   Forgot Password?
                 </Typography>
@@ -310,6 +320,7 @@ const LoginModal = ({ open, setOpen }) => {
                   variant="contained"
                   sx={{ bgcolor: "#1B3148", "&:hover": { bgcolor: "#1B3148" } }}
                   type="submit"
+                  className="SemiBold"
                 >
                   Login
                 </Button>
@@ -363,11 +374,11 @@ const LoginModal = ({ open, setOpen }) => {
                   variant="cardHeader12"
                   textAlign={"center"}
                   sx={{ cursor: "pointer" }}
+                  className="SemiBold"
                   color="#CDCDCD"
                   onClick={handleChange}
                 >
-                  New to Aranya?{" "}
-                  <span style={{ color: "#1B3148" }}> Create an Account</span>
+                  New to Aranya? <span style={{color: "#1B3148" }}> Create an Account</span>
                 </Typography>
               </Stack>
             </form>

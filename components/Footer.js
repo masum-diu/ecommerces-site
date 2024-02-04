@@ -58,6 +58,7 @@ const Footer = () => {
                 input: { color: "red" }, // Apply the custom placeholder color
               },
             }}
+            className="customInput .mui-style-1uol1ml-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled, .Mui-error):before"
             sx={{
               color: "#ffff",
               width: "90vw",

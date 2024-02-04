@@ -96,6 +96,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
           <Typography
             variant="header1"
             color="#1B3148"
+            className="bold"
             sx={{ display: "flex", justifyContent: "center" }}
           >
             Register
@@ -106,7 +107,11 @@ const SignInModal = ({ open, setOpen, signModal }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <Stack direction={"column"} spacing={3} mt={2} mb={2}>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="#1B3148">
+                  <Typography
+                    variant="cardHeader12"
+                    color="#1B3148"
+                    className="SemiBold"
+                  >
                     USERNAME
                   </Typography>
                   <TextField
@@ -122,7 +127,11 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   <p style={{ color: "red" }}>{errors.name?.message}</p>
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="#1B3148">
+                  <Typography
+                    variant="cardHeader12"
+                    color="#1B3148"
+                    className="SemiBold"
+                  >
                     EMAIL ADDRESS
                   </Typography>
                   <TextField
@@ -145,7 +154,11 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                 </Stack>
 
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="#1B3148">
+                  <Typography
+                    variant="cardHeader12"
+                    color="#1B3148"
+                    className="SemiBold"
+                  >
                     PASSWORD
                   </Typography>
                   <TextField
@@ -187,7 +200,11 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   <p style={{ color: "red" }}>{errors.password?.message}</p>
                 </Stack>
                 <Stack direction={"column"} spacing={1}>
-                  <Typography variant="cardHeader12" color="#1B3148">
+                  <Typography
+                    variant="cardHeader12"
+                    color="#1B3148"
+                    className="SemiBold"
+                  >
                     CONFIRM PASSWORD
                   </Typography>
                   <TextField
@@ -229,6 +246,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   variant="contained"
                   sx={{ bgcolor: "#1B3148", "&:hover": { bgcolor: "#1B3148" } }}
                   type="submit"
+                  className="SemiBold"
                 >
                   Register
                 </Button>
@@ -237,6 +255,7 @@ const SignInModal = ({ open, setOpen, signModal }) => {
                   textAlign={"center"}
                   sx={{ cursor: "pointer" }}
                   color="#CDCDCD"
+                  className="SemiBold"
                   onClick={handleChange}
                 >
                   New to Aranya?{" "}

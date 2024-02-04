@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Card,
   Divider,
   Grid,
   Hidden,
@@ -48,7 +49,7 @@ const OrderDetails = () => {
     useCurrencyConversion();
   return (
     <Grid item lg={4} xl={4} md={4}>
-      <Paper elevation={1} mb={1} sx={{ width: "100%" }}>
+      <Card elevation={4} mb={1} sx={{ width: "100%",borderRadius:"10px" }}>
         <Stack
           sx={{ width: "100%", mx: "auto", p: 2 }}
           direction={"column"}
@@ -60,7 +61,7 @@ const OrderDetails = () => {
             width="100%"
             justifyContent={"space-between"}
           >
-            <Typography variant="homeFlash" color="#1B3148" className="bold">
+            <Typography variant="wishlistPName" color="#1B3148" className="bold">
               Cart Totals
             </Typography>
           </Stack>
@@ -169,7 +170,7 @@ const OrderDetails = () => {
           </Stack>
           {/* <Divider /> */}
         </Stack>
-      </Paper>
+      </Card>
     </Grid>
   );
 };

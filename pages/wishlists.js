@@ -70,6 +70,7 @@ const wishlists = () => {
             color="initial"
             textAlign={"center"}
             textTransform={"uppercase"}
+            className="bold"
             mb={3}
           >
             Wishlist
@@ -152,7 +153,7 @@ const wishlists = () => {
           {wishlist?.length > 0 ? (
             <Stack sx={{ width: "100%" }} direction={"column"}>
               {wishlist?.map((wishlistData) => (
-                <Card variant="outlined" sx={{ marginBottom: "8px", py: 2 }}>
+                <Card variant="outlined" sx={{ marginBottom: "8px", py: 2,borderRadius:"10px" }}>
                   <Stack
                     direction={"row"}
                     justifyContent={"space-between"}

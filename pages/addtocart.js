@@ -124,6 +124,7 @@ const addtocart = () => {
             color="#1B3148"
             textAlign={"center"}
             textTransform={"uppercase"}
+            className="bold"
           >
             Cart
           </Typography>
@@ -146,7 +147,7 @@ const addtocart = () => {
                             container
                             sx={{
                               width: "100%",
-                              borderRadius: "4px",
+                              borderRadius: "10px",
                               border: "1px solid #CECECE",
                               pl: ".2rem",
                             }}
@@ -209,6 +210,7 @@ const addtocart = () => {
                                 <Typography
                                   variant="homeFlash"
                                   color="#1B3148"
+                                  className="bold"
                                   sx={{ fontWeight: "900" }}
                                 >
                                   {data?.name}
@@ -321,6 +323,7 @@ const addtocart = () => {
                                       <Typography
                                         variant="homeFlash"
                                         color="#1B3148"
+                                        className="bold"
                                         sx={{ fontWeight: "900" }}
                                       >
                                         {selectedCurrency}{" "}
@@ -860,7 +863,7 @@ const addtocart = () => {
                           <Card
                             key={data?.id}
                             variant="outlined"
-                            sx={{ marginBottom: "8px" }}
+                            sx={{ marginBottom: "8px",borderRadius:"10px" }}
                           >
                             <TableRow>
                               <TableCell sx={{ border: "none" }}>
@@ -886,6 +889,7 @@ const addtocart = () => {
                                   <Typography
                                     variant="subtitle1"
                                     color="#1B3148"
+                                    className="bold"
                                     sx={{ fontWeight: "900" }}
                                   >
                                     {data?.name}
@@ -1014,6 +1018,7 @@ const addtocart = () => {
                                         <Typography
                                           variant="subtitle1"
                                           color="#1B3148"
+                                          className="bold"
                                           sx={{ fontWeight: "900" }}
                                         >
                                           {selectedCurrency}{" "}
@@ -1079,7 +1084,7 @@ const addtocart = () => {
                                       <Typography
                                         variant="cardHeader3"
                                         color="#1B3148"
-                                        className="SemiBold"
+                                        className="bold"
                                       >
                                         Quantity
                                       </Typography>
@@ -1120,6 +1125,7 @@ const addtocart = () => {
                                         <Typography
                                           variant="cardHeader3"
                                           color="#1B3148"
+                                          className="SemiBold"
                                         >
                                           {" "}
                                           {data.amount}

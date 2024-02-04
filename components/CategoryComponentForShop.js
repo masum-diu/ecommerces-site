@@ -172,15 +172,7 @@ const CategoryComponentForShop = ({ homedata }) => {
           width: "95%",
           position: "relative",
           margin: "0 auto",
-          /* height: {
-            xs: "25vh",
-            xms: "35vh",
-            sm: "50vh",
-            md: "70vh",
-            lg: "80vh",
-            xl: "85vh",
-          }, */
-          marginBottom: "2rem",
+          marginBottom: homedata?.product.length > 0 ? "0" : "8rem",
         }}
       >
         <Stack
@@ -360,7 +352,7 @@ const CategoryComponentForShop = ({ homedata }) => {
       </Stack>
 
       {homedata?.product.length > 0 && (
-        <Box mt={4} mb={4}>
+        <Box mt={4} mb={15}>
           <Stack
             direction={"row"}
             justifyContent="space-between"
@@ -371,6 +363,7 @@ const CategoryComponentForShop = ({ homedata }) => {
               // color="#1B3148"
               sx={{ color: "#1B3148", fontWeight: "900" }}
               px={1}
+              mb={3}
             >
               WHAT'S NEW
             </Typography>

@@ -824,6 +824,7 @@ const masterCollectionLayout = () => {
             <Typography
               variant="cardHeader2"
               color="#1B3148"
+              className="SemiBold"
               sx={{ cursor: "pointer" }}
               onClick={() => router.push("/shop")}
             >
@@ -834,6 +835,7 @@ const masterCollectionLayout = () => {
               variant="cardHeader2"
               sx={{ cursor: "pointer" }}
               color="#1B3148"
+              className="SemiBold"
             >
               {currentPath}
             </Typography>

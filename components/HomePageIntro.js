@@ -132,9 +132,9 @@ const HomePageIntro = ({ title }) => {
       onClose={handleMenuClose}
     >
       <Link href={"/userDashboard"}>
-        <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+        <MenuItem className="bold" sx={{color:"#1B3148"}} onClick={handleMenuClose}>My Account</MenuItem>
       </Link>
-      <MenuItem onClick={handelogout}>Logout</MenuItem>
+      <MenuItem className="bold" sx={{color:"#1B3148"}} onClick={handelogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -208,12 +208,12 @@ const HomePageIntro = ({ title }) => {
           >
             <Stack direction={"row"} spacing={0.5} alignItems={"center"}>
               <IconButton
-                style={{ marginTop: ".50rem",color:"#3D5675" }}
+                style={{ marginTop: ".50rem", color: "#3D5675" }}
                 onClick={() => setOpen(true)}
               >
                 {/* <GoThreeBars style={{ color: "#0A0A0A" }} /> */}
                 {/* <FcMenu style={{ color: "#0A0A0A" }} /> */}
-                <BiMenuAltLeft style={{color:"#3D5675"}} />
+                <BiMenuAltLeft style={{ color: "#3D5675" }} />
               </IconButton>
               <Link href={"/shop"}>
                 <img
@@ -301,7 +301,7 @@ const HomePageIntro = ({ title }) => {
             >
               <Stack direction={"row"} spacing={5} mt={1}>
                 <Typography
-                  className={style.menu3}
+                  className={`${style.menu3} bold`}
                   sx={{ cursor: "pointer" }}
                   variant="homeFlash"
                   color="initial"
@@ -311,7 +311,7 @@ const HomePageIntro = ({ title }) => {
                   <li style={{ color: "#1B3148", fontWeight: "900" }}>SHOP</li>
                 </Typography>
                 <Typography
-                  className={style.menu3}
+                  className={`${style.menu3} bold`}
                   sx={{ cursor: "pointer" }}
                   variant="homeFlash"
                   color="initial"
@@ -363,9 +363,12 @@ const HomePageIntro = ({ title }) => {
                       aria-controls={menuId}
                       aria-haspopup="true"
                     >
-                      <AccountCircle color="gray"style={{color:"#3D5675"}} />
+                      <AccountCircle
+                        color="gray"
+                        style={{ color: "#3D5675" }}
+                      />
                     </IconButton>
-                    <p style={{ color: "#3D5675", cursor: "pointer" }}>
+                    <p className="SemiBold" style={{ color: "#1B3148", cursor: "pointer" }}>
                       {userjsondata
                         ? userjsondata?.name.split(" ")[0]
                         : user.name}

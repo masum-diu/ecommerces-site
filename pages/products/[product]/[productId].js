@@ -826,7 +826,7 @@ const PorductDetails = () => {
                             : ""}{" "}
                           {priceWithoutFragileCharge > 0
                             ? `${convertPrice(priceWithoutFragileCharge)}`
-                            : "Out of Stock"}
+                            : /* "Out of Stock" */""}
                         </Typography>
                       </Stack>
                       {discountType !== undefined ? (
@@ -1080,6 +1080,7 @@ const PorductDetails = () => {
                               {/* {console.log(products?.p_stocks.find((element)=>element.size_id===size.id))} */}
                               <Typography
                                 variant="cardHeader"
+                                className="SemiBold"
                                 color={
                                   handleStockAvailability(size?.id) ===
                                   "outOfStock"
@@ -1121,8 +1122,9 @@ const PorductDetails = () => {
                             }
                           >
                             <Typography
-                              sx={{ textDecoration: "underline" }}
+                              sx={{ textDecoration: "underline",textTransform: "capitalize", }}
                               color="#1B3148"
+                              className="SemiBold"
                             >
                               size guide
                             </Typography>
@@ -1329,14 +1331,14 @@ const PorductDetails = () => {
                   </Stack>
 
                   <Stack direction={"row"} spacing={1} alignItems="center">
-                    <Typography
+                    {/* <Typography
                       variant="cardHeader3"
                       color="#959595"
                       // width="25%"
                       className="SemiBold"
                     >
                       Availability & Specification
-                    </Typography>
+                    </Typography> */}
                     {/* <hr
                       style={{
                         textAlign: "left",
@@ -1937,7 +1939,7 @@ const PorductDetails = () => {
                         : ""}{" "}
                       {priceWithoutFragileCharge > 0
                         ? `${convertPrice(priceWithoutFragileCharge)}`
-                        : "Out of Stock"}
+                        : /* "Out of Stock" */""}
                     </Typography>
                   </Stack>
                   {discountType !== undefined ? (
@@ -2040,7 +2042,7 @@ const PorductDetails = () => {
                       alignItems="center"
                       mb={1}
                     >
-                      <Typography variant="cardHeader3" color="#959595">
+                      <Typography variant="cardHeader3" color="#959595"className="SemiBold">
                         Sizes
                       </Typography>
                       {/* <hr
@@ -2112,6 +2114,7 @@ const PorductDetails = () => {
                             {/* {console.log(products?.p_stocks.find((element)=>element.size_id===size.id))} */}
                             <Typography
                               variant="cardHeader"
+                              className="SemiBold"
                               color={
                                 handleStockAvailability(size?.id) ===
                                 "outOfStock"
@@ -2160,7 +2163,7 @@ const PorductDetails = () => {
                           }
                         >
                           <Typography
-                            sx={{ textDecoration: "underline" }}
+                            sx={{ textDecoration: "underline",textTransform: "capitalize", }}
                             color="#1B3148"
                           >
                             size guide
@@ -2324,9 +2327,9 @@ const PorductDetails = () => {
                 </Button>
 
                 <Stack direction={"row"} spacing={1} alignItems="center">
-                  <Typography variant="cardHeader3" color="#959595">
+                  {/* <Typography variant="cardHeader3" color="#959595">
                     Availability & Specification
-                  </Typography>
+                  </Typography> */}
                   {/* <hr
                     style={{
                       textAlign: "left",

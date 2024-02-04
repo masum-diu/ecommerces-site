@@ -161,9 +161,21 @@ const SiderBar = ({ open, setOpen }) => {
       onClose={handleMenuClose}
     >
       <Link href={"/userDashboard"}>
-        <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+        <MenuItem
+          onClick={handleMenuClose}
+          className="bold"
+          sx={{ color: "#1B3148" }}
+        >
+          My Account
+        </MenuItem>
       </Link>
-      <MenuItem onClick={handelogout}>Logout</MenuItem>
+      <MenuItem
+        onClick={handelogout}
+        className="bold"
+        sx={{ color: "#1B3148" }}
+      >
+        Logout
+      </MenuItem>
     </Menu>
   );
 
@@ -368,7 +380,10 @@ const SiderBar = ({ open, setOpen }) => {
                     )
                   }
                 >
-                  <Typography sx={{ fontWeight: "900", color: "#1B3148" }}>
+                  <Typography
+                    sx={{ fontWeight: "900", color: "#1B3148" }}
+                    className="bold"
+                  >
                     Occasions
                   </Typography>
                 </Button>

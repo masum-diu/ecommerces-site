@@ -19,7 +19,7 @@ import useDiscountCount from "../../src/hooks/useDiscountCount";
 const HovarImage = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
   const innerPage = router?.query?.productId;
-  
+
   const dispatch = useDispatch();
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
   const cart = useSelector((state) => state.cart.cart);
@@ -185,11 +185,7 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               mt: 2,
             }}
           >
-            <Typography
-              variant="cardHeader3"
-              color="#1B3148"
-              className="SemiBold"
-            >
+            <Typography variant="cardHeader3" color="#1B3148" className="bold">
               {data?.p_name}
             </Typography>
             <Stack
@@ -220,13 +216,14 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
               )}
               <Stack
                 direction={"row"}
+                alignItems={"center"}
                 spacing={innerPage ? { xs: 1, sm: 2 } : 2}
               >
                 {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
                   <Typography
                     variant="cardHeader3"
                     color="#1B3148"
-                    className="bold"
+                    className="SemiBold"
                     pl={innerPage ? { xs: 0, sm: 2 } : 2}
                     style={{
                       textDecorationLine: "line-through",

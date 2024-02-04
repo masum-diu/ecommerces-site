@@ -56,3 +56,7 @@
 ul.MuiList-root.MuiList-padding.MuiMenu-list.mui-style-6hp17o-MuiList-root-MuiMenu-list {
   max-height: 50vh;
 } */
+
+.mui-style-1uol1ml-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled, .Mui-error):before {
+  border-bottom: 2px solid #38486f !important ;
+}

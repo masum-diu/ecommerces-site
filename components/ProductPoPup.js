@@ -41,7 +41,7 @@ const ProductPoPup = ({
           <Typography
             variant="cardHeader1"
             px={2}
-            color="initial"
+            color="#1B3148"
             className="SemiBold"
           >
             Product successfully added to your cart.
@@ -61,14 +61,14 @@ const ProductPoPup = ({
                 <Typography
                   variant="cardHeader1"
                   className="SemiBold"
-                  color="initial"
+                  color="#1B3148"
                   width={"50%"}
                 >
                   Product Name :{" "}
                 </Typography>
                 <Typography
                   variant="normal"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                   width={"50%"}
                 >
@@ -76,20 +76,20 @@ const ProductPoPup = ({
                 </Typography>
               </Stack>
               {/* <Stack direction={"row"}spacing={1}>
-            <Typography variant="cardHeader1" className="SemiBold" color="initial">SKY : </Typography><Typography variant="normal" color="initial" className="SemiBold">{product?.p_design_code}</Typography>
+            <Typography variant="cardHeader1" className="SemiBold" color="#1B3148">SKY : </Typography><Typography variant="normal" color="#1B3148" className="SemiBold">{product?.p_design_code}</Typography>
             </Stack> */}
               <Stack direction={"row"} spacing={1} width={"100%"}>
                 <Typography
                   variant="cardHeader1"
                   className="SemiBold"
-                  color="initial"
+                  color="#1B3148"
                   width={"50%"}
                 >
                   Quantity :{" "}
                 </Typography>
                 <Typography
                   variant="normal"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                   width={"50%"}
                 >
@@ -100,14 +100,14 @@ const ProductPoPup = ({
                 <Typography
                   variant="cardHeader1"
                   className="SemiBold"
-                  color="initial"
+                  color="#1B3148"
                   width={"50%"}
                 >
                   Unit Price :{" "}
                 </Typography>
                 <Typography
                   variant="normal"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                   width={"50%"}
                 >
@@ -118,14 +118,14 @@ const ProductPoPup = ({
                 <Typography
                   variant="cardHeader1"
                   className="SemiBold"
-                  color="initial"
+                  color="#1B3148"
                   width={"50%"}
                 >
                   Discounted Price :{" "}
                 </Typography>
                 <Typography
                   variant="normal"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                   width={"50%"}
                 >
@@ -136,14 +136,14 @@ const ProductPoPup = ({
                 <Typography
                   variant="cardHeader1"
                   className="SemiBold"
-                  color="initial"
+                  color="#1B3148"
                   width={"50%"}
                 >
                   SubTotal :{" "}
                 </Typography>
                 <Typography
                   variant="normal"
-                  color="initial"
+                  color="#1B3148"
                   className="SemiBold"
                   width={"50%"}
                 >
