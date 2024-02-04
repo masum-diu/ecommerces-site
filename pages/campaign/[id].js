@@ -18,6 +18,7 @@ const campaign = () => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [currentRoute, setCurrentRoute] = useState("");
   // const Camp_id = router?.query?.cat_id;
   // const Camp_id = router?.query?.id?.match(/=(.*)/)[1];
 
@@ -25,23 +26,31 @@ const campaign = () => {
 
   const catIdMatch = /cat=(\d+)/.exec(router?.query?.id);
   const catNameMatch = /cat_name=([^&]+)/.exec(router?.query?.id);
-
   const Camp_id = catIdMatch ? catIdMatch[1] : null;
   const Camp_name = catNameMatch ? catNameMatch[1] : null;
 
   // const page = 1;
-  const { data, isLoading, isSuccess, isError, error } =
+  const { data, isLoading, isSuccess, isError, error, refetch } =
     useGetParticularCampignListsQuery({ Camp_id, page }, { skip: !Camp_id });
   useEffect(() => {
     if (isSuccess) {
-      setCampData((prevData) => [...prevData, ...data?.data]);
+      if (page === 1) {
+        setCampData((prevData) => [...data?.data]);
+      } else {
+        setCampData((prevData) => [...prevData, ...data?.data]);
+      }
       setHasMore(data?.data.length > 0);
     }
-  }, [data]);
+  }, [data, router.query.id]);
+  useEffect(() => {
+    setCampData([]);
+    setHasMore(true);
+    setPage(1);
+  }, [window.location.href]);
+
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1);
   };
-  // console.log("your log output", campData);
   if (isLoading) {
     return <Loader></Loader>;
   }
