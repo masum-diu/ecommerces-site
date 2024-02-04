@@ -53,7 +53,7 @@ const OrderDetails = () => {
         <Stack
           sx={{ width: "100%", mx: "auto", p: 2 }}
           direction={"column"}
-          spacing={2}
+          spacing={3.5}
         >
           <Stack
             direction={"row"}
@@ -65,7 +65,7 @@ const OrderDetails = () => {
               Cart Totals
             </Typography>
           </Stack>
-          <Divider />
+          {/* <Divider /> */}
 
           <Stack
             direction={"row"}
@@ -91,7 +91,7 @@ const OrderDetails = () => {
             </Typography>
           </Stack>
 
-          <Divider />
+          {/* <Divider /> */}
           <Stack
             direction={"row"}
             spacing={{ xs: 1, lg: 0, xl: 1 }}
@@ -115,7 +115,7 @@ const OrderDetails = () => {
             </Typography>
           </Stack>
 
-          <Divider />
+          {/* <Divider /> */}
           <Stack
             direction={"row"}
             spacing={{ xs: 1, lg: 0, xl: 1 }}
