@@ -154,6 +154,7 @@ const shop = () => {
             }
             // console.log("your log output", data);
           })}
+          {console.log('homedata',homedata)}
         </Stack>
         {/* {homedata.map((data, index) => {
           if (data?.pattern === "double") {

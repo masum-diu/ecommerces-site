@@ -8,7 +8,6 @@ import style from "../public/assets/css/HomePageIntro.module.css";
 
 const SingularComponentForShop = ({ homedata }) => {
   const sectionBanner = JSON.parse(homedata.banner);
-
   const sectionFileType = sectionBanner[0]?.file_type;
   const handleFirstBanner = () => {
     if (homedata?.use_for === "category") {
@@ -20,20 +19,39 @@ const SingularComponentForShop = ({ homedata }) => {
     if (homedata?.use_for === "campaign") {
       return sectionBanner[0]?.back_link;
     }
+    if (homedata?.use_for === "other") {
+      return sectionBanner[0]?.back_link;
+    }
   };
 
   return (
     <>
       {sectionFileType === "video" ? (
-        <Stack
-          mb={15}
-          dangerouslySetInnerHTML={{
-            __html: `<video className="app__backgroundVideo" autoplay="true" muted="true" preload="auto" loop playsinline="" data-wf-ignore="true" data-object-fit="cover" >
+        sectionBanner[0]?.back_link && sectionBanner[0]?.back_link !== null ? (
+          <Link href={`${handleFirstBanner()}`}>
+            <a style={{ lineHeight: 0 }}>
+              <Stack
+                mb={15}
+                dangerouslySetInnerHTML={{
+                  __html: `<video className="app__backgroundVideo" autoplay="true" muted="true" preload="auto" loop playsinline="" data-wf-ignore="true" data-object-fit="cover" >
               <source src=${sectionBanner[0]?.banner_uri} type="video/mp4" data-wf-ignore="true" />
               Your browser does not support the video tag.
               </video>`,
-          }}
-        />
+                }}
+              />
+            </a>
+          </Link>
+        ) : (
+          <Stack
+            mb={15}
+            dangerouslySetInnerHTML={{
+              __html: `<video className="app__backgroundVideo" autoplay="true" muted="true" preload="auto" loop playsinline="" data-wf-ignore="true" data-object-fit="cover" >
+          <source src=${sectionBanner[0]?.banner_uri} type="video/mp4" data-wf-ignore="true" />
+          Your browser does not support the video tag.
+          </video>`,
+            }}
+          />
+        )
       ) : sectionFileType === "image" ? (
         <Stack sx={{ position: "relative" }} mb={15}>
           {sectionBanner[0]?.back_link &&
@@ -109,7 +127,14 @@ const SingularComponentForShop = ({ homedata }) => {
                 cursor: "pointer",
                 px: 4,
                 color: "#ffffff",
-                fontSize: { xs: "2rem", xms: "3rem", sm: "3rem", md: "5rem", lg: "5rem", xl: "5rem" },
+                fontSize: {
+                  xs: "2rem",
+                  xms: "3rem",
+                  sm: "3rem",
+                  md: "5rem",
+                  lg: "5rem",
+                  xl: "5rem",
+                },
               }}
             >
               {sectionBanner[0]?.name}

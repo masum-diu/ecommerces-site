@@ -51,6 +51,7 @@ const policiespages = () => {
           <Typography
             variant="header1"
             color="#7E7250"
+            className="bold"
             sx={{ background: "#2C3649", py: 10 }}
             textAlign={"center"}
             textTransform={"uppercase"}

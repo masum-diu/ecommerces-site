@@ -141,6 +141,14 @@ const addtocart = () => {
                 {cart?.length > 0 ? (
                   <>
                     <Stack direction={"column"} spacing={2}>
+                      <Typography
+                        variant="wishlistPName"
+                        className="bold"
+                        color="#1B3148"
+                        mb={1}
+                      >
+                        Products
+                      </Typography>
                       {cart?.map((data) => (
                         <>
                           <Grid
@@ -856,6 +864,17 @@ const addtocart = () => {
                 pr={5}
               >
                 <Grid item lg={8} xl={8} md={8} justifyContent={"space-around"}>
+                  <Stack mb={2}>
+                    <Typography
+                      variant="wishlistPName"
+                      className="bold"
+                      color="#1B3148"
+                    >
+                      {" "}
+                      Products
+                    </Typography>
+                  </Stack>
+
                   <TableContainer>
                     <Table>
                       <TableBody>
@@ -863,7 +882,7 @@ const addtocart = () => {
                           <Card
                             key={data?.id}
                             variant="outlined"
-                            sx={{ marginBottom: "8px",borderRadius:"10px" }}
+                            sx={{ marginBottom: "8px", borderRadius: "10px" }}
                           >
                             <TableRow>
                               <TableCell sx={{ border: "none" }}>

@@ -533,7 +533,23 @@ const checkout = () => {
       deliveryMethod: "",
     },
   });
+  // formate pricing
+  const formatPrice = (amount) => {
+    // Assuming amount is a number representing the price
+    const currency = localStorage.getItem("currency");
+    // Use toLocaleString to format the number with commas and appropriate currency symbol
+    if (currency) {
+      const formattedPrice = amount.toLocaleString("en-US", {
+        // style: "currency",
+        currency: currency, // Change the currency code as needed
+        minimumFractionDigits: 2,
+      });
 
+      return formattedPrice;
+    } else {
+      return amount;
+    }
+  };
   const handleSelectChangeBilling = (event) => {
     setValue("country_billing", event.target.value, { shouldValidate: true });
   };
@@ -2856,7 +2872,7 @@ const checkout = () => {
                               className="bold"
                             >
                               {selectedCurrency}{" "}
-                              {item?.totalPrice_after_discount}
+                              {formatPrice(item?.totalPrice_after_discount)}
                               {/* {selectedCurrency} {totalPriceWithoutFragile} */}
                             </Typography>
                           </Stack>
@@ -2882,10 +2898,11 @@ const checkout = () => {
                         variant="cardHeader"
                         color="#1B3148"
                         className="bold"
+                        textAlign={"right"}
                         sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                       >
                         {selectedCurrency}{" "}
-                        {totalPriceWithoutFragile_after_discount}
+                        {formatPrice(totalPriceWithoutFragile_after_discount)}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -2949,11 +2966,12 @@ const checkout = () => {
                         </Typography>
                         <Typography
                           variant="cardHeader"
+                          textAlign={"right"}
                           color="#1B3148"
                           className="bold"
                           sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                         >
-                          {selectedCurrency} {shippingCost}
+                          {selectedCurrency} {formatPrice(shippingCost)}
                         </Typography>
                       </Stack>
                       {deliveryMethod === "E-Courier" ? (
@@ -2984,7 +3002,7 @@ const checkout = () => {
                               }}
                               // width={"50%"}
                             >
-                              {selectedCurrency} {totalFragileCharge}
+                              {selectedCurrency} {formatPrice(totalFragileCharge)}
                             </Typography>
                           </Stack>
                         </>
@@ -3017,17 +3035,18 @@ const checkout = () => {
                         variant="cardHeader"
                         color="#1B3148"
                         className="bold"
+                        textAlign="right"
                         sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
-                        textAlign={"left"}
+
                         // sx={{ marginLeft: "72px!important" }}
                       >
                         {selectedCurrency}{" "}
-                        {parseFloat(
+                        {formatPrice(parseFloat(
                           (
                             totalPriceWithTax_after_discount -
                             totalPrice_after_discount
                           ).toFixed(2)
-                        )}
+                        ))}
                       </Typography>
                     </Stack>
                     <Divider />
@@ -3050,7 +3069,7 @@ const checkout = () => {
                         className="exterBold"
                         sx={{ width: { xs: "50%", lg: "40%", xl: "50%" } }}
                       >
-                        {selectedCurrency} {total}
+                        {selectedCurrency} {`${formatPrice(Math.round(total))}`}
                       </Typography>
                     </Stack>
                     <Divider />

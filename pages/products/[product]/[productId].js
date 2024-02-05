@@ -98,6 +98,7 @@ const PorductDetails = () => {
   const [isFragile, setIsFragile] = useState(false);
   const [discountAmount, setDiscountAmount] = useState();
   const [discountType, setDiscountType] = useState();
+  const [productSku, setProductSku] = useState("");
 
   // console.log("your log output", products);
   // product popup
@@ -162,6 +163,7 @@ const PorductDetails = () => {
   useEffect(() => {
     setNoteTextForStock("");
     setNoteTextForCart("");
+
     if (products?.p_stocks) {
       setPriceWithoutFragileCharge(products?.p_stocks[0]?.mrp);
 
@@ -222,6 +224,7 @@ const PorductDetails = () => {
 
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
+        setProductSku(selectedProduct?.sku);
         if (selectedProduct?.mrp) {
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
           setPriceAfterDiscount(
@@ -304,6 +307,7 @@ const PorductDetails = () => {
           setDiscountType(selectedProduct?.discount?.discount_type);
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
+          setProductSku(selectedProduct?.sku);
         }
         if (sizeSelected == true) {
           const selectedProduct = products?.p_stocks?.find(
@@ -322,6 +326,7 @@ const PorductDetails = () => {
           setDiscountType(selectedProduct?.discount?.discount_type);
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
+          setProductSku(selectedProduct?.sku);
         }
 
         if (stockAmount > 0) {
@@ -381,6 +386,7 @@ const PorductDetails = () => {
         setDiscountType(products?.p_stocks[0]?.discount?.discount_type);
         if (products?.p_stocks[0]?.stock > 0) {
           setStockAmount(products?.p_stocks[0]?.stock);
+          setProductSku(products?.p_stocks[0]?.sku);
           setNoteTextForStock("In Stock");
           setDisableBtn(false);
         }
@@ -399,6 +405,7 @@ const PorductDetails = () => {
     colorSelected,
     colorId,
     sizeId,
+    productSku,
     stockAmount,
     products?.p_colours?.length,
     products?.p_sizes?.length,
@@ -623,6 +630,7 @@ const PorductDetails = () => {
     showHeart: "none",
     showBrokenHeart: "block",
   };
+
   return (
     <>
       <Head>
@@ -826,7 +834,7 @@ const PorductDetails = () => {
                             : ""}{" "}
                           {priceWithoutFragileCharge > 0
                             ? `${convertPrice(priceWithoutFragileCharge)}`
-                            : /* "Out of Stock" */""}
+                            : /* "Out of Stock" */ ""}
                         </Typography>
                       </Stack>
                       {discountType !== undefined ? (
@@ -1122,7 +1130,10 @@ const PorductDetails = () => {
                             }
                           >
                             <Typography
-                              sx={{ textDecoration: "underline",textTransform: "capitalize", }}
+                              sx={{
+                                textDecoration: "underline",
+                                textTransform: "capitalize",
+                              }}
                               color="#1B3148"
                               className="SemiBold"
                             >
@@ -1362,7 +1373,6 @@ const PorductDetails = () => {
                       color="#1B3148"
                       className="SemiBold"
                     >
-                      In Availability:{" "}
                       {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
                       {noteTextForStock}
                     </Typography>
@@ -1460,6 +1470,34 @@ const PorductDetails = () => {
                               color="#1B3148"
                             >
                               {products?.p_dimension}
+                            </Typography>
+                          }
+                        />
+                        <ListItemText
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "90vw",
+                            maxWidth: "250px",
+                          }}
+                          primary={
+                            <Typography
+                              variant="cardHeader12"
+                              className="SemiBold"
+                              color="#1B3148"
+                            >
+                              Sku
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              variant="cardLocation1"
+                              sx={{ width: "50%" }}
+                              className="SemiBold"
+                              color="#1B3148"
+                            >
+                              {productSku}
                             </Typography>
                           }
                         />
@@ -1644,7 +1682,9 @@ const PorductDetails = () => {
                               className="SemiBold"
                               color="#1B3148"
                             >
-                              {products?.country_of_origin}
+                              {products?.country_of_origin
+                                ? products?.country_of_origin
+                                : "Bangladesh"}
                             </Typography>
                           }
                         />
@@ -1773,7 +1813,11 @@ const PorductDetails = () => {
 
       {/* Product Details for tab amd mobile */}
       <Hidden only={["md", "lg", "xl", "sm"]}>
-        <Box pt={7} sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}>
+        <Box
+          pt={7}
+          sx={{ width: "100%", maxWidth: "1500px", mx: "auto" }}
+          mb={4}
+        >
           <Swiper
             key={Math.random() * 10}
             spaceBetween={50}
@@ -1939,7 +1983,7 @@ const PorductDetails = () => {
                         : ""}{" "}
                       {priceWithoutFragileCharge > 0
                         ? `${convertPrice(priceWithoutFragileCharge)}`
-                        : /* "Out of Stock" */""}
+                        : /* "Out of Stock" */ ""}
                     </Typography>
                   </Stack>
                   {discountType !== undefined ? (
@@ -2042,7 +2086,11 @@ const PorductDetails = () => {
                       alignItems="center"
                       mb={1}
                     >
-                      <Typography variant="cardHeader3" color="#959595"className="SemiBold">
+                      <Typography
+                        variant="cardHeader3"
+                        color="#959595"
+                        className="SemiBold"
+                      >
                         Sizes
                       </Typography>
                       {/* <hr
@@ -2163,7 +2211,10 @@ const PorductDetails = () => {
                           }
                         >
                           <Typography
-                            sx={{ textDecoration: "underline",textTransform: "capitalize", }}
+                            sx={{
+                              textDecoration: "underline",
+                              textTransform: "capitalize",
+                            }}
                             color="#1B3148"
                           >
                             size guide
@@ -2342,8 +2393,6 @@ const PorductDetails = () => {
                 </Stack>
                 <Stack direction={"column"} spacing={1} pb={1}>
                   <Typography variant="cardHeader12" color="#1B3148">
-                    In Availability:{" "}
-                    {/* {stockAmount > 0 ? "In Stock" : "Out of Stock"} */}
                     {noteTextForStock}
                   </Typography>
                   {/* <Typography variant="cardHeader12" color="#1B3148">
@@ -2665,7 +2714,9 @@ const PorductDetails = () => {
                             className="SemiBold"
                             color="#1B3148"
                           >
-                            {products?.country_of_origin}
+                            {products?.country_of_origin
+                              ? products?.country_of_origin
+                              : "Bangladesh"}
                           </Typography>
                         }
                       />
@@ -2715,62 +2766,8 @@ const PorductDetails = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-
-          <Stack
-            direction={"row"}
-            sx={{
-              backgroundColor: "#3c5676",
-              mt: 2,
-              color: "#F2F2F2",
-              justifyContent: "space-between",
-              p: 4,
-            }}
-          >
-            <Stack direction={"row"} spacing={3}>
-              <Typography
-                style={{ cursor: "pointer" }}
-                variant="cardLocation1"
-                color="#F2F2F2"
-                onClick={() => {
-                  router.push("/shop");
-                }}
-              >
-                Home
-              </Typography>
-              {/* <Typography variant="cardLocation1" color="#F2F2F2">
-                {catName}
-              </Typography> */}
-              <Typography
-                style={{ cursor: "pointer" }}
-                variant="cardLocation1"
-                color="#F2F2F2"
-                onClick={() =>
-                  router.push(
-                    {
-                      pathname: `/products/${sub_cat_slug}`,
-                      query: {
-                        data: JSON.stringify({
-                          cat: cat_slug_id,
-                          sub_cat: sub_cat_slug_id,
-                        }),
-                        cat: cat_slug_id,
-                        sub_cat: sub_cat_slug_id,
-                      },
-                    },
-                    `/products/${sub_cat_slug}?cat=${cat_slug_id}${
-                      sub_cat_slug_id ? `&sub_cat=${sub_cat_slug_id}` : ""
-                    }`
-                  )
-                }
-              >
-                {subCatName}
-              </Typography>
-            </Stack>
-            {/* <Typography variant="tabText1" color="#fff">
-              Add To Cart
-            </Typography> */}
-          </Stack>
         </Box>
+        <Footer></Footer>
       </Hidden>
       <Hidden only={["xl", "lg", "md", "sm"]}>
         <ThumbsGallery open={open} setOpen={setOpen} imageData={imageData} />

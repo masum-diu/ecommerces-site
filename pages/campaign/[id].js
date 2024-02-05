@@ -6,7 +6,10 @@ import Footer from "../../components/Footer";
 import HomePageIntro from "../../components/HomePageIntro";
 import HovarImage from "../../components/HovarableImage/HovarImage";
 import Loader from "../../components/Loader/Loader";
-import { useGetParticularCampignListsQuery } from "../../src/features/api/apiSlice";
+import {
+  useGetCampignListsQuery,
+  useGetParticularCampignListsQuery,
+} from "../../src/features/api/apiSlice";
 import { useCurrencyConversion } from "../../src/hooks/useCurrencyConversion";
 import useDiscountCount from "../../src/hooks/useDiscountCount";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -18,11 +21,7 @@ const campaign = () => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [currentRoute, setCurrentRoute] = useState("");
-  // const Camp_id = router?.query?.cat_id;
-  // const Camp_id = router?.query?.id?.match(/=(.*)/)[1];
-
-  // const Camp_name = router?.query?.id?.match(/=(.*)/)[2];
+  const [selectedCampBanner, setSelectedCampBanner] = useState(null);
 
   const catIdMatch = /cat=(\d+)/.exec(router?.query?.id);
   const catNameMatch = /cat_name=([^&]+)/.exec(router?.query?.id);
@@ -32,6 +31,13 @@ const campaign = () => {
   // const page = 1;
   const { data, isLoading, isSuccess, isError, error, refetch } =
     useGetParticularCampignListsQuery({ Camp_id, page }, { skip: !Camp_id });
+  const {
+    data: campaignList,
+    isLoading: campaignLoading,
+    isSuccess: campaignSuccess,
+    isError: campaignIsError,
+    error: campaignError,
+  } = useGetCampignListsQuery({ skip: !Camp_id });
   useEffect(() => {
     if (isSuccess) {
       if (page === 1) {
@@ -43,20 +49,105 @@ const campaign = () => {
     }
   }, [data, router.query.id]);
   useEffect(() => {
+    // Find the object with the matching id
+    const selectedCamp = campaignList?.data?.find(
+      (camp) => camp.id === parseInt(Camp_id)
+    );
+
+    // Set the camp_banner in state
+    if (selectedCamp) {
+      setSelectedCampBanner(selectedCamp.camp_banner);
+    }
+  }, [Camp_id, campaignList]);
+
+  useEffect(() => {
     setCampData([]);
     setHasMore(true);
     setPage(1);
-  }, [window.location.href]);
+  }, [router.query.id]);
 
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1);
   };
-  if (isLoading) {
+  if (isLoading || campaignLoading) {
     return <Loader></Loader>;
   }
   return (
     <>
       <HomePageIntro title={"Campaign "} />
+      <Box >
+        <Stack
+          direction={"row"}
+          alignItems="center"
+          sx={{ position: "relative" }}
+          // mb={15}
+        >
+          <img
+            src={selectedCampBanner}
+            width={1900}
+            style={{ width: "100%", height: "auto" }}
+            // height={700}
+          />
+          <Stack
+            direction={"row"}
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "40%",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              textAlign={"center"}
+              fontWeight={"900"}
+              textTransform="uppercase"
+              onClick={() =>
+                router.push({
+                  pathname: `/new-collections`,
+                })
+              }
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                width: "100%",
+                // pt: 4,
+                // fontFamily:"cursive",
+                cursor: "pointer",
+                px: 4,
+                color: "#ffffff",
+                fontSize: {
+                  xs: "2rem",
+                  xms: "3rem",
+                  sm: "3rem",
+                  md: "5rem",
+                  lg: "5rem",
+                  xl: "5rem",
+                },
+              }}
+            >
+              {Camp_name}
+              {/* <li>
+                {homedata?.back_url_two?.includes("campaign")
+                  ? homedata?.back_url_two
+                    ? /cat_name=([^&]+)/.exec(homedata?.back_url_two)[1]
+                    : ""
+                  : homedata?.back_url_two
+                  ? /^(.*?)\?/.exec(homedata?.back_url_two)[1]
+                  : ""}
+                  {sectionBanner[0]?.name}
+              </li> */}
+            </Typography>
+          </Stack>
+          {/* <img
+            src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1678530353/aranya-product/boishakh/ZS001671.jpg`}
+            width={1900}
+            style={{ width: "100%", height: "fit-content" }}
+            height={700}
+          /> */}
+        </Stack>
+      </Box>
       <Box
         sx={{
           width: "95%",
@@ -66,7 +157,7 @@ const campaign = () => {
           mb: 2,
         }}
       >
-        <Typography
+        {/* <Typography
           variant="header1"
           color="initial"
           sx={{ display: "flex", justifyContent: "center" }}
@@ -74,7 +165,7 @@ const campaign = () => {
           textTransform={"uppercase"}
         >
           {Camp_name}
-        </Typography>
+        </Typography> */}
         <InfiniteScroll
           dataLength={campData.length}
           next={fetchMoreData}

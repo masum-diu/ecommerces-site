@@ -101,6 +101,9 @@ const Footer = () => {
             <Typography variant="cardHeader2" color="#F2F2F2">
               Blog
             </Typography>
+            <Typography variant="cardHeader2" color="#F2F2F2">
+              Contact Us
+            </Typography>
           </Stack>
           {/* <Typography variant="normal" color="#F2F2F2 ">
             BUSINESS
