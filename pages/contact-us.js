@@ -75,9 +75,10 @@ const ContactUs = () => {
           sx={{ maxWidth: "1500px", width: "100%" }}
           mt={5}
           mb={5}
+          justifyContent={"space-around"}
         >
           {/* Info Section */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={5}>
             <Grid container spacing={{ xs: 2, md: 5 }}>
               {/* Outlet Address */}
               <Grid item xs={12}>
@@ -185,7 +186,7 @@ const ContactUs = () => {
           </Grid>
 
           {/* Send Mail Form Section */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={5}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 {/* Name Input */}
