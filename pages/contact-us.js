@@ -232,6 +232,10 @@ const ContactUs = () => {
                           value: true,
                           message: "Email Required",
                         },
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: "This is not a valid email",
+                        },
                       })}
                       aria-invalid={errors.email ? "true" : "false"}
                       fullWidth
@@ -258,10 +262,6 @@ const ContactUs = () => {
                         required: {
                           value: true,
                           message: "Message Required",
-                        },
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                          message: "This is not a valid email",
                         },
                       })}
                       aria-invalid={errors.message ? "true" : "false"}
