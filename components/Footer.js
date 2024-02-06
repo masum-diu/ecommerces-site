@@ -101,9 +101,17 @@ const Footer = () => {
             <Typography variant="cardHeader2" color="#F2F2F2">
               Blog
             </Typography>
-            <Typography variant="cardHeader2" color="#F2F2F2">
-              Contact Us
-            </Typography>
+            <Link href={"/contact-us"}>
+              <a style={{textDecoration:"none"}} href="">
+                <Typography
+                  variant="cardHeader2"
+                  color="#F2F2F2"
+                  // onClick={() => router.push("/contact-us")}
+                >
+                  Contact Us
+                </Typography>
+              </a>
+            </Link>
           </Stack>
           {/* <Typography variant="normal" color="#F2F2F2 ">
             BUSINESS
