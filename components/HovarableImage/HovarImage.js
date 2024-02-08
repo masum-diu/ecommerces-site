@@ -191,7 +191,8 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
             <Stack
               direction={innerPage ? { xs: "column", sm: "row" } : "row"}
               justifyContent={"start"}
-              alignItems={"start"}
+              alignItems={innerPage ? { xs: "start", sm: "center" } : "center"}
+              // alignItems={"center"}
             >
               {data?.p_stocks[0]?.discount?.discount_type !== undefined ? (
                 <Typography

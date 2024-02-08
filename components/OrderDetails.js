@@ -109,7 +109,7 @@ const OrderDetails = () => {
               className="bold"
               sx={{ width: { xs: "50%", lg: "60%", xl: "50%" } }}
             >
-              TOTAL COST :<br />{" "}
+              SUBTOTAL :<br />{" "}
               <small style={{ opacity: 0.5 }}>({totalProducts} product)</small>
             </Typography>
             <Typography
@@ -143,7 +143,7 @@ const OrderDetails = () => {
               {selectedCurrency} {formatPrice(totalDiscountAmount)}
             </Typography>
           </Stack>
-          <Stack
+          {/* <Stack
             direction={"row"}
             spacing={{ xs: 1, lg: 0, xl: 1 }}
             width="100%"
@@ -165,7 +165,7 @@ const OrderDetails = () => {
               {selectedCurrency}{" "}
               {formatPrice(totalPriceWithoutFragile_after_discount)}
             </Typography>
-          </Stack>
+          </Stack> */}
 
           {/* <Divider /> */}
           <Stack
