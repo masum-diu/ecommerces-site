@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material/styles";
 const primary = "#787878";
 const secondary = "#FBB03B";
 const background = "#ffffff";
-const background2 = "#2D323F";
+const background2 = "#1B3148";
 const background3 = "#4CC0B6";
 const background4 = "#FF6A6A";
 const error = "#FF0000";

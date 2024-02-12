@@ -23,14 +23,16 @@ import {
 import Loader from "./Loader/Loader";
 import useCityFetcher from "../src/hooks/useCityFetcher";
 import { toast } from "react-hot-toast";
+import useCityFetcherEcourier from "../src/hooks/useCityFetcherEcourier";
+import useThanaFetcherEcourier from "../src/hooks/useThanaFetcherEcourier";
+import usePostCodeFetcherEcourier from "../src/hooks/usePostCodeFetcherEcourier";
+import useAreaFetcherEcourier from "../src/hooks/useAreaFetcherEcourier";
 
 const AddressLists = ({
   open,
   setOpen,
   getUserAddress,
   setValue,
-  setTownBilling,
-  setTownBillingSh,
   setAddAddressValue,
   addAddressValue,
   setIsAddressListDataBilling,
@@ -41,11 +43,11 @@ const AddressLists = ({
     usePostEditAddressMutation();
   const [updateId, setUpdateId] = useState("");
   const [openList, setOpenList] = React.useState(false);
-  const [arrow, setArrow] = useState(false);
+  const [arrow, setArrow] = useState(true);
   const [openList1, setOpenList1] = React.useState(true);
   const [country, setCountry] = useState("Select Country");
   const [town, setTown] = useState("Select Town/City");
-  const [arrow1, setArrow1] = useState(false);
+  const [arrow1, setArrow1] = useState(true);
   const [address, setAddrss] = useState({});
   const [enable, setEnable] = useState(true);
   const [countryCode, setCountryCode] = useState("");
@@ -57,6 +59,52 @@ const AddressLists = ({
     isError: countryError,
     isLoading: countryLoading,
   } = useGetCountryListWithShippingChargeQuery(tokens);
+  const {
+    selectedCountry: selectedCountryShippingEcourier,
+    setSelectedCountry: setSelectedCountryShippingEcourier,
+    cities: shippingCitiesEcourier,
+    loading: shippingCityLoadingEcourier,
+  } = useCityFetcherEcourier();
+  const {
+    selectedCity: selectedCityShippingEcourier,
+    setSelectedCity: setSelectedCityShippingEcourier,
+    thanas: shippingThanasEcourier,
+    loading: shippingThanaLoadingEcourier,
+  } = useThanaFetcherEcourier();
+  const {
+    setSelectedCity: setSelectedCityForPostCodeShippingEcourier,
+    setSelectedThana: setSelectedThanaForPostCodeShippingEcourier,
+    postCode: shippingPostCodeEcourier,
+    loading: shippingPostCodeLoadingEcourier,
+  } = usePostCodeFetcherEcourier();
+  const {
+    selectedPostCode: selectedPostCodeShippingEcourier,
+    setSelectedPostCode: setSelectedPostCodeShippingEcourier,
+    area: shippingAreaEcourier,
+    loading: shippingAreaLoadingEcourier,
+  } = useAreaFetcherEcourier();
+
+  const customStyle = {
+    ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
+      {
+        "-webkit-text-fill-color": "rgb(0 0 0)",
+      },
+    ".mui-style-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
+      {
+        "-webkit-text-fill-color": "rgb(0 0 0)",
+      },
+    ".mui-style-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper":
+      {
+        background: "red!important",
+      },
+  };
+
+  const customStyle2 = {
+    "& .mui-style-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper":
+      {
+        background: "red!important",
+      },
+  };
 
   const handleDataSet = (data) => {
     setUpdateId(data?.id);
@@ -64,13 +112,14 @@ const AddressLists = ({
     setValueNewAddress("last_name", data?.last_name);
     setValueNewAddress("street_address", data?.street_address);
     setValueNewAddress("town", data?.city);
+    setValueNewAddress("thana", data?.thana);
     setValueNewAddress("country", data?.country);
     setValueNewAddress("post_code", data?.post_code);
+    setValueNewAddress("area", data?.area);
     setValueNewAddress("phone", data?.phone);
     setValueNewAddress("email", data?.email);
     setValueNewAddress("apartment", data?.apartment);
   };
-
   const handleClick = () => {
     setOpenList((prev) => !prev);
     setArrow(!arrow);
@@ -87,27 +136,27 @@ const AddressLists = ({
         setValue("first_name_billing", data?.first_name);
         setValue("last_name_billing", data?.last_name);
         setValue("street_address_billing", data?.street_address);
-        setValue("city_billing", data?.city);
         setValue("country_billing", data?.country);
+        setValue("city_billing", data?.city);
+        setValue("thana_billing", data?.thana);
         setValue("post_code_billing", data?.post_code);
+        setValue("area_billing", data?.area);
         setValue("phone_billing", data?.phone);
         setValue("email_billing", data?.email);
         setValue("apartment_address_billing", data?.apartment);
-        
-        setTownBilling(data?.city);
         setIsAddressListDataBilling(true);
       } else if (addAddressValue === 2) {
         setValue("first_name_shipping", data?.first_name);
         setValue("last_name_shipping", data?.last_name);
         setValue("street_address_shipping", data?.street_address);
-        setValue("city_shipping", data?.city);
         setValue("country_shipping", data?.country);
+        setValue("city_shipping", data?.city);
+        setValue("thana_shipping", data?.thana);
         setValue("post_code_shipping", data?.post_code);
+        setValue("area_shipping", data?.area);
         setValue("phone_shipping", data?.phone);
         setValue("email_shipping", data?.email);
         setValue("apartment_address_shipping", data?.apartment);
-        
-        setTownBillingSh(data?.city);
         setIsAddressListDataShipping(true);
       }
     }
@@ -119,17 +168,31 @@ const AddressLists = ({
   };
   const handleCountryChange = (event) => {
     setValueNewAddress("country", event.target.value, { shouldValidate: true });
-    setCountry(event.target.value);
-    setValueNewAddress("town", "Select Town/City", { shouldValidate: true });
-    setTown("Select Town/City");
-  };
-  const handleTownChange = (event) => {
-    setValueNewAddress("town", event.target.value, { shouldValidate: true });
-    setTown(event.target.value);
+    // setCountry(event.target.value);
+    // setValueNewAddress("town", event.target.value, { shouldValidate: true });
+    // setTown("Select Town/City");
   };
   const handleSelectedCountry = (country_code) => {
     setCountryCode(country_code);
-    setTown("Select Town/City");
+    // setValue("town", "Select Town/City");
+    // setTown("Select Town/City");
+  };
+  const handleSelectChangeTownShipping = (event) => {
+    setValueNewAddress("town", event.target.value, { shouldValidate: true });
+  };
+
+  const handleSelectChangeThanaShipping = (event) => {
+    setValueNewAddress("thana", event.target.value, { shouldValidate: true });
+  };
+  const handleSelectChangePostCodeShipping = (event) => {
+    setValueNewAddress("post_code", event.target.value, {
+      shouldValidate: true,
+    });
+  };
+  const handleSelectChangeAreaShipping = (event) => {
+    setValueNewAddress("area", event.target.value, {
+      shouldValidate: true,
+    });
   };
   const {
     register,
@@ -146,9 +209,11 @@ const AddressLists = ({
       first_name: "",
       last_name: "",
       street_address: "",
-      town: "",
-      country: "",
-      post_code: "",
+      country: "Select Country",
+      town: "Select Town/City",
+      thana: "Select Thana",
+      post_code: "Select POSTCODE / ZIP",
+      area: "Select Area",
       phone: "",
       email: "",
       apartment: "",
@@ -157,21 +222,42 @@ const AddressLists = ({
 
   const firstName = useWatch({ control, name: "first_name" });
   const lastName = useWatch({ control, name: "last_name" });
-  const streetAddress = useWatch({ control, name: "street_address" });
-  const townName = useWatch({ control, name: "town" });
   const countryName = useWatch({ control, name: "country" });
+  const townName = useWatch({ control, name: "town" });
+  const thana = useWatch({ control, name: "thana" });
   const postCode = useWatch({ control, name: "post_code" });
+  const area = useWatch({ control, name: "area" });
+  const streetAddress = useWatch({ control, name: "street_address" });
   const phoneNo = useWatch({ control, name: "phone" });
   const emailId = useWatch({ control, name: "email" });
   const apartmentNo = useWatch({ control, name: "apartment" });
+  // fetch cities
+  useEffect(() => {
+    setSelectedCountryShippingEcourier(countryName);
+  }, [countryName]);
 
+  // fetch thana
+  useEffect(() => {
+    setSelectedCityShippingEcourier(townName);
+  }, [townName]);
+  // fetch post code
+  useEffect(() => {
+    setSelectedCityForPostCodeShippingEcourier(townName);
+    setSelectedThanaForPostCodeShippingEcourier(thana);
+  }, [townName, thana]);
+  // fetch area
+  useEffect(() => {
+    setSelectedPostCodeShippingEcourier(postCode);
+  }, [postCode]);
   useEffect(() => {
     if (
       firstName &&
       lastName &&
       streetAddress &&
-      townName &&
       countryName &&
+      townName &&
+      thana &&
+      area &&
       phoneNo &&
       emailId
     ) {
@@ -189,6 +275,8 @@ const AddressLists = ({
     apartmentNo,
     country,
     town,
+    thana,
+    area,
   ]);
 
   useEffect(() => {
@@ -221,6 +309,7 @@ const AddressLists = ({
   }, [countryName, townName]);
   const token = localStorage.getItem("acesstoken");
   const onSubmit = async (data) => {
+    console.log("your log output", data);
     try {
       const response = await editAddress({ data, updateId, token });
       if (response?.data?.status === "success") {
@@ -255,6 +344,7 @@ const AddressLists = ({
         anchor="right"
         open={open}
         onClose={() => handleMenueClose()}
+        sx={{ paddingBottom: "1rem" }}
         PaperProps={{
           sx: {
             width: "90vw",
@@ -401,9 +491,9 @@ const AddressLists = ({
           }}
           endIcon={
             arrow ? (
-              <RemoveIcon onClick={() => setArrow(!arrow)} />
-            ) : (
               <AddIcon onClick={() => setArrow(!arrow)} />
+            ) : (
+              <RemoveIcon onClick={() => setArrow(!arrow)} />
             )
           }
         >
@@ -490,7 +580,7 @@ const AddressLists = ({
                   onClick={() => trigger("country")}
                   error={Boolean(errors.country)}
                   size="small"
-                  value={country}
+                  value={countryName}
                   onChange={handleCountryChange}
                 >
                   <MenuItem value={"Select Country"} disabled>
@@ -515,7 +605,285 @@ const AddressLists = ({
                 {/* <Select label="Age"  /> */}
               </Stack>
 
-              <Stack direction={"column"} spacing={1}>
+              {/* town/city name */}
+              <Stack direction={"column"} spacing={2} mt={3}>
+                <Typography variant="cardHeader1" color="#1B3148">
+                  TOWN / CITY *
+                </Typography>
+                {shippingCityLoadingEcourier ? (
+                  <Stack
+                    border={"1px solid gray"}
+                    borderRadius={"5px"}
+                    direction={"rwo"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                  >
+                    <Typography sx={{ marginLeft: "10px" }}>
+                      Collecting Cities
+                    </Typography>
+                    <CircularProgress
+                      sx={{ color: "#3C5676", marginRight: "10px" }}
+                    />
+                  </Stack>
+                ) : (
+                  <Select
+                    autoComplete="off"
+                    {...register("town", {
+                      required: {
+                        value: true,
+                        message: "Town/City is Required",
+                      },
+                    })}
+                    sx={customStyle}
+                    onBlur={() => trigger("town")}
+                    error={Boolean(errors.town)}
+                    id="town"
+                    size="small"
+                    value={townName}
+                    onChange={handleSelectChangeTownShipping}
+                  >
+                    <MenuItem value={"Select Town/City"} disabled>
+                      Select Town/City
+                    </MenuItem>
+                    {shippingCitiesEcourier
+                      ? shippingCitiesEcourier.map((towns) => (
+                          <MenuItem value={towns?.value}>
+                            {towns?.value}
+                          </MenuItem>
+                        ))
+                      : ""}
+                  </Select>
+                )}
+
+                {errors.town && (
+                  <p style={{ color: "red" }}>{errors.town?.message}</p>
+                )}
+              </Stack>
+
+              {/* thana name */}
+              <Stack direction={"column"} spacing={2} mt={3}>
+                <Typography variant="cardHeader1" color="#1B3148">
+                  THANA *
+                </Typography>
+                {shippingThanaLoadingEcourier ? (
+                  <Stack
+                    border={"1px solid gray"}
+                    borderRadius={"5px"}
+                    direction={"rwo"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                  >
+                    <Typography sx={{ marginLeft: "10px" }}>
+                      Collecting Thana
+                    </Typography>
+                    <CircularProgress
+                      sx={{ color: "#3C5676", marginRight: "10px" }}
+                    />
+                  </Stack>
+                ) : (
+                  <>
+                    {shippingThanasEcourier ? (
+                      <Select
+                        autoComplete="off"
+                        {...register("thana", {
+                          required: {
+                            value: true,
+                            message: "Thana is Required",
+                          },
+                        })}
+                        sx={customStyle}
+                        onClick={() => trigger("thana")}
+                        error={Boolean(errors.thana)}
+                        id="thana"
+                        size="small"
+                        value={thana}
+                        onChange={handleSelectChangeThanaShipping}
+                      >
+                        <MenuItem value={"Select Thana"} disabled>
+                          Select Thana
+                        </MenuItem>
+                        {shippingThanasEcourier?.map((thana) => (
+                          <MenuItem value={thana?.value}>
+                            {thana?.value}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    ) : (
+                      <TextField
+                        autoComplete="off"
+                        {...register("thana", {
+                          required: {
+                            value: true,
+                            message: "Thana Address Required",
+                          },
+                        })}
+                        onKeyUp={() => trigger("thana")}
+                        error={Boolean(errors.thana)}
+                        // onChange={}
+
+                        placeholder={"Enter Thana"}
+                        // placeholder="House Number and street name"
+                        size="small"
+                        sx={customStyle}
+                      />
+                    )}
+                  </>
+                )}
+
+                {errors.thana && (
+                  <p style={{ color: "red" }}>{errors.thana?.message}</p>
+                )}
+              </Stack>
+
+              {/* post code name */}
+              <Stack direction={"column"} spacing={2} mt={3}>
+                <Typography variant="cardHeader1" color="#1B3148">
+                  POSTCODE / ZIP (OPTIONAL)
+                </Typography>
+                {shippingPostCodeLoadingEcourier ? (
+                  <Stack
+                    border={"1px solid gray"}
+                    borderRadius={"5px"}
+                    direction={"rwo"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                  >
+                    <Typography sx={{ marginLeft: "10px" }}>
+                      Collecting POSTCODE / ZIP
+                    </Typography>
+                    <CircularProgress
+                      sx={{ color: "#3C5676", marginRight: "10px" }}
+                    />
+                  </Stack>
+                ) : (
+                  <>
+                    {shippingPostCodeEcourier ? (
+                      <Select
+                        autoComplete="off"
+                        {...register("post_code", {
+                          required: {
+                            value: true,
+                            message: "PostCode / ZIP is Required",
+                          },
+                        })}
+                        sx={customStyle}
+                        onClick={() => trigger("post_code")}
+                        error={Boolean(errors.post_code)}
+                        id="post_code"
+                        size="small"
+                        value={postCode}
+                        onChange={handleSelectChangePostCodeShipping}
+                      >
+                        <MenuItem value={"Select POSTCODE / ZIP"} disabled>
+                          Select POSTCODE / ZIP
+                        </MenuItem>
+                        {shippingPostCodeEcourier?.map((postCode) => (
+                          <MenuItem value={postCode.value}>
+                            {postCode.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    ) : (
+                      <TextField
+                        autoComplete="off"
+                        {...register("post_code", {
+                          required: {
+                            value: true,
+                            message: "Post/ZIP Code is Required",
+                          },
+                        })}
+                        onKeyUp={() => trigger("post_code")}
+                        error={Boolean(errors.post_code)}
+                        // onChange={}
+
+                        placeholder={"Enter Post/ZIP Code"}
+                        // placeholder="House Number and street name"
+                        size="small"
+                        sx={customStyle}
+                      />
+                    )}
+                  </>
+                )}
+
+                {errors.post_code && (
+                  <p style={{ color: "red" }}>{errors.post_code?.message}</p>
+                )}
+              </Stack>
+
+              {/* area code name */}
+              <Stack direction={"column"} spacing={2} mt={3}>
+                <Typography variant="cardHeader1" color="#1B3148">
+                  AREA *
+                </Typography>
+                {shippingAreaLoadingEcourier ? (
+                  <Stack
+                    border={"1px solid gray"}
+                    borderRadius={"5px"}
+                    direction={"rwo"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                  >
+                    <Typography sx={{ marginLeft: "10px" }}>
+                      Collecting Areas
+                    </Typography>
+                    <CircularProgress
+                      sx={{ color: "#3C5676", marginRight: "10px" }}
+                    />
+                  </Stack>
+                ) : (
+                  <>
+                    {shippingAreaEcourier ? (
+                      <Select
+                        autoComplete="off"
+                        {...register("area", {
+                          required: {
+                            value: true,
+                            message: "Area is Required",
+                          },
+                        })}
+                        sx={customStyle}
+                        onClick={() => trigger("area")}
+                        error={Boolean(errors.area)}
+                        id="area"
+                        size="small"
+                        value={area}
+                        onChange={handleSelectChangeAreaShipping}
+                      >
+                        <MenuItem value={"Select Area"} disabled>
+                          Select Area
+                        </MenuItem>
+                        {shippingAreaEcourier?.map((area) => (
+                          <MenuItem value={area.value}>{area.name}</MenuItem>
+                        ))}
+                      </Select>
+                    ) : (
+                      <TextField
+                        autoComplete="off"
+                        {...register("area", {
+                          required: {
+                            value: true,
+                            message: "Area is Required",
+                          },
+                        })}
+                        onKeyUp={() => trigger("area")}
+                        error={Boolean(errors.area)}
+                        // onChange={}
+
+                        placeholder={"Enter Area Name"}
+                        // placeholder="House Number and street name"
+                        size="small"
+                        sx={customStyle}
+                      />
+                    )}
+                  </>
+                )}
+
+                {errors.area && (
+                  <p style={{ color: "red" }}>{errors.area?.message}</p>
+                )}
+              </Stack>
+
+              {/* <Stack direction={"column"} spacing={1}>
                 <Typography variant="cardHeader1" color="initial">
                   TOWN / CITY *
                 </Typography>
@@ -556,14 +924,14 @@ const AddressLists = ({
                     {cities?.map((towns) => (
                       <MenuItem value={towns}>{towns}</MenuItem>
                     ))}
-                    {/* <MenuItem value={"India"}>India</MenuItem> */}
+                    
                   </Select>
                 )}
 
                 {errors.town && (
                   <p style={{ color: "red" }}>{errors.town?.message}</p>
                 )}
-              </Stack>
+              </Stack> */}
 
               <Stack direction={"column"} spacing={1}>
                 <Typography variant="cardHeader1" color="initial">
@@ -608,7 +976,7 @@ const AddressLists = ({
                 )}
               </Stack>
 
-              <Stack direction={"column"} spacing={1}>
+              {/* <Stack direction={"column"} spacing={1}>
                 <Typography variant="cardHeader1" color="initial">
                   POSTCODE / ZIP (OPTIONAL)
                 </Typography>
@@ -626,7 +994,7 @@ const AddressLists = ({
                 {errors.post_code && (
                   <p style={{ color: "red" }}>{errors.post_code?.message}</p>
                 )}
-              </Stack>
+              </Stack> */}
               <Stack direction={"column"} spacing={1}>
                 <Typography variant="cardHeader1" color="initial">
                   PHONE *
@@ -672,15 +1040,17 @@ const AddressLists = ({
                   <p style={{ color: "red" }}>{errors.email?.message}</p>
                 )}
               </Stack>
-
-              <Button
-                disabled={enable}
-                variant="contained"
-                color="background2"
-                type="submit"
-              >
-                {updateId ? "Update" : "save"}
-              </Button>
+              <Stack py={4}>
+                {" "}
+                <Button
+                  disabled={enable}
+                  variant="contained"
+                  color="background2"
+                  type="submit"
+                >
+                  {updateId ? "Update" : "save"}
+                </Button>
+              </Stack>
             </Stack>
           </form>
         ) : null}

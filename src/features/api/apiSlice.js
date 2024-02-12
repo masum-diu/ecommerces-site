@@ -329,6 +329,8 @@ export const productApi = createApi({
           street_address: data.street_address,
           date_of_birth: data.date_of_birth,
           city: data.town,
+          thana: data.thana,
+          area: data.area,
           country: data.country,
           post_code: data.post_code,
           phone: data.phone,

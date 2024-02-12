@@ -1423,7 +1423,23 @@ const checkout = () => {
                       <MenuItem value={"Select Country"} disabled>
                         Select Country
                       </MenuItem>
-                      {countryData?.map((country, index) => (
+                      {isAddressListDataShipping === true ? (
+                        <MenuItem value={countrySh}>{countrySh}</MenuItem>
+                      ) : countryData ? (
+                        countryData.map((country, index) => (
+                          <MenuItem
+                            value={country.country_name}
+                            onClick={() =>
+                              handleShippingCountry(country?.country_code)
+                            }
+                          >
+                            {country.country_name}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        ""
+                      )}
+                      {/* {countryData?.map((country, index) => (
                         <MenuItem
                           key={index}
                           value={country.country_name}
@@ -1433,7 +1449,7 @@ const checkout = () => {
                         >
                           {country.country_name}
                         </MenuItem>
-                      ))}
+                      ))} */}
                     </Select>
                     {errors.country_shipping &&
                       isSameAddressChecked === false && (
@@ -2128,7 +2144,23 @@ const checkout = () => {
                       <MenuItem value={"Select Country"} disabled>
                         Select Country
                       </MenuItem>
-                      {countryData?.map((country, index) => (
+                      {isAddressListDataShipping === true ? (
+                        <MenuItem value={country}>{country}</MenuItem>
+                      ) : countryData ? (
+                        countryData.map((country, index) => (
+                          <MenuItem
+                            value={country.country_name}
+                            onClick={() =>
+                              handleBillingCountry(country?.country_code)
+                            }
+                          >
+                            {country.country_name}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        ""
+                      )}
+                      {/* {countryData?.map((country, index) => (
                         <MenuItem
                           key={index}
                           value={country.country_name}
@@ -2138,7 +2170,7 @@ const checkout = () => {
                         >
                           {country.country_name}
                         </MenuItem>
-                      ))}
+                      ))} */}
 
                       {/* <MenuItem value={"India"}>India</MenuItem> */}
                     </Select>
@@ -3002,7 +3034,8 @@ const checkout = () => {
                               }}
                               // width={"50%"}
                             >
-                              {selectedCurrency} {formatPrice(totalFragileCharge)}
+                              {selectedCurrency}{" "}
+                              {formatPrice(totalFragileCharge)}
                             </Typography>
                           </Stack>
                         </>
@@ -3041,12 +3074,14 @@ const checkout = () => {
                         // sx={{ marginLeft: "72px!important" }}
                       >
                         {selectedCurrency}{" "}
-                        {formatPrice(parseFloat(
-                          (
-                            totalPriceWithTax_after_discount -
-                            totalPrice_after_discount
-                          ).toFixed(2)
-                        ))}
+                        {formatPrice(
+                          parseFloat(
+                            (
+                              totalPriceWithTax_after_discount -
+                              totalPrice_after_discount
+                            ).toFixed(2)
+                          )
+                        )}
                       </Typography>
                     </Stack>
                     <Divider />

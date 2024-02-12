@@ -100,7 +100,7 @@ const PorductDetails = () => {
   const [discountType, setDiscountType] = useState();
   const [productSku, setProductSku] = useState("");
 
-  // console.log("your log output", products);
+  console.log("your log output", products);
   // product popup
   const [productpopup, setProductpopup] = useState(false);
   const [noteTextForStock, setNoteTextForStock] = useState(
@@ -1441,7 +1441,7 @@ const PorductDetails = () => {
                               className="SemiBold"
                               color="#1B3148"
                             >
-                              {products?.p_weight}
+                              {products?.p_weight} gm
                             </Typography>
                           }
                         />
@@ -1487,7 +1487,7 @@ const PorductDetails = () => {
                               className="SemiBold"
                               color="#1B3148"
                             >
-                              Sku
+                              SKU
                             </Typography>
                           }
                           secondary={
@@ -1658,6 +1658,36 @@ const PorductDetails = () => {
                           }
                         />
 
+                        <ListItemText
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "90vw",
+                            maxWidth: "250px",
+                          }}
+                          primary={
+                            <Typography
+                              variant="cardHeader12"
+                              className="SemiBold"
+                              color="#1B3148"
+                            >
+                              Care
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography
+                              variant="cardLocation1"
+                              sx={{ width: "50%" }}
+                              className="SemiBold"
+                              color="#1B3148"
+                            >
+                              {products?.p_care
+                                ? products?.p_care[0]?.care_name
+                                : ""}
+                            </Typography>
+                          }
+                        />
                         <ListItemText
                           sx={{
                             display: "flex",
@@ -2498,7 +2528,7 @@ const PorductDetails = () => {
                             className="SemiBold"
                             color="#1B3148"
                           >
-                            {products?.p_weight}
+                            {products?.p_weight} gm
                           </Typography>
                         }
                       />
@@ -2690,6 +2720,36 @@ const PorductDetails = () => {
                         }
                       />
 
+                      <ListItemText
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "90vw",
+                          maxWidth: "250px",
+                        }}
+                        primary={
+                          <Typography
+                            variant="cardHeader12"
+                            className="SemiBold"
+                            color="#1B3148"
+                          >
+                            Care
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography
+                            variant="cardLocation1"
+                            sx={{ width: "50%" }}
+                            className="SemiBold"
+                            color="#1B3148"
+                          >
+                            {products?.p_care
+                              ? products?.p_care[0]?.care_name
+                              : ""}
+                          </Typography>
+                        }
+                      />
                       <ListItemText
                         sx={{
                           display: "flex",
