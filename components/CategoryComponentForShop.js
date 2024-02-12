@@ -6,18 +6,23 @@ import {
   Button,
   useMediaQuery,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import ArrowRightAltOutlinedIcon from "@mui/icons-material/ArrowRightAltOutlined";
 import HovarImage from "./HovarableImage/HovarImage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useTheme } from "@emotion/react";
-import { Pagination } from "swiper";
+import { Pagination, Navigation, Autoplay } from "swiper";
 import { useRouter } from "next/router";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 const CategoryComponentForShop = ({ homedata }) => {
   const [isHoveredRight, setIsHoveredRight] = useState(false);
   const [isHoveredLeft, setIsHoveredLeft] = useState(false);
   const [slidesPerView, setSlidePreview] = useState(0);
+  const swiperRef = useRef(null);
   const router = useRouter();
   const theme = useTheme();
   const sectionBanner = JSON.parse(homedata.banner);
@@ -53,106 +58,15 @@ const CategoryComponentForShop = ({ homedata }) => {
     isLargeScreen,
     isExtraLargeScreen,
   ]);
-
+  const handleNextSlide = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext();
+    }
+  };
   const handleSecondBanner = (path) => {
     router.push(path);
-    /* if (homedata?.use_for === "category") {
-      return sectionBanner[0]?.back_link;
-    }
-    if (homedata?.use_for === "sub_cat") {
-      return sectionBanner[0]?.back_link;
-    }
-    if (homedata?.use_for === "campaign") {
-      return sectionBanner[0]?.back_link;
-    } */
-  };
-  /* const handleThirdBanner = () => {
-    const backUrl = homedata?.back_url_four;
-    const pathname = `/products/${backUrl?.split("?")[0]}`;
-    const query = {};
-
-    const catMatch = /cat=(\d+)/.exec(backUrl);
-    if (catMatch) {
-      query.cat = catMatch[1];
-    }
-
-    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
-    if (subCatMatch) {
-      query.sub_cat = subCatMatch[1];
-    }
-
-    if (subCatMatch && catMatch) {
-      return `${pathname}?cat=${query.cat}&sub_cat=${query.sub_cat}`;
-    }
-    if (!subCatMatch) {
-      return `${pathname}?cat=${query.cat}`;
-    }
-  };
-  const handleSecondBannerForA = () => {
-    const backUrl = homedata?.back_url_three;
-    const pathname = `/products/${backUrl?.split("?")[0]}`;
-    const query = {};
-
-    const catMatch = /cat=(\d+)/.exec(backUrl);
-    if (catMatch) {
-      query.cat = catMatch[1];
-    }
-
-    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
-    if (subCatMatch) {
-      query.sub_cat = subCatMatch[1];
-    }
-
-    if (subCatMatch && catMatch) {
-      return `${pathname}?cat=${query.cat}&sub_cat=${query.sub_cat}`;
-    }
-    if (!subCatMatch) {
-      return `${pathname}?cat=${query.cat}`;
-    }
-  };
-  const handleThirdBannerForA = () => {
-    const backUrl = homedata?.back_url_four;
-    const pathname = `/products/${backUrl?.split("?")[0]}`;
-    const query = {};
-
-    const catMatch = /cat=(\d+)/.exec(backUrl);
-    if (catMatch) {
-      query.cat = catMatch[1];
-    }
-
-    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
-    if (subCatMatch) {
-      query.sub_cat = subCatMatch[1];
-    }
-
-    if (subCatMatch && catMatch) {
-      return `${pathname}?cat=${query.cat}&sub_cat=${query.sub_cat}`;
-    }
-    if (!subCatMatch) {
-      return `${pathname}?cat=${query.cat}`;
-    }
   };
 
-  const handleFourthBanner = () => {
-    const backUrl = homedata?.back_url_five;
-    const pathname = `/products/${backUrl?.split("?")[0]}`;
-    const query = {};
-
-    const catMatch = /cat=(\d+)/.exec(backUrl);
-    if (catMatch) {
-      query.cat = catMatch[1];
-    }
-
-    const subCatMatch = /sub_cat=(\d+)/.exec(backUrl);
-    if (subCatMatch) {
-      query.sub_cat = subCatMatch[1];
-    }
-
-    router.push({
-      pathname,
-      query,
-    });
-  }; */
   return (
     <>
       <Stack
@@ -369,15 +283,17 @@ const CategoryComponentForShop = ({ homedata }) => {
             </Typography>
 
             <ArrowRightAltOutlinedIcon
-              style={{ fontSize: "2rem" }}
+              style={{ fontSize: "2rem", cursor: "pointer" }}
+              onClick={handleNextSlide}
             ></ArrowRightAltOutlinedIcon>
           </Stack>
           <Swiper
             key={Math.random() * 10}
             loop={true}
+            modules={[Pagination, Navigation, Autoplay]}
+            ref={swiperRef}
             spaceBetween={20}
             slidesPerView={slidesPerView}
-            modules={[Pagination]}
             className="mySwiper"
             style={{ width: "95%", margin: "0 auto", maxWidth: "1500px" }}
           >
@@ -398,49 +314,6 @@ const CategoryComponentForShop = ({ homedata }) => {
               </SwiperSlide>
             ))}
           </Swiper>
-          {/* <Swiper
-          spaceBetween={20}
-          slidesPerView={slidesPerView}
-          modules={[Pagination]}
-          className="mySwiper"
-          style={{ width: "95%", margin: "0 auto", maxWidth: "1500px" }}
-        >
-          {homedata?.product?.map((data, index) => (
-            <SwiperSlide item xl={3} lg={3} md={3} sm={6} mt={1} key={index}>
-              <Stack direction={"column"} spacing={2} ml={1} mr={1}>
-                <HovarImage
-                  url={`/products/${
-                    data?.p_subcategory?.slug === "unknown"
-                      ? data?.p_category?.slug
-                      : data?.p_subcategory?.slug
-                  }/${data?.id}`}
-                  data={data}
-                  imageURL={`${data?.p_image_one}`}
-                ></HovarImage>
-              </Stack>
-            </SwiperSlide>
-          ))}
-        </Swiper> */}
-          {/* <Grid
-          container
-          sx={{ width: "95%", margin: "0 auto", maxWidth: "1500px" }}
-        >
-          {homedata?.product?.slice(0, 4).map((data, index) => (
-            <Grid item xl={3} lg={3} md={3} sm={6} mt={1} key={index}>
-              <Stack direction={"column"} spacing={2} ml={1} mr={1}>
-                <HovarImage
-                  url={`/products/${
-                    data?.p_subcategory?.slug === "unknown"
-                      ? data?.p_category?.slug
-                      : data?.p_subcategory?.slug
-                  }/${data?.id}`}
-                  data={data}
-                  imageURL={`${data?.p_image_one}`}
-                ></HovarImage>
-              </Stack>
-            </Grid>
-          ))}
-        </Grid> */}
         </Box>
       )}
     </>

@@ -6,22 +6,27 @@ import {
   Button,
   useMediaQuery,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Loader from "../components/Loader/Loader";
 import { useTheme } from "@emotion/react";
 import Link from "next/link";
 import Head from "next/head";
 import style from "../public/assets/css/HomePageIntro.module.css";
 import ArrowRightAltOutlinedIcon from "@mui/icons-material/ArrowRightAltOutlined";
-import { Swiper, SwiperSlide } from "swiper/react";
+import WestOutlinedIcon from "@mui/icons-material/WestOutlined";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { useRouter } from "next/router";
 import HovarImage from "./HovarableImage/HovarImage";
-import { Pagination } from "swiper";
-
+import { Pagination, Navigation, Autoplay } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 const SingularComponentForShop = ({ homedata }) => {
   const sectionBanner = JSON.parse(homedata.banner);
   const sectionFileType = sectionBanner[0]?.file_type;
   const [slidesPerView, setSlidePreview] = useState(0);
+  const swiperRef = useRef(null);
   const router = useRouter();
   const theme = useTheme();
   // Setting SlidePreview
@@ -52,6 +57,12 @@ const SingularComponentForShop = ({ homedata }) => {
     isLargeScreen,
     isExtraLargeScreen,
   ]);
+
+  const handleNextSlide = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext();
+    }
+  };
   const handleFirstBanner = () => {
     if (homedata?.use_for === "category") {
       return sectionBanner[0]?.back_link;
@@ -215,15 +226,17 @@ const SingularComponentForShop = ({ homedata }) => {
             </Typography>
 
             <ArrowRightAltOutlinedIcon
-              style={{ fontSize: "2rem" }}
+              style={{ fontSize: "2rem", cursor: "pointer" }}
+              onClick={handleNextSlide}
             ></ArrowRightAltOutlinedIcon>
           </Stack>
           <Swiper
             key={Math.random() * 10}
             loop={true}
+            modules={[Pagination, Navigation, Autoplay]}
+            ref={swiperRef}
             spaceBetween={20}
             slidesPerView={slidesPerView}
-            modules={[Pagination]}
             className="mySwiper"
             style={{ width: "95%", margin: "0 auto", maxWidth: "1500px" }}
           >
