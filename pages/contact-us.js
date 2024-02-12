@@ -97,15 +97,14 @@ const ContactUs = () => {
                         className="bold"
                         color="#1B3148"
                       >
-                        Outlet Address
+                        HQ Address:
                       </Typography>
                       <Typography
                         variant="bolder"
                         className="SemiBold"
                         color="#1B3148"
                       >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Ipsa, ex.
+                        House-1/A, Road-21, Nikunja-2, Khilkhet, Dhaka 1229.
                       </Typography>
                     </Stack>
                     <Stack direction={"column"}>
@@ -114,15 +113,31 @@ const ContactUs = () => {
                         className="bold"
                         color="#1B3148"
                       >
-                        Office Address
+                        Aranya Flagship Showroom Address:
                       </Typography>
                       <Typography
                         variant="bolder"
                         className="SemiBold"
                         color="#1B3148"
                       >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Ipsa, ex.
+                        Block K, House no: 28, Road No. 20, Dhaka 1213.
+                      </Typography>
+                    </Stack>
+                    <Stack direction={"column"}>
+                      <Typography
+                        variant="tabText"
+                        className="bold"
+                        color="#1B3148"
+                      >
+                        Aranya Dhanmondi Showroom Address:
+                      </Typography>
+                      <Typography
+                        variant="bolder"
+                        className="SemiBold"
+                        color="#1B3148"
+                      >
+                        House-33 (316 A Old), Road-16 (27 Old),
+                        Dhanmondi, Dhaka 1209.
                       </Typography>
                     </Stack>
                   </Stack>
@@ -150,7 +165,7 @@ const ContactUs = () => {
                       className="SemiBold"
                       color="#1B3148"
                     >
-                      +880 1700000000, +880 1700000000
+                      02-9894303
                     </Typography>
                   </Stack>
                 </Stack>
@@ -177,7 +192,7 @@ const ContactUs = () => {
                       className="SemiBold"
                       color="#1B3148"
                     >
-                      dummy text of the@gmail.com
+                      info@aranya.com.bd
                     </Typography>
                   </Stack>
                 </Stack>
