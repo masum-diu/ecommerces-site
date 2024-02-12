@@ -1040,6 +1040,7 @@ const PorductDetails = () => {
                           {/* {console.log("your log output", products)} */}
                           {products?.p_sizes?.map((size, index) => (
                             <Button
+                              key={index}
                               disabled={
                                 handleStockAvailability(size.id) ===
                                 "outOfStock"
@@ -1076,7 +1077,6 @@ const PorductDetails = () => {
                                     : "initial"
                                 }`,
                               }}
-                              key={index}
                               /* variant={`${
                                 activesize === size?.id ? "outlined" : "primary"
                               }`} */
@@ -1531,6 +1531,7 @@ const PorductDetails = () => {
                                   {products?.p_fabric?.map((name) => (
                                     <>
                                       <Typography
+                                        key={index}
                                         variant="cardLocation1"
                                         sx={{ width: "50%" }}
                                         className="SemiBold"
@@ -1643,6 +1644,7 @@ const PorductDetails = () => {
                                   {products?.p_sizes?.map((size) => (
                                     <>
                                       <Typography
+                                        key={index}
                                         variant="cardLocation1"
                                         sx={{ width: "50%" }}
                                         className="SemiBold"
@@ -1745,7 +1747,7 @@ const PorductDetails = () => {
 
                 <Grid container mt={1} spacing={1.5}>
                   {RelatedProducts?.map((data, index) => (
-                    <Grid item lg={3} sm={6} key={index}>
+                    <Grid key={index} item lg={3} sm={6}>
                       <HovarImage
                         url={`/products/${
                           data?.p_subcategory?.slug === "unknown"
@@ -2145,6 +2147,7 @@ const PorductDetails = () => {
                       >
                         {products?.p_sizes?.map((size, index) => (
                           <Button
+                            key={index}
                             disabled={
                               handleStockAvailability(size.id) === "outOfStock"
                                 ? true
@@ -2180,7 +2183,6 @@ const PorductDetails = () => {
                                 activesize === size?.id ? "#1B3148" : "initial"
                               }`,
                             }}
-                            key={index}
                             /* variant={`${
                               activesize === size?.id ? "outlined" : "primary"
                             }`} */
@@ -2589,6 +2591,7 @@ const PorductDetails = () => {
                                 {products?.p_fabric?.map((name) => (
                                   <>
                                     <Typography
+                                      key={index}
                                       variant="cardLocation1"
                                       sx={{ width: "50%" }}
                                       className="SemiBold"
@@ -2632,6 +2635,7 @@ const PorductDetails = () => {
                                 {products?.p_colours?.map((color) => (
                                   <>
                                     <Typography
+                                      key={index}
                                       variant="cardLocation1"
                                       sx={{ width: "50%" }}
                                       className="SemiBold"
@@ -2705,6 +2709,7 @@ const PorductDetails = () => {
                                 {products?.p_sizes?.map((size) => (
                                   <>
                                     <Typography
+                                      key={index}
                                       variant="cardLocation1"
                                       sx={{ width: "50%" }}
                                       className="SemiBold"
@@ -2813,7 +2818,7 @@ const PorductDetails = () => {
             className="mySwiper"
           >
             {RelatedProducts?.map((data, index) => (
-              <SwiperSlide>
+              <SwiperSlide key={index}>
                 <HovarImage
                   url={`/products/${
                     data?.p_subcategory?.slug === "unknown"
