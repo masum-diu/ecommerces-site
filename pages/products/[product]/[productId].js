@@ -1091,12 +1091,19 @@ const PorductDetails = () => {
                               <Typography
                                 variant="cardHeader"
                                 className="SemiBold"
-                                color={
+                                sx={{
+                                  color: `${
+                                    activesize === size?.id
+                                      ? "#ffffff"
+                                      : "black"
+                                  }`,
+                                }}
+                                /* color={
                                   handleStockAvailability(size?.id) ===
                                   "outOfStock"
                                     ? "#bbb6b6;"
                                     : ""
-                                }
+                                } */
                               >
                                 {size?.size_name}
                               </Typography>
@@ -2170,13 +2177,13 @@ const PorductDetails = () => {
                               boxShadow:
                                 "0px 1px 4px 2px rgba(131 131 133 / 20%)",
                             }} */
-                            sx={{
+                            /*  sx={{
                               ".mui-style-wapswz-MuiTypography-root": {
                                 color: `${
                                   activesize === size?.id ? "#ffffff" : "black"
                                 }`,
                               },
-                            }}
+                            }} */
                             style={{
                               boxShadow:
                                 "0px 1px 4px 2px rgba(131 131 133 / 10%)",
@@ -2197,12 +2204,17 @@ const PorductDetails = () => {
                             <Typography
                               variant="cardHeader"
                               className="SemiBold"
-                              color={
+                              sx={{
+                                color: `${
+                                  activesize === size?.id ? "#ffffff" : "black"
+                                }`,
+                              }}
+                              /* color={
                                 handleStockAvailability(size?.id) ===
                                 "outOfStock"
                                   ? "#bbb6b6;"
                                   : ""
-                              }
+                              } */
                             >
                               {size?.size_name}
                             </Typography>
