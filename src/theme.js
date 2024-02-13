@@ -114,7 +114,24 @@ theme.typography.header1 = {
   },
 };
 theme.typography.wishlistPName = {
-  fontSize: "22px",
+  fontSize: "18px",
+  fontWeight: "bold",
+  color: black,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "14px",
+  },
+  [theme.breakpoints.down("xms")]: {
+    fontSize: "12px",
+  },
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "10px",
+  },
+  [theme.breakpoints.down("md")]: {
+    fontSize: "16px",
+  },
+};
+theme.typography.wishlistPPrice = {
+  fontSize: "20px",
   fontWeight: "bold",
   color: black,
   [theme.breakpoints.down("sm")]: {
@@ -128,23 +145,6 @@ theme.typography.wishlistPName = {
   },
   [theme.breakpoints.down("md")]: {
     fontSize: "18px",
-  },
-};
-theme.typography.wishlistPPrice = {
-  fontSize: "32px",
-  fontWeight: "bold",
-  color: black,
-  [theme.breakpoints.down("sm")]: {
-    fontSize: "14px",
-  },
-  [theme.breakpoints.down("xms")]: {
-    fontSize: "12px",
-  },
-  [theme.breakpoints.down("xs")]: {
-    fontSize: "10px",
-  },
-  [theme.breakpoints.down("md")]: {
-    fontSize: "20px",
   },
 };
 

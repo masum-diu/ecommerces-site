@@ -63,8 +63,14 @@ const wishlists = () => {
   return (
     <>
       <HomePageIntro title={"Wishlist "} />
-      <Box sx={{ height: "fit-content" }}>
-        <Stack sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }} py={15}>
+      <Box sx={{ height: "fit-content" }} justifyContent={"center"}>
+        <Stack
+          sx={{ width: "90%", maxWidth: "1500px", mx: "auto" }}
+          py={15}
+          direction={"column"}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
           <Typography
             variant="header1"
             color="initial"
@@ -75,85 +81,14 @@ const wishlists = () => {
           >
             Wishlist
           </Typography>
-          {/* <Hidden only={["md", "lg", "xl", "sm"]}>
-            {wishlist?.length > 0 ? (
-              <Stack direction={"column"} spacing={2} pt={5}>
-                {wishlist?.map((wishlistData) => (
-                  <>
-                    <Stack
-                      spacing={2}
-                      key={wishlistData?.id}
-                      direction={{ lg: "row", xs: "column" }}
-                      sx={{
-                        width: "100%",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <IconButton
-                        onClick={() =>
-                          handleRemoveFromList({
-                            id: wishlistData?.id,
-                            amount: 1,
-                          })
-                        }
-                      >
-                        <MdClose />
-                      </IconButton>
-                      <img src={wishlistData?.image} alt="" width={100} />
-                      <Typography variant="cardHeader12" color="initial">
-                        {wishlistData?.name}
-                      </Typography>
-                      <Typography variant="cardHeader12" color="initial">
-                        {selectedCurrency} {wishlistData?.price}
-                      </Typography>
-                     
-                      <Button
-                        variant="contained"
-                        color="background2"
-                        size="small"
-                        onClick={() =>
-                          router.push(
-                            `/products/${
-                              wishlistData?.sub_category?.slug === "unknown"
-                                ? wishlistData?.category?.slug
-                                : wishlistData?.sub_category?.slug
-                            }/${wishlistData?.id}`
-                          )
-                        }
-                      >
-                        View Product
-                      </Button>
-                    </Stack>
-                    <br />
-                    <Divider />
-                  </>
-                ))}
-              </Stack>
-            ) : (
-              <Stack
-                direction={"column"}
-                spacing={2}
-                sx={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100%",
-                  mt: 10,
-                }}
-              >
-                <FiHeart style={{ color: "#0A0A0A", fontSize: "128px" }} />
-                <Typography variant="header1">
-                  No products added to the wishlist
-                </Typography>
-              </Stack>
-            )}
-          </Hidden> */}
-          {/*  */}
 
           {wishlist?.length > 0 ? (
-            <Stack sx={{ width: "100%" }} direction={"column"}>
+            <Stack sx={{ width: "90%" }} direction={"column"}>
               {wishlist?.map((wishlistData) => (
-                <Card variant="outlined" sx={{ marginBottom: "8px", py: 2,borderRadius:"10px" }}>
+                <Card
+                  variant="outlined"
+                  sx={{ marginBottom: "8px", py: 2, borderRadius: "10px" }}
+                >
                   <Stack
                     direction={"row"}
                     justifyContent={"space-between"}
