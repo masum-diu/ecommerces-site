@@ -21,7 +21,7 @@ const Footer = () => {
   const custom_input_style = `
       input#email::placeholder{
         color:#F2F2F2;
-      }
+      },
   `;
 
   if (isLoading) {
@@ -75,8 +75,9 @@ const Footer = () => {
             justifyContent={"space-between"}
           >
             <input
-              type="text"
+              type="email"
               placeholder="Email Address"
+              autoComplete="off"
               id="email"
               style={{
                 width: "80%",
@@ -93,7 +94,12 @@ const Footer = () => {
                 caretColor: "white",
               }}
             />
-            <Stack style={{ width: "20%" }}direction={"row"} alignItems={"center"}justifyContent={"flex-end"}>
+            <Stack
+              style={{ width: "20%" }}
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"flex-end"}
+            >
               <IconButton>
                 <VscArrowRight style={{ color: "#F2F2F2" }} />
               </IconButton>
@@ -124,7 +130,7 @@ const Footer = () => {
               Blog
             </Typography>
             <Link href={"/contact-us"}>
-              <a style={{ textDecoration: "none" }} href="">
+              <a style={{ textDecoration: "none" }} >
                 <Typography
                   variant="cardHeader2"
                   color="#F2F2F2"

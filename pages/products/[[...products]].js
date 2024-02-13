@@ -755,7 +755,7 @@ const masterCollectionLayout = () => {
                     }}
                     onClick={() => handleAllProduct("all")}
                   >
-                    All {currentPath}
+                    All Collections {/* {currentPath} */}
                   </Typography>
                 </SwiperSlide>
                 {subCategories?.map((sub_cat, index) => (

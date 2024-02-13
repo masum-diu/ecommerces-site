@@ -289,7 +289,7 @@ const CategoryComponentForShop = ({ homedata }) => {
           </Stack>
           <Swiper
             key={Math.random() * 10}
-            loop={true}
+            // loop={true}
             modules={[Pagination, Navigation, Autoplay]}
             ref={swiperRef}
             spaceBetween={20}

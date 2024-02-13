@@ -153,7 +153,10 @@ const Wishlists = () => {
           {wishlist?.length > 0 ? (
             <Stack sx={{ width: "100%" }} direction={"column"}>
               {wishlist?.map((wishlistData) => (
-                <Card variant="outlined" sx={{ marginBottom: "8px", py: 2,borderRadius:"10px" }}>
+                <Card
+                  variant="outlined"
+                  sx={{ marginBottom: "8px", py: 2, borderRadius: "10px" }}
+                >
                   <Stack
                     direction={"row"}
                     justifyContent={"space-between"}
@@ -272,7 +275,12 @@ const Wishlists = () => {
                 mt: 10,
               }}
             >
-              <FiHeart style={{ color: "#0A0A0A", fontSize: "128px" }} />
+              <img
+                style={{ width: "10rem" }}
+                src="/assets/wishlist_1.svg"
+                alt=""
+              />
+              {/* <FiHeart style={{ color: "#0A0A0A", fontSize: "128px" }} /> */}
               <Typography variant="header1">
                 No products added to the wishlist
               </Typography>
