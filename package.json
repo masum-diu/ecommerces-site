@@ -26,6 +26,7 @@
     "firebase": "^9.22.2",
     "html-react-parser": "^3.0.9",
     "js-cookie": "^3.0.1",
+    "moment": "^2.30.1",
     "next": "^12.3.0",
     "next-auth": "^4.22.1",
     "nextjs-progressbar": "^0.0.16",

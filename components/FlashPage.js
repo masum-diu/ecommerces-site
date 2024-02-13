@@ -26,12 +26,14 @@ import Link from "next/link";
 import { Padding } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import { AES } from "crypto-js";
+import moment from "moment";
 var CryptoJS = require("crypto-js");
 const FlashPage = ({ title }) => {
   const router = useRouter();
   const [country, setCountry] = useState(10);
   const [conversionRates, setConversionRates] = useState(null);
   const [language, setLanguage] = useState(10);
+  const expiresInKey = "expiresIn";
   const secretKey =
     "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5MDQ2MTg5OSwiaWF0IjoxNjkwNDYxODk5fQ.XpwsAA-b8YVaYW26LBUHLRXIzWU1wgTP6cIrLbs7qEw";
   const currencies = [
@@ -93,6 +95,11 @@ const FlashPage = ({ title }) => {
       const rawRate = conversionRates[currency].toString();
       const rate = AES.encrypt(rawRate, secretKey).toString();
       localStorage.setItem("rate", rate);
+
+      // Set expiresIn value to one day (in seconds)
+      const expiresIn = moment().add(1, "day").unix();
+      // const expiresIn = moment().add(5, "seconds").unix();
+      localStorage.setItem("expiresIn", expiresIn);
     }
   };
   return (
@@ -202,7 +209,7 @@ const FlashPage = ({ title }) => {
                 error={Boolean(errors.currency)}
                 size="small"
                 value={currency}
-                sx={{ color:"#1B3148" }}
+                sx={{ color: "#1B3148" }}
                 onChange={(e) => handleSelectChangeCurrency(e)}
               >
                 {currencies.map((towns, index) => (
@@ -224,7 +231,7 @@ const FlashPage = ({ title }) => {
                 value={language}
                 onChange={handleLanguage}
                 size="small"
-                sx={{ backgroundColor: "white",color:"#1B3148" }}
+                sx={{ backgroundColor: "white", color: "#1B3148" }}
               >
                 <MenuItem value={20} disabled>
                   <Typography> Select Language </Typography>

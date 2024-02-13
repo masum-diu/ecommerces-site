@@ -119,6 +119,8 @@ const AddressLists = ({
     setValueNewAddress("phone", data?.phone);
     setValueNewAddress("email", data?.email);
     setValueNewAddress("apartment", data?.apartment);
+    setOpenList(true);
+    setArrow(false);
   };
   const handleClick = () => {
     setOpenList((prev) => !prev);
@@ -645,11 +647,15 @@ const AddressLists = ({
                     <MenuItem value={"Select Town/City"} disabled>
                       Select Town/City
                     </MenuItem>
-                    {shippingCitiesEcourier
+                    {shippingCitiesEcourier && countryName === "Bangladesh"
                       ? shippingCitiesEcourier.map((towns) => (
                           <MenuItem value={towns?.value}>
                             {towns?.value}
                           </MenuItem>
+                        ))
+                      : cities
+                      ? cities.map((towns) => (
+                        <MenuItem value={towns}>{towns}</MenuItem>
                         ))
                       : ""}
                   </Select>
@@ -661,79 +667,84 @@ const AddressLists = ({
               </Stack>
 
               {/* thana name */}
-              <Stack direction={"column"} spacing={2} mt={3}>
-                <Typography variant="cardHeader1" color="#1B3148">
-                  THANA *
-                </Typography>
-                {shippingThanaLoadingEcourier ? (
-                  <Stack
-                    border={"1px solid gray"}
-                    borderRadius={"5px"}
-                    direction={"rwo"}
-                    justifyContent={"space-between"}
-                    alignItems={"center"}
-                  >
-                    <Typography sx={{ marginLeft: "10px" }}>
-                      Collecting Thana
-                    </Typography>
-                    <CircularProgress
-                      sx={{ color: "#3C5676", marginRight: "10px" }}
-                    />
-                  </Stack>
-                ) : (
-                  <>
-                    {shippingThanasEcourier ? (
-                      <Select
-                        autoComplete="off"
-                        {...register("thana", {
-                          required: {
-                            value: true,
-                            message: "Thana is Required",
-                          },
-                        })}
-                        sx={customStyle}
-                        onClick={() => trigger("thana")}
-                        error={Boolean(errors.thana)}
-                        id="thana"
-                        size="small"
-                        value={thana}
-                        onChange={handleSelectChangeThanaShipping}
-                      >
-                        <MenuItem value={"Select Thana"} disabled>
-                          Select Thana
-                        </MenuItem>
-                        {shippingThanasEcourier?.map((thana) => (
-                          <MenuItem value={thana?.value}>
-                            {thana?.value}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    ) : (
-                      <TextField
-                        autoComplete="off"
-                        {...register("thana", {
-                          required: {
-                            value: true,
-                            message: "Thana Address Required",
-                          },
-                        })}
-                        onKeyUp={() => trigger("thana")}
-                        error={Boolean(errors.thana)}
-                        // onChange={}
-
-                        placeholder={"Enter Thana"}
-                        // placeholder="House Number and street name"
-                        size="small"
-                        sx={customStyle}
+              {countryName === "Bangladesh" ? (
+                <Stack direction={"column"} spacing={2} mt={3}>
+                  <Typography variant="cardHeader1" color="#1B3148">
+                    THANA *
+                  </Typography>
+                  {shippingThanaLoadingEcourier ? (
+                    <Stack
+                      border={"1px solid gray"}
+                      borderRadius={"5px"}
+                      direction={"rwo"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Typography sx={{ marginLeft: "10px" }}>
+                        Collecting Thana
+                      </Typography>
+                      <CircularProgress
+                        sx={{ color: "#3C5676", marginRight: "10px" }}
                       />
-                    )}
-                  </>
-                )}
+                    </Stack>
+                  ) : (
+                    <>
+                      {shippingThanasEcourier &&
+                      countryName === "Bangladesh" ? (
+                        <Select
+                          autoComplete="off"
+                          {...register("thana", {
+                            required: {
+                              value: true,
+                              message: "Thana is Required",
+                            },
+                          })}
+                          sx={customStyle}
+                          onClick={() => trigger("thana")}
+                          error={Boolean(errors.thana)}
+                          id="thana"
+                          size="small"
+                          value={thana}
+                          onChange={handleSelectChangeThanaShipping}
+                        >
+                          <MenuItem value={"Select Thana"} disabled>
+                            Select Thana
+                          </MenuItem>
+                          {shippingThanasEcourier?.map((thana) => (
+                            <MenuItem value={thana?.value}>
+                              {thana?.value}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      ) : (
+                        <TextField
+                          autoComplete="off"
+                          {...register("thana", {
+                            required: {
+                              value: true,
+                              message: "Thana Address Required",
+                            },
+                          })}
+                          onKeyUp={() => trigger("thana")}
+                          error={Boolean(errors.thana)}
+                          // onChange={}
 
-                {errors.thana && (
-                  <p style={{ color: "red" }}>{errors.thana?.message}</p>
-                )}
-              </Stack>
+                          placeholder={"Enter Thana"}
+                          // placeholder="House Number and street name"
+                          size="small"
+                          sx={customStyle}
+                        />
+                      )}
+                    </>
+                  )}
+
+                  {errors.thana && (
+                    <p style={{ color: "red" }}>{errors.thana?.message}</p>
+                  )}
+                </Stack>
+              ) : (
+                ""
+              )}
 
               {/* post code name */}
               <Stack direction={"column"} spacing={2} mt={3}>
@@ -757,7 +768,8 @@ const AddressLists = ({
                   </Stack>
                 ) : (
                   <>
-                    {shippingPostCodeEcourier ? (
+                    {shippingPostCodeEcourier &&
+                    countryName === "Bangladesh" ? (
                       <Select
                         autoComplete="off"
                         {...register("post_code", {
@@ -832,7 +844,7 @@ const AddressLists = ({
                   </Stack>
                 ) : (
                   <>
-                    {shippingAreaEcourier ? (
+                    {shippingAreaEcourier && countryName === "Bangladesh" ? (
                       <Select
                         autoComplete="off"
                         {...register("area", {

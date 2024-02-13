@@ -817,7 +817,9 @@ const PorductDetails = () => {
                             discountType !== undefined ? "homeFlash" : "header1"
                           }
                           className="SemiBold"
-                          color="#8799B1"
+                          color={
+                            discountType !== undefined ? "#8799B1" : "#1B3148"
+                          }
                           letterSpacing={0.3}
                           fontWeight={700}
                           style={{
@@ -1999,7 +2001,7 @@ const PorductDetails = () => {
                         discountType !== undefined ? "homeFlash" : "header1"
                       }`}
                       className="SemiBold"
-                      color="#8799B1"
+                      color={discountType !== undefined ? "#8799B1" : "#1B3148"}
                       letterSpacing={0.3}
                       fontWeight={700}
                       style={{
