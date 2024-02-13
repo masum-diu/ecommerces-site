@@ -73,7 +73,7 @@ const wishlists = () => {
         >
           <Typography
             variant="header1"
-            color="initial"
+            color="#1b3148"
             textAlign={"center"}
             textTransform={"uppercase"}
             className="bold"
