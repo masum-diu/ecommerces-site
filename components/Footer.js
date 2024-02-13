@@ -9,6 +9,7 @@ import { useGetInformationQuery } from "../src/features/api/apiSlice";
 import Loader from "./Loader/Loader";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import { FiInstagram } from "react-icons/fi";
+import { Style } from "@mui/icons-material";
 const Footer = () => {
   const { selectItem, setSelectItem } = useContext(USER_CONTEXT);
   const { data, isLoading, isError, isSuccess } = useGetInformationQuery();
@@ -17,6 +18,11 @@ const Footer = () => {
     router.push(page);
     setSelectItem(slug);
   };
+  const custom_input_style = `
+      input#email::placeholder{
+        color:#F2F2F2;
+      }
+  `;
 
   if (isLoading) {
     <Loader></Loader>;
@@ -24,6 +30,7 @@ const Footer = () => {
 
   return (
     <>
+      <style>{custom_input_style}</style>
       <Box bgcolor={"#1B3148"}>
         <Stack
           direction={"column"}
@@ -51,32 +58,47 @@ const Footer = () => {
           >
             Get updates on our latest collections
           </Typography>
-          <Input
-            placeholder="Email Address"
-            InputProps={{
-              classes: {
-                input: { color: "red" }, // Apply the custom placeholder color
-              },
-            }}
-            className="customInput .mui-style-1uol1ml-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled, .Mui-error):before"
+          <Stack
             sx={{
-              color: "#ffff",
-              width: "90vw",
-              maxWidth: "306px",
-              pb: 1,
-              "&:before": {
-                borderBottom: "2px solid #38486F",
-              },
-              "&:after": {
-                borderBottom: "2px solid #38486F",
+              borderBottom: "2px solid #38486F",
+              width: {
+                xs: "80%",
+                xms: "60%",
+                sm: "50%",
+                md: "35%",
+                lg: "30%",
+                lg: "20%",
               },
             }}
-            endAdornment={
+            direction={"row"}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+          >
+            <input
+              type="text"
+              placeholder="Email Address"
+              id="email"
+              style={{
+                width: "80%",
+                borderBottom: "none",
+                fontSize: "16px",
+                outline: "none", // To remove the default outline when focused
+                borderLeft: "none", // To remove left border
+                borderRight: "none", // To remove right border
+                borderTop: "none", // To remove top border
+                padding: "8px 8px 8px 0", // Add padding for better aesthetics
+                backgroundColor: "#1b3148",
+                textAlign: "left",
+                color: "white", // Text color
+                caretColor: "white",
+              }}
+            />
+            <Stack style={{ width: "20%" }}direction={"row"} alignItems={"center"}justifyContent={"flex-end"}>
               <IconButton>
                 <VscArrowRight style={{ color: "#F2F2F2" }} />
               </IconButton>
-            }
-          />
+            </Stack>
+          </Stack>
 
           {/* <Typography variant="normal" color="#F2F2F2">
             ABOUT
@@ -102,7 +124,7 @@ const Footer = () => {
               Blog
             </Typography>
             <Link href={"/contact-us"}>
-              <a style={{textDecoration:"none"}} href="">
+              <a style={{ textDecoration: "none" }} href="">
                 <Typography
                   variant="cardHeader2"
                   color="#F2F2F2"

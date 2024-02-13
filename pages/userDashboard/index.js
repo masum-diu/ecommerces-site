@@ -57,7 +57,8 @@ const userDashboard = () => {
         <Stack>
           <Typography
             variant="header1"
-            color="#7E7250"
+            color="#ffffff"
+            className="bold"
             sx={{ background: "#2C3649", py: 10 }}
             textAlign={"center"}
             textTransform={"uppercase"}

@@ -2206,7 +2206,9 @@ const PorductDetails = () => {
                               className="SemiBold"
                               sx={{
                                 color: `${
-                                  activesize === size?.id ? "#ffffff" : "#1B3148"
+                                  activesize === size?.id
+                                    ? "#ffffff"
+                                    : "#1B3148"
                                 }`,
                               }}
                               /* color={
