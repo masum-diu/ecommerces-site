@@ -1095,7 +1095,7 @@ const PorductDetails = () => {
                                   color: `${
                                     activesize === size?.id
                                       ? "#ffffff"
-                                      : "black"
+                                      : "#1B3148"
                                   }`,
                                 }}
                                 /* color={
@@ -2206,7 +2206,7 @@ const PorductDetails = () => {
                               className="SemiBold"
                               sx={{
                                 color: `${
-                                  activesize === size?.id ? "#ffffff" : "black"
+                                  activesize === size?.id ? "#ffffff" : "#1B3148"
                                 }`,
                               }}
                               /* color={
