@@ -19,6 +19,8 @@ export function UserProvider({ children }) {
   const [isPlaceOrder, setIsPlaceOrder] = useState(false);
   const [keepShowing, setKeepShowing] = useState(false);
   const [selectItem, setSelectItem] = useState("terms-conditions");
+  const [conversionRates, setConversionRates] = useState(null);
+  const expiresInKey = "expiresIn";
   const value = {
     user,
     setUser,
@@ -53,50 +55,39 @@ export function UserProvider({ children }) {
     }
   }, [currentVersion]);
 
-  const storedExpiresIn = localStorage.getItem("expiresIn");
+  const storedExpiresIn = localStorage.getItem(expiresInKey);
+  const currency = localStorage.getItem("currency");
   useEffect(() => {
-    const currency = localStorage.getItem("currency");
-    const checkExpiration = async () => {
-      if (storedExpiresIn) {
-        const now = moment().unix();
-        if (now > storedExpiresIn) {
-          async function fetchExchangeRates(baseCurrency) {
-            const response = await fetch(
-              `https://api.exchangerate-api.com/v4/latest/BDT`
-            );
-            const data = await response.json();
-            return data.rates;
-          }
-          const newRates = await fetchExchangeRates(currency);
-          const storedRate = localStorage.getItem("rate");
+    // Check if expiresIn is present in localStorage
 
-          if (newRates && storedRate) {
-            const rawRate = newRates[currency].toString();
-            const newRate = AES.encrypt(rawRate, secretKey).toString();
-
-            if (storedRate !== newRate) {
-              // Update the rate and reset expiresIn to one day
-              localStorage.setItem("rate", newRate);
-              const expiresIn = moment().add(1, "day").unix();
-              localStorage.setItem("expiresIn", expiresIn);
-            }
-          }
+    if (storedExpiresIn) {
+      const storedDate = moment(storedExpiresIn);
+      const currentDate = moment();
+      // Check if one day has passed
+      if (currentDate.diff(storedDate, "days") >= 1) {
+        async function fetchExchangeRates(baseCurrency) {
+          const response = await fetch(
+            `https://api.exchangerate-api.com/v4/latest/BDT`
+          );
+          const data = await response.json();
+          return data.rates;
+        }
+        if (currency) {
+          fetchExchangeRates(currency).then((rates) =>
+            setConversionRates(rates)
+          );
+        }
+        if (conversionRates) {
+          const rawRate = conversionRates[currency].toString();
+          const rate = AES.encrypt(rawRate, secretKey).toString();
+          localStorage.setItem("rate", rate);
+          const currentDateAndTime = moment().toISOString();
+          localStorage.setItem(expiresInKey, currentDateAndTime);
+          // localStorage.setItem("expiresIn", moment().toISOString());
         }
       }
-    };
-
-    // Check expiration on component mount
-    checkExpiration();
-
-    // Set up interval to check expiration every hour (you can adjust the interval)
-    const interval = setInterval(async () => {
-      await checkExpiration();
-    }, 24 * 60 * 60 * 1000);
-
-    // Clear interval on component unmount
-    return () => clearInterval(interval);
-  }, [storedExpiresIn]);
-  // console.log('from root',)
+    }
+  }, [currentVersion, currency, storedExpiresIn, conversionRates]);
   return (
     <USER_CONTEXT.Provider value={value}>{children}</USER_CONTEXT.Provider>
   );

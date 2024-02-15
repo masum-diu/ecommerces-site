@@ -96,10 +96,9 @@ const FlashPage = ({ title }) => {
       const rate = AES.encrypt(rawRate, secretKey).toString();
       localStorage.setItem("rate", rate);
 
-      // Set expiresIn value to one day (in seconds)
-      const expiresIn = moment().add(1, "day").unix();
-      // const expiresIn = moment().add(5, "seconds").unix();
-      localStorage.setItem("expiresIn", expiresIn);
+      // Set current date and time in local storage
+      const currentDateAndTime = moment().toISOString();
+      localStorage.setItem(expiresInKey, currentDateAndTime);
     }
   };
   return (
