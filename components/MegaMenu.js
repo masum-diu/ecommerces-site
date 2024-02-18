@@ -172,14 +172,12 @@ const MegaMenu = ({ open, setOpen }) => {
             rowGap={1}
           >
             {categoryAndSubCatList.map((category, index) => (
-              <Stack
-                key={index}
-                onMouseEnter={() => setHoveredCategory(category)}
-              >
+              <Stack key={index}>
                 <Typography
                   sx={{ color: "#1B3148" }}
                   className={`${style.menu3} bold`}
                   onClick={() => handleRedirectCat(category)}
+                  onMouseEnter={() => setHoveredCategory(category)}
                 >
                   <li className={style.menu3}>{category?.category_name}</li>
                 </Typography>
@@ -304,7 +302,12 @@ const MegaMenu = ({ open, setOpen }) => {
                 {categoryAndSubCatList?.map((category, index) => (
                   <SwiperSlide
                     key={index}
-                    style={{ maxWidth: "281px", width: "100%" }}
+                    style={{
+                      maxWidth: "281px",
+                      width: "100%",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleRedirectCat(category)}
                   >
                     <Stack
                       style={{

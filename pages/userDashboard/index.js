@@ -87,7 +87,7 @@ const userDashboard = () => {
           // spacing={2}
           sx={{ width: "90%", maxWidth: "1500px", margin: "0 auto", mt: 2 }}
         >
-          <Hidden only={["sm", "xs", "xms", "md"]}>
+          <Hidden only={["sm", "xs", "xms", "md","lmd"]}>
             <Grid item lg={3} sx={{ height: "600px" }}>
               <List>
                 {[

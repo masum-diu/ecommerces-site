@@ -415,7 +415,7 @@ const SiderBar = ({ open, setOpen }) => {
               </Stack>
             </Box>
           </ClickAwayListener>
-          <Hidden only={["md", "lg", "xl"]}>
+          <Hidden only={["lmd", "lg", "xl"]}>
             <Stack
               direction={"column"}
               pt={13}

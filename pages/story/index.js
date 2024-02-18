@@ -26,13 +26,16 @@ import ColorStories from "../../components/stories/ColorStories";
 import Sustainability from "../../components/stories/Sustainability";
 
 const story = () => {
-  const [selectedMenu, setSelectedMenu] = useState("Sustainability");
+  const [selectedMenu, setSelectedMenu] = useState("About Aranya");
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState(0);
   const customStyle = {
     ".mui-style-heg063-MuiTabs-flexContainer": {
       display: "flex",
       "justify-content": "space-around",
+    },
+    indicator: {
+      backgroundColor: "#1B3148",
     },
     width: { md: "70%", lg: "60%" },
     mx: "auto",
@@ -42,6 +45,7 @@ const story = () => {
   };
   const handleChange = (event, newValue) => {
     setValues(newValue);
+    console.log("your log output", newValue);
   };
 
   const renderMenuContent = () => {
@@ -91,7 +95,7 @@ const story = () => {
         />
       </Head>
       <HomePageIntro title={"Story "} />
-      {/* <Box sx={{ pt: { lg: 8, xs: 7 } }} height={"fit-content"}>
+      <Box sx={{ pt: { lg: 8, xs: 7 } }} height={"fit-content"}>
         <Box>
           <Stack direction={"row"} alignItems="center">
             <img
@@ -117,10 +121,23 @@ const story = () => {
             </IconButton>
           </Stack>
           <Hidden only={["sm", "xs", "xms"]}>
-            <Tabs sx={customStyle} value={values} onChange={handleChange}>
+            <Tabs
+              indicatorColor="none"
+              textColor="none"
+              sx={customStyle}
+              value={values}
+              onChange={handleChange}
+            >
               {storyNavItem.map((text, index) => (
                 <Tab
-                  sx={{ color: "initial" }}
+                  className="bold"
+                  sx={{
+                    color: values === index ? "#ffffff" : "#1B3148",
+                    border: "1px solid #1B3148",
+                    backgroundColor:
+                      values === index ? "#1B3148" : "transparent",
+                    borderRadius: "5px",
+                  }}
                   onClick={() => handleMenuClick(text)}
                   label={text}
                 ></Tab>
@@ -149,7 +166,6 @@ const story = () => {
           {storyNavItem.map((text, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton onClick={() => handleMenuClick(text)}>
-               
                 <ListItemText
                   primary={
                     <>
@@ -167,8 +183,8 @@ const story = () => {
             </ListItem>
           ))}
         </List>
-      </Drawer> */}
-      <Stack
+      </Drawer>
+      {/* <Stack
         justifyContent={"center"}
         alignItems={"center"}
         sx={{ pt: { lg: 8, xs: 7 }, height: "50vh" }}
@@ -176,7 +192,7 @@ const story = () => {
         <Typography variant="login2" textAlign={"center"}>
           Coming Soon
         </Typography>
-      </Stack>
+      </Stack> */}
       {/* <MenuDawer /> */}
       {/* <Filter /> */}
     </>

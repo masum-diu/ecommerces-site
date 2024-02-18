@@ -137,7 +137,7 @@ const addtocart = () => {
                 margin: "0 auto",
               }}
             >
-              <Hidden only={["md", "lg", "xl"]}>
+              <Hidden only={["lmd","md", "lg", "xl"]}>
                 {cart?.length > 0 ? (
                   <>
                     <Stack direction={"column"} spacing={2}>

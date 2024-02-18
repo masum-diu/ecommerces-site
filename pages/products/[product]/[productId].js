@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import {
   Alert,
@@ -28,7 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../components/Loader/Loader";
 import toast from "react-hot-toast";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
+import { Pagination, Navigation, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import { addToCart } from "../../../src/features/cart/cartSlice";
@@ -55,10 +55,15 @@ import * as fbq from "../../../lib/fpixel";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 
 const PorductDetails = () => {
   const [openList, setOpenList] = React.useState(false);
   const [arrow, setArrow] = useState(false);
+  const swiperRef = useRef(null);
   const handleClick = () => {
     setOpenList((prev) => !prev);
     setArrow(!arrow);
@@ -518,6 +523,12 @@ const PorductDetails = () => {
     }
 
     return resultArray;
+  };
+
+  const handleNextSlide = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext();
+    }
   };
   // const newArray = generateSizeArray();
   // console.log(newArray);
@@ -1553,7 +1564,7 @@ const PorductDetails = () => {
                             >
                               {
                                 <Stack direction={"row"} spacing={1}>
-                                  {products?.p_fabric?.map((name,index) => (
+                                  {products?.p_fabric?.map((name, index) => (
                                     <>
                                       <Typography
                                         key={index}
@@ -1666,7 +1677,7 @@ const PorductDetails = () => {
                             >
                               {
                                 <Stack direction={"row"} spacing={1}>
-                                  {products?.p_sizes?.map((size,index) => (
+                                  {products?.p_sizes?.map((size, index) => (
                                     <>
                                       <Typography
                                         key={index}
@@ -1990,6 +2001,7 @@ const PorductDetails = () => {
                 >
                   {description}
                 </Typography>
+                <br />
                 <Stack
                   direction={"row"}
                   justifyContent={"flex-start"}
@@ -2063,6 +2075,7 @@ const PorductDetails = () => {
                   )}
                 </Stack>
                 <hr />
+                <br />
                 {products?.p_colours?.length > 0 ? (
                   <Stack>
                     <Stack
@@ -2352,6 +2365,7 @@ const PorductDetails = () => {
                 ) : (
                   ""
                 )} */}
+                <br />
                 <Stack
                   direction={"row"}
                   sx={{
@@ -2396,6 +2410,7 @@ const PorductDetails = () => {
                     </IconButton>
                   </Stack>
                 </Stack>
+                <br />
 
                 {noteTextForCart && (
                   <>
@@ -2605,7 +2620,7 @@ const PorductDetails = () => {
                           >
                             {
                               <Stack direction={"row"} spacing={1}>
-                                {products?.p_fabric?.map((name,index) => (
+                                {products?.p_fabric?.map((name, index) => (
                                   <>
                                     <Typography
                                       key={index}
@@ -2649,7 +2664,7 @@ const PorductDetails = () => {
                           >
                             {
                               <Stack direction={"row"} spacing={1}>
-                                {products?.p_colours?.map((color,index) => (
+                                {products?.p_colours?.map((color, index) => (
                                   <>
                                     <Typography
                                       key={index}
@@ -2723,7 +2738,7 @@ const PorductDetails = () => {
                           >
                             {
                               <Stack direction={"row"} spacing={1}>
-                                {products?.p_sizes?.map((size,index) => (
+                                {products?.p_sizes?.map((size, index) => (
                                   <>
                                     <Typography
                                       key={index}
@@ -2821,7 +2836,7 @@ const PorductDetails = () => {
             >
               Similar Products
             </Typography>
-            <FiArrowRight />
+            <FiArrowRight onClick={handleNextSlide} />
           </Stack>
           <Swiper
             style={{
@@ -2829,6 +2844,7 @@ const PorductDetails = () => {
               margin: "0 auto",
               marginTop: "1rem",
             }}
+            ref={swiperRef}
             spaceBetween={10}
             slidesPerView={2.5}
             modules={[Pagination]}

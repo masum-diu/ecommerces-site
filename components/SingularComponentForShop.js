@@ -118,7 +118,7 @@ const SingularComponentForShop = ({ homedata }) => {
                     .slice(0, 6)
                     .join(
                       "/"
-                    )}/c_lfill,g_auto,h_900,w_1920/${sectionBanner[0]?.banner_uri
+                    )}/c_lfill,g_auto,h_700,w_1920/${sectionBanner[0]?.banner_uri
                     ?.split("/")
                     .slice(6)
                     .join("/")}`}
@@ -138,7 +138,7 @@ const SingularComponentForShop = ({ homedata }) => {
                 .slice(0, 6)
                 .join(
                   "/"
-                )}/c_lfill,g_auto,h_900,w_1920/${sectionBanner[0]?.banner_uri
+                )}/c_lfill,g_auto,h_700,w_1920/${sectionBanner[0]?.banner_uri
                 ?.split("/")
                 .slice(6)
                 .join("/")}`}

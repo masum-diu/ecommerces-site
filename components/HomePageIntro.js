@@ -132,9 +132,21 @@ const HomePageIntro = ({ title }) => {
       onClose={handleMenuClose}
     >
       <Link href={"/userDashboard"}>
-        <MenuItem className="bold" sx={{color:"#1B3148"}} onClick={handleMenuClose}>My Account</MenuItem>
+        <MenuItem
+          className="bold"
+          sx={{ color: "#1B3148" }}
+          onClick={handleMenuClose}
+        >
+          My Account
+        </MenuItem>
       </Link>
-      <MenuItem className="bold" sx={{color:"#1B3148"}} onClick={handelogout}>Logout</MenuItem>
+      <MenuItem
+        className="bold"
+        sx={{ color: "#1B3148" }}
+        onClick={handelogout}
+      >
+        Logout
+      </MenuItem>
     </Menu>
   );
 
@@ -200,10 +212,11 @@ const HomePageIntro = ({ title }) => {
           <Stack
             direction={"row"}
             alignItems="center"
-            spacing={1}
+            // spacing={1}
+            justifyContent={"space-between"}
             sx={{
-              justifyContent: { xs: "space-between" },
-              width: { xs: "100%", lg: "0%" },
+              // justifyContent: "space-between",
+              width: "100%",
             }}
           >
             <Stack direction={"row"} spacing={0.5} alignItems={"center"}>
@@ -229,8 +242,14 @@ const HomePageIntro = ({ title }) => {
               </Link>
             </Stack>
 
-            <Hidden only={["lg", "xl", "md"]}>
+            <Hidden only={["lmd","lg", "xl"]}>
               <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                <IconButton aria-label="">
+                  <SearchOutlinedIcon
+                    style={{ color: "#3D5675" }}
+                    onClick={() => handleSearchOpen()}
+                  />
+                </IconButton>
                 <IconButton
                   aria-label=""
                   onClick={() => router.push("/wishlists")}
@@ -280,26 +299,26 @@ const HomePageIntro = ({ title }) => {
                     ></ShoppingBagOutlinedIcon>
                   </Badge>
                 </IconButton>
-
-                <IconButton aria-label="">
-                  <SearchOutlinedIcon
-                    style={{ color: "#3D5675" }}
-                    onClick={() => handleSearchOpen()}
-                  />
-                </IconButton>
               </Stack>
             </Hidden>
-          </Stack>
-          <Hidden only={["xs", "xms", "sm"]}>
-            <Box
-              ml={userjsondata?.name ? { xl: 35, lg: 35 } : 30}
-              mr={
-                userjsondata?.name
-                  ? { md: 20, xl: 0, lg: 0 }
-                  : { lg: 0, xl: 0, md: 30 }
-              }
-            >
-              <Stack direction={"row"} spacing={5} mt={1}>
+            <Hidden only={["xs", "xms", "sm", "md"]}>
+              {/* <Box
+                // ml={userjsondata?.name ? { xl: 35, lg: 35 } : {md:22,lg:10,xl:10}}
+                // mr={
+                //   userjsondata?.name
+                //     ? { md: 20, xl: 0, lg: 0 }
+                //     : { lg: 0, xl: 0, md: 22 }
+                // }
+                sx={{ border: "1px solid red" }}
+              > */}
+              <Stack
+                direction={"row"}
+                justifyContent={"space-around"}
+                width={{ lmd:"15%",lg: "15%",xl:"10%" }}
+                mt={1}
+                ml={userjsondata?.name ? { xl: 20, lg: 20,lmd:20 } : 8}
+                // sx={{ border: "1px solid red" }}
+              >
                 <Typography
                   className={`${style.menu3} bold`}
                   sx={{ cursor: "pointer" }}
@@ -320,15 +339,15 @@ const HomePageIntro = ({ title }) => {
                   <li style={{ color: "#1B3148", fontWeight: "900" }}>STORY</li>
                 </Typography>
               </Stack>
-            </Box>
+              {/* </Box> */}
 
-            <Stack direction={"row"} alignItems="center" spacing={1} mt={1}>
-              <IconButton aria-label="" onClick={() => handleSearchOpen()}>
-                <SearchOutlinedIcon style={{ color: "#3D5675" }} />
-              </IconButton>
-              {userjsondata || user.status == true ? (
-                <>
-                  {/* <MenuItem>
+              <Stack direction={"row"} alignItems="center" spacing={1} mt={1}>
+                <IconButton aria-label="" onClick={() => handleSearchOpen()}>
+                  <SearchOutlinedIcon style={{ color: "#3D5675" }} />
+                </IconButton>
+                {userjsondata || user.status == true ? (
+                  <>
+                    {/* <MenuItem>
                     <IconButton
                       sx={{ cursor: "pointer" }}
                       variant="cardHeader"
@@ -342,56 +361,59 @@ const HomePageIntro = ({ title }) => {
                     </IconButton>
                     <p>{userjsondata?.name}</p>
                   </MenuItem> */}
-                  {/* <Box sx={{ flexGrow: 1 }} /> */}
-                  <Box
-                    sx={{
-                      display: { xs: "none", md: "flex" },
-                      alignItems: "center",
-                    }}
-                    onClick={handleProfileMenuOpen}
-                  >
-                    <IconButton
+                    {/* <Box sx={{ flexGrow: 1 }} /> */}
+                    <Box
                       sx={{
-                        cursor: "pointer",
-                        color: "#0A0A0A",
-                        marginRight: "5px",
+                        display: { xs: "none", md: "flex" },
+                        alignItems: "center",
                       }}
-                      variant="cardHeader"
-                      size="large"
-                      edge="end"
-                      aria-label="account of current user"
-                      aria-controls={menuId}
-                      aria-haspopup="true"
+                      onClick={handleProfileMenuOpen}
                     >
-                      <AccountCircle
-                        color="gray"
-                        style={{ color: "#3D5675" }}
-                      />
-                    </IconButton>
-                    <p className="SemiBold" style={{ color: "#1B3148", cursor: "pointer" }}>
-                      {userjsondata
-                        ? userjsondata?.name.split(" ")[0]
-                        : user.name}
-                    </p>
-                  </Box>
-                  <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                    <IconButton
-                      size="large"
-                      aria-label="show more"
-                      aria-controls={mobileMenuId}
-                      aria-haspopup="true"
-                      onClick={handleMobileMenuOpen}
-                      color="initial"
-                    >
-                      <MoreIcon />
-                    </IconButton>
-                  </Box>
-                  {renderMobileMenu}
-                  {renderMenu}
-                </>
-              ) : (
-                <>
-                  {/* <Typography
+                      <IconButton
+                        sx={{
+                          cursor: "pointer",
+                          color: "#0A0A0A",
+                          marginRight: "5px",
+                        }}
+                        variant="cardHeader"
+                        size="large"
+                        edge="end"
+                        aria-label="account of current user"
+                        aria-controls={menuId}
+                        aria-haspopup="true"
+                      >
+                        <AccountCircle
+                          color="gray"
+                          style={{ color: "#3D5675" }}
+                        />
+                      </IconButton>
+                      <p
+                        className="SemiBold"
+                        style={{ color: "#1B3148", cursor: "pointer" }}
+                      >
+                        {userjsondata
+                          ? userjsondata?.name.split(" ")[0]
+                          : user.name}
+                      </p>
+                    </Box>
+                    <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                      <IconButton
+                        size="large"
+                        aria-label="show more"
+                        aria-controls={mobileMenuId}
+                        aria-haspopup="true"
+                        onClick={handleMobileMenuOpen}
+                        color="initial"
+                      >
+                        <MoreIcon />
+                      </IconButton>
+                    </Box>
+                    {renderMobileMenu}
+                    {renderMenu}
+                  </>
+                ) : (
+                  <>
+                    {/* <Typography
                     className={style.menu3}
                     sx={{ cursor: "pointer" }}
                     variant="cardHeader"
@@ -400,22 +422,22 @@ const HomePageIntro = ({ title }) => {
                   >
                     <li>LOGIN</li>
                   </Typography> */}
-                  <IconButton
-                    onClick={() => setModalOpen(true)}
-                    color="initial"
-                  >
-                    <PersonOutlineOutlinedIcon style={{ color: "#3D5675" }} />
-                  </IconButton>
-                </>
-              )}
+                    <IconButton
+                      onClick={() => setModalOpen(true)}
+                      color="initial"
+                    >
+                      <PersonOutlineOutlinedIcon style={{ color: "#3D5675" }} />
+                    </IconButton>
+                  </>
+                )}
 
-              <IconButton
-                aria-label=""
-                onClick={() => router.push("/wishlists")}
-              >
-                <Badge badgeContent={totalWishedProduct} color="background2">
-                  {/* <TfiHeart style={{ color: "#0A0A0A", fontSize: "18px" }} /> */}
-                  {/* <svg
+                <IconButton
+                  aria-label=""
+                  onClick={() => router.push("/wishlists")}
+                >
+                  <Badge badgeContent={totalWishedProduct} color="background2">
+                    {/* <TfiHeart style={{ color: "#0A0A0A", fontSize: "18px" }} /> */}
+                    {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
                     height="18"
@@ -425,18 +447,18 @@ const HomePageIntro = ({ title }) => {
                   >
                     <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
                   </svg> */}
-                  <FavoriteBorderIcon
-                    style={{ color: "#3D5675" }}
-                  ></FavoriteBorderIcon>
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-label=""
-                onClick={() => router.push("/addtocart")}
-              >
-                <Badge badgeContent={totalAmount} color="background2">
-                  {/* <CiShoppingCart style={{ color: "#0A0A0A" }} /> */}
-                  {/* <svg
+                    <FavoriteBorderIcon
+                      style={{ color: "#3D5675" }}
+                    ></FavoriteBorderIcon>
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  aria-label=""
+                  onClick={() => router.push("/addtocart")}
+                >
+                  <Badge badgeContent={totalAmount} color="background2">
+                    {/* <CiShoppingCart style={{ color: "#0A0A0A" }} /> */}
+                    {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
@@ -446,12 +468,12 @@ const HomePageIntro = ({ title }) => {
                   >
                     <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
                   </svg> */}
-                  <ShoppingBagOutlinedIcon
-                    style={{ color: "#3D5675" }}
-                  ></ShoppingBagOutlinedIcon>
-                </Badge>
-              </IconButton>
-              {/* <Stack alignItems="center" direction={"row"}>
+                    <ShoppingBagOutlinedIcon
+                      style={{ color: "#3D5675" }}
+                    ></ShoppingBagOutlinedIcon>
+                  </Badge>
+                </IconButton>
+                {/* <Stack alignItems="center" direction={"row"}>
                 <IconButton aria-label="">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -472,8 +494,9 @@ const HomePageIntro = ({ title }) => {
                   BD
                 </Typography>
               </Stack> */}
-            </Stack>
-          </Hidden>
+              </Stack>
+            </Hidden>
+          </Stack>
         </Toolbar>
       </AppBar>
       <SiderBar open={open} setOpen={setOpen} />

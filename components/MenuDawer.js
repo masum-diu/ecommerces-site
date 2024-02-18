@@ -158,9 +158,9 @@ const MenuDawer = ({
             }}
             endIcon={
               arrow ? (
-                <RemoveIcon onClick={() => setArrow(!arrow)} />
+                <RemoveIcon style={{color:"#1B3148" }} onClick={() => setArrow(!arrow)} />
               ) : (
-                <AddIcon onClick={() => setArrow(!arrow)} />
+                <AddIcon style={{color:"#1B3148" }} onClick={() => setArrow(!arrow)} />
               )
             }
           >
@@ -208,9 +208,9 @@ const MenuDawer = ({
             }}
             endIcon={
               arrow1 ? (
-                <RemoveIcon onClick={() => setArrow1(!arrow1)} />
+                <RemoveIcon style={{color:"#1B3148" }} onClick={() => setArrow1(!arrow1)} />
               ) : (
-                <AddIcon onClick={() => setArrow1(!arrow1)} />
+                <AddIcon style={{color:"#1B3148" }} onClick={() => setArrow1(!arrow1)} />
               )
             }
           >
@@ -252,9 +252,9 @@ const MenuDawer = ({
             }}
             endIcon={
               arrow2 ? (
-                <RemoveIcon onClick={() => setArrow2(!arrow2)} />
+                <RemoveIcon style={{color:"#1B3148" }} onClick={() => setArrow2(!arrow2)} />
               ) : (
-                <AddIcon onClick={() => setArrow2(!arrow2)} />
+                <AddIcon style={{color:"#1B3148" }} onClick={() => setArrow2(!arrow2)} />
               )
             }
           >

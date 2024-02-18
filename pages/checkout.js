@@ -1654,7 +1654,7 @@ const checkout = () => {
                   {/* post code name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="#1B3148">
-                      POSTCODE / ZIP (OPTIONAL)
+                      POSTCODE / ZIP
                     </Typography>
                     {shippingPostCodeLoadingEcourier ? (
                       <Stack
@@ -2434,7 +2434,7 @@ const checkout = () => {
                     sx={customStyle2}
                   >
                     <Typography variant="cardHeader1" color="#1B3148">
-                      POSTCODE / ZIP (OPTIONAL)
+                      POSTCODE / ZIP
                     </Typography>
 
                     {billingPostCodeLoadingEcourier ? (

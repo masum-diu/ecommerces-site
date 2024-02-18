@@ -163,13 +163,23 @@ const HovarImage = ({ url, data, imageURL, width, height }) => {
         <Link href={url}>
           <a>
             <img
+              // src={`${imageURL
+              //   ?.split("/")
+              //   .slice(0, 6)
+              //   .join(
+              //     "/"
+              //   )}/c_lfill,g_auto,h_600,w_500/${imageURL
+              //   ?.split("/")
+              //   .slice(6)
+              //   .join("/")}`}
               src={imageURL}
-              style={{ maxWidth: "100%", height: "auto" }}
+              style={{ maxWidth: "100%" }}
               width={width}
-              height={height}
+              // height={height}
             />
           </a>
         </Link>
+
         <Stack
           direction={"row"}
           justifyContent={"space-between"}
