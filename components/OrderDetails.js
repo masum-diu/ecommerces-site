@@ -68,7 +68,7 @@ const OrderDetails = () => {
     }
   };
 
-  console.log("formatPrice", formatPrice(totalPrice_before_discount));
+  // console.log("formatPrice", formatPrice(totalPrice_before_discount));
   return (
     <Grid item lg={4} xl={4} md={4} mt={6}>
       <Card

@@ -100,7 +100,7 @@ const PorductDetails = () => {
   const [discountType, setDiscountType] = useState();
   const [productSku, setProductSku] = useState("");
 
-  console.log("your log output", products);
+  // console.log("your log output", products);
   // product popup
   const [productpopup, setProductpopup] = useState(false);
   const [noteTextForStock, setNoteTextForStock] = useState(
@@ -493,6 +493,34 @@ const PorductDetails = () => {
     setShowHeart("block");
     toast.error("Removed From Wishlist!");
   };
+
+  // generate array of size
+  const generateSizeArray = () => {
+    const resultArray = [];
+    for (let i = 1; i <= 100; i++) {
+      let size;
+
+      if (i % 3 === 0 && i % 5 === 0) {
+        size = "xxxl";
+      } else if (i % 3 === 0) {
+        size = "xl";
+      } else if (i % 5 === 0) {
+        size = "xxl";
+      } else if (i % 7 === 0) {
+        size = "xxxl";
+      } else if (i % 2 === 0) {
+        size = "m";
+      } else {
+        size = "s";
+      }
+
+      resultArray.push(i.toString(), size);
+    }
+
+    return resultArray;
+  };
+  // const newArray = generateSizeArray();
+  // console.log(newArray);
   const description = products?.p_description;
   const totalPriceWithTaxRounded =
     count *
@@ -1112,19 +1140,7 @@ const PorductDetails = () => {
                         </Stack>
                         {products?.p_sizes.length > 0 &&
                         products?.p_sizes.some((item) =>
-                          [
-                            "s",
-                            "m",
-                            "lg",
-                            "xl",
-                            "xxl",
-                            "38",
-                            "40",
-                            "42",
-                            "44",
-                            "46",
-                            "48",
-                          ].includes(item.slug)
+                          generateSizeArray().includes(item.slug)
                         ) ? (
                           <Button
                             variant="text"
@@ -1537,7 +1553,7 @@ const PorductDetails = () => {
                             >
                               {
                                 <Stack direction={"row"} spacing={1}>
-                                  {products?.p_fabric?.map((name) => (
+                                  {products?.p_fabric?.map((name,index) => (
                                     <>
                                       <Typography
                                         key={index}
@@ -1650,7 +1666,7 @@ const PorductDetails = () => {
                             >
                               {
                                 <Stack direction={"row"} spacing={1}>
-                                  {products?.p_sizes?.map((size) => (
+                                  {products?.p_sizes?.map((size,index) => (
                                     <>
                                       <Typography
                                         key={index}
@@ -2225,22 +2241,7 @@ const PorductDetails = () => {
                       </Stack>
                       {products?.p_sizes.length > 0 &&
                       products?.p_sizes.some((item) =>
-                        [
-                          "s",
-                          "m",
-                          "lg",
-                          "xl",
-                          "xxl",
-                          "38",
-                          "40",
-                          "42",
-                          "44",
-                          "46",
-                          "48",
-                          "52",
-                          "54",
-                          "56",
-                        ].includes(item.slug)
+                        generateSizeArray().includes(item.slug)
                       ) ? (
                         <Button
                           sx={{
@@ -2604,7 +2605,7 @@ const PorductDetails = () => {
                           >
                             {
                               <Stack direction={"row"} spacing={1}>
-                                {products?.p_fabric?.map((name) => (
+                                {products?.p_fabric?.map((name,index) => (
                                   <>
                                     <Typography
                                       key={index}
@@ -2648,7 +2649,7 @@ const PorductDetails = () => {
                           >
                             {
                               <Stack direction={"row"} spacing={1}>
-                                {products?.p_colours?.map((color) => (
+                                {products?.p_colours?.map((color,index) => (
                                   <>
                                     <Typography
                                       key={index}
@@ -2722,7 +2723,7 @@ const PorductDetails = () => {
                           >
                             {
                               <Stack direction={"row"} spacing={1}>
-                                {products?.p_sizes?.map((size) => (
+                                {products?.p_sizes?.map((size,index) => (
                                   <>
                                     <Typography
                                       key={index}
