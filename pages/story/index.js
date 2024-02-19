@@ -24,6 +24,7 @@ import AboutAranya from "../../components/stories/AboutAranya";
 import Community from "../../components/stories/Community";
 import ColorStories from "../../components/stories/ColorStories";
 import Sustainability from "../../components/stories/Sustainability";
+import Blogs from "../../components/stories/Blogs/Blogs";
 
 const story = () => {
   const [selectedMenu, setSelectedMenu] = useState("About Aranya");
@@ -58,6 +59,8 @@ const story = () => {
         return <ColorStories />;
       case "Sustainability":
         return <Sustainability />;
+      case "Blogs":
+        return <Blogs />;
       default:
         return null;
     }
@@ -67,6 +70,7 @@ const story = () => {
     "Community",
     "Color Stories",
     "Sustainability",
+    "Blogs",
   ];
 
   return (
@@ -137,6 +141,11 @@ const story = () => {
                     backgroundColor:
                       values === index ? "#1B3148" : "transparent",
                     borderRadius: "5px",
+                    "&:hover": {
+                      backgroundColor: "#1B3148",
+                      color: "#ffffff",
+                      transition: "ease-in-out .2s",
+                    },
                   }}
                   onClick={() => handleMenuClick(text)}
                   label={text}
