@@ -97,7 +97,7 @@ const Community = () => {
                   style={{
                     transform: "translateY(-50%)",
                     visibility: showRdBtn ? "visible" : "hidden",
-                    transition: "visibility 0.5s ease-in",
+                    transition: "visibility 1s ease-in-out",
                   }}
                   checked={true}
                   onMouseEnter={() => setShowRdBtn(true)}
@@ -122,7 +122,7 @@ const Community = () => {
                   style={{
                     transform: "translateY(-50%)",
                     visibility: showRdBtn ? "visible" : "hidden",
-                    transition: "visibility 0.5s ease-in",
+                    transition: "visibility 1s ease-in-out",
                   }}
                   checked={true}
                   onMouseEnter={() => setShowRdBtn(true)}
