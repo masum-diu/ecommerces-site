@@ -15,13 +15,57 @@
 
 /* Adjust the positions for each division button */
 .division_button[data-division="division1"] {
-  top: 54%;
-  left: 32%;
+  top: 12%;
+  left: 15%;
 }
 
 .division_button[data-division="division2"] {
-  top: 25%;
-  left: 36%;
+  top: 30%;
+  left: 5%;
+}
+.division_button[data-division="division3"] {
+  top: 35%;
+  left: 25%;
+}
+.division_button[data-division="division4"] {
+  top: 40%;
+  left: 20%;
+}
+.division_button[data-division="division5"] {
+  top: 28%;
+  left: 45%;
+}
+.division_button[data-division="division6"] {
+  top: 40%;
+  left: 39%;
+}
+.division_button[data-division="division7"] {
+  top: 47%;
+  left: 46%;
+}
+.division_button[data-division="division8"] {
+  top: 26%;
+  left: 80%;
+}
+.division_button[data-division="division9"] {
+  top: 50%;
+  left: 16%;
+}
+.division_button[data-division="division10"] {
+  top: 57%;
+  left: 20%;
+}
+.division_button[data-division="division11"] {
+  top: 70%;
+  left: 42%;
+}
+.division_button[data-division="division12"] {
+  top: 65%;
+  left: 77%;
+}
+.division_button[data-division="division13"] {
+  top: 75%;
+  left: 81%;
 }
 
 /* Add more styles for other divisions */

@@ -8,37 +8,37 @@ const Blog = ({ url, data, imageURL, width, height }) => {
   const router = useRouter();
 
   return (
-    <div>
-      <div className={style.uicard}>
-        <Link href={url}>
+    <Box>
+      <Stack>
+        <Link href={"/"}>
           <img
             src={imageURL}
             style={{ maxWidth: "100%", height: "auto" }}
-            width={width}
-            height={height}
+            // width={width}
+            // height={height}
           />
         </Link>
-        <div className={style.description}>
-          <Stack direction={"column"} spacing={1}>
+        <Stack>
+          <Stack direction={"column"}>
             <Stack
               direction={"row"}
               justifyContent="center"
-              className={style.size}
-              sx={{background: "black",padding:"1.5rem"}}
+              sx={{ background: "#1B3148", padding: "1.5rem" }}
             >
               <Typography
                 // onClick={() => router.push(url)}
-                sx={{color: "#fff" }}
+                sx={{ color: "#fff" }}
                 variant="text"
-                // color="secondary"
+                className="SemiBold"
+                c
               >
-                Aranya Blog
+                Lorem ipsum dolor sit.
               </Typography>
             </Stack>
           </Stack>
-        </div>
-      </div>
-    </div>
+        </Stack>
+      </Stack>
+    </Box>
   );
 };
 

@@ -24,9 +24,27 @@ import { useForm } from "react-hook-form";
 import style from "./map.module.css";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import Link from "next/link";
+import { useRouter } from "next/router";
 const Community = () => {
   const [isHoveredRight, setIsHoveredRight] = useState(false);
+  const [hoveredDivision, setHoveredDivision] = useState(null);
   const [showRdBtn, setShowRdBtn] = useState(false);
+  const router = useRouter();
+  const divisions = [
+    { id: "division1", name: "Rangpur" },
+    { id: "division2", name: "Nawabganj" },
+    { id: "division3", name: "Sirajganj" },
+    { id: "division4", name: "Rajshahi" },
+    { id: "division5", name: "Mymensingh" },
+    { id: "division6", name: "Tangail" },
+    { id: "division7", name: "Gazipur" },
+    { id: "division8", name: "Sylhet" },
+    { id: "division9", name: "Jhinaidaha" },
+    { id: "division10", name: "Jassore" },
+    { id: "division11", name: "Patuakhali" },
+    { id: "division12", name: "Rangamati" },
+    { id: "division13", name: "Bandarban" },
+  ];
   return (
     <Stack
       //   sx={{ pt: { lg: 8, xs: 7 } }}
@@ -80,7 +98,41 @@ const Community = () => {
             </Stack>
 
             <Stack className={style.division_buttons}>
-              <Stack
+              {divisions.map((division) => (
+                <Stack
+                  key={division.id}
+                  className={style.division_button}
+                  data-division={division.id}
+                  onMouseEnter={() => setShowRdBtn(division.id)}
+                  onMouseLeave={() => {
+                    setShowRdBtn(null);
+                  }}
+                >
+                  <Typography
+                    variant="cardHeader3"
+                    className="bold"
+                    color={"#1B3148"}
+                    mb={2}
+                  >
+                    {division.name}
+                  </Typography>
+                  <Radio
+                    style={{
+                      transform: "translateY(-50%)",
+                      visibility:
+                        showRdBtn === division.id ? "visible" : "hidden",
+                      transition: "visibility 1s ease-in-out",
+                    }}
+                    checked={true}
+                    onClick={() =>
+                      setHoveredDivision((prev) =>
+                        prev === division.id ? null : division.id
+                      )
+                    }
+                  />
+                </Stack>
+              ))}
+              {/* <Stack
                 className={style.division_button}
                 data-division="division1"
               >
@@ -91,7 +143,7 @@ const Community = () => {
                   onMouseLeave={() => setShowRdBtn(false)}
                   mb={2}
                 >
-                  Jashor
+                  Dhaka
                 </Typography>
                 <Radio
                   style={{
@@ -129,14 +181,7 @@ const Community = () => {
                   onMouseLeave={() => setShowRdBtn(false)}
                   onClick={() => setIsHoveredRight((prev) => !prev)}
                 />
-              </Stack>
-
-{/*               <FmdGoodIcon
-                onClick={() => setIsHoveredRight((prev) => !prev)}
-                className={style.division_button}
-                data-division="division2"
-              ></FmdGoodIcon> */}
-              {/* Add more buttons for other divisions */}
+              </Stack> */}
             </Stack>
           </Stack>
         </Grid>
@@ -154,7 +199,7 @@ const Community = () => {
             <Stack
               style={{
                 position: "absolute",
-                right: isHoveredRight ? 0 : "-100%", // Adjust to '0' for right to left effect
+                right: hoveredDivision ? 0 : "-100%", // Adjust to '0' for right to left effect
                 top: 0,
                 width: "100%",
                 height: "100%",
@@ -167,7 +212,7 @@ const Community = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 transition: "all 0.8s ease-in-out", // Adjust the duration and easing as needed
-                transform: isHoveredRight
+                transform: hoveredDivision
                   ? "translateX(0)"
                   : "translateX(100%)",
                 overflow: "hidden",
@@ -233,23 +278,28 @@ const Community = () => {
                   //     handleSecondBanner(sectionBanner[1]?.back_link)
                   //   }
                 >
-                  <Typography textTransform={"none"} color="#ffffff">
+                  <Typography
+                    textTransform={"none"}
+                    color="#ffffff"
+                    onClick={() => router.push("/story/jassore")}
+                  >
                     Read More ...
                   </Typography>
                 </Button>
               </Stack>
             </Stack>
 
-            <img
-              src="/assets/aranya_about.png"
-              style={{
-                cursor: "pointer",
-                objectFit: "cover",
-                maxHeight: "941px",
-                height: "100%",
-              }}
-              alt=""
-            />
+            <Stack sx={{ maxHeight: "800px", height: "100%" }}>
+              <img
+                src="/assets/map_sider.png"
+                style={{
+                  height: "100%",
+                  cursor: "pointer",
+                  objectFit: "cover",
+                }}
+                alt=""
+              />
+            </Stack>
           </Stack>
         </Grid>
       </Grid>

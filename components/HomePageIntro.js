@@ -36,7 +36,7 @@ import style from "../public/assets/css/HomePageIntro.module.css";
 import { useSignOut } from "react-firebase-hooks/auth";
 import auth from "../src/firebase.init";
 import Loader from "./Loader/Loader";
-import { useGetCategoryAndSubCatListQuery } from "../src/features/api/apiSlice";
+// import { useGetCategoryAndSubCatListQuery } from "../src/features/api/apiSlice";
 import * as fbq from "../lib/fpixel";
 import MegaMenu from "./MegaMenu";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";

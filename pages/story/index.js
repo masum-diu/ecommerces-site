@@ -130,6 +130,7 @@ const story = () => {
               textColor="none"
               sx={customStyle}
               value={values}
+              style={{ marginTop: "2rem" }}
               onChange={handleChange}
             >
               {storyNavItem.map((text, index) => (
