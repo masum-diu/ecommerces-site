@@ -137,13 +137,13 @@ const story = () => {
           </Stack>
           <Hidden only={["sm", "xs", "xms"]}>
             <Tabs
-              className="tab"
+              className="mui-style-heg063-MuiTabs-flexContainer"
               indicatorColor="none"
               textColor="none"
               // sx={customStyle}
               value={values}
               sx={{
-                ...customStyle,
+                // ...customStyle,
                 marginTop: "2rem",
                 maxWidth: "1500px",
                 width: { md: "90%", lmd: "94%", lg: "98%", xl: "100%" },
