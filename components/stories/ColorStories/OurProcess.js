@@ -12,14 +12,14 @@ const OurProcess = ({ products }) => {
   return (
     <Box mt={4}>
       <Stack mb={4}>
-        <Typography color="#1B3148" className="bold" variant="CategoryName">
+        <Typography color="#1B3148" className="bold" variant="productName">
           Our Process
         </Typography>
       </Stack>
 
       <Grid
         container
-        // spacing={1}
+        spacing={1}
         justifyContent={{
           xs: "center",
           xms: "center",
@@ -39,13 +39,13 @@ const OurProcess = ({ products }) => {
             sm={6}
             md={4}
             lg={4}
-            xl={3}
+            xl={4}
             key={index}
           >
             <Stack
               direction={"column"}
               sx={{
-                maxWidth: { xs: "100%", lg: "fit-content" },
+                maxWidth: { xs: "100%", sm: "95%", lg: "95%", xl: "95%" },
               }}
               justifyContent={"center"}
             >

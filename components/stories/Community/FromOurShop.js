@@ -58,15 +58,15 @@ const FromOurShop = ({ homedata }) => {
     }
   };
   return (
-    <Box sx={{ width: "100%", pt: { lg: 8, xs: 7 } }}>
+    <Box sx={{ width: "100%", pt: { lg: 8, xs: 7 } }}mt={5}>
       <Stack>
-        <Typography color="#1B3148" className="bold" variant="CategoryName">
+        <Typography color="#1B3148" className="bold" variant="productName">
           From Our Shop
         </Typography>
       </Stack>
 
       {homedata?.length > 0 && (
-        <Box mt={4}>
+        <Box >
           <Stack
             direction={"row"}
             justifyContent="end"

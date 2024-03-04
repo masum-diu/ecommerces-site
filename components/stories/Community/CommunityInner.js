@@ -7,8 +7,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import HovarImage from "../../HovarableImage/HovarImage";
-import Blog from "../../Blog/Blog";
+import HovarImage from "../../HovarableImage/HovarImage.js";
+import Blog from "../../Blog/Blog.js";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import ArrowRightAltOutlinedIcon from "@mui/icons-material/ArrowRightAltOutlined";
 import { useRouter } from "next/router";
@@ -23,8 +23,9 @@ import homedata from "../../../public/assets/data/demoProduct.js";
 import FromOurShop from "./FromOurShop.js";
 import OurBlog from "./OurBlog.js";
 import OurProcess from "./OurProcess.js";
+import Intro from "./Intro.js";
 
-const WorkInner = () => {
+const CommunityInner = () => {
   const [slidesPerView, setSlidePreview] = useState(0);
   const swiperRef = useRef(null);
   const router = useRouter();
@@ -107,9 +108,9 @@ const WorkInner = () => {
               color="#1B3148"
               className="bold"
               sx={{ cursor: "pointer" }}
-              onClick={() => router.push("/shop")}
+              onClick={() => router.push("/story")}
             >
-              Home
+              Community
             </Typography>
             <MdOutlineKeyboardArrowRight />
             <Typography
@@ -118,7 +119,7 @@ const WorkInner = () => {
               color="#1B3148"
               className="bold"
             >
-              jasore
+              Jessore
             </Typography>
           </Stack>
         </Stack>
@@ -128,7 +129,7 @@ const WorkInner = () => {
             justifyContent={"flex-start"}
             alignItems={"center"}
           >
-            <Typography className="bold" color="#1B3148" variant="productName">
+            <Typography className="bold" color="#1B3148" variant="login1">
               Community
             </Typography>
             <Typography
@@ -140,72 +141,12 @@ const WorkInner = () => {
               Jessore
             </Typography>
           </Stack>
-          <Typography color="#1B3148" className="bold" variant="CategoryName">
+          <Typography color="#1B3148" className="bold" variant="productName">
             Nakshi Katha
           </Typography>
         </Stack>
-        <Grid
-          container
-          mt={5}
-          mb={5}
-          justifyContent={"space-between"}
-          alignItems={"flex-start"}
-        >
-          {/* Info Section */}
-          <Grid item xs={10} md={5}>
-            <Stack
-              sx={{ maxWidth: { xs: "100%", md: "609px" }, width: "100%" }}
-            >
-              <img
-                style={{ objectFit: "cover" }}
-                src="/assets/community_first.png"
-                alt=""
-              />
-            </Stack>
-          </Grid>
-
-          {/* Send Mail Form Section */}
-          <Grid item xs={10} md={5}>
-            <Stack direction={"column"} spacing={5}>
-              <Stack>
-                <Typography color={"#1B3148"} className="SemiBold">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Aperiam tenetur optio vero a cupiditate alias dolorum nulla
-                  error nobis rerum, adipisci repellendus eius rem molestias
-                  tempora sunt accusamus nisi soluta molestiae corporis qui
-                  officiis quisquam eos! Dolore, ex! Suscipit, beatae?Lorem
-                  ipsum dolor sit amet, consectetur adipisicing elit. Omnis,
-                  adipisci obcaecati. Facilis quae fugiat cum dignissimos sint,
-                  quidem accusantium laudantium?
-                </Typography>
-              </Stack>
-              <Stack direction={"column"}>
-                <Stack className="bold" color={"#1B3148"}>
-                  Mission
-                </Stack>
-                <Stack className="SemiBold" color={"#1B3148"}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum
-                  vero adipisci ipsam et nisi. Blanditiis facere in voluptate
-                  dignissimos, nisi modi, praesentium temporibus repellendus
-                  dolorum asperiores eligendi facilis quam inventore!
-                </Stack>
-              </Stack>
-              <Stack direction={"column"}>
-                <Stack className="bold" color={"#1B3148"}>
-                  Vision
-                </Stack>
-                <Stack className="SemiBold" color={"#1B3148"}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum
-                  vero adipisci ipsam et nisi. Blanditiis facere in voluptate
-                  dignissimos, nisi modi, praesentium temporibus repellendus
-                  dolorum asperiores eligendi facilis quam inventore!
-                </Stack>
-              </Stack>
-            </Stack>
-          </Grid>
-        </Grid>
       </Box>
-
+      <Intro></Intro>
       {/* <Box mt={4}>
         <Stack mb={4}>
           <Typography color="#1B3148" className="bold" variant="CategoryName">
@@ -267,4 +208,4 @@ const WorkInner = () => {
   );
 };
 
-export default WorkInner;
+export default CommunityInner;

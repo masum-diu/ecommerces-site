@@ -20,7 +20,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-const OurBlog = ({ products }) => {
+const FromOurShop = ({ homedata }) => {
   const [slidesPerView, setSlidePreview] = useState(0);
   const swiperRef = useRef(null);
   const router = useRouter();
@@ -41,9 +41,9 @@ const OurBlog = ({ products }) => {
     } else if (isLargeScreen) {
       setSlidePreview(3);
     } else if (isExtraLargeScreen) {
-      setSlidePreview(3);
+      setSlidePreview(4);
     } else {
-      setSlidePreview(3);
+      setSlidePreview(4);
     }
   }, [
     isExtraSmallerScreen,
@@ -58,15 +58,15 @@ const OurBlog = ({ products }) => {
     }
   };
   return (
-    <Box sx={{ width: "100%", mb: 4, pt: { lg: 8, xs: 7 } }}>
+    <Box sx={{ width: "100%", pt: { lg: 8, xs: 7 } }} mt={5}>
       <Stack>
-        <Typography color="#1B3148" className="bold" variant="CategoryName">
-          Our Blog
+        <Typography color="#1B3148" className="bold" variant="productName">
+          From Our Shop
         </Typography>
       </Stack>
 
-      {products?.length > 0 && (
-        <Box mt={4} mb={15}>
+      {homedata?.length > 0 && (
+        <Box>
           <Stack
             direction={"row"}
             justifyContent="end"
@@ -87,12 +87,20 @@ const OurBlog = ({ products }) => {
             className="mySwiper"
             style={{ width: "100%", margin: "0 auto", maxWidth: "1500px" }}
           >
-            {products?.map((data, index) => (
+            {homedata?.map((data, index) => (
               <SwiperSlide
                 key={index}
                 style={{ maxWidth: "318px", width: "100%" }}
               >
-                <Blog data={data} imageURL={data}></Blog>
+                <HovarImage
+                  url={`/products/${
+                    data?.p_subcategory?.slug === "unknown"
+                      ? data?.p_category?.slug
+                      : data?.p_subcategory?.slug
+                  }/${data?.id}`}
+                  data={data}
+                  imageURL={`${data?.p_image_one}`}
+                ></HovarImage>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -102,4 +110,4 @@ const OurBlog = ({ products }) => {
   );
 };
 
-export default OurBlog;
+export default FromOurShop;

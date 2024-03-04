@@ -21,15 +21,17 @@ import Head from "next/head";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import AboutAranya from "../../components/stories/AboutAranya";
-import Community from "../../components/stories/Community";
-import ColorStories from "../../components/stories/ColorStories";
-import Sustainability from "../../components/stories/Sustainability";
+import Community from "../../components/stories/Community/Community";
+import Sustainability from "../../components/stories/Sustainability/Sustainability";
 import Blogs from "../../components/stories/Blogs/Blogs";
+import ColorStories from "../../components/stories/ColorStories/ColorStories";
+import StoryTab from "../../components/stories/StoryTab";
 
 const story = () => {
-  const [selectedMenu, setSelectedMenu] = useState("About Aranya");
+  const [selectedMenu, setSelectedMenu] = useState("about-aranya");
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState(0);
+  const router = useRouter();
   const customStyle = {
     ".mui-style-heg063-MuiTabs-flexContainer": {
       display: "flex",
@@ -41,36 +43,47 @@ const story = () => {
     width: { md: "70%", lg: "60%" },
     mx: "auto",
   };
-  const handleMenuClick = (menu) => {
+  const query = router.query.tab;
+  console.log("your log output", query);
+  const handleMenuClick = (e, menu) => {
     setSelectedMenu(menu);
+
+    // // e.preventDefault();
+    // const currentQuery = { ...router.query };
+
+    // // Add or update the desired query parameter and value
+    // currentQuery.tab = menu.toLowerCase().replace(/\s+/g, "-");
+
+    // // Replace the current query object with the updated one
+    // router.query({ ...currentQuery });
   };
   const handleChange = (event, newValue) => {
     setValues(newValue);
-    console.log("your log output", newValue);
+    // console.log("your log output", newValue);
   };
 
   const renderMenuContent = () => {
     switch (selectedMenu) {
-      case "About Aranya":
+      case "about-aranya":
         return <AboutAranya></AboutAranya>;
-      case "Community":
+      case "community":
         return <Community></Community>;
-      case "Color Stories":
+      case "color-stories":
         return <ColorStories />;
-      case "Sustainability":
+      case "sustainability":
         return <Sustainability />;
-      case "Blogs":
+      case "blogs":
         return <Blogs />;
       default:
         return null;
     }
   };
   const storyNavItem = [
-    "About Aranya",
-    "Community",
-    "Color Stories",
-    "Sustainability",
-    "Blogs",
+    "about-aranya",
+    "community",
+    "color-stories",
+    "sustainability",
+    "blogs",
   ];
 
   return (
@@ -130,7 +143,7 @@ const story = () => {
               textColor="none"
               sx={customStyle}
               value={values}
-              style={{ marginTop: "2rem" }}
+              style={{ marginTop: "2rem", maxWidth: "1500px", width: "100%" }}
               onChange={handleChange}
             >
               {storyNavItem.map((text, index) => (
@@ -148,7 +161,7 @@ const story = () => {
                       transition: "ease-in-out .2s",
                     },
                   }}
-                  onClick={() => handleMenuClick(text)}
+                  onClick={(e) => handleMenuClick(e, text)}
                   label={text}
                 ></Tab>
               ))}
@@ -157,6 +170,16 @@ const story = () => {
           <Grid item mt={10} lg={6} sm={12} xs={12}>
             {renderMenuContent()}
           </Grid>
+          {/* <StoryTab
+            setOpen={setOpen}
+            handleMenuClick={handleMenuClick()}
+            handleChange={handleChange()}
+            open={open}
+            values={values}
+            selectedMenu={selectedMenu}
+            setSelectedMenu={setSelectedMenu}
+            storyNavItem={[storyNavItem]}
+          ></StoryTab> */}
         </Box>
       </Box>
       <Footer />
@@ -194,17 +217,6 @@ const story = () => {
           ))}
         </List>
       </Drawer>
-      {/* <Stack
-        justifyContent={"center"}
-        alignItems={"center"}
-        sx={{ pt: { lg: 8, xs: 7 }, height: "50vh" }}
-      >
-        <Typography variant="login2" textAlign={"center"}>
-          Coming Soon
-        </Typography>
-      </Stack> */}
-      {/* <MenuDawer /> */}
-      {/* <Filter /> */}
     </>
   );
 };

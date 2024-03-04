@@ -21,7 +21,7 @@ import { useContext } from "react";
 import { MdClose } from "react-icons/md";
 import { Email, Phone, Room } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
-import style from "./map.module.css";
+import style from "../map.module.css";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -55,7 +55,7 @@ const Community = () => {
     >
       <Stack sx={{ width: "100%" }}>
         <Typography
-          variant="header1"
+          variant="productName"
           color="#1B3148"
           className="bold"
           //   sx={{ background: "#2C3649",  }}
@@ -70,6 +70,7 @@ const Community = () => {
       <Grid
         container
         spacing={3}
+        // mx={"auto"}
         sx={{ maxWidth: "1500px", width: "100%" }}
         mt={5}
         mb={5}
@@ -239,7 +240,7 @@ const Community = () => {
                 sx={{ border: "1px solid red" }}
               >
                 <Typography
-                  variant="CategoryName"
+                  variant="productName"
                   sx={{
                     color: "#ffffff",
                     textAlign: "center",
@@ -281,7 +282,7 @@ const Community = () => {
                   <Typography
                     textTransform={"none"}
                     color="#ffffff"
-                    onClick={() => router.push("/story/jassore")}
+                    onClick={() => router.push("/story/community")}
                   >
                     Read More ...
                   </Typography>

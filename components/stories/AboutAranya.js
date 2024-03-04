@@ -48,7 +48,7 @@ const AboutAranya = () => {
     >
       <Stack sx={{ width: "100%" }}>
         <Typography
-          variant="header1"
+          variant="productName"
           color="#1B3148"
           className="bold"
           //   sx={{ background: "#2C3649",  }}
@@ -62,7 +62,7 @@ const AboutAranya = () => {
 
       <Grid
         container
-        spacing={3}
+        px={3}
         sx={{ maxWidth: "1500px", width: "100%" }}
         mt={5}
         mb={5}
