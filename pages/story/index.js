@@ -28,7 +28,7 @@ import ColorStories from "../../components/stories/ColorStories/ColorStories";
 import StoryTab from "../../components/stories/StoryTab";
 
 const story = () => {
-  const [selectedMenu, setSelectedMenu] = useState("about-aranya");
+  const [selectedMenu, setSelectedMenu] = useState("About Aranya");
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState(0);
   const router = useRouter();
@@ -43,8 +43,6 @@ const story = () => {
     width: { md: "70%", lg: "60%" },
     mx: "auto",
   };
-  const query = router.query.tab;
-  console.log("your log output", query);
   const handleMenuClick = (e, menu) => {
     setSelectedMenu(menu);
 
@@ -64,26 +62,26 @@ const story = () => {
 
   const renderMenuContent = () => {
     switch (selectedMenu) {
-      case "about-aranya":
+      case "About Aranya":
         return <AboutAranya></AboutAranya>;
-      case "community":
+      case "Community":
         return <Community></Community>;
-      case "color-stories":
+      case "Color Stories":
         return <ColorStories />;
-      case "sustainability":
+      case "Sustainability":
         return <Sustainability />;
-      case "blogs":
+      case "Blogs":
         return <Blogs />;
       default:
         return null;
     }
   };
   const storyNavItem = [
-    "about-aranya",
-    "community",
-    "color-stories",
-    "sustainability",
-    "blogs",
+    "About Aranya",
+    "Community",
+    "Color Stories",
+    "Sustainability",
+    "Blogs",
   ];
 
   return (
@@ -139,11 +137,18 @@ const story = () => {
           </Stack>
           <Hidden only={["sm", "xs", "xms"]}>
             <Tabs
+              className="tab"
               indicatorColor="none"
               textColor="none"
-              sx={customStyle}
+              // sx={customStyle}
               value={values}
-              style={{ marginTop: "2rem", maxWidth: "1500px", width: "100%" }}
+              sx={{
+                ...customStyle,
+                marginTop: "2rem",
+                maxWidth: "1500px",
+                width: { md: "90%", lmd: "94%", lg: "98%", xl: "100%" },
+                margin: "0 auto",
+              }}
               onChange={handleChange}
             >
               {storyNavItem.map((text, index) => (
@@ -160,6 +165,7 @@ const story = () => {
                       color: "#ffffff",
                       transition: "ease-in-out .2s",
                     },
+                    width: { md: "18%",lmd:"15%",lg:"12%",xl:"10%" },
                   }}
                   onClick={(e) => handleMenuClick(e, text)}
                   label={text}

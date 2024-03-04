@@ -12,7 +12,7 @@ const Intro = () => {
   return (
     <Grid
       container
-      spacing={3}
+      px={1}
       sx={{ maxWidth: "1500px", width: "100%" }}
       mt={5}
       mb={5}

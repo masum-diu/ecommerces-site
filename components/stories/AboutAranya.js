@@ -62,7 +62,7 @@ const AboutAranya = () => {
 
       <Grid
         container
-        px={3}
+        px={{ md: 1, lg: 2 }}
         sx={{ maxWidth: "1500px", width: "100%" }}
         mt={5}
         mb={5}

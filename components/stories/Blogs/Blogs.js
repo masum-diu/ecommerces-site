@@ -31,7 +31,7 @@ const Blogs = () => {
   return (
     <Grid
       container
-      px={{ xs: 5, md: 0, lmd: 2, lg: 3, xl: 10 }}
+      px={{ xs: 5, md: 3, lmd: 2, lg: 2, xl: 7.5 }}
       sx={{
         width: "95%",
         maxWidth: "1500px",
