@@ -190,8 +190,6 @@ const FlashPage = ({ title }) => {
                 <MenuItem color="#1B3148" value={10}>
                   <Typography color="#1B3148">Bangladesh</Typography>
                 </MenuItem>
-                {/* <MenuItem value={30}>England</MenuItem>
-              <MenuItem value={40}>India</MenuItem> */}
               </Select>
               <Typography variant="homeFlash" color="#1B3148">
                 Select your currency

@@ -195,6 +195,7 @@ const LoginModal = ({ open, setOpen }) => {
     <>
       <Dialog
         open={open}
+        // open={true}
         onClose={() => handleDialogClose()}
         PaperProps={{
           sx: { width: { lg: "30%", xs: "100vw" }, height: "fit-content" },
@@ -378,7 +379,8 @@ const LoginModal = ({ open, setOpen }) => {
                   color="#CDCDCD"
                   onClick={handleChange}
                 >
-                  New to Aranya? <span style={{color: "#1B3148" }}> Create an Account</span>
+                  New to Aranya?{" "}
+                  <span style={{ color: "#1B3148" }}> Create an Account</span>
                 </Typography>
               </Stack>
             </form>
@@ -387,9 +389,15 @@ const LoginModal = ({ open, setOpen }) => {
           {isProceedCheckout === true ? (
             <>
               <hr style={{ width: "50%" }} />
-              <Stack>
-                <Button onClick={() => handleGuestCheckoutClick()}>
-                  <Typography color="#1B3148">Checkout as Guest?</Typography>
+              <Stack sx={{mt:2}}>
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: "#1B3148", "&:hover": { bgcolor: "#1B3148" } }}
+                  type="submit"
+                  className="SemiBold"
+                  onClick={() => handleGuestCheckoutClick()}
+                >
+                  <Typography>Checkout as Guest?</Typography>
                 </Button>
               </Stack>
             </>

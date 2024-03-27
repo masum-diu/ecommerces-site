@@ -1651,7 +1651,7 @@ const PorductDetails = () => {
                           }
                         />
 
-                        <ListItemText
+                        {/* <ListItemText
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -1694,7 +1694,7 @@ const PorductDetails = () => {
                               }
                             </Typography>
                           }
-                        />
+                        /> */}
 
                         <ListItemText
                           sx={{
@@ -1726,7 +1726,7 @@ const PorductDetails = () => {
                             </Typography>
                           }
                         />
-                        <ListItemText
+                        {/* <ListItemText
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -1755,7 +1755,7 @@ const PorductDetails = () => {
                                 : "Bangladesh"}
                             </Typography>
                           }
-                        />
+                        /> */}
                       </Stack>
                     </Box>
                   ) : null}
@@ -2712,7 +2712,7 @@ const PorductDetails = () => {
                         }
                       />
 
-                      <ListItemText
+                      {/* <ListItemText
                         sx={{
                           display: "flex",
                           justifyContent: "space-between",
@@ -2755,7 +2755,7 @@ const PorductDetails = () => {
                             }
                           </Typography>
                         }
-                      />
+                      /> */}
 
                       <ListItemText
                         sx={{
@@ -2787,7 +2787,7 @@ const PorductDetails = () => {
                           </Typography>
                         }
                       />
-                      <ListItemText
+                      {/* <ListItemText
                         sx={{
                           display: "flex",
                           justifyContent: "space-between",
@@ -2816,7 +2816,7 @@ const PorductDetails = () => {
                               : "Bangladesh"}
                           </Typography>
                         }
-                      />
+                      /> */}
                     </Stack>
                   </Box>
                 ) : null}
