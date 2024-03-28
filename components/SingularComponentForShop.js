@@ -159,40 +159,38 @@ const SingularComponentForShop = ({ homedata }) => {
               alignItems: "center",
             }}
           >
-            <Typography
-              className={style.menu3}
-              // variant="occasionHeader"
-              // color="white"
-              textAlign={"center"}
-              fontWeight={"900"}
-              textTransform="uppercase"
-              onClick={() =>
-                router.push({
-                  pathname: `/new-collections`,
-                })
-              }
-              sx={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                width: "100%",
-                // pt: 4,
-                // fontFamily:"cursive",
-                cursor: "pointer",
-                px: 4,
-                color: "#ffffff",
-                fontSize: {
-                  xs: "2rem",
-                  xms: "3rem",
-                  sm: "3rem",
-                  md: "5rem",
-                  lg: "5rem",
-                  xl: "5rem",
-                },
-              }}
-            >
-              {sectionBanner[0]?.name}
-              {/* <li>
+            <Link href={`${handleFirstBanner()}`}>
+              <a style={{ lineHeight: 0, textDecoration: "none" }}>
+                <Typography
+                  className={style.menu3}
+                  // variant="occasionHeader"
+                  // color="white"
+                  textAlign={"center"}
+                  fontWeight={"900"}
+                  textTransform="uppercase"
+                  // onClick={() => router.push(handleFirstBanner())}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    width: "100%",
+                    // pt: 4,
+                    // fontFamily:"cursive",
+                    cursor: "pointer",
+                    px: 4,
+                    color: "#ffffff",
+                    fontSize: {
+                      xs: "2rem",
+                      xms: "3rem",
+                      sm: "3rem",
+                      md: "5rem",
+                      lg: "5rem",
+                      xl: "5rem",
+                    },
+                  }}
+                >
+                  {sectionBanner[0]?.name}
+                  {/* <li>
                 {homedata?.back_url_two?.includes("campaign")
                   ? homedata?.back_url_two
                     ? /cat_name=([^&]+)/.exec(homedata?.back_url_two)[1]
@@ -202,7 +200,9 @@ const SingularComponentForShop = ({ homedata }) => {
                   : ""}
                   {sectionBanner[0]?.name}
               </li> */}
-            </Typography>
+                </Typography>
+              </a>
+            </Link>
           </Stack>
         </Stack>
       ) : (
