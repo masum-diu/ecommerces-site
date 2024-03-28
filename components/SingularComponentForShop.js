@@ -181,11 +181,11 @@ const SingularComponentForShop = ({ homedata }) => {
                     color: "#ffffff",
                     fontSize: {
                       xs: "2rem",
-                      xms: "3rem",
-                      sm: "3rem",
-                      md: "5rem",
-                      lg: "5rem",
-                      xl: "5rem",
+                      xms: "2.5rem",
+                      sm: "2.5rem",
+                      md: "3rem",
+                      lg: "3rem",
+                      xl: "3rem",
                     },
                   }}
                 >
