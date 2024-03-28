@@ -13,6 +13,7 @@ import {
   Box,
   ButtonGroup,
 } from "@mui/material";
+import { GlassMagnifier } from "react-image-magnifiers";
 import { pink, red } from "@mui/material/colors";
 import CloseIcon from "@mui/icons-material/Close";
 import HomePageIntro from "../../../components/HomePageIntro";
@@ -710,7 +711,8 @@ const PorductDetails = () => {
         >
           <Grid container justifyContent={"center"}>
             <Grid item xl={5} lg={5} md={6} sm={12}>
-              <img
+              <div
+                style={{ cursor: "pointer", marginBottom: 5 }}
                 onClick={() =>
                   handleImageForThumble(true, {
                     img1: products?.p_image_one,
@@ -719,18 +721,21 @@ const PorductDetails = () => {
                     img4: products?.p_image_four,
                   })
                 }
-                // src={products?.feature_image}
-                src={`${products?.p_image_one}`}
-                alt=""
-                style={{
-                  width: "100%",
-                  maxWidth: "auto",
-                }}
-              />
-              <Stack direction={"row"} spacing={0.5} mb={0.5}>
+              >
+                <GlassMagnifier
+                  // src={products?.feature_image}
+                  imageSrc={`${products?.p_image_one}`}
+                  alt=""
+                  style={{
+                    width: "100%",
+                    maxWidth: "auto",
+                  }}
+                />
+              </div>
+              <Stack direction={"row"} spacing={0.5}>
                 <Stack width={"50%"} cursor={"zoom-in"}>
-                  <img
-                    //  className={style.images}
+                  <div
+                    style={{ cursor: "pointer", marginBottom: 5 }}
                     onClick={() =>
                       handleImageForThumble(true, {
                         img1: products?.p_image_two,
@@ -739,18 +744,21 @@ const PorductDetails = () => {
                         img4: products?.p_image_four,
                       })
                     }
-                    // src={products?.p_image_one}
-                    src={`${products?.p_image_two}`}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      maxWidth: "auto",
-                    }}
-                  />
+                  >
+                    <GlassMagnifier
+                      // src={products?.p_image_one}
+                      imageSrc={`${products?.p_image_two}`}
+                      alt=""
+                      style={{
+                        width: "100%",
+                        maxWidth: "auto",
+                      }}
+                    />
+                  </div>
                 </Stack>
                 <Stack width={"50%"}>
-                  <img
-                    //  className={style.images}
+                  <div
+                    style={{ cursor: "pointer", marginBottom: 5 }}
                     onClick={() =>
                       handleImageForThumble(true, {
                         img1: products?.p_image_three,
@@ -759,18 +767,24 @@ const PorductDetails = () => {
                         img4: products?.p_image_four,
                       })
                     }
-                    // src={products?.p_image_two}
-                    src={`${products?.p_image_three}`}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      maxWidth: "auto",
-                    }}
-                  />
+                  >
+                    <GlassMagnifier
+                      //  className={style.images}
+
+                      // src={products?.p_image_two}
+                      imageSrc={`${products?.p_image_three}`}
+                      alt=""
+                      style={{
+                        width: "100%",
+                        maxWidth: "auto",
+                      }}
+                    />
+                  </div>
                 </Stack>
               </Stack>
 
-              <img
+              <div
+                style={{ cursor: "pointer", marginBottom: 5 }}
                 onClick={() =>
                   handleImageForThumble(true, {
                     img1: products?.p_image_four,
@@ -779,14 +793,17 @@ const PorductDetails = () => {
                     img4: products?.p_image_three,
                   })
                 }
-                // src={products?.p_image_three}
-                src={`${products?.p_image_four}`}
-                alt=""
-                style={{
-                  width: "100%",
-                  maxWidth: "auto",
-                }}
-              />
+              >
+                <GlassMagnifier
+                  // src={products?.p_image_three}
+                  imageSrc={`${products?.p_image_four}`}
+                  alt=""
+                  style={{
+                    width: "100%",
+                    maxWidth: "auto",
+                  }}
+                />
+              </div>
             </Grid>
 
             {/* Description Section */}
