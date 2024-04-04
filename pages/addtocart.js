@@ -137,7 +137,7 @@ const addtocart = () => {
                 margin: "0 auto",
               }}
             >
-              <Hidden only={["lmd","md", "lg", "xl"]}>
+              <Hidden only={["lmd", "md", "lg", "xl"]}>
                 {cart?.length > 0 ? (
                   <>
                     <Stack direction={"column"} spacing={2}>
@@ -1107,15 +1107,6 @@ const addtocart = () => {
                                       >
                                         Quantity
                                       </Typography>
-                                      {/* <hr
-                      style={{
-                        textAlign: "left",
-                        width: "100%",
-                        height: "1px",
-                        backgroundColor: "black",
-                        // maxWidth: "340px",
-                      }}
-                    /> */}
                                     </Stack>
                                     <Stack
                                       direction={"row"}
@@ -1133,6 +1124,9 @@ const addtocart = () => {
                                         }}
                                       >
                                         <IconButton
+                                          disabled={
+                                            data?.amount <= 1 ? true : false
+                                          }
                                           size="small"
                                           aria-label="reduce"
                                           onClick={() =>
@@ -1150,6 +1144,12 @@ const addtocart = () => {
                                           {data.amount}
                                         </Typography>
                                         <IconButton
+                                          disabled={
+                                            data.stock <= data?.amount ||
+                                            data.stock === undefined
+                                              ? true
+                                              : false
+                                          }
                                           size="small"
                                           aria-label="increase"
                                           onClick={() =>

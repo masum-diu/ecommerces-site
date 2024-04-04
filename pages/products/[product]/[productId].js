@@ -105,7 +105,7 @@ const PorductDetails = () => {
   const [discountAmount, setDiscountAmount] = useState();
   const [discountType, setDiscountType] = useState();
   const [productSku, setProductSku] = useState("");
-
+  console.log("your log output", stockAmount, count);
   // console.log("your log output", products);
   // product popup
   const [productpopup, setProductpopup] = useState(false);
@@ -230,6 +230,7 @@ const PorductDetails = () => {
 
         setStockDetails(selectedProduct);
         setStockAmount(selectedProduct?.stock);
+        setCount(1);
         setProductSku(selectedProduct?.sku);
         if (selectedProduct?.mrp) {
           setPriceWithoutFragileCharge(selectedProduct?.mrp);
@@ -313,6 +314,7 @@ const PorductDetails = () => {
           setDiscountType(selectedProduct?.discount?.discount_type);
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
+          setCount(1);
           setProductSku(selectedProduct?.sku);
         }
         if (sizeSelected == true) {
@@ -332,6 +334,7 @@ const PorductDetails = () => {
           setDiscountType(selectedProduct?.discount?.discount_type);
           setStockDetails(selectedProduct);
           setStockAmount(selectedProduct?.stock);
+          setCount(1);
           setProductSku(selectedProduct?.sku);
         }
 
@@ -392,6 +395,7 @@ const PorductDetails = () => {
         setDiscountType(products?.p_stocks[0]?.discount?.discount_type);
         if (products?.p_stocks[0]?.stock > 0) {
           setStockAmount(products?.p_stocks[0]?.stock);
+          setCount(1);
           setProductSku(products?.p_stocks[0]?.sku);
           setNoteTextForStock("In Stock");
           setDisableBtn(false);
@@ -556,7 +560,7 @@ const PorductDetails = () => {
     productWeight: productWeight,
     totalProductWeight: count * productWeight,
     amount: count,
-    stock: stockAmount,
+    stockAmount: stockAmount,
     totalAmount: count,
     taxAmount: products?.p_tax?.tax_percentage,
     price: productPrice,
@@ -966,6 +970,7 @@ const PorductDetails = () => {
                             }}
                           >
                             <IconButton
+                              disabled={count <= 1 ? true : false}
                               size="small"
                               aria-label="reduce"
                               onClick={() => {
@@ -979,6 +984,13 @@ const PorductDetails = () => {
                               {count}
                             </Typography>
                             <IconButton
+                              disabled={
+                                stockAmount <= count ||
+                                stockAmount === undefined
+                                  ? true
+                                  : false
+                              }
+                              // disabled={true }
                               aria-label="increase"
                               onClick={() => {
                                 setCount(count + 1);
@@ -2405,6 +2417,7 @@ const PorductDetails = () => {
                     sx={{ color: "#959595" }}
                   >
                     <IconButton
+                      disabled={count <= 1 ? true : false}
                       size="small"
                       aria-label="reduce"
                       onClick={() => {
@@ -2418,6 +2431,11 @@ const PorductDetails = () => {
                       {count}
                     </Typography>
                     <IconButton
+                      disabled={
+                        stockAmount <= count || stockAmount === undefined
+                          ? true
+                          : false
+                      }
                       aria-label="increase"
                       onClick={() => {
                         setCount(count + 1);
