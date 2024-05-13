@@ -369,6 +369,19 @@ export const productApi = createApi({
         },
       }),
     }),
+    subscribeCreation: builder.mutation({
+      query: ({ email }) => ({
+        url: `/subscribes`,
+        method: "POST",
+        body: {
+          email: email,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      }),
+    }),
   }),
 });
 
@@ -408,4 +421,5 @@ export const {
   usePasswordResetRequestMutation,
   useSocialUserCreationMutation,
   useGetCountryListWithShippingChargeQuery,
+  useSubscribeCreationMutation,
 } = productApi;

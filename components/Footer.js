@@ -5,14 +5,34 @@ import React from "react";
 import { useContext } from "react";
 import { VscArrowRight } from "react-icons/vsc";
 import USER_CONTEXT from "./userContext";
-import { useGetInformationQuery } from "../src/features/api/apiSlice";
+import {
+  useGetInformationQuery,
+  useSubscribeCreationMutation,
+} from "../src/features/api/apiSlice";
 import Loader from "./Loader/Loader";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import { FiInstagram } from "react-icons/fi";
 import { Style } from "@mui/icons-material";
+import { useForm } from "react-hook-form";
+import SmallLoader from "./Loader/SmallLoader";
+import { toast } from "react-hot-toast";
 const Footer = () => {
   const { selectItem, setSelectItem } = useContext(USER_CONTEXT);
   const { data, isLoading, isError, isSuccess } = useGetInformationQuery();
+  const [
+    subscriptionCreation,
+    {
+      data: subscribeData,
+      isLoading: subscribeLoading,
+      isError: subscribeError,
+      isSuccess: scribeSuccess,
+    },
+  ] = useSubscribeCreationMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const router = useRouter();
   const handleRedirect = (page, slug) => {
     router.push(page);
@@ -23,6 +43,22 @@ const Footer = () => {
         color:#F2F2F2;
       },
   `;
+
+  const onSubmit = async (data) => {
+    try {
+      const subscriptionResponse = await subscriptionCreation({
+        email: data.email,
+      });
+      if (subscriptionResponse?.data?.status === true) {
+        toast.success("Subscription successful!");
+      } else {
+        toast.error("Subscription Failed!");
+      }
+    } catch (error) {
+      toast.error("Subscription Failed!");
+    }
+    // for example
+  };
 
   if (isLoading) {
     <Loader></Loader>;
@@ -74,37 +110,54 @@ const Footer = () => {
             alignItems={"center"}
             justifyContent={"space-between"}
           >
-            <input
-              type="email"
-              placeholder="Email Address"
-              autoComplete="off"
-              id="email"
-              style={{
-                width: "80%",
-                borderBottom: "none",
-                fontSize: "16px",
-                outline: "none", // To remove the default outline when focused
-                borderLeft: "none", // To remove left border
-                borderRight: "none", // To remove right border
-                borderTop: "none", // To remove top border
-                padding: "8px 8px 8px 0", // Add padding for better aesthetics
-                backgroundColor: "#1b3148",
-                textAlign: "left",
-                color: "white", // Text color
-                caretColor: "white",
-              }}
-            />
-            <Stack
-              style={{ width: "20%" }}
-              direction={"row"}
-              alignItems={"center"}
-              justifyContent={"flex-end"}
-            >
-              <IconButton>
-                <VscArrowRight style={{ color: "#F2F2F2" }} />
-              </IconButton>
-            </Stack>
+            <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+              <Stack direction={"row"} justifyContent={"space-between"}>
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  autoComplete="off"
+                  id="email"
+                  {...register("email", {
+                    required: "Email is required!",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address!",
+                    },
+                  })}
+                  style={{
+                    width: "80%",
+                    borderBottom: "none",
+                    fontSize: "16px",
+                    outline: "none", // To remove the default outline when focused
+                    borderLeft: "none", // To remove left border
+                    borderRight: "none", // To remove right border
+                    borderTop: "none", // To remove top border
+                    padding: "8px 8px 8px 0", // Add padding for better aesthetics
+                    backgroundColor: "#1b3148",
+                    textAlign: "left",
+                    color: "white", // Text color
+                    caretColor: "white",
+                  }}
+                />
+                <Stack
+                  style={{ width: "20%" }}
+                  direction={"row"}
+                  alignItems={"center"}
+                  justifyContent={"flex-end"}
+                >
+                  <IconButton type="submit">
+                    <VscArrowRight style={{ color: "#F2F2F2" }} />
+                  </IconButton>
+                </Stack>
+              </Stack>
+            </form>
           </Stack>
+          {errors.email && (
+            <Typography sx={{ color: "red", marginTop: "0px" }}>
+              {errors.email.message}
+            </Typography>
+          )}
+          {subscribeLoading && <SmallLoader></SmallLoader>}
 
           {/* <Typography variant="normal" color="#F2F2F2">
             ABOUT
@@ -130,7 +183,7 @@ const Footer = () => {
               Blog
             </Typography>
             <Link href={"/contact-us"}>
-              <a style={{ textDecoration: "none" }} >
+              <a style={{ textDecoration: "none" }}>
                 <Typography
                   variant="cardHeader2"
                   color="#F2F2F2"
