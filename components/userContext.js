@@ -77,6 +77,9 @@ export function UserProvider({ children }) {
             setConversionRates(rates)
           );
         }
+        if (!currency) {
+          fetchExchangeRates("BDT").then((rates) => setConversionRates(rates));
+        }
         if (conversionRates) {
           const rawRate = conversionRates[currency].toString();
           const rate = AES.encrypt(rawRate, secretKey).toString();

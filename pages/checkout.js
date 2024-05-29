@@ -64,7 +64,7 @@ const checkout = () => {
   // address popup state end
   const cart = convertedCart.cart;
 
-  // console.log("your log output", convertedCart);
+  console.log("convertedCart", convertedCart);
   // const cart = useSelector((state) => state.cart.cart);
   const [addAddressValue, setAddAddressValue] = useState(0);
   const [isSameAddress, setIsSameAddress] = useState(false);
@@ -98,6 +98,7 @@ const checkout = () => {
     convertedCart.totalPriceWithTax_after_discount;
   const totalPriceWithTaxOrg_after_discount =
     convertedCart.totalPriceWithTaxOrg_after_discount;
+  const totalOrderWeight = convertedCart?.totalProductWeight / 1000;
 
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [isAgreed, setAgreed] = useState(false);
@@ -124,11 +125,15 @@ const checkout = () => {
   const [eQuerierShippingCostOrg, setEQuerierShippingCostOrg] = useState(0);
   const [eQuerierPackagesCode, setEQuerierPackagesCode] = useState("");
   const [dhlShippingCost, setDhlShippingCost] = useState(0);
+  const [dhlShippingCostOrg, setDhlShippingCostOrg] = useState(0);
   const [showRoomShippingCost, setShowRoomShippingCost] = useState(0);
   const [countryBillingCode, setBillingCountryCode] = useState("");
   const [countryShippingCode, setShippingCountryCode] = useState("");
   const [allShippingCities, setAllShippingCities] = useState([]);
   const [allBillingCities, setAllBillingCities] = useState([]);
+  const [dhlProduct, setDhlProduct] = useState(null);
+  const [priceBreakdown, setPriceBreakdown] = useState({});
+
   const { selectedCurrency, convertPrice, currentConversionRate } =
     useCurrencyConversion();
   const {
@@ -141,6 +146,8 @@ const checkout = () => {
     selectedCountry: selectedCountryShipping,
     setSelectedCountry: setSelectedCountryShipping,
     cities: shippingCities,
+    // states,
+    // postCodes,
     loading: shippingCityLoading,
   } = useCityFetcher();
   const {
@@ -149,7 +156,6 @@ const checkout = () => {
     cities: shippingCitiesEcourier,
     loading: shippingCityLoadingEcourier,
   } = useCityFetcherEcourier();
-
   const {
     selectedCountry: selectedCountryBillingEcourier,
     setSelectedCountry: setSelectedCountryBillingEcourier,
@@ -373,10 +379,13 @@ const checkout = () => {
             totalPriceWithTaxOrg_after_discount,
             totalFragileCharge,
             totalFragileChargeOrg,
+            totalOrderWeight,
             totalFragileChargeOrg_after_discount,
             eQuerierPackagesCode,
             shippingCost,
             shippingCostOrg,
+            countryShippingCode,
+            dhlShippingCostBreakdown: priceBreakdown,
             currentConversionRate: currentConversionRate,
             selectedCurrency: selectedCurrency,
             finalPriceOfOrder,
@@ -428,8 +437,11 @@ const checkout = () => {
               orderInfo?.totalFragileChargeOrg_after_discount,
             shippingCost: orderInfo.shippingCost,
             shippingCostOrg: orderInfo.shippingCostOrg,
+            dhlShippingCostBreakdown: priceBreakdown,
             eQuerierPackagesCode: orderInfo.eQuerierPackagesCode,
             finalPriceOfOrder: orderInfo?.finalPrice,
+            countryShippingCode,
+            totalOrderWeight,
             currentConversionRate: orderInfo?.currentConversionRate,
             selectedCurrency: orderInfo?.selectedCurrency,
             totalAmount: orderInfo?.totalAmount,
@@ -489,6 +501,7 @@ const checkout = () => {
     setEQuerierShippingCost(0);
     setEQuerierShippingCostOrg(0);
     setDhlShippingCost(0);
+    setDhlShippingCostOrg(0);
     setShowRoomShippingCost(0);
   };
 
@@ -614,6 +627,8 @@ const checkout = () => {
   const thanaAddressSh = useWatch({ control, name: "thana_shipping" });
   const postBillingSh = useWatch({ control, name: "post_code_shipping" });
   const areaAddressSh = useWatch({ control, name: "area_shipping" });
+
+  console.log("cityAddressSh", cityAddressSh);
   const streetAddressSh = useWatch({
     control,
     name: "street_address_shipping",
@@ -653,6 +668,103 @@ const checkout = () => {
       }
     }
   };
+
+  console.log("countryShippingCode", countryShippingCode);
+
+  // fetch dhl rete data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // const messageReference = Math.random().toString(36).substr(2, 36);
+        const generateUniqueId = () => {
+          const characters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+          let id = "";
+
+          for (let i = 0; i < 36; i++) {
+            if (i === 8 || i === 13 || i === 18 || i === 23) {
+              id += "-";
+            } else {
+              id += characters.charAt(
+                Math.floor(Math.random() * characters.length)
+              );
+            }
+          }
+
+          return id;
+        };
+        console.log("my id");
+
+        // Inside your useEffect or wherever needed
+        const messageReference = generateUniqueId();
+        const todayDate = new Date().toISOString().split("T")[0];
+        const next10thDate = new Date(
+          new Date().setDate(new Date().getDate() + 10)
+        )
+          .toISOString()
+          .split("T")[0];
+
+        const headers = {
+          Authorization: "Basic YXBPM3VJMGZZMXZTNXE6Wl4wY1ghNmNGITFsVSM4cA==",
+          "Message-Reference": messageReference,
+          "Message-Reference-Date": todayDate,
+          "Plugin-Name": "MyShippingPlugin",
+          "Plugin-Version": "1.0",
+          "Shipping-System-Platform-Name": "MyShippingSystem",
+          "Shipping-System-Platform-Version": "2.5",
+          "Webstore-Platform-Name": "MyWebstore",
+          "Webstore-Platform-Version": "3.0",
+        };
+        const cartWeight = convertedCart?.totalProductWeight / 1000;
+        let weight = null;
+        if (cartWeight < 0.05) {
+          weight = 0.05;
+        } else if (cartWeight > 70) {
+          weight = 70;
+        } else {
+          weight = cartWeight;
+        }
+        const length = convertedCart?.totalProductLength;
+        const width = convertedCart?.totalProductWidth;
+        const height = convertedCart?.totalProductHeight;
+        if (
+          (weight !== undefined || weight !== "" || weight !== null) &&
+          countryShippingCode !== "" &&
+          countryShippingCode !== undefined &&
+          cityAddressSh !== "Select Town/City" &&
+          cityAddressSh !== ""
+        ) {
+          const response = await axios.get(
+            "https://express.api.dhl.com/mydhlapi/test/rates",
+            {
+              params: {
+                accountNumber: "525040187",
+                originCountryCode: "BD",
+                originCityName: "Dhaka",
+                destinationCountryCode: countryShippingCode,
+                destinationCityName: cityAddressSh,
+                weight: weight,
+                length: 60,
+                width: 30,
+                height: 15,
+                plannedShippingDate: next10thDate,
+                isCustomsDeclarable: false,
+                unitOfMeasurement: "metric",
+              },
+              headers: headers,
+            }
+          );
+
+          console.log(response.data, "dhl data");
+          setDhlProduct(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [cityAddressSh]);
 
   useEffect(() => {
     if (countrySh === "Bangladesh") {
@@ -702,6 +814,7 @@ const checkout = () => {
     setEQuerierShippingCost(0);
     setEQuerierShippingCostOrg(0);
     setDhlShippingCost(0);
+    setDhlShippingCostOrg(0);
     setShowRoomShippingCost(0);
     if (deliveryMethod === "E-Courier") {
       setTotal(
@@ -898,8 +1011,24 @@ const checkout = () => {
         }
       }
     } else {
-      if (countryData) {
-        let shippingChargeForSelectedCountry;
+      if (dhlProduct !== null) {
+        if (cityAddressSh === "" || cityAddressSh === "Select Town/City") {
+          setDhlShippingCost(0);
+          setDhlShippingCostOrg(0);
+        } else {
+          const product = dhlProduct?.products
+            ?.find((item) => item?.productName === "EXPRESS WORLDWIDE")
+            ?.detailedPriceBreakdown?.find(
+              (item) => item?.priceCurrency === "BDT"
+            )
+            ?.breakdown?.find((item) => item?.name === "EXPRESS WORLDWIDE");
+          console.log("sdfsdfsf", product, dhlProduct);
+          setDhlShippingCost(convertPrice(product?.price));
+          setDhlShippingCostOrg(product?.price);
+          setPriceBreakdown(product);
+        }
+      }
+      /* let shippingChargeForSelectedCountry;
         for (const item of countryData) {
           if (
             item.country_code === shippingCountry &&
@@ -910,21 +1039,20 @@ const checkout = () => {
             )?.amount;
             break;
           }
-        }
-        setDhlShippingCost(convertPrice(shippingChargeForSelectedCountry));
-        if (deliveryMethod === "DHL") {
-          setTotal(
-            parseFloat(
-              (
-                totalPriceWithTax_after_discount +
-                totalFragileCharge +
-                dhlShippingCost
-              ).toFixed(2)
-            )
-          );
-          setShippingCost(dhlShippingCost);
-          setShippingCostOrg(dhlShippingCost);
-        }
+        } */
+
+      if (deliveryMethod === "DHL") {
+        setTotal(
+          parseFloat(
+            (
+              totalPriceWithTax_after_discount +
+              totalFragileCharge +
+              dhlShippingCost
+            ).toFixed(2)
+          )
+        );
+        setShippingCost(dhlShippingCost);
+        setShippingCostOrg(dhlShippingCostOrg);
       }
     }
   }, [

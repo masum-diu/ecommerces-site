@@ -15,12 +15,12 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "react-hot-toast";
 import "../styles/globals.css";
 import "../styles/custom.css";
-import Script from 'next/script'
+import Script from "next/script";
 import Pixel from "../components/Pixel";
 import { SessionProvider } from "next-auth/react";
 import { useRouter } from "next/router";
 import { clearCart } from "../src/features/cart/cartSlice";
-import * as fbq from '../lib/fpixel'
+import * as fbq from "../lib/fpixel";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -28,24 +28,29 @@ let persistor = persistStore(store);
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     // This pageview only triggers the first time (it's important for Pixel to have real information)
-    fbq.pageview()
-    fbq.viewContent()
+    fbq.pageview();
+    fbq.viewContent();
 
     const handleRouteChange = () => {
-      fbq.pageview()
-      fbq.viewContent()
-      
-    }
+      fbq.pageview();
+      fbq.viewContent();
+    };
 
-    router.events.on('routeChangeComplete', handleRouteChange)
+    router.events.on("routeChangeComplete", handleRouteChange);
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
+  /* useEffect(() => {
+    const currency = localStorage.getItem("currency");
+    if (!currency) {
+      localStorage.setItem("currency", "BDT");
     }
-  }, [router.events])
+  }, []); */
   return (
     <CacheProvider value={emotionCache}>
       <Script

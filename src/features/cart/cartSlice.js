@@ -5,6 +5,9 @@ const initialState = {
   amount: 0,
   totalAmount: 0,
   totalProductWeight: 0,
+  totalProductLength: 0,
+  totalProductWidth: 0,
+  totalProductHeight: 0,
   totalPrice: 0,
   totalPriceOrg: 0,
   totalPriceWithTax: 0,
@@ -58,6 +61,15 @@ export const cartSlice = createSlice({
           exist.productWeight = productID.productWeight;
           exist.totalProductWeight += productID.totalProductWeight;
 
+
+
+          exist.productLength = productID.productLength;
+          exist.totalProductLength += productID.totalProductLength;
+          exist.productWidth = productID.productWidth;
+          exist.totalProductWidth += productID.totalProductWidth;
+          exist.productHeight = productID.productHeight;
+          exist.totalProductHeight += productID.totalProductHeight;
+
           // setting data in cart for discount price
           exist.totalPrice_after_discount +=
             productID.totalPriceOrg_after_discount;
@@ -79,6 +91,9 @@ export const cartSlice = createSlice({
           // setting data in cart for original price
           state.totalAmount += productID.totalAmount;
           state.totalProductWeight += productID.totalProductWeight;
+          state.totalProductLength += productID.totalProductLength;
+          state.totalProductWidth += productID.totalProductWidth;
+          state.totalProductHeight += productID.totalProductHeight;
           state.totalPrice += productID.totalPriceOrg;
           state.totalPriceOrg += productID.totalPriceOrg;
           state.totalPriceWithTax += productID.totalPriceWithTaxOrg;
@@ -109,6 +124,9 @@ export const cartSlice = createSlice({
             amount: productID.amount,
             stock: productID.stockAmount,
             productWeight: productID.productWeight,
+            productLength: productID.productLength,
+            productWidth: productID.productWidth,
+            productHeight: productID.productHeight,
             image: productID.image,
             name: productID.name,
             design_code: productID.design_code,
@@ -145,6 +163,9 @@ export const cartSlice = createSlice({
             fragileCharge: productID.fragileChargeOrg,
             fragileChargeOrg: productID.fragileChargeOrg,
             totalProductWeight: productID.totalProductWeight,
+            totalProductLength: productID.totalProductLength,
+            totalProductWidth: productID.totalProductWidth,
+            totalProductHeight: productID.totalProductHeight,
 
             // setting cart data for discount price
             price_after_discount: productID.priceOrg_after_discount,
@@ -175,6 +196,9 @@ export const cartSlice = createSlice({
           });
           state.totalAmount += productID.amount;
           state.totalProductWeight += productID.totalProductWeight;
+          state.totalProductLength += productID.totalProductLength;
+          state.totalProductWidth += productID.totalProductWidth;
+          state.totalProductHeight += productID.totalProductHeight;
           state.totalPrice += productID.totalPriceOrg;
           state.totalPriceOrg += productID.totalPriceOrg;
           state.totalPriceWithTax += productID.totalPriceWithTaxOrg;
@@ -221,6 +245,15 @@ export const cartSlice = createSlice({
           exist.amount += productID.totalAmount;
           exist.productWeight = productID.productWeight;
           exist.totalProductWeight += productID.totalProductWeight;
+
+          exist.productLength = productID.productLength;
+          exist.totalProductLength += productID.totalProductLength;
+          exist.productWidth = productID.productWidth;
+          exist.totalProductWidth += productID.totalProductWidth;
+          exist.productHeight = productID.productHeight;
+          exist.totalProductHeight += productID.totalProductHeight;
+
+
           exist.totalPrice = productID.totalPriceOrg;
           exist.totalPriceOrg = productID.totalPriceOrg;
           exist.totalPriceWithoutFragileCharge =
@@ -265,6 +298,9 @@ export const cartSlice = createSlice({
           state.totalFragileCharge += productID.totalFragileChargeOrg;
           state.totalFragileChargeOrg += productID.totalFragileChargeOrg;
           state.totalProductWeight += productID.totalProductWeight;
+          state.totalProductLength += productID.totalProductLength;
+          state.totalProductWidth += productID.totalProductWidth;
+          state.totalProductHeight += productID.totalProductHeight;
           state.totalPriceWithoutFragileCharge +=
             productID.priceWithoutFragileOrg;
           state.totalPriceWithoutFragileChargeOrg +=
@@ -288,6 +324,9 @@ export const cartSlice = createSlice({
             amount: productID.amount,
             stock: productID.stockAmount,
             productWeight: productID.productWeight,
+            productLength: productID.productLength,
+            productWidth: productID.productWidth,
+            productHeight: productID.productHeight,
             image: productID.image,
             name: productID.name,
             text: productID.text,
@@ -302,6 +341,9 @@ export const cartSlice = createSlice({
             totalFragileCharge: productID.totalFragileCharge,
             fragileChargeOrg: productID.fragileChargeOrg,
             totalProductWeight: productID.totalProductWeight,
+            totalProductLength: productID.totalProductLength,
+            totalProductWidth: productID.totalProductWidth,
+            totalProductHeight: productID.totalProductHeight,
             totalFragileChargeOrg: productID.totalFragileChargeOrg,
             price: productID.price,
             priceOrg: productID.priceOrg,
@@ -355,6 +397,9 @@ export const cartSlice = createSlice({
           state.totalFragileCharge += productID.totalFragileCharge;
           state.totalFragileChargeOrg += productID.totalFragileChargeOrg;
           state.totalProductWeight += productID.totalProductWeight;
+          state.totalProductLength += productID.totalProductLength;
+          state.totalProductWidth += productID.totalProductWidth;
+          state.totalProductHeight += productID.totalProductHeight;
           state.totalPriceWithoutFragileCharge +=
             productID.priceWithoutFragileOrg;
           state.totalPriceWithoutFragileChargeOrg +=
@@ -405,6 +450,9 @@ export const cartSlice = createSlice({
           state.totalFragileCharge -= productID.totalFragileChargeOrg;
           state.totalFragileChargeOrg -= productID.totalFragileChargeOrg;
           state.totalProductWeight -= productID.totalProductWeight;
+          state.totalProductLength -= productID.totalProductLength;
+          state.totalProductWidth -= productID.totalProductWidth;
+          state.totalProductHeight -= productID.totalProductHeight;
           state.totalPriceWithoutFragileCharge -=
             productID.priceWithoutFragileOrg;
           state.totalPriceWithoutFragileChargeOrg -=
@@ -427,6 +475,9 @@ export const cartSlice = createSlice({
           exist.totalFragileCharge -= productID.fragileChargeOrg;
           exist.totalFragileChargeOrg -= productID.fragileChargeOrg;
           exist.totalProductWeight -= productID.productWeight;
+          exist.totalProductLength -= productID.productLength;
+          exist.totalProductWidth -= productID.productWidth;
+          exist.totalProductHeight -= productID.productHeight;
           exist.totalPrice -= productID.priceOrg;
           exist.totalPriceOrg -= productID.priceOrg;
           exist.totalPriceWithoutFragileCharge -=
@@ -463,6 +514,9 @@ export const cartSlice = createSlice({
           state.totalFragileCharge -= productID.fragileChargeOrg;
           state.totalFragileChargeOrg -= productID.fragileChargeOrg;
           state.totalProductWeight -= productID.productWeight;
+          state.totalProductLength -= productID.productLength;
+          state.totalProductWidth -= productID.productWidth;
+          state.totalProductHeight -= productID.productHeight;
           state.totalPrice -= productID.priceOrg;
           state.totalPriceOrg -= productID.priceOrg;
           state.totalPriceWithTax -= productID.priceWithTaxOrg;
@@ -511,6 +565,9 @@ export const cartSlice = createSlice({
           state.totalFragileCharge -= productID.totalFragileChargeOrg;
           state.totalFragileChargeOrg -= productID.totalFragileChargeOrg;
           state.totalProductWeight -= productID.totalProductWeight;
+          state.totalProductLength -= productID.totalProductLength;
+          state.totalProductWidth -= productID.totalProductWidth;
+          state.totalProductHeight -= productID.totalProductHeight;
           state.totalPrice -= productID.totalPriceOrg;
           state.totalPriceWithTax -= productID.totalPriceWithTaxOrg;
           state.totalPriceOrg -= productID.totalPriceOrg;
@@ -549,6 +606,9 @@ export const cartSlice = createSlice({
         state.totalFragileCharge = 0;
         state.totalFragileChargeOrg = 0;
         state.totalProductWeight = 0;
+        state.totalProductLength = 0;
+        state.totalProductWidth = 0;
+        state.totalProductHeight = 0;
         state.totalPriceWithoutFragileCharge = 0;
         state.totalPriceWithoutFragileChargeOrg = 0;
         state.totalPrice_after_discount = 0;

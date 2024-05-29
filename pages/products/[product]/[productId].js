@@ -93,6 +93,9 @@ const PorductDetails = () => {
   const [priceAfterDiscount, setPriceAfterDiscount] = useState(0);
   const [fragileCharge, setFragileCharge] = useState(0);
   const [productWeight, setProductWeight] = useState(0);
+  const [productLength, setProductLength] = useState(0);
+  const [productWidth, setProductWidth] = useState(0);
+  const [productHeight, setProductHeight] = useState(0);
   const [products, setProducts] = useState({});
   const [activesize, setActiveSize] = useState(null);
   const [activecolor, setActiveColor] = useState(null);
@@ -185,6 +188,9 @@ const PorductDetails = () => {
       setDiscountType(products?.p_stocks[0]?.discount?.discount_type);
     }
     setProductWeight(products?.p_weight);
+    setProductLength(products?.p_length);
+    setProductWidth(products?.p_width);
+    setProductHeight(products?.p_height);
     if (products?.fragile === "Yes") {
       setFragileCharge(products?.fragile_charge);
     }
@@ -543,7 +549,7 @@ const PorductDetails = () => {
     parseFloat(
       productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
     );
-
+  console.log("products", products);
   const finalData = {
     id: products.id,
     image: products.feature_image,
@@ -558,7 +564,13 @@ const PorductDetails = () => {
     color_name: colorName,
     selectedCurrency: selectedCurrency,
     productWeight: productWeight,
+    productLength: productLength,
+    productWidth: productWidth,
+    productHeight: productHeight,
     totalProductWeight: count * productWeight,
+    totalProductLength: count * productLength,
+    totalProductWidth: count * productWidth,
+    totalProductHeight: count * productHeight,
     amount: count,
     stockAmount: stockAmount,
     totalAmount: count,

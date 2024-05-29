@@ -443,6 +443,18 @@ const addtocart = () => {
                                           totalProductWeight:
                                             data.productWeight,
                                           productWeight: data.productWeight,
+
+                                          totalProductLength:
+                                            data.productLength,
+                                          productLength: data.productLength,
+
+                                          totalProductWidth: data.productWidth,
+                                          productWidth: data.productWidth,
+
+                                          totalProductHeight:
+                                            data.productHeight,
+                                          productHeight: data.productHeight,
+
                                           vatAmountParticularProduct:
                                             parseFloat(
                                               data.vatAmountParticularProductOrg
@@ -1174,10 +1186,26 @@ const addtocart = () => {
                                                   data.fragileCharge,
                                                 fragileChargeOrg:
                                                   data.fragileChargeOrg,
+
                                                 totalProductWeight:
                                                   data.productWeight,
                                                 productWeight:
                                                   data.productWeight,
+
+                                                totalProductLength:
+                                                  data.productLength,
+                                                productLength:
+                                                  data.productLength,
+
+                                                totalProductWidth:
+                                                  data.productWidth,
+                                                productWidth: data.productWidth,
+
+                                                totalProductHeight:
+                                                  data.productHeight,
+                                                productHeight:
+                                                  data.productHeight,
+
                                                 vatAmountParticularProduct:
                                                   parseFloat(
                                                     data.vatAmountParticularProductOrg
