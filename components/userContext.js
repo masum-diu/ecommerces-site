@@ -78,6 +78,7 @@ export function UserProvider({ children }) {
           );
         }
         if (!currency) {
+          localStorage.setItem("currency","BDT")
           fetchExchangeRates("BDT").then((rates) => setConversionRates(rates));
         }
         if (conversionRates) {
