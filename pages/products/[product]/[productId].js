@@ -130,6 +130,7 @@ const PorductDetails = () => {
     myProduct?.showBrokenHeart ? myProduct?.showBrokenHeart : "none"
   );
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
+
   const { updatedPriceAfterDiscount } = useDiscountCount();
   const category = products?.p_category?.id;
   const p_id = products?.id;
@@ -541,6 +542,15 @@ const PorductDetails = () => {
       swiperRef.current.swiper.slideNext();
     }
   };
+
+  let currency = null;
+  if (selectedCurrency) {
+    currency = selectedCurrency;
+  } else {
+    const localCurrency = localStorage.getItem("currency");
+    currency = localCurrency;
+  }
+
   // const newArray = generateSizeArray();
   // console.log(newArray);
   const description = products?.p_description;
@@ -562,7 +572,7 @@ const PorductDetails = () => {
     colors: products?.p_colours,
     color_id: colorId,
     color_name: colorName,
-    selectedCurrency: selectedCurrency,
+    selectedCurrency: currency,
     productWeight: productWeight,
     productLength: productLength,
     productWidth: productWidth,
@@ -904,7 +914,7 @@ const PorductDetails = () => {
                         >
                           {/* Price : BDT {productPrice} */}
                           {priceWithoutFragileCharge > 0
-                            ? selectedCurrency
+                            ? currency
                             : ""}{" "}
                           {priceWithoutFragileCharge > 0
                             ? `${convertPrice(priceWithoutFragileCharge)}`
@@ -920,7 +930,7 @@ const PorductDetails = () => {
                           fontWeight={700}
                         >
                           {/* Price : BDT {productPrice} */}
-                          {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
+                          {priceAfterDiscount > 0 ? currency : ""}{" "}
                           {priceAfterDiscount > 0
                             ? `${convertPrice(priceAfterDiscount)}`
                             : "Out of Stock"}
@@ -2089,7 +2099,7 @@ const PorductDetails = () => {
                     >
                       {/* Price : BDT {productPrice} */}
                       {priceWithoutFragileCharge > 0
-                        ? selectedCurrency
+                        ? currency
                         : ""}{" "}
                       {priceWithoutFragileCharge > 0
                         ? `${convertPrice(priceWithoutFragileCharge)}`
@@ -2106,7 +2116,7 @@ const PorductDetails = () => {
                       fontWeight={700}
                     >
                       {/* Price : BDT {productPrice} */}
-                      {priceAfterDiscount > 0 ? selectedCurrency : ""}{" "}
+                      {priceAfterDiscount > 0 ? currency : ""}{" "}
                       {priceAfterDiscount > 0
                         ? `${convertPrice(priceAfterDiscount)}`
                         : "Out of Stock"}
@@ -2938,7 +2948,7 @@ const PorductDetails = () => {
         setOpen={setProductpopup}
         product={products}
         count={count}
-        Currency={selectedCurrency}
+        Currency={currency}
         priceAfterDiscount={convertPrice(priceAfterDiscount)}
         subTotal={subTotal}
         priceBeforeDiscount={convertPrice(priceWithoutFragileCharge)}

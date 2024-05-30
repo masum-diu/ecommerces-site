@@ -20,6 +20,9 @@ export function UserProvider({ children }) {
   const [keepShowing, setKeepShowing] = useState(false);
   const [selectItem, setSelectItem] = useState("terms-conditions");
   const [conversionRates, setConversionRates] = useState(null);
+  const [status, setStatus] = useState("");
+  const [conversionRatesForAnomaly, setConversionRatesForAnomaly] =
+    useState(null);
   const expiresInKey = "expiresIn";
   const value = {
     user,
@@ -57,12 +60,44 @@ export function UserProvider({ children }) {
 
   const storedExpiresIn = localStorage.getItem(expiresInKey);
   const currency = localStorage.getItem("currency");
+
+  // for that user who does not follow proper flow of the site
+  useEffect(() => {
+    if (!currency) {
+      localStorage.setItem("currency", "BDT");
+    }
+    async function fetchExchangeRates(baseCurrency) {
+      const response = await fetch(
+        `https://api.exchangerate-api.com/v4/latest/BDT`
+      );
+      const data = await response.json();
+      console.log("asdfas", response);
+      setStatus(response?.status);
+      return data.rates;
+    }
+    fetchExchangeRates("BDT").then((rates) => {
+      console.log("dsfgsad", rates);
+      setConversionRatesForAnomaly(rates);
+    });
+    console.log("i am in", conversionRatesForAnomaly);
+    if (conversionRatesForAnomaly) {
+      const rawRate = conversionRatesForAnomaly[currency].toString();
+      const rate = AES.encrypt(rawRate, secretKey).toString();
+      localStorage.setItem("rate", rate);
+      const currentDateAndTime = moment().toISOString();
+      localStorage.setItem(expiresInKey, currentDateAndTime);
+      // localStorage.setItem("expiresIn", moment().toISOString());
+    }
+  }, [status]);
+
+  // for user who follow the proper flow of site
   useEffect(() => {
     // Check if expiresIn is present in localStorage
-
+    console.log("yes");
     if (storedExpiresIn) {
       const storedDate = moment(storedExpiresIn);
       const currentDate = moment();
+
       // Check if one day has passed
       if (currentDate.diff(storedDate, "days") >= 1) {
         async function fetchExchangeRates(baseCurrency) {
@@ -73,13 +108,10 @@ export function UserProvider({ children }) {
           return data.rates;
         }
         if (currency) {
+          console.log("yes");
           fetchExchangeRates(currency).then((rates) =>
             setConversionRates(rates)
           );
-        }
-        if (!currency) {
-          localStorage.setItem("currency","BDT")
-          fetchExchangeRates("BDT").then((rates) => setConversionRates(rates));
         }
         if (conversionRates) {
           const rawRate = conversionRates[currency].toString();
@@ -92,6 +124,7 @@ export function UserProvider({ children }) {
       }
     }
   }, [currentVersion, currency, storedExpiresIn, conversionRates]);
+
   return (
     <USER_CONTEXT.Provider value={value}>{children}</USER_CONTEXT.Provider>
   );
