@@ -559,7 +559,7 @@ const PorductDetails = () => {
     parseFloat(
       productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
     );
-  console.log("products", products);
+  
   const finalData = {
     id: products.id,
     image: products.feature_image,

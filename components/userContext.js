@@ -71,15 +71,14 @@ export function UserProvider({ children }) {
         `https://api.exchangerate-api.com/v4/latest/BDT`
       );
       const data = await response.json();
-      console.log("asdfas", response);
+
       setStatus(response?.status);
       return data.rates;
     }
     fetchExchangeRates("BDT").then((rates) => {
-      console.log("dsfgsad", rates);
       setConversionRatesForAnomaly(rates);
     });
-    console.log("i am in", conversionRatesForAnomaly);
+
     if (conversionRatesForAnomaly) {
       const rawRate = conversionRatesForAnomaly[currency].toString();
       const rate = AES.encrypt(rawRate, secretKey).toString();
@@ -93,7 +92,7 @@ export function UserProvider({ children }) {
   // for user who follow the proper flow of site
   useEffect(() => {
     // Check if expiresIn is present in localStorage
-    console.log("yes");
+
     if (storedExpiresIn) {
       const storedDate = moment(storedExpiresIn);
       const currentDate = moment();
@@ -108,7 +107,6 @@ export function UserProvider({ children }) {
           return data.rates;
         }
         if (currency) {
-          console.log("yes");
           fetchExchangeRates(currency).then((rates) =>
             setConversionRates(rates)
           );

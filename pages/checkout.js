@@ -67,7 +67,7 @@ const checkout = () => {
   // address popup state end
   const cart = convertedCart.cart;
 
-  console.log("convertedCart", convertedCart);
+  
   // const cart = useSelector((state) => state.cart.cart);
   const [addAddressValue, setAddAddressValue] = useState(0);
   const [isSameAddress, setIsSameAddress] = useState(false);
@@ -481,7 +481,7 @@ const checkout = () => {
   const handleSameAddressSelected = () => {
     setIsSameAddressChecked(!isSameAddressChecked);
   };
-  console.log('ufffff',deliveryMethod)
+  
   const token = localStorage.getItem("acesstoken");
   const handlePlaceOrder = () => {
     setIsPlaceOrder(true);
@@ -642,7 +642,7 @@ const checkout = () => {
   const postBillingSh = useWatch({ control, name: "post_code_shipping" });
   const areaAddressSh = useWatch({ control, name: "area_shipping" });
 
-  console.log("cityAddressSh", cityAddressSh);
+  
   const streetAddressSh = useWatch({
     control,
     name: "street_address_shipping",
@@ -683,7 +683,7 @@ const checkout = () => {
     }
   };
 
-  console.log("countryShippingCode", countryShippingCode);
+  
 
   // fetch dhl rete data
   useEffect(() => {
@@ -707,7 +707,7 @@ const checkout = () => {
 
           return id;
         };
-        console.log("my id");
+        
 
         // Inside your useEffect or wherever needed
         const messageReference = generateUniqueId();
@@ -770,7 +770,7 @@ const checkout = () => {
             }
           );
 
-          console.log(response.data, "dhl data");
+          
           setDhlProduct(response.data);
         }
       } catch (error) {
@@ -1037,7 +1037,7 @@ const checkout = () => {
               (item) => item?.priceCurrency === "BDT"
             )
             ?.breakdown?.find((item) => item?.name === "EXPRESS WORLDWIDE");
-          console.log("sdfsdfsf", product, dhlProduct);
+          
           setDhlShippingCost(convertPrice(product?.price));
           setDhlShippingCostOrg(product?.price);
           setPriceBreakdown(product);

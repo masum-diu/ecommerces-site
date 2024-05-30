@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import ecourierInstance from "../../pages/api/ecourier_instance";
 
 const useThanaFetcherEcourier = (country) => {
-  console.log("amar country", country);
   const [selectedCity, setSelectedCity] = useState("");
   const [thanas, setThanas] = useState([]);
   const [loading, setLoading] = useState(false);
