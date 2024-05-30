@@ -7,7 +7,7 @@ const USERNAME = "shamimulhaque";
 // Replace with your actual Geonames username
 // const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
 
-const usePostCodeFetcherEcourier = () => {
+const usePostCodeFetcherEcourier = (country) => {
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedThana, setSelectedThana] = useState("");
   const [postCode, setPostCode] = useState([]);
@@ -20,7 +20,8 @@ const usePostCodeFetcherEcourier = () => {
           selectedCity &&
           selectedThana &&
           selectedCity !== "Select Town/City" &&
-          selectedThana !== "Select Thana"
+          selectedThana !== "Select Thana" &&
+          country === "BD"
         ) {
           setLoading(true);
           const result = ecourierInstance

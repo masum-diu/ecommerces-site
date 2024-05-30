@@ -52,7 +52,10 @@ import useCityFetcherEcourier from "../src/hooks/useCityFetcherEcourier";
 import useThanaFetcherEcourier from "../src/hooks/useThanaFetcherEcourier";
 import usePostCodeFetcherEcourier from "../src/hooks/usePostCodeFetcherEcourier";
 import useAreaFetcherEcourier from "../src/hooks/useAreaFetcherEcourier";
-
+import AbcIcon from "@mui/icons-material/Abc";
+import dhlIcon from "../public/assets/dhl.png";
+import ecourierIcon from "../public/assets/ecourier.png";
+import Image from "next/image";
 const checkout = () => {
   // address popup state start
   const [addressList, setAddressList] = useState(false);
@@ -98,7 +101,17 @@ const checkout = () => {
     convertedCart.totalPriceWithTax_after_discount;
   const totalPriceWithTaxOrg_after_discount =
     convertedCart.totalPriceWithTaxOrg_after_discount;
-  const totalOrderWeight = convertedCart?.totalProductWeight / 1000;
+  const totalOrderWeightLocal = convertedCart?.totalProductWeight / 1000;
+
+  let totalOrderWeight = null;
+
+  if (totalOrderWeightLocal < 0.05) {
+    totalOrderWeight = 0.05;
+  } else if (totalOrderWeightLocal > 70) {
+    totalOrderWeight = 70;
+  } else {
+    totalOrderWeight = totalOrderWeightLocal;
+  }
 
   const [isSameAddressChecked, setIsSameAddressChecked] = useState(false);
   const [isAgreed, setAgreed] = useState(false);
@@ -107,7 +120,7 @@ const checkout = () => {
   const [openLoginModal, setLoginModal] = useState(false);
   const [payment, setPayment] = useState("");
   const [enable, setEnable] = useState(true);
-  const [guestCheckoutResponse, setGuestCheckoutResponse] = useState([]);
+  const [shippingMethod, setShippingMethod] = useState("");
   const [shippingCost, setShippingCost] = useState(0);
   const [shippingCostOrg, setShippingCostOrg] = useState(0);
   const [billingCountry, setBillingCountry] = useState("");
@@ -167,37 +180,37 @@ const checkout = () => {
     setSelectedCity: setSelectedCityShippingEcourier,
     thanas: shippingThanasEcourier,
     loading: shippingThanaLoadingEcourier,
-  } = useThanaFetcherEcourier();
+  } = useThanaFetcherEcourier(countryShippingCode);
   const {
     selectedCity: selectedCityBillingEcourier,
     setSelectedCity: setSelectedCityBillingEcourier,
     thanas: billingThanasEcourier,
     loading: billingThanaLoadingEcourier,
-  } = useThanaFetcherEcourier();
+  } = useThanaFetcherEcourier(countryBillingCode);
   const {
     setSelectedCity: setSelectedCityForPostCodeShippingEcourier,
     setSelectedThana: setSelectedThanaForPostCodeShippingEcourier,
     postCode: shippingPostCodeEcourier,
     loading: shippingPostCodeLoadingEcourier,
-  } = usePostCodeFetcherEcourier();
+  } = usePostCodeFetcherEcourier(countryShippingCode);
   const {
     setSelectedCity: setSelectedCityForPostCodeBillingEcourier,
     setSelectedThana: setSelectedThanaForPostCodeBillingEcourier,
     postCode: billingPostCodeEcourier,
     loading: billingPostCodeLoadingEcourier,
-  } = usePostCodeFetcherEcourier();
+  } = usePostCodeFetcherEcourier(countryBillingCode);
   const {
     selectedPostCode: selectedPostCodeShippingEcourier,
     setSelectedPostCode: setSelectedPostCodeShippingEcourier,
     area: shippingAreaEcourier,
     loading: shippingAreaLoadingEcourier,
-  } = useAreaFetcherEcourier();
+  } = useAreaFetcherEcourier(countryShippingCode);
   const {
     selectedPostCode: selectedPostCodeBillingEcourier,
     setSelectedPostCode: setSelectedPostCodeBillingEcourier,
     area: billingAreaEcourier,
     loading: billingAreaLoadingEcourier,
-  } = useAreaFetcherEcourier();
+  } = useAreaFetcherEcourier(countryBillingCode);
 
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
@@ -468,7 +481,7 @@ const checkout = () => {
   const handleSameAddressSelected = () => {
     setIsSameAddressChecked(!isSameAddressChecked);
   };
-
+  console.log('ufffff',deliveryMethod)
   const token = localStorage.getItem("acesstoken");
   const handlePlaceOrder = () => {
     setIsPlaceOrder(true);
@@ -546,6 +559,8 @@ const checkout = () => {
       deliveryMethod: "",
     },
   });
+
+  
   // formate pricing
   const formatPrice = (amount) => {
     // Assuming amount is a number representing the price
@@ -599,10 +614,9 @@ const checkout = () => {
   };
 
   // Delivery System
-  const handleOptionChanged = () => {
-    if (deliveryMethod === "Pickup_from_showroom") {
-      setValue("city_shipping", "Select Town/City");
-    }
+  const handleOptionChanged = (data) => {
+    setShippingMethod(data.target.value)
+    // console.log('ufffff',data.target.value)
   };
   // Getting Billing Realtime Data
   const firstName = useWatch({ control, name: "first_name_billing" });
@@ -732,7 +746,8 @@ const checkout = () => {
           countryShippingCode !== "" &&
           countryShippingCode !== undefined &&
           cityAddressSh !== "Select Town/City" &&
-          cityAddressSh !== ""
+          cityAddressSh !== "" &&
+          countryShippingCode !== "BD"
         ) {
           const response = await axios.get(
             "https://express.api.dhl.com/mydhlapi/test/rates",
@@ -1386,6 +1401,7 @@ const checkout = () => {
     deliveryMethod,
     isAgreed,
   ]);
+
   if (
     userOrderLoading ||
     guestOrderLoading ||
@@ -1692,7 +1708,10 @@ const checkout = () => {
                   {/* thana name */}
                   <Stack direction={"column"} spacing={2} mt={3}>
                     <Typography variant="cardHeader1" color="#1B3148">
-                      THANA *
+                      {countryShippingCode === "BD" ||
+                      countryShippingCode === ""
+                        ? "THANA *"
+                        : "STATE *"}
                     </Typography>
                     {shippingThanaLoadingEcourier ? (
                       <Stack
@@ -1757,7 +1776,6 @@ const checkout = () => {
                             onKeyUp={() => trigger("thana_shipping")}
                             error={Boolean(errors.thana_shipping)}
                             // onChange={}
-
                             placeholder={
                               isSameAddressChecked === false
                                 ? "Enter Thana"
@@ -2449,7 +2467,9 @@ const checkout = () => {
                     sx={customStyle2}
                   >
                     <Typography variant="cardHeader1" color="#1B3148">
-                      THANA *
+                      {countryBillingCode === "BD" || countryBillingCode === ""
+                        ? "THANA *"
+                        : "STATE *"}
                     </Typography>
 
                     {billingThanaLoadingEcourier ? (
@@ -3085,26 +3105,59 @@ const checkout = () => {
                                 control={
                                   <Radio
 
-                                  // onClick={handleOptionChanged}
+                                  onClick={(e)=>handleOptionChanged(e)}
                                   />
                                 }
                                 label={
-                                  <Typography
-                                    variant="cardHeader"
-                                    color="#1B3148"
-                                    className="bold"
-                                    mb={0.6}
+                                  <Stack
+                                    direction={"row"}
+                                    justifyContent={"space-between"}
+                                    alignItems={"center"}
+                                    gap={10}
                                   >
-                                    {option.innerText}{" "}
                                     <Typography
                                       variant="cardHeader"
                                       color="#1B3148"
-                                      className="ExterBold"
+                                      className="bold"
                                       mb={0.6}
                                     >
-                                      ({option.shippingCost} {selectedCurrency})
+                                      {option.innerText}{" "}
+                                      <Typography
+                                        variant="cardHeader"
+                                        color="#1B3148"
+                                        className="ExterBold"
+                                        mb={0.6}
+                                      >
+                                        ({option.shippingCost}{" "}
+                                        {selectedCurrency})
+                                      </Typography>
                                     </Typography>
-                                  </Typography>
+                                    {option.innerText === "DHL" ? (
+                                      <Image
+                                        style={{
+                                          objectFit: "cover",
+                                          opacity: shippingMethod==="DHL"?1:.5,
+                                        }}
+                                        width={60}
+                                        height={70}
+                                        src={dhlIcon}
+                                        alt=""
+                                      />
+                                    ) : option.innerText === "E-Courier" ? (
+                                      <Image
+                                        style={{
+                                          objectFit: "cover",
+                                          opacity: shippingMethod==="E-Courier"?1:.5,
+                                        }}
+                                        width={50}
+                                        height={20}
+                                        src={ecourierIcon}
+                                        alt=""
+                                      />
+                                    ) : (
+                                      ""
+                                    )}
+                                  </Stack>
                                 }
                               />
                             ))}

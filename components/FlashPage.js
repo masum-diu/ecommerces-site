@@ -160,91 +160,136 @@ const FlashPage = ({ title }) => {
             </Stack> */}
           </Toolbar>
         </AppBar>
-        <Box>
+        <Box sx={{ pt: { lg: 29, xs: 13 } }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack
               direction={"column"}
+              alignItems={"center"}
               sx={{
-                width: "90vw",
-                maxWidth: "433px",
-                pt: { lg: 29, xs: 13 },
+                // width: "100vw",
+                maxWidth: { xs: "350px", md: "500px" },
+                position: "relative",
+                borderRadius: "5px",
+                // pt: { lg: 29, xs: 13 },
                 mx: { lg: 20, xs: "auto" },
+                backgroundImage:
+                  "url(https://res.cloudinary.com/diyc1dizi/image/upload/fl_preserve_transparency/v1715493963/Aranya%20BG/Aranya-BG.jpg?_s=public-apps)",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
               }}
               spacing={1}
             >
-              <Typography variant="homeFlash" color="#1B3148">
-                Select your shipping country
-              </Typography>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={country}
-                onChange={handleChange}
-                size="small"
-                sx={{ backgroundColor: "white", color: "#1B3148" }}
+              <Stack
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  height: "100%",
+                  borderRadius: "5px",
+                  width: "100%",
+                  bgcolor: "red",
+                  zIndex: 1,
+                  backgroundColor: "#e7e4e4b3",
+                }}
+              ></Stack>
+              <Stack
+                direction={"column"}
+                gap={2}
+                sx={{ zIndex: 2, pt: 4, pb: 8, width: "90%" }}
               >
-                <MenuItem color="#1B3148" value={20} disabled>
-                  <Typography color="#1B3148"></Typography>Select Shipping
-                  Country<Typography color="#1B3148"></Typography>
-                </MenuItem>
-                <MenuItem color="#1B3148" value={10}>
-                  <Typography color="#1B3148">Bangladesh</Typography>
-                </MenuItem>
-              </Select>
-              <Typography variant="homeFlash" color="#1B3148">
-                Select your currency
-              </Typography>
-              <Select
-                id="currency"
-                {...register("currency", {
-                  required: {
-                    value: true,
-                    message: "Select currency*",
-                  },
-                })}
-                onClick={() => trigger("currency")}
-                error={Boolean(errors.currency)}
-                size="small"
-                value={currency}
-                sx={{ color: "#1B3148" }}
-                onChange={(e) => handleSelectChangeCurrency(e)}
-              >
-                {currencies.map((towns, index) => (
-                  <MenuItem key={index} value={towns.value}>
-                    <Typography>{towns.label}</Typography>
+                <Typography
+                  variant="homeFlash"
+                  color="#1B3148"
+                  className="bold"
+                  sx={{ color: "#1B3148", fontSize: "20px", zIndex: 2 }}
+                >
+                  Select your shipping country
+                </Typography>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={country}
+                  onChange={handleChange}
+                  size="small"
+                  sx={{ backgroundColor: "white", color: "#1B3148" }}
+                >
+                  <MenuItem color="#1B3148" value={20} disabled>
+                    <Typography color="#1B3148" className="bold">
+                      Select Shipping Country
+                    </Typography>
                   </MenuItem>
-                ))}
-                {/* <MenuItem value={"India"}>India</MenuItem> */}
-              </Select>
-              {/* {errors.currency && (
+                  <MenuItem color="#1B3148" value={10}>
+                    <Typography color="#1B3148" className="bold">
+                      Bangladesh
+                    </Typography>
+                  </MenuItem>
+                </Select>
+                <Typography
+                  variant="homeFlash"
+                  color="#1B3148"
+                  className="bold"
+                >
+                  Select your currency
+                </Typography>
+                <Select
+                  id="currency"
+                  {...register("currency", {
+                    required: {
+                      value: true,
+                      message: "Select currency*",
+                    },
+                  })}
+                  onClick={() => trigger("currency")}
+                  error={Boolean(errors.currency)}
+                  size="small"
+                  value={currency}
+                  sx={{ color: "#1B3148" }}
+                  onChange={(e) => handleSelectChangeCurrency(e)}
+                >
+                  {currencies.map((towns, index) => (
+                    <MenuItem key={index} value={towns.value}>
+                      <Typography sx={{ color: "#1B3148" }} className="bold">
+                        {towns.label}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                  {/* <MenuItem value={"India"}>India</MenuItem> */}
+                </Select>
+                {/* {errors.currency && (
                 <p style={{ color: "red" }}>{errors.currency?.message}</p>
               )} */}
-              <Typography variant="homeFlash" color="#1B3148">
-                Language
-              </Typography>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={language}
-                onChange={handleLanguage}
-                size="small"
-                sx={{ backgroundColor: "white", color: "#1B3148" }}
-              >
-                <MenuItem value={20} disabled>
-                  <Typography> Select Language </Typography>
-                </MenuItem>
-                {/* <MenuItem value={20}>Bangla</MenuItem> */}
-                <MenuItem value={10} sx>
-                  <Typography>English</Typography>
-                </MenuItem>
-                {/* <MenuItem value={40}>Hindi</MenuItem> */}
-              </Select>
+                <Typography
+                  variant="homeFlash"
+                  color="#1B3148"
+                  className="bold"
+                >
+                  Language
+                </Typography>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={language}
+                  onChange={handleLanguage}
+                  size="small"
+                  sx={{ backgroundColor: "white", color: "#1B3148" }}
+                >
+                  <MenuItem value={20} disabled>
+                    <Typography className="bold"> Select Language </Typography>
+                  </MenuItem>
+                  {/* <MenuItem value={20}>Bangla</MenuItem> */}
+                  <MenuItem value={10} sx>
+                    <Typography className="bold">English</Typography>
+                  </MenuItem>
+                  {/* <MenuItem value={40}>Hindi</MenuItem> */}
+                </Select>
+              </Stack>
             </Stack>
             <Stack
               direction={"column"}
+              alignItems={"center"}
               sx={{
-                width: "90vw",
-                maxWidth: "433px",
+                // width: "90vw",
+                maxWidth: { xs: "350px", md: "500px" },
                 mx: { lg: 20, xs: "auto" },
               }}
               mt={3}
@@ -256,6 +301,7 @@ const FlashPage = ({ title }) => {
                   "&:hover": {
                     bgcolor: "#1B3148",
                   },
+                  width: "100%",
                 }}
                 type="submit"
                 // onClick={() => router.push("/shop")}

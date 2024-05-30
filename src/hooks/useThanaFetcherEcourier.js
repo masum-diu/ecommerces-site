@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import ecourierInstance from "../../pages/api/ecourier_instance";
 
-const useThanaFetcherEcourier = () => {
+const useThanaFetcherEcourier = (country) => {
+  console.log("amar country", country);
   const [selectedCity, setSelectedCity] = useState("");
   const [thanas, setThanas] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -10,8 +11,12 @@ const useThanaFetcherEcourier = () => {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        
-        if (selectedCity&&selectedCity!=="Select Town/City"&&selectedCity!=="") {
+        if (
+          selectedCity &&
+          selectedCity !== "Select Town/City" &&
+          selectedCity !== "" &&
+          country === "BD"
+        ) {
           setLoading(true);
           const result = ecourierInstance
             .post(`/thana-list?city=${selectedCity}`)

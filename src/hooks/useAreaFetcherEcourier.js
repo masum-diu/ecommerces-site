@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import ecourierInstance from "../../pages/api/ecourier_instance";
 
-const useAreaFetcherEcourier = () => {
+const useAreaFetcherEcourier = (country) => {
   const [selectedPostCode, setSelectedPostCode] = useState("");
   const [area, setArea] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,8 @@ const useAreaFetcherEcourier = () => {
         if (
           selectedPostCode &&
           selectedPostCode !== "Select POSTCODE / ZIP" &&
-          selectedPostCode !== ""
+          selectedPostCode !== "" &&
+          country === "BD"
         ) {
           setLoading(true);
           const result = ecourierInstance
