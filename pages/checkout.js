@@ -67,13 +67,13 @@ const checkout = () => {
   // address popup state end
   const cart = convertedCart.cart;
 
-  
   // const cart = useSelector((state) => state.cart.cart);
   const [addAddressValue, setAddAddressValue] = useState(0);
   const [isSameAddress, setIsSameAddress] = useState(false);
   const [totalFragileCharge, setTotalFragileCharge] = useState(0);
   const [host, setHost] = useState("");
   const [showCashOnDelivery, setShowCashOnDelivery] = useState();
+  const [dhlResponse, setDhlResponse] = useState(null);
   const dispatch = useDispatch();
   // const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
@@ -481,7 +481,7 @@ const checkout = () => {
   const handleSameAddressSelected = () => {
     setIsSameAddressChecked(!isSameAddressChecked);
   };
-  
+
   const token = localStorage.getItem("acesstoken");
   const handlePlaceOrder = () => {
     setIsPlaceOrder(true);
@@ -560,7 +560,6 @@ const checkout = () => {
     },
   });
 
-  
   // formate pricing
   const formatPrice = (amount) => {
     // Assuming amount is a number representing the price
@@ -615,7 +614,7 @@ const checkout = () => {
 
   // Delivery System
   const handleOptionChanged = (data) => {
-    setShippingMethod(data.target.value)
+    setShippingMethod(data.target.value);
     // console.log('ufffff',data.target.value)
   };
   // Getting Billing Realtime Data
@@ -642,7 +641,6 @@ const checkout = () => {
   const postBillingSh = useWatch({ control, name: "post_code_shipping" });
   const areaAddressSh = useWatch({ control, name: "area_shipping" });
 
-  
   const streetAddressSh = useWatch({
     control,
     name: "street_address_shipping",
@@ -683,8 +681,6 @@ const checkout = () => {
     }
   };
 
-  
-
   // fetch dhl rete data
   useEffect(() => {
     const fetchData = async () => {
@@ -707,7 +703,6 @@ const checkout = () => {
 
           return id;
         };
-        
 
         // Inside your useEffect or wherever needed
         const messageReference = generateUniqueId();
@@ -769,17 +764,35 @@ const checkout = () => {
               headers: headers,
             }
           );
+          // console.error('amar response',response)
 
-          
           setDhlProduct(response.data);
         }
       } catch (error) {
-        console.error(error);
+        setDhlResponse(error?.response);
       }
     };
 
     fetchData();
   }, [cityAddressSh]);
+  console.error("amar response", dhlResponse);
+
+  useEffect(() => {
+    if (
+      dhlResponse !== null &&
+      dhlResponse?.status !== 200 &&
+      countryShippingCode !== "BD" &&
+      countryShippingCode !== ""
+    ) {
+      setDhlShippingCost(0);
+      setDhlShippingCostOrg(0);
+      setDhlProduct(null);
+      setValue("city_shipping", "Select Town/City");
+      toast.error(
+        "Oops! Destination City location invalid, select different location."
+      );
+    }
+  }, [dhlResponse]);
 
   useEffect(() => {
     if (countrySh === "Bangladesh") {
@@ -1037,24 +1050,12 @@ const checkout = () => {
               (item) => item?.priceCurrency === "BDT"
             )
             ?.breakdown?.find((item) => item?.name === "EXPRESS WORLDWIDE");
-          
+
           setDhlShippingCost(convertPrice(product?.price));
           setDhlShippingCostOrg(product?.price);
           setPriceBreakdown(product);
         }
       }
-      /* let shippingChargeForSelectedCountry;
-        for (const item of countryData) {
-          if (
-            item.country_code === shippingCountry &&
-            item.country_code !== "BD"
-          ) {
-            shippingChargeForSelectedCountry = JSON.parse(
-              item.shipping_charge
-            )?.amount;
-            break;
-          }
-        } */
 
       if (deliveryMethod === "DHL") {
         setTotal(
@@ -3104,8 +3105,7 @@ const checkout = () => {
                                 key={index}
                                 control={
                                   <Radio
-
-                                  onClick={(e)=>handleOptionChanged(e)}
+                                    onClick={(e) => handleOptionChanged(e)}
                                   />
                                 }
                                 label={
@@ -3136,7 +3136,8 @@ const checkout = () => {
                                       <Image
                                         style={{
                                           objectFit: "cover",
-                                          opacity: shippingMethod==="DHL"?1:.5,
+                                          opacity:
+                                            shippingMethod === "DHL" ? 1 : 0.5,
                                         }}
                                         width={60}
                                         height={70}
@@ -3147,7 +3148,10 @@ const checkout = () => {
                                       <Image
                                         style={{
                                           objectFit: "cover",
-                                          opacity: shippingMethod==="E-Courier"?1:.5,
+                                          opacity:
+                                            shippingMethod === "E-Courier"
+                                              ? 1
+                                              : 0.5,
                                         }}
                                         width={50}
                                         height={20}
@@ -3316,19 +3320,7 @@ const checkout = () => {
                                 </Typography>
                               }
                             />
-                            {/* <FormControlLabel
-                              value="cash"
-                              control={<Radio />}
-                              label={
-                                <Typography
-                                  variant="cardHeader"
-                                  className="bold"
-                                  mb={0.6}
-                                >
-                                  Cash On Delivery
-                                </Typography>
-                              }
-                            /> */}
+
                             {showCashOnDelivery === "Bangladesh" ? (
                               <FormControlLabel
                                 value="cash"
@@ -3437,13 +3429,7 @@ const checkout = () => {
         setIsAddressListDataShipping={setIsAddressListDataShipping}
         showInputField={showInputField}
       />
-      <LoginModal
-        open={openLoginModal}
-        setOpen={setLoginModal}
-        // isGuestCheckout={isGuestCheckout}
-        // setIsGuestCheckout={setIsGuestCheckout}
-        // setHasToken={setHasToken}
-      ></LoginModal>
+      <LoginModal open={openLoginModal} setOpen={setLoginModal}></LoginModal>
     </>
   );
 };
