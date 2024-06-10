@@ -102,11 +102,11 @@ const campaign = () => {
               textAlign={"center"}
               fontWeight={"900"}
               textTransform="uppercase"
-              onClick={() =>
+              /* onClick={() =>
                 router.push({
                   pathname: `/new-collections`,
                 })
-              }
+              } */
               sx={{
                 display: "flex",
                 justifyContent: "flex-start",
@@ -114,7 +114,7 @@ const campaign = () => {
                 width: "100%",
                 // pt: 4,
                 // fontFamily:"cursive",
-                cursor: "pointer",
+                // cursor: "pointer",
                 px: 4,
                 color: "#ffffff",
                 fontSize: {
