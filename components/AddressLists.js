@@ -309,6 +309,20 @@ const AddressLists = ({
       setTown("Select Town/City");
     }
   }, [countryName, townName]);
+
+  useEffect(() => {
+    if (countryName !== "Bangladesh" || countryName !== "") {
+      setValueNewAddress("thana", "");
+      setValueNewAddress("area", "");
+      setValueNewAddress("post_code", "");
+    }
+    if (countryName === "Bangladesh" || countryName === "") {
+      setValueNewAddress("thana", "Select Thana");
+      setValueNewAddress("area", "Select Area");
+      setValueNewAddress("post_code", "Select POSTCODE / ZIP");
+    }
+  }, [countryName]);
+
   const token = localStorage.getItem("acesstoken");
   const onSubmit = async (data) => {
     // console.log("your log output", data);
@@ -655,7 +669,7 @@ const AddressLists = ({
                         ))
                       : cities
                       ? cities.map((towns) => (
-                        <MenuItem value={towns}>{towns}</MenuItem>
+                          <MenuItem value={towns}>{towns}</MenuItem>
                         ))
                       : ""}
                   </Select>
@@ -743,13 +757,38 @@ const AddressLists = ({
                   )}
                 </Stack>
               ) : (
-                ""
+                <Stack direction={"column"} spacing={2} mt={3}>
+                  <Typography variant="cardHeader1" color="#1B3148">
+                    STATE *
+                  </Typography>
+                  <TextField
+                    autoComplete="off"
+                    {...register("thana", {
+                      required: {
+                        value: true,
+                        message: "State Address Required",
+                      },
+                    })}
+                    onKeyUp={() => trigger("thana")}
+                    error={Boolean(errors.thana)}
+                    // onChange={}
+
+                    placeholder={"Enter State"}
+                    // placeholder="House Number and street name"
+                    size="small"
+                    sx={customStyle}
+                  />
+
+                  {errors.thana && (
+                    <p style={{ color: "red" }}>{errors.thana?.message}</p>
+                  )}
+                </Stack>
               )}
 
               {/* post code name */}
               <Stack direction={"column"} spacing={2} mt={3}>
                 <Typography variant="cardHeader1" color="#1B3148">
-                  POSTCODE / ZIP (OPTIONAL)
+                  POSTCODE / ZIP *
                 </Typography>
                 {shippingPostCodeLoadingEcourier ? (
                   <Stack

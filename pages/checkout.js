@@ -714,7 +714,8 @@ const checkout = () => {
           .split("T")[0];
 
         const headers = {
-          Authorization: "Basic YXBPM3VJMGZZMXZTNXE6Wl4wY1ghNmNGITFsVSM4cA==",
+          // Authorization: "Basic YXBPM3VJMGZZMXZTNXE6Wl4wY1ghNmNGITFsVSM4cA==",
+          Authorization: "Basic YXBONmxVN21OMmlYOXM6U145elEhM2FGXjBtSUAzdg==",
           "Message-Reference": messageReference,
           "Message-Reference-Date": todayDate,
           "Plugin-Name": "MyShippingPlugin",
@@ -745,7 +746,7 @@ const checkout = () => {
           countryShippingCode !== "BD"
         ) {
           const response = await axios.get(
-            "https://express.api.dhl.com/mydhlapi/test/rates",
+            "https://express.api.dhl.com/mydhlapi/rates",
             {
               params: {
                 accountNumber: "525040187",
@@ -775,7 +776,7 @@ const checkout = () => {
 
     fetchData();
   }, [cityAddressSh]);
-  console.error("amar response", dhlResponse);
+  // console.error("amar response", dhlResponse);
 
   useEffect(() => {
     if (
@@ -787,12 +788,31 @@ const checkout = () => {
       setDhlShippingCost(0);
       setDhlShippingCostOrg(0);
       setDhlProduct(null);
-      setValue("city_shipping", "Select Town/City");
+      // setValue("thana_shipping", "");
       toast.error(
         "Oops! Destination City location invalid, select different location."
       );
     }
   }, [dhlResponse]);
+
+  useEffect(() => {
+    if (countryShippingCode !== "BD" || countryShippingCode !== "") {
+      setValue("thana_shipping", "");
+      setValue("area_shipping", "");
+      setValue("post_code_shipping", "");
+      setValue("thana_billing", "");
+      setValue("area_billing", "");
+      setValue("post_code_billing", "");
+    }
+    if (countryShippingCode === "BD" || countryShippingCode === "") {
+      setValue("thana_shipping", "Select Thana");
+      setValue("area_shipping", "Select Area");
+      setValue("post_code_shipping", "Select POSTCODE / ZIP");
+      setValue("thana_billing", "Select Thana");
+      setValue("area_billing", "Select Area");
+      setValue("post_code_billing", "Select POSTCODE / ZIP");
+    }
+  }, [countryShippingCode]);
 
   useEffect(() => {
     if (countrySh === "Bangladesh") {
@@ -1778,7 +1798,9 @@ const checkout = () => {
                             error={Boolean(errors.thana_shipping)}
                             // onChange={}
                             placeholder={
-                              isSameAddressChecked === false
+                              countryShippingCode !== "BD"
+                                ? "Enter State"
+                                : isSameAddressChecked === false
                                 ? "Enter Thana"
                                 : streetAddress
                             }

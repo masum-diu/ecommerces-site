@@ -19,6 +19,7 @@ const ProductPoPup = ({
   priceBeforeDiscount,
   priceAfterDiscount,
   subTotal,
+  discountAmount,
 }) => {
   const router = useRouter();
   const { selectedCurrency, convertPrice } = useCurrencyConversion();
@@ -129,7 +130,11 @@ const ProductPoPup = ({
                   className="SemiBold"
                   width={"50%"}
                 >
-                  {Currency} {priceAfterDiscount}
+                  {/* {Currency} {priceAfterDiscount} */}
+                  {discountAmount === undefined || null ? "" : Currency}{" "}
+                  {discountAmount === undefined || null
+                    ? "N/A"
+                    : priceAfterDiscount}
                 </Typography>
               </Stack>
               <Stack direction={"row"} spacing={1} width={"100%"}>

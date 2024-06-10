@@ -1504,7 +1504,7 @@ const PorductDetails = () => {
                   {openList ? (
                     <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
                       <Stack direction={"column"} spacing={1.5}>
-                        <ListItemText
+                        {/* <ListItemText
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -1531,8 +1531,8 @@ const PorductDetails = () => {
                               {products?.p_weight} gm
                             </Typography>
                           }
-                        />
-                        <ListItemText
+                        /> */}
+                        {/* <ListItemText
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -1559,7 +1559,7 @@ const PorductDetails = () => {
                               {products?.p_dimension}
                             </Typography>
                           }
-                        />
+                        /> */}
                         <ListItemText
                           sx={{
                             display: "flex",
@@ -1673,7 +1673,7 @@ const PorductDetails = () => {
                           }
                         />
 
-                        <ListItemText
+                        {/* <ListItemText
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -1700,7 +1700,7 @@ const PorductDetails = () => {
                               {products?.p_design_code}
                             </Typography>
                           }
-                        />
+                        /> */}
 
                         {/* <ListItemText
                           sx={{
@@ -2595,7 +2595,7 @@ const PorductDetails = () => {
                 {openList ? (
                   <Box sx={{ width: "80%", margin: "0 auto", px: 2 }}>
                     <Stack direction={"column"} spacing={1.5}>
-                      <ListItemText
+                      {/* <ListItemText
                         sx={{
                           display: "flex",
                           justifyContent: "space-between",
@@ -2622,8 +2622,8 @@ const PorductDetails = () => {
                             {products?.p_weight} gm
                           </Typography>
                         }
-                      />
-                      <ListItemText
+                      /> */}
+                      {/* <ListItemText
                         sx={{
                           display: "flex",
                           justifyContent: "space-between",
@@ -2650,7 +2650,7 @@ const PorductDetails = () => {
                             {products?.p_dimension}
                           </Typography>
                         }
-                      />
+                      /> */}
                       <ListItemText
                         sx={{
                           display: "flex",
@@ -2740,7 +2740,7 @@ const PorductDetails = () => {
                         }
                       />
 
-                      <ListItemText
+                      {/* <ListItemText
                         sx={{
                           display: "flex",
                           justifyContent: "space-between",
@@ -2767,7 +2767,7 @@ const PorductDetails = () => {
                             {products?.p_design_code}
                           </Typography>
                         }
-                      />
+                      /> */}
 
                       {/* <ListItemText
                         sx={{
@@ -2952,6 +2952,7 @@ const PorductDetails = () => {
         priceAfterDiscount={convertPrice(priceAfterDiscount)}
         subTotal={subTotal}
         priceBeforeDiscount={convertPrice(priceWithoutFragileCharge)}
+        discountAmount={discountAmount}
       />
     </>
   );

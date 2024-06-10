@@ -27,12 +27,25 @@ import { Padding } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import { AES } from "crypto-js";
 import moment from "moment";
+import { useGetCountryListWithShippingChargeQuery } from "../src/features/api/apiSlice";
 var CryptoJS = require("crypto-js");
 const FlashPage = ({ title }) => {
   const router = useRouter();
-  const [country, setCountry] = useState(10);
+  const [country, setCountry] = useState("Bangladesh");
   const [conversionRates, setConversionRates] = useState(null);
   const [language, setLanguage] = useState(10);
+  const {
+    data: countryData,
+    isError: countryError,
+    isLoading: countryLoading,
+  } = useGetCountryListWithShippingChargeQuery();
+
+  useEffect(() => {
+    if (countryData?.length > 0) {
+      // Set the country to the first country's name in the list if it exists
+      setCountry(countryData[0]?.country_name);
+    }
+  }, [countryData]);
   const expiresInKey = "expiresIn";
   const secretKey =
     "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5MDQ2MTg5OSwiaWF0IjoxNjkwNDYxODk5fQ.XpwsAA-b8YVaYW26LBUHLRXIzWU1wgTP6cIrLbs7qEw";
@@ -172,10 +185,10 @@ const FlashPage = ({ title }) => {
                 borderRadius: "5px",
                 // pt: { lg: 29, xs: 13 },
                 mx: { lg: 20, xs: "auto" },
-                backgroundImage:
+                /* backgroundImage:
                   "url(https://res.cloudinary.com/diyc1dizi/image/upload/fl_preserve_transparency/v1715493963/Aranya%20BG/Aranya-BG.jpg?_s=public-apps)",
                 backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
+                backgroundRepeat: "no-repeat", */
               }}
               spacing={1}
             >
@@ -187,9 +200,9 @@ const FlashPage = ({ title }) => {
                   height: "100%",
                   borderRadius: "5px",
                   width: "100%",
-                  bgcolor: "red",
+                  // bgcolor: "red",
                   zIndex: 1,
-                  backgroundColor: "#e7e4e4b3",
+                  backgroundColor: "rgb(231 228 228 / 50%)",
                 }}
               ></Stack>
               <Stack
@@ -213,16 +226,19 @@ const FlashPage = ({ title }) => {
                   size="small"
                   sx={{ backgroundColor: "white", color: "#1B3148" }}
                 >
-                  <MenuItem color="#1B3148" value={20} disabled>
+                  <MenuItem color="#1B3148" value={""} disabled>
                     <Typography color="#1B3148" className="bold">
                       Select Shipping Country
                     </Typography>
                   </MenuItem>
-                  <MenuItem color="#1B3148" value={10}>
-                    <Typography color="#1B3148" className="bold">
-                      Bangladesh
-                    </Typography>
-                  </MenuItem>
+                  {countryData &&
+                    countryData.map((country, index) => (
+                      <MenuItem color="#1B3148" value={country.country_name}>
+                        <Typography color="#1B3148" className="bold">
+                          {country.country_name}
+                        </Typography>
+                      </MenuItem>
+                    ))}
                 </Select>
                 <Typography
                   variant="homeFlash"
