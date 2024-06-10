@@ -124,9 +124,9 @@ const CategoryComponentForShop = ({ homedata }) => {
                   rowGap={5}
                 >
                   <Typography
-                    variant="CategoryName"
+                    variant="hoverCategory"
                     sx={{
-                      color: "white",
+                      color: "#ffffff",
                       textAlign: "center",
                     }}
                     textTransform="uppercase"
@@ -211,10 +211,11 @@ const CategoryComponentForShop = ({ homedata }) => {
                   columnGap={5}
                   rowGap={5}
                 >
+                  {console.log('your log output',sectionBanner[1]?.name)}
                   <Typography
-                    variant="CategoryName"
+                    variant="hoverCategory"
                     sx={{
-                      color: "white",
+                      color: "#ffffff",
                       textAlign: "center",
                     }}
                     textTransform="uppercase"

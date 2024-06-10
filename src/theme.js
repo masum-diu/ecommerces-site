@@ -218,6 +218,13 @@ theme.typography.legend = {
     fontSize: "12px",
   },
 };
+theme.typography.hoverCategory = {
+  fontSize: "30px",
+  fontWeight: "500",
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "12px",
+  },
+};
 theme.typography.tileTime = {
   fontSize: "0.7rem",
   fontWeight: "lighter",
