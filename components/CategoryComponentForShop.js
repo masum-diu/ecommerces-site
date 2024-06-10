@@ -86,7 +86,7 @@ const CategoryComponentForShop = ({ homedata }) => {
           width: "95%",
           position: "relative",
           margin: "0 auto",
-          marginBottom: homedata?.product.length > 0 ? "0" : "8rem",
+          marginBottom: homedata?.product.length > 0 ? {xs:5,xl:15} : 10,
         }}
       >
         <Stack
@@ -266,7 +266,7 @@ const CategoryComponentForShop = ({ homedata }) => {
       </Stack>
 
       {homedata?.product.length > 0 && (
-        <Box mt={4} mb={15}>
+        <Box mt={4} mb={{xs:10,xl:15}}>
           <Stack
             direction={"row"}
             justifyContent="space-between"

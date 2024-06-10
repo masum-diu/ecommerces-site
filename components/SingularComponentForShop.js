@@ -85,7 +85,7 @@ const SingularComponentForShop = ({ homedata }) => {
           <Link href={`${handleFirstBanner()}`}>
             <a style={{ lineHeight: 0 }}>
               <Stack
-                mb={15}
+                mb={{xs:10,xl:15}}
                 dangerouslySetInnerHTML={{
                   __html: `<video className="app__backgroundVideo" autoplay="true" muted="true" preload="auto" loop playsinline="" data-wf-ignore="true" data-object-fit="cover" >
               <source src=${sectionBanner[0]?.banner_uri} type="video/mp4" data-wf-ignore="true" />
@@ -97,7 +97,7 @@ const SingularComponentForShop = ({ homedata }) => {
           </Link>
         ) : (
           <Stack
-            mb={15}
+          mb={{xs:10,xl:15}}
             dangerouslySetInnerHTML={{
               __html: `<video className="app__backgroundVideo" autoplay="true" muted="true" preload="auto" loop playsinline="" data-wf-ignore="true" data-object-fit="cover" >
           <source src=${sectionBanner[0]?.banner_uri} type="video/mp4" data-wf-ignore="true" />
@@ -107,7 +107,7 @@ const SingularComponentForShop = ({ homedata }) => {
           />
         )
       ) : sectionFileType === "image" ? (
-        <Stack sx={{ position: "relative" }} mb={15}>
+        <Stack sx={{ position: "relative" }} mb={{xs:10,xl:15}}>
           {sectionBanner[0]?.back_link &&
           sectionBanner[0]?.back_link !== null ? (
             <Link href={`${handleFirstBanner()}`}>
@@ -209,7 +209,7 @@ const SingularComponentForShop = ({ homedata }) => {
         ""
       )}
       {homedata?.product.length > 0 && (
-        <Box mb={15}>
+        <Box mb={{xs:10,xl:15}}>
           <Stack
             direction={"row"}
             justifyContent="space-between"
