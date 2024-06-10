@@ -110,7 +110,7 @@ const story = () => {
         />
       </Head>
       <HomePageIntro title={"Story "} />
-      <Box sx={{ pt: { lg: 8, xs: 7 } }} height={"fit-content"}>
+      {/* <Box sx={{ pt: { lg: 8, xs: 7 } }} height={"fit-content"}>
         <Box>
           <Stack direction={"row"} alignItems="center">
             <img
@@ -165,7 +165,7 @@ const story = () => {
                       color: "#ffffff",
                       transition: "ease-in-out .2s",
                     },
-                    width: { md: "18%",lmd:"15%",lg:"12%",xl:"10%" },
+                    width: { md: "18%", lmd: "15%", lg: "12%", xl: "10%" },
                   }}
                   onClick={(e) => handleMenuClick(e, text)}
                   label={text}
@@ -176,18 +176,17 @@ const story = () => {
           <Grid item mt={10} lg={6} sm={12} xs={12}>
             {renderMenuContent()}
           </Grid>
-          {/* <StoryTab
-            setOpen={setOpen}
-            handleMenuClick={handleMenuClick()}
-            handleChange={handleChange()}
-            open={open}
-            values={values}
-            selectedMenu={selectedMenu}
-            setSelectedMenu={setSelectedMenu}
-            storyNavItem={[storyNavItem]}
-          ></StoryTab> */}
         </Box>
-      </Box>
+      </Box> */}
+      <Stack
+        justifyContent={"center"}
+        alignItems={"center"}
+        sx={{ pt: { lg: 8, xs: 7 }, height: "50vh" }}
+      >
+        <Typography variant="login2" textAlign={"center"}>
+          Coming Soon
+        </Typography>
+      </Stack>
       <Footer />
       <Drawer
         transitionDuration={{ enter: 500, exit: 500 }}

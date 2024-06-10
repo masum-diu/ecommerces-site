@@ -267,12 +267,14 @@ const MegaMenu = ({ open, setOpen }) => {
                     style={{ width: { xs: "100%", sm: "100%", md: "100%" } }}
                     pt={5}
                   >
+                    {console.log("your log output", hoveredCategory)}
                     <Stack>
                       <Button
                         sx={{ color: "#3C5676", border: "1px solid #3C5676" }}
                         variant="outlined"
                         size="large"
                         className="bold"
+                        onClick={() => handleRedirectCat(hoveredCategory)}
                       >
                         Shop all {hoveredCategory?.category_name}
                       </Button>
