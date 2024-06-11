@@ -92,8 +92,8 @@ const campaign = () => {
             direction={"row"}
             sx={{
               position: "absolute",
-              top: "50%",
-              left: "40%",
+              top: {xs:"40%",lg:"20%"},
+              left: "10%",
               justifyContent: "space-between",
               alignItems: "center",
             }}
@@ -118,12 +118,12 @@ const campaign = () => {
                 px: 4,
                 color: "#ffffff",
                 fontSize: {
-                  xs: "2rem",
-                  xms: "3rem",
-                  sm: "3rem",
-                  md: "5rem",
-                  lg: "5rem",
-                  xl: "5rem",
+                  xs: "20px",
+                  xms: "25px",
+                  sm: "30px",
+                  md: "35px",
+                  lg: "40px",
+                  xl: "50px",
                 },
               }}
             >

@@ -39,9 +39,9 @@ const CategoryComponentForShop = ({ homedata }) => {
 
   useEffect(() => {
     if (isExtraSmallerScreen) {
-      setSlidePreview(1);
+      setSlidePreview(2);
     } else if (isSmallerScreen) {
-      setSlidePreview(1);
+      setSlidePreview(2);
     } else if (isMediumScreen) {
       setSlidePreview(2);
     } else if (isLargeScreen) {
@@ -86,7 +86,7 @@ const CategoryComponentForShop = ({ homedata }) => {
           width: "95%",
           position: "relative",
           margin: "0 auto",
-          marginBottom: homedata?.product.length > 0 ? {xs:5,xl:15} : 10,
+          marginBottom: homedata?.product.length > 0 ? { xs: 5, xl: 15 } : 10,
         }}
       >
         <Stack
@@ -211,7 +211,6 @@ const CategoryComponentForShop = ({ homedata }) => {
                   columnGap={5}
                   rowGap={5}
                 >
-                  {console.log('your log output',sectionBanner[1]?.name)}
                   <Typography
                     variant="hoverCategory"
                     sx={{
@@ -267,7 +266,7 @@ const CategoryComponentForShop = ({ homedata }) => {
       </Stack>
 
       {homedata?.product.length > 0 && (
-        <Box mt={4} mb={{xs:10,xl:15}}>
+        <Box mt={4} mb={{ xs: 10, xl: 15 }}>
           <Stack
             direction={"row"}
             justifyContent="space-between"
@@ -299,20 +298,22 @@ const CategoryComponentForShop = ({ homedata }) => {
             style={{ width: "95%", margin: "0 auto", maxWidth: "1500px" }}
           >
             {homedata?.product?.map((data, index) => (
-              <SwiperSlide
-                key={index}
-                style={{ maxWidth: "318px", width: "100%" }}
-              >
-                <HovarImage
-                  url={`/products/${
-                    data?.p_subcategory?.slug === "unknown"
-                      ? data?.p_category?.slug
-                      : data?.p_subcategory?.slug
-                  }/${data?.id}`}
-                  data={data}
-                  imageURL={`${data?.p_image_one}`}
-                ></HovarImage>
-              </SwiperSlide>
+              <Stack sx={{ maxWidth: { xs: "170px", lg: "318px" } }}>
+                <SwiperSlide
+                  key={index}
+                  style={{ maxWidth: "318px", width: "100%" }}
+                >
+                  <HovarImage
+                    url={`/products/${
+                      data?.p_subcategory?.slug === "unknown"
+                        ? data?.p_category?.slug
+                        : data?.p_subcategory?.slug
+                    }/${data?.id}`}
+                    data={data}
+                    imageURL={`${data?.p_image_one}`}
+                  ></HovarImage>
+                </SwiperSlide>
+              </Stack>
             ))}
           </Swiper>
         </Box>
