@@ -724,6 +724,9 @@ const checkout = () => {
           "Shipping-System-Platform-Version": "2.5",
           "Webstore-Platform-Name": "MyWebstore",
           "Webstore-Platform-Version": "3.0",
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
         };
         const cartWeight = convertedCart?.totalProductWeight / 1000;
         let weight = null;
@@ -745,26 +748,23 @@ const checkout = () => {
           cityAddressSh !== "" &&
           countryShippingCode !== "BD"
         ) {
-          const response = await axios.get(
-            "https://express.api.dhl.com/mydhlapi/rates",
-            {
-              params: {
-                accountNumber: "525040187",
-                originCountryCode: "BD",
-                originCityName: "Dhaka",
-                destinationCountryCode: countryShippingCode,
-                destinationCityName: cityAddressSh,
-                weight: weight,
-                length: 60,
-                width: 30,
-                height: 15,
-                plannedShippingDate: next10thDate,
-                isCustomsDeclarable: false,
-                unitOfMeasurement: "metric",
-              },
-              headers: headers,
-            }
-          );
+          const response = await axios.get("/api/dhlrates", {
+            params: {
+              accountNumber: "525040187",
+              originCountryCode: "BD",
+              originCityName: "Dhaka",
+              destinationCountryCode: countryShippingCode,
+              destinationCityName: cityAddressSh,
+              weight: weight,
+              length: 60,
+              width: 30,
+              height: 15,
+              plannedShippingDate: next10thDate,
+              isCustomsDeclarable: false,
+              unitOfMeasurement: "metric",
+            },
+            headers: headers,
+          });
           // console.error('amar response',response)
 
           setDhlProduct(response.data);
