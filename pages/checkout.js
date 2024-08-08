@@ -74,6 +74,7 @@ const checkout = () => {
   const [host, setHost] = useState("");
   const [showCashOnDelivery, setShowCashOnDelivery] = useState();
   const [dhlResponse, setDhlResponse] = useState(null);
+  const [userExists, setUserExists] = useState(false);
   const dispatch = useDispatch();
   // const totalPrice = useSelector((state) => state.cart.totalPrice);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
@@ -298,6 +299,15 @@ const checkout = () => {
     },
   ];
 
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+
+    if (user && tokens) {
+      setUserExists(true);
+    } else {
+      setUserExists(false);
+    }
+  }, [userExists, tokens]);
   useEffect(() => {
     if (userOrderError || guestOrderError) {
       toast.error("Oops! Something went wrong. Please try again later.");
@@ -1479,22 +1489,27 @@ const checkout = () => {
                   <Typography variant="header1" color="#1B3148">
                     SHIPPING DETAILS
                   </Typography>
-                  <Stack direction={"row"} spacing={1} mt={3.8}>
-                    <Typography
-                      variant="cardLocation123"
-                      color="#1B3148"
-                      onClick={() => handleAddressStatusBilling()}
-                      className="SemiBold"
-                      sx={{
-                        textDecoration: "underline",
-                        textUnderlineOffset: ".3rem",
-                        // color: "initial",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Add New or Existing Billing Address
-                    </Typography>
-                  </Stack>
+                  {userExists ? (
+                    <Stack direction={"row"} spacing={1} mt={3.8}>
+                      <Typography
+                        variant="cardLocation123"
+                        color="#1B3148"
+                        onClick={() => handleAddressStatusBilling()}
+                        className="SemiBold"
+                        sx={{
+                          textDecoration: "underline",
+                          textUnderlineOffset: ".3rem",
+                          // color: "initial",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Add New or Existing Billing Address
+                      </Typography>
+                    </Stack>
+                  ) : (
+                    ""
+                  )}
+
                   {/* first name */}
                   <Stack mt={5}>
                     <Typography variant="cardHeader1" color="#1B3148">
