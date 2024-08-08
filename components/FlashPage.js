@@ -274,7 +274,7 @@ const FlashPage = ({ title }) => {
                 {/* {errors.currency && (
                 <p style={{ color: "red" }}>{errors.currency?.message}</p>
               )} */}
-                <Typography
+                {/* <Typography
                   variant="homeFlash"
                   color="#1B3148"
                   className="bold"
@@ -292,12 +292,10 @@ const FlashPage = ({ title }) => {
                   <MenuItem value={20} disabled>
                     <Typography className="bold"> Select Language </Typography>
                   </MenuItem>
-                  {/* <MenuItem value={20}>Bangla</MenuItem> */}
                   <MenuItem value={10} sx>
                     <Typography className="bold">English</Typography>
                   </MenuItem>
-                  {/* <MenuItem value={40}>Hindi</MenuItem> */}
-                </Select>
+                </Select> */}
               </Stack>
             </Stack>
             <Stack

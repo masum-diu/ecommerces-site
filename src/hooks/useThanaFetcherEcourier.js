@@ -6,7 +6,6 @@ const useThanaFetcherEcourier = (country) => {
   const [selectedCity, setSelectedCity] = useState("");
   const [thanas, setThanas] = useState([]);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     const fetchCities = async () => {
       try {

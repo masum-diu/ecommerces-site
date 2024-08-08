@@ -322,13 +322,13 @@ const checkout = () => {
   }, [eCourierData]);
   // console.log("your log output", cart);
   useEffect(() => {
-    const host = location.host;
+    /* const host = location.host;
     if (host === "localhost:3000") {
       setHost("http://localhost:3000");
     }
     if (host === "staging.aranya.com.bd") {
-      setHost("https://staging.aranya.com.bd");
-    }
+    } */
+    setHost(window.location.origin);
   }, [host]);
   useEffect(() => {
     if (isPlaceOrder === true) {

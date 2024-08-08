@@ -70,19 +70,20 @@ const AddressLists = ({
     setSelectedCity: setSelectedCityShippingEcourier,
     thanas: shippingThanasEcourier,
     loading: shippingThanaLoadingEcourier,
-  } = useThanaFetcherEcourier();
+  } = useThanaFetcherEcourier(countryCode);
+
   const {
     setSelectedCity: setSelectedCityForPostCodeShippingEcourier,
     setSelectedThana: setSelectedThanaForPostCodeShippingEcourier,
     postCode: shippingPostCodeEcourier,
     loading: shippingPostCodeLoadingEcourier,
-  } = usePostCodeFetcherEcourier();
+  } = usePostCodeFetcherEcourier(countryCode);
   const {
     selectedPostCode: selectedPostCodeShippingEcourier,
     setSelectedPostCode: setSelectedPostCodeShippingEcourier,
     area: shippingAreaEcourier,
     loading: shippingAreaLoadingEcourier,
-  } = useAreaFetcherEcourier();
+  } = useAreaFetcherEcourier(countryCode);
 
   const customStyle = {
     ".mui-style-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
@@ -325,7 +326,6 @@ const AddressLists = ({
 
   const token = localStorage.getItem("acesstoken");
   const onSubmit = async (data) => {
-    // console.log("your log output", data);
     try {
       const response = await editAddress({ data, updateId, token });
       if (response?.data?.status === "success") {
@@ -409,76 +409,98 @@ const AddressLists = ({
                       fullWidth
                       onClick={() => handleSetNewData(data)}
                     >
-                      <Typography
-                        variant="cardLocation123"
-                        color="#af9368"
-                        className="SemiBold"
-                        sx={{ textTransform: "capitalize", textAlign: "left" }}
+                      <Stack
+                        direction={"column"}
+                        textAlign={"left"}
+                        sx={{ width: "100%" }}
                       >
-                        {data?.first_name},
                         <Typography
-                          variant="cardLocation123"
+                          variant="cardLocation"
                           color="#af9368"
                           className="SemiBold"
+                          sx={{ color: "#1B3148" }}
                         >
-                          {data?.last_name},
+                          - FIRST NAME: {data?.first_name}
                         </Typography>
+
                         <Typography
-                          variant="cardLocation123"
+                          variant="cardLocation"
                           color="#af9368"
                           className="SemiBold"
+                          sx={{ color: "#1B3148" }}
                         >
-                          {data?.street_address},
+                          - LAST NAME: {data?.last_name}
                         </Typography>
+
                         <Typography
-                          variant="cardLocation123"
+                          variant="cardLocation"
                           color="#af9368"
                           className="SemiBold"
+                          sx={{ color: "#1B3148" }}
                         >
-                          {" "}
-                          {data?.apartment},
+                          - STREET ADDRESS: {data?.street_address}
                         </Typography>
+
                         <Typography
-                          variant="cardLocation123"
+                          variant="cardLocation"
                           color="#af9368"
                           className="SemiBold"
-                        >
-                          {" "}
-                          {data?.city},
-                        </Typography>
-                        <Typography
-                          variant="cardLocation123"
-                          color="#af9368"
-                          className="SemiBold"
+                          sx={{ color: "#1B3148" }}
                         >
                           {" "}
-                          {data?.country},
+                          - APARTMENT ADDRESS: {data?.apartment}
                         </Typography>
+
                         <Typography
-                          variant="cardLocation123"
+                          variant="cardLocation"
                           color="#af9368"
                           className="SemiBold"
+                          sx={{ color: "#1B3148" }}
                         >
                           {" "}
-                          {data?.post_code},
+                          - CITY: {data?.city}
                         </Typography>
+
                         <Typography
-                          variant="cardLocation123"
+                          variant="cardLocation"
                           color="#af9368"
                           className="SemiBold"
+                          sx={{ color: "#1B3148" }}
                         >
                           {" "}
-                          {data?.phone},
+                          - COUNTRY: {data?.country}
                         </Typography>
+
                         <Typography
-                          variant="cardLocation123"
+                          variant="cardLocation"
                           color="#af9368"
                           className="SemiBold"
+                          sx={{ color: "#1B3148" }}
                         >
                           {" "}
-                          {data?.email}
+                          - POSTCODE: {data?.post_code}
                         </Typography>
-                      </Typography>
+
+                        <Typography
+                          variant="cardLocation"
+                          color="#af9368"
+                          className="SemiBold"
+                          sx={{ color: "#1B3148" }}
+                        >
+                          {" "}
+                          - PHONE: {data?.phone}
+                        </Typography>
+
+                        <Typography
+                          variant="cardLocation"
+                          color="#af9368"
+                          className="SemiBold"
+                          sx={{ color: "#1B3148" }}
+                        >
+                          {" "}
+                          - EMAIL: {data?.email}
+                        </Typography>
+                      </Stack>
                     </Button>
                     <IconButton onClick={() => handleDataSet(data)}>
                       <FiEdit />

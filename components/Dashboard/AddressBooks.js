@@ -29,76 +29,90 @@ const AddressBooks = () => {
           <>
             <Stack direction={"row"} spacing={2} alignItems={"center"}>
               <Button variant="outlined" disabled color="background2">
-                <Typography
-                  variant="cardLocation123"
-                  color="#af9368"
-                  className="SemiBold"
-                  sx={{ textTransform: "capitalize", textAlign: "left" }}
+                <Stack
+                  direction={"column"}
+                  textAlign={"left"}
+                  sx={{ width: "100%" }}
                 >
-                  {data?.first_name},
                   <Typography
-                    variant="cardLocation123"
+                    variant="cardLocation"
                     color="#af9368"
                     className="SemiBold"
+                    sx={{ color: "#1B3148" }}
                   >
-                    {data?.last_name},
+                    - FIRST NAME: {data?.first_name}
                   </Typography>
                   <Typography
-                    variant="cardLocation123"
+                    variant="cardLocation"
                     color="#af9368"
                     className="SemiBold"
+                    sx={{ color: "#1B3148" }}
                   >
-                    {data?.street_address},
+                    - LAST NAME: {data?.last_name}
                   </Typography>
                   <Typography
-                    variant="cardLocation123"
+                    variant="cardLocation"
                     color="#af9368"
                     className="SemiBold"
+                    sx={{ color: "#1B3148" }}
                   >
-                    {" "}
-                    {data?.apartment},
+                    - STREET ADDRESS: {data?.street_address}
                   </Typography>
                   <Typography
-                    variant="cardLocation123"
+                    variant="cardLocation"
                     color="#af9368"
                     className="SemiBold"
-                  >
-                    {" "}
-                    {data?.city},
-                  </Typography>
-                  <Typography
-                    variant="cardLocation123"
-                    color="#af9368"
-                    className="SemiBold"
+                    sx={{ color: "#1B3148" }}
                   >
                     {" "}
-                    {data?.country},
+                    - APARTMENT ADDRESS: {data?.apartment}
                   </Typography>
                   <Typography
-                    variant="cardLocation123"
+                    variant="cardLocation"
                     color="#af9368"
                     className="SemiBold"
+                    sx={{ color: "#1B3148" }}
                   >
                     {" "}
-                    {data?.post_code},
+                    - CITY: {data?.city}
                   </Typography>
                   <Typography
-                    variant="cardLocation123"
+                    variant="cardLocation"
                     color="#af9368"
                     className="SemiBold"
+                    sx={{ color: "#1B3148" }}
                   >
                     {" "}
-                    {data?.phone},
+                    - COUNTRY: {data?.country}
                   </Typography>
                   <Typography
-                    variant="cardLocation123"
+                    variant="cardLocation"
                     color="#af9368"
                     className="SemiBold"
+                    sx={{ color: "#1B3148" }}
                   >
                     {" "}
-                    {data?.email}
+                    - POSTCODE: {data?.post_code}
                   </Typography>
-                </Typography>
+                  <Typography
+                    variant="cardLocation"
+                    color="#af9368"
+                    className="SemiBold"
+                    sx={{ color: "#1B3148" }}
+                  >
+                    {" "}
+                    - PHONE: {data?.phone}
+                  </Typography>
+                  <Typography
+                    variant="cardLocation"
+                    color="#af9368"
+                    className="SemiBold"
+                    sx={{ color: "#1B3148" }}
+                  >
+                    {" "}
+                    - EMAIL: {data?.email}
+                  </Typography>
+                </Stack>
               </Button>
             </Stack>
           </>

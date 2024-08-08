@@ -108,7 +108,7 @@ const PorductDetails = () => {
   const [discountAmount, setDiscountAmount] = useState();
   const [discountType, setDiscountType] = useState();
   const [productSku, setProductSku] = useState("");
-  console.log("your log output", stockAmount, count);
+
   // console.log("your log output", products);
   // product popup
   const [productpopup, setProductpopup] = useState(false);
@@ -559,7 +559,7 @@ const PorductDetails = () => {
     parseFloat(
       productPrice * (products?.p_tax?.tax_percentage / 100) + productPrice
     );
-  
+
   const finalData = {
     id: products.id,
     image: products.feature_image,
@@ -913,9 +913,7 @@ const PorductDetails = () => {
                           }}
                         >
                           {/* Price : BDT {productPrice} */}
-                          {priceWithoutFragileCharge > 0
-                            ? currency
-                            : ""}{" "}
+                          {priceWithoutFragileCharge > 0 ? currency : ""}{" "}
                           {priceWithoutFragileCharge > 0
                             ? `${convertPrice(priceWithoutFragileCharge)}`
                             : /* "Out of Stock" */ ""}
@@ -2098,9 +2096,7 @@ const PorductDetails = () => {
                       }}
                     >
                       {/* Price : BDT {productPrice} */}
-                      {priceWithoutFragileCharge > 0
-                        ? currency
-                        : ""}{" "}
+                      {priceWithoutFragileCharge > 0 ? currency : ""}{" "}
                       {priceWithoutFragileCharge > 0
                         ? `${convertPrice(priceWithoutFragileCharge)}`
                         : /* "Out of Stock" */ ""}

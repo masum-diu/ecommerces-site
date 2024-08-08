@@ -26,14 +26,14 @@ const ForgotPass = ({ open, setOpen }) => {
   const [host, setHost] = useState("");
   const [mailSendResponse, setMailSendResponse] = useState({});
   useEffect(() => {
-    const host = location.host;
+    /* const host = location.host;
     if (host === "localhost:3000") {
       setHost("http://localhost:3000");
-    }
-    if (host === "staging.aranya.com.bd") {
-      setHost("https://staging.aranya.com.bd");
-    }
+    } else {
+    } */
+    setHost(window.location.origin);
   }, [host]);
+
   useEffect(() => {
     if (mailSendResponse?.data?.status === "success") {
       toast.success("An email has been sent to you email address.");
