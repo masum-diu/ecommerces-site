@@ -289,7 +289,7 @@ const checkout = () => {
     },
     {
       id: 1,
-      innerText: "Pickup_from_showroom",
+      innerText: "Pickup From Showroom",
       shippingCost: 0,
     },
     {
@@ -417,11 +417,14 @@ const checkout = () => {
             isGuestCheckout,
             token,
           });
+
           setOrderResponseUser(postResponse);
-          fbq.event("Purchase", {
-            currency: selectedCurrency,
-            value: totalPriceWithTax_after_discount,
-          });
+          if (!postResponse.error) {
+            fbq.event("Purchase", {
+              currency: selectedCurrency,
+              value: totalPriceWithTax_after_discount,
+            });
+          }
         } catch (e) {
           console.log("your log output", e);
         }
@@ -474,10 +477,12 @@ const checkout = () => {
             token,
           });
           setOrderResponseGuest(postResponse);
-          fbq.event("Purchase", {
-            currency: orderInfo?.selectedCurrency,
-            value: orderInfo?.totalPriceWithTax_after_discount,
-          });
+          if (!postResponse.error) {
+            fbq.event("Purchase", {
+              currency: orderInfo?.selectedCurrency,
+              value: orderInfo?.totalPriceWithTax_after_discount,
+            });
+          }
         } catch (e) {
           console.log("your log output", e);
         }
@@ -829,7 +834,7 @@ const checkout = () => {
       // setValue("city_shipping","Select Town/City")
       if (deliveryMethod === "E-Courier" || deliveryMethod === "") {
         setAllShippingCities(shippingCitiesEcourier);
-      } else if (deliveryMethod === "Pickup_from_showroom") {
+      } else if (deliveryMethod === "Pickup From Showroom") {
         setAllShippingCities(shippingCities);
       }
     }
@@ -837,7 +842,7 @@ const checkout = () => {
       // setValue("city_billing","Select Town/City")
       if (deliveryMethod === "E-Courier" || deliveryMethod === "") {
         setAllBillingCities(billingCitiesEcourier);
-      } else if (deliveryMethod === "Pickup_from_showroom") {
+      } else if (deliveryMethod === "Pickup From Showroom") {
         setAllBillingCities(billingCities);
       }
     }
@@ -964,7 +969,7 @@ const checkout = () => {
               );
               setShippingCost(eQuerierShippingCost);
               setShippingCostOrg(eQuerierShippingCostOrg);
-            } else if (deliveryMethod === "Pickup_from_showroom") {
+            } else if (deliveryMethod === "Pickup From Showroom") {
               setTotal(
                 parseFloat(
                   (
@@ -1054,7 +1059,7 @@ const checkout = () => {
               );
               setShippingCost(eQuerierShippingCost);
               setShippingCostOrg(eQuerierShippingCostOrg);
-            } else if (deliveryMethod === "Pickup_from_showroom") {
+            } else if (deliveryMethod === "Pickup From Showroom") {
               setTotal(
                 parseFloat(
                   (

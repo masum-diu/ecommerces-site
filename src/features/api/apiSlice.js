@@ -394,6 +394,117 @@ export const productApi = createApi({
         },
       }),
     }),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    getHomeStoryDataByType: builder.query({
+      query: (type) => ({
+        url: `/get-home-story/${type}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    getAboutStoryData: builder.query({
+      query: () => ({
+        url: `/get-about-story`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    getCommunityData: builder.query({
+      query: () => ({
+        url: `/get-community-data`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    getCommunityProductById: builder.query({
+      query: (id) => ({
+        url: `/get-community-product/${id}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    getColorStoryData: builder.query({
+      query: () => ({
+        url: `/get-color-story-data`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    getColorStoryDataById: builder.query({
+      query: (id) => ({
+        url: `/get-color-story/${id}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    getSustainabilityData: builder.query({
+      query: () => ({
+        url: `/sustainability`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    getBlogData: builder.query({
+      query: () => ({
+        url: `/blogs`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    getBlogsDataById: builder.query({
+      query: (id) => ({
+        url: `/get-single-blog/${id}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+
+
+
+
+
+
+
+
+
+
+
+
+
   }),
 });
 
@@ -434,4 +545,13 @@ export const {
   useSocialUserCreationMutation,
   useGetCountryListWithShippingChargeQuery,
   useSubscribeCreationMutation,
+  useGetAboutStoryDataQuery,
+  useGetBlogDataQuery,
+  useGetBlogsDataByIdQuery,
+  useGetColorStoryDataByIdQuery,
+  useGetColorStoryDataQuery,
+  useGetCommunityDataQuery,
+  useGetCommunityProductByIdQuery,
+  useGetHomeStoryDataByTypeQuery,
+  useGetSustainabilityDataQuery,
 } = productApi;

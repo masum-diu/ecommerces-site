@@ -35,7 +35,7 @@ const AddressBooks = () => {
                   sx={{ width: "100%" }}
                 >
                   <Typography
-                    variant="cardLocation"
+                    // variant="cardLocation"
                     color="#af9368"
                     className="SemiBold"
                     sx={{ color: "#1B3148" }}

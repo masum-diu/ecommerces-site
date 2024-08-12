@@ -26,12 +26,18 @@ import Sustainability from "../../components/stories/Sustainability/Sustainabili
 import Blogs from "../../components/stories/Blogs/Blogs";
 import ColorStories from "../../components/stories/ColorStories/ColorStories";
 import StoryTab from "../../components/stories/StoryTab";
+import { useGetHomeStoryDataByTypeQuery } from "../../src/features/api/apiSlice";
 
 const story = () => {
   const [selectedMenu, setSelectedMenu] = useState("About Aranya");
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState(0);
   const router = useRouter();
+  const {
+    data: countryData,
+    isError: countryError,
+    isLoading: countryLoading,
+  } = useGetHomeStoryDataByTypeQuery();
   const customStyle = {
     ".mui-style-heg063-MuiTabs-flexContainer": {
       display: "flex",
@@ -121,20 +127,20 @@ const story = () => {
               // height={700}
             />
           </Stack>
-          <Stack
-            direction={"row"}
-            sx={{
-              justifyContent: "flex-end",
-              width: "100%",
-              alignItems: "flex-end",
-            }}
-          >
-            <IconButton onClick={() => setOpen(true)}>
-              <Hidden only={["xl", "lg", "md"]}>
+          <Hidden only={["xl", "lg", "md", "lmd"]}>
+            <Stack
+              direction={"row"}
+              sx={{
+                justifyContent: "flex-end",
+                width: "100%",
+                alignItems: "flex-end",
+              }}
+            >
+              <IconButton onClick={() => setOpen(true)}>
                 <SegmentIcon />
-              </Hidden>
-            </IconButton>
-          </Stack>
+              </IconButton>
+            </Stack>
+          </Hidden>
           <Hidden only={["sm", "xs", "xms"]}>
             <Tabs
               className="mui-style-heg063-MuiTabs-flexContainer"
@@ -183,7 +189,7 @@ const story = () => {
         alignItems={"center"}
         sx={{ pt: { lg: 8, xs: 7 }, height: "50vh" }}
       >
-        <Typography variant="login2" textAlign={"center"}>
+        <Typography variant="login2" textAlign={"center"} color={"#1B3148"}className="SemiBold">
           Coming Soon
         </Typography>
       </Stack>
@@ -203,7 +209,7 @@ const story = () => {
         <List>
           {storyNavItem.map((text, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => handleMenuClick(text)}>
+              <ListItemButton onClick={(e) => handleMenuClick(e, text)}>
                 <ListItemText
                   primary={
                     <>
