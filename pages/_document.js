@@ -18,13 +18,21 @@ export default class MyDocument extends Document {
           {this.props.emotionStyleTags}
 
           <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: 'none' }}
-            src={`https://www.facebook.com/tr?id=359252785196040&ev=PageView&noscript=1`}
-          />
-        </noscript>
+            <img
+              height="1"
+              width="1"
+              style={{ display: "none" }}
+              src={`https://www.facebook.com/tr?id=359252785196040&ev=PageView&noscript=1`}
+            />
+          </noscript>
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=GTM-PZG4MP8`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
         </Head>
         <body>
           <Main />
