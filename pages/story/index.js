@@ -27,28 +27,36 @@ import Blogs from "../../components/stories/Blogs/Blogs";
 import ColorStories from "../../components/stories/ColorStories/ColorStories";
 import StoryTab from "../../components/stories/StoryTab";
 import { useGetHomeStoryDataByTypeQuery } from "../../src/features/api/apiSlice";
+import Loader from "../../components/Loader/Loader";
 
 const story = () => {
   const [selectedMenu, setSelectedMenu] = useState("About Aranya");
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState(0);
+  const [query, setQuery] = useState("home");
   const router = useRouter();
   const {
-    data: countryData,
-    isError: countryError,
-    isLoading: countryLoading,
-  } = useGetHomeStoryDataByTypeQuery();
-  const customStyle = {
-    ".mui-style-heg063-MuiTabs-flexContainer": {
-      display: "flex",
-      "justify-content": "space-around",
-    },
-    indicator: {
-      backgroundColor: "#1B3148",
-    },
-    width: { md: "70%", lg: "60%" },
-    mx: "auto",
-  };
+    data: bannerData,
+    isError: bannerError,
+    isLoading: bannerLoading,
+  } = useGetHomeStoryDataByTypeQuery(query);
+
+  useEffect(() => {
+    if (selectedMenu === "About Aranya") {
+      setQuery("home");
+    } else if (selectedMenu === "Community") {
+      setQuery("community");
+    } else if (selectedMenu === "Color Stories") {
+      setQuery("color");
+    } else if (selectedMenu === "Sustainability") {
+      setQuery("sustainability");
+    } else if (selectedMenu === "Blogs") {
+      setQuery("blog");
+    } else {
+      setQuery("home");
+    }
+  }, [query, selectedMenu]);
+
   const handleMenuClick = (e, menu) => {
     setSelectedMenu(menu);
 
@@ -89,6 +97,9 @@ const story = () => {
     "Sustainability",
     "Blogs",
   ];
+  if (bannerLoading) {
+    <Loader></Loader>;
+  }
 
   return (
     <>
@@ -120,7 +131,16 @@ const story = () => {
         <Box>
           <Stack direction={"row"} alignItems="center">
             <img
-              src={`../assets/f1.png`}
+              // src={bannerData?.banner_link}
+              src={`${bannerData?.banner_link
+                ?.split("/")
+                .slice(0, 6)
+                .join(
+                  "/"
+                )}/c_lfill,g_auto,h_700,w_1920/${bannerData?.banner_link
+                ?.split("/")
+                .slice(6)
+                .join("/")}`}
               // src={`https://res.cloudinary.com/diyc1dizi/image/upload/c_limit,h_900,w_1920/v1678530353/aranya-product/boishakh/ZS001671.jpg`}
               width={1900}
               style={{ width: "100%", height: "fit-content" }}
@@ -149,7 +169,8 @@ const story = () => {
               // sx={customStyle}
               value={values}
               sx={{
-                // ...customStyle,
+                display: "flex",
+                justifyContent: "around",
                 marginTop: "2rem",
                 maxWidth: "1500px",
                 width: { md: "90%", lmd: "94%", lg: "98%", xl: "100%" },

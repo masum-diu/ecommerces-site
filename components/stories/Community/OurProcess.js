@@ -6,9 +6,18 @@ import {
   Button,
   useMediaQuery,
 } from "@mui/material";
-import React from "react";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
 const OurProcess = ({ products }) => {
+  const [parsedData, setParsedData] = useState([]);
+  useEffect(() => {
+    if (products) {
+      const processImages = JSON.parse(products);
+      setParsedData(processImages);
+    }
+  }, [products, parsedData]);
+
   return (
     <Box mt={15}>
       <Stack mb={4}>
@@ -30,26 +39,26 @@ const OurProcess = ({ products }) => {
         }}
         // sx={{ border: "1px solid red" }}
       >
-        {products?.slice(0, 3).map((data, index) => (
+        {parsedData?.map((data, index) => (
           <Grid
             item
             mt={1}
             xs={12}
             xms={12}
             sm={6}
-            md={4}
-            lg={4}
-            xl={4}
+            md={3}
+            lg={3}
+            xl={3}
             key={index}
           >
-            <Stack
-              direction={"column"}
-              sx={{
-                maxWidth: { xs: "100%", sm: "95%", lg: "95%", xl: "95%" },
-              }}
-              justifyContent={"center"}
-            >
-              <img
+            <Stack direction={"column"} justifyContent={"center"}>
+              <Image
+                height={440}
+                width={440}
+                layout="responsive"
+                objectFit="cover"
+                placeholder="blur"
+                blurDataURL={data}
                 style={{
                   width: "100%",
                   objectFit: "cover",

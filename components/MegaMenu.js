@@ -313,8 +313,8 @@ const MegaMenu = ({ open, setOpen }) => {
                     <Stack
                       style={{
                         backgroundImage: `url(${
-                          category?.category_feature_image
-                            ? category?.category_feature_image
+                          category?.category_image_two
+                            ? category?.category_image_two
                             : "https://res.cloudinary.com/diyc1dizi/image/upload/aranya-product/boishakh/ZS001299.jpg"
                         })`,
                         backgroundRepeat: "no-repeat",

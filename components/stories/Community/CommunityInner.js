@@ -24,6 +24,8 @@ import FromOurShop from "./FromOurShop.js";
 import OurBlog from "./OurBlog.js";
 import OurProcess from "./OurProcess.js";
 import Intro from "./Intro.js";
+import { useGetCommunityProductByIdQuery } from "../../../src/features/api/apiSlice.js";
+import Loader from "../../Loader/Loader.js";
 
 const CommunityInner = () => {
   const [slidesPerView, setSlidePreview] = useState(0);
@@ -35,6 +37,16 @@ const CommunityInner = () => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isExtraLargeScreen = useMediaQuery(theme.breakpoints.down("xl"));
+
+  const query = router.query.id;
+  const {
+    data: communityInnerData,
+    isError: communityInnerError,
+    isLoading: communityInnerLoading,
+  } = useGetCommunityProductByIdQuery(query);
+  if (communityInnerLoading) {
+    <Loader></Loader>;
+  }
 
   useEffect(() => {
     if (isExtraSmallerScreen) {
@@ -119,7 +131,7 @@ const CommunityInner = () => {
               color="#1B3148"
               className="bold"
             >
-              Jessore
+              {communityInnerData?.district_name}
             </Typography>
           </Stack>
         </Stack>
@@ -138,70 +150,22 @@ const CommunityInner = () => {
               color="#1B3148"
               variant="legend"
             >
-              Jessore
+              {communityInnerData?.district_name}
             </Typography>
           </Stack>
           <Typography color="#1B3148" className="bold" variant="productName">
-            Nakshi Katha
+            {communityInnerData?.title}
           </Typography>
         </Stack>
       </Box>
-      <Intro></Intro>
-      {/* <Box mt={4}>
-        <Stack mb={4}>
-          <Typography color="#1B3148" className="bold" variant="CategoryName">
-            Our Process
-          </Typography>
-        </Stack>
+      <Intro
+        image={communityInnerData?.feature_image}
+        description={communityInnerData?.description}
+      ></Intro>
 
-        <Grid
-          container
-          // spacing={1}
-          justifyContent={{
-            xs: "center",
-            xms: "center",
-            sm: "center",
-            md: "space-between",
-            lg: "space-between",
-            xl: "space-between",
-          }}
-          // sx={{ border: "1px solid red" }}
-        >
-          {products?.slice(0, 3).map((data, index) => (
-            <Grid
-              item
-              mt={1}
-              xs={12}
-              xms={12}
-              sm={6}
-              md={4}
-              lg={4}
-              xl={3}
-              key={index}
-            >
-              <Stack
-                direction={"column"}
-                sx={{
-                  maxWidth: { xs: "100%", lg: "fit-content" },
-                }}
-                justifyContent={"center"}
-              >
-                <img
-                  style={{
-                    width: "100%",
-                    objectFit: "cover",
-                  }}
-                  src={data}
-                  alt=""
-                />
-              </Stack>
-            </Grid>
-          ))}
-        </Grid>
-      </Box> */}
-      <OurProcess products={products}></OurProcess>
+      <OurProcess products={communityInnerData?.pr_imgs}></OurProcess>
 
-      <FromOurShop homedata={homedata}></FromOurShop>
+      <FromOurShop homedata={communityInnerData?.product}></FromOurShop>
 
       <OurBlog products={products}></OurBlog>
     </>

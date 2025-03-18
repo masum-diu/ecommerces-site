@@ -274,7 +274,7 @@ const FlashPage = ({ title }) => {
                 {/* {errors.currency && (
                 <p style={{ color: "red" }}>{errors.currency?.message}</p>
               )} */}
-                {/* <Typography
+                <Typography
                   variant="homeFlash"
                   color="#1B3148"
                   className="bold"
@@ -295,7 +295,7 @@ const FlashPage = ({ title }) => {
                   <MenuItem value={10} sx>
                     <Typography className="bold">English</Typography>
                   </MenuItem>
-                </Select> */}
+                </Select>
               </Stack>
             </Stack>
             <Stack

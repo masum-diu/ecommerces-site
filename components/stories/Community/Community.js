@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -25,12 +25,34 @@ import style from "../map.module.css";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Loader from "../../Loader/Loader";
+import { useGetCommunityDataQuery } from "../../../src/features/api/apiSlice";
 const Community = () => {
   const [isHoveredRight, setIsHoveredRight] = useState(false);
   const [hoveredDivision, setHoveredDivision] = useState(null);
   const [showRdBtn, setShowRdBtn] = useState(false);
+  const [divisions, setDivisions] = useState([]);
+  const [sidebarContent, setSidebarContent] = useState({});
   const router = useRouter();
-  const divisions = [
+  const {
+    data: communityData,
+    isError: communityError,
+    isLoading: communityLoading,
+  } = useGetCommunityDataQuery();
+
+  useEffect(() => {
+    const data = communityData?.data?.map((item) => ({
+      id: `division${item.id}`,
+      name: item.district_name,
+      description: item.description,
+      featureImage: item.feature_image,
+      detailImage: item.detail_image,
+      rowData: item,
+    }));
+    setDivisions(data);
+  }, [communityData]);
+
+  /* const divisions = [
     { id: "division1", name: "Rangpur" },
     { id: "division2", name: "Nawabganj" },
     { id: "division3", name: "Sirajganj" },
@@ -44,7 +66,11 @@ const Community = () => {
     { id: "division11", name: "Patuakhali" },
     { id: "division12", name: "Rangamati" },
     { id: "division13", name: "Bandarban" },
-  ];
+  ]; */
+  if (communityLoading) {
+    <Loader></Loader>;
+  }
+
   return (
     <Stack
       //   sx={{ pt: { lg: 8, xs: 7 } }}
@@ -99,7 +125,7 @@ const Community = () => {
             </Stack>
 
             <Stack className={style.division_buttons}>
-              {divisions.map((division) => (
+              {divisions?.map((division) => (
                 <Stack
                   key={division.id}
                   className={style.division_button}
@@ -125,64 +151,15 @@ const Community = () => {
                       transition: "visibility 1s ease-in-out",
                     }}
                     checked={true}
-                    onClick={() =>
+                    onClick={() => {
                       setHoveredDivision((prev) =>
                         prev === division.id ? null : division.id
-                      )
-                    }
+                      );
+                      setSidebarContent(division?.rowData);
+                    }}
                   />
                 </Stack>
               ))}
-              {/* <Stack
-                className={style.division_button}
-                data-division="division1"
-              >
-                <Typography
-                  className="bold"
-                  color={"#1B3148"}
-                  onMouseEnter={() => setShowRdBtn(true)}
-                  onMouseLeave={() => setShowRdBtn(false)}
-                  mb={2}
-                >
-                  Dhaka
-                </Typography>
-                <Radio
-                  style={{
-                    transform: "translateY(-50%)",
-                    visibility: showRdBtn ? "visible" : "hidden",
-                    transition: "visibility 1s ease-in-out",
-                  }}
-                  checked={true}
-                  onMouseEnter={() => setShowRdBtn(true)}
-                  onMouseLeave={() => setShowRdBtn(false)}
-                  onClick={() => setIsHoveredRight((prev) => !prev)}
-                />
-              </Stack>
-              <Stack
-                className={style.division_button}
-                data-division="division2"
-              >
-                <Typography
-                  className="bold"
-                  color={"#1B3148"}
-                  onMouseEnter={() => setShowRdBtn(true)}
-                  onMouseLeave={() => setShowRdBtn(false)}
-                  mb={2}
-                >
-                  Jashor
-                </Typography>
-                <Radio
-                  style={{
-                    transform: "translateY(-50%)",
-                    visibility: showRdBtn ? "visible" : "hidden",
-                    transition: "visibility 1s ease-in-out",
-                  }}
-                  checked={true}
-                  onMouseEnter={() => setShowRdBtn(true)}
-                  onMouseLeave={() => setShowRdBtn(false)}
-                  onClick={() => setIsHoveredRight((prev) => !prev)}
-                />
-              </Stack> */}
             </Stack>
           </Stack>
         </Grid>
@@ -205,8 +182,7 @@ const Community = () => {
                 width: "100%",
                 height: "100%",
                 background: "rgba(0, 0, 0, 0.5)",
-                backgroundImage:
-                  "url('../assets/aranya_community_side_drawer.png')", // Replace with the path to your image
+                backgroundImage: `url(${sidebarContent?.detail_image})`, // Replace with the path to your image
                 backgroundSize: "cover", // You can adjust the background size as needed
                 backgroundPosition: "center", // You can adjust the background position as needed
                 display: "flex",
@@ -237,7 +213,6 @@ const Community = () => {
                 rowGap={5}
                 height={"100%"}
                 p={5}
-                sx={{ border: "1px solid red" }}
               >
                 <Typography
                   variant="productName"
@@ -248,7 +223,7 @@ const Community = () => {
                   }}
                   textTransform="uppercase"
                 >
-                  Our work in jashor
+                  Our work in {sidebarContent?.district_name}
                 </Typography>
                 <Typography
                   sx={{
@@ -256,14 +231,10 @@ const Community = () => {
                     zIndex: 1,
                   }}
                 >
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Quisquam eum dolorum recusandae molestiae quaerat distinctio
-                  corporis modi esse earum quam, cumque optio molestias.
-                  Aperiam, quaerat nulla illo ipsa veritatis totam placeat atque
-                  ad necessitatibus optio itaque sint recusandae natus cumque.
+                  {sidebarContent?.short_description}
                 </Typography>
 
-                <Button
+                <Link
                   style={{
                     padding: "0",
                     width: {
@@ -275,6 +246,9 @@ const Community = () => {
                   }}
                   variant="text"
                   size="large"
+                  href={`/story/community/${sidebarContent?.id}`}
+                  color="#ffffff"
+
                   //   onClick={() =>
                   //     handleSecondBanner(sectionBanner[1]?.back_link)
                   //   }
@@ -282,11 +256,13 @@ const Community = () => {
                   <Typography
                     textTransform={"none"}
                     color="#ffffff"
-                    onClick={() => router.push("/story/community")}
+                    zIndex={1}
+                    style={{ cursor: "pointer" }}
+                    // onClick={() => router.push("/story/community")}
                   >
                     Read More ...
                   </Typography>
-                </Button>
+                </Link>
               </Stack>
             </Stack>
 

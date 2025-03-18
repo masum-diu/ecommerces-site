@@ -20,24 +20,19 @@ import { useContext } from "react";
 import { MdClose } from "react-icons/md";
 import { Email, Phone, Room } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
+import { useGetAboutStoryDataQuery } from "../../src/features/api/apiSlice";
+import Loader from "../Loader/Loader";
+import Image from "next/image";
 
 const AboutAranya = () => {
   const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors, isDirty, touched },
-    watch,
-    setValue,
-    trigger,
-  } = useForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
-  });
-  const onSubmit = async (data) => {};
+    data: aboutData,
+    isError: aboutError,
+    isLoading: aboutLoading,
+  } = useGetAboutStoryDataQuery();
+  if (aboutLoading) {
+    <Loader></Loader>;
+  }
   return (
     <Stack
       //   sx={{ pt: { lg: 8, xs: 7 } }}
@@ -56,7 +51,7 @@ const AboutAranya = () => {
           //   textTransform={"uppercase"}
           fontWeight="500"
         >
-          About Aranya
+          {aboutData?.title}
         </Typography>
       </Stack>
 
@@ -72,11 +67,18 @@ const AboutAranya = () => {
         {/* Info Section */}
         <Grid item xs={10} md={5}>
           <Stack>
-            <img
+            {/* <img
               style={{ maxWidth: "665px", width: "100%" }}
               src="/assets/aranya_about.png"
               alt=""
-            />
+            /> */}
+            <Image
+              height={705}
+              width={612}
+              layout="responsive"
+              objectFit="cover"
+              src={aboutData?.feature_image}
+            ></Image>
           </Stack>
         </Grid>
 
@@ -89,20 +91,21 @@ const AboutAranya = () => {
                 src="/assets/aranya_about_logo.png"
                 alt=""
               />
+              {/* <Image
+                height={705}
+                width={612}
+                layout="responsive"
+                src={aboutData?.feature_image}
+              ></Image> */}
             </Stack>
             <Stack>
-              <Typography color={"#1B3148"} className="SemiBold">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Aperiam tenetur optio vero a cupiditate alias dolorum nulla
-                error nobis rerum, adipisci repellendus eius rem molestias
-                tempora sunt accusamus nisi soluta molestiae corporis qui
-                officiis quisquam eos! Dolore, ex! Suscipit, beatae?Lorem ipsum
-                dolor sit amet, consectetur adipisicing elit. Omnis, adipisci
-                obcaecati. Facilis quae fugiat cum dignissimos sint, quidem
-                accusantium laudantium?
-              </Typography>
+              <Typography
+                color={"#1B3148"}
+                className="SemiBold"
+                dangerouslySetInnerHTML={{ __html: aboutData?.description }}
+              ></Typography>
             </Stack>
-            <Stack direction={"column"}>
+            {/* <Stack direction={"column"}>
               <Stack className="bold" color={"#1B3148"}>
                 Mission
               </Stack>
@@ -123,7 +126,7 @@ const AboutAranya = () => {
                 dignissimos, nisi modi, praesentium temporibus repellendus
                 dolorum asperiores eligendi facilis quam inventore!
               </Stack>
-            </Stack>
+            </Stack> */}
             <Stack direction={"row"} justifyContent={"flex-end"}>
               <Button className="bold" variant="text">
                 <Typography className="bold" color={"#1B3148"}>

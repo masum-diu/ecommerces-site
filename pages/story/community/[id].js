@@ -18,6 +18,9 @@ import { useState } from "react";
 import Footer from "../../../components/Footer";
 import ColorStories from "../../../components/stories/ColorStories/ColorStories";
 import CommunityInner from "../../../components/stories/Community/CommunityInner";
+import { useGetCommunityProductByIdQuery } from "../../../src/features/api/apiSlice";
+import { useRouter } from "next/router";
+import Loader from "../../../components/Loader/Loader";
 
 const CommunityInnerPage = () => {
   return (
