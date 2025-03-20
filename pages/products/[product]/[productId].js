@@ -160,6 +160,15 @@ const PorductDetails = () => {
       handleSuccess();
     }
   }, [data, isSuccess, isLoading]);
+  useEffect(() => {
+    fbq.viewContent({
+      content_name: `Product ${products?.p_name}`,
+      content_ids: [productId],
+      content_type: "product",
+      value: priceWithoutFragileCharge, // Product price
+      currency: currency, // Currency
+    });
+  }, []);
 
   useEffect(() => {
     if (products?.fragile === "1") {
