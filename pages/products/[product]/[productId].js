@@ -525,6 +525,24 @@ const PorductDetails = () => {
   };
   // console.log("sizes", sizes);
   const handleAddToWishList = async (data) => {
+    console.log("your log output", data);
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "add_to_wishlist",
+      ecommerce: {
+        items: [
+          {
+            item_name: data?.name, // Required
+            item_id: data?.id, // Required
+            price: data?.priceOrg,
+            design_code: data?.design_code,
+            item_size: data?.size,
+            quantity: 1,
+          },
+        ],
+      },
+    });
+
     dispatch(addToWishList(data));
     setShowBrokenHeart("block");
     setShowHeart("none");

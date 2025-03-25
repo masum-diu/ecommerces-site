@@ -387,6 +387,26 @@ const checkout = () => {
     if (hasToken === true && cart?.length > 0) {
       const finalPriceOfOrder = Math.round(total);
       const handleUserOrder = async () => {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "purchase",
+          ecommerce: {
+            transaction_id:
+              "ORD-" + Date.now() + "-" + Math.floor(Math.random() * 100000),
+            affiliation: data.deliveryMethod,
+            value: totalPrice,
+            currency: selectedCurrency,
+
+            items: cart.map((item) => ({
+              item_id: item?.id,
+              item_name: item?.name,
+              price: item?.priceOrg,
+              quantity: item?.amount,
+              design_code: item?.design_code,
+              item_size: item?.size,
+            })),
+          },
+        });
         try {
           const postResponse = await userOrder({
             data,
@@ -419,6 +439,7 @@ const checkout = () => {
           });
 
           setOrderResponseUser(postResponse);
+
           if (!postResponse.error) {
             fbq.event("Purchase", {
               currency: selectedCurrency,
@@ -435,6 +456,7 @@ const checkout = () => {
 
   // Guest Checkout Section
   useEffect(() => {
+    console.log("your log output", orderInfo);
     if (
       hasToken === false &&
       isGuestCheckout === true &&
@@ -477,11 +499,55 @@ const checkout = () => {
             token,
           });
           setOrderResponseGuest(postResponse);
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "purchase",
+            ecommerce: {
+              transaction_id:
+                "ORD-" + Date.now() + "-" + Math.floor(Math.random() * 100000),
+              affiliation: orderInfo?.data.deliveryMethod,
+              value: orderInfo?.finalPrice,
+              currency: orderInfo?.selectedCurrency,
+
+              items: orderInfo.cart.map((item) => ({
+                item_id: item?.id,
+                item_name: item?.name,
+                price: item?.priceOrg,
+                quantity: item?.amount,
+                design_code: item?.design_code,
+                item_size: item?.size,
+              })),
+            },
+          });
           if (!postResponse.error) {
             fbq.event("Purchase", {
               currency: orderInfo?.selectedCurrency,
               value: orderInfo?.totalPriceWithTax_after_discount,
             });
+            // window.dataLayer = window.dataLayer || [];
+            // window.dataLayer.push({
+            //   event: "purchase",
+            //   ecommerce: {
+            //     transaction_id:
+            //       "ORD-" +
+            //       Date.now() +
+            //       "-" +
+            //       Math.floor(Math.random() * 100000),
+            //     affiliation: orderInfo?.data.deliveryMethod,
+            //     value: orderInfo?.finalPrice,
+            //     currency: orderInfo?.selectedCurrency,
+            //     shipping: orderInfo?.shipping,
+
+            //     items: orderInfo.cart.map((item) => ({
+            //       item_id: item?.id,
+            //       item_name: item?.name,
+            //       price: item?.priceOrg,
+            //       quantity: item?.amount,
+            //       design_code: item?.design_code,
+            //       item_size: item?.size,
+            //     })),
+            //   },
+            // });
           }
         } catch (e) {
           console.log("your log output", e);

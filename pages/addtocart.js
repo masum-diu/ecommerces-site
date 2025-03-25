@@ -84,8 +84,39 @@ const addtocart = () => {
       securePage();
     }
   }, [isProceedClicked]);
+  useEffect(() => {
+    console.log("your log output", cart);
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "view_cart",
+      ecommerce: {
+        currency: localStorage.getItem("currency"),
+        value: totalAmount,
+        items: cart.map((item) => ({
+          item_id: item?.id,
+          item_name: item?.name,
+          price: item?.priceOrg,
+          quantity: item?.amount,
+        })),
+      },
+    });
+  }, []);
 
   const handleProceedToCheckout = () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "begin_checkout",
+      ecommerce: {
+        currency: localStorage.getItem("currency"),
+        value: totalPrice,
+        items: cart.map((item) => ({
+          item_id: item?.id,
+          item_name: item?.name,
+          price: item?.priceOrg,
+          quantity: item?.amount,
+        })),
+      },
+    });
     setIsProceedClicked(true);
     setIsProceedCheckout(true);
     setKeepShowing(true);
