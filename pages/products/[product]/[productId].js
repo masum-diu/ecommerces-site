@@ -488,6 +488,24 @@ const PorductDetails = () => {
     }
   };
   const handleAddToCart = async (finalData) => {
+    // Send data to GTM
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "add_to_cart",
+      ecommerce: {
+        items: [
+          {
+            item_name: finalData.name, // Required
+            item_id: finalData.id, // Required
+            price: finalData.priceOrg,
+            design_code: finalData.design_code,
+            item_size: finalData?.size,
+            quantity: 1,
+          },
+        ],
+      },
+    });
+
     dispatch(addToCart(finalData));
     toast.success("Added To Cart!");
     setProductpopup(true);
