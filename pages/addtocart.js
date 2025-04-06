@@ -63,6 +63,23 @@ const addtocart = () => {
   } = useContext(USER_CONTEXT);
   const removeItemFromCart = async (data) => {
     dispatch(removeFromCart(data));
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "remove_from_cart",
+      currency: selectedCurrency,
+      value: totalPrice,
+      items: [
+        {
+          item_name: data?.name, // Required
+          item_id: data?.id, // Required
+          price: data?.priceOrg,
+          design_code: data?.design_code,
+          item_size: data?.size,
+          quantity: data?.amount,
+        },
+      ],
+    });
+
     toast.error("Removed From Cart!");
   };
   const convertedCart = convertCartData(carts);
